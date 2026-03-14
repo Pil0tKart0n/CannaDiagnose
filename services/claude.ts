@@ -1,0 +1,90 @@
+import * as FileSystem from 'expo-file-system/legacy';
+import { QuestionnaireData, DiagnosisResult } from '../types';
+import { SYSTEM_PROMPT, buildUserPrompt } from '../constants/prompts';
+
+const API_URL = 'https://api.anthropic.com/v1/messages';
+const MODEL = 'claude-sonnet-4-20250514';
+
+export async function analyzePlant(
+  imageUri: string,
+  questionnaire: QuestionnaireData
+): Promise<DiagnosisResult> {
+  const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'API Key nicht konfiguriert. Bitte setze EXPO_PUBLIC_CLAUDE_API_KEY in der .env Datei.'
+    );
+  }
+
+  // Read image as base64
+  const base64 = await FileSystem.readAsStringAsync(imageUri, {
+    encoding: FileSystem.EncodingType.Base64,
+  });
+
+  // Determine media type
+  const ext = imageUri.split('.').pop()?.toLowerCase();
+  let mediaType = 'image/jpeg';
+  if (ext === 'png') mediaType = 'image/png';
+  else if (ext === 'webp') mediaType = 'image/webp';
+  else if (ext === 'gif') mediaType = 'image/gif';
+
+  const userPrompt = buildUserPrompt(questionnaire);
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 2048,
+      system: SYSTEM_PROMPT,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: mediaType,
+                data: base64,
+              },
+            },
+            {
+              type: 'text',
+              text: userPrompt,
+            },
+          ],
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`API Fehler (${response.status}): ${errorBody}`);
+  }
+
+  const data = await response.json();
+  const content = data.content?.[0]?.text;
+
+  if (!content) {
+    throw new Error('Keine Antwort von der API erhalten.');
+  }
+
+  // Parse JSON from response - handle possible markdown wrapping
+  let jsonStr = content.trim();
+  if (jsonStr.startsWith('```')) {
+    jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+  }
+
+  try {
+    const result: DiagnosisResult = JSON.parse(jsonStr);
+    return result;
+  } catch {
+    throw new Error('Diagnose konnte nicht verarbeitet werden. Bitte versuche es erneut.');
+  }
+}
