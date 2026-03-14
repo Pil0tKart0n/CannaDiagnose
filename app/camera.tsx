@@ -62,7 +62,7 @@ export default function CameraScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.hint}>
-        Fotografiere die betroffenen Blätter aus der Nähe für die beste Diagnose.
+        Fotografiere die betroffene Stelle – Blatt, Stängel oder die ganze Pflanze.
       </Text>
 
       <View style={styles.cards}>
