@@ -1,18 +1,134 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  Animated,
+  Easing,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
+// CSS Keyframes für Web - viel smoother als RN Animated
+const webCSS = Platform.OS === 'web' ? `
+  @keyframes shimmerPrimary {
+    0% { left: -40%; }
+    100% { left: 140%; }
+  }
+  @keyframes shimmerSecondary {
+    0% { left: -40%; }
+    100% { left: 140%; }
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0; transform: scale(1); }
+    50% { opacity: 0.25; transform: scale(1.02); }
+    100% { opacity: 0; transform: scale(1); }
+  }
+  @keyframes breathe {
+    0% { box-shadow: 0 6px 28px rgba(0,230,118,0.25); }
+    50% { box-shadow: 0 8px 40px rgba(0,230,118,0.5); }
+    100% { box-shadow: 0 6px 28px rgba(0,230,118,0.25); }
+  }
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: radial-gradient(ellipse 120% 80% at 50% 15%, rgba(255,255,255,0.22) 0%, transparent 55%),
+                linear-gradient(175deg, #00FF88 0%, #00E676 25%, #00C853 60%, #009A40 100%);
+    box-shadow: 0 6px 28px rgba(0,230,118,0.3),
+                inset 0 1px 1px rgba(255,255,255,0.2),
+                inset 0 -2px 4px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+  }
+  .btn-primary:active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 16px rgba(0,230,118,0.25);
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    width: 25%;
+    height: 120%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.1) 55%, transparent 80%);
+    animation: shimmerPrimary 5s ease-in-out infinite;
+    transform: skewX(-15deg);
+    pointer-events: none;
+  }
+  .btn-primary.pulsing {
+    animation: breathe 1.2s ease-in-out infinite;
+  }
+  .btn-primary.pulsing::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 20px;
+    background: radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.3) 0%, transparent 70%);
+    animation: pulseGlow 1.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .btn-secondary {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: radial-gradient(ellipse 120% 80% at 50% 15%, rgba(255,255,255,0.06) 0%, transparent 55%),
+                linear-gradient(175deg, #16412E 0%, #113528 50%, #0D2A20 100%);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3),
+                inset 0 1px 1px rgba(255,255,255,0.06),
+                inset 0 -1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.15s ease;
+    cursor: pointer;
+  }
+  .btn-secondary:active {
+    transform: scale(0.97);
+  }
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    width: 25%;
+    height: 120%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0.04) 55%, transparent 80%);
+    animation: shimmerSecondary 7s ease-in-out 1.5s infinite;
+    transform: skewX(-15deg);
+    pointer-events: none;
+  }
+` : '';
+
+function injectCSS() {
+  if (Platform.OS !== 'web') return;
+  if (typeof document === 'undefined') return;
+  if (document.getElementById('cannadiagnose-btn-css')) return;
+  const style = document.createElement('style');
+  style.id = 'cannadiagnose-btn-css';
+  style.textContent = webCSS;
+  document.head.appendChild(style);
+}
+
 export default function HomeScreen() {
   const router = useRouter();
   const { reset } = useDiagnosis();
+  const [isPulsing, setIsPulsing] = useState(false);
+
+  useEffect(() => {
+    injectCSS();
+  }, []);
 
   const startDiagnosis = () => {
-    reset();
-    router.push('/camera');
+    setIsPulsing(true);
+    setTimeout(() => {
+      reset();
+      router.push('/camera');
+    }, 1000);
   };
 
   return (
@@ -43,7 +159,6 @@ export default function HomeScreen() {
               KI-gestützte Pflanzendiagnose{'\n'}mit holistischer Umgebungsanalyse
             </Text>
 
-            {/* Stats row */}
             <View style={styles.statsRow}>
               <View style={styles.statBox}>
                 <Text style={styles.statValue}>Scan</Text>
@@ -62,47 +177,121 @@ export default function HomeScreen() {
 
           {/* Feature Steps */}
           <View style={styles.steps}>
-            <StepCard
-              number="01"
-              title="Foto aufnehmen"
-              description="Betroffene Blätter nah fotografieren"
-            />
-            <StepCard
-              number="02"
-              title="Bedingungen eingeben"
-              description="pH, Temperatur, Substrat & mehr"
-            />
-            <StepCard
-              number="03"
-              title="Diagnose erhalten"
-              description="KI-Analyse mit Aktionsplan"
-            />
+            <StepCard number="01" title="Foto aufnehmen" description="Betroffene Blätter nah fotografieren" />
+            <StepCard number="02" title="Bedingungen eingeben" description="pH, Temperatur, Substrat & mehr" />
+            <StepCard number="03" title="Diagnose erhalten" description="KI-Analyse mit Aktionsplan" />
           </View>
 
           {/* Buttons */}
           <View style={styles.buttons}>
-            <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
-              <LinearGradient
-                colors={['#00E676', '#00C853', '#00A844']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.primaryBtn}
-              >
-                <Text style={styles.primaryBtnText}>Diagnose starten</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.secondaryBtn}
-              onPress={() => router.push('/history')}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.secondaryBtnText}>Verlauf anzeigen</Text>
-            </TouchableOpacity>
+            {Platform.OS === 'web' ? (
+              <>
+                <div
+                  className={`btn-primary ${isPulsing ? 'pulsing' : ''}`}
+                  onClick={startDiagnosis}
+                  style={{ padding: '18px 24px', textAlign: 'center' } as any}
+                >
+                  <Text style={styles.primaryBtnText}>Diagnose starten</Text>
+                </div>
+                <div
+                  className="btn-secondary"
+                  onClick={() => router.push('/history')}
+                  style={{ padding: '18px 24px', textAlign: 'center' } as any}
+                >
+                  <Text style={styles.secondaryBtnText}>Verlauf anzeigen</Text>
+                </div>
+              </>
+            ) : (
+              <>
+                <NativeButton
+                  label="Diagnose starten"
+                  onPress={startDiagnosis}
+                  isPrimary
+                  isPulsing={isPulsing}
+                />
+                <NativeButton
+                  label="Verlauf anzeigen"
+                  onPress={() => router.push('/history')}
+                />
+              </>
+            )}
           </View>
         </View>
       </SafeAreaView>
     </LinearGradient>
+  );
+}
+
+// Native fallback mit Animated (für iOS/Android)
+function NativeButton({
+  label,
+  onPress,
+  isPrimary = false,
+  isPulsing = false,
+}: {
+  label: string;
+  onPress: () => void;
+  isPrimary?: boolean;
+  isPulsing?: boolean;
+}) {
+  const shimmerAnim = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(shimmerAnim, {
+        toValue: 1,
+        duration: isPrimary ? 5000 : 7000,
+        delay: isPrimary ? 0 : 1500,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: false,
+      })
+    ).start();
+  }, []);
+
+  useEffect(() => {
+    if (isPulsing) {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 600,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 0,
+            duration: 600,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ])
+      ).start();
+    }
+  }, [isPulsing]);
+
+  const shimmerLeft = shimmerAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['-40%', '140%'],
+  });
+
+  return (
+    <TouchableOpacity onPress={onPress} activeOpacity={0.85}>
+      <LinearGradient
+        colors={
+          isPrimary
+            ? ['#00FF88', '#00E676', '#00C853', '#009A40']
+            : [colors.cardMid, colors.cardDark]
+        }
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={[styles.nativeBtn, isPrimary && styles.nativeBtnPrimary]}
+      >
+        <View style={[styles.nativeConvex, !isPrimary && styles.nativeConvexDark]} />
+        <Animated.View style={[styles.nativeShimmer, { left: shimmerLeft, opacity: isPrimary ? 0.15 : 0.05 }]} />
+        <Text style={isPrimary ? styles.primaryBtnText : styles.secondaryBtnText}>{label}</Text>
+      </LinearGradient>
+    </TouchableOpacity>
   );
 }
 
@@ -129,12 +318,8 @@ function StepCard({
 }
 
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
+  gradient: { flex: 1 },
+  container: { flex: 1 },
   content: {
     flex: 1,
     paddingHorizontal: 20,
@@ -142,12 +327,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  // Header
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingTop: 12,
-  },
+  header: { flexDirection: 'row', justifyContent: 'center', paddingTop: 12 },
   logoMark: {
     width: 48,
     height: 48,
@@ -158,155 +338,98 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  logoEmoji: {
-    fontSize: 24,
-  },
+  logoEmoji: { fontSize: 24 },
 
-  // Hero Card
   heroCard: {
     borderRadius: 24,
     padding: 24,
     marginTop: 16,
     ...Platform.select({
-      ios: {
-        shadowColor: colors.shadowDark,
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 1,
-        shadowRadius: 24,
-      },
+      ios: { shadowColor: colors.shadowDark, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 1, shadowRadius: 24 },
       android: { elevation: 12 },
-      web: {
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-      },
+      web: { boxShadow: '0 8px 32px rgba(0,0,0,0.3)' },
     }),
   },
-  heroTitle: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: colors.white,
-    letterSpacing: -0.5,
-    marginBottom: 6,
-  },
-  heroSub: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
+  heroTitle: { fontSize: 28, fontWeight: '800', color: colors.white, letterSpacing: -0.5, marginBottom: 6 },
+  heroSub: { fontSize: 14, color: colors.textSecondary, lineHeight: 20, marginBottom: 20 },
+  statsRow: { flexDirection: 'row', gap: 10 },
   statBox: {
-    flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 16,
-    paddingVertical: 16,
-    alignItems: 'center',
-    gap: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    flex: 1, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 16,
+    paddingVertical: 16, alignItems: 'center', gap: 6,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)',
   },
-  statBoxAccent: {
-    backgroundColor: 'rgba(0,230,118,0.12)',
-    borderColor: 'rgba(0,230,118,0.2)',
-  },
-  statValue: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: colors.accent,
-    letterSpacing: 0.5,
-  },
-  statLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
+  statBoxAccent: { backgroundColor: 'rgba(0,230,118,0.12)', borderColor: 'rgba(0,230,118,0.2)' },
+  statValue: { fontSize: 16, fontWeight: '800', color: colors.accent, letterSpacing: 0.5 },
+  statLabel: { fontSize: 12, fontWeight: '600', color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 },
 
-  // Steps
-  steps: {
-    gap: 8,
-  },
+  steps: { gap: 8 },
   stepCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.cardDark,
-    borderRadius: 16,
-    padding: 14,
-    gap: 14,
-    borderWidth: 1,
-    borderColor: colors.border,
+    flexDirection: 'row', alignItems: 'center', backgroundColor: colors.cardDark,
+    borderRadius: 16, padding: 14, gap: 14, borderWidth: 1, borderColor: colors.border,
   },
   stepNumber: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    backgroundColor: colors.cardLight,
+    width: 40, height: 40, borderRadius: 12, backgroundColor: colors.cardLight,
+    alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.border,
+  },
+  stepNumberText: { fontSize: 14, fontWeight: '800', color: colors.accent },
+  stepContent: { flex: 1 },
+  stepTitle: { fontSize: 15, fontWeight: '700', color: colors.text, marginBottom: 2 },
+  stepDesc: { fontSize: 12, color: colors.textMuted },
+
+  buttons: { gap: 12, paddingTop: 4 },
+
+  // Native button styles
+  nativeBtn: {
+    borderRadius: 20,
+    paddingVertical: 18,
     alignItems: 'center',
-    justifyContent: 'center',
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: colors.border,
   },
-  stepNumberText: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: colors.accent,
-  },
-  stepContent: {
-    flex: 1,
-  },
-  stepTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 2,
-  },
-  stepDesc: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-
-  // Buttons
-  buttons: {
-    gap: 10,
-    paddingTop: 4,
-  },
-  primaryBtn: {
-    borderRadius: 16,
-    paddingVertical: 17,
-    alignItems: 'center',
+  nativeBtnPrimary: {
+    borderColor: 'rgba(255,255,255,0.12)',
     ...Platform.select({
-      ios: {
-        shadowColor: colors.shadowGreen,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 1,
-        shadowRadius: 16,
-      },
-      android: { elevation: 8 },
-      web: {
-        boxShadow: '0 6px 24px rgba(0,230,118,0.25)',
-      },
+      ios: { shadowColor: 'rgba(0,230,118,0.5)', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 1, shadowRadius: 20 },
+      android: { elevation: 10 },
     }),
   },
+  nativeConvex: {
+    position: 'absolute',
+    top: 0,
+    left: '5%',
+    right: '5%',
+    height: '45%',
+    backgroundColor: 'rgba(255,255,255,0.14)',
+    borderBottomLeftRadius: 100,
+    borderBottomRightRadius: 100,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  nativeConvexDark: {
+    backgroundColor: 'rgba(255,255,255,0.04)',
+  },
+  nativeShimmer: {
+    position: 'absolute',
+    top: 0,
+    width: '25%',
+    height: '100%',
+    backgroundColor: 'rgba(255,255,255,1)',
+    transform: [{ skewX: '-15deg' }],
+    borderRadius: 10,
+  },
+
   primaryBtnText: {
     color: colors.white,
     fontSize: 17,
-    fontWeight: '700',
-    letterSpacing: 0.3,
-  },
-  secondaryBtn: {
-    borderRadius: 16,
-    paddingVertical: 17,
-    alignItems: 'center',
-    backgroundColor: colors.cardDark,
-    borderWidth: 1,
-    borderColor: colors.border,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+    zIndex: 1,
   },
   secondaryBtnText: {
     color: colors.textSecondary,
     fontSize: 15,
     fontWeight: '600',
+    zIndex: 1,
   },
 });
