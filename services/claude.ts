@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt } from '../constants/prompts';
 

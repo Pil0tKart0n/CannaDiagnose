@@ -86,7 +86,7 @@ export default function AddPlantScreen() {
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={handleSave} activeOpacity={0.85}>
           <LinearGradient
-            colors={['#00E676', '#00C853', '#00A844']}
+            colors={['#5AEF90', '#4ADE80', '#3CC870']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.saveBtn}
@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
     width: 120, height: 120, borderRadius: 30,
   },
   imagePlaceholder: {
-    width: 120, height: 120, borderRadius: 30,
-    backgroundColor: 'rgba(255,255,255,0.04)',
+    width: 120, height: 120, borderRadius: 24,
+    backgroundColor: colors.cardDark,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: colors.border,
     borderStyle: 'dashed',
     alignItems: 'center',
     justifyContent: 'center',
@@ -130,29 +130,29 @@ const styles = StyleSheet.create({
 
   // Form
   label: {
-    fontSize: 13, fontWeight: '700', color: colors.textSecondary,
+    fontSize: 12, fontWeight: '600', color: colors.textSecondary, letterSpacing: 0.5, textTransform: 'uppercase',
     marginBottom: 8, letterSpacing: 0.3,
   },
   input: {
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    borderRadius: 14,
+    backgroundColor: colors.cardDark,
+    borderRadius: 12,
     padding: 16,
     fontSize: 16,
     color: colors.text,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: colors.border,
     marginBottom: 20,
   },
 
   // Bottom
   bottomBar: { padding: 16, paddingBottom: 24 },
   saveBtn: {
-    borderRadius: 16, paddingVertical: 16, alignItems: 'center',
+    borderRadius: 12, paddingVertical: 16, alignItems: 'center',
     ...Platform.select({
       web: { boxShadow: '0 4px 20px rgba(0,230,118,0.2)' },
       ios: { shadowColor: 'rgba(0,230,118,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
       android: { elevation: 6 },
     }),
   },
-  saveBtnText: { color: colors.white, fontSize: 15, fontWeight: '700', letterSpacing: 0.3 },
+  saveBtnText: { color: colors.textOnAccent, fontSize: 15, fontWeight: '600', letterSpacing: 0.3 },
 });

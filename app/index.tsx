@@ -14,53 +14,28 @@ import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
 const webCSS = Platform.OS === 'web' ? `
-  @keyframes shimmerPrimary {
-    0% { left: -40%; }
-    100% { left: 140%; }
-  }
-  @keyframes shimmerSecondary {
-    0% { left: -40%; }
-    100% { left: 140%; }
-  }
-  @keyframes breathe {
-    0% { box-shadow: 0 4px 24px rgba(0,230,118,0.2); }
-    50% { box-shadow: 0 8px 44px rgba(0,230,118,0.45); }
-    100% { box-shadow: 0 4px 24px rgba(0,230,118,0.2); }
-  }
   .cd-screen {
-    background: radial-gradient(ellipse 140% 60% at 50% 105%, rgba(0,200,83,0.08) 0%, transparent 55%),
-                radial-gradient(ellipse 60% 40% at 85% 15%, rgba(0,200,83,0.04) 0%, transparent 45%),
-                linear-gradient(170deg, #0A1F15 0%, #071510 40%, #060E0A 100%);
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(74,222,128,0.04) 0%, transparent 60%),
+      linear-gradient(175deg, #0E1510 0%, #0A0E0D 100%);
     min-height: 100%;
   }
   .cd-btn-primary {
-    position: relative; overflow: hidden; border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: radial-gradient(ellipse 130% 90% at 50% 12%, rgba(255,255,255,0.2) 0%, transparent 50%),
-                linear-gradient(176deg, #00FF88 0%, #00E676 20%, #00C853 55%, #009A40 100%);
-    box-shadow: 0 4px 24px rgba(0,230,118,0.2), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 3px rgba(0,0,0,0.15);
-    transition: transform 0.2s ease; cursor: pointer;
+    position: relative; overflow: hidden; border-radius: 12px;
+    background: linear-gradient(180deg, #5AEF90 0%, #4ADE80 50%, #3CC870 100%);
+    box-shadow: 0 2px 8px rgba(74,222,128,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition: transform 0.15s ease; cursor: pointer;
   }
+  .cd-btn-primary:hover { transform: scale(1.01); }
   .cd-btn-primary:active { transform: scale(0.97); }
-  .cd-btn-primary::before {
-    content: ''; position: absolute; top: -10%; width: 22%; height: 120%;
-    background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0.08) 55%, transparent 75%);
-    animation: shimmerPrimary 5s ease-in-out infinite; transform: skewX(-15deg); pointer-events: none;
-  }
-  .cd-btn-primary.pulsing { animation: breathe 1.4s ease-in-out infinite; }
   .cd-btn-secondary {
-    position: relative; overflow: hidden; border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.04);
-    background: rgba(255,255,255,0.02);
-    transition: transform 0.2s ease; cursor: pointer;
+    position: relative; overflow: hidden; border-radius: 12px;
+    border: 1px solid #1E2A24;
+    background: transparent;
+    transition: transform 0.15s ease, background 0.15s ease; cursor: pointer;
   }
-  .cd-btn-secondary:hover { background: rgba(255,255,255,0.04); }
+  .cd-btn-secondary:hover { background: rgba(255,255,255,0.03); }
   .cd-btn-secondary:active { transform: scale(0.97); }
-  .cd-btn-secondary::before {
-    content: ''; position: absolute; top: -10%; width: 22%; height: 120%;
-    background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.03) 55%, transparent 75%);
-    animation: shimmerSecondary 7s ease-in-out 2s infinite; transform: skewX(-15deg); pointer-events: none;
-  }
 ` : '';
 
 function injectCSS() {
@@ -75,14 +50,13 @@ function injectCSS() {
 export default function HomeScreen() {
   const router = useRouter();
   const { reset } = useDiagnosis();
-  const [isPulsing, setIsPulsing] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => { injectCSS(); }, []);
 
   const startDiagnosis = () => {
-    setIsPulsing(true);
-    setTimeout(() => { reset(); router.push('/camera'); }, 900);
+    reset();
+    router.push('/camera');
   };
 
   const isWeb = Platform.OS === 'web';
@@ -93,7 +67,7 @@ export default function HomeScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
 
-          {/* Top spacer - smaller so title sits higher */}
+          {/* Top spacer */}
           <View style={{ flex: 0.4 }} />
 
           {/* Center: Title + Flow */}
@@ -103,7 +77,6 @@ export default function HomeScreen() {
 
             <View style={styles.divider} />
 
-            {/* Minimal text flow - no boxes, no icons */}
             <View style={styles.flowRow}>
               <Text style={styles.flowStep}>Foto</Text>
               <Text style={styles.flowDot}>·</Text>
@@ -125,7 +98,7 @@ export default function HomeScreen() {
             {isWeb ? (
               <>
                 <div
-                  className={`cd-btn-primary ${isPulsing ? 'pulsing' : ''}`}
+                  className="cd-btn-primary"
                   onClick={startDiagnosis}
                   style={{ padding: '14px 24px', textAlign: 'center' } as any}
                 >
@@ -152,7 +125,7 @@ export default function HomeScreen() {
               <>
                 <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
                   <LinearGradient
-                    colors={['#00FF88', '#00E676', '#00C853', '#009A40']}
+                    colors={['#5AEF90', '#4ADE80', '#3CC870']}
                     start={{ x: 0.5, y: 0 }}
                     end={{ x: 0.5, y: 1 }}
                     style={styles.nativePrimaryBtn}
@@ -212,7 +185,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   screenBg: {
     flex: 1,
-    backgroundColor: '#071510',
+    backgroundColor: colors.background,
   },
   container: { flex: 1 },
   content: {
@@ -226,25 +199,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 48,
-    fontWeight: '200',
+    fontSize: 44,
+    fontWeight: '300',
     color: colors.text,
-    letterSpacing: 6,
+    letterSpacing: 8,
     textTransform: 'uppercase',
   },
   titleAccent: {
-    fontSize: 48,
-    fontWeight: '800',
+    fontSize: 44,
+    fontWeight: '600',
     color: colors.accent,
     letterSpacing: 2,
     textTransform: 'uppercase',
-    marginTop: -6,
+    marginTop: -4,
   },
   divider: {
-    width: 40,
-    height: 2,
-    backgroundColor: 'rgba(0,230,118,0.3)',
-    marginVertical: 24,
+    width: 48,
+    height: 1,
+    backgroundColor: 'rgba(74,222,128,0.2)',
+    marginVertical: 28,
     borderRadius: 1,
   },
   flowRow: {
@@ -253,15 +226,15 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   flowStep: {
-    fontSize: 13,
-    fontWeight: '500',
+    fontSize: 12,
+    fontWeight: '600',
     color: colors.textMuted,
     letterSpacing: 1.5,
     textTransform: 'uppercase',
   },
   flowDot: {
-    fontSize: 18,
-    color: 'rgba(0,230,118,0.4)',
+    fontSize: 16,
+    color: 'rgba(74,222,128,0.3)',
     fontWeight: '300',
   },
   infoLink: {
@@ -271,7 +244,7 @@ const styles = StyleSheet.create({
   },
   infoLinkText: {
     fontSize: 13,
-    color: 'rgba(0,230,118,0.5)',
+    color: colors.textMuted,
     fontWeight: '500',
     letterSpacing: 0.3,
   },
@@ -283,36 +256,33 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   nativePrimaryBtn: {
-    borderRadius: 18,
-    paddingVertical: 14,
+    borderRadius: 12,
+    paddingVertical: 16,
     alignItems: 'center',
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
     ...Platform.select({
-      ios: { shadowColor: 'rgba(0,230,118,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 16 },
-      android: { elevation: 8 },
+      ios: { shadowColor: '#4ADE80', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 12 },
+      android: { elevation: 6 },
     }),
   },
   nativeSecondaryBtn: {
-    borderRadius: 18,
+    borderRadius: 12,
     paddingVertical: 12,
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.02)',
+    backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
+    borderColor: colors.border,
   },
   primaryBtnText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '800',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
+    color: colors.textOnAccent,
+    fontSize: 15,
+    fontWeight: '600',
+    letterSpacing: 0.3,
   },
   secondaryBtnText: {
     color: colors.textSecondary,
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '500',
     letterSpacing: 0.3,
   },
 
@@ -325,42 +295,46 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   modalCard: {
-    backgroundColor: '#0E1A14',
-    borderRadius: 24,
-    padding: 28,
+    backgroundColor: colors.surfaceElevated,
+    borderRadius: 20,
+    padding: 24,
     width: '100%',
     maxWidth: 340,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: colors.border,
     ...Platform.select({
-      web: { boxShadow: '0 16px 48px rgba(0,0,0,0.5)' },
+      web: {
+        backdropFilter: 'blur(40px)',
+        backgroundColor: 'rgba(26,36,31,0.92)',
+        boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
+      },
       ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.5, shadowRadius: 30 },
       android: { elevation: 20 },
     }),
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: '800',
+    fontWeight: '600',
     color: colors.text,
     marginBottom: 16,
   },
   modalText: {
     fontSize: 15,
     color: colors.textSecondary,
-    lineHeight: 26,
+    lineHeight: 24,
     marginBottom: 24,
   },
   modalClose: {
-    backgroundColor: 'rgba(0,230,118,0.12)',
-    borderRadius: 14,
+    backgroundColor: colors.accentSubtle,
+    borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(0,230,118,0.2)',
+    borderColor: colors.borderAccent,
   },
   modalCloseText: {
     color: colors.accent,
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '600',
   },
 });

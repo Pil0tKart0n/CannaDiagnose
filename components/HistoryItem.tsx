@@ -34,8 +34,8 @@ export default function HistoryItem({ entry, onPress, onDelete }: HistoryItemPro
         <Text style={styles.diagnosis} numberOfLines={2}>
           {entry.result.primaryDiagnosis}
         </Text>
-        <View style={[styles.badge, { backgroundColor: sevColor }]}>
-          <Text style={styles.badgeText}>{entry.result.severity}</Text>
+        <View style={[styles.badge, { backgroundColor: `${sevColor}18` }]}>
+          <Text style={[styles.badgeText, { color: sevColor }]}>{entry.result.severity}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.deleteBtn} onPress={onDelete}>
@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.cardDark,
     borderRadius: 16,
-    padding: 14,
-    marginBottom: 10,
+    padding: 16,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
     ...Platform.select({
@@ -91,15 +91,15 @@ const styles = StyleSheet.create({
   },
   badge: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     borderRadius: 8,
   },
   badgeText: {
-    color: colors.white,
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '600',
     textTransform: 'capitalize',
+    letterSpacing: 0.5,
   },
   deleteBtn: {
     alignSelf: 'center',

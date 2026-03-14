@@ -60,9 +60,9 @@ export default function DiagnosisCard({ result }: DiagnosisCardProps) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.cardDark,
-    borderRadius: 20,
-    padding: 22,
-    marginBottom: 14,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
     ...Platform.select({
@@ -80,22 +80,23 @@ const styles = StyleSheet.create({
   },
   severityBadge: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 8,
     marginBottom: 14,
   },
   severityText: {
     color: colors.white,
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.5,
   },
   diagnosis: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 17,
+    fontWeight: '600',
     color: colors.text,
     marginBottom: 16,
-    lineHeight: 26,
+    lineHeight: 24,
   },
   confidenceRow: {
     flexDirection: 'row',
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   },
   confidenceValue: {
     fontSize: 14,
-    fontWeight: '700',
+    fontWeight: '600',
     width: 40,
     textAlign: 'right',
   },
@@ -128,14 +129,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   sectionTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.accent,
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
     marginBottom: 8,
   },
   sectionBody: {
-    fontSize: 14,
+    fontSize: 15,
     color: colors.textSecondary,
-    lineHeight: 22,
+    lineHeight: 24,
   },
 });

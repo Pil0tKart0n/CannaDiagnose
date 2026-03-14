@@ -56,9 +56,9 @@ export function PreventiveTips({ tips }: { tips: string[] }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.cardDark,
-    borderRadius: 20,
-    padding: 22,
-    marginBottom: 14,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
     ...Platform.select({
@@ -75,9 +75,11 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.accent,
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
     marginBottom: 16,
   },
   // Factors
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
   },
   factorImpact: {
     fontSize: 13,
-    color: colors.textMuted,
+    color: colors.textSecondary,
     lineHeight: 20,
   },
   // Action Plan
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
   },
   stepNumberText: {
     color: colors.accent,
-    fontWeight: '800',
+    fontWeight: '600',
     fontSize: 14,
   },
   stepContent: {
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
   },
   stepDetails: {
     fontSize: 13,
-    color: colors.textMuted,
+    color: colors.textSecondary,
     lineHeight: 20,
   },
   // Tips

@@ -112,7 +112,7 @@ export default function PlantsScreen() {
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => router.push('/add-plant')} activeOpacity={0.85}>
           <LinearGradient
-            colors={['#00E676', '#00C853', '#00A844']}
+            colors={['#5AEF90', '#4ADE80', '#3CC870']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.addBtn}
@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
   plantCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    borderRadius: 18,
-    padding: 14,
-    marginBottom: 10,
+    backgroundColor: colors.cardDark,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
+    borderColor: colors.border,
     ...Platform.select({
       web: { boxShadow: '0 2px 10px rgba(0,0,0,0.2)' },
       ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 8 },
@@ -144,36 +144,36 @@ const styles = StyleSheet.create({
     }),
   },
   plantThumb: {
-    width: 52, height: 52, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.05)',
+    width: 52, height: 52, borderRadius: 16, backgroundColor: colors.cardMid,
   },
   plantThumbEmpty: {
     alignItems: 'center', justifyContent: 'center',
   },
   plantThumbText: { fontSize: 24 },
   plantInfo: { flex: 1, marginLeft: 14 },
-  plantName: { fontSize: 16, fontWeight: '700', color: colors.text, marginBottom: 3 },
+  plantName: { fontSize: 16, fontWeight: '600', color: colors.text, marginBottom: 4 },
   plantMeta: { fontSize: 12, color: colors.textMuted },
   followUpBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: 'rgba(0,230,118,0.12)',
+    backgroundColor: colors.accentSubtle,
     paddingHorizontal: 8, paddingVertical: 3,
     borderRadius: 8, marginTop: 6,
-    borderWidth: 1, borderColor: 'rgba(0,230,118,0.2)',
+    borderWidth: 1, borderColor: colors.borderAccent,
   },
-  followUpText: { fontSize: 11, fontWeight: '700', color: colors.accent },
+  followUpText: { fontSize: 11, fontWeight: '600', color: colors.accent },
   deleteBtn: { padding: 8 },
   deleteText: { fontSize: 16, color: colors.textMuted },
   bottomBar: { padding: 16, paddingBottom: 24 },
   addBtn: {
-    borderRadius: 16, paddingVertical: 16, alignItems: 'center',
+    borderRadius: 12, paddingVertical: 16, alignItems: 'center',
     ...Platform.select({
       web: { boxShadow: '0 4px 20px rgba(0,230,118,0.2)' },
       ios: { shadowColor: 'rgba(0,230,118,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
       android: { elevation: 6 },
     }),
   },
-  addBtnText: { color: colors.white, fontSize: 15, fontWeight: '700', letterSpacing: 0.3 },
+  addBtnText: { color: colors.textOnAccent, fontSize: 15, fontWeight: '600', letterSpacing: 0.3 },
   emptyContainer: { alignItems: 'center', paddingTop: 60 },
-  emptyTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 8 },
+  emptyTitle: { fontSize: 18, fontWeight: '600', color: colors.text, marginBottom: 8 },
   emptyText: { fontSize: 14, color: colors.textMuted, textAlign: 'center', lineHeight: 20 },
 });

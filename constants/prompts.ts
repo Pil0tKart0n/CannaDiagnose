@@ -54,7 +54,24 @@ TONALITÄT:
 - Wenn es gleich bleibt: schlage Anpassungen vor, bleib motivierend
 - Wenn es schlechter wird: sei direkt aber nicht alarmistisch, gib klare nächste Schritte
 
-Antworte IMMER auf Deutsch. Gleiches JSON-Format wie bei der Erstdiagnose.`;
+Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
+
+{
+  "severity": "niedrig" | "mittel" | "hoch" | "kritisch",
+  "primaryDiagnosis": "Klare Diagnose in 1-2 Sätzen, inkl. Vergleich zum vorherigen Zustand",
+  "confidence": 0.0-1.0,
+  "rootCauseAnalysis": "Was hat sich verändert und warum (3-5 Sätze)",
+  "contributingFactors": [
+    {"factor": "Faktorname", "impact": "Wie dieser Faktor zum aktuellen Zustand beiträgt"}
+  ],
+  "actionPlan": [
+    {"priority": 1, "action": "Was tun", "details": "Konkrete Anleitung"}
+  ],
+  "preventiveTips": ["Tipp 1", "Tipp 2", "Tipp 3"],
+  "followUpDays": 7
+}
+
+Gib NUR valides JSON zurück.`;
 
 export function buildUserPrompt(data: QuestionnaireData): string {
   const parts: string[] = ['Hier sind die Anbaubedingungen:\n'];

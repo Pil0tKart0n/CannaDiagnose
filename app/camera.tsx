@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   card: {
-    borderRadius: 22,
+    borderRadius: 16,
     padding: 28,
     alignItems: 'center',
     borderWidth: 1,
@@ -137,15 +137,13 @@ const styles = StyleSheet.create({
     }),
   },
   cardIconWrap: {
-    width: 56,
-    height: 56,
-    borderRadius: 18,
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.06)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    marginBottom: 12,
   },
   cardIcon: {
     fontSize: 32,
@@ -160,8 +158,8 @@ const styles = StyleSheet.create({
     lineHeight: 30,
   },
   cardTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: colors.white,
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.text,
   },
 });

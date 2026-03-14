@@ -107,8 +107,8 @@ export default function QuestionCard({ question, value, onChange }: QuestionCard
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.cardDark,
-    borderRadius: 20,
-    padding: 22,
+    borderRadius: 16,
+    padding: 20,
     marginHorizontal: 20,
     borderWidth: 1,
     borderColor: colors.border,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   question: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     color: colors.text,
     marginBottom: 6,
   },
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   optionSelected: {
     borderColor: colors.accent,
-    backgroundColor: 'rgba(0,230,118,0.12)',
+    backgroundColor: colors.accentSubtle,
   },
   optionText: {
     fontSize: 15,

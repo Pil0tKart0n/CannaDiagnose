@@ -93,12 +93,12 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: 'rgba(0,230,118,0.08)',
+    backgroundColor: colors.accentGlow,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
     borderWidth: 1,
-    borderColor: 'rgba(0,230,118,0.15)',
+    borderColor: colors.borderAccent,
   },
   pulseInner: {
     width: 64,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     color: colors.accent,
     marginBottom: 8,
     textAlign: 'center',

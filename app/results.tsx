@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
-    borderRadius: 20,
+    height: 220,
+    borderRadius: 16,
     marginBottom: 16,
   },
   emptyContainer: {
@@ -113,17 +113,17 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   followUpInfo: {
-    backgroundColor: 'rgba(0,230,118,0.08)',
-    borderRadius: 14,
+    backgroundColor: colors.accentGlow,
+    borderRadius: 12,
     padding: 14,
     marginTop: 12,
     borderWidth: 1,
-    borderColor: 'rgba(0,230,118,0.15)',
+    borderColor: colors.borderAccent,
     alignItems: 'center',
   },
   followUpInfoText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '500',
     color: colors.accent,
   },
   btnRow: {

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ActivityIndicator,
   ViewStyle,
-  View,
   Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -41,15 +40,15 @@ export default function Button({
         <LinearGradient
           colors={
             disabled
-              ? ['#3A3A3A', '#2A2A2A']
-              : ['#00E676', '#00C853', '#00A844']
+              ? ['#2A2E2C', '#1E2220']
+              : ['#5AEF90', '#4ADE80', '#3CC870']
           }
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
           style={[styles.base, styles.primaryGradient]}
         >
           {loading ? (
-            <ActivityIndicator color={colors.white} />
+            <ActivityIndicator color={colors.textOnAccent} />
           ) : (
             <Text style={styles.textPrimary}>{title}</Text>
           )}
@@ -92,22 +91,22 @@ const styles = StyleSheet.create({
   base: {
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 14,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 54,
+    minHeight: 52,
   },
   primaryGradient: {
     ...Platform.select({
       ios: {
-        shadowColor: colors.shadowGreen,
+        shadowColor: '#4ADE80',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 1,
+        shadowOpacity: 0.3,
         shadowRadius: 12,
       },
       android: { elevation: 6 },
       web: {
-        boxShadow: '0 4px 20px rgba(0,230,118,0.25)',
+        boxShadow: '0 2px 8px rgba(74,222,128,0.25)',
       },
     }),
   },
@@ -118,20 +117,20 @@ const styles = StyleSheet.create({
   },
   outline: {
     backgroundColor: 'transparent',
-    borderWidth: 1.5,
-    borderColor: colors.accent,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   disabled: {
     opacity: 0.5,
   },
   text: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
   },
   textPrimary: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '700',
+    color: colors.textOnAccent,
+    fontSize: 15,
+    fontWeight: '600',
     letterSpacing: 0.3,
   },
   textSecondary: {

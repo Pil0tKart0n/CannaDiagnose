@@ -67,11 +67,22 @@ export default function QuestionnaireScreen() {
 
     // Auto-advance for single select (not multi-select)
     if (question.type === 'select') {
+      // Recalculate active questions with updated data to avoid stale closure
+      const nextQuestions = questions.filter((q) => {
+        if (!q.conditional) return true;
+        const { field, values } = q.conditional;
+        const val = updated[field];
+        if (!val) return false;
+        if (Array.isArray(val)) return val.some((v) => values.includes(v));
+        return values.includes(val as string);
+      });
+      const nextIsLast = safeIndex >= nextQuestions.length - 1;
+
       setTimeout(() => {
-        if (isLast) {
+        if (nextIsLast) {
           router.push('/analyzing');
         } else {
-          setCurrentIndex((prev) => Math.min(prev + 1, activeQuestions.length - 1));
+          setCurrentIndex(safeIndex + 1);
         }
       }, 300);
     }

@@ -215,7 +215,7 @@ export default function PlantDetailScreen() {
         {entries.length > 0 && followUp?.isDue ? (
           <TouchableOpacity onPress={startFollowUp} activeOpacity={0.85}>
             <LinearGradient
-              colors={['#00E676', '#00C853', '#00A844']}
+              colors={['#5AEF90', '#4ADE80', '#3CC870']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.actionBtn}
@@ -226,7 +226,7 @@ export default function PlantDetailScreen() {
         ) : (
           <TouchableOpacity onPress={startNewDiagnosis} activeOpacity={0.85}>
             <LinearGradient
-              colors={['#00E676', '#00C853', '#00A844']}
+              colors={['#5AEF90', '#4ADE80', '#3CC870']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.actionBtn}
@@ -261,22 +261,22 @@ const styles = StyleSheet.create({
   },
   plantImageText: { fontSize: 32 },
   headerInfo: { flex: 1, marginLeft: 16 },
-  plantName: { fontSize: 22, fontWeight: '800', color: colors.text },
+  plantName: { fontSize: 22, fontWeight: '600', color: colors.text },
   plantStrain: { fontSize: 14, color: colors.textSecondary, marginTop: 2 },
   plantDate: { fontSize: 12, color: colors.textMuted, marginTop: 4 },
 
   // Follow-up banner
   followUpBanner: {
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: colors.cardDark,
     borderRadius: 16,
     padding: 16,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: colors.border,
   },
   followUpBannerDue: {
-    backgroundColor: 'rgba(0,230,118,0.08)',
-    borderColor: 'rgba(0,230,118,0.2)',
+    backgroundColor: colors.accentGlow,
+    borderColor: colors.borderAccent,
   },
   followUpBannerText: {
     fontSize: 14, color: colors.textSecondary, fontWeight: '600',
@@ -286,19 +286,19 @@ const styles = StyleSheet.create({
   },
   followUpBannerBtn: {
     marginTop: 10,
-    backgroundColor: 'rgba(0,230,118,0.15)',
+    backgroundColor: colors.accentSubtle,
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 16,
     alignSelf: 'flex-start',
   },
   followUpBannerBtnText: {
-    fontSize: 13, fontWeight: '700', color: colors.accent,
+    fontSize: 13, fontWeight: '600', color: colors.accent,
   },
 
   // Section
   sectionTitle: {
-    fontSize: 16, fontWeight: '700', color: colors.text,
+    fontSize: 12, fontWeight: '600', color: colors.textSecondary, letterSpacing: 1.5, textTransform: 'uppercase',
     marginBottom: 16,
   },
 
@@ -338,12 +338,12 @@ const styles = StyleSheet.create({
   entryCard: {
     flex: 1,
     marginLeft: 8,
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: colors.cardDark,
     borderRadius: 16,
-    padding: 14,
+    padding: 16,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
+    borderColor: colors.border,
     ...Platform.select({
       web: { boxShadow: '0 2px 10px rgba(0,0,0,0.2)' },
       ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 8 },
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  entryDate: { fontSize: 13, fontWeight: '700', color: colors.text },
+  entryDate: { fontSize: 13, fontWeight: '600', color: colors.text },
   entryTime: { fontSize: 12, color: colors.textMuted, marginLeft: 8 },
   severityBadge: {
     flexDirection: 'row',
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   severityDot: { width: 6, height: 6, borderRadius: 3, marginRight: 5 },
-  severityText: { fontSize: 11, fontWeight: '700' },
+  severityText: { fontSize: 11, fontWeight: '600', letterSpacing: 0.5 },
 
   entryBody: { flexDirection: 'row' },
   entryThumb: {
@@ -379,12 +379,12 @@ const styles = StyleSheet.create({
   // Bottom
   bottomBar: { padding: 16, paddingBottom: 24 },
   actionBtn: {
-    borderRadius: 16, paddingVertical: 16, alignItems: 'center',
+    borderRadius: 12, paddingVertical: 16, alignItems: 'center',
     ...Platform.select({
       web: { boxShadow: '0 4px 20px rgba(0,230,118,0.2)' },
       ios: { shadowColor: 'rgba(0,230,118,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
       android: { elevation: 6 },
     }),
   },
-  actionBtnText: { color: colors.white, fontSize: 15, fontWeight: '700', letterSpacing: 0.3 },
+  actionBtnText: { color: colors.textOnAccent, fontSize: 15, fontWeight: '600', letterSpacing: 0.3 },
 });

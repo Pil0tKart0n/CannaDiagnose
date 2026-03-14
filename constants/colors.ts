@@ -1,52 +1,63 @@
 export const colors = {
-  // Primary - deep dark base, nicht mehr komplett grün
-  primary: '#0B1A14',
-  primaryMid: '#0E2119',
-  primaryLight: '#133023',
-  primaryAccent: '#1A4030',
-  accent: '#00E676',
-  accentSoft: '#69F0AE',
-  accentDim: '#00C853',
+  // Backgrounds – warmer dark
+  background: '#0A0E0D',
+  backgroundElevated: '#111916',
+  surface: '#141C18',
+  surfaceElevated: '#1A241F',
 
-  // Cards - subtile Abstufungen, kaum vom Hintergrund unterscheidbar
-  cardDark: 'rgba(255,255,255,0.03)',
-  cardMid: 'rgba(255,255,255,0.05)',
-  cardLight: 'rgba(255,255,255,0.07)',
-  cardGlass: 'rgba(255,255,255,0.04)',
+  // Primary accent – muted sage-green instead of neon
+  primary: '#111916',
+  primaryMid: '#151F1A',
+  primaryLight: '#1A241F',
+  primaryAccent: '#202C26',
+  accent: '#4ADE80',
+  accentSoft: '#34D399',
+  accentDim: '#3CC870',
+  accentSubtle: 'rgba(74,222,128,0.12)',
+  accentGlow: 'rgba(74,222,128,0.08)',
 
-  // Backgrounds
-  background: '#080F0C',
+  // Warm secondary accent
+  accentWarm: '#FBBF24',
+  accentTeal: '#2DD4BF',
+
+  // Cards – solid colors
+  cardDark: '#111916',
+  cardMid: '#151F1A',
+  cardLight: '#1A241F',
+  cardGlass: 'rgba(20,28,24,0.85)',
+
+  // Backgrounds (legacy compat)
   backgroundLight: '#F2F5F3',
-  surface: '#0E1A14',
   surfaceLight: '#FFFFFF',
 
-  // Text
-  text: '#F0F5F2',
-  textSecondary: 'rgba(255,255,255,0.6)',
-  textMuted: 'rgba(255,255,255,0.35)',
+  // Text – off-white
+  text: '#E8EDE9',
+  textSecondary: '#8B9C91',
+  textMuted: '#5A6B61',
   textDark: '#1A2E1A',
   textDarkSecondary: '#4A6A4A',
+  textOnAccent: '#0A0E0D',
 
-  // Borders - fast unsichtbar
-  border: 'rgba(255,255,255,0.06)',
-  borderLight: 'rgba(255,255,255,0.03)',
-  borderAccent: 'rgba(0,230,118,0.12)',
+  // Borders – solid, visible
+  border: '#1E2A24',
+  borderLight: '#171F1B',
+  borderAccent: 'rgba(74,222,128,0.15)',
 
   // Status
-  error: '#FF453A',
-  warning: '#FF9F0A',
-  success: '#30D158',
-  severityLow: '#30D158',
-  severityMedium: '#FFD60A',
-  severityHigh: '#FF9F0A',
-  severityCritical: '#FF453A',
+  error: '#F87171',
+  warning: '#FBBF24',
+  success: '#4ADE80',
+  severityLow: '#4ADE80',
+  severityMedium: '#FBBF24',
+  severityHigh: '#FB923C',
+  severityCritical: '#F87171',
 
   // Base
   white: '#FFFFFF',
   black: '#000000',
-  overlay: 'rgba(0,0,0,0.5)',
+  overlay: 'rgba(0,0,0,0.6)',
 
   // Shadows
-  shadowGreen: 'rgba(0,230,118,0.15)',
-  shadowDark: 'rgba(0,0,0,0.4)',
+  shadowGreen: 'rgba(74,222,128,0.10)',
+  shadowDark: 'rgba(0,0,0,0.5)',
 };
