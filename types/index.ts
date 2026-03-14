@@ -2,26 +2,18 @@ export type SubstrateType = 'Erde' | 'Kokos' | 'Perlite-Mix' | 'DWC / Hydro' | '
 export type Severity = 'niedrig' | 'mittel' | 'hoch' | 'kritisch';
 
 export interface QuestionnaireData {
-  // Pflanze
   plantAgeWeeks: string | null;
-
-  // Substrat & Wasser
   substrateType: string | null;
   waterTempCelsius: string | null;
   substrateTempCelsius: string | null;
   phFeed: string | null;
   ecPpm: string | null;
-
-  // Umgebung
   lightType: string | null;
   lightDistanceCm: string | null;
   roomTempCelsius: string | null;
   humidityPercent: string | null;
-
-  // Kontext
   symptomDurationDays: string | null;
   recentChanges: string[];
-
   [key: string]: string | string[] | null;
 }
 
@@ -44,6 +36,7 @@ export interface DiagnosisResult {
   contributingFactors: ContributingFactor[];
   actionPlan: ActionStep[];
   preventiveTips: string[];
+  followUpDays?: number;
 }
 
 export interface DiagnosisEntry {
@@ -52,6 +45,16 @@ export interface DiagnosisEntry {
   imageUri: string;
   questionnaire: QuestionnaireData;
   result: DiagnosisResult;
+  plantId?: string;
+}
+
+export interface Plant {
+  id: string;
+  name: string;
+  createdAt: string;
+  imageUri?: string;
+  strain?: string;
+  entries: string[]; // DiagnosisEntry IDs
 }
 
 export type QuestionType = 'select' | 'multi-select' | 'number' | 'text';

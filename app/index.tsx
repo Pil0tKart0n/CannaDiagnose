@@ -93,8 +93,8 @@ export default function HomeScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
 
-          {/* Top spacer */}
-          <View style={{ flex: 1 }} />
+          {/* Top spacer - smaller so title sits higher */}
+          <View style={{ flex: 0.4 }} />
 
           {/* Center: Title + Flow */}
           <View style={styles.centerArea}>
@@ -118,7 +118,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Bottom spacer */}
-          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1.2 }} />
 
           {/* Buttons */}
           <View style={styles.buttons}>
@@ -127,17 +127,26 @@ export default function HomeScreen() {
                 <div
                   className={`cd-btn-primary ${isPulsing ? 'pulsing' : ''}`}
                   onClick={startDiagnosis}
-                  style={{ padding: '18px 24px', textAlign: 'center' } as any}
+                  style={{ padding: '14px 24px', textAlign: 'center' } as any}
                 >
                   <Text style={styles.primaryBtnText}>Diagnose starten</Text>
                 </div>
-                <div
-                  className="cd-btn-secondary"
-                  onClick={() => router.push('/history')}
-                  style={{ padding: '17px 24px', textAlign: 'center' } as any}
-                >
-                  <Text style={styles.secondaryBtnText}>Verlauf</Text>
-                </div>
+                <View style={styles.secondaryRow}>
+                  <div
+                    className="cd-btn-secondary"
+                    onClick={() => router.push('/plants')}
+                    style={{ padding: '12px 16px', textAlign: 'center', flex: 1 } as any}
+                  >
+                    <Text style={styles.secondaryBtnText}>Meine Pflanzen</Text>
+                  </div>
+                  <div
+                    className="cd-btn-secondary"
+                    onClick={() => router.push('/history')}
+                    style={{ padding: '12px 16px', textAlign: 'center', flex: 1 } as any}
+                  >
+                    <Text style={styles.secondaryBtnText}>Verlauf</Text>
+                  </div>
+                </View>
               </>
             ) : (
               <>
@@ -151,13 +160,22 @@ export default function HomeScreen() {
                     <Text style={styles.primaryBtnText}>Diagnose starten</Text>
                   </LinearGradient>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.nativeSecondaryBtn}
-                  onPress={() => router.push('/history')}
-                  activeOpacity={0.7}
-                >
-                  <Text style={styles.secondaryBtnText}>Verlauf</Text>
-                </TouchableOpacity>
+                <View style={styles.secondaryRow}>
+                  <TouchableOpacity
+                    style={[styles.nativeSecondaryBtn, { flex: 1 }]}
+                    onPress={() => router.push('/plants')}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.secondaryBtnText}>Meine Pflanzen</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.nativeSecondaryBtn, { flex: 1 }]}
+                    onPress={() => router.push('/history')}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.secondaryBtnText}>Verlauf</Text>
+                  </TouchableOpacity>
+                </View>
               </>
             )}
           </View>
@@ -260,9 +278,13 @@ const styles = StyleSheet.create({
 
   // Buttons
   buttons: { gap: 10 },
+  secondaryRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
   nativePrimaryBtn: {
     borderRadius: 18,
-    paddingVertical: 18,
+    paddingVertical: 14,
     alignItems: 'center',
     overflow: 'hidden',
     borderWidth: 1,
@@ -274,7 +296,7 @@ const styles = StyleSheet.create({
   },
   nativeSecondaryBtn: {
     borderRadius: 18,
-    paddingVertical: 17,
+    paddingVertical: 12,
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.02)',
     borderWidth: 1,

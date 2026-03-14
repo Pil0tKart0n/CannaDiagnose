@@ -74,10 +74,9 @@ export default function CameraScreen() {
             end={{ x: 1, y: 1 }}
           >
             <View style={styles.cardIconWrap}>
-              <Text style={styles.cardIcon}>📷</Text>
+              <Text style={styles.cardIcon}>+</Text>
             </View>
-            <Text style={styles.cardTitle}>Foto aufnehmen</Text>
-            <Text style={styles.cardSub}>Kamera öffnen</Text>
+            <Text style={styles.cardTitle}>Kamera öffnen</Text>
           </LinearGradient>
         </TouchableOpacity>
 
@@ -89,10 +88,9 @@ export default function CameraScreen() {
             end={{ x: 1, y: 1 }}
           >
             <View style={styles.cardIconWrap}>
-              <Text style={styles.cardIcon}>🖼</Text>
+              <Text style={styles.cardIconGallery}>⊞</Text>
             </View>
-            <Text style={styles.cardTitle}>Aus Galerie wählen</Text>
-            <Text style={styles.cardSub}>Vorhandenes Foto nutzen</Text>
+            <Text style={styles.cardTitle}>Galerie</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -150,16 +148,20 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.08)',
   },
   cardIcon: {
-    fontSize: 28,
+    fontSize: 32,
+    color: colors.textSecondary,
+    fontWeight: '200',
+    lineHeight: 36,
+  },
+  cardIconGallery: {
+    fontSize: 26,
+    color: colors.textSecondary,
+    fontWeight: '300',
+    lineHeight: 30,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: colors.white,
-    marginBottom: 4,
-  },
-  cardSub: {
-    fontSize: 13,
-    color: colors.textMuted,
   },
 });

@@ -1,13 +1,18 @@
-import * as FileSystem from 'expo-file-system/legacy';
+import * as FileSystem from 'expo-file-system';
 import { QuestionnaireData, DiagnosisResult } from '../types';
-import { SYSTEM_PROMPT, buildUserPrompt } from '../constants/prompts';
+import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt } from '../constants/prompts';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-20250514';
 
 export async function analyzePlant(
   imageUri: string,
-  questionnaire: QuestionnaireData
+  questionnaire: QuestionnaireData,
+  options?: {
+    isFollowUp?: boolean;
+    previousResult?: DiagnosisResult;
+    previousDate?: string;
+  }
 ): Promise<DiagnosisResult> {
   const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
   if (!apiKey) {
@@ -28,7 +33,19 @@ export async function analyzePlant(
   else if (ext === 'webp') mediaType = 'image/webp';
   else if (ext === 'gif') mediaType = 'image/gif';
 
-  const userPrompt = buildUserPrompt(questionnaire);
+  let userPrompt: string;
+  let systemPrompt: string;
+
+  if (options?.isFollowUp && options.previousResult && options.previousDate) {
+    const daysSince = Math.round(
+      (Date.now() - new Date(options.previousDate).getTime()) / 86400000
+    );
+    userPrompt = buildFollowUpPrompt(questionnaire, options.previousResult, daysSince);
+    systemPrompt = FOLLOWUP_SYSTEM_PROMPT;
+  } else {
+    userPrompt = buildUserPrompt(questionnaire);
+    systemPrompt = SYSTEM_PROMPT;
+  }
 
   const response = await fetch(API_URL, {
     method: 'POST',
@@ -40,7 +57,7 @@ export async function analyzePlant(
     body: JSON.stringify({
       model: MODEL,
       max_tokens: 2048,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [
         {
           role: 'user',

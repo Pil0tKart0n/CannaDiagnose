@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { analyzePlant } from '../services/claude';
-import { saveEntry } from '../services/storage';
+import { saveEntry, addEntryToPlant } from '../services/storage';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
@@ -16,7 +16,10 @@ const loadingTexts = [
 
 export default function AnalyzingScreen() {
   const router = useRouter();
-  const { imageUri, questionnaire, setResult } = useDiagnosis();
+  const {
+    imageUri, questionnaire, setResult,
+    selectedPlantId, isFollowUp, previousResult, previousDate,
+  } = useDiagnosis();
   const [textIndex, setTextIndex] = useState(0);
   const hasStarted = useRef(false);
 
@@ -37,16 +40,25 @@ export default function AnalyzingScreen() {
       return;
     }
 
-    analyzePlant(imageUri, questionnaire)
+    analyzePlant(imageUri, questionnaire, {
+      isFollowUp,
+      previousResult: previousResult ?? undefined,
+      previousDate: previousDate ?? undefined,
+    })
       .then(async (result) => {
         setResult(result);
+        const entryId = Date.now().toString();
         await saveEntry({
-          id: Date.now().toString(),
+          id: entryId,
           date: new Date().toISOString(),
           imageUri,
           questionnaire,
           result,
+          plantId: selectedPlantId ?? undefined,
         });
+        if (selectedPlantId) {
+          await addEntryToPlant(selectedPlantId, entryId);
+        }
         router.replace('/results');
       })
       .catch((err) => {

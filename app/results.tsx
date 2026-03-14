@@ -10,7 +10,7 @@ import { DiagnosisResult } from '../types';
 
 export default function ResultsScreen() {
   const router = useRouter();
-  const { result, imageUri, reset } = useDiagnosis();
+  const { result, imageUri, reset, selectedPlantId, isFollowUp } = useDiagnosis();
   const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string }>();
 
   const displayResult: DiagnosisResult | null = params.historyResult
@@ -18,6 +18,7 @@ export default function ResultsScreen() {
     : result;
 
   const displayImage = params.historyImage || imageUri;
+  const isFromHistory = !!params.historyResult;
 
   if (!displayResult) {
     return (
@@ -53,7 +54,30 @@ export default function ResultsScreen() {
         <PreventiveTips tips={displayResult.preventiveTips} />
       )}
 
-      <Button title="Neue Diagnose" onPress={startNew} style={styles.newBtn} />
+      {displayResult.followUpDays && !isFromHistory && (
+        <View style={styles.followUpInfo}>
+          <Text style={styles.followUpInfoText}>
+            Empfohlenes Follow-up in {displayResult.followUpDays} Tagen
+          </Text>
+        </View>
+      )}
+
+      {selectedPlantId && !isFromHistory ? (
+        <View style={styles.btnRow}>
+          <Button
+            title="Zur Pflanze"
+            onPress={() => {
+              const pid = selectedPlantId;
+              reset();
+              router.replace({ pathname: '/plant-detail', params: { plantId: pid } });
+            }}
+            style={styles.newBtn}
+          />
+          <Button title="Neue Diagnose" onPress={startNew} variant="secondary" style={styles.newBtn} />
+        </View>
+      ) : (
+        <Button title="Neue Diagnose" onPress={startNew} style={styles.newBtn} />
+      )}
     </ScrollView>
   );
 }
@@ -87,5 +111,22 @@ const styles = StyleSheet.create({
   },
   newBtn: {
     marginTop: 8,
+  },
+  followUpInfo: {
+    backgroundColor: 'rgba(0,230,118,0.08)',
+    borderRadius: 14,
+    padding: 14,
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(0,230,118,0.15)',
+    alignItems: 'center',
+  },
+  followUpInfoText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.accent,
+  },
+  btnRow: {
+    gap: 8,
   },
 });
