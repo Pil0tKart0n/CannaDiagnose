@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Alert, RefreshControl } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 import HistoryItem from '../components/HistoryItem';
 import { getEntries, deleteEntry } from '../services/storage';
 import { DiagnosisEntry } from '../types';
@@ -11,6 +12,7 @@ export default function HistoryScreen() {
   const router = useRouter();
   const { setResult, setImageUri } = useDiagnosis();
   const [entries, setEntries] = useState<DiagnosisEntry[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -21,6 +23,13 @@ export default function HistoryScreen() {
   const loadEntries = async () => {
     const data = await getEntries();
     setEntries(data);
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    await loadEntries();
+    setRefreshing(false);
   };
 
   const handleDelete = (id: string) => {
@@ -76,6 +85,15 @@ export default function HistoryScreen() {
       )}
       contentContainerStyle={styles.list}
       style={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor={colors.accent}
+          colors={[colors.accent]}
+          progressBackgroundColor={colors.cardDark}
+        />
+      }
     />
   );
 }

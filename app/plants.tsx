@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Image, Platform,
+  View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Image, Platform, RefreshControl,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Haptics from 'expo-haptics';
 import { getPlants, deletePlant, getEntriesForPlant } from '../services/storage';
 import { Plant, DiagnosisEntry } from '../types';
 import { colors } from '../constants/colors';
@@ -16,6 +17,7 @@ interface PlantWithLatest extends Plant {
 export default function PlantsScreen() {
   const router = useRouter();
   const [plants, setPlants] = useState<PlantWithLatest[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -36,6 +38,13 @@ export default function PlantsScreen() {
       })
     );
     setPlants(withEntries);
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    await loadPlants();
+    setRefreshing(false);
   };
 
   const handleDelete = (id: string, name: string) => {
@@ -100,6 +109,15 @@ export default function PlantsScreen() {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.accent}
+            colors={[colors.accent]}
+            progressBackgroundColor={colors.cardDark}
+          />
+        }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyTitle}>Noch keine Pflanzen</Text>

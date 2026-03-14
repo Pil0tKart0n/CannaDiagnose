@@ -1,8 +1,12 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import { colors } from '../constants/colors';
+
+SplashScreen.preventAutoHideAsync();
 
 interface DiagnosisContextType {
   imageUri: string | null;
@@ -64,7 +68,12 @@ export default function RootLayout() {
     setPreviousDate(null);
   };
 
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
   return (
+    <View style={rootStyles.container}>
     <DiagnosisContext.Provider
       value={{
         imageUri, setImageUri,
@@ -84,6 +93,11 @@ export default function RootLayout() {
           headerTintColor: colors.accent,
           headerTitleStyle: { fontWeight: '500', color: colors.text },
           contentStyle: { backgroundColor: colors.background },
+          animation: 'fade',
+          animationDuration: 150,
+          navigationBarColor: colors.background,
+          cardStyle: { backgroundColor: colors.background },
+          presentation: 'card',
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -97,5 +111,13 @@ export default function RootLayout() {
         <Stack.Screen name="add-plant" options={{ title: 'Neue Pflanze' }} />
       </Stack>
     </DiagnosisContext.Provider>
+    </View>
   );
 }
+
+const rootStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+});

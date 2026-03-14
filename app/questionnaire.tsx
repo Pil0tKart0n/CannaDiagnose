@@ -5,10 +5,10 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import QuestionCard from '../components/QuestionCard';
 import ProgressBar from '../components/ProgressBar';
 import Button from '../components/Button';
@@ -43,7 +43,6 @@ export default function QuestionnaireScreen() {
   const currentSection = question.section;
   const value = questionnaire[question.id];
   const isLast = safeIndex === activeQuestions.length - 1;
-  const isFirst = safeIndex === 0;
 
   const goNext = useCallback(() => {
     if (isLast) {
@@ -65,9 +64,7 @@ export default function QuestionnaireScreen() {
     const updated = { ...questionnaire, [question.id]: newValue };
     setQuestionnaire(updated);
 
-    // Auto-advance for single select (not multi-select)
     if (question.type === 'select') {
-      // Recalculate active questions with updated data to avoid stale closure
       const nextQuestions = questions.filter((q) => {
         if (!q.conditional) return true;
         const { field, values } = q.conditional;
@@ -89,42 +86,43 @@ export default function QuestionnaireScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      {/* Top bar with back + progress */}
-      <View style={styles.topBar}>
-        <TouchableOpacity onPress={goBack} style={styles.backBtn}>
-          <Text style={styles.backArrow}>‹</Text>
-        </TouchableOpacity>
-        <View style={styles.progressWrap}>
-          <ProgressBar
-            current={safeIndex + 1}
-            total={activeQuestions.length}
-            sectionName={currentSection}
-          />
-        </View>
-      </View>
-
-      <ScrollView
-        style={styles.scrollArea}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <QuestionCard question={question} value={value} onChange={handleChange} />
-      </ScrollView>
-
-      {/* Only show bottom button for multi-select and text/number inputs */}
-      {question.type !== 'select' && (
-        <View style={styles.bottomBar}>
-          <Button
-            title={isLast ? 'Analyse starten' : 'Weiter'}
-            onPress={goNext}
-          />
+        {/* Top bar with back + progress */}
+        <View style={styles.topBar}>
+          <TouchableOpacity onPress={goBack} style={styles.backBtn}>
+            <Text style={styles.backArrow}>‹</Text>
+          </TouchableOpacity>
+          <View style={styles.progressWrap}>
+            <ProgressBar
+              current={safeIndex + 1}
+              total={activeQuestions.length}
+              sectionName={currentSection}
+            />
+          </View>
         </View>
-      )}
-    </KeyboardAvoidingView>
+
+        {/* Centered question card */}
+        <View style={styles.centerArea}>
+          <QuestionCard question={question} value={value} onChange={handleChange} />
+        </View>
+
+        {/* Only show bottom button for multi-select and text/number inputs */}
+        {question.type !== 'select' ? (
+          <View style={styles.bottomBar}>
+            <Button
+              title={isLast ? 'Analyse starten' : 'Weiter'}
+              onPress={goNext}
+            />
+          </View>
+        ) : (
+          <View style={styles.bottomSpacer} />
+        )}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -133,10 +131,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
+  flex: {
+    flex: 1,
+  },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 12,
+    paddingTop: 4,
   },
   backBtn: {
     paddingHorizontal: 16,
@@ -151,16 +153,17 @@ const styles = StyleSheet.create({
   progressWrap: {
     flex: 1,
   },
-  scrollArea: {
+  centerArea: {
     flex: 1,
-  },
-  scrollContent: {
-    paddingVertical: 16,
+    justifyContent: 'center',
   },
   bottomBar: {
     padding: 20,
     backgroundColor: colors.cardDark,
     borderTopWidth: 1,
     borderTopColor: colors.border,
+  },
+  bottomSpacer: {
+    height: 40,
   },
 });

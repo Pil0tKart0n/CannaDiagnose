@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform } from 'react
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import PhotoPreview from '../components/PhotoPreview';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
@@ -61,105 +62,208 @@ export default function CameraScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.hint}>
-        Fotografiere die betroffene Stelle – Blatt, Stängel oder die ganze Pflanze.
-      </Text>
+      {/* Viewfinder bracket illustration */}
+      <View style={styles.viewfinderArea}>
+        <View style={styles.viewfinder}>
+          {/* Corner brackets */}
+          <View style={[styles.corner, styles.cornerTL]} />
+          <View style={[styles.corner, styles.cornerTR]} />
+          <View style={[styles.corner, styles.cornerBL]} />
+          <View style={[styles.corner, styles.cornerBR]} />
 
-      <View style={styles.cards}>
-        <TouchableOpacity onPress={takePhoto} activeOpacity={0.8}>
-          <LinearGradient
-            colors={[colors.primaryLight, colors.primaryAccent]}
-            style={styles.card}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <View style={styles.cardIconWrap}>
-              <Text style={styles.cardIcon}>+</Text>
-            </View>
-            <Text style={styles.cardTitle}>Kamera öffnen</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
-          <LinearGradient
-            colors={[colors.cardDark, colors.cardMid]}
-            style={styles.card}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <View style={styles.cardIconWrap}>
-              <Text style={styles.cardIconGallery}>⊞</Text>
-            </View>
-            <Text style={styles.cardTitle}>Galerie</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+          {/* Inner content */}
+          <Ionicons name="leaf-outline" size={40} color={colors.textMuted} style={{ opacity: 0.4 }} />
+          <Text style={styles.viewfinderText}>Blatt, Stängel oder Pflanze</Text>
+        </View>
       </View>
+
+      {/* Primary action: large shutter button */}
+      <View style={styles.shutterArea}>
+        <TouchableOpacity onPress={takePhoto} activeOpacity={0.8} style={styles.shutterOuter}>
+          <LinearGradient
+            colors={['#5AEF90', '#4ADE80', '#3CC870']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.shutterInner}
+          >
+            <Ionicons name="camera" size={32} color={colors.textOnAccent} />
+          </LinearGradient>
+        </TouchableOpacity>
+        <Text style={styles.shutterLabel}>Foto aufnehmen</Text>
+      </View>
+
+      {/* Divider */}
+      <View style={styles.divider}>
+        <View style={styles.dividerLine} />
+        <Text style={styles.dividerText}>oder</Text>
+        <View style={styles.dividerLine} />
+      </View>
+
+      {/* Secondary action: gallery row */}
+      <TouchableOpacity onPress={pickImage} activeOpacity={0.7} style={styles.galleryRow}>
+        <View style={styles.galleryIcon}>
+          <Ionicons name="images-outline" size={20} color={colors.accent} />
+        </View>
+        <Text style={styles.galleryText}>Aus Galerie wählen</Text>
+        <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+      </TouchableOpacity>
+
+      <View style={styles.bottomSpacer} />
     </View>
   );
 }
 
+const CORNER_SIZE = 24;
+const CORNER_THICKNESS = 3;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: colors.background,
+    paddingHorizontal: 24,
   },
-  hint: {
-    fontSize: 14,
-    color: colors.textMuted,
-    textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 20,
-    paddingHorizontal: 10,
-  },
-  cards: {
+
+  // Viewfinder
+  viewfinderArea: {
     flex: 1,
-    gap: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 16,
+  },
+  viewfinder: {
+    width: 200,
+    height: 200,
+    alignItems: 'center',
     justifyContent: 'center',
   },
-  card: {
-    borderRadius: 16,
-    padding: 28,
+  corner: {
+    position: 'absolute',
+    width: CORNER_SIZE,
+    height: CORNER_SIZE,
+  },
+  cornerTL: {
+    top: 0,
+    left: 0,
+    borderTopWidth: CORNER_THICKNESS,
+    borderLeftWidth: CORNER_THICKNESS,
+    borderColor: colors.textMuted,
+    borderTopLeftRadius: 8,
+  },
+  cornerTR: {
+    top: 0,
+    right: 0,
+    borderTopWidth: CORNER_THICKNESS,
+    borderRightWidth: CORNER_THICKNESS,
+    borderColor: colors.textMuted,
+    borderTopRightRadius: 8,
+  },
+  cornerBL: {
+    bottom: 0,
+    left: 0,
+    borderBottomWidth: CORNER_THICKNESS,
+    borderLeftWidth: CORNER_THICKNESS,
+    borderColor: colors.textMuted,
+    borderBottomLeftRadius: 8,
+  },
+  cornerBR: {
+    bottom: 0,
+    right: 0,
+    borderBottomWidth: CORNER_THICKNESS,
+    borderRightWidth: CORNER_THICKNESS,
+    borderColor: colors.textMuted,
+    borderBottomRightRadius: 8,
+  },
+  viewfinderText: {
+    fontSize: 13,
+    color: colors.textMuted,
+    marginTop: 12,
+    opacity: 0.6,
+  },
+
+  // Shutter button
+  shutterArea: {
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
+    paddingBottom: 20,
+  },
+  shutterOuter: {
+    width: 92,
+    height: 92,
+    borderRadius: 46,
+    borderWidth: 3,
+    borderColor: 'rgba(74,222,128,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
     ...Platform.select({
       ios: {
-        shadowColor: colors.shadowDark,
-        shadowOffset: { width: 0, height: 6 },
+        shadowColor: 'rgba(74,222,128,0.4)',
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 1,
         shadowRadius: 16,
       },
       android: { elevation: 8 },
-      web: {
-        boxShadow: '0 6px 24px rgba(0,0,0,0.3)',
-      },
+      web: { boxShadow: '0 4px 24px rgba(74,222,128,0.2)' },
     }),
   },
-  cardIconWrap: {
-    width: 48,
-    height: 48,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+  shutterInner: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
   },
-  cardIcon: {
-    fontSize: 32,
-    color: colors.textSecondary,
-    fontWeight: '200',
-    lineHeight: 36,
-  },
-  cardIconGallery: {
-    fontSize: 26,
-    color: colors.textSecondary,
-    fontWeight: '300',
-    lineHeight: 30,
-  },
-  cardTitle: {
-    fontSize: 15,
+  shutterLabel: {
+    fontSize: 14,
     fontWeight: '600',
+    color: colors.textSecondary,
+    marginTop: 14,
+    letterSpacing: 0.3,
+  },
+
+  // Divider
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.border,
+  },
+  dividerText: {
+    fontSize: 13,
+    color: colors.textMuted,
+    paddingHorizontal: 16,
+  },
+
+  // Gallery row
+  galleryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.cardDark,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  galleryIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: colors.accentSubtle,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
+  },
+  galleryText: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '500',
     color: colors.text,
+  },
+
+  bottomSpacer: {
+    height: 40,
   },
 });

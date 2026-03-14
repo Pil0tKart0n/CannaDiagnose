@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert, Platform,
+  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert, Platform, RefreshControl,
 } from 'react-native';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Haptics from 'expo-haptics';
 import { getPlant, getEntriesForPlant, deleteEntry } from '../services/storage';
 import { Plant, DiagnosisEntry, Severity } from '../types';
 import { colors } from '../constants/colors';
@@ -29,6 +30,7 @@ export default function PlantDetailScreen() {
   const diagnosis = useDiagnosis();
   const [plant, setPlant] = useState<Plant | null>(null);
   const [entries, setEntries] = useState<DiagnosisEntry[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -44,6 +46,13 @@ export default function PlantDetailScreen() {
       const e = await getEntriesForPlant(p.id);
       setEntries(e);
     }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    await loadData();
+    setRefreshing(false);
   };
 
   const startFollowUp = () => {
@@ -106,7 +115,18 @@ export default function PlantDetailScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.accent}
+            colors={[colors.accent]}
+            progressBackgroundColor={colors.cardDark}
+          />
+        }
+      >
         {/* Plant Header */}
         <View style={styles.header}>
           {plant.imageUri ? (
