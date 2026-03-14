@@ -15,22 +15,18 @@ interface DiagnosisContextType {
 }
 
 const emptyQuestionnaire: QuestionnaireData = {
-  growthPhase: null,
   plantAgeWeeks: null,
-  affectedAreas: [],
   substrateType: null,
+  waterTempCelsius: null,
   substrateTempCelsius: null,
   phFeed: null,
-  phRunoff: null,
   ecPpm: null,
-  roomTempCelsius: null,
-  humidityPercent: null,
   lightType: null,
   lightDistanceCm: null,
-  wateringFrequency: null,
-  fertilizerDetails: null,
+  roomTempCelsius: null,
+  humidityPercent: null,
   symptomDurationDays: null,
-  recentChanges: null,
+  recentChanges: [],
 };
 
 const DiagnosisContext = createContext<DiagnosisContextType | null>(null);

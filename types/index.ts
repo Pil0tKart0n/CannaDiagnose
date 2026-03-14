@@ -1,33 +1,28 @@
-export type GrowthPhase = 'Keimling' | 'Vegetativ' | 'Blüte' | 'Spätblüte';
-export type SubstrateType = 'Erde' | 'Kokos' | 'Hydro' | 'Perlite-Mix' | 'Sonstige';
-export type LightType = 'LED' | 'NDL/HPS' | 'MH' | 'CFL' | 'Sonnenlicht' | 'Sonstige';
-export type AffectedArea = 'Obere Blätter' | 'Untere Blätter' | 'Mittlere Blätter' | 'Alle Blätter' | 'Stängel' | 'Wurzeln';
+export type SubstrateType = 'Erde' | 'Kokos' | 'Perlite-Mix' | 'DWC / Hydro' | 'Aeroponik' | 'Sonstige';
 export type Severity = 'niedrig' | 'mittel' | 'hoch' | 'kritisch';
 
 export interface QuestionnaireData {
   // Pflanze
-  growthPhase: GrowthPhase | null;
-  plantAgeWeeks: number | null;
-  affectedAreas: AffectedArea[];
+  plantAgeWeeks: string | null;
 
   // Substrat & Wasser
-  substrateType: SubstrateType | null;
-  substrateTempCelsius: number | null;
-  phFeed: number | null;
-  phRunoff: number | null;
-  ecPpm: number | null;
+  substrateType: string | null;
+  waterTempCelsius: string | null;
+  substrateTempCelsius: string | null;
+  phFeed: string | null;
+  ecPpm: string | null;
 
   // Umgebung
-  roomTempCelsius: number | null;
-  humidityPercent: number | null;
-  lightType: LightType | null;
-  lightDistanceCm: number | null;
+  lightType: string | null;
+  lightDistanceCm: string | null;
+  roomTempCelsius: string | null;
+  humidityPercent: string | null;
 
   // Kontext
-  wateringFrequency: string | null;
-  fertilizerDetails: string | null;
-  symptomDurationDays: number | null;
-  recentChanges: string | null;
+  symptomDurationDays: string | null;
+  recentChanges: string[];
+
+  [key: string]: string | string[] | null;
 }
 
 export interface ContributingFactor {
@@ -61,8 +56,13 @@ export interface DiagnosisEntry {
 
 export type QuestionType = 'select' | 'multi-select' | 'number' | 'text';
 
+export interface ConditionalRule {
+  field: string;
+  values: string[];
+}
+
 export interface Question {
-  id: keyof QuestionnaireData;
+  id: string;
   section: string;
   question: string;
   type: QuestionType;
@@ -73,4 +73,5 @@ export interface Question {
   step?: number;
   unit?: string;
   hint?: string;
+  conditional?: ConditionalRule;
 }

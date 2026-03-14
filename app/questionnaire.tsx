@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import QuestionCard from '../components/QuestionCard';
@@ -13,9 +13,27 @@ export default function QuestionnaireScreen() {
   const { questionnaire, setQuestionnaire } = useDiagnosis();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const question = questions[currentIndex];
-  const currentSection = question.section;
+  // Filter questions based on conditional rules
+  const activeQuestions = useMemo(() => {
+    return questions.filter((q) => {
+      if (!q.conditional) return true;
+      const { field, values } = q.conditional;
+      const currentValue = questionnaire[field];
+      if (!currentValue) return false;
+      if (Array.isArray(currentValue)) {
+        return currentValue.some((v) => values.includes(v));
+      }
+      return values.includes(currentValue as string);
+    });
+  }, [questionnaire]);
 
+  // Clamp index
+  const safeIndex = Math.min(currentIndex, activeQuestions.length - 1);
+  const question = activeQuestions[safeIndex];
+
+  if (!question) return null;
+
+  const currentSection = question.section;
   const value = questionnaire[question.id];
 
   const handleChange = (newValue: any) => {
@@ -23,21 +41,21 @@ export default function QuestionnaireScreen() {
   };
 
   const goNext = () => {
-    if (currentIndex < questions.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+    if (safeIndex < activeQuestions.length - 1) {
+      setCurrentIndex(safeIndex + 1);
     } else {
       router.push('/analyzing');
     }
   };
 
   const goBack = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+    if (safeIndex > 0) {
+      setCurrentIndex(safeIndex - 1);
     }
   };
 
-  const isLast = currentIndex === questions.length - 1;
-  const isFirst = currentIndex === 0;
+  const isLast = safeIndex === activeQuestions.length - 1;
+  const isFirst = safeIndex === 0;
 
   return (
     <KeyboardAvoidingView
@@ -45,8 +63,8 @@ export default function QuestionnaireScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ProgressBar
-        current={currentIndex + 1}
-        total={questions.length}
+        current={safeIndex + 1}
+        total={activeQuestions.length}
         sectionName={currentSection}
       />
 
