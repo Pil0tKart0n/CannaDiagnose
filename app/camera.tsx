@@ -25,7 +25,6 @@ export default function CameraScreen() {
     }
     const result = await ImagePicker.launchCameraAsync({
       quality: 1,
-      allowsEditing: true,
     });
     if (!result.canceled && result.assets[0]) {
       setPhotos((prev) => [...prev, result.assets[0].uri]);
@@ -39,12 +38,15 @@ export default function CameraScreen() {
       Alert.alert('Berechtigung benötigt', 'Bitte erlaube den Zugriff auf die Galerie.');
       return;
     }
+    const remaining = MAX_PHOTOS - photos.length;
     const result = await ImagePicker.launchImageLibraryAsync({
       quality: 1,
-      allowsEditing: true,
+      selectionLimit: remaining,
+      allowsMultipleSelection: remaining > 1,
     });
-    if (!result.canceled && result.assets[0]) {
-      setPhotos((prev) => [...prev, result.assets[0].uri]);
+    if (!result.canceled && result.assets.length > 0) {
+      const newUris = result.assets.map((a) => a.uri);
+      setPhotos((prev) => [...prev, ...newUris].slice(0, MAX_PHOTOS));
     }
   };
 
