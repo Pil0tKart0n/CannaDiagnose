@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { ScrollView, View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import DiagnosisCard from '../components/DiagnosisCard';
@@ -25,6 +25,8 @@ export default function ResultsScreen() {
   const [fertilizerInput, setFertilizerInput] = useState<string | null>(null);
   const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
   const [fertilizerSearch, setFertilizerSearch] = useState('');
+  const scrollRef = useRef<ScrollView>(null);
+  const refineYRef = useRef(0);
 
   const [refinedResult, setRefinedResult] = useState<DiagnosisResult | null>(null);
 
@@ -102,7 +104,17 @@ export default function ResultsScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+    >
+    <ScrollView
+      ref={scrollRef}
+      style={styles.scrollView}
+      contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps="handled"
+    >
       {/* Photos */}
       {displayImages.length > 1 ? (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageStrip}>
@@ -140,7 +152,10 @@ export default function ResultsScreen() {
 
       {/* Refine Card */}
       {!isFromHistory && !refined && (
-        <View style={styles.refineCard}>
+        <View
+          style={styles.refineCard}
+          onLayout={(e) => { refineYRef.current = e.nativeEvent.layout.y; }}
+        >
           <TouchableOpacity
             onPress={() => setRefineOpen(!refineOpen)}
             style={styles.refineHeader}
@@ -173,6 +188,11 @@ export default function ResultsScreen() {
                     keyboardType="decimal-pad"
                     value={phInput}
                     onChangeText={setPhInput}
+                    onFocus={() => {
+                      setTimeout(() => {
+                        scrollRef.current?.scrollTo({ y: refineYRef.current, animated: true });
+                      }, 300);
+                    }}
                   />
                 </View>
                 <View style={styles.refineInputGroup}>
@@ -184,6 +204,11 @@ export default function ResultsScreen() {
                     keyboardType="decimal-pad"
                     value={ecInput}
                     onChangeText={setEcInput}
+                    onFocus={() => {
+                      setTimeout(() => {
+                        scrollRef.current?.scrollTo({ y: refineYRef.current, animated: true });
+                      }, 300);
+                    }}
                   />
                 </View>
               </View>
@@ -217,6 +242,11 @@ export default function ResultsScreen() {
                       value={fertilizerSearch}
                       onChangeText={setFertilizerSearch}
                       autoFocus
+                      onFocus={() => {
+                        setTimeout(() => {
+                          scrollRef.current?.scrollTo({ y: refineYRef.current + 100, animated: true });
+                        }, 300);
+                      }}
                     />
                     <ScrollView nestedScrollEnabled style={styles.fertilizerScroll}>
                       {getFertilizerNames()
@@ -301,6 +331,7 @@ export default function ResultsScreen() {
         <Button title="Neue Diagnose" onPress={startNew} style={styles.newBtn} />
       )}
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -308,6 +339,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  scrollView: {
+    flex: 1,
   },
   content: {
     padding: 16,
