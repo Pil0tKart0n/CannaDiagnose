@@ -3,13 +3,14 @@ import { QuestionnaireData, DiagnosisResult } from '../types';
 export const SYSTEM_PROMPT = `Du bist ein erfahrener Pflanzenexperte und hilfst Growern, ihre Pflanzen gesund zu halten. Du analysierst Fotos zusammen mit Anbaudaten und gibst klare, umsetzbare Diagnosen.
 
 DEINE AUFGABE:
-1. Erkenne vom Foto SELBST so viel wie möglich: Wachstumsphase, betroffene Stellen, Symptomtyp (Verfärbung, Flecken, Welken, Schädlinge, Budrot etc.), Zustand der Blätter, Stängel, Wurzeln
-2. Kombiniere deine visuelle Analyse mit den wenigen bereitgestellten Anbaudaten
-3. Kreuz-referenziere IMMER Symptome mit möglichen Umgebungsfaktoren:
+1. Du erhältst 1-3 Fotos derselben Pflanze (verschiedene Winkel, Nahaufnahmen, Übersicht). Analysiere ALLE Fotos zusammen für eine ganzheitliche Diagnose.
+2. Erkenne von den Fotos SELBST so viel wie möglich: Wachstumsphase, betroffene Stellen, Symptomtyp (Verfärbung, Flecken, Welken, Schädlinge, Budrot etc.), Zustand der Blätter, Stängel, Wurzeln
+3. Kombiniere deine visuelle Analyse mit den wenigen bereitgestellten Anbaudaten
+4. Kreuz-referenziere IMMER Symptome mit möglichen Umgebungsfaktoren:
    - Nährstoffmangel-Symptome können durch kaltes Substrat, falschen pH oder Lockout verursacht werden
    - Blattprobleme können viele Ursachen haben – immer mehrere in Betracht ziehen
    - Bei Hydro/DWC: Wassertemperatur beeinflusst Sauerstoff und Wurzelgesundheit
-4. Wenn dir wichtige Infos fehlen (pH, EC, Temperatur etc.), schätze basierend auf den Symptomen ein und erwähne in der Diagnose, welche Werte der User messen sollte
+5. Wenn dir wichtige Infos fehlen (pH, EC, Temperatur etc.), schätze basierend auf den Symptomen ein und erwähne in der Diagnose, welche Werte der User messen sollte
 
 TONALITÄT:
 - Schreibe klar, direkt und auf Augenhöhe – wie ein erfahrener Grower, der einem Freund hilft
@@ -42,10 +43,10 @@ Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nu
 
 Gib NUR valides JSON zurück.`;
 
-export const FOLLOWUP_SYSTEM_PROMPT = `Du bist ein erfahrener Pflanzenexperte. Du erhältst ein neues Foto einer Pflanze zusammen mit einer VORHERIGEN Diagnose. Deine Aufgabe ist es, den Fortschritt zu beurteilen.
+export const FOLLOWUP_SYSTEM_PROMPT = `Du bist ein erfahrener Pflanzenexperte. Du erhältst 1-3 neue Fotos einer Pflanze zusammen mit einer VORHERIGEN Diagnose. Deine Aufgabe ist es, den Fortschritt zu beurteilen.
 
 DEINE AUFGABE:
-1. Vergleiche das neue Foto mit der vorherigen Diagnose
+1. Analysiere alle bereitgestellten Fotos und vergleiche den sichtbaren Zustand mit der vorherigen Diagnose
 2. Beurteile ob sich der Zustand verbessert, verschlechtert oder gleich geblieben ist
 3. Passe den Aktionsplan entsprechend an
 
@@ -102,7 +103,7 @@ export function buildUserPrompt(data: QuestionnaireData): string {
     parts.push(`- Luftfeuchtigkeit: ${data.humidityPercent}`);
   }
 
-  parts.push('\nAnalysiere das Foto und erstelle eine Diagnose. Leite fehlende Infos (pH, Temperatur etc.) wenn möglich vom Foto ab.');
+  parts.push('\nAnalysiere alle Fotos zusammen und erstelle eine Diagnose. Leite fehlende Infos (pH, Temperatur etc.) wenn möglich von den Fotos ab.');
 
   return parts.join('\n');
 }
