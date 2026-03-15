@@ -52,8 +52,9 @@ export default function AnalyzingScreen() {
     setAttemptText('');
 
     try {
+      const allUris = imageUris.length > 0 ? imageUris : (imageUri ? [imageUri] : []);
       const { result: diagResult } = await analyzePlant(
-        primaryImage,
+        allUris,
         questionnaire,
         {
           isFollowUp,
@@ -69,11 +70,10 @@ export default function AnalyzingScreen() {
 
       setResult(diagResult);
       const entryId = Date.now().toString();
-      const allUris = imageUris.length > 0 ? imageUris : (imageUri ? [imageUri] : []);
       await saveEntry({
         id: entryId,
         date: new Date().toISOString(),
-        imageUri: primaryImage,
+        imageUri: allUris[0] || '',
         imageUris: allUris,
         questionnaire,
         result: diagResult,
@@ -81,13 +81,16 @@ export default function AnalyzingScreen() {
       });
       if (selectedPlantId) {
         await addEntryToPlant(selectedPlantId, entryId);
+      }
 
-        // Schedule follow-up notification
-        if (diagResult.followUpDays) {
+      // Schedule follow-up notification (with or without plant)
+      if (diagResult.followUpDays) {
+        let plantName = 'deine Pflanze';
+        if (selectedPlantId) {
           const plant = await getPlant(selectedPlantId);
-          const plantName = plant?.name || 'Pflanze';
-          await scheduleFollowUpReminder(plantName, diagResult.followUpDays, entryId);
+          plantName = plant?.name || 'Pflanze';
         }
+        await scheduleFollowUpReminder(plantName, diagResult.followUpDays, entryId);
       }
       router.replace('/results');
     } catch (err: any) {

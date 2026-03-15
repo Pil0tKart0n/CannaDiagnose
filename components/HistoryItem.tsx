@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import { DiagnosisEntry, Severity } from '../types';
+import { DiagnosisEntry, Severity, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
 
 interface HistoryItemProps {
@@ -28,7 +28,7 @@ export default function HistoryItem({ entry, onPress, onDelete }: HistoryItemPro
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.7}>
-      <Image source={{ uri: entry.imageUri }} style={styles.thumbnail} />
+      <Image source={{ uri: getEntryImageUris(entry)[0] || entry.imageUri }} style={styles.thumbnail} />
       <View style={styles.content}>
         <Text style={styles.date}>{dateStr}</Text>
         <Text style={styles.diagnosis} numberOfLines={2}>

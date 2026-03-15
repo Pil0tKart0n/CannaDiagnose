@@ -4,7 +4,7 @@ import { useRouter, useFocusEffect } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import HistoryItem from '../components/HistoryItem';
 import { getEntries, deleteEntry } from '../services/storage';
-import { DiagnosisEntry } from '../types';
+import { DiagnosisEntry, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
@@ -47,13 +47,15 @@ export default function HistoryScreen() {
   };
 
   const handlePress = (entry: DiagnosisEntry) => {
+    const uris = getEntryImageUris(entry);
     setResult(entry.result);
-    setImageUri(entry.imageUri);
+    setImageUri(uris[0] || entry.imageUri);
     router.push({
       pathname: '/results',
       params: {
         historyResult: JSON.stringify(entry.result),
-        historyImage: entry.imageUri,
+        historyImage: uris[0] || entry.imageUri,
+        historyImages: JSON.stringify(uris),
       },
     });
   };

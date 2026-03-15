@@ -6,7 +6,8 @@ import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { getPlant, getEntriesForPlant, deleteEntry } from '../services/storage';
-import { Plant, DiagnosisEntry, Severity } from '../types';
+import { cancelReminder } from '../services/notifications';
+import { Plant, DiagnosisEntry, Severity, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
@@ -55,9 +56,11 @@ export default function PlantDetailScreen() {
     setRefreshing(false);
   };
 
-  const startFollowUp = () => {
+  const startFollowUp = async () => {
     if (!plant || entries.length === 0) return;
     const latest = entries[0];
+    // Cancel the previous follow-up reminder since user is acting on it now
+    await cancelReminder(latest.id);
     diagnosis.reset();
     diagnosis.setSelectedPlantId(plant.id);
     diagnosis.setIsFollowUp(true);
@@ -331,13 +334,17 @@ export default function PlantDetailScreen() {
                 <TouchableOpacity
                   style={styles.entryCard}
                   activeOpacity={0.7}
-                  onPress={() => router.push({
-                    pathname: '/results',
-                    params: {
-                      historyResult: JSON.stringify(entry.result),
-                      historyImage: entry.imageUri,
-                    },
-                  })}
+                  onPress={() => {
+                    const uris = getEntryImageUris(entry);
+                    router.push({
+                      pathname: '/results',
+                      params: {
+                        historyResult: JSON.stringify(entry.result),
+                        historyImage: uris[0] || entry.imageUri,
+                        historyImages: JSON.stringify(uris),
+                      },
+                    });
+                  }}
                   onLongPress={() => handleDeleteEntry(entry.id)}
                 >
                   <View style={styles.entryHeader}>
@@ -352,8 +359,8 @@ export default function PlantDetailScreen() {
                   </View>
 
                   <View style={styles.entryBody}>
-                    {entry.imageUri && (
-                      <Image source={{ uri: entry.imageUri }} style={styles.entryThumb} />
+                    {(getEntryImageUris(entry)[0] || entry.imageUri) && (
+                      <Image source={{ uri: getEntryImageUris(entry)[0] || entry.imageUri }} style={styles.entryThumb} />
                     )}
                     <View style={styles.entryInfo}>
                       <Text style={styles.entryDiagnosis} numberOfLines={2}>

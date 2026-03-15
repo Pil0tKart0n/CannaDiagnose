@@ -13,7 +13,7 @@ import { shareDiagnosis } from '../services/export';
 export default function ResultsScreen() {
   const router = useRouter();
   const { result, imageUri, imageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
-  const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string }>();
+  const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string; historyImages?: string }>();
   const [sharing, setSharing] = useState(false);
 
   const displayResult: DiagnosisResult | null = params.historyResult
@@ -21,7 +21,12 @@ export default function ResultsScreen() {
     : result;
 
   const displayImage = params.historyImage || imageUri;
-  const displayImages = imageUris.length > 0 ? imageUris : (displayImage ? [displayImage] : []);
+  const historyImagesParsed: string[] = params.historyImages ? JSON.parse(params.historyImages) : [];
+  const displayImages = historyImagesParsed.length > 0
+    ? historyImagesParsed
+    : imageUris.length > 0
+      ? imageUris
+      : (displayImage ? [displayImage] : []);
   const isFromHistory = !!params.historyResult;
 
   if (!displayResult) {

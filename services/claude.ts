@@ -204,7 +204,7 @@ export interface AnalyzeResult {
 }
 
 export async function analyzePlant(
-  imageUri: string,
+  imageUris: string | string[],
   questionnaire: QuestionnaireData,
   options?: {
     isFollowUp?: boolean;
@@ -220,6 +220,9 @@ export async function analyzePlant(
     );
   }
 
+  // Normalize to array (backward compatible with single string)
+  const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
+
   // Connectivity check
   const online = await checkConnectivity();
   if (!online) {
@@ -232,17 +235,32 @@ export async function analyzePlant(
     throw err;
   }
 
-  // Read image as base64
-  const base64 = await FileSystem.readAsStringAsync(imageUri, {
-    encoding: FileSystem.EncodingType.Base64,
-  });
+  // Read all images as base64 in parallel
+  const base64Results = await Promise.all(
+    uris.map((uri) =>
+      FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      })
+    )
+  );
 
-  // Determine media type
-  const ext = imageUri.split('.').pop()?.toLowerCase();
-  let mediaType = 'image/jpeg';
-  if (ext === 'png') mediaType = 'image/png';
-  else if (ext === 'webp') mediaType = 'image/webp';
-  else if (ext === 'gif') mediaType = 'image/gif';
+  // Build image content blocks for all images
+  const imageBlocks = uris.map((uri, index) => {
+    const ext = uri.split('.').pop()?.toLowerCase();
+    let mediaType = 'image/jpeg';
+    if (ext === 'png') mediaType = 'image/png';
+    else if (ext === 'webp') mediaType = 'image/webp';
+    else if (ext === 'gif') mediaType = 'image/gif';
+
+    return {
+      type: 'image' as const,
+      source: {
+        type: 'base64' as const,
+        media_type: mediaType,
+        data: base64Results[index],
+      },
+    };
+  });
 
   let userPrompt: string;
   let systemPrompt: string;
@@ -281,14 +299,7 @@ export async function analyzePlant(
             {
               role: 'user',
               content: [
-                {
-                  type: 'image',
-                  source: {
-                    type: 'base64',
-                    media_type: mediaType,
-                    data: base64,
-                  },
-                },
+                ...imageBlocks,
                 {
                   type: 'text',
                   text: userPrompt,
