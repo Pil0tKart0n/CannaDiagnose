@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, ActionStep } from '../types';
-import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt } from '../constants/prompts';
+import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
@@ -383,6 +383,91 @@ export async function analyzePlant(
   const finalErr: any = new Error(lastError?.message ?? 'Analyse fehlgeschlagen.');
   finalErr.apiError = classifyError(lastError);
   throw finalErr;
+}
+
+export async function refineDiagnosis(
+  imageUris: string | string[],
+  previousResult: DiagnosisResult,
+  substrateType: string | null,
+  phValue: string | null,
+  ecValue: string | null,
+): Promise<DiagnosisResult> {
+  const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
+  if (!apiKey) {
+    throw new Error('API Key nicht konfiguriert.');
+  }
+
+  const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
+
+  const online = await checkConnectivity();
+  if (!online) {
+    throw new Error('Keine Internetverbindung.');
+  }
+
+  // Read images as base64
+  const base64Results = await Promise.all(
+    uris.map((uri) =>
+      FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      })
+    )
+  );
+
+  const imageBlocks = uris.map((uri, index) => {
+    const ext = uri.split('.').pop()?.toLowerCase();
+    let mediaType = 'image/jpeg';
+    if (ext === 'png') mediaType = 'image/png';
+    else if (ext === 'webp') mediaType = 'image/webp';
+    else if (ext === 'gif') mediaType = 'image/gif';
+
+    return {
+      type: 'image' as const,
+      source: {
+        type: 'base64' as const,
+        media_type: mediaType,
+        data: base64Results[index],
+      },
+    };
+  });
+
+  const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue);
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 2048,
+      system: REFINE_SYSTEM_PROMPT,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            ...imageBlocks,
+            { type: 'text', text: userPrompt },
+          ],
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`API Fehler: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const content = data.content?.[0]?.text;
+  if (!content) {
+    throw new Error('Keine Antwort von der API erhalten.');
+  }
+
+  const parsed = extractJSON(content);
+  return validateDiagnosisResult(parsed);
 }
 
 function delay(ms: number): Promise<void> {
