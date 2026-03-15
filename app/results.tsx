@@ -12,6 +12,92 @@ import { shareDiagnosis } from '../services/export';
 import { refineDiagnosis } from '../services/claude';
 import { getFertilizerNames } from '../constants/fertilizers';
 
+// ── Color correction mapping (local, no API cost) ──────────────────
+const KNOWN_COLORS: { label: string; keywords: string[]; correction: { diagnosis: string; explanation: string; severity: 'niedrig' | 'mittel' | 'hoch' | 'kritisch' } }[] = [
+  {
+    label: 'Gelb (gleichmäßig)',
+    keywords: ['gelb', 'gelblich', 'hellgelb', 'vergilbt', 'vergilbung'],
+    correction: {
+      diagnosis: 'Stickstoff(N)-Mangel – gleichmäßige Vergilbung des gesamten Blattes, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt eine gleichmäßige Gelbfärbung ohne auffälliges Adernmuster. Dies ist das klassische Bild eines Stickstoff-Mangels: Das gesamte Blatt wird blass/gelb, die Pflanze mobilisiert N aus älteren Blättern. Bei leicht grüneren Adern handelt es sich um den normalen Verlauf – die Adern vergilben zuletzt.',
+      severity: 'hoch',
+    },
+  },
+  {
+    label: 'Gelb (Adern grün)',
+    keywords: ['adern grün', 'adern gruen', 'interveinal', 'fischgräte', 'fischgraete'],
+    correction: {
+      diagnosis: 'Magnesium(Mg)-Mangel – intervenale Chlorose mit deutlich grünen Adern, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt deutlich grüne Blattadern bei gelbem Gewebe dazwischen – das klassische Fischgräten-Muster eines Mg-Mangels. In Kokos häufig durch pH-Drift unter 5.8 oder fehlende CalMag-Supplementierung verursacht.',
+      severity: 'hoch',
+    },
+  },
+  {
+    label: 'Violett / Purpur',
+    keywords: ['violett', 'purpur', 'lila', 'purple', 'violet'],
+    correction: {
+      diagnosis: 'Phosphor(P)-Mangel – violette/purpurne Verfärbung, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt violette/purpurne Verfärbungen. Dies deutet auf Phosphor-Mangel hin. P-Mangel zeigt sich typisch durch dunkelgrüne Blätter mit violettem Schimmer, purpurne Stängel/Blattstiele, und violette Blattränder. Kann auch durch Kälte (<15°C) oder Genetik verstärkt werden.',
+      severity: 'hoch',
+    },
+  },
+  {
+    label: 'Braun / Trocken',
+    keywords: ['braun', 'rostbraun', 'rostfarben', 'nekrose', 'nekrotisch', 'trocken', 'knusprig'],
+    correction: {
+      diagnosis: 'Kalium(K)-Mangel oder Nährstoffbrand – braune, trockene Nekrosen, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt braune, trockene Verfärbungen (totes Gewebe). An den Blatträndern von außen nach innen wandernd deutet dies auf K-Mangel hin. Nur an den äußersten Blattspitzen = Nährstoffbrand (Überdüngung). Prüfe EC-Wert und pH.',
+      severity: 'hoch',
+    },
+  },
+  {
+    label: 'Weiß / Bleich',
+    keywords: ['weiß', 'weiss', 'bleich', 'gebleicht', 'albino'],
+    correction: {
+      diagnosis: 'Lichtbrand oder Eisen(Fe)-Mangel – gebleichte/weiße Blätter, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt weiße/gebleichte Blattbereiche. An oberen/lampennahen Blättern = Lichtbrand (Lampe höher hängen oder dimmen). An neuen Blättern generell = Fe-Mangel (pH prüfen, oft >7.0). Beides erfordert schnelles Handeln.',
+      severity: 'hoch',
+    },
+  },
+  {
+    label: 'Dunkelgrün',
+    keywords: ['dunkelgrün', 'dunkelgruen', 'sattgrün', 'sattgruen', 'tiefgrün', 'tiefgruen'],
+    correction: {
+      diagnosis: 'Stickstoff(N)-Überschuss – unnatürlich dunkelgrüne Blätter, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt unnatürlich dunkelgrüne Blätter. In Kombination mit nach unten gekrallten Blattspitzen ("Eagle Claw") = klassische N-Toxizität. Sofort Düngung reduzieren und mit reinem Wasser spülen.',
+      severity: 'mittel',
+    },
+  },
+  {
+    label: 'Rot / Rötlich',
+    keywords: ['rot', 'rötlich', 'roetlich', 'rötliche', 'roetliche'],
+    correction: {
+      diagnosis: 'Phosphor(P)-Mangel oder Kältestress – rötliche Verfärbungen, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt rötliche Verfärbungen. Rote/rötliche Stängel und Blattteile deuten auf P-Mangel oder Kältestress (<15°C nachts) hin. Kann auch genetisch bedingt sein. Prüfe Nachttemperaturen und P-Versorgung.',
+      severity: 'mittel',
+    },
+  },
+  {
+    label: 'Silbrig / Glänzend',
+    keywords: ['silbrig', 'silber', 'glänzend', 'glaenzend', 'schimmernd'],
+    correction: {
+      diagnosis: 'Thripse-Befall – silbrige/glänzende Spuren auf Blättern, bestätigt durch Farbangabe des Growers.',
+      explanation: 'Der Grower bestätigt silbrige/glänzende Verfärbungen. Dies sind typische Fraßspuren von Thripsen – die Schädlinge raspeln die obere Zellschicht ab, was silbrige Streifen hinterlässt. Oft begleitet von kleinen schwarzen Kotpunkten. Sofortige Behandlung mit Neem-Öl oder Raubmilben empfohlen.',
+      severity: 'hoch',
+    },
+  },
+];
+
+function applyColorCorrection(color: typeof KNOWN_COLORS[number], currentResult: DiagnosisResult): DiagnosisResult {
+  return {
+    ...currentResult,
+    primaryDiagnosis: color.correction.diagnosis,
+    rootCauseAnalysis: color.correction.explanation + '\n\n(Ursprüngliche Diagnose: ' + currentResult.primaryDiagnosis + ')',
+    severity: color.correction.severity,
+    confidence: Math.max(currentResult.confidence, 0.80),
+  };
+}
+
 export default function ResultsScreen() {
   const router = useRouter();
   const { result, setResult, questionnaire, imageUri, imageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
@@ -25,10 +111,21 @@ export default function ResultsScreen() {
   const [fertilizerInput, setFertilizerInput] = useState<string | null>(null);
   const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
   const [fertilizerSearch, setFertilizerSearch] = useState('');
+  const [colorInput, setColorInput] = useState('');
+  const [selectedColor, setSelectedColor] = useState<typeof KNOWN_COLORS[number] | null>(null);
+  const [colorCorrected, setColorCorrected] = useState(false);
   const scrollRef = useRef<ScrollView>(null);
   const refineYRef = useRef(0);
 
   const [refinedResult, setRefinedResult] = useState<DiagnosisResult | null>(null);
+
+  // Color suggestions based on input
+  const colorSuggestions = colorInput.length >= 2
+    ? KNOWN_COLORS.filter((c) =>
+        c.keywords.some((kw) => kw.includes(colorInput.toLowerCase())) ||
+        c.label.toLowerCase().includes(colorInput.toLowerCase())
+      )
+    : [];
 
   const displayResult: DiagnosisResult | null = refinedResult
     ? refinedResult
@@ -60,6 +157,24 @@ export default function ResultsScreen() {
   const startNew = () => {
     reset();
     router.replace('/');
+  };
+
+  const handleColorSelect = (color: typeof KNOWN_COLORS[number]) => {
+    setSelectedColor(color);
+    setColorInput('');
+    // Apply correction locally – no API call
+    const corrected = applyColorCorrection(color, displayResult!);
+    setRefinedResult(corrected);
+    setColorCorrected(true);
+  };
+
+  const handleColorRemove = () => {
+    setSelectedColor(null);
+    setColorCorrected(false);
+    // Revert to original result
+    if (!refined) {
+      setRefinedResult(null);
+    }
   };
 
   const handleRefine = async () => {
@@ -151,7 +266,7 @@ export default function ResultsScreen() {
       )}
 
       {/* Refine Card */}
-      {!isFromHistory && !refined && (
+      {!isFromHistory && !(refined && colorCorrected) && (
         <View
           style={styles.refineCard}
           onLayout={(e) => { refineYRef.current = e.nativeEvent.layout.y; }}
@@ -163,7 +278,7 @@ export default function ResultsScreen() {
           >
             <View style={styles.refineHeaderLeft}>
               <Ionicons name="flask-outline" size={18} color={colors.accent} />
-              <Text style={styles.refineTitle}>pH & EC nachtragen</Text>
+              <Text style={styles.refineTitle}>Diagnose verfeinern</Text>
             </View>
             <Ionicons
               name={refineOpen ? 'chevron-up' : 'chevron-down'}
@@ -175,8 +290,53 @@ export default function ResultsScreen() {
           {refineOpen && (
             <View style={styles.refineBody}>
               <Text style={styles.refineHint}>
-                Für eine präzisere Diagnose — miss jetzt pH und EC und trag die Werte hier ein.
+                Farbe korrigieren oder pH/EC nachtragen für eine präzisere Diagnose.
               </Text>
+
+              {/* Color correction field */}
+              <View style={styles.refineInputGroup}>
+                <Text style={styles.refineLabel}>Blattfarbe</Text>
+                {selectedColor ? (
+                  <View style={styles.colorChipRow}>
+                    <View style={styles.colorChip}>
+                      <Text style={styles.colorChipText}>{selectedColor.label}</Text>
+                      <TouchableOpacity onPress={handleColorRemove} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                        <Ionicons name="close-circle" size={18} color={colors.textMuted} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ) : (
+                  <>
+                    <TextInput
+                      style={styles.refineInput}
+                      placeholder="z.B. violett, braun, gelb..."
+                      placeholderTextColor={colors.textMuted}
+                      value={colorInput}
+                      onChangeText={setColorInput}
+                      autoCapitalize="none"
+                      onFocus={() => {
+                        setTimeout(() => {
+                          scrollRef.current?.scrollTo({ y: refineYRef.current, animated: true });
+                        }, 300);
+                      }}
+                    />
+                    {colorSuggestions.length > 0 && (
+                      <View style={styles.colorSuggestions}>
+                        {colorSuggestions.map((c) => (
+                          <TouchableOpacity
+                            key={c.label}
+                            onPress={() => handleColorSelect(c)}
+                            style={styles.colorSuggestionItem}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={styles.colorSuggestionText}>{c.label}</Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    )}
+                  </>
+                )}
+              </View>
 
               <View style={styles.refineInputRow}>
                 <View style={styles.refineInputGroup}>
@@ -298,10 +458,16 @@ export default function ResultsScreen() {
         </View>
       )}
 
-      {refined && (
+      {(refined || colorCorrected) && (
         <View style={styles.refinedBadge}>
           <Ionicons name="checkmark-circle" size={16} color={colors.accent} />
-          <Text style={styles.refinedBadgeText}>Diagnose verfeinert mit pH/EC-Daten</Text>
+          <Text style={styles.refinedBadgeText}>
+            {colorCorrected && !refined
+              ? 'Diagnose angepasst basierend auf Farbangabe'
+              : refined && colorCorrected
+                ? 'Diagnose verfeinert mit Farbangabe + pH/EC-Daten'
+                : 'Diagnose verfeinert mit pH/EC-Daten'}
+          </Text>
         </View>
       )}
 
@@ -538,6 +704,46 @@ const styles = StyleSheet.create({
   fertilizerOptionTextSelected: {
     color: colors.accent,
     fontWeight: '600',
+  },
+  colorChipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  colorChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.accentGlow,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+  },
+  colorChipText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.accent,
+  },
+  colorSuggestions: {
+    backgroundColor: colors.backgroundElevated,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.borderAccent,
+    marginTop: 4,
+    overflow: 'hidden',
+  },
+  colorSuggestionItem: {
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  colorSuggestionText: {
+    fontSize: 14,
+    color: colors.text,
+    fontWeight: '500',
   },
   refinedBadge: {
     flexDirection: 'row',
