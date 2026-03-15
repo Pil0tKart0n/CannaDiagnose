@@ -12,6 +12,7 @@ export default function AddPlantScreen() {
   const router = useRouter();
   const [name, setName] = useState('');
   const [strain, setStrain] = useState('');
+  const [showExtras, setShowExtras] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   const pickImage = async () => {
@@ -61,26 +62,36 @@ export default function AddPlantScreen() {
           )}
         </TouchableOpacity>
 
-        {/* Name */}
-        <Text style={styles.label}>Name *</Text>
+        {/* Name / Sorte */}
+        <Text style={styles.label}>Sorte / Name</Text>
         <TextInput
           style={styles.input}
           value={name}
           onChangeText={setName}
-          placeholder="z.B. Pflanze #1, Northern Lights..."
+          placeholder="z.B. Northern Lights, Pflanze #1..."
           placeholderTextColor={colors.textMuted}
           autoFocus
         />
 
-        {/* Strain */}
-        <Text style={styles.label}>Sorte (optional)</Text>
-        <TextInput
-          style={styles.input}
-          value={strain}
-          onChangeText={setStrain}
-          placeholder="z.B. White Widow, Amnesia Haze..."
-          placeholderTextColor={colors.textMuted}
-        />
+        {/* Optional extras toggle */}
+        {!showExtras && (
+          <TouchableOpacity style={styles.extrasToggle} onPress={() => setShowExtras(true)} activeOpacity={0.7}>
+            <Text style={styles.extrasToggleText}>+ Weitere Infos hinzufügen</Text>
+          </TouchableOpacity>
+        )}
+
+        {showExtras && (
+          <>
+            <Text style={styles.label}>Notiz (optional)</Text>
+            <TextInput
+              style={styles.input}
+              value={strain}
+              onChangeText={setStrain}
+              placeholder="z.B. Zelt 2, Fensterbank, Autoflower..."
+              placeholderTextColor={colors.textMuted}
+            />
+          </>
+        )}
       </ScrollView>
 
       <View style={styles.bottomBar}>
@@ -142,6 +153,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     marginBottom: 20,
+  },
+  extrasToggle: {
+    paddingVertical: 12,
+    marginBottom: 8,
+  },
+  extrasToggleText: {
+    color: colors.accent,
+    fontSize: 14,
+    fontWeight: '500',
   },
 
   // Bottom
