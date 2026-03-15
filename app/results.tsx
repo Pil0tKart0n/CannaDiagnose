@@ -25,6 +25,7 @@ export default function ResultsScreen() {
   const [fertilizerInput, setFertilizerInput] = useState<string | null>(null);
   const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
   const [fertilizerSearch, setFertilizerSearch] = useState('');
+  const [colorCorrection, setColorCorrection] = useState<string | null>(null);
   const scrollRef = useRef<ScrollView>(null);
   const refineYRef = useRef(0);
 
@@ -63,8 +64,8 @@ export default function ResultsScreen() {
   };
 
   const handleRefine = async () => {
-    if (!phInput && !ecInput) {
-      Alert.alert('Fehlende Daten', 'Bitte gib mindestens einen pH- oder EC-Wert ein.');
+    if (!phInput && !ecInput && !colorCorrection) {
+      Alert.alert('Fehlende Daten', 'Bitte gib mindestens einen Wert ein oder korrigiere die Verfärbung.');
       return;
     }
     setRefineLoading(true);
@@ -78,6 +79,7 @@ export default function ResultsScreen() {
         ecInput || null,
         fertilizerInput,
         questionnaire.plantAgeWeeks,
+        colorCorrection,
       );
       setRefinedResult(refined);
       setRefined(true);
@@ -163,7 +165,7 @@ export default function ResultsScreen() {
           >
             <View style={styles.refineHeaderLeft}>
               <Ionicons name="flask-outline" size={18} color={colors.accent} />
-              <Text style={styles.refineTitle}>pH & EC nachtragen</Text>
+              <Text style={styles.refineTitle}>Analyse verfeinern</Text>
             </View>
             <Ionicons
               name={refineOpen ? 'chevron-up' : 'chevron-down'}
@@ -210,6 +212,44 @@ export default function ResultsScreen() {
                       }, 300);
                     }}
                   />
+                </View>
+              </View>
+
+              {/* Color correction */}
+              <View style={styles.refineInputGroup}>
+                <Text style={styles.refineLabel}>Verfärbung korrigieren (optional)</Text>
+                <Text style={[styles.refineHint, { marginBottom: 6 }]}>
+                  Wie sehen die dunklen Stellen am Blatt aus?
+                </Text>
+                <View style={styles.colorRow}>
+                  <TouchableOpacity
+                    onPress={() => setColorCorrection(colorCorrection === 'violett' ? null : 'violett')}
+                    style={[
+                      styles.colorOption,
+                      colorCorrection === 'violett' && styles.colorOptionSelected,
+                    ]}
+                    activeOpacity={0.7}
+                  >
+                    <View style={[styles.colorDot, { backgroundColor: '#7B2D8E' }]} />
+                    <Text style={[
+                      styles.colorOptionText,
+                      colorCorrection === 'violett' && styles.colorOptionTextSelected,
+                    ]}>Violett / Purpur</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setColorCorrection(colorCorrection === 'braun' ? null : 'braun')}
+                    style={[
+                      styles.colorOption,
+                      colorCorrection === 'braun' && styles.colorOptionSelected,
+                    ]}
+                    activeOpacity={0.7}
+                  >
+                    <View style={[styles.colorDot, { backgroundColor: '#8B4513' }]} />
+                    <Text style={[
+                      styles.colorOptionText,
+                      colorCorrection === 'braun' && styles.colorOptionTextSelected,
+                    ]}>Braun / Trocken</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -538,6 +578,39 @@ const styles = StyleSheet.create({
   fertilizerOptionTextSelected: {
     color: colors.accent,
     fontWeight: '600',
+  },
+  colorRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  colorOption: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: colors.backgroundElevated,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 12,
+  },
+  colorOptionSelected: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accentGlow,
+  },
+  colorDot: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+  },
+  colorOptionText: {
+    fontSize: 13,
+    color: colors.text,
+    fontWeight: '500',
+  },
+  colorOptionTextSelected: {
+    color: colors.accent,
+    fontWeight: '700',
   },
   refinedBadge: {
     flexDirection: 'row',
