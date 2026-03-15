@@ -254,28 +254,12 @@ export function buildRefinePrompt(
   ecValue: string | null,
   fertilizerType?: string | null,
   plantAge?: string | null,
-  colorCorrection?: string | null,
 ): string {
   const parts: string[] = ['NACHTRÄGLICH GEMESSENE WERTE:\n'];
 
   if (phValue) parts.push('- pH-Wert: ' + phValue);
   if (ecValue) parts.push('- EC/PPM: ' + ecValue);
   if (substrateType) parts.push('- Substrat: ' + substrateType);
-
-  if (colorCorrection) {
-    parts.push('');
-    parts.push('FARBKORREKTUR VOM GROWER (WICHTIG – hat Vorrang vor der Bildanalyse!):');
-    if (colorCorrection === 'violett') {
-      parts.push('- Der Grower bestätigt: Die Verfärbungen an den Blättern sind VIOLETT/PURPUR, NICHT braun.');
-      parts.push('- Das Gewebe ist noch lebendig, nicht trocken oder knusprig.');
-      parts.push('- → Dies deutet auf PHOSPHOR(P)-MANGEL hin (oder Kälte/Genetik), NICHT auf Kalium-Mangel!');
-      parts.push('- Korrigiere deine Diagnose entsprechend. Empfehle P-Supplementierung, NICHT K.');
-    } else if (colorCorrection === 'braun') {
-      parts.push('- Der Grower bestätigt: Die Verfärbungen an den Blättern sind BRAUN und TROCKEN/KNUSPRIG.');
-      parts.push('- Das Gewebe ist abgestorben (Nekrose).');
-      parts.push('- → Dies bestätigt KALIUM(K)-MANGEL oder Nährstoffbrand.');
-    }
-  }
 
   parts.push('\nVORHERIGE DIAGNOSE:');
   parts.push('- Diagnose: ' + previousResult.primaryDiagnosis);

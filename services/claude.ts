@@ -393,7 +393,6 @@ export async function refineDiagnosis(
   ecValue: string | null,
   fertilizerType?: string | null,
   plantAge?: string | null,
-  colorCorrection?: string | null,
 ): Promise<DiagnosisResult> {
   const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
   if (!apiKey) {
@@ -433,7 +432,7 @@ export async function refineDiagnosis(
     };
   });
 
-  const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue, fertilizerType, plantAge, colorCorrection);
+  const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue, fertilizerType, plantAge);
 
   // Try up to 2 times
   for (let attempt = 1; attempt <= 2; attempt++) {
