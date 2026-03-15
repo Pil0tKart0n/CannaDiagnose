@@ -24,6 +24,7 @@ export default function ResultsScreen() {
   const [ecInput, setEcInput] = useState('');
   const [fertilizerInput, setFertilizerInput] = useState<string | null>(null);
   const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
+  const [fertilizerSearch, setFertilizerSearch] = useState('');
 
   const [refinedResult, setRefinedResult] = useState<DiagnosisResult | null>(null);
 
@@ -191,12 +192,15 @@ export default function ResultsScreen() {
               <View style={styles.refineInputGroup}>
                 <Text style={styles.refineLabel}>Dünger (optional)</Text>
                 <TouchableOpacity
-                  onPress={() => setFertilizerPickerOpen(!fertilizerPickerOpen)}
+                  onPress={() => {
+                    setFertilizerPickerOpen(!fertilizerPickerOpen);
+                    if (!fertilizerPickerOpen) setFertilizerSearch('');
+                  }}
                   style={styles.refineSelect}
                   activeOpacity={0.7}
                 >
                   <Text style={[styles.refineSelectText, !fertilizerInput && { color: colors.textMuted }]}>
-                    {fertilizerInput || 'Dünger auswählen...'}
+                    {fertilizerInput || 'Dünger suchen & auswählen...'}
                   </Text>
                   <Ionicons
                     name={fertilizerPickerOpen ? 'chevron-up' : 'chevron-down'}
@@ -206,13 +210,24 @@ export default function ResultsScreen() {
                 </TouchableOpacity>
                 {fertilizerPickerOpen && (
                   <View style={styles.fertilizerList}>
+                    <TextInput
+                      style={styles.fertilizerSearchInput}
+                      placeholder="Dünger suchen..."
+                      placeholderTextColor={colors.textMuted}
+                      value={fertilizerSearch}
+                      onChangeText={setFertilizerSearch}
+                      autoFocus
+                    />
                     <ScrollView nestedScrollEnabled style={styles.fertilizerScroll}>
-                      {getFertilizerNames().map((name) => (
+                      {getFertilizerNames()
+                        .filter((name) => name.toLowerCase().includes(fertilizerSearch.toLowerCase()))
+                        .map((name) => (
                         <TouchableOpacity
                           key={name}
                           onPress={() => {
                             setFertilizerInput(name === 'Anderer Dünger' || name === 'Kein Dünger / nur Wasser' ? null : name);
                             setFertilizerPickerOpen(false);
+                            setFertilizerSearch('');
                           }}
                           style={[
                             styles.fertilizerOption,
@@ -452,6 +467,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.text,
     flex: 1,
+  },
+  fertilizerSearchInput: {
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    fontSize: 14,
+    color: colors.text,
   },
   fertilizerList: {
     backgroundColor: colors.backgroundElevated,
