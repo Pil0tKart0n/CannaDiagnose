@@ -108,7 +108,7 @@ export default function ResultsScreen() {
   const [refined, setRefined] = useState(false);
   const [phInput, setPhInput] = useState('');
   const [ecInput, setEcInput] = useState('');
-  const [fertilizerInput, setFertilizerInput] = useState<string | null>(null);
+  const [fertilizerInput, setFertilizerInput] = useState<string | null>(questionnaire.fertilizerType || null);
   const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
   const [fertilizerSearch, setFertilizerSearch] = useState('');
   const [colorInput, setColorInput] = useState('');
@@ -375,7 +375,7 @@ export default function ResultsScreen() {
 
               {/* Fertilizer selector */}
               <View style={styles.refineInputGroup}>
-                <Text style={styles.refineLabel}>Dünger (optional)</Text>
+                <Text style={styles.refineLabel}>Dünger{questionnaire.fertilizerType ? ' (aus Fragebogen)' : ' (optional)'}</Text>
                 <TouchableOpacity
                   onPress={() => {
                     setFertilizerPickerOpen(!fertilizerPickerOpen);
