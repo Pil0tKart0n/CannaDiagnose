@@ -549,47 +549,60 @@ function postProcessRefineResult(
     ? (phNum >= 5.8 && phNum <= 6.2)
     : (phNum >= 6.0 && phNum <= 7.0);
 
-  if (!phOptimal) return result; // pH is not optimal, lockout warnings may be valid
+  if (!phOptimal) return result; // pH is not optimal, warnings may be valid
 
-  // pH is optimal → lockout is impossible → clean it up
-  const lockoutPatterns = /(?:mögliche[rnms]?\s*)?(?:Ca|Mg|Ca\/Mg|Mg\/Ca)[\s-]*Lockout|Lockout[\s-]*(?:für\s+)?(?:Ca|Mg)|pH[\s-]*Lockout|Nährstoff[\s-]*Lockout|beginnende[rnms]?\s*(?:Ca|Mg|Ca\/Mg)[\s-]*Lockout/gi;
+  // pH is optimal → NO negative pH mentions allowed
+  // Catch: lockout, einschränken, grenzwertig, zu niedrig, unteres Ende, etc.
+  const negativePHPatterns = /lockout|einschränk|grenzwertig|zu niedrig|unteres ende|am minimum|knapp|begünstigt.*lockout|mg\/ca.*aufnahme|ca\/mg.*aufnahme|kationen.*aufnahme.*einschränk/i;
+
+  const hasBadPH = (text: string): boolean => negativePHPatterns.test(text);
 
   const cleanText = (text: string): string => {
-    // Remove sentences containing lockout when pH is optimal
-    return text
-      .split(/(?<=[.!])\s+/)
-      .filter(sentence => !lockoutPatterns.test(sentence))
-      .join(' ')
+    // Remove sentences that negatively mention pH when it's optimal
+    const sentences = text.split(/(?<=[.!?])\s+/);
+    const cleaned = sentences.filter(sentence => {
+      // Only filter sentences that mention pH AND have negative patterns
+      const mentionsPH = /ph\s*[\d.,]|ph-|ph\s+von|ph\s+wert|ph\s+ist/i.test(sentence);
+      if (mentionsPH && hasBadPH(sentence)) return false;
+      // Also filter pure lockout sentences
+      if (/lockout/i.test(sentence)) return false;
+      return true;
+    });
+    return cleaned.join(' ').replace(/\s{2,}/g, ' ').trim();
+  };
+
+  // Clean primary diagnosis
+  if (hasBadPH(result.primaryDiagnosis)) {
+    // Remove the pH part from primary diagnosis
+    result.primaryDiagnosis = result.primaryDiagnosis
+      .replace(/,?\s*kombiniert mit[^.]*pH[^.]*\./i, '.')
+      .replace(/,?\s*kombiniert mit[^.]*pH[^,]*/i, '')
+      .replace(/,?\s*(?:und|wobei|zusätzlich)[^.]*pH[^.]*einschränk[^.]*\.?/i, '.')
       .replace(/\s{2,}/g, ' ')
+      .replace(/\.\./g, '.')
       .trim();
-  };
-
-  // Reset regex lastIndex between uses
-  const hasLockout = (text: string): boolean => {
-    return /lockout/i.test(text);
-  };
-
-  if (hasLockout(result.primaryDiagnosis)) {
-    result.primaryDiagnosis = cleanText(result.primaryDiagnosis);
-    // If primary diagnosis became too short, keep a sensible fallback
-    if (result.primaryDiagnosis.length < 20) {
-      result.primaryDiagnosis = result.primaryDiagnosis || 'Diagnose basierend auf EC- und pH-Analyse.';
-    }
   }
 
-  if (hasLockout(result.rootCauseAnalysis)) {
+  // Clean root cause analysis
+  if (hasBadPH(result.rootCauseAnalysis)) {
     result.rootCauseAnalysis = cleanText(result.rootCauseAnalysis);
   }
 
-  // Clean contributing factors
-  result.contributingFactors = result.contributingFactors
-    .filter(f => !hasLockout(f.factor))
-    .map(f => ({
-      ...f,
-      impact: hasLockout(f.impact) ? cleanText(f.impact) : f.impact,
-    }));
+  // Clean contributing factors - remove any factor that negatively mentions pH
+  result.contributingFactors = result.contributingFactors.filter(f => {
+    const factorText = f.factor + ' ' + f.impact;
+    // Remove factors about pH being problematic when it's optimal
+    if (/ph/i.test(f.factor) && hasBadPH(factorText)) return false;
+    if (/lockout/i.test(factorText)) return false;
+    return true;
+  });
 
-  console.log('[CannaDiagnose] Post-processed: removed lockout mentions (pH ' + phValue + ' is optimal)');
+  // Ensure we still have contributing factors
+  if (result.contributingFactors.length === 0) {
+    result.contributingFactors = [{ factor: 'Weitere Beobachtung', impact: 'Symptome nach EC-Korrektur beobachten' }];
+  }
+
+  console.log('[CannaDiagnose] Post-processed: removed negative pH mentions (pH ' + phValue + ' is optimal)');
 
   return result;
 }

@@ -575,7 +575,8 @@ export function buildRefinePrompt(
     }
   }
 
-  // Add pH evaluation
+  // Add pH evaluation - ONLY when pH is NOT optimal.
+  // When pH IS optimal, we say NOTHING about it to prevent the AI from inventing problems.
   if (phValue && substrateType) {
     const phNum = parseFloat(phValue);
     if (!isNaN(phNum)) {
@@ -583,20 +584,21 @@ export function buildRefinePrompt(
       const isHydro = substrateType.toLowerCase().includes('hydro') || substrateType.toLowerCase().includes('dwc') || substrateType.toLowerCase().includes('aero');
       if (isKokos || isHydro) {
         if (phNum >= 5.8 && phNum <= 6.2) {
-          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist OPTIMAL für ' + substrateType + ' (Bereich 5.8–6.2). Ein pH-Lockout als Ursache für Mg/Ca-Mangel ist damit AUSGESCHLOSSEN. Wenn die Erstdiagnose auf pH-Lockout basierte, muss sie KORRIGIERT werden!');
+          // pH is optimal → say NOTHING detailed, just a short "ok"
+          parts.push('\n✅ pH ' + phValue + ': optimal. Kein pH-Problem. Erwähne pH NICHT als Problemfaktor in deiner Antwort.');
         } else if (phNum < 5.8) {
-          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU NIEDRIG für ' + substrateType + ' (Minimum 5.8). pH-Lockout für Mg/Ca ist WAHRSCHEINLICH.');
+          parts.push('\n⚠️ pH-PROBLEM: pH ' + phValue + ' ist ZU NIEDRIG für ' + substrateType + ' (Minimum 5.8). Mg/Ca können nicht aufgenommen werden.');
         } else {
-          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU HOCH für ' + substrateType + ' (Maximum 6.2). Fe/Mn-Lockout möglich.');
+          parts.push('\n⚠️ pH-PROBLEM: pH ' + phValue + ' ist ZU HOCH für ' + substrateType + ' (Maximum 6.2). Fe/Mn werden blockiert.');
         }
       } else {
         // Erde
         if (phNum >= 6.0 && phNum <= 7.0) {
-          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist OPTIMAL für Erde (Bereich 6.0–7.0). pH-Lockout ist AUSGESCHLOSSEN.');
+          parts.push('\n✅ pH ' + phValue + ': optimal. Kein pH-Problem. Erwähne pH NICHT als Problemfaktor in deiner Antwort.');
         } else if (phNum < 6.0) {
-          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU NIEDRIG für Erde (Minimum 6.0). Ca/Mg/P-Lockout möglich.');
+          parts.push('\n⚠️ pH-PROBLEM: pH ' + phValue + ' ist ZU NIEDRIG für Erde (Minimum 6.0). Ca/Mg/P werden blockiert.');
         } else {
-          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU HOCH für Erde (Maximum 7.0). Fe/Mn/Zn-Lockout möglich.');
+          parts.push('\n⚠️ pH-PROBLEM: pH ' + phValue + ' ist ZU HOCH für Erde (Maximum 7.0). Fe/Mn/Zn werden blockiert.');
         }
       }
     }
