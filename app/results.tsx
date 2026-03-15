@@ -10,6 +10,7 @@ import { useDiagnosis } from './_layout';
 import { DiagnosisResult } from '../types';
 import { shareDiagnosis } from '../services/export';
 import { refineDiagnosis } from '../services/claude';
+import { getFertilizerNames } from '../constants/fertilizers';
 
 export default function ResultsScreen() {
   const router = useRouter();
@@ -21,6 +22,8 @@ export default function ResultsScreen() {
   const [refined, setRefined] = useState(false);
   const [phInput, setPhInput] = useState('');
   const [ecInput, setEcInput] = useState('');
+  const [fertilizerInput, setFertilizerInput] = useState<string | null>(null);
+  const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
 
   const [refinedResult, setRefinedResult] = useState<DiagnosisResult | null>(null);
 
@@ -70,7 +73,7 @@ export default function ResultsScreen() {
         questionnaire.substrateType,
         phInput || null,
         ecInput || null,
-        questionnaire.fertilizerType,
+        fertilizerInput,
         questionnaire.plantAgeWeeks,
       );
       setRefinedResult(refined);
@@ -182,6 +185,52 @@ export default function ResultsScreen() {
                     onChangeText={setEcInput}
                   />
                 </View>
+              </View>
+
+              {/* Fertilizer selector */}
+              <View style={styles.refineInputGroup}>
+                <Text style={styles.refineLabel}>Dünger (optional)</Text>
+                <TouchableOpacity
+                  onPress={() => setFertilizerPickerOpen(!fertilizerPickerOpen)}
+                  style={styles.refineSelect}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.refineSelectText, !fertilizerInput && { color: colors.textMuted }]}>
+                    {fertilizerInput || 'Dünger auswählen...'}
+                  </Text>
+                  <Ionicons
+                    name={fertilizerPickerOpen ? 'chevron-up' : 'chevron-down'}
+                    size={16}
+                    color={colors.textMuted}
+                  />
+                </TouchableOpacity>
+                {fertilizerPickerOpen && (
+                  <View style={styles.fertilizerList}>
+                    <ScrollView nestedScrollEnabled style={styles.fertilizerScroll}>
+                      {getFertilizerNames().map((name) => (
+                        <TouchableOpacity
+                          key={name}
+                          onPress={() => {
+                            setFertilizerInput(name === 'Anderer Dünger' || name === 'Kein Dünger / nur Wasser' ? null : name);
+                            setFertilizerPickerOpen(false);
+                          }}
+                          style={[
+                            styles.fertilizerOption,
+                            fertilizerInput === name && styles.fertilizerOptionSelected,
+                          ]}
+                          activeOpacity={0.7}
+                        >
+                          <Text style={[
+                            styles.fertilizerOptionText,
+                            fertilizerInput === name && styles.fertilizerOptionTextSelected,
+                          ]}>
+                            {name}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
+                )}
               </View>
 
               <TouchableOpacity
@@ -388,6 +437,49 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: colors.textOnAccent,
+  },
+  refineSelect: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.backgroundElevated,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 12,
+  },
+  refineSelectText: {
+    fontSize: 14,
+    color: colors.text,
+    flex: 1,
+  },
+  fertilizerList: {
+    backgroundColor: colors.backgroundElevated,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginTop: 4,
+    overflow: 'hidden',
+  },
+  fertilizerScroll: {
+    maxHeight: 180,
+  },
+  fertilizerOption: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  fertilizerOptionSelected: {
+    backgroundColor: colors.accentGlow,
+  },
+  fertilizerOptionText: {
+    fontSize: 14,
+    color: colors.text,
+  },
+  fertilizerOptionTextSelected: {
+    color: colors.accent,
+    fontWeight: '600',
   },
   refinedBadge: {
     flexDirection: 'row',
