@@ -538,7 +538,7 @@ function postProcessRefineResult(
 ): DiagnosisResult {
   if (!phValue || !substrateType) return result;
 
-  const phNum = parseFloat(phValue);
+  const phNum = parseFloat(phValue.replace(',', '.'));
   if (isNaN(phNum)) return result;
 
   const sub = (substrateType || '').toLowerCase();

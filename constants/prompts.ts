@@ -1,6 +1,11 @@
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import { getFertilizerContext, FERTILIZER_PROFILES } from './fertilizers';
 
+/** Parse a number that may use comma as decimal separator (German format) */
+function parseNum(value: string): number {
+  return parseFloat(value.replace(',', '.'));
+}
+
 /**
  * Compares user's EC value against the fertilizer manufacturer's recommended range.
  * Returns a clear evaluation string that tells the AI whether EC is too low/high/ok.
@@ -9,7 +14,7 @@ function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | 
   const profile = FERTILIZER_PROFILES[fertilizerName];
   if (!profile) return '';
 
-  const ecNum = parseFloat(ecValue);
+  const ecNum = parseNum(ecValue);
   if (isNaN(ecNum)) return '';
 
   // Determine the recommended range for the plant's age
@@ -102,7 +107,7 @@ function getECState(ecValue: string | null, fertilizerName: string | null, plant
   if (!ecValue || !fertilizerName) return null;
   const profile = FERTILIZER_PROFILES[fertilizerName];
   if (!profile) return null;
-  const ecNum = parseFloat(ecValue);
+  const ecNum = parseNum(ecValue);
   if (isNaN(ecNum)) return null;
 
   // Get recommended range
@@ -145,7 +150,7 @@ function getECState(ecValue: string | null, fertilizerName: string | null, plant
  */
 function getPHState(phValue: string | null, substrateType: string | null): PHState | null {
   if (!phValue || !substrateType) return null;
-  const phNum = parseFloat(phValue);
+  const phNum = parseNum(phValue);
   if (isNaN(phNum)) return null;
 
   const sub = substrateType.toLowerCase();
@@ -551,8 +556,12 @@ export function buildRefinePrompt(
 ): string {
   const parts: string[] = ['NACHTRÄGLICH GEMESSENE WERTE:\n'];
 
-  if (phValue) parts.push('- pH-Wert: ' + phValue);
-  if (ecValue) parts.push('- EC/PPM: ' + ecValue);
+  // Normalize comma to dot for consistent number format
+  const phNorm = phValue ? phValue.replace(',', '.') : null;
+  const ecNorm = ecValue ? ecValue.replace(',', '.') : null;
+
+  if (phNorm) parts.push('- pH-Wert: ' + phNorm);
+  if (ecNorm) parts.push('- EC/PPM: ' + ecNorm);
   if (substrateType) parts.push('- Substrat: ' + substrateType);
 
   parts.push('\nVORHERIGE DIAGNOSE (erstellt OHNE pH/EC/Dünger-Daten – kann falsch sein!):');
@@ -578,7 +587,7 @@ export function buildRefinePrompt(
   // Add pH evaluation - ONLY when pH is NOT optimal.
   // When pH IS optimal, we say NOTHING about it to prevent the AI from inventing problems.
   if (phValue && substrateType) {
-    const phNum = parseFloat(phValue);
+    const phNum = parseNum(phValue);
     if (!isNaN(phNum)) {
       const isKokos = substrateType.toLowerCase().includes('kokos') || substrateType.toLowerCase().includes('coco');
       const isHydro = substrateType.toLowerCase().includes('hydro') || substrateType.toLowerCase().includes('dwc') || substrateType.toLowerCase().includes('aero');
