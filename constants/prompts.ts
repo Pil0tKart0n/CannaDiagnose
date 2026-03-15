@@ -1,5 +1,289 @@
 import { QuestionnaireData, DiagnosisResult } from '../types';
-import { getFertilizerContext } from './fertilizers';
+import { getFertilizerContext, FERTILIZER_PROFILES } from './fertilizers';
+
+/**
+ * Compares user's EC value against the fertilizer manufacturer's recommended range.
+ * Returns a clear evaluation string that tells the AI whether EC is too low/high/ok.
+ */
+function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | null): string {
+  const profile = FERTILIZER_PROFILES[fertilizerName];
+  if (!profile) return '';
+
+  const ecNum = parseFloat(ecValue);
+  if (isNaN(ecNum)) return '';
+
+  // Determine the recommended range for the plant's age
+  let ecRange = '';
+  let phase = '';
+  if (plantAge) {
+    if (plantAge.includes('0–2')) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
+    else if (plantAge.includes('3–4 Wochen')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
+    else if (plantAge.includes('5–8')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
+    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte'; }
+    else if (plantAge.includes('3–4 Monate')) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Blüte'; }
+    else if (plantAge.includes('5+')) { ecRange = profile.ecRanges.lateFlower; phase = 'späte Blüte/Flush'; }
+  }
+
+  if (!ecRange || !phase) {
+    // No age → use all ranges to give a general picture
+    const allRanges = [
+      profile.ecRanges.earlyVeg,
+      profile.ecRanges.lateVeg,
+      profile.ecRanges.earlyFlower,
+      profile.ecRanges.midFlower,
+    ];
+    const allMins = allRanges.map(r => parseFloat(r.split('–')[0])).filter(n => !isNaN(n));
+    const allMaxs = allRanges.map(r => parseFloat(r.split('–')[1])).filter(n => !isNaN(n));
+    const overallMin = Math.min(...allMins);
+    const overallMax = Math.max(...allMaxs);
+
+    if (ecNum < overallMin) {
+      return '\n🚨 EC-BEWERTUNG: EC ' + ecValue + ' liegt UNTER dem gesamten ' + profile.name + ' Bereich (' + overallMin + '–' + overallMax + ' für Veg bis Blüte). Die Pflanze ist UNTERVERSORGT! Bei genereller Unterversorgung ist N-MANGEL die wahrscheinlichste Ursache (N wird am meisten benötigt und zeigt Mangel zuerst). ÜBERPRÜFE ob die Erstdiagnose wirklich stimmt oder ob es N-Mangel durch zu wenig Dünger ist!';
+    }
+    return '';
+  }
+
+  // Parse the range (format: "1.8–2.4")
+  const rangeParts = ecRange.split('–');
+  const rangeMin = parseFloat(rangeParts[0]);
+  const rangeMax = parseFloat(rangeParts[1]);
+
+  if (isNaN(rangeMin) || isNaN(rangeMax)) return '';
+
+  if (ecNum < rangeMin) {
+    const deficit = ((1 - ecNum / rangeMin) * 100).toFixed(0);
+    return '\n🚨 EC-BEWERTUNG: EC ' + ecValue + ' liegt ' + deficit + '% UNTER dem ' + profile.name + ' Zielbereich für ' + phase + ' (' + ecRange + '). Die Pflanze ist deutlich UNTERVERSORGT! Bei genereller Unterversorgung ist N-MANGEL die wahrscheinlichste Diagnose – N ist der mobilste Nährstoff und zeigt Mangel ZUERST. Wenn die Erstdiagnose Mg/Ca/Fe-Mangel war UND der pH optimal ist, ist die Diagnose WAHRSCHEINLICH FALSCH → korrigiere zu N-Mangel!';
+  } else if (ecNum > rangeMax) {
+    return '\n⚠️ EC-BEWERTUNG: EC ' + ecValue + ' liegt ÜBER dem ' + profile.name + ' Zielbereich für ' + phase + ' (' + ecRange + '). Nährstoffbrand oder Lockout möglich.';
+  } else {
+    return '\n✅ EC-BEWERTUNG: EC ' + ecValue + ' liegt IM ' + profile.name + ' Zielbereich für ' + phase + ' (' + ecRange + '). EC ist NICHT das Problem – suche andere Ursachen.';
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Correction Matrix: Local logic for refine diagnosis
+// Maps: (initial diagnosis keyword) + (EC state) + (pH state) → correction hint
+// ---------------------------------------------------------------------------
+
+type ECState = 'low' | 'ok' | 'high';
+type PHState = 'low' | 'ok' | 'high';
+
+interface CorrectionRule {
+  correctedDiagnosis: string;
+  explanation: string;
+}
+
+/**
+ * Detects which nutrient/problem the initial diagnosis is about.
+ */
+function detectDiagnosisType(diagnosis: string): string {
+  const d = diagnosis.toLowerCase();
+  if (d.includes('stickstoff') || d.includes('(n)') || d.includes('n-mangel') || d.includes('nitrogen')) return 'N';
+  if (d.includes('magnesium') || d.includes('(mg)') || d.includes('mg-mangel')) return 'Mg';
+  if (d.includes('kalzium') || d.includes('calcium') || d.includes('(ca)') || d.includes('ca-mangel')) return 'Ca';
+  if (d.includes('kalium') || d.includes('(k)') || d.includes('k-mangel') || d.includes('potassium')) return 'K';
+  if (d.includes('phosphor') || d.includes('(p)') || d.includes('p-mangel')) return 'P';
+  if (d.includes('eisen') || d.includes('(fe)') || d.includes('fe-mangel') || d.includes('iron')) return 'Fe';
+  if (d.includes('mangan') || d.includes('(mn)') || d.includes('mn-mangel')) return 'Mn';
+  if (d.includes('zink') || d.includes('(zn)') || d.includes('zn-mangel')) return 'Zn';
+  if (d.includes('nährstoffbrand') || d.includes('überdüngung') || d.includes('nutrient burn') || d.includes('verbrennung')) return 'burn';
+  if (d.includes('lichtbrand') || d.includes('light burn') || d.includes('gebleicht')) return 'lightburn';
+  if (d.includes('hitzestress') || d.includes('heat stress')) return 'heat';
+  if (d.includes('überwässerung') || d.includes('overwater')) return 'overwater';
+  if (d.includes('n-toxizität') || d.includes('n-überschuss') || d.includes('stickstoff-überschuss') || d.includes('dunkelgrün')) return 'N-tox';
+  if (d.includes('ph-lockout') || d.includes('lockout')) return 'lockout';
+  return 'unknown';
+}
+
+/**
+ * Determines EC state relative to the fertilizer's recommended range.
+ */
+function getECState(ecValue: string | null, fertilizerName: string | null, plantAge: string | null): ECState | null {
+  if (!ecValue || !fertilizerName) return null;
+  const profile = FERTILIZER_PROFILES[fertilizerName];
+  if (!profile) return null;
+  const ecNum = parseFloat(ecValue);
+  if (isNaN(ecNum)) return null;
+
+  // Get recommended range
+  let ecRange = '';
+  if (plantAge) {
+    if (plantAge.includes('0–2')) ecRange = profile.ecRanges.seedling;
+    else if (plantAge.includes('3–4 Wochen')) ecRange = profile.ecRanges.earlyVeg;
+    else if (plantAge.includes('5–8')) ecRange = profile.ecRanges.lateVeg;
+    else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.earlyFlower;
+    else if (plantAge.includes('3–4 Monate')) ecRange = profile.ecRanges.midFlower;
+    else if (plantAge.includes('5+')) ecRange = profile.ecRanges.lateFlower;
+  }
+
+  if (!ecRange) {
+    // Fallback: use earlyVeg–midFlower range
+    const mins = [profile.ecRanges.earlyVeg, profile.ecRanges.lateVeg, profile.ecRanges.earlyFlower]
+      .map(r => parseFloat(r.split('–')[0])).filter(n => !isNaN(n));
+    const maxs = [profile.ecRanges.earlyVeg, profile.ecRanges.lateVeg, profile.ecRanges.earlyFlower]
+      .map(r => parseFloat(r.split('–')[1])).filter(n => !isNaN(n));
+    if (mins.length && maxs.length) {
+      if (ecNum < Math.min(...mins)) return 'low';
+      if (ecNum > Math.max(...maxs)) return 'high';
+      return 'ok';
+    }
+    return null;
+  }
+
+  const parts = ecRange.split('–');
+  const min = parseFloat(parts[0]);
+  const max = parseFloat(parts[1]);
+  if (isNaN(min) || isNaN(max)) return null;
+
+  if (ecNum < min) return 'low';
+  if (ecNum > max) return 'high';
+  return 'ok';
+}
+
+/**
+ * Determines pH state for the given substrate.
+ */
+function getPHState(phValue: string | null, substrateType: string | null): PHState | null {
+  if (!phValue || !substrateType) return null;
+  const phNum = parseFloat(phValue);
+  if (isNaN(phNum)) return null;
+
+  const sub = substrateType.toLowerCase();
+  const isKokosOrHydro = sub.includes('kokos') || sub.includes('coco') || sub.includes('hydro') || sub.includes('dwc') || sub.includes('aero');
+
+  if (isKokosOrHydro) {
+    if (phNum < 5.8) return 'low';
+    if (phNum > 6.2) return 'high';
+    return 'ok';
+  } else {
+    // Erde
+    if (phNum < 6.0) return 'low';
+    if (phNum > 7.0) return 'high';
+    return 'ok';
+  }
+}
+
+/**
+ * The correction matrix: given initial diagnosis type + EC state + pH state,
+ * returns a correction hint for the AI, or null if no correction needed.
+ */
+function getCorrectionHint(
+  diagnosisType: string,
+  ecState: ECState | null,
+  phState: PHState | null,
+): string | null {
+
+  // ── GROUP 1: EC zu niedrig (Unterversorgung) ──────────────────────
+
+  if (ecState === 'low' && phState === 'ok') {
+    // Low EC + good pH → general underfeeding, N is always first
+    const rules: Record<string, string> = {
+      'Mg': '🔄 KORREKTUR WAHRSCHEINLICH: EC zu niedrig + pH optimal = generelle Unterversorgung. Bei niedrigem EC ist N-MANGEL viel wahrscheinlicher als Mg-Mangel! Mg-Mangel entsteht durch pH-Lockout (<5.8) oder fehlende CalMag-Ergänzung – NICHT durch niedrigen EC allein. Da der pH optimal ist, ist pH-Lockout ausgeschlossen. KORRIGIERE zu Stickstoff(N)-Mangel und empfehle EC zu erhöhen.',
+      'Ca': '🔄 KORREKTUR WAHRSCHEINLICH: EC zu niedrig + pH optimal = generelle Unterversorgung. Ca-Mangel bei optimalem pH ist selten – Ca wird bei gutem pH gut aufgenommen. Wahrscheinlicher ist N-MANGEL (zeigt sich zuerst bei Unterversorgung). Prüfe aber ob neue Blätter deformiert sind (dann doch Ca). KORRIGIERE zu N-Mangel wenn alte Blätter gleichmäßig gelb.',
+      'Fe': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. Fe-Mangel ist normalerweise ein pH-Problem (>6.5), nicht ein EC-Problem. Bei optimalem pH UND niedrigem EC ist generelle Unterversorgung wahrscheinlicher. Prüfe: Sind NEUE Blätter betroffen (→ doch Fe) oder ALTE (→ N-Mangel)?',
+      'K': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. K-Mangel kann durch niedrigen EC entstehen, aber N-Mangel zeigt sich ZUERST. Prüfe: Sind die Blattränder braun/trocken (→ K-Mangel bestätigt) oder sind die Blätter gleichmäßig gelb (→ eher N)?',
+      'P': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. P-Mangel ist bei niedrigem EC möglich, aber N-Mangel zeigt sich ZUERST. Prüfe: Sind Blätter/Stängel violett (→ P bestätigt) oder gleichmäßig gelb (→ eher N)?',
+      'Mn': '🔄 KORREKTUR WAHRSCHEINLICH: EC zu niedrig + pH optimal. Mn-Mangel bei optimalem pH ist extrem selten. Viel wahrscheinlicher ist generelle Unterversorgung → N-Mangel.',
+      'Zn': '🔄 KORREKTUR WAHRSCHEINLICH: EC zu niedrig + pH optimal. Zn-Mangel bei optimalem pH ist extrem selten. Viel wahrscheinlicher ist generelle Unterversorgung → N-Mangel.',
+      'burn': '🔄 WIDERSPRUCH: EC zu niedrig + Nährstoffbrand-Diagnose ist ein WIDERSPRUCH! Bei niedrigem EC kann es keinen Nährstoffbrand geben. KORRIGIERE die Diagnose – prüfe ob es Lichtbrand, Hitzestress oder K-Mangel ist.',
+      'N-tox': '🔄 WIDERSPRUCH: EC zu niedrig + N-Überschuss ist ein WIDERSPRUCH! Bei niedrigem EC gibt es keinen N-Überschuss. KORRIGIERE die Diagnose.',
+      'N': '✅ BESTÄTIGT: EC zu niedrig + pH optimal + N-Mangel-Diagnose passt perfekt. Die Pflanze bekommt zu wenig Nährstoffe, N zeigt Mangel zuerst. Empfehle EC auf Herstellerbereich erhöhen.',
+      'lockout': '🔄 KORREKTUR: EC zu niedrig + pH optimal = KEIN Lockout! Lockout wird durch falschen pH verursacht. Das Problem ist generelle Unterversorgung → EC erhöhen.',
+    };
+    return rules[diagnosisType] || '⚠️ EC liegt unter dem empfohlenen Bereich des Herstellers bei optimalem pH. Das deutet auf generelle Unterversorgung hin. N-Mangel ist bei Unterversorgung immer die wahrscheinlichste Ursache (zeigt sich zuerst). Prüfe ob die Erstdiagnose wirklich stimmt oder ob EC-Erhöhung das eigentliche Problem löst.';
+  }
+
+  if (ecState === 'low' && phState === 'low') {
+    // Low EC + low pH → double problem: underfeeding + lockout
+    const rules: Record<string, string> = {
+      'Mg': '⚠️ DOPPELPROBLEM: EC zu niedrig UND pH zu niedrig. Beides kann Mg-Mangel verursachen – der niedrige pH blockiert Mg-Aufnahme (Lockout) UND der niedrige EC liefert zu wenig Nährstoffe insgesamt. BEIDE Probleme beheben: pH auf optimalen Bereich korrigieren UND EC auf Herstellerbereich erhöhen. Mg-Mangel-Diagnose ist hier plausibel, aber N-Mangel liegt wahrscheinlich auch vor.',
+      'Ca': '⚠️ DOPPELPROBLEM: EC zu niedrig UND pH zu niedrig. Niedrier pH blockiert Ca-Aufnahme. Ca-Mangel ist hier plausibel. pH korrigieren hat Priorität, dann EC erhöhen.',
+      'Fe': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH zu niedrig. Fe-Mangel wird durch HOHEN pH verursacht, nicht niedrigen. Bei niedrigem pH ist Fe eigentlich gut verfügbar. Prüfe ob es wirklich Fe ist oder eher Mg/Ca-Lockout + N-Unterversorgung.',
+      'N': '⚠️ BESTÄTIGT + pH-WARNUNG: N-Mangel bei niedrigem EC ist plausibel. ABER der pH ist auch zu niedrig – das kann zusätzlich Mg/Ca-Lockout verursachen. EC erhöhen UND pH korrigieren.',
+      'burn': '🔄 WIDERSPRUCH: EC zu niedrig + Nährstoffbrand ist ein WIDERSPRUCH! KORRIGIERE die Diagnose.',
+    };
+    return rules[diagnosisType] || '⚠️ DOPPELPROBLEM: EC unter Herstellerbereich UND pH zu niedrig. Zwei Probleme gleichzeitig: Unterversorgung + möglicher Nährstoff-Lockout. pH korrigieren hat Priorität (beeinflusst Verfügbarkeit), dann EC auf Herstellerbereich erhöhen.';
+  }
+
+  if (ecState === 'low' && phState === 'high') {
+    const rules: Record<string, string> = {
+      'Fe': '⚠️ BESTÄTIGT: EC zu niedrig + pH zu hoch. Fe-Mangel bei hohem pH ist klassisch – Fe wird bei hohem pH blockiert. pH senken hat Priorität, dann EC erhöhen.',
+      'Mn': '⚠️ BESTÄTIGT: EC zu niedrig + pH zu hoch. Mn wird bei hohem pH blockiert. pH senken, dann EC erhöhen.',
+      'Zn': '⚠️ BESTÄTIGT: EC zu niedrig + pH zu hoch. Zn wird bei hohem pH blockiert. pH senken, dann EC erhöhen.',
+      'Mg': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH zu hoch. Mg-Mangel wird durch NIEDRIGEN pH verursacht, nicht hohen. Bei hohem pH ist eher Fe/Mn-Lockout das Problem. Prüfe ob die Symptome wirklich interveinal (Mg) oder eher an neuen Blättern (Fe) sind.',
+      'N': '⚠️ TEILWEISE BESTÄTIGT: N-Mangel bei niedrigem EC ist plausibel. Aber pH ist auch zu hoch – kann zusätzlich Fe/Mn-Lockout verursachen. EC erhöhen UND pH senken.',
+      'burn': '🔄 WIDERSPRUCH: EC zu niedrig + Nährstoffbrand = WIDERSPRUCH!',
+    };
+    return rules[diagnosisType] || '⚠️ EC unter Herstellerbereich UND pH zu hoch. Generelle Unterversorgung + möglicher Fe/Mn/Zn-Lockout durch hohen pH. pH senken hat Priorität, dann EC erhöhen.';
+  }
+
+  // ── GROUP 2: EC im Bereich ─────────────────────────────────────────
+
+  if (ecState === 'ok' && phState === 'ok') {
+    const rules: Record<string, string> = {
+      'N': '🤔 HINTERFRAGEN: EC und pH sind beide optimal. N-Mangel bei korrektem EC ist ungewöhnlich. Mögliche Ursachen: Wurzelprobleme (schlechte Aufnahme), zu hohe Temperatur (erhöhter N-Verbrauch), oder die Symptome sind doch kein N-Mangel. Prüfe die Erstdiagnose kritisch.',
+      'Mg': '🤔 HINTERFRAGEN: EC und pH sind optimal. Mg-Mangel bei gutem pH und ausreichend EC deutet auf fehlende CalMag-Ergänzung hin (besonders in Kokos). Empfehle CalMag-Zusatz vom gleichen Hersteller.',
+      'Ca': '🤔 HINTERFRAGEN: EC und pH sind optimal. Ca-Mangel bei gutem pH deutet auf fehlende CalMag-Ergänzung hin (besonders in Kokos) oder Wurzelprobleme. CalMag-Zusatz empfehlen.',
+      'Fe': '🤔 HINTERFRAGEN: EC und pH sind optimal. Fe-Mangel bei gutem pH und EC ist selten. Mögliche Ursachen: Phosphor-Überschuss blockiert Fe, oder Wurzelprobleme.',
+      'K': '✅ MÖGLICH: EC und pH sind im Bereich. K-Mangel kann trotzdem auftreten wenn die Pflanze in der Blüte viel K verbraucht. K-Anteil erhöhen wenn in Blütephase.',
+      'P': '✅ MÖGLICH: EC und pH sind im Bereich. P-Mangel kann in der Blüte auftreten wenn P-Bedarf steigt. P-Anteil prüfen.',
+      'burn': '🤔 HINTERFRAGEN: EC ist im Herstellerbereich. Nährstoffbrand bei normalem EC ist ungewöhnlich. Prüfe ob es wirklich Nährstoffbrand ist oder K-Mangel/Lichtbrand.',
+      'N-tox': '🤔 HINTERFRAGEN: EC ist im Herstellerbereich. N-Überschuss bei normalem EC ist ungewöhnlich, es sei denn der Dünger hat einen sehr hohen N-Anteil.',
+    };
+    return rules[diagnosisType] || '✅ EC und pH sind beide im optimalen Bereich. Die Erstdiagnose kann trotzdem stimmen – nicht alle Probleme sind EC/pH-bedingt. Prüfe: CalMag-Ergänzung, Wurzelgesundheit, Temperatur, Luftfeuchtigkeit.';
+  }
+
+  if (ecState === 'ok' && phState === 'low') {
+    const rules: Record<string, string> = {
+      'Mg': '✅ BESTÄTIGT: pH zu niedrig blockiert Mg-Aufnahme (Lockout). EC ist im Bereich, also ist genug Mg vorhanden – aber die Pflanze kann es nicht aufnehmen. pH korrigieren ist die Lösung, NICHT mehr Dünger!',
+      'Ca': '✅ BESTÄTIGT: pH zu niedrig blockiert Ca-Aufnahme. pH auf optimalen Bereich korrigieren.',
+      'P': '✅ BESTÄTIGT: pH zu niedrig kann P-Aufnahme einschränken. pH korrigieren.',
+      'Fe': '🔄 KORREKTUR: pH zu niedrig → Fe ist bei niedrigem pH BESSER verfügbar, nicht schlechter. Fe-Mangel bei niedrigem pH ist unwahrscheinlich. Prüfe ob es Mg-Mangel ist (sieht ähnlich aus, wird durch niedrigen pH blockiert).',
+      'N': '🔄 KORREKTUR PRÜFEN: EC ist im Bereich, pH ist zu niedrig. Bei niedrigem pH können Ca/Mg/P blockiert werden. Sind die Symptome wirklich gleichmäßig gelb (N) oder interveinal (Mg durch pH-Lockout)?',
+      'burn': '⚠️ MÖGLICH: EC im Bereich + niedriger pH. Niedriger pH kann Symptome verstärken die wie Nährstoffbrand aussehen (Spitzenverbrennungen). pH korrigieren und beobachten.',
+      'lockout': '✅ BESTÄTIGT: pH zu niedrig → Nährstoff-Lockout. pH korrigieren ist die Lösung.',
+    };
+    return rules[diagnosisType] || '⚠️ pH ist zu niedrig – das kann Ca, Mg und P blockieren (Lockout). EC ist im Bereich, also ist genug Nährstoff vorhanden. Das Problem ist die VERFÜGBARKEIT, nicht die MENGE. pH korrigieren hat Priorität!';
+  }
+
+  if (ecState === 'ok' && phState === 'high') {
+    const rules: Record<string, string> = {
+      'Fe': '✅ BESTÄTIGT: pH zu hoch blockiert Fe-Aufnahme. Klassischer Fe-Lockout. pH senken ist die Lösung.',
+      'Mn': '✅ BESTÄTIGT: pH zu hoch blockiert Mn-Aufnahme. pH senken.',
+      'Zn': '✅ BESTÄTIGT: pH zu hoch blockiert Zn-Aufnahme. pH senken.',
+      'Mg': '🔄 KORREKTUR PRÜFEN: pH zu hoch. Mg ist bei hohem pH eigentlich GUT verfügbar. Mg-Mangel bei hohem pH ist unwahrscheinlich. Prüfe ob es Fe-Mangel ist (wird bei hohem pH blockiert, sieht ähnlich interveinal aus aber an NEUEN Blättern).',
+      'N': '🔄 KORREKTUR PRÜFEN: EC ist im Bereich, pH zu hoch. N-Aufnahme ist bei hohem pH etwas eingeschränkt, aber N-Mangel ist nicht die typische Folge. Prüfe ob Fe/Mn-Lockout durch hohen pH die eigentliche Ursache ist.',
+      'lockout': '✅ BESTÄTIGT: pH zu hoch → Fe/Mn/Zn-Lockout. pH senken.',
+    };
+    return rules[diagnosisType] || '⚠️ pH ist zu hoch – das blockiert Fe, Mn und Zn. EC ist im Bereich. Das Problem ist pH-Lockout, nicht Düngermenge. pH senken hat Priorität!';
+  }
+
+  // ── GROUP 3: EC zu hoch ────────────────────────────────────────────
+
+  if (ecState === 'high' && phState === 'ok') {
+    const rules: Record<string, string> = {
+      'burn': '✅ BESTÄTIGT: EC über Herstellerbereich + pH optimal = Nährstoffbrand. EC senken durch Spülen oder verdünnen.',
+      'N-tox': '✅ BESTÄTIGT: EC zu hoch kann N-Toxizität verursachen. EC senken.',
+      'N': '🔄 KORREKTUR: EC zu hoch + N-Mangel ist ein WIDERSPRUCH! Bei hohem EC gibt es keinen N-Mangel. Prüfe ob es N-ÜBERSCHUSS ist (dunkelgrüne Blätter, Krallen) oder Nährstoffbrand (braune Spitzen).',
+      'Mg': '🔄 KORREKTUR PRÜFEN: EC zu hoch + pH optimal. Mg-Mangel bei hohem EC ist ungewöhnlich, es sei denn der Dünger enthält wenig Mg. Möglicherweise Nährstoff-Antagonismus: zu viel K kann Mg-Aufnahme hemmen. CalMag empfehlen ODER EC etwas senken.',
+      'Ca': '🔄 KORREKTUR PRÜFEN: EC zu hoch. Zu viel K oder NH4 kann Ca-Aufnahme hemmen (Antagonismus). EC leicht senken und CalMag prüfen.',
+      'K': '🔄 WIDERSPRUCH: EC über Herstellerbereich + K-Mangel ist unwahrscheinlich. Prüfe ob es Nährstoffbrand ist (sieht ähnlich aus an Blatträndern).',
+      'lockout': '✅ PLAUSIBEL: Hoher EC kann zu Salz-Lockout führen. EC senken durch Spülen, dann normal weiterdüngen.',
+    };
+    return rules[diagnosisType] || '⚠️ EC über Herstellerbereich bei optimalem pH. Mögliche Probleme: Nährstoffbrand, Salz-Lockout, oder Nährstoff-Antagonismus. EC senken (Spülen mit pH-korrektem Wasser), dann auf Herstellerbereich zurück.';
+  }
+
+  if (ecState === 'high' && phState === 'low') {
+    return '🚨 DOPPELPROBLEM: EC zu hoch UND pH zu niedrig. Das ist eine kritische Kombination – hohe Salzkonzentration + saures Medium. Sofort spülen mit pH-korrektem Wasser (pH auf optimalen Bereich). Dann EC auf Herstellerbereich zurück. Mehrere Mangelsymptome gleichzeitig sind bei dieser Kombination typisch.';
+  }
+
+  if (ecState === 'high' && phState === 'high') {
+    return '🚨 DOPPELPROBLEM: EC zu hoch UND pH zu hoch. Spülen mit pH-korrektem Wasser (pH auf optimalen Bereich senken). EC auf Herstellerbereich zurück. Bei hohem pH + hohem EC sind Fe/Mn-Lockout + Nährstoffbrand gleichzeitig möglich.';
+  }
+
+  // ── No EC or pH data available ─────────────────────────────────────
+  return null;
+}
 
 export const SYSTEM_PROMPT = `Du bist ein Spezialist für Cannabis-Pathologie, ausgebildet nach den Methoden von Dr. Brian Bagby (Doktor der Pflanzenmedizin und führende Autorität für Cannabis-Pathologie). Du kombinierst visuelle Analyse mit Umgebungsdaten für präzise Diagnosen und referenzierst bei deinen Empfehlungen die wissenschaftlich fundierten Ansätze von Dr. Bugbee.
 
@@ -223,25 +507,53 @@ Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nu
 
 Gib NUR valides JSON zurück.`;
 
-export const REFINE_SYSTEM_PROMPT = `Du bist ein Spezialist für Cannabis-Pathologie nach Dr. Bugbee. Du erhältst eine VORHERIGE Diagnose zusammen mit NEUEN Messdaten (pH und/oder EC), die der Grower nachträglich gemessen hat. Verfeinere die Diagnose basierend auf diesen neuen Daten.
+export const REFINE_SYSTEM_PROMPT = `Du bist ein Spezialist für Cannabis-Pathologie nach Dr. Bugbee. Du erhältst eine VORHERIGE Diagnose zusammen mit NEUEN Messdaten (pH, EC, Dünger), die der Grower nachträglich gemessen hat. Deine Aufgabe ist es, die Diagnose KRITISCH zu hinterfragen und bei Bedarf zu KORRIGIEREN – nicht blind zu bestätigen!
 
 ABSOLUTE REGEL – KOKOS pH:
 Wenn das Substrat Kokos/Coco ist: pH-Bereich ist IMMER 5.8–6.2. Nenne NIEMALS 5.5 für Kokos.
 
 MARKENTREUE-REGEL: Wenn der User einen Dünger angibt, empfehle NUR Produkte (CalMag, Zusätze) vom GLEICHEN Hersteller! NIEMALS Konkurrenzprodukte namentlich nennen. Wenn kein herstellereigenes CalMag existiert, sage "ein generisches CalMag".
 
-AUFGABE:
-1. Nimm die vorherige Diagnose als Basis
-2. Integriere die neuen pH/EC-Messwerte in die Analyse
-3. Bestätige oder korrigiere die Diagnose basierend auf den neuen Daten
-4. Passe den Aktionsplan an – mit den neuen Werten kannst du KONKRETERE Empfehlungen geben
-5. Wenn der pH oder EC das Problem erklärt, sag das klar
-6. Wenn ein Dünger angegeben wurde, empfehle NUR Produkte dieses Herstellers
+⚠️ KRITISCHES DENKEN – DIAGNOSE HINTERFRAGEN, NICHT BESTÄTIGEN:
 
-Beispiel: Vorherige Diagnose war "Mg-Mangel, pH unbekannt". Jetzt misst der User pH 5.4 in Kokos → "Dein pH von 5.4 ist zu niedrig für Kokos (Minimum 5.8). Das erklärt den Mg-Mangel – bei diesem pH kann die Pflanze kein Magnesium aufnehmen. Korrigiere den pH auf 5.8–6.0."
+Die vorherige Diagnose wurde OHNE pH/EC/Dünger-Daten erstellt und basierte NUR auf dem Foto. Jetzt hast du NEUE Daten. Diese können die Diagnose KOMPLETT ändern! Gehe NICHT davon aus, dass die Erstdiagnose korrekt war.
+
+SCHRITT 1 – EC-ANALYSE (WICHTIGSTE PRÜFUNG!):
+Wenn ein Dünger angegeben ist, vergleiche den gemessenen EC mit dem empfohlenen EC-Bereich des Herstellers für die aktuelle Wachstumsphase:
+- EC DEUTLICH UNTER dem Herstellerbereich → GENERELLE UNTERVERSORGUNG!
+  → Bei genereller Unterversorgung ist STICKSTOFF(N)-MANGEL die wahrscheinlichste Diagnose, weil:
+    • N ist der mobilste Nährstoff und zeigt Mangel ZUERST
+    • N wird in den größten Mengen benötigt
+    • Gleichmäßige Vergilbung alter Blätter = klassisches N-Mangel-Zeichen
+    • Mg-Mangel bei niedrigem EC aber optimalem pH ist UNWAHRSCHEINLICH – Mg-Mangel entsteht durch pH-Lockout oder fehlende CalMag-Ergänzung, NICHT durch zu niedrigen EC allein!
+  → KORRIGIERE die Diagnose von Mg zu N-Mangel, wenn: EC zu niedrig + pH optimal + keine CalMag-spezifischen Anzeichen (deutliches Fischgrätenmuster)
+- EC im Herstellerbereich → EC ist nicht das Problem, andere Ursachen prüfen
+- EC ÜBER dem Herstellerbereich → Nährstoffbrand/Lockout möglich
+
+SCHRITT 2 – pH-ANALYSE:
+- pH im optimalen Bereich für das Substrat → pH-Lockout als Ursache AUSGESCHLOSSEN
+  → Das bedeutet: Wenn die Erstdiagnose auf pH-Lockout basierte (z.B. "Mg-Mangel durch pH"), muss diese Diagnose KORRIGIERT werden!
+- pH außerhalb des Bereichs → Lockout ist die wahrscheinliche Ursache
+
+SCHRITT 3 – KOMBINIERTE LOGIK:
+- Niedriger EC + optimaler pH + Erstdiagnose war Mg/Ca/Fe-Mangel → WAHRSCHEINLICH FALSCH! → Prüfe ob es N-Mangel ist (generelle Unterversorgung bei zu niedrigem EC)
+- Niedriger EC + optimaler pH + gleichmäßig gelbe Blätter → FAST SICHER N-Mangel, NICHT Mg!
+- Normaler EC + schlechter pH → pH-Lockout (Erstdiagnose evtl. korrekt)
+- Niedriger EC + schlechter pH → Beides: zu wenig Dünger UND pH-Problem
+
+SCHRITT 4 – DIAGNOSE ENTSCHEIDEN:
+1. Wenn die neuen Daten die Erstdiagnose WIDERLEGEN → KORRIGIERE sie klar und erkläre warum
+2. Wenn die neuen Daten die Erstdiagnose STÜTZEN → bestätige sie mit den konkreten Werten
+3. Passe den Aktionsplan an die neuen Werte an (z.B. "EC auf X.X erhöhen" statt vage Empfehlungen)
+
+BEISPIELE:
+- Erstdiagnose "Mg-Mangel", User gibt pH 5.4 in Kokos → "Dein pH von 5.4 ist zu niedrig für Kokos (Minimum 5.8). Das erklärt den Mg-Mangel – bei diesem pH kann die Pflanze kein Mg aufnehmen."
+- Erstdiagnose "Mg-Mangel", User gibt Athena Blended + pH 5.9 + EC 1.3 → "Überraschung: Dein pH von 5.9 ist perfekt – ein Mg-Lockout ist damit ausgeschlossen! Aber dein EC von 1.3 liegt deutlich unter dem Athena Blended Zielbereich (1.8–2.4). Bei so niedrigem EC ist die Pflanze generell unterversorgt, und N-Mangel ist die wahrscheinlichste Ursache – korrigierte Diagnose: Stickstoff-Mangel durch Unterversorgung. Erhöhe den EC auf mindestens 1.8."
+- Erstdiagnose "N-Mangel", User gibt pH 5.9 + EC 2.2 mit Athena → "EC und pH sind perfekt im Bereich. Das spricht gegen eine einfache Unterversorgung. Prüfe ob die Symptome wirklich N-Mangel sind oder ob ein anderes Problem vorliegt."
 
 TONALITÄT:
-- Beziehe dich auf die vorherige Diagnose: "Wie vermutet..." oder "Die neuen Werte bestätigen..." oder "Überraschung: Der pH ist eigentlich gut, also..."
+- Sei EHRLICH: Wenn die Erstdiagnose falsch war, sag es klar: "Die neuen Daten zeigen ein anderes Bild..." oder "Korrektur: ..."
+- Wenn bestätigt: "Die Werte bestätigen..."
 - Sei konkret mit den neuen Werten
 - Referenziere Dr. Bugbee wo relevant
 
@@ -281,7 +593,7 @@ export function buildRefinePrompt(
   if (ecValue) parts.push('- EC/PPM: ' + ecValue);
   if (substrateType) parts.push('- Substrat: ' + substrateType);
 
-  parts.push('\nVORHERIGE DIAGNOSE:');
+  parts.push('\nVORHERIGE DIAGNOSE (erstellt OHNE pH/EC/Dünger-Daten – kann falsch sein!):');
   parts.push('- Diagnose: ' + previousResult.primaryDiagnosis);
   parts.push('- Schweregrad: ' + previousResult.severity);
   parts.push('- Ursachenanalyse: ' + previousResult.rootCauseAnalysis);
@@ -293,7 +605,53 @@ export function buildRefinePrompt(
     parts.push(fertContext);
   }
 
-  parts.push('\nVerfeinere die Diagnose mit den neuen Messwerten. Sind die Werte im Normalbereich oder erklären sie das Problem?');
+  // Add explicit EC evaluation if we have both EC and fertilizer context
+  if (ecValue && fertilizerType) {
+    const ecEvaluation = evaluateEC(ecValue, fertilizerType, plantAge || null);
+    if (ecEvaluation) {
+      parts.push(ecEvaluation);
+    }
+  }
+
+  // Add pH evaluation
+  if (phValue && substrateType) {
+    const phNum = parseFloat(phValue);
+    if (!isNaN(phNum)) {
+      const isKokos = substrateType.toLowerCase().includes('kokos') || substrateType.toLowerCase().includes('coco');
+      const isHydro = substrateType.toLowerCase().includes('hydro') || substrateType.toLowerCase().includes('dwc') || substrateType.toLowerCase().includes('aero');
+      if (isKokos || isHydro) {
+        if (phNum >= 5.8 && phNum <= 6.2) {
+          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist OPTIMAL für ' + substrateType + ' (Bereich 5.8–6.2). Ein pH-Lockout als Ursache für Mg/Ca-Mangel ist damit AUSGESCHLOSSEN. Wenn die Erstdiagnose auf pH-Lockout basierte, muss sie KORRIGIERT werden!');
+        } else if (phNum < 5.8) {
+          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU NIEDRIG für ' + substrateType + ' (Minimum 5.8). pH-Lockout für Mg/Ca ist WAHRSCHEINLICH.');
+        } else {
+          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU HOCH für ' + substrateType + ' (Maximum 6.2). Fe/Mn-Lockout möglich.');
+        }
+      } else {
+        // Erde
+        if (phNum >= 6.0 && phNum <= 7.0) {
+          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist OPTIMAL für Erde (Bereich 6.0–7.0). pH-Lockout ist AUSGESCHLOSSEN.');
+        } else if (phNum < 6.0) {
+          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU NIEDRIG für Erde (Minimum 6.0). Ca/Mg/P-Lockout möglich.');
+        } else {
+          parts.push('\n⚠️ pH-BEWERTUNG: pH ' + phValue + ' ist ZU HOCH für Erde (Maximum 7.0). Fe/Mn/Zn-Lockout möglich.');
+        }
+      }
+    }
+  }
+
+  // Add correction hint from the matrix
+  const diagType = detectDiagnosisType(previousResult.primaryDiagnosis + ' ' + previousResult.rootCauseAnalysis);
+  const ecState = getECState(ecValue, fertilizerType || null, plantAge || null);
+  const phStateVal = getPHState(phValue, substrateType);
+  const correctionHint = getCorrectionHint(diagType, ecState, phStateVal);
+
+  if (correctionHint) {
+    parts.push('\n📋 KORREKTUR-ANALYSE (basierend auf Erstdiagnose "' + diagType + '" + EC-Zustand "' + (ecState || 'unbekannt') + '" + pH-Zustand "' + (phStateVal || 'unbekannt') + '"):');
+    parts.push(correctionHint);
+  }
+
+  parts.push('\nBEFOLGE die Korrektur-Analyse oben! Wenn dort KORREKTUR steht, ÄNDERE die Diagnose entsprechend. Wenn BESTÄTIGT, erkläre warum die Daten die Diagnose stützen. Wenn HINTERFRAGEN, prüfe kritisch und entscheide basierend auf den Symptomen.');
 
   return parts.join('\n');
 }
