@@ -23,7 +23,7 @@ type ScreenState = 'loading' | 'error';
 export default function AnalyzingScreen() {
   const router = useRouter();
   const {
-    imageUri, imageUris, questionnaire, setResult,
+    imageUri, imageUris, optimizedImageUris, questionnaire, setResult,
     selectedPlantId, isFollowUp, previousResult, previousDate,
   } = useDiagnosis();
   const [textIndex, setTextIndex] = useState(0);
@@ -53,6 +53,8 @@ export default function AnalyzingScreen() {
 
     try {
       const allUris = imageUris.length > 0 ? imageUris : (imageUri ? [imageUri] : []);
+      // Use pre-optimized images if available (optimized in background during questionnaire)
+      const preOptimized = optimizedImageUris.length === allUris.length ? optimizedImageUris : [];
       const { result: diagResult } = await analyzePlant(
         allUris,
         questionnaire,
@@ -66,6 +68,7 @@ export default function AnalyzingScreen() {
             setAttemptText(`Versuch ${attempt} von ${maxAttempts}...`);
           }
         },
+        preOptimized,
       );
 
       console.log('[CannaDiagnose] diagResult:', JSON.stringify(diagResult).substring(0, 300));
@@ -103,7 +106,7 @@ export default function AnalyzingScreen() {
       setError(apiError);
       setScreenState('error');
     }
-  }, [imageUri, imageUris, questionnaire, isFollowUp, previousResult, previousDate, selectedPlantId]);
+  }, [imageUri, imageUris, optimizedImageUris, questionnaire, isFollowUp, previousResult, previousDate, selectedPlantId]);
 
   useEffect(() => {
     if (hasStarted.current) return;

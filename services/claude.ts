@@ -17,7 +17,7 @@ const MAX_IMAGE_DIMENSION = 1568;
  * Resize an image so its longest side is at most MAX_IMAGE_DIMENSION pixels.
  * Returns the URI of the resized image (JPEG, quality 0.95 for minimal loss).
  */
-async function optimizeImage(uri: string): Promise<string> {
+export async function optimizeImage(uri: string): Promise<string> {
   try {
     // Get original dimensions via manipulateAsync with no actions
     const probe = await manipulateAsync(uri, []);
@@ -259,6 +259,7 @@ export async function analyzePlant(
     previousDate?: string;
   },
   onAttempt?: (attempt: number, maxAttempts: number) => void,
+  preOptimizedImages?: string[],
 ): Promise<AnalyzeResult> {
   const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
   if (!apiKey) {
@@ -270,20 +271,10 @@ export async function analyzePlant(
   // Normalize to array (backward compatible with single string)
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
 
-  // Connectivity check
-  const online = await checkConnectivity();
-  if (!online) {
-    const err: any = new Error('Kein Internet');
-    err.apiError = {
-      type: 'network' as ApiErrorType,
-      message: 'Keine Internetverbindung. Bitte prüfe dein WLAN oder mobile Daten.',
-      retryable: true,
-    } satisfies ApiError;
-    throw err;
-  }
-
-  // Optimize images (resize to max 1568px) then read as base64
-  const optimizedUris = await Promise.all(uris.map(optimizeImage));
+  // Use pre-optimized images if available, otherwise optimize now
+  const optimizedUris = preOptimizedImages && preOptimizedImages.length > 0
+    ? preOptimizedImages
+    : await Promise.all(uris.map(optimizeImage));
   const base64Results = await Promise.all(
     optimizedUris.map((uri) =>
       FileSystem.readAsStringAsync(uri, {
@@ -333,7 +324,7 @@ export async function analyzePlant(
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 2048,
+          max_tokens: 1500,
           system: systemPrompt,
           messages: [
             {
@@ -438,11 +429,6 @@ export async function refineDiagnosis(
 
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
 
-  const online = await checkConnectivity();
-  if (!online) {
-    throw new Error('Keine Internetverbindung.');
-  }
-
   // Optimize images (resize to max 1568px) then read as base64
   const optimizedUris = await Promise.all(uris.map(optimizeImage));
   const base64Results = await Promise.all(
@@ -476,7 +462,7 @@ export async function refineDiagnosis(
         },
         body: JSON.stringify({
           model: MODEL,
-          max_tokens: 4096,
+          max_tokens: 2048,
           system: REFINE_SYSTEM_PROMPT,
           messages: [
             {

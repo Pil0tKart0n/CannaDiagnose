@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import { colors } from '../constants/colors';
 import { setupNotificationHandler } from '../services/notifications';
+import { optimizeImage } from '../services/claude';
 
 SplashScreen.preventAutoHideAsync();
 setupNotificationHandler();
@@ -15,6 +16,7 @@ interface DiagnosisContextType {
   setImageUri: (uri: string | null) => void;
   imageUris: string[];
   setImageUris: (uris: string[]) => void;
+  optimizedImageUris: string[];
   questionnaire: QuestionnaireData;
   setQuestionnaire: (data: QuestionnaireData) => void;
   result: DiagnosisResult | null;
@@ -55,13 +57,31 @@ export function useDiagnosis() {
 }
 
 export default function RootLayout() {
-  const [imageUris, setImageUris] = useState<string[]>([]);
+  const [imageUris, setImageUrisState] = useState<string[]>([]);
+  const [optimizedImageUris, setOptimizedImageUris] = useState<string[]>([]);
   const [questionnaire, setQuestionnaire] = useState<QuestionnaireData>({ ...emptyQuestionnaire });
   const [result, setResult] = useState<DiagnosisResult | null>(null);
   const [selectedPlantId, setSelectedPlantId] = useState<string | null>(null);
   const [isFollowUp, setIsFollowUp] = useState(false);
   const [previousResult, setPreviousResult] = useState<DiagnosisResult | null>(null);
   const [previousDate, setPreviousDate] = useState<string | null>(null);
+
+  // Pre-optimize images in background as soon as they're selected
+  const setImageUris = useCallback((uris: string[]) => {
+    setImageUrisState(uris);
+    setOptimizedImageUris([]); // Reset optimized versions
+    if (uris.length > 0) {
+      console.log('[CannaDiagnose] Pre-optimizing', uris.length, 'images in background...');
+      Promise.all(uris.map(optimizeImage))
+        .then((optimized) => {
+          setOptimizedImageUris(optimized);
+          console.log('[CannaDiagnose] Pre-optimization complete');
+        })
+        .catch((err) => {
+          console.log('[CannaDiagnose] Pre-optimization failed:', err);
+        });
+    }
+  }, []);
 
   // backward-compat helper: imageUri = first image
   const imageUri = imageUris.length > 0 ? imageUris[0] : null;
@@ -75,6 +95,7 @@ export default function RootLayout() {
 
   const reset = () => {
     setImageUris([]);
+    setOptimizedImageUris([]);
     setQuestionnaire({ ...emptyQuestionnaire });
     setResult(null);
     setSelectedPlantId(null);
@@ -93,6 +114,7 @@ export default function RootLayout() {
       value={{
         imageUri, setImageUri,
         imageUris, setImageUris,
+        optimizedImageUris,
         questionnaire, setQuestionnaire,
         result, setResult,
         selectedPlantId, setSelectedPlantId,

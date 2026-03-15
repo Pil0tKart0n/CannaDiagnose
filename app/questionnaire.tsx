@@ -81,7 +81,7 @@ export default function QuestionnaireScreen() {
         } else {
           setCurrentIndex(safeIndex + 1);
         }
-      }, 300);
+      }, 100);
     }
   };
 
