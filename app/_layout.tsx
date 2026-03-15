@@ -33,6 +33,7 @@ interface DiagnosisContextType {
 const emptyQuestionnaire: QuestionnaireData = {
   plantAgeWeeks: null,
   substrateType: null,
+  fertilizerType: null,
   waterTempCelsius: null,
   substrateTempCelsius: null,
   phFeed: null,

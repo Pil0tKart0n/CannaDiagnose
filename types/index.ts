@@ -4,6 +4,7 @@ export type Severity = 'niedrig' | 'mittel' | 'hoch' | 'kritisch';
 export interface QuestionnaireData {
   plantAgeWeeks: string | null;
   substrateType: string | null;
+  fertilizerType: string | null;
   waterTempCelsius: string | null;
   substrateTempCelsius: string | null;
   phFeed: string | null;

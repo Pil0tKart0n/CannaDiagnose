@@ -70,6 +70,8 @@ export default function ResultsScreen() {
         questionnaire.substrateType,
         phInput || null,
         ecInput || null,
+        questionnaire.fertilizerType,
+        questionnaire.plantAgeWeeks,
       );
       setRefinedResult(refined);
       setRefined(true);

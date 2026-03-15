@@ -391,6 +391,8 @@ export async function refineDiagnosis(
   substrateType: string | null,
   phValue: string | null,
   ecValue: string | null,
+  fertilizerType?: string | null,
+  plantAge?: string | null,
 ): Promise<DiagnosisResult> {
   const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
   if (!apiKey) {
@@ -430,7 +432,7 @@ export async function refineDiagnosis(
     };
   });
 
-  const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue);
+  const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue, fertilizerType, plantAge);
 
   const response = await fetch(API_URL, {
     method: 'POST',

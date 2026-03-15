@@ -1,4 +1,5 @@
 import { QuestionnaireData, DiagnosisResult } from '../types';
+import { getFertilizerContext } from './fertilizers';
 
 export const SYSTEM_PROMPT = `Du bist ein Spezialist für Cannabis-Pathologie, ausgebildet nach den Methoden von Dr. Brian Bagby (Doktor der Pflanzenmedizin und führende Autorität für Cannabis-Pathologie). Du kombinierst visuelle Analyse mit Umgebungsdaten für präzise Diagnosen und referenzierst bei deinen Empfehlungen die wissenschaftlich fundierten Ansätze von Dr. Bugbee.
 
@@ -86,6 +87,7 @@ WICHTIGE DIAGNOSE-REGELN:
 - KONSISTENZ-REGEL: Deine Empfehlungen dürfen sich NIEMALS widersprechen! Gib EINEN klaren pH-Bereich an und verwende diesen ÜBERALL in deiner Antwort. Für Kokos ist das IMMER 5.8–6.2 – verwende NICHT 5.5 als Untergrenze, auch nicht als Lockout-Schwelle
 - Bei multiplen Symptomen: Prüfe ZUERST ob pH-Lockout die Ursache sein könnte – das ist die häufigste Ursache für "mehrere Mängel gleichzeitig"
 - Passe pH-Empfehlungen IMMER an das Substrat des Users an (Erde vs. Kokos vs. Hydro) – die Bereiche sind unterschiedlich!
+- EC-REGEL: Bewerte EC-Werte IMMER im Kontext des verwendeten Düngers! Athena/Mills laufen bei EC 2.0-2.8 in der Blüte, BioBizz bei 1.0-1.4. Ein "hoher" EC bei Athena ist normal. Empfehle KEINE EC-Senkung, wenn der Wert im Feed-Chart des Herstellers liegt!
 - Unterscheide IMMER zwischen Mangel und Überschuss – die Behandlung ist gegensätzlich!
 - Violette Stängel allein sind KEIN sicheres Zeichen für P-Mangel – kann Genetik oder Kälte sein
 - Verbrannte Blattspitzen ≠ Nährstoffmangel – das ist meist Nährstoffbrand (Überdüngung) oder zu niedriger pH
@@ -206,6 +208,8 @@ export function buildRefinePrompt(
   substrateType: string | null,
   phValue: string | null,
   ecValue: string | null,
+  fertilizerType?: string | null,
+  plantAge?: string | null,
 ): string {
   const parts: string[] = ['NACHTRÄGLICH GEMESSENE WERTE:\n'];
 
@@ -219,6 +223,12 @@ export function buildRefinePrompt(
   parts.push('- Ursachenanalyse: ' + previousResult.rootCauseAnalysis);
   parts.push('- Empfohlene Maßnahmen: ' + previousResult.actionPlan.map(function(s) { return s.action + ': ' + s.details; }).join(' | '));
 
+  // Add fertilizer context if available
+  const fertContext = getFertilizerContext(fertilizerType || null, plantAge || null);
+  if (fertContext) {
+    parts.push(fertContext);
+  }
+
   parts.push('\nVerfeinere die Diagnose mit den neuen Messwerten. Sind die Werte im Normalbereich oder erklären sie das Problem?');
 
   return parts.join('\n');
@@ -229,6 +239,7 @@ export function buildUserPrompt(data: QuestionnaireData): string {
 
   if (data.plantAgeWeeks) parts.push(`- Alter der Pflanze: ${data.plantAgeWeeks}`);
   if (data.substrateType) parts.push(`- Substrat: ${data.substrateType}`);
+  if (data.fertilizerType) parts.push(`- Dünger: ${data.fertilizerType}`);
   if (data.lightType) parts.push(`- Lichttyp/Anbauart: ${data.lightType}`);
   if (data.symptomDurationDays) parts.push(`- Symptome sichtbar seit: ${data.symptomDurationDays}`);
   if (data.recentChanges && data.recentChanges.length > 0) {
@@ -250,6 +261,12 @@ export function buildUserPrompt(data: QuestionnaireData): string {
   if (data.roomTempCelsius) parts.push(`- Raumtemperatur: ${data.roomTempCelsius}`);
   if (data.humidityPercent && data.humidityPercent !== 'Weiß nicht') {
     parts.push(`- Luftfeuchtigkeit: ${data.humidityPercent}`);
+  }
+
+  // Add fertilizer context if available
+  const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks);
+  if (fertContext) {
+    parts.push(fertContext);
   }
 
   parts.push('\nAnalysiere die Fotos systematisch anhand deiner Diagnose-Checkliste. Wenn wichtige Daten fehlen (pH, EC, Temperatur), erwähne welche Messungen der Grower durchführen sollte.');
