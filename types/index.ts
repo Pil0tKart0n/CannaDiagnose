@@ -66,7 +66,7 @@ export interface Plant {
   entries: string[]; // DiagnosisEntry IDs
 }
 
-export type QuestionType = 'select' | 'multi-select' | 'number' | 'text';
+export type QuestionType = 'select' | 'multi-select' | 'searchable-select' | 'number' | 'text';
 
 export interface ConditionalRule {
   field: string;

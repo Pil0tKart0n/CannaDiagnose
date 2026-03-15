@@ -64,7 +64,7 @@ export default function QuestionnaireScreen() {
     const updated = { ...questionnaire, [question.id]: newValue };
     setQuestionnaire(updated);
 
-    if (question.type === 'select') {
+    if (question.type === 'select' || question.type === 'searchable-select') {
       const nextQuestions = questions.filter((q) => {
         if (!q.conditional) return true;
         const { field, values } = q.conditional;
@@ -111,7 +111,7 @@ export default function QuestionnaireScreen() {
         </View>
 
         {/* Only show bottom button for multi-select and text/number inputs */}
-        {question.type !== 'select' ? (
+        {question.type !== 'select' && question.type !== 'searchable-select' ? (
           <View style={styles.bottomBar}>
             <Button
               title={isLast ? 'Analyse starten' : 'Weiter'}

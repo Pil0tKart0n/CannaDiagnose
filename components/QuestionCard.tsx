@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { Question } from '../types';
 import { colors } from '../constants/colors';
@@ -92,12 +93,55 @@ export default function QuestionCard({ question, value, onChange }: QuestionCard
     />
   );
 
+  const renderSearchableSelect = () => {
+    const [search, setSearch] = useState('');
+    const options = question.options || [];
+
+    const filtered = useMemo(() => {
+      if (!search.trim()) return options;
+      const q = search.toLowerCase();
+      return options.filter((opt) => opt.toLowerCase().includes(q));
+    }, [search, options]);
+
+    return (
+      <View style={styles.searchableContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Suchen..."
+          placeholderTextColor={colors.textMuted}
+          value={search}
+          onChangeText={setSearch}
+          autoCorrect={false}
+        />
+        <ScrollView style={styles.searchableList} nestedScrollEnabled showsVerticalScrollIndicator={false}>
+          {filtered.map((opt) => {
+            const selected = value === opt;
+            return (
+              <TouchableOpacity
+                key={opt}
+                style={[styles.searchableItem, selected && styles.searchableItemSelected]}
+                onPress={() => onChange(opt)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.searchableItemText, selected && styles.optionTextSelected]}>
+                  {opt}
+                </Text>
+                {selected && <Text style={styles.checkmark}>✓</Text>}
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.card}>
       <Text style={styles.question}>{question.question}</Text>
       {question.hint && <Text style={styles.hint}>{question.hint}</Text>}
       {question.type === 'select' && renderSelect()}
       {question.type === 'multi-select' && renderMultiSelect()}
+      {question.type === 'searchable-select' && renderSearchableSelect()}
       {question.type === 'number' && renderNumber()}
       {question.type === 'text' && renderText()}
     </View>
@@ -194,5 +238,44 @@ const styles = StyleSheet.create({
     minHeight: 60,
     marginTop: 14,
     textAlignVertical: 'top',
+  },
+
+  // Searchable select
+  searchableContainer: {
+    marginTop: 14,
+  },
+  searchInput: {
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 12,
+    fontSize: 15,
+    color: colors.text,
+    backgroundColor: colors.cardMid,
+    marginBottom: 10,
+  },
+  searchableList: {
+    maxHeight: 220,
+  },
+  searchableItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    marginBottom: 4,
+  },
+  searchableItemSelected: {
+    backgroundColor: colors.accentSubtle,
+  },
+  searchableItemText: {
+    flex: 1,
+    fontSize: 15,
+    color: colors.textSecondary,
+  },
+  checkmark: {
+    fontSize: 16,
+    color: colors.accent,
+    fontWeight: '700',
   },
 });

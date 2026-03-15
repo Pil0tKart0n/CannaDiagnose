@@ -1,4 +1,5 @@
 import { Question } from '../types';
+import { getFertilizerNames } from './fertilizers';
 
 export const questions: Question[] = [
   {
@@ -14,6 +15,14 @@ export const questions: Question[] = [
     question: 'In welchem Substrat wird angebaut?',
     type: 'select',
     options: ['Erde', 'Kokos', 'Perlite-Mix', 'DWC / Hydro', 'Aeroponik', 'Sonstige'],
+  },
+  {
+    id: 'fertilizerType',
+    section: 'Setup',
+    question: 'Welchen Dünger verwendest du?',
+    type: 'searchable-select',
+    options: getFertilizerNames(),
+    hint: 'Hilft bei der Einschätzung von EC-Werten',
   },
   {
     id: 'lightType',
