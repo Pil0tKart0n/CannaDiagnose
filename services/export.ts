@@ -1,7 +1,23 @@
-import * as Print from 'expo-print';
-import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system/legacy';
 import { DiagnosisResult, Severity } from '../types';
+
+// expo-print and expo-sharing are not available in Expo Go
+// Use dynamic imports so the app doesn't crash on startup
+async function getPrint() {
+  try {
+    return await import('expo-print');
+  } catch {
+    throw new Error('PDF-Export ist in Expo Go nicht verfügbar. Verwende einen Development Build.');
+  }
+}
+
+async function getSharing() {
+  try {
+    return await import('expo-sharing');
+  } catch {
+    throw new Error('Teilen ist in Expo Go nicht verfügbar. Verwende einen Development Build.');
+  }
+}
 
 const severityColors: Record<Severity, string> = {
   niedrig: '#4ADE80',
@@ -378,6 +394,7 @@ export async function generateDiagnosisPDF(
   }
 
   const html = generateHTML(result, imageBase64);
+  const Print = await getPrint();
   const { uri } = await Print.printToFileAsync({ html });
   return uri;
 }
@@ -388,12 +405,13 @@ export async function shareDiagnosis(
 ): Promise<void> {
   const fileUri = await generateDiagnosisPDF(result, imageUri);
 
-  const isAvailable = await Sharing.isAvailableAsync();
+  const SharingModule = await getSharing();
+  const isAvailable = await SharingModule.isAvailableAsync();
   if (!isAvailable) {
     throw new Error('Teilen ist auf diesem Gerät nicht verfügbar.');
   }
 
-  await Sharing.shareAsync(fileUri, {
+  await SharingModule.shareAsync(fileUri, {
     mimeType: 'application/pdf',
     dialogTitle: 'Diagnose teilen',
     UTI: 'com.adobe.pdf',
