@@ -511,7 +511,12 @@ export async function refineDiagnosis(
       console.log('[CannaDiagnose] Refine stop_reason:', stopReason);
 
       const parsed = extractJSON(content);
-      return validateDiagnosisResult(parsed);
+      let result = validateDiagnosisResult(parsed);
+
+      // Post-processing: strip lockout nonsense when pH is optimal
+      result = postProcessRefineResult(result, substrateType, phValue);
+
+      return result;
     } catch (err: any) {
       console.log('[CannaDiagnose] Refine attempt', attempt, 'failed:', err.message);
       if (attempt < 2) { await delay(2000); continue; }
@@ -520,6 +525,73 @@ export async function refineDiagnosis(
   }
 
   throw new Error('Verfeinerung fehlgeschlagen.');
+}
+
+/**
+ * Post-process refine results: remove lockout mentions when pH is optimal,
+ * since the AI sometimes ignores our instructions and adds lockout warnings anyway.
+ */
+function postProcessRefineResult(
+  result: DiagnosisResult,
+  substrateType: string | null,
+  phValue: string | null,
+): DiagnosisResult {
+  if (!phValue || !substrateType) return result;
+
+  const phNum = parseFloat(phValue);
+  if (isNaN(phNum)) return result;
+
+  const sub = (substrateType || '').toLowerCase();
+  const isKokosOrHydro = sub.includes('kokos') || sub.includes('coco') || sub.includes('hydro') || sub.includes('dwc') || sub.includes('aero');
+
+  // Check if pH is optimal
+  const phOptimal = isKokosOrHydro
+    ? (phNum >= 5.8 && phNum <= 6.2)
+    : (phNum >= 6.0 && phNum <= 7.0);
+
+  if (!phOptimal) return result; // pH is not optimal, lockout warnings may be valid
+
+  // pH is optimal → lockout is impossible → clean it up
+  const lockoutPatterns = /(?:mögliche[rnms]?\s*)?(?:Ca|Mg|Ca\/Mg|Mg\/Ca)[\s-]*Lockout|Lockout[\s-]*(?:für\s+)?(?:Ca|Mg)|pH[\s-]*Lockout|Nährstoff[\s-]*Lockout|beginnende[rnms]?\s*(?:Ca|Mg|Ca\/Mg)[\s-]*Lockout/gi;
+
+  const cleanText = (text: string): string => {
+    // Remove sentences containing lockout when pH is optimal
+    return text
+      .split(/(?<=[.!])\s+/)
+      .filter(sentence => !lockoutPatterns.test(sentence))
+      .join(' ')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  };
+
+  // Reset regex lastIndex between uses
+  const hasLockout = (text: string): boolean => {
+    return /lockout/i.test(text);
+  };
+
+  if (hasLockout(result.primaryDiagnosis)) {
+    result.primaryDiagnosis = cleanText(result.primaryDiagnosis);
+    // If primary diagnosis became too short, keep a sensible fallback
+    if (result.primaryDiagnosis.length < 20) {
+      result.primaryDiagnosis = result.primaryDiagnosis || 'Diagnose basierend auf EC- und pH-Analyse.';
+    }
+  }
+
+  if (hasLockout(result.rootCauseAnalysis)) {
+    result.rootCauseAnalysis = cleanText(result.rootCauseAnalysis);
+  }
+
+  // Clean contributing factors
+  result.contributingFactors = result.contributingFactors
+    .filter(f => !hasLockout(f.factor))
+    .map(f => ({
+      ...f,
+      impact: hasLockout(f.impact) ? cleanText(f.impact) : f.impact,
+    }));
+
+  console.log('[CannaDiagnose] Post-processed: removed lockout mentions (pH ' + phValue + ' is optimal)');
+
+  return result;
 }
 
 function delay(ms: number): Promise<void> {
