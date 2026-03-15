@@ -3,7 +3,7 @@ import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, Actio
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt } from '../constants/prompts';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-20250514';
+const MODEL = 'claude-sonnet-4-6';
 
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
