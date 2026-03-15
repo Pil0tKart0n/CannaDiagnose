@@ -68,6 +68,7 @@ export default function AnalyzingScreen() {
         },
       );
 
+      console.log('[CannaDiagnose] diagResult:', JSON.stringify(diagResult).substring(0, 300));
       setResult(diagResult);
       const entryId = Date.now().toString();
       await saveEntry({

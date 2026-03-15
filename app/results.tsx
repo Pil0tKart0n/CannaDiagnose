@@ -29,6 +29,9 @@ export default function ResultsScreen() {
       : (displayImage ? [displayImage] : []);
   const isFromHistory = !!params.historyResult;
 
+  console.log('[CannaDiagnose] Results - displayResult:', JSON.stringify(displayResult)?.substring(0, 300));
+  console.log('[CannaDiagnose] Results - context result:', JSON.stringify(result)?.substring(0, 300));
+
   if (!displayResult) {
     return (
       <View style={styles.emptyContainer}>

@@ -74,10 +74,13 @@ export function validateDiagnosisResult(data: any): DiagnosisResult {
       typeof data.primaryDiagnosis === 'string' && data.primaryDiagnosis.length > 0
         ? data.primaryDiagnosis
         : 'Diagnose nicht verfügbar',
-    confidence:
-      typeof data.confidence === 'number' && data.confidence >= 0 && data.confidence <= 100
-        ? data.confidence
-        : 50,
+    confidence: (() => {
+      const c = Number(data.confidence);
+      if (isNaN(c)) return 0.75;
+      // Normalize: if value > 1, assume 0-100 scale and convert to 0-1
+      if (c > 1) return Math.min(c / 100, 1);
+      return Math.max(0, Math.min(c, 1));
+    })(),
     rootCauseAnalysis:
       typeof data.rootCauseAnalysis === 'string' && data.rootCauseAnalysis.length > 0
         ? data.rootCauseAnalysis
@@ -345,8 +348,11 @@ export async function analyzePlant(
       }
 
       // Parse & validate
+      console.log('[CannaDiagnose] Raw API response:', content.substring(0, 500));
       const parsed = extractJSON(content);
+      console.log('[CannaDiagnose] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
       const validated = validateDiagnosisResult(parsed);
+      console.log('[CannaDiagnose] Validated result:', JSON.stringify(validated).substring(0, 500));
       return { result: validated, attempt };
 
     } catch (err: any) {
