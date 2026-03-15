@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
 
   // Form
   label: {
-    fontSize: 12, fontWeight: '600', color: colors.textSecondary, letterSpacing: 0.5, textTransform: 'uppercase',
-    marginBottom: 8, letterSpacing: 0.3,
+    fontSize: 12, fontWeight: '600', color: colors.textSecondary, textTransform: 'uppercase',
+    marginBottom: 8, letterSpacing: 0.5,
   },
   input: {
     backgroundColor: colors.cardDark,

@@ -5,12 +5,16 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import { colors } from '../constants/colors';
+import { setupNotificationHandler } from '../services/notifications';
 
 SplashScreen.preventAutoHideAsync();
+setupNotificationHandler();
 
 interface DiagnosisContextType {
   imageUri: string | null;
   setImageUri: (uri: string | null) => void;
+  imageUris: string[];
+  setImageUris: (uris: string[]) => void;
   questionnaire: QuestionnaireData;
   setQuestionnaire: (data: QuestionnaireData) => void;
   result: DiagnosisResult | null;
@@ -50,7 +54,7 @@ export function useDiagnosis() {
 }
 
 export default function RootLayout() {
-  const [imageUri, setImageUri] = useState<string | null>(null);
+  const [imageUris, setImageUris] = useState<string[]>([]);
   const [questionnaire, setQuestionnaire] = useState<QuestionnaireData>({ ...emptyQuestionnaire });
   const [result, setResult] = useState<DiagnosisResult | null>(null);
   const [selectedPlantId, setSelectedPlantId] = useState<string | null>(null);
@@ -58,8 +62,18 @@ export default function RootLayout() {
   const [previousResult, setPreviousResult] = useState<DiagnosisResult | null>(null);
   const [previousDate, setPreviousDate] = useState<string | null>(null);
 
+  // backward-compat helper: imageUri = first image
+  const imageUri = imageUris.length > 0 ? imageUris[0] : null;
+  const setImageUri = (uri: string | null) => {
+    if (uri) {
+      setImageUris([uri]);
+    } else {
+      setImageUris([]);
+    }
+  };
+
   const reset = () => {
-    setImageUri(null);
+    setImageUris([]);
     setQuestionnaire({ ...emptyQuestionnaire });
     setResult(null);
     setSelectedPlantId(null);
@@ -77,6 +91,7 @@ export default function RootLayout() {
     <DiagnosisContext.Provider
       value={{
         imageUri, setImageUri,
+        imageUris, setImageUris,
         questionnaire, setQuestionnaire,
         result, setResult,
         selectedPlantId, setSelectedPlantId,
@@ -96,7 +111,6 @@ export default function RootLayout() {
           animation: 'fade',
           animationDuration: 150,
           navigationBarColor: colors.background,
-          cardStyle: { backgroundColor: colors.background },
           presentation: 'card',
         }}
       >
@@ -109,6 +123,7 @@ export default function RootLayout() {
         <Stack.Screen name="plants" options={{ title: 'Meine Pflanzen' }} />
         <Stack.Screen name="plant-detail" options={{ title: 'Pflanze' }} />
         <Stack.Screen name="add-plant" options={{ title: 'Neue Pflanze' }} />
+        <Stack.Screen name="library" options={{ title: 'Bibliothek' }} />
       </Stack>
     </DiagnosisContext.Provider>
     </View>

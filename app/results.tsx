@@ -1,23 +1,27 @@
-import React from 'react';
-import { ScrollView, View, Image, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import DiagnosisCard from '../components/DiagnosisCard';
 import { FactorsList, ActionPlan, PreventiveTips } from '../components/RecommendationCard';
 import Button from '../components/Button';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { DiagnosisResult } from '../types';
+import { shareDiagnosis } from '../services/export';
 
 export default function ResultsScreen() {
   const router = useRouter();
-  const { result, imageUri, reset, selectedPlantId, isFollowUp } = useDiagnosis();
+  const { result, imageUri, imageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
   const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string }>();
+  const [sharing, setSharing] = useState(false);
 
   const displayResult: DiagnosisResult | null = params.historyResult
     ? JSON.parse(params.historyResult)
     : result;
 
   const displayImage = params.historyImage || imageUri;
+  const displayImages = imageUris.length > 0 ? imageUris : (displayImage ? [displayImage] : []);
   const isFromHistory = !!params.historyResult;
 
   if (!displayResult) {
@@ -34,11 +38,42 @@ export default function ResultsScreen() {
     router.replace('/');
   };
 
+  const handleShare = async () => {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      await shareDiagnosis(displayResult, displayImage || undefined);
+    } catch (err: any) {
+      if (!err.message?.includes('abgebrochen') && !err.message?.includes('cancelled')) {
+        Alert.alert('Fehler', err.message || 'Teilen fehlgeschlagen.');
+      }
+    } finally {
+      setSharing(false);
+    }
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {displayImage && (
+      {/* Photos */}
+      {displayImages.length > 1 ? (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageStrip}>
+          {displayImages.map((uri, i) => (
+            <Image key={`${uri}-${i}`} source={{ uri }} style={styles.imageThumb} resizeMode="cover" />
+          ))}
+        </ScrollView>
+      ) : displayImage ? (
         <Image source={{ uri: displayImage }} style={styles.image} resizeMode="cover" />
-      )}
+      ) : null}
+
+      {/* Share button */}
+      <TouchableOpacity onPress={handleShare} style={styles.shareRow} activeOpacity={0.7}>
+        {sharing ? (
+          <ActivityIndicator size="small" color={colors.accent} />
+        ) : (
+          <Ionicons name="share-outline" size={18} color={colors.accent} />
+        )}
+        <Text style={styles.shareText}>Diagnose teilen</Text>
+      </TouchableOpacity>
 
       <DiagnosisCard result={displayResult} />
 
@@ -56,8 +91,9 @@ export default function ResultsScreen() {
 
       {displayResult.followUpDays && !isFromHistory && (
         <View style={styles.followUpInfo}>
+          <Ionicons name="notifications-outline" size={16} color={colors.accent} />
           <Text style={styles.followUpInfoText}>
-            Empfohlenes Follow-up in {displayResult.followUpDays} Tagen
+            Follow-up in {displayResult.followUpDays} Tagen – du wirst erinnert
           </Text>
         </View>
       )}
@@ -95,7 +131,30 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 220,
     borderRadius: 16,
-    marginBottom: 16,
+    marginBottom: 12,
+  },
+  imageStrip: {
+    marginBottom: 12,
+  },
+  imageThumb: {
+    width: 160,
+    height: 160,
+    borderRadius: 14,
+    marginRight: 10,
+  },
+  shareRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    marginBottom: 4,
+  },
+  shareText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.accent,
   },
   emptyContainer: {
     flex: 1,
@@ -113,18 +172,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   followUpInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
     backgroundColor: colors.accentGlow,
     borderRadius: 12,
     padding: 14,
     marginTop: 12,
     borderWidth: 1,
     borderColor: colors.borderAccent,
-    alignItems: 'center',
   },
   followUpInfoText: {
     fontSize: 14,
     fontWeight: '500',
     color: colors.accent,
+    flex: 1,
   },
   btnRow: {
     gap: 8,

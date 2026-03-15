@@ -161,6 +161,149 @@ export default function PlantDetailScreen() {
           </View>
         )}
 
+        {/* Severity Trend Chart */}
+        {entries.length > 0 && (() => {
+          const CHART_HEIGHT = 120;
+          const DOT_SIZE = 10;
+          const severityPosition: Record<Severity, number> = {
+            niedrig: 0,
+            mittel: 0.33,
+            hoch: 0.66,
+            kritisch: 1,
+          };
+          // Take last 8 entries, reversed so oldest is first (left)
+          const chartEntries = entries.slice(0, 8).reverse();
+          const pointCount = chartEntries.length;
+
+          return (
+            <View style={styles.trendSection}>
+              <Text style={styles.sectionTitle}>GESUNDHEITSVERLAUF</Text>
+              <View style={styles.trendCard}>
+                {/* Y-axis labels */}
+                <View style={styles.trendYAxis}>
+                  <Text style={[styles.trendYLabel, { top: 0 }]}>Kritisch</Text>
+                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.34 - 6 }]}>Hoch</Text>
+                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.67 - 6 }]}>Mittel</Text>
+                  <Text style={[styles.trendYLabel, { bottom: 0 }]}>Niedrig</Text>
+                </View>
+
+                {/* Chart area */}
+                <View style={[styles.trendChartArea, { height: CHART_HEIGHT }]}>
+                  {/* Grid lines */}
+                  {[0, 0.33, 0.66, 1].map((pos, i) => (
+                    <View
+                      key={`grid-${i}`}
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        bottom: pos * (CHART_HEIGHT - DOT_SIZE),
+                        height: 1,
+                        backgroundColor: colors.border,
+                      }}
+                    />
+                  ))}
+
+                  {/* Connecting lines */}
+                  {pointCount > 1 && chartEntries.map((entry, index) => {
+                    if (index === 0) return null;
+                    const prev = chartEntries[index - 1];
+                    const prevX = (index - 1) / (pointCount - 1);
+                    const currX = index / (pointCount - 1);
+                    const prevY = severityPosition[prev.result.severity];
+                    const currY = severityPosition[entry.result.severity];
+
+                    const x1Pct = prevX * 100;
+                    const x2Pct = currX * 100;
+                    const y1 = prevY * (CHART_HEIGHT - DOT_SIZE);
+                    const y2 = currY * (CHART_HEIGHT - DOT_SIZE);
+                    const midColor = severityColor[entry.result.severity];
+
+                    return (
+                      <View
+                        key={`line-${index}`}
+                        style={{
+                          position: 'absolute',
+                          left: `${x1Pct}%` as any,
+                          bottom: Math.min(y1, y2) + DOT_SIZE / 2 - 1,
+                          width: `${x2Pct - x1Pct}%` as any,
+                          height: Math.abs(y2 - y1) + 2,
+                          overflow: 'visible',
+                        }}
+                      >
+                        <View
+                          style={{
+                            position: 'absolute',
+                            left: 0,
+                            right: 0,
+                            top: y1 > y2 ? 0 : undefined,
+                            bottom: y1 <= y2 ? 0 : undefined,
+                            height: 2,
+                            backgroundColor: midColor,
+                            opacity: 0.5,
+                            // Diagonal effect: we fake it with a simple horizontal line at midpoint
+                          }}
+                        />
+                      </View>
+                    );
+                  })}
+
+                  {/* Dots */}
+                  {chartEntries.map((entry, index) => {
+                    const sev = entry.result.severity;
+                    const color = severityColor[sev];
+                    const yPos = severityPosition[sev] * (CHART_HEIGHT - DOT_SIZE);
+                    const xPct = pointCount > 1 ? (index / (pointCount - 1)) * 100 : 50;
+
+                    return (
+                      <View
+                        key={`dot-${index}`}
+                        style={{
+                          position: 'absolute',
+                          left: `${xPct}%` as any,
+                          bottom: yPos,
+                          marginLeft: -DOT_SIZE / 2,
+                          width: DOT_SIZE,
+                          height: DOT_SIZE,
+                          borderRadius: DOT_SIZE / 2,
+                          backgroundColor: color,
+                          borderWidth: 2,
+                          borderColor: colors.cardDark,
+                          zIndex: 2,
+                        }}
+                      />
+                    );
+                  })}
+                </View>
+
+                {/* X-axis date labels */}
+                <View style={styles.trendXAxis}>
+                  {chartEntries.map((entry, index) => {
+                    const xPct = pointCount > 1 ? (index / (pointCount - 1)) * 100 : 50;
+                    const d = new Date(entry.date);
+                    const label = `${d.getDate()}.${d.getMonth() + 1}`;
+                    return (
+                      <Text
+                        key={`label-${index}`}
+                        style={[
+                          styles.trendXLabel,
+                          {
+                            position: 'absolute',
+                            left: `${xPct}%` as any,
+                            transform: [{ translateX: -16 }],
+                          },
+                        ]}
+                      >
+                        {label}
+                      </Text>
+                    );
+                  })}
+                </View>
+              </View>
+            </View>
+          );
+        })()}
+
         {/* Timeline */}
         <Text style={styles.sectionTitle}>
           Diagnose-Verlauf ({entries.length})
@@ -320,6 +463,48 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 12, fontWeight: '600', color: colors.textSecondary, letterSpacing: 1.5, textTransform: 'uppercase',
     marginBottom: 16,
+  },
+
+  // Severity Trend Chart
+  trendSection: {
+    marginBottom: 20,
+  },
+  trendCard: {
+    backgroundColor: colors.cardDark,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 16,
+    paddingLeft: 52,
+  },
+  trendYAxis: {
+    position: 'absolute',
+    left: 8,
+    top: 16,
+    bottom: 36,
+    width: 40,
+    justifyContent: 'space-between',
+  },
+  trendYLabel: {
+    fontSize: 9,
+    color: colors.textMuted,
+    position: 'absolute',
+    left: 0,
+  },
+  trendChartArea: {
+    position: 'relative',
+    width: '100%',
+  },
+  trendXAxis: {
+    position: 'relative',
+    height: 20,
+    marginTop: 8,
+  },
+  trendXLabel: {
+    fontSize: 10,
+    color: colors.textMuted,
+    width: 32,
+    textAlign: 'center',
   },
 
   // Empty

@@ -42,10 +42,18 @@ export interface DiagnosisResult {
 export interface DiagnosisEntry {
   id: string;
   date: string;
-  imageUri: string;
+  imageUri: string;         // backward compat – first image
+  imageUris: string[];      // all images (1–3)
   questionnaire: QuestionnaireData;
   result: DiagnosisResult;
   plantId?: string;
+}
+
+/** Helper: get all image URIs from an entry (handles old entries without imageUris) */
+export function getEntryImageUris(entry: DiagnosisEntry): string[] {
+  if (entry.imageUris && entry.imageUris.length > 0) return entry.imageUris;
+  if (entry.imageUri) return [entry.imageUri];
+  return [];
 }
 
 export interface Plant {

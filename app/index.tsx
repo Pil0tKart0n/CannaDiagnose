@@ -120,6 +120,13 @@ export default function HomeScreen() {
                     <Text style={styles.secondaryBtnText}>Verlauf</Text>
                   </div>
                 </View>
+                <div
+                  className="cd-btn-secondary"
+                  onClick={() => router.push('/library')}
+                  style={{ padding: '12px 16px', textAlign: 'center' } as any}
+                >
+                  <Text style={styles.secondaryBtnText}>Bibliothek</Text>
+                </div>
               </>
             ) : (
               <>
@@ -149,6 +156,13 @@ export default function HomeScreen() {
                     <Text style={styles.secondaryBtnText}>Verlauf</Text>
                   </TouchableOpacity>
                 </View>
+                <TouchableOpacity
+                  style={styles.nativeSecondaryBtn}
+                  onPress={() => router.push('/library')}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.secondaryBtnText}>Bibliothek</Text>
+                </TouchableOpacity>
               </>
             )}
           </View>
