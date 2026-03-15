@@ -10,40 +10,55 @@ SYSTEMATISCHE ANALYSE – Gehe bei JEDEM Foto diese Checkliste durch:
 
 1. VERGILBUNG – DAS MUSTER IST ENTSCHEIDEND (achte genau auf die RICHTUNG der Vergilbung!):
 
-   STICKSTOFF(N)-MANGEL vs. MAGNESIUM(Mg)-MANGEL – DIE HÄUFIGSTE VERWECHSLUNG:
+   STICKSTOFF(N)-MANGEL vs. MAGNESIUM(Mg)-MANGEL – MULTI-PUNKT-DIAGNOSE:
 
-   ▸ STICKSTOFF(N)-MANGEL:
-     - Das GESAMTE Blatt wird gleichmäßig hellgrün → gelb
-     - Beginnt an den UNTERSTEN/ÄLTESTEN Blättern (mobiler Nährstoff)
-     - Die Vergilbung ist UNIFORM – das ganze Blatt wird blass
-     - Fortgeschritten: Blätter werden komplett gelb und fallen ab
-     - Die Pflanze "kannibalisiert" alte Blätter um neue zu versorgen
-     - ⚠️ WICHTIG: Bei fortgeschrittenem N-Mangel können die Adern LEICHT grüner erscheinen als das restliche Gewebe – das ist KEIN Mg-Mangel! Die Adern sind einfach die letzten Stellen die vergilben. Der Unterschied zu Mg: Bei N ist die Vergilbung ÜBER DAS GESAMTE BLATT verteilt, bei Mg ist ein STARKER, AUFFÄLLIGER Kontrast zwischen grünen Adern und gelbem Gewebe sichtbar.
+   ⚠️ FIXIERE DICH NICHT AUF EIN EINZIGES MERKMAL! Dass Adern grüner erscheinen als das restliche Blatt reicht NICHT für eine Mg-Diagnose. Du MUSST alle 7 Punkte unten prüfen und die Summe bewerten.
 
-   ▸ MAGNESIUM(Mg)-MANGEL:
-     - Vergilbung beginnt ZWISCHEN den Blattadern, VON DER BLATTMITTE NACH AUSSEN
-     - Die Blattadern BLEIBEN DEUTLICH SATTGRÜN → klassisches "Weihnachtsbaum-Muster" / "Fischgräten-Muster"
-     - RICHTUNG: Von INNEN (Blattmitte/Adern) nach AUSSEN (Blattrand) – das ist das Schlüsselmerkmal!
-     - Betrifft untere bis mittlere Blätter zuerst (mobiler Nährstoff)
-     - Blattränder können sich nach oben einrollen
-     - Häufig bei niedrigem pH (<6.0) oder Kalium-Überschuss
-     - ⚠️ ENTSCHEIDENDER UNTERSCHIED zu N-Mangel: Bei Mg-Mangel ist der Kontrast zwischen grünen Adern und gelbem Gewebe STARK und AUFFÄLLIG – die Adern stechen richtig hervor. Wenn das Blatt einfach insgesamt gleichmäßig gelb ist (auch wenn die Adern minimal grüner sind), ist es N-Mangel, NICHT Mg!
+   PFLICHT: Gehe bei JEDER Vergilbung diese 7 Diagnosepunkte durch und zähle die Treffer:
 
-   ▸ N vs. Mg ENTSCHEIDUNGSHILFE (diese Fragen MUSST du bei jeder Vergilbung durchgehen!):
-     1. Ist das GESAMTE Blatt relativ gleichmäßig gelb? → N-Mangel
-     2. Sind die Adern DEUTLICH und KONTRASTREICH grün gegen gelbes Gewebe? → Mg-Mangel
-     3. Sind die Adern nur MINIMAL/LEICHT grüner als der Rest? → N-Mangel (Adern vergilben zuletzt)
-     4. Beginnt die Vergilbung klar von der Blattmitte zwischen den Adern? → Mg-Mangel
-     5. Ist das Blatt insgesamt blass/gelb ohne klares Adernmuster? → N-Mangel
-     → Im Zweifelsfall: Wenn du nicht SICHER bist dass die Adern DEUTLICH grün hervorstechen, diagnostiziere N-Mangel – er ist 3x häufiger als Mg-Mangel!
+   PUNKT 1 – KONTRAST-STÄRKE (der wichtigste Punkt!):
+   Wie stark ist der Farbunterschied zwischen Adern und Gewebe?
+   → SCHWACH/LEICHT (Adern nur minimal grüner, Blatt insgesamt blass) = N [+1 für N]
+   → STARK/AUFFÄLLIG (Adern stechen als sattgrüne Linien deutlich hervor) = Mg [+1 für Mg]
+   → ACHTUNG: Bei N-Mangel sind Adern IMMER etwas grüner weil sie zuletzt vergilben! Das allein ist KEIN Mg-Zeichen!
+
+   PUNKT 2 – VERTEILUNG auf dem Blatt:
+   → GLEICHMÄSSIG über die gesamte Blattfläche verteilt, inkl. Ränder = N [+1 für N]
+   → IN FELDERN zwischen den Adern, mit scharfen grünen Adern-Grenzen = Mg [+1 für Mg]
+
+   PUNKT 3 – BLATTRAND:
+   → Blattrand ist GENAUSO gelb wie der Rest des Blattes = N [+1 für N]
+   → Blattrand bleibt GRÜNER als die Mitte, oder rollt sich nach oben = Mg [+1 für Mg]
+
+   PUNKT 4 – GESAMTFLÄCHE betroffen:
+   → Das Blatt ist KOMPLETT oder ÜBERWIEGEND gelb/blass (>70% der Fläche) = N [+1 für N]
+   → Gelbe FELDER/INSELN zwischen grünen Adern, viel Grün noch sichtbar = Mg [+1 für Mg]
+
+   PUNKT 5 – ANZAHL betroffener Blätter:
+   → VIELE untere Blätter gleichzeitig betroffen, progressive Vergilbung von unten nach oben = N [+1 für N]
+   → WENIGE Blätter, eher vereinzelt an unteren/mittleren Etagen = Mg [+1 für Mg]
+
+   PUNKT 6 – NEUES WACHSTUM (Triebspitzen):
+   → Neues Wachstum ist AUCH heller/blasser als normal = N [+1 für N]
+   → Neues Wachstum sieht GESUND und grün aus = Mg [+1 für Mg]
+
+   PUNKT 7 – GESAMTEINDRUCK der Pflanze:
+   → Pflanze wirkt insgesamt BLASS, wachstumsschwach, dünne Stängel = N [+1 für N]
+   → Pflanze wirkt sonst KRÄFTIG, nur einzelne Blätter haben das Adernmuster = Mg [+1 für Mg]
+
+   AUSWERTUNG (PFLICHT – du MUSST die Punkte zählen!):
+   → 4+ Punkte für N = Stickstoff(N)-Mangel diagnostizieren
+   → 4+ Punkte für Mg = Magnesium(Mg)-Mangel diagnostizieren
+   → 3-4 unentschieden = BEIDE Möglichkeiten nennen, Confidence senken auf max 0.60
+   → STANDARD-ANNAHME: N-Mangel ist 3x häufiger als Mg. Im echten Zweifel → N.
+
+   Nenne in der rootCauseAnalysis KURZ welche Punkte für deine Diagnose sprechen (z.B. "gleichmäßige Vergilbung, Ränder genauso betroffen, viele Blätter → N-Mangel").
 
    ▸ EISEN(Fe)-MANGEL:
      - Ähnlich wie Mg (interveinal), ABER: betrifft NEUE/OBERE Blätter zuerst (immobiler Nährstoff!)
      - Junge Blätter werden gelb-weiß, Adern bleiben grün
      - Bei schwerem Mangel: neue Blätter fast komplett weiß/bleich
      - Häufig bei pH >7.0 oder Phosphor-Überschuss
-
-   MERKREGEL: N = ganzes Blatt gleichmäßig gelb (Adern minimal grüner = normal bei N!) | Mg = STARKER Kontrast grüne Adern vs gelbes Gewebe, von innen nach außen | Fe = wie Mg aber an NEUEN Blättern oben
 
 2. WEITERE BLATTFARB-SYMPTOME:
 
