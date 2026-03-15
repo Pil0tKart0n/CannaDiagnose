@@ -434,42 +434,62 @@ export async function refineDiagnosis(
 
   const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue, fertilizerType, plantAge);
 
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 2048,
-      system: REFINE_SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            ...imageBlocks,
-            { type: 'text', text: userPrompt },
-          ],
+  // Try up to 2 times
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
         },
-      ],
-    }),
-  });
+        body: JSON.stringify({
+          model: MODEL,
+          max_tokens: 4096,
+          system: REFINE_SYSTEM_PROMPT,
+          messages: [
+            {
+              role: 'user',
+              content: [
+                ...imageBlocks,
+                { type: 'text', text: userPrompt },
+              ],
+            },
+          ],
+        }),
+      });
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`API Fehler: ${response.status}`);
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.log('[CannaDiagnose] Refine API error:', response.status, errorBody.substring(0, 300));
+        if (attempt < 2) { await delay(2000); continue; }
+        throw new Error('API Fehler: ' + response.status);
+      }
+
+      const data = await response.json();
+      const content = data.content?.[0]?.text;
+      console.log('[CannaDiagnose] Refine raw response:', content?.substring(0, 500));
+
+      if (!content) {
+        if (attempt < 2) { await delay(2000); continue; }
+        throw new Error('Keine Antwort von der API erhalten.');
+      }
+
+      // Check if response was truncated (stop_reason !== 'end_turn')
+      const stopReason = data.stop_reason;
+      console.log('[CannaDiagnose] Refine stop_reason:', stopReason);
+
+      const parsed = extractJSON(content);
+      return validateDiagnosisResult(parsed);
+    } catch (err: any) {
+      console.log('[CannaDiagnose] Refine attempt', attempt, 'failed:', err.message);
+      if (attempt < 2) { await delay(2000); continue; }
+      throw err;
+    }
   }
 
-  const data = await response.json();
-  const content = data.content?.[0]?.text;
-  if (!content) {
-    throw new Error('Keine Antwort von der API erhalten.');
-  }
-
-  const parsed = extractJSON(content);
-  return validateDiagnosisResult(parsed);
+  throw new Error('Verfeinerung fehlgeschlagen.');
 }
 
 function delay(ms: number): Promise<void> {
