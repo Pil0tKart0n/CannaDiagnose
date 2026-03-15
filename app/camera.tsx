@@ -24,7 +24,7 @@ export default function CameraScreen() {
       return;
     }
     const result = await ImagePicker.launchCameraAsync({
-      quality: 0.8,
+      quality: 1,
       allowsEditing: true,
     });
     if (!result.canceled && result.assets[0]) {
@@ -40,7 +40,7 @@ export default function CameraScreen() {
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
-      quality: 0.8,
+      quality: 1,
       allowsEditing: true,
     });
     if (!result.canceled && result.assets[0]) {
