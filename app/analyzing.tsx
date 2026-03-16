@@ -172,12 +172,15 @@ export default function AnalyzingScreen() {
 
   if (screenState === 'error' && error) {
     const isQuotaExceeded = error.message === 'quota_exceeded';
+    const isNoPlant = error.type === 'no_plant';
     const iconName = isQuotaExceeded
       ? 'diamond-outline'
-      : error.type === 'network'
-        ? 'cloud-offline-outline'
-        : 'alert-circle-outline';
-    const iconColor = isQuotaExceeded ? '#FBBF24' : error.type === 'network' ? colors.warning : colors.error;
+      : isNoPlant
+        ? 'leaf-outline'
+        : error.type === 'network'
+          ? 'cloud-offline-outline'
+          : 'alert-circle-outline';
+    const iconColor = isQuotaExceeded ? '#FBBF24' : isNoPlant ? colors.warning : error.type === 'network' ? colors.warning : colors.error;
 
     return (
       <View style={styles.container}>
@@ -187,14 +190,18 @@ export default function AnalyzingScreen() {
         <Text style={styles.errorTitle}>
           {isQuotaExceeded
             ? 'Tageslimit erreicht'
-            : error.type === 'network'
-              ? 'Keine Verbindung'
-              : 'Fehler bei der Analyse'}
+            : isNoPlant
+              ? 'Keine Pflanze erkannt'
+              : error.type === 'network'
+                ? 'Keine Verbindung'
+                : 'Fehler bei der Analyse'}
         </Text>
         <Text style={styles.errorMessage}>
           {isQuotaExceeded
             ? 'Du hast deine kostenlose Diagnose für heute bereits verwendet.'
-            : error.message}
+            : isNoPlant
+              ? 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte mache ein neues Foto von deiner Pflanze.'
+              : error.message}
         </Text>
 
         {isQuotaExceeded && (
@@ -211,6 +218,24 @@ export default function AnalyzingScreen() {
             >
               <Ionicons name="diamond-outline" size={18} color="#000" />
               <Text style={[styles.retryBtnText, { color: '#000' }]}>Premium freischalten</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
+
+        {isNoPlant && (
+          <TouchableOpacity
+            onPress={() => router.replace('/camera')}
+            activeOpacity={0.85}
+            style={styles.retryBtnWrap}
+          >
+            <LinearGradient
+              colors={['#5AEF90', '#4ADE80', '#3CC870']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.retryBtn}
+            >
+              <Ionicons name="camera-outline" size={18} color={colors.textOnAccent} />
+              <Text style={styles.retryBtnText}>Neues Foto aufnehmen</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}

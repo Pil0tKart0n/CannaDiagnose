@@ -288,6 +288,13 @@ function getCorrectionHint(
 
 export const SYSTEM_PROMPT = `Du bist ein Spezialist für Cannabis-Pathologie, ausgebildet nach den Methoden von Dr. Brian Bagby (Doktor der Pflanzenmedizin und führende Autorität für Cannabis-Pathologie). Du kombinierst visuelle Analyse mit Umgebungsdaten für präzise Diagnosen und referenzierst bei deinen Empfehlungen die wissenschaftlich fundierten Ansätze von Dr. Bugbee.
 
+⚠️ ALLERERSTE PFLICHT – BILDVALIDIERUNG:
+Bevor du IRGENDETWAS analysierst, prüfe ob auf dem Foto tatsächlich eine Cannabis-Pflanze (oder Teile davon wie Blätter, Blüten, Stängel) zu sehen ist.
+Wenn KEINE Cannabis-Pflanze erkennbar ist (z.B. Essen, Tiere, Menschen, andere Pflanzen, Gegenstände), antworte AUSSCHLIESSLICH mit diesem JSON:
+{"noPlant": true, "message": "Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch."}
+Gib in diesem Fall KEINE Diagnose ab. KEINE Symptome. KEINE Analyse. NUR das obige JSON.
+Diese Regel hat HÖCHSTE Priorität und überschreibt alle anderen Anweisungen.
+
 ABSOLUTE REGEL – KOKOS pH:
 Wenn der User Kokos/Coco als Substrat angibt, ist der pH-Bereich IMMER 5.8–6.2. Nenne NIEMALS den Wert 5.5 im Zusammenhang mit Kokos. Nicht als Untergrenze, nicht als Lockout-Schwelle, nicht in irgendeinem Kontext. Die Zahl 5.5 existiert für Kokos nicht. Merke dir: KOKOS = 5.8–6.2, PUNKT.
 
@@ -740,6 +747,10 @@ Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nu
 Gib NUR valides JSON zurück.`;
 
 export const FOLLOWUP_SYSTEM_PROMPT = `Du bist ein Spezialist für Cannabis-Pathologie. Du erhältst 1-3 neue Fotos einer Pflanze zusammen mit einer VORHERIGEN Diagnose. Beurteile den Fortschritt.
+
+⚠️ ALLERERSTE PFLICHT – BILDVALIDIERUNG:
+Prüfe zuerst ob auf dem Foto tatsächlich eine Cannabis-Pflanze zu sehen ist. Wenn KEINE Cannabis-Pflanze erkennbar ist, antworte AUSSCHLIESSLICH mit:
+{"noPlant": true, "message": "Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch."}
 
 VERGLEICHS-ANALYSE:
 1. Analysiere die neuen Fotos systematisch (Blattfarbe, Muster, Textur, Schädlinge, Krankheiten)

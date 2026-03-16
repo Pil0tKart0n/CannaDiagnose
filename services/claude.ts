@@ -211,7 +211,7 @@ function extractJSON(content: string): any {
 // Error classification
 // ---------------------------------------------------------------------------
 
-export type ApiErrorType = 'network' | 'rate_limit' | 'server' | 'auth' | 'parse' | 'unknown';
+export type ApiErrorType = 'network' | 'rate_limit' | 'server' | 'auth' | 'parse' | 'no_plant' | 'unknown';
 
 export interface ApiError {
   type: ApiErrorType;
@@ -388,6 +388,14 @@ export async function analyzePlant(
       console.log('[LeafScan] Raw API response:', content.substring(0, 500));
       const parsed = extractJSON(content);
       console.log('[LeafScan] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
+
+      // Check if the API detected no cannabis plant
+      if (parsed.noPlant) {
+        const err: any = new Error(parsed.message || 'Keine Cannabis-Pflanze erkannt.');
+        err.apiError = { type: 'no_plant' as ApiErrorType, message: parsed.message || 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch.', retryable: false };
+        throw err;
+      }
+
       const validated = validateDiagnosisResult(parsed);
       console.log('[LeafScan] Validated result:', JSON.stringify(validated).substring(0, 500));
       return { result: validated, attempt };
