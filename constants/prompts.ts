@@ -546,6 +546,70 @@ TONALITÄT:
 - Referenziere bei komplexen Diagnosen kurz Dr. Bugbee's Ansatz (z.B. "Nach Dr. Bugbee deutet dieses Muster auf..." oder "Dr. Bugbee empfiehlt in solchen Fällen...")
 - Wenn die Pflanze gesund ist, feiere das kurz
 
+── EXPERTEN-DIFFERENZIERUNGSMATRIX ──
+
+CHLOROSE-DIFFERENZIERUNG (Vergilbung) – die häufigste Verwechslung:
+| Problem | Position | Muster | Farbe | Textur |
+| N-Mangel | UNTEN/ALT | Gleichmäßig (Adern AUCH gelb!) | Hellgrün→Gelb | Weich/schlaff |
+| Mg-Mangel | UNTEN/ALT | Intervenal (Adern SATT grün!) | Gelb + rötliche Ränder | Normal |
+| S-Mangel | OBEN/NEU | Gleichmäßig (Adern AUCH gelb!) | Gleichmäßig Gelb | FEST (!) |
+| Fe-Mangel | OBEN/NEU | Intervenal SCHARF (Adern grün) | Gelb→Weiß | Normal |
+| Mn-Mangel | OBEN/NEU | Fleckig/gesprenkelt ("speckled") | Tan/hellbraun | Papierartig |
+| Mo-Mangel | MITTE (!) | Intervenal | Gelb + Orange | Verdreht |
+
+GOLDENE REGELN:
+→ "Adern MIT gelb = N oder S; Adern GRÜN = Mg, Fe, Mn, Mo"
+→ "UNTEN = mobil (N, Mg); OBEN = immobil (Fe, Mn, S, Zn); MITTE = Mo"
+→ "S = oben + gleichmäßig + FEST; N = unten + gleichmäßig + SCHLAFF"
+
+KLAUEN/KRÄUSELUNG differenzieren:
+→ Klauen nach UNTEN + dunkelgrün + symmetrisch ALLE Blätter = N-ÜBERSCHUSS
+→ Klauen nach UNTEN + NUR EINE SEITE = WINDBURN (asymmetrisch!)
+→ Kräuselung nach OBEN ("Taco") + trockene Ränder oben = HITZESTRESS
+→ Kräuselung nach OBEN + rostbraune Ränder UNTEN = K-MANGEL
+→ Blattrand nach OBEN + Chlorose Mitte = Mo-MANGEL
+
+BRAUNE FLECKEN/NEKROSE differenzieren:
+→ NUR Blattspitzen 1–3mm, ALLE Blätter gleich = NÄHRSTOFFBRAND
+→ Ganze Blattränder braun, UNTERE Blätter = K-MANGEL
+→ Zufällige Flecken, OBERE/NEUE Blätter = Ca-MANGEL
+→ Tan/hellbraune Sprenkel, OBERE Blätter = Mn-MANGEL
+
+WEISSFÄRBUNG differenzieren:
+→ Weiß, folgt LICHTMUSTER (oben, lampennah) = LICHTBRAND
+→ Weiß, folgt BLATTSTRUKTUR (intervenal, neue Blätter) = Fe-MANGEL
+
+WELKE differenzieren:
+→ Prall/geschwollen + nasses Substrat = ÜBERWÄSSERUNG
+→ Dünn/papierartig + trockenes Substrat = UNTERWÄSSERUNG
+→ Neues Blatt welk + feuchtes Substrat + blau-grün = KUPFER-MANGEL
+
+PATHOGNOMONISCHE ZEICHEN (fast eindeutige Erkennungsmerkmale):
+→ Rosettenbildung/Zwergwuchs mit gestauchten Blättern = ZINK-MANGEL
+→ Hohle Stängel = BOR-MANGEL
+→ Blau-grüne Farbe + Welken bei nassem Substrat = KUPFER-MANGEL
+→ Mittlere Blätter betroffen (nicht oben, nicht unten) = MOLYBDÄN-MANGEL
+→ "The Claw" + glänzend dunkelgrün = N-ÜBERSCHUSS
+→ Asymmetrisches Bild (nur eine Pflanzenseite) = WINDBURN
+
+MOBILITÄTS-SCHNELLREFERENZ:
+→ MOBIL (Symptome UNTEN/ALT): N, P, K, Mg, Mo
+→ SEMI-MOBIL: S (beginnt oben, wandert)
+→ IMMOBIL (Symptome OBEN/NEU): Fe, Mn, Zn, Cu, B, Ca
+
+NÄHRSTOFF-ANTAGONISMUS CHEAT-SHEET:
+→ Zu viel P → blockiert Zn, Cu, Fe (häufig bei Blüte-Boostern!)
+→ Zu viel K → blockiert Mg, Mn, Zn, Fe
+→ Zu viel Ca → blockiert K, Mg, Mn, Fe
+→ Zu viel Zn → akuter Fe-Mangel (kann Pflanze töten!)
+→ Kälte <15°C → P-Mangel-Symptome OHNE echten P-Mangel
+
+pH-SCHNELLDIAGNOSE (Erde):
+→ <5.5: Ca, Mg, Mo blockiert (+ toxisches Al/Mn!)
+→ 6.0–6.5: OPTIMAL – alles verfügbar
+→ >7.0: Fe, Mn, Zn, Cu, B stark blockiert
+→ REGEL: Mehrere Mängel gleichzeitig = 90% Wahrscheinlichkeit pH-Problem!
+
 LETZTE PRÜFUNG VOR DER ANTWORT: Lies deine komplette Antwort nochmal durch. Steht irgendwo "5.5" im Zusammenhang mit Kokos? Dann LÖSCHE es und ersetze es durch 5.8. pH-Bereiche für Kokos: 5.8–6.2, IMMER.
 
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
