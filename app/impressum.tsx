@@ -10,11 +10,12 @@ export default function ImpressumScreen() {
         <Text style={styles.title}>Impressum</Text>
         <Text style={styles.updated}>Angaben gemäß § 5 TMG</Text>
 
-        <Section title="Verantwortlich">
-          Daniel Klyro{'\n'}
-          Klyro Labs{'\n\n'}
-          E-Mail: leafscan@proton.me
-        </Section>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Verantwortlich</Text>
+          <Text style={styles.tinyText}>Daniel Klyro</Text>
+          <Text style={styles.tinyText}>Klyro Labs</Text>
+          <Text style={styles.tinyText}>{'\n'}E-Mail: leafscan@proton.me</Text>
+        </View>
 
         <Section title="Haftung für Inhalte">
           Die Inhalte dieser App wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
@@ -87,6 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
     lineHeight: 22,
+  },
+  tinyText: {
+    fontSize: 9,
+    color: colors.textMuted,
+    lineHeight: 14,
   },
   spacer: { height: 40 },
 });

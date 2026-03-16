@@ -10,10 +10,11 @@ export default function PrivacyScreen() {
         <Text style={styles.title}>Datenschutzerklärung</Text>
         <Text style={styles.updated}>Stand: März 2026</Text>
 
-        <Section title="1. Verantwortlicher">
-          LeafScan App{'\n'}
-          Kontakt: leafscan@proton.me
-        </Section>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>1. Verantwortlicher</Text>
+          <Text style={styles.tinyText}>LeafScan App – Klyro Labs</Text>
+          <Text style={styles.tinyText}>Kontakt: leafscan@proton.me</Text>
+        </View>
 
         <Section title="2. Welche Daten werden verarbeitet?">
           <Bold>Fotos:</Bold> Die von dir aufgenommenen oder ausgewählten Pflanzenfotos werden
@@ -57,7 +58,7 @@ export default function PrivacyScreen() {
           Du hast zudem das Recht, dich bei einer Aufsichtsbehörde zu beschweren
           (Art. 77 DSGVO). Die zuständige Aufsichtsbehörde findest du unter
           www.bfdi.bund.de.{'\n\n'}
-          Bei Fragen: leafscan@proton.me
+          Bei Fragen: <Text style={styles.tinyText}>leafscan@proton.me</Text>
         </Section>
 
         <Section title="6a. Automatisierte Entscheidungsfindung">
@@ -140,6 +141,11 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: '600',
     color: colors.text,
+  },
+  tinyText: {
+    fontSize: 9,
+    color: colors.textMuted,
+    lineHeight: 14,
   },
   spacer: { height: 40 },
 });

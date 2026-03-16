@@ -10,11 +10,14 @@ export default function TermsScreen() {
         <Text style={styles.title}>Nutzungsbedingungen</Text>
         <Text style={styles.updated}>Stand: März 2026</Text>
 
-        <Section title="1. Geltungsbereich">
-          Diese Nutzungsbedingungen gelten für die Nutzung der App „LeafScan" (nachfolgend „App")
-          von Klyro Labs (nachfolgend „Anbieter"). Mit der Nutzung der App akzeptierst du
-          diese Bedingungen.
-        </Section>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>1. Geltungsbereich</Text>
+          <Text style={styles.sectionText}>
+            Diese Nutzungsbedingungen gelten für die Nutzung der App „LeafScan" (nachfolgend „App")
+            von <Text style={styles.tinyText}>Klyro Labs</Text> (nachfolgend „Anbieter"). Mit der Nutzung der App akzeptierst du
+            diese Bedingungen.
+          </Text>
+        </View>
 
         <Section title="2. Leistungsbeschreibung">
           Die App bietet eine KI-gestützte Pflanzendiagnose für Cannabis an. Nutzer können
@@ -81,10 +84,11 @@ export default function TermsScreen() {
           gesetzlich zulässig, der Sitz des Anbieters.
         </Section>
 
-        <Section title="Kontakt">
-          Bei Fragen zu diesen Nutzungsbedingungen:{'\n'}
-          leafscan@proton.me
-        </Section>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Kontakt</Text>
+          <Text style={styles.tinyText}>Bei Fragen zu diesen Nutzungsbedingungen:</Text>
+          <Text style={styles.tinyText}>leafscan@proton.me</Text>
+        </View>
 
         <View style={styles.spacer} />
       </ScrollView>
@@ -127,6 +131,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
     lineHeight: 22,
+  },
+  tinyText: {
+    fontSize: 9,
+    color: colors.textMuted,
+    lineHeight: 14,
   },
   spacer: { height: 40 },
 });
