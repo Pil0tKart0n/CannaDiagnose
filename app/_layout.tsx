@@ -9,6 +9,7 @@ import { setupNotificationHandler } from '../services/notifications';
 import { optimizeImage, initReferenceImages } from '../services/claude';
 import { cleanupStorage } from '../services/storage';
 import { initLanguage } from '../services/i18n';
+import { initPurchases } from '../services/purchases';
 
 SplashScreen.preventAutoHideAsync();
 setupNotificationHandler();
@@ -117,6 +118,8 @@ export default function RootLayout() {
     );
     // Init language from device/storage
     initLanguage().catch(() => {});
+    // Init RevenueCat purchases
+    initPurchases().catch(() => {});
     // Cleanup old storage entries
     cleanupStorage().then(({ archived, deleted }) => {
       if (archived > 0 || deleted > 0) {
@@ -217,6 +220,7 @@ export default function RootLayout() {
         <Stack.Screen name="add-plant" options={{ title: 'Neue Pflanze' }} />
         <Stack.Screen name="library" options={{ title: 'Bibliothek' }} />
         <Stack.Screen name="privacy" options={{ title: 'Datenschutz' }} />
+        <Stack.Screen name="paywall" options={{ title: 'Premium', presentation: 'modal', headerShown: false }} />
       </Stack>
     </DiagnosisContext.Provider>
     </View>

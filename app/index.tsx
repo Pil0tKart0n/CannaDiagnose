@@ -105,11 +105,15 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             {quotaText ? (
-              <View style={[styles.quotaBadge, quotaIsPremium && styles.quotaBadgePremium]}>
+              <TouchableOpacity
+                style={[styles.quotaBadge, quotaIsPremium && styles.quotaBadgePremium]}
+                onPress={() => !quotaIsPremium && router.push('/paywall')}
+                activeOpacity={quotaIsPremium ? 1 : 0.7}
+              >
                 <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>
                   {quotaText}
                 </Text>
-              </View>
+              </TouchableOpacity>
             ) : null}
           </View>
 

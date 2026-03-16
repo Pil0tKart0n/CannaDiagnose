@@ -60,7 +60,7 @@ export default function AnalyzingScreen() {
       if (!quota.allowed) {
         setError({
           type: 'unknown',
-          message: 'Du hast deine kostenlose Diagnose für heute bereits verwendet. Schalte Premium frei für unbegrenzte Scans.',
+          message: 'quota_exceeded',
           retryable: false,
         });
         setScreenState('error');
@@ -171,18 +171,49 @@ export default function AnalyzingScreen() {
   };
 
   if (screenState === 'error' && error) {
-    const iconName = error.type === 'network' ? 'cloud-offline-outline' : 'alert-circle-outline';
-    const iconColor = error.type === 'network' ? colors.warning : colors.error;
+    const isQuotaExceeded = error.message === 'quota_exceeded';
+    const iconName = isQuotaExceeded
+      ? 'diamond-outline'
+      : error.type === 'network'
+        ? 'cloud-offline-outline'
+        : 'alert-circle-outline';
+    const iconColor = isQuotaExceeded ? '#FBBF24' : error.type === 'network' ? colors.warning : colors.error;
 
     return (
       <View style={styles.container}>
-        <View style={styles.errorIconWrap}>
+        <View style={[styles.errorIconWrap, isQuotaExceeded && { backgroundColor: 'rgba(251,191,36,0.08)', borderColor: 'rgba(251,191,36,0.15)' }]}>
           <Ionicons name={iconName as any} size={48} color={iconColor} />
         </View>
         <Text style={styles.errorTitle}>
-          {error.type === 'network' ? 'Keine Verbindung' : 'Fehler bei der Analyse'}
+          {isQuotaExceeded
+            ? 'Tageslimit erreicht'
+            : error.type === 'network'
+              ? 'Keine Verbindung'
+              : 'Fehler bei der Analyse'}
         </Text>
-        <Text style={styles.errorMessage}>{error.message}</Text>
+        <Text style={styles.errorMessage}>
+          {isQuotaExceeded
+            ? 'Du hast deine kostenlose Diagnose für heute bereits verwendet.'
+            : error.message}
+        </Text>
+
+        {isQuotaExceeded && (
+          <TouchableOpacity
+            onPress={() => router.push('/paywall')}
+            activeOpacity={0.85}
+            style={styles.retryBtnWrap}
+          >
+            <LinearGradient
+              colors={['#FCD34D', '#FBBF24', '#F59E0B']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.retryBtn}
+            >
+              <Ionicons name="diamond-outline" size={18} color="#000" />
+              <Text style={[styles.retryBtnText, { color: '#000' }]}>Premium freischalten</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
 
         {error.retryable && (
           <TouchableOpacity onPress={handleRetry} activeOpacity={0.85} style={styles.retryBtnWrap}>
