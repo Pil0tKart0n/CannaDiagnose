@@ -11,6 +11,7 @@ const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 // Store price IDs after creation/lookup
 let growerPriceId = null;
 let proPriceId = null;
+let productsReady = false;
 
 // ── Middleware ──
 app.use(cors());
@@ -80,14 +81,22 @@ async function ensureProducts() {
       console.log('[LeafScan] Created Pro price:', proPriceId);
     }
 
+    productsReady = true;
     console.log('[LeafScan] Stripe products ready:', { growerPriceId, proPriceId });
   } catch (err) {
     console.error('[LeafScan] Failed to setup Stripe products:', err.message);
+    // Retry after 10 seconds
+    setTimeout(ensureProducts, 10000);
   }
 }
 
 // ── GET /api/stripe/products — return available plans ──
-app.get('/api/stripe/products', (req, res) => {
+app.get('/api/stripe/products', async (req, res) => {
+  // If price IDs were lost (e.g. after restart before ensureProducts finished), reload them
+  if (!growerPriceId || !proPriceId) {
+    await ensureProducts();
+  }
+
   res.json({
     plans: [
       {
@@ -118,6 +127,11 @@ app.post('/api/stripe/checkout', async (req, res) => {
 
   if (!priceId) {
     return res.status(400).json({ error: 'priceId required' });
+  }
+
+  // Reload prices if not ready
+  if (!growerPriceId || !proPriceId) {
+    await ensureProducts();
   }
 
   // Validate it's one of our prices
@@ -171,7 +185,7 @@ app.post('/api/stripe/webhook', async (req, res) => {
     if (webhookSecret) {
       event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     } else {
-      // Without webhook secret, parse directly (dev mode)
+      console.warn('[LeafScan] WARNING: No STRIPE_WEBHOOK_SECRET set — webhook signature NOT verified!');
       event = JSON.parse(req.body.toString());
     }
   } catch (err) {
@@ -183,7 +197,6 @@ app.post('/api/stripe/webhook', async (req, res) => {
     case 'checkout.session.completed': {
       const session = event.data.object;
       console.log('[LeafScan] Payment successful:', session.customer_email || session.customer);
-      // Premium is activated client-side via success URL parameter
       break;
     }
     case 'customer.subscription.deleted': {
@@ -200,7 +213,7 @@ app.post('/api/stripe/webhook', async (req, res) => {
 
 // ── Health check ──
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', stripe: !!growerPriceId });
+  res.json({ status: 'ok', stripe: productsReady && !!growerPriceId });
 });
 
 // ── Start ──

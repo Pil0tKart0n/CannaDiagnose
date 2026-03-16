@@ -130,11 +130,13 @@ export default function ResultsScreen() {
   const displayResult: DiagnosisResult | null = refinedResult
     ? refinedResult
     : params.historyResult
-      ? JSON.parse(params.historyResult)
+      ? (() => { try { return JSON.parse(params.historyResult); } catch { return result; } })()
       : result;
 
   const displayImage = params.historyImage || imageUri;
-  const historyImagesParsed: string[] = params.historyImages ? JSON.parse(params.historyImages) : [];
+  const historyImagesParsed: string[] = params.historyImages
+    ? (() => { try { return JSON.parse(params.historyImages); } catch { return []; } })()
+    : [];
   const displayImages = historyImagesParsed.length > 0
     ? historyImagesParsed
     : imageUris.length > 0
