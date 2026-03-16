@@ -25,8 +25,8 @@ import { setPremium } from './quota';
  */
 
 // TODO: Ersetze mit deinem echten RevenueCat API Key
-const REVENUECAT_API_KEY_GOOGLE = 'YOUR_REVENUECAT_GOOGLE_API_KEY';
-const REVENUECAT_API_KEY_APPLE = 'YOUR_REVENUECAT_APPLE_API_KEY';
+const REVENUECAT_API_KEY_GOOGLE = process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_KEY || '';
+const REVENUECAT_API_KEY_APPLE = process.env.EXPO_PUBLIC_REVENUECAT_APPLE_KEY || '';
 const ENTITLEMENT_ID = 'premium';
 
 let isInitialized = false;
@@ -44,9 +44,9 @@ export async function initPurchases(): Promise<void> {
       ? REVENUECAT_API_KEY_APPLE
       : REVENUECAT_API_KEY_GOOGLE;
 
-    // Don't initialize with placeholder keys
-    if (apiKey.startsWith('YOUR_')) {
-      console.log('[CannaDiagnose] RevenueCat: Placeholder API key – running in demo mode');
+    // Don't initialize without API key
+    if (!apiKey) {
+      console.log('[CannaDiagnose] RevenueCat: No API key – running in demo mode');
       return;
     }
 
