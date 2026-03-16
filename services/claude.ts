@@ -277,8 +277,8 @@ export async function analyzePlant(
   onAttempt?: (attempt: number, maxAttempts: number) => void,
   preOptimizedImages?: string[],
 ): Promise<AnalyzeResult> {
-  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
-  if (!apiKey) {
+  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
+  if (!apiKey && !USE_PROXY) {
     throw new Error(
       'API Key nicht konfiguriert. Bitte setze EXPO_PUBLIC_OPENAI_API_KEY in der .env Datei.'
     );
@@ -431,8 +431,8 @@ export async function refineDiagnosis(
   fertilizerType?: string | null,
   plantAge?: string | null,
 ): Promise<DiagnosisResult> {
-  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
-  if (!apiKey) {
+  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
+  if (!apiKey && !USE_PROXY) {
     throw new Error('API Key nicht konfiguriert.');
   }
 
@@ -744,8 +744,8 @@ export async function verifyDiagnosis(
     return null;
   }
 
-  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
-  if (!apiKey) return null;
+  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
+  if (!apiKey && !USE_PROXY) return null;
 
   console.log('[LeafScan] Verifying diagnosis with', refImages.length, 'reference images for', folder);
 
@@ -762,10 +762,7 @@ export async function verifyDiagnosis(
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
+      headers: apiHeaders(apiKey),
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 300,
