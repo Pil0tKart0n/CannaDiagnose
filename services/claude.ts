@@ -258,6 +258,50 @@ function classifyError(err: any, statusCode?: number): ApiError {
 }
 
 // ---------------------------------------------------------------------------
+// Image validation – quick pre-check before diagnosis
+// ---------------------------------------------------------------------------
+
+const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Blüte, Stängel, Sämling)?
+Antworte NUR mit einem JSON-Objekt: {"isCannabis": true} oder {"isCannabis": false}
+Keine weitere Erklärung. Nur JSON.`;
+
+async function validateImageIsCannabis(
+  imageBlocks: Array<{ type: 'image_url'; image_url: { url: string } }>,
+  apiKey: string,
+): Promise<boolean> {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: apiHeaders(apiKey),
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 20,
+        messages: [
+          { role: 'user', content: [...imageBlocks, { type: 'text', text: IMAGE_CHECK_PROMPT }] },
+        ],
+      }),
+    });
+
+    if (!response.ok) return true; // fail open – don't block on validation errors
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content || '';
+    console.log('[LeafScan] Image validation response:', content);
+
+    try {
+      const parsed = JSON.parse(content.replace(/```json?\n?/g, '').replace(/```/g, '').trim());
+      return !!parsed.isCannabis;
+    } catch {
+      // If response contains "true" or "false" as text
+      return !content.toLowerCase().includes('"iscannabis": false') && !content.toLowerCase().includes('"iscannabis":false');
+    }
+  } catch (err) {
+    console.log('[LeafScan] Image validation error (allowing):', err);
+    return true; // fail open
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Main API function with retry
 // ---------------------------------------------------------------------------
 
@@ -302,6 +346,18 @@ export async function analyzePlant(
       url: `data:image/jpeg;base64,${data}`,
     },
   }));
+
+  // Pre-check: is this actually a cannabis plant?
+  const isCannabis = await validateImageIsCannabis(imageBlocks, apiKey);
+  if (!isCannabis) {
+    const err: any = new Error('Keine Cannabis-Pflanze erkannt.');
+    err.apiError = {
+      type: 'no_plant' as ApiErrorType,
+      message: 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch.',
+      retryable: false,
+    };
+    throw err;
+  }
 
   let userPrompt: string;
   let systemPrompt: string;
