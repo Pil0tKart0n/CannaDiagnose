@@ -724,6 +724,13 @@ HÄUFIGSTE URSACHE: Lichtleck während Dunkelphase (12/12). Ein einziger Lichtbl
 
 → N und P sind die ZERSTÖRERISCHSTEN Mängel. Fe und Mn hatten selbst bei sehr niedrigen Blatt-Konzentrationen kaum Ertragseinbußen. Cannabis ist erstaunlich effizient bei der Nutzung von Mn.
 
+SENESZENZ-ERKENNUNG – SPÄTE BLÜTE (Woche 9–12+):
+Wenn der User angibt, dass die Pflanze 9–12 Wochen oder älter ist, PRÜFE ob die Symptome zur natürlichen Alterung passen:
+- Gelbe untere/mittlere Blätter + violette Färbung in der späten Blüte = NORMAL (natürliche Seneszenz + Anthocyan-Produktion)
+- Pflanze sieht insgesamt "verbraucht" aus aber Blüten entwickeln sich normal = NORMAL
+- Die Pflanze leitet Nährstoffe bewusst in die Blüten um, daher werden Blätter gelb und fallen ab
+Wenn Seneszenz wahrscheinlich ist: Setze severity auf "niedrig", erkläre dass es natürlich ist, und empfehle KEINE Behandlung sondern normales Weiterarbeiten bis zur Ernte. Diagnostiziere Mangel NUR bei untypischen Symptomen (z.B. nur neue Blätter betroffen, extreme Nekrose, Schädlinge).
+
 LETZTE PRÜFUNG VOR DER ANTWORT: Lies deine komplette Antwort nochmal durch. Steht irgendwo "5.5" im Zusammenhang mit Kokos? Dann LÖSCHE es und ersetze es durch 5.8. pH-Bereiche für Kokos: 5.8–6.2, IMMER.
 
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
@@ -790,6 +797,7 @@ ABSOLUTE REGELN:
 - MARKENTREUE: Wenn ein Dünger angegeben ist, empfehle NUR Produkte vom GLEICHEN Hersteller.
 - KORREKTUR-ANALYSE IST GESETZ: Im User-Prompt steht eine 📋 KORREKTUR-ANALYSE vom Expertensystem. Du MUSST sie befolgen. KORREKTUR → Diagnose ändern. BESTÄTIGT → bestätigen. WIDERSPRUCH → korrigieren.
 - pH/EC-BEWERTUNGEN SIND FAKTEN: Die ⚠️ pH-BEWERTUNG und 🚨 EC-BEWERTUNG im User-Prompt sind vorberechnete Fakten. Übernimm sie WÖRTLICH. Widerspreche NICHT. Relativiere NICHT. Erfinde KEINE eigenen Interpretationen.
+- SENESZENZ IN SPÄTER BLÜTE: Wenn das Pflanzenalter 9–12 Wochen beträgt UND eine ⚠️ SPÄTE BLÜTE Warnung im Prompt steht, BEACHTE diese! Gelbe Blätter und violette Färbung in dieser Phase sind NORMAL (natürliche Seneszenz). Setze severity "niedrig" und erkläre, dass es natürlich ist. Diagnostiziere Mangel NUR bei untypischen Symptomen.
 
 TONALITÄT:
 - Schreibe wie ein erfahrener Grower, direkt und klar
@@ -833,6 +841,21 @@ export function buildRefinePrompt(
   if (phNorm) parts.push('- pH-Wert: ' + phNorm);
   if (ecNorm) parts.push('- EC/PPM: ' + ecNorm);
   if (substrateType) parts.push('- Substrat: ' + substrateType);
+  if (plantAge) parts.push('- Pflanzenalter: ' + plantAge);
+  if (fertilizerType) parts.push('- Dünger: ' + fertilizerType);
+
+  // Late flowering senescence warning
+  if (plantAge && (plantAge.includes('9–12') || plantAge.includes('9-12'))) {
+    parts.push('\n⚠️ WICHTIG – SPÄTE BLÜTE / ERNTEPHASE:');
+    parts.push('Die Pflanze ist ' + plantAge + ' alt und damit in der SPÄTEN BLÜTE oder kurz vor der Ernte.');
+    parts.push('In dieser Phase ist es VÖLLIG NORMAL, dass:');
+    parts.push('- Blätter gelb werden und abfallen (natürliche Seneszenz/Alterung)');
+    parts.push('- Blätter und Blüten violett/purpur werden (Anthocyan-Produktion durch kühle Nachttemperaturen oder Genetik)');
+    parts.push('- Die Pflanze insgesamt "verbraucht" aussieht');
+    parts.push('Diese Symptome sind KEIN Mangel und brauchen KEINE Behandlung!');
+    parts.push('Diagnostiziere einen Mangel NUR wenn die Symptome UNTYPISCH für die späte Blüte sind (z.B. nur obere/neue Blätter betroffen, extreme Nekrose an allen Blättern, Schädlingsbefall).');
+    parts.push('Wenn die Symptome zur natürlichen Seneszenz passen, setze severity auf "niedrig" und sage dem User, dass dies normal ist.');
+  }
 
   parts.push('\nVORHERIGE DIAGNOSE (erstellt OHNE pH/EC/Dünger-Daten – kann falsch sein!):');
   parts.push('- Diagnose: ' + previousResult.primaryDiagnosis);
@@ -939,6 +962,11 @@ export function buildUserPrompt(data: QuestionnaireData): string {
   const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks, data.growPhase);
   if (fertContext) {
     parts.push(fertContext);
+  }
+
+  // Late flowering senescence hint
+  if (data.plantAgeWeeks && (data.plantAgeWeeks.includes('9–12') || data.plantAgeWeeks.includes('9-12'))) {
+    parts.push('\n⚠️ HINWEIS: Die Pflanze ist ' + data.plantAgeWeeks + ' alt (späte Blüte/Erntephase). Prüfe ob die Symptome zur natürlichen Seneszenz passen, bevor du einen Mangel diagnostizierst!');
   }
 
   parts.push('\nAnalysiere die Fotos systematisch anhand deiner Diagnose-Checkliste. Wenn wichtige Daten fehlen (pH, EC, Temperatur), erwähne welche Messungen der Grower durchführen sollte.');
