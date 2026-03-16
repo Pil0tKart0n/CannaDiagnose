@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { getQuotaDisplay } from '../services/quota';
+import { hasCompletedOnboarding } from './onboarding';
 
 const webCSS = Platform.OS === 'web' ? `
   .cd-screen {
@@ -57,6 +58,11 @@ export default function HomeScreen() {
 
   useEffect(() => {
     injectCSS();
+    // Check onboarding
+    hasCompletedOnboarding().then((done) => {
+      if (!done) router.replace('/onboarding');
+    }).catch(() => {});
+    // Load quota
     getQuotaDisplay().then((q) => {
       setQuotaText(q.text);
       setQuotaIsPremium(q.isPremium);

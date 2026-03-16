@@ -76,3 +76,59 @@ export async function addEntryToPlant(plantId: string, entryId: string): Promise
     await savePlant(plant);
   }
 }
+
+// === Storage Management ===
+
+const MAX_ENTRIES = 200;
+const ARCHIVE_AFTER_DAYS = 60;
+
+/**
+ * Archive old entries: remove image URIs from entries older than ARCHIVE_AFTER_DAYS
+ * and cap total entries at MAX_ENTRIES. This keeps storage lean.
+ * Should be called on app startup.
+ */
+export async function cleanupStorage(): Promise<{ archived: number; deleted: number }> {
+  const entries = await getEntries();
+  if (entries.length === 0) return { archived: 0, deleted: 0 };
+
+  const now = Date.now();
+  const archiveThreshold = ARCHIVE_AFTER_DAYS * 24 * 60 * 60 * 1000;
+  let archived = 0;
+
+  // Archive old entries: strip image URIs to save space
+  for (const entry of entries) {
+    const age = now - new Date(entry.date).getTime();
+    if (age > archiveThreshold && (entry.imageUri || (entry.imageUris && entry.imageUris.length > 0))) {
+      entry.imageUri = '';
+      entry.imageUris = [];
+      archived++;
+    }
+  }
+
+  // Cap total entries
+  let deleted = 0;
+  let capped = entries;
+  if (entries.length > MAX_ENTRIES) {
+    deleted = entries.length - MAX_ENTRIES;
+    capped = entries.slice(0, MAX_ENTRIES); // Keep newest (unshift adds to front)
+  }
+
+  if (archived > 0 || deleted > 0) {
+    await AsyncStorage.setItem(ENTRIES_KEY, JSON.stringify(capped));
+  }
+
+  return { archived, deleted };
+}
+
+/** Get approximate storage usage in bytes */
+export async function getStorageSize(): Promise<{ entries: number; plants: number; total: number }> {
+  const entriesData = await AsyncStorage.getItem(ENTRIES_KEY);
+  const plantsData = await AsyncStorage.getItem(PLANTS_KEY);
+  const entriesSize = entriesData ? new Blob([entriesData]).size : 0;
+  const plantsSize = plantsData ? new Blob([plantsData]).size : 0;
+  return {
+    entries: entriesSize,
+    plants: plantsSize,
+    total: entriesSize + plantsSize,
+  };
+}

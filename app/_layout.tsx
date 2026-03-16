@@ -7,6 +7,8 @@ import { QuestionnaireData, DiagnosisResult } from '../types';
 import { colors } from '../constants/colors';
 import { setupNotificationHandler } from '../services/notifications';
 import { optimizeImage, initReferenceImages } from '../services/claude';
+import { cleanupStorage } from '../services/storage';
+import { initLanguage } from '../services/i18n';
 
 SplashScreen.preventAutoHideAsync();
 setupNotificationHandler();
@@ -113,6 +115,14 @@ export default function RootLayout() {
     initReferenceImages().catch((err) =>
       console.log('[CannaDiagnose] initReferenceImages error:', err)
     );
+    // Init language from device/storage
+    initLanguage().catch(() => {});
+    // Cleanup old storage entries
+    cleanupStorage().then(({ archived, deleted }) => {
+      if (archived > 0 || deleted > 0) {
+        console.log(`[CannaDiagnose] Storage cleanup: ${archived} archived, ${deleted} deleted`);
+      }
+    }).catch(() => {});
 
     // Web PWA setup: register service worker + inject manifest link + responsive CSS
     if (Platform.OS === 'web' && typeof document !== 'undefined') {
@@ -196,6 +206,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="camera" options={{ title: 'Foto aufnehmen' }} />
         <Stack.Screen name="questionnaire" options={{ title: 'Fragebogen', headerShown: false }} />
         <Stack.Screen name="analyzing" options={{ title: 'Analyse', headerBackVisible: false }} />
