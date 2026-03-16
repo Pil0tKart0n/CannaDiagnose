@@ -7,7 +7,7 @@ import { setPremium } from './quota';
  * SETUP ANLEITUNG (für den Entwickler):
  *
  * 1. Gehe zu https://app.revenuecat.com und erstelle einen Account
- * 2. Erstelle ein neues Projekt "CannaDiagnose"
+ * 2. Erstelle ein neues Projekt "LeafScan"
  * 3. Füge die Plattformen hinzu:
  *    - Google Play: Package Name = "com.cannadiagnose.app"
  *    - Apple (später): Bundle ID = "com.cannadiagnose.app"
@@ -46,18 +46,18 @@ export async function initPurchases(): Promise<void> {
 
     // Don't initialize without API key
     if (!apiKey) {
-      console.log('[CannaDiagnose] RevenueCat: No API key – running in demo mode');
+      console.log('[LeafScan] RevenueCat: No API key – running in demo mode');
       return;
     }
 
     await Purchases.configure({ apiKey });
     isInitialized = true;
-    console.log('[CannaDiagnose] RevenueCat initialized');
+    console.log('[LeafScan] RevenueCat initialized');
 
     // Check existing subscription
     await checkSubscriptionStatus();
   } catch (err) {
-    console.log('[CannaDiagnose] RevenueCat init failed:', err);
+    console.log('[LeafScan] RevenueCat init failed:', err);
   }
 }
 
@@ -76,7 +76,7 @@ export async function checkSubscriptionStatus(): Promise<boolean> {
 
     return isPremiumActive;
   } catch (err) {
-    console.log('[CannaDiagnose] Subscription check failed:', err);
+    console.log('[LeafScan] Subscription check failed:', err);
     return false;
   }
 }
@@ -101,7 +101,7 @@ export async function getOfferings(): Promise<SubscriptionPackage[]> {
       rcPackage: pkg, // Keep reference for purchase
     }));
   } catch (err) {
-    console.log('[CannaDiagnose] Get offerings failed:', err);
+    console.log('[LeafScan] Get offerings failed:', err);
     return getDemoOfferings();
   }
 }
@@ -143,7 +143,7 @@ export async function restorePurchases(): Promise<{ success: boolean; isPremium:
     await setPremium(isPremiumActive);
     return { success: true, isPremium: isPremiumActive };
   } catch (err) {
-    console.log('[CannaDiagnose] Restore failed:', err);
+    console.log('[LeafScan] Restore failed:', err);
     return { success: false, isPremium: false };
   }
 }

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform, NativeModules } from 'react-native';
 
-const LANG_KEY = 'cannadiagnose_language';
+const LANG_KEY = 'leafscan_language';
 
 export type Language = 'de' | 'en';
 

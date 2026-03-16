@@ -1,6 +1,6 @@
 {
-  "name": "CannaDiagnose",
-  "short_name": "CannaDiagnose",
+  "name": "LeafScan",
+  "short_name": "LeafScan",
   "description": "KI-gestützte Pflanzendiagnose für Cannabis",
   "start_url": "/",
   "scope": "/",

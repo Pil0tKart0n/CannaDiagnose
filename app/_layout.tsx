@@ -77,14 +77,14 @@ export default function RootLayout() {
     setImageUrisState(uris);
     setOptimizedImageUris([]); // Reset optimized versions
     if (uris.length > 0) {
-      console.log('[CannaDiagnose] Pre-optimizing', uris.length, 'images in background...');
+      console.log('[LeafScan] Pre-optimizing', uris.length, 'images in background...');
       Promise.all(uris.map(optimizeImage))
         .then((optimized) => {
           setOptimizedImageUris(optimized);
-          console.log('[CannaDiagnose] Pre-optimization complete');
+          console.log('[LeafScan] Pre-optimization complete');
         })
         .catch((err) => {
-          console.log('[CannaDiagnose] Pre-optimization failed:', err);
+          console.log('[LeafScan] Pre-optimization failed:', err);
         });
     }
   }, []);
@@ -114,7 +114,7 @@ export default function RootLayout() {
     SplashScreen.hideAsync();
     // Copy bundled reference images to documentDirectory on first launch
     initReferenceImages().catch((err) =>
-      console.log('[CannaDiagnose] initReferenceImages error:', err)
+      console.log('[LeafScan] initReferenceImages error:', err)
     );
     // Init language from device/storage
     initLanguage().catch(() => {});
@@ -123,7 +123,7 @@ export default function RootLayout() {
     // Cleanup old storage entries
     cleanupStorage().then(({ archived, deleted }) => {
       if (archived > 0 || deleted > 0) {
-        console.log(`[CannaDiagnose] Storage cleanup: ${archived} archived, ${deleted} deleted`);
+        console.log(`[LeafScan] Storage cleanup: ${archived} archived, ${deleted} deleted`);
       }
     }).catch(() => {});
 

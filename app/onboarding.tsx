@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../constants/colors';
 
 const { width } = Dimensions.get('window');
-const ONBOARDING_KEY = 'cannadiagnose_onboarding_done';
+const ONBOARDING_KEY = 'leafscan_onboarding_done';
 
 interface Slide {
   icon: string;

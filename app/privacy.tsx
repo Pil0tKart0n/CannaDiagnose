@@ -11,8 +11,8 @@ export default function PrivacyScreen() {
         <Text style={styles.updated}>Stand: März 2026</Text>
 
         <Section title="1. Verantwortlicher">
-          CannaDiagnose App{'\n'}
-          Kontakt: cannadiagnose@proton.me
+          LeafScan App{'\n'}
+          Kontakt: leafscan@proton.me
         </Section>
 
         <Section title="2. Welche Daten werden verarbeitet?">
@@ -54,7 +54,7 @@ export default function PrivacyScreen() {
           Verarbeitung deiner Daten. Da alle personenbezogenen Daten lokal gespeichert
           werden, kannst du diese jederzeit durch Löschen der App-Daten oder Deinstallation
           der App vollständig entfernen.{'\n\n'}
-          Bei Fragen: cannadiagnose@proton.me
+          Bei Fragen: leafscan@proton.me
         </Section>
 
         <Section title="7. Internetverbindung">
@@ -70,7 +70,7 @@ export default function PrivacyScreen() {
         </Section>
 
         <Section title="9. Haftungsausschluss">
-          CannaDiagnose ist ein informatives Hilfsmittel und ersetzt KEINE professionelle
+          LeafScan ist ein informatives Hilfsmittel und ersetzt KEINE professionelle
           Beratung durch Agrarwissenschaftler oder Pflanzenpathologien. Die Diagnosen
           werden durch künstliche Intelligenz erstellt und können fehlerhaft sein.{'\n\n'}
           Die Nutzung der App und die Umsetzung der Empfehlungen erfolgt auf eigene

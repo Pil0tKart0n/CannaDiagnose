@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DiagnosisEntry, Plant } from '../types';
 
-const ENTRIES_KEY = 'cannadiagnose_history';
-const PLANTS_KEY = 'cannadiagnose_plants';
+const ENTRIES_KEY = 'leafscan_history';
+const PLANTS_KEY = 'leafscan_plants';
 
 // === Diagnosis Entries ===
 

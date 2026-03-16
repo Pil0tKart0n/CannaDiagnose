@@ -87,8 +87,8 @@ export default function HomeScreen() {
 
           {/* Center: Title + Flow */}
           <View style={styles.centerArea}>
-            <Text style={styles.title}>Canna</Text>
-            <Text style={styles.titleAccent}>Diagnose</Text>
+            <Text style={styles.title}>Leaf</Text>
+            <Text style={styles.titleAccent}>Scan</Text>
 
             <View style={styles.divider} />
 

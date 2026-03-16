@@ -135,7 +135,7 @@ function generateHTML(result: DiagnosisResult, imageBase64?: string): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CannaDiagnose Bericht</title>
+  <title>LeafScan Bericht</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -340,7 +340,7 @@ function generateHTML(result: DiagnosisResult, imageBase64?: string): string {
 <body>
 
   <div class="header">
-    <h1>Canna<span>Diagnose</span></h1>
+    <h1>Leaf<span>Scan</span></h1>
     <div class="date">${date}</div>
   </div>
 
@@ -365,7 +365,7 @@ function generateHTML(result: DiagnosisResult, imageBase64?: string): string {
   ${buildActionPlanSection(result.actionPlan)}
   ${buildTipsSection(result.preventiveTips)}
 
-  <div class="footer">Erstellt mit CannaDiagnose</div>
+  <div class="footer">Erstellt mit LeafScan</div>
 
 </body>
 </html>`;
@@ -413,7 +413,7 @@ export async function shareDiagnosis(
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `CannaDiagnose_${new Date().toISOString().slice(0, 10)}.html`;
+    a.download = `LeafScan_${new Date().toISOString().slice(0, 10)}.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
-const NOTIFICATION_IDS_KEY = 'cannadiagnose_notification_ids';
+const NOTIFICATION_IDS_KEY = 'leafscan_notification_ids';
 
 // Lazy-load expo-notifications (may not be available in Expo Go)
 let NotificationsModule: any = null;

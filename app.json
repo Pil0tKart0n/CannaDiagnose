@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CannaDiagnose",
-    "slug": "CannaDiagnose",
+    "name": "LeafScan",
+    "slug": "LeafScan",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -35,8 +35,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "name": "CannaDiagnose",
-      "shortName": "CannaDiagnose",
+      "name": "LeafScan",
+      "shortName": "LeafScan",
       "lang": "de",
       "description": "KI-gestützte Pflanzendiagnose für Cannabis",
       "backgroundColor": "#0A0E0D",
@@ -46,7 +46,7 @@
       "startUrl": "/",
       "scope": "/"
     },
-    "scheme": "cannadiagnose",
+    "scheme": "leafscan",
     "plugins": [
       "expo-router"
     ]

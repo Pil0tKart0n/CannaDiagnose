@@ -14,7 +14,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <meta name="theme-color" content="#4ADE80" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="CannaDiagnose" />
+        <meta name="apple-mobile-web-app-title" content="LeafScan" />
         <meta name="description" content="KI-gestützte Pflanzendiagnose für Cannabis" />
         <link rel="apple-touch-icon" href="/assets/icon.png" />
         <ScrollViewStyleReset />

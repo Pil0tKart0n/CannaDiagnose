@@ -46,10 +46,10 @@ export async function optimizeImage(uri: string): Promise<string> {
       { compress: 0.95, format: SaveFormat.JPEG },
     );
 
-    console.log(`[CannaDiagnose] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
+    console.log(`[LeafScan] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
     return result.uri;
   } catch (err) {
-    console.log('[CannaDiagnose] Image optimize failed, using original:', err);
+    console.log('[LeafScan] Image optimize failed, using original:', err);
     return uri; // Fallback: use original
   }
 }
@@ -374,11 +374,11 @@ export async function analyzePlant(
       }
 
       // Parse & validate
-      console.log('[CannaDiagnose] Raw API response:', content.substring(0, 500));
+      console.log('[LeafScan] Raw API response:', content.substring(0, 500));
       const parsed = extractJSON(content);
-      console.log('[CannaDiagnose] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
+      console.log('[LeafScan] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
       const validated = validateDiagnosisResult(parsed);
-      console.log('[CannaDiagnose] Validated result:', JSON.stringify(validated).substring(0, 500));
+      console.log('[LeafScan] Validated result:', JSON.stringify(validated).substring(0, 500));
       return { result: validated, attempt };
 
     } catch (err: any) {
@@ -472,14 +472,14 @@ export async function refineDiagnosis(
 
       if (!response.ok) {
         const errorBody = await response.text();
-        console.log('[CannaDiagnose] Refine API error:', response.status, errorBody.substring(0, 300));
+        console.log('[LeafScan] Refine API error:', response.status, errorBody.substring(0, 300));
         if (attempt < 2) { await delay(2000); continue; }
         throw new Error('API Fehler: ' + response.status);
       }
 
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content;
-      console.log('[CannaDiagnose] Refine raw response:', content?.substring(0, 500));
+      console.log('[LeafScan] Refine raw response:', content?.substring(0, 500));
 
       if (!content) {
         if (attempt < 2) { await delay(2000); continue; }
@@ -487,7 +487,7 @@ export async function refineDiagnosis(
       }
 
       const stopReason = data.choices?.[0]?.finish_reason;
-      console.log('[CannaDiagnose] Refine finish_reason:', stopReason);
+      console.log('[LeafScan] Refine finish_reason:', stopReason);
 
       const parsed = extractJSON(content);
       let result = validateDiagnosisResult(parsed);
@@ -497,7 +497,7 @@ export async function refineDiagnosis(
 
       return result;
     } catch (err: any) {
-      console.log('[CannaDiagnose] Refine attempt', attempt, 'failed:', err.message);
+      console.log('[LeafScan] Refine attempt', attempt, 'failed:', err.message);
       if (attempt < 2) { await delay(2000); continue; }
       throw err;
     }
@@ -581,7 +581,7 @@ function postProcessRefineResult(
     result.contributingFactors = [{ factor: 'Weitere Beobachtung', impact: 'Symptome nach EC-Korrektur beobachten' }];
   }
 
-  console.log('[CannaDiagnose] Post-processed: removed negative pH mentions (pH ' + phValue + ' is optimal)');
+  console.log('[LeafScan] Post-processed: removed negative pH mentions (pH ' + phValue + ' is optimal)');
 
   return result;
 }
@@ -611,11 +611,11 @@ export async function initReferenceImages(): Promise<void> {
   const markerInfo = await FileSystem.getInfoAsync(markerFile);
   if (markerInfo.exists) {
     _refImagesInitialized = true;
-    console.log('[CannaDiagnose] Reference images already initialized');
+    console.log('[LeafScan] Reference images already initialized');
     return;
   }
 
-  console.log('[CannaDiagnose] Initializing reference images...');
+  console.log('[LeafScan] Initializing reference images...');
 
   // Ensure base directory exists
   await FileSystem.makeDirectoryAsync(
@@ -641,14 +641,14 @@ export async function initReferenceImages(): Promise<void> {
         await FileSystem.copyAsync({ from: asset.localUri, to: destPath });
       }
     } catch (err: any) {
-      console.log(`[CannaDiagnose] Failed to copy ${entry.folder}/${entry.file}:`, err.message);
+      console.log(`[LeafScan] Failed to copy ${entry.folder}/${entry.file}:`, err.message);
     }
   }
 
   // Write marker so we don't re-copy next time
   await FileSystem.writeAsStringAsync(markerFile, new Date().toISOString());
   _refImagesInitialized = true;
-  console.log('[CannaDiagnose] Reference images initialized:', referenceImageRegistry.length, 'files');
+  console.log('[LeafScan] Reference images initialized:', referenceImageRegistry.length, 'files');
 }
 
 /**
@@ -683,7 +683,7 @@ async function loadReferenceImages(folder: string): Promise<string[]> {
 
   const dirInfo = await FileSystem.getInfoAsync(refDir);
   if (!dirInfo.exists) {
-    console.log('[CannaDiagnose] Reference folder not found:', folder);
+    console.log('[LeafScan] Reference folder not found:', folder);
     return [];
   }
 
@@ -726,20 +726,20 @@ export async function verifyDiagnosis(
 ): Promise<{ verified: boolean; confidence: number; alternative: string | null } | null> {
   const folder = diagnosisToRefFolder(diagnosis.primaryDiagnosis);
   if (!folder) {
-    console.log('[CannaDiagnose] No reference folder for:', diagnosis.primaryDiagnosis);
+    console.log('[LeafScan] No reference folder for:', diagnosis.primaryDiagnosis);
     return null;
   }
 
   const refImages = await loadReferenceImages(folder);
   if (refImages.length === 0) {
-    console.log('[CannaDiagnose] No reference images found for:', folder);
+    console.log('[LeafScan] No reference images found for:', folder);
     return null;
   }
 
   const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
   if (!apiKey) return null;
 
-  console.log('[CannaDiagnose] Verifying diagnosis with', refImages.length, 'reference images for', folder);
+  console.log('[LeafScan] Verifying diagnosis with', refImages.length, 'reference images for', folder);
 
   const imageBlocks = [
     // User image first
@@ -775,7 +775,7 @@ export async function verifyDiagnosis(
     });
 
     if (!response.ok) {
-      console.log('[CannaDiagnose] Verify API error:', response.status);
+      console.log('[LeafScan] Verify API error:', response.status);
       return null;
     }
 
@@ -783,7 +783,7 @@ export async function verifyDiagnosis(
     const content = data.choices?.[0]?.message?.content;
     if (!content) return null;
 
-    console.log('[CannaDiagnose] Verify response:', content.substring(0, 300));
+    console.log('[LeafScan] Verify response:', content.substring(0, 300));
     const parsed = extractJSON(content);
 
     return {
@@ -792,7 +792,7 @@ export async function verifyDiagnosis(
       alternative: parsed.alternative || null,
     };
   } catch (err: any) {
-    console.log('[CannaDiagnose] Verify error:', err.message);
+    console.log('[LeafScan] Verify error:', err.message);
     return null;
   }
 }

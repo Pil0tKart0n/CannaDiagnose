@@ -68,7 +68,7 @@ export default function AnalyzingScreen() {
       }
     } catch (quotaErr) {
       // If quota check fails, allow scan (fail open)
-      console.log('[CannaDiagnose] Quota check failed, allowing scan:', quotaErr);
+      console.log('[LeafScan] Quota check failed, allowing scan:', quotaErr);
     }
 
     try {
@@ -91,7 +91,7 @@ export default function AnalyzingScreen() {
         preOptimized,
       );
 
-      console.log('[CannaDiagnose] diagResult:', JSON.stringify(diagResult).substring(0, 300));
+      console.log('[LeafScan] diagResult:', JSON.stringify(diagResult).substring(0, 300));
 
       // Verify diagnosis against reference images (non-blocking — if it fails, we use original result)
       try {
@@ -102,7 +102,7 @@ export default function AnalyzingScreen() {
           });
           const verification = await verifyDiagnosis(userBase64, diagResult);
           if (verification) {
-            console.log('[CannaDiagnose] Verification:', JSON.stringify(verification));
+            console.log('[LeafScan] Verification:', JSON.stringify(verification));
             if (verification.verified) {
               // Boost confidence when reference images confirm
               diagResult.confidence = Math.min(1, diagResult.confidence * 1.1);
@@ -117,7 +117,7 @@ export default function AnalyzingScreen() {
           }
         }
       } catch (verifyErr: any) {
-        console.log('[CannaDiagnose] Verification failed (non-critical):', verifyErr.message);
+        console.log('[LeafScan] Verification failed (non-critical):', verifyErr.message);
       }
 
       // Record successful scan in quota

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const QUOTA_KEY = 'cannadiagnose_quota';
+const QUOTA_KEY = 'leafscan_quota';
 const FREE_SCANS_PER_DAY = 1;
 
 export interface QuotaState {
