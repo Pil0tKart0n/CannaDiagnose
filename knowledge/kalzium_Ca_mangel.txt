@@ -1,0 +1,986 @@
+================================================================================
+KALZIUMMANGEL (Ca-Mangel) BEI CANNABIS
+================================================================================
+Nährstoff:         Kalzium (Ca)
+Mobilität:         IMMOBIL (kann NICHT von alten zu neuen Blättern verlagert werden)
+Betroffene Zonen:  Neue Triebe, obere Blätter, Wachstumsspitzen, Wurzelspitzen
+Häufigkeit:        Sehr häufig, besonders in Kokos-Substrat und bei RO-Wasser
+Verwechslungsgefahr: Kaliummangel, Manganmangel, Schädlingsbefall, pH-Lockout
+================================================================================
+
+
+################################################################################
+1. ÜBERSICHT – ROLLE VON KALZIUM IN DER CANNABISPFLANZE
+################################################################################
+
+Kalzium (Ca) ist ein sekundärer Makronährstoff und gehört zu den wichtigsten
+Bausteinen der Cannabispflanze. Obwohl es in geringeren Mengen als Stickstoff,
+Phosphor oder Kalium benötigt wird, ist es für das gesunde Wachstum absolut
+unverzichtbar.
+
+ZELLWANDSTRUKTUR UND STABILITÄT:
+- Kalzium ist ein zentraler Bestandteil der Zellwände. Es bindet an Pektin
+  in der Mittellamelle und verbindet benachbarte Zellen miteinander.
+- Ohne ausreichend Kalzium werden die Zellwände dünn, instabil und brüchig.
+- Die Pflanze verliert ihre strukturelle Integrität: Stängel werden hohl,
+  Blätter verformen sich, Gewebe reißt leicht.
+- Kalzium wirkt wie ein "Zellkleber" – es hält das gesamte Pflanzengewebe
+  zusammen und gibt ihm Festigkeit.
+
+NEUES WACHSTUM UND ZELLTEILUNG:
+- Kalzium wird aktiv für die Zellteilung (Mitose) benötigt. Ohne Ca können
+  sich neue Zellen nicht korrekt teilen und aufbauen.
+- Da Kalzium IMMOBIL ist, kann die Pflanze es nicht aus älteren Blättern
+  abziehen und zum neuen Wachstum transportieren. Daher zeigen sich
+  Mangelsymptome IMMER ZUERST an den jüngsten Blättern und Triebspitzen.
+- Die Wachstumspunkte (Meristeme) an den Triebspitzen und Seitentrieben
+  sind besonders auf eine konstante Kalziumversorgung angewiesen.
+
+WURZELSPITZEN UND WURZELGESUNDHEIT:
+- Die Wurzelspitzen (Root Tips) sind extrem kalziumabhängig. Ohne
+  ausreichend Ca sterben die Wurzelspitzen ab.
+- Beschädigte Wurzelspitzen können Wasser und Nährstoffe schlechter
+  aufnehmen, was zu sekundären Mangelerscheinungen führen kann.
+- Kalzium schützt die Wurzeln auch vor Krankheitserregern und stärkt
+  die Widerstandskraft gegen Wurzelfäule.
+
+SIGNALÜBERTRAGUNG:
+- Kalzium fungiert als sekundärer Botenstoff (Second Messenger) in der
+  Pflanzenzelle. Es reguliert zahlreiche enzymatische Prozesse.
+- Es spielt eine Rolle bei der Reaktion der Pflanze auf Stress (Hitze,
+  Trockenheit, Krankheiten).
+
+NÄHRSTOFFTRANSPORT:
+- Kalzium wird hauptsächlich über den Transpirationsstrom (Xylem) verteilt.
+  Das bedeutet: Nur Pflanzenteile, die aktiv Wasser verdunsten, erhalten
+  ausreichend Kalzium.
+- Bei hoher Luftfeuchtigkeit oder schlechter Ventilation kann der
+  Transpirationsstrom gestört sein, was zu lokalisiertem Ca-Mangel führt
+  – selbst wenn genug Kalzium im Substrat vorhanden ist.
+
+ZUSAMMENFASSUNG DER FUNKTIONEN:
+- Zellwandaufbau und -stabilität
+- Zellteilung und neues Wachstum
+- Wurzelspitzenentwicklung
+- Enzymaktivierung
+- Stressresistenz
+- Membranintegrität
+- Nährstofftransport-Regulation
+
+
+################################################################################
+2. VISUELLE SYMPTOME – DETAILLIERTE BESCHREIBUNG
+################################################################################
+
+GRUNDPRINZIP – KALZIUM IST IMMOBIL:
+Kalzium kann innerhalb der Pflanze NICHT von alten zu neuen Blättern
+umverteilt werden. Daher erscheinen Symptome IMMER ZUERST an den NEUEN,
+OBEREN Blättern und Wachstumsspitzen. Dies ist das wichtigste
+Unterscheidungsmerkmal zu mobilen Nährstoffen wie Stickstoff oder Kalium,
+deren Mangelsymptome an den UNTEREN, ÄLTEREN Blättern beginnen.
+
+──────────────────────────────────────────────────────────────────────────────
+FRÜHSTADIUM (Leichter Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+- Erste Anzeichen erscheinen an den JÜNGSTEN, OBERSTEN Blättern.
+- Unregelmäßige, kleine braune bis rostfarbene Flecken auf den neuen
+  Blättern. Diese Flecken sind ZUFÄLLIG über die Blattfläche verteilt
+  (nicht an den Rändern, nicht zwischen den Adern – sondern irgendwo
+  auf dem Blatt).
+- Die Flecken sind anfangs klein (1-3 mm), oft leicht gelblich umrandet.
+- Die Farbe der Flecken variiert: hellbraun, rostbraun, dunkelbraun.
+- Die Blätter können eine leichte Wölbung nach oben (Cupping) zeigen.
+- Die Blattoberfläche kann leicht uneben oder "knittrig" erscheinen.
+- Neue Blätter wachsen möglicherweise etwas langsamer als normal.
+- Die Flecken fühlen sich trocken und leicht "papierig" an.
+- Das restliche Blattgrün bleibt zunächst normal gefärbt.
+
+TYPISCHE FLECKENFORM IM FRÜHSTADIUM:
+- Rund bis unregelmäßig geformt
+- Scharf oder leicht unscharf begrenzt
+- Zufällig auf der Blattfläche verteilt
+- Können sowohl zwischen den Blattadern als auch auf den Adern auftreten
+- NICHT symmetrisch entlang der Blattadern (anders als bei Manganmangel)
+
+──────────────────────────────────────────────────────────────────────────────
+MITTLERES STADIUM (Fortgeschrittener Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+- Die braunen/rostfarbenen Flecken werden größer und zahlreicher.
+- Flecken verschmelzen zu größeren nekrotischen Bereichen.
+- Neue Blätter sind deutlich VERFORMT:
+  * Blattkräuselung (Crinkling) – die Blattoberfläche wird wellig/knittrig
+  * Blattränder rollen sich nach oben (Upward Curling/Cupping)
+  * Blätter wachsen verdreht oder asymmetrisch
+  * Die Blattform ist unregelmäßig, nicht mehr die typische Fingerform
+- Das Wachstum verlangsamt sich deutlich.
+- Internodienabstände können kürzer werden.
+- Die Blattspitzen der neuen Blätter können sich braun verfärben und
+  absterben (aber anders als bei Nährstoffbrand – hier ist es eher
+  "trocken-brüchig" statt "verbrannt").
+- Ältere Blätter bleiben weitgehend normal (wichtiges Erkennungsmerkmal!).
+- Stängel können sich weicher anfühlen und leichter knicken.
+- Bei Berührung fühlen sich betroffene Blätter "steif" und "trocken" an,
+  nicht weich oder welk.
+
+──────────────────────────────────────────────────────────────────────────────
+SPÄTSTADIUM (Schwerer Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+- Die Wachstumsspitzen (Growing Tips) sterben ab. Der Haupttrieb und
+  Seitentriebe stoppen ihr Wachstum.
+- Neues Wachstum ist "crispy" (knusprig/brüchig) – die jüngsten Blätter
+  sind braun, trocken und zerfallen bei Berührung.
+- Abgestorbene, braune Triebspitzen sind ein sehr charakteristisches
+  Zeichen für schweren Kalziummangel.
+- Die Blütenentwicklung wird stark beeinträchtigt (falls in der Blütephase).
+- Hohle Stängel: Stängel können beim Aufschneiden innen hohl sein oder
+  braune, abgestorbene Bereiche im Mark zeigen.
+- Wurzelwachstum ist stark reduziert; Wurzelspitzen braun und abgestorben.
+- Die gesamte Pflanze wirkt "verkümmert" und "knorrig".
+- Sekundärinfektionen (Pilze, Bakterien) können sich in den nekrotischen
+  Bereichen ansiedeln.
+- Blüten bleiben klein und "luftig" (in der Blütezeit).
+- Ertragseinbußen von 30-60% oder mehr sind möglich.
+
+──────────────────────────────────────────────────────────────────────────────
+SPEZIELLE VISUELLE MERKMALE:
+──────────────────────────────────────────────────────────────────────────────
+
+FLECKENVERTEILUNG:
+- Die Flecken erscheinen ZUFÄLLIG auf der Blattfläche verteilt
+  ("scattered spots").
+- Sie folgen NICHT den Blattadern (wie bei Mn-Mangel).
+- Sie beginnen NICHT an den Blatträndern (wie bei K-Mangel).
+- Sie beginnen NICHT an den Blattspitzen (wie bei Nährstoffbrand).
+- Die Flecken können überall auf dem Blatt auftauchen: Mitte, Basis,
+  Spitze, zwischen den Adern, auf den Adern.
+
+BLATTVERFORMUNG:
+- "Cupping" – Blätter wölben sich nach oben wie eine Schüssel/Tasse.
+  Die Blattränder ziehen sich nach oben, die Blattmitte bleibt tiefer.
+- "Crinkling" – Die Blattoberfläche wird wellig, uneben, zerknittert.
+  Ähnlich wie ein Blatt Papier, das zusammengeknüllt und wieder
+  geglättet wurde.
+- "Twisting" – Neue Blätter wachsen verdreht oder gebogen.
+
+STÄNGELPROBLEME:
+- Hohle Stängel (beim Aufschneiden sichtbar)
+- Stängel knicken leichter
+- Braune Flecken oder Streifen am Stängel möglich
+- Schwache Verzweigungspunkte
+
+FARBEN DER SYMPTOME:
+- Frühstadium: Hellbraune bis rostfarbene Flecken auf grünem Blatt
+- Mittelstadium: Dunkelbraune, teilweise schwarze nekrotische Bereiche
+- Spätstadium: Komplett braune, trockene, brüchige neue Blätter
+- Niemals gelbe Intervenal-Chlorose (das wäre eher Mg oder Fe)
+
+
+################################################################################
+3. UNTERSCHEIDUNG VON ÄHNLICHEN PROBLEMEN
+################################################################################
+
+──────────────────────────────────────────────────────────────────────────────
+3.1 KALZIUMMANGEL vs. KALIUMMANGEL (K-Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+Dies ist eine der häufigsten Verwechslungen. Die Unterschiede sind:
+
+KALZIUMMANGEL (Ca):
+- Betrifft NEUE/OBERE Blätter (Ca ist immobil)
+- Braune Flecken MITTEN auf dem Blatt, zufällig verteilt
+- Blätter verformt, gekräuselt, gewölbt
+- Wachstumsspitzen sterben ab
+
+KALIUMMANGEL (K):
+- Betrifft ALTE/UNTERE Blätter (K ist mobil)
+- Braune/verbrannte RÄNDER an den Blättern ("Leaf Margin Burn")
+- Blattform bleibt zunächst normal
+- Die Bräunung beginnt am Blattrand und arbeitet sich nach innen vor
+- Untere Blätter vergilben insgesamt
+
+MERKHILFE: Ca = Flecken auf neuen Blättern, K = Ränder an alten Blättern
+
+──────────────────────────────────────────────────────────────────────────────
+3.2 KALZIUMMANGEL vs. MANGANMANGEL (Mn-Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+Beide betreffen neue/obere Blätter (beide sind immobil), aber:
+
+KALZIUMMANGEL (Ca):
+- Braune/rostfarbene FLECKEN, zufällig auf dem Blatt verteilt
+- Flecken sind nekrotisch (abgestorbenes Gewebe)
+- Blattverformung ist stark ausgeprägt
+- Keine auffällige Chlorose zwischen den Adern
+
+MANGANMANGEL (Mn):
+- INTERVENALE CHLOROSE: Das Gewebe ZWISCHEN den Blattadern wird gelb,
+  während die Adern selbst grün bleiben ("Fischgrätenmuster")
+- Braune Flecken erscheinen SPÄTER, sind kleiner und folgen eher dem
+  Muster der Blattadern
+- Weniger Blattverformung
+- Das Gesamtbild ist eher "gestreift" (grüne Adern, gelbe Zwischenräume)
+
+MERKHILFE: Ca = zufällige braune Flecken, Mn = gelb zwischen grünen Adern
+
+──────────────────────────────────────────────────────────────────────────────
+3.3 KALZIUMMANGEL vs. MAGNESIUMMANGEL (Mg-Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+KALZIUMMANGEL (Ca):
+- Betrifft NEUE/OBERE Blätter (immobil)
+- Braune Flecken, Blattverformung
+- Keine typische Chlorose
+
+MAGNESIUMMANGEL (Mg):
+- Betrifft ALTE/UNTERE Blätter (Mg ist mobil)
+- Intervenale Chlorose an alten Blättern: Gewebe zwischen Adern wird
+  gelb, Adern bleiben grün
+- Blattränder können sich nach oben rollen
+- Spätstadium: Blätter werden komplett gelb, dann braun
+
+MERKHILFE: Ca = oben + braune Flecken, Mg = unten + Vergilbung
+
+──────────────────────────────────────────────────────────────────────────────
+3.4 KALZIUMMANGEL vs. SCHÄDLINGSBEFALL:
+──────────────────────────────────────────────────────────────────────────────
+
+Braune Flecken durch Schädlinge können Ca-Mangel ähneln, aber:
+
+KALZIUMMANGEL:
+- Flecken NUR an neuen/oberen Blättern
+- Keine Insekten oder Fraßspuren sichtbar
+- Flecken von innen heraus (Gewebe stirbt ab)
+- Begleitende Blattverformung
+- Kein Honigtau oder Kot auf den Blättern
+- Flecken sind trocken und fest
+
+SCHÄDLINGSBEFALL (z.B. Thripse, Spinnmilben):
+- Flecken können überall an der Pflanze auftreten (nicht nur oben)
+- Unter der Lupe: Insekten, Eier, Gespinste sichtbar
+- Thripse hinterlassen silbrig-glänzende Spuren
+- Spinnmilben erzeugen feine Gespinste an den Blattunterseiten
+- Honigtau (klebrige Tropfen) bei Blattläusen
+- Fraßspuren haben oft ein anderes Muster (Streifen bei Thripse,
+  Pünktchen bei Spinnmilben)
+
+PRÜFUNG: Blattunterseiten mit Lupe kontrollieren. Bei Ca-Mangel sind
+keine Schädlinge zu finden.
+
+──────────────────────────────────────────────────────────────────────────────
+3.5 KALZIUMMANGEL vs. pH-LOCKOUT:
+──────────────────────────────────────────────────────────────────────────────
+
+In vielen Fällen ist ein vermeintlicher "Kalziummangel" in Wirklichkeit
+ein pH-Lockout – das Kalzium ist im Substrat vorhanden, aber die Pflanze
+kann es aufgrund eines falschen pH-Werts nicht aufnehmen.
+
+ECHTER KALZIUMMANGEL:
+- pH-Wert liegt im korrekten Bereich
+- Nährlösung enthält nicht genug Kalzium
+- Tritt häufig bei RO-Wasser ohne CalMag-Zugabe auf
+- Tritt häufig in Kokos-Substrat ohne extra CalMag auf
+
+pH-LOCKOUT VON KALZIUM:
+- Kalzium ist in der Nährlösung vorhanden, aber der pH-Wert ist zu
+  niedrig (zu sauer)
+- In Erde: pH unter 6.0 blockiert Kalziumaufnahme erheblich
+- In Kokos: pH unter 5.5 blockiert Kalziumaufnahme
+- In Hydro: pH unter 5.2 blockiert Kalziumaufnahme
+- Lösung: pH korrigieren, NICHT mehr Kalzium hinzufügen!
+
+WICHTIG: IMMER ZUERST DEN pH-WERT PRÜFEN, bevor man mehr Kalzium zugibt.
+
+──────────────────────────────────────────────────────────────────────────────
+3.6 KALZIUMMANGEL vs. EISENMANGEL (Fe-Mangel):
+──────────────────────────────────────────────────────────────────────────────
+
+Beide betreffen neue Blätter (beide immobil), aber:
+
+KALZIUMMANGEL (Ca):
+- Braune nekrotische Flecken, zufällig verteilt
+- Blattverformung stark
+- Blattfarbe bleibt anfangs grün (zwischen den Flecken)
+
+EISENMANGEL (Fe):
+- Neue Blätter werden KOMPLETT GELB bis WEISS
+- Blattadern bleiben zunächst grün (intervenale Chlorose an neuen Blättern)
+- Keine braunen Flecken im Frühstadium
+- Blattform bleibt normal
+- Das typische Bild: leuchtend gelbe/weiße neue Blätter mit grünen Adern
+
+MERKHILFE: Ca = braune Flecken auf grünem Blatt, Fe = gelbes/weißes Blatt
+
+
+################################################################################
+4. URSACHEN FÜR KALZIUMMANGEL
+################################################################################
+
+──────────────────────────────────────────────────────────────────────────────
+4.1 ZU WENIG KALZIUM IN DER NÄHRLÖSUNG:
+──────────────────────────────────────────────────────────────────────────────
+
+- Die Grunddüngung enthält zu wenig Kalzium.
+- Viele 2-Komponenten-Dünger (A+B) enthalten Kalzium in Komponente A,
+  aber nicht immer ausreichend.
+- Organische Dünger können kalziumarm sein, wenn keine Knochenmehl-
+  oder Kalkzusätze verwendet werden.
+- Selbstgemischte Nährlösungen ohne ausreichend Kalziumnitrat.
+
+──────────────────────────────────────────────────────────────────────────────
+4.2 pH-WERT ZU NIEDRIG (SAURES MILIEU):
+──────────────────────────────────────────────────────────────────────────────
+
+Dies ist die HÄUFIGSTE Ursache für Kalziummangel-Symptome!
+
+- In Erde: pH unter 6.0 reduziert die Kalziumverfügbarkeit drastisch.
+  Der optimale Bereich für Ca-Aufnahme in Erde ist pH 6.2-7.0.
+- In Kokos: pH unter 5.5 blockiert Kalzium. Optimal: pH 5.8-6.2.
+- In Hydro: pH unter 5.2 blockiert Kalzium. Optimal: pH 5.5-6.0.
+- Ein zu niedriger pH löst gleichzeitig toxische Mengen an Aluminium
+  und Mangan, die die Kalziumaufnahme zusätzlich behindern.
+
+──────────────────────────────────────────────────────────────────────────────
+4.3 ÜBERSCHUSS AN KALIUM (K), MAGNESIUM (Mg) ODER AMMONIUM (NH4+):
+──────────────────────────────────────────────────────────────────────────────
+
+- Kalium (K+), Magnesium (Mg2+) und Ammonium (NH4+) konkurrieren mit
+  Kalzium (Ca2+) um die Aufnahme an den Wurzeln (Kationenkonkurrenz).
+- Besonders hohe Kaliumwerte in der Blütephase können Kalzium verdrängen.
+- Übermäßiges Kalken mit Magnesium-haltigem Kalk kann die Ca-Aufnahme
+  blockieren.
+- Das ideale Ca:Mg-Verhältnis liegt bei etwa 3:1 bis 5:1.
+- Das ideale Ca:K-Verhältnis liegt bei etwa 2:1 bis 4:1.
+
+──────────────────────────────────────────────────────────────────────────────
+4.4 UMKEHROSMOSE-WASSER (RO-WASSER) OHNE CALMAG:
+──────────────────────────────────────────────────────────────────────────────
+
+- RO-Wasser hat einen EC von nahezu 0.0 und enthält KEIN Kalzium.
+- Normales Leitungswasser enthält oft 50-200 ppm Kalzium, was einen
+  großen Teil des Ca-Bedarfs deckt.
+- Wer RO-Wasser verwendet, MUSS zwingend CalMag (Kalzium-Magnesium-
+  Supplement) hinzufügen, bevor die Basisdüngung gemischt wird.
+- Empfehlung: RO-Wasser mit CalMag auf EC 0.3-0.5 bringen, dann
+  Basisdünger hinzufügen.
+- Auch sehr weiches Leitungswasser (EC unter 0.2) kann kalziumarm sein.
+
+──────────────────────────────────────────────────────────────────────────────
+4.5 KOKOS-SUBSTRAT BINDET KALZIUM (CEC-Problem):
+──────────────────────────────────────────────────────────────────────────────
+
+- Kokos hat eine hohe Kationenaustauschkapazität (CEC). Das bedeutet:
+  Kokos bindet aktiv Kalzium- und Magnesium-Ionen an seinen Fasern.
+- Besonders NEUES, nicht vorbehandeltes Kokos "klaut" massiv Kalzium
+  aus der Nährlösung.
+- Selbst vorgebuffertes Kokos benötigt zusätzliches CalMag.
+- In Kokos ist der CalMag-Bedarf 50-100% HÖHER als in Erde.
+- Empfehlung: Bei jeder Bewässerung CalMag hinzufügen, nicht nur
+  gelegentlich.
+
+──────────────────────────────────────────────────────────────────────────────
+4.6 HOHE LUFTFEUCHTIGKEIT / SCHLECHTE VENTILATION:
+──────────────────────────────────────────────────────────────────────────────
+
+- Kalzium wird über den Transpirationsstrom verteilt. Wenn die Pflanze
+  nicht ausreichend transpiriert (bei sehr hoher Luftfeuchtigkeit >70%
+  oder stehender Luft), kann Kalzium die Triebspitzen nicht erreichen.
+- Dies führt zu lokalisiertem Ca-Mangel an den Spitzen, obwohl genug
+  Ca in der Lösung ist.
+- Lösung: Luftzirkulation verbessern, Luftfeuchtigkeit kontrollieren.
+
+──────────────────────────────────────────────────────────────────────────────
+4.7 KALTE WURZELZONE:
+──────────────────────────────────────────────────────────────────────────────
+
+- Bei Wurzeltemperaturen unter 18°C ist die Kalziumaufnahme stark
+  reduziert.
+- Kalte Nährlösung in Hydro-Systemen kann Ca-Mangel verursachen.
+- Lösung: Substrattemperatur zwischen 20-24°C halten.
+
+──────────────────────────────────────────────────────────────────────────────
+4.8 ÜBERWÄSSERUNG:
+──────────────────────────────────────────────────────────────────────────────
+
+- Überwässerte Pflanzen haben geschädigte Wurzeln, die weniger
+  Nährstoffe aufnehmen können.
+- Staunässe reduziert die Sauerstoffversorgung der Wurzeln, was die
+  aktive Nährstoffaufnahme (einschließlich Ca) einschränkt.
+
+
+################################################################################
+5. PH-BEREICHE FÜR OPTIMALE KALZIUMAUFNAHME
+################################################################################
+
+Die Verfügbarkeit von Kalzium ist STARK pH-abhängig. Hier die optimalen
+Bereiche nach Substrattyp:
+
+┌────────────────┬──────────────────┬────────────────────────────────────────┐
+│ Substrat       │ Optimaler pH     │ Anmerkungen                            │
+├────────────────┼──────────────────┼────────────────────────────────────────┤
+│ Erde           │ 6.2 – 7.0       │ Beste Ca-Aufnahme bei pH 6.5           │
+│ Kokos          │ 5.8 – 6.2       │ Unter 5.5 starker Lockout              │
+│ Hydro (DWC)    │ 5.5 – 6.0       │ Beste Ca-Aufnahme bei pH 5.8           │
+│ Steinwolle     │ 5.5 – 6.0       │ Ähnlich wie Hydro                      │
+│ Perlite/Vermik.│ 5.8 – 6.2       │ Abhängig vom System                    │
+└────────────────┴──────────────────┴────────────────────────────────────────┘
+
+KRITISCHE pH-GRENZEN FÜR KALZIUM:
+
+ERDE:
+- pH 6.2-7.0: Volle Kalziumverfügbarkeit
+- pH 5.5-6.2: Reduzierte Verfügbarkeit, Mangel möglich
+- pH unter 5.5: Starker Lockout, Mangel sehr wahrscheinlich
+- pH über 7.5: Ca ausgefällt (als Kalziumkarbonat), ebenfalls weniger
+  verfügbar
+
+KOKOS:
+- pH 5.8-6.2: Volle Kalziumverfügbarkeit
+- pH 5.5-5.8: Leicht reduziert
+- pH unter 5.5: Deutlicher Lockout
+- pH über 6.5: Andere Nährstoffe blockiert
+
+HYDRO:
+- pH 5.5-6.0: Volle Verfügbarkeit
+- pH 5.0-5.5: Reduziert
+- pH unter 5.0: Starker Lockout
+- pH über 6.5: Ausfällung möglich
+
+WICHTIG FÜR DIE PRAXIS:
+- pH-Wert IMMER am Drain/Ablauf messen, nicht nur an der Eingangslösung.
+- In Erde kann der pH im Wurzelbereich stark vom Eingangswert abweichen.
+- pH-Drift in Hydro-Systemen regelmäßig kontrollieren (mindestens täglich).
+- Bei Verdacht auf Ca-Mangel: ZUERST pH prüfen und korrigieren!
+
+
+################################################################################
+6. SUBSTRAT-SPEZIFISCHE HINWEISE
+################################################################################
+
+──────────────────────────────────────────────────────────────────────────────
+6.1 KOKOS-SUBSTRAT (COCO COIR) – HÖCHSTER Ca-BEDARF!
+──────────────────────────────────────────────────────────────────────────────
+
+Kokos ist das Substrat mit dem HÖCHSTEN Kalzium-Risiko:
+
+WARUM IST KOKOS PROBLEMATISCH?
+- Die Kokosfasern haben eine hohe Kationenaustauschkapazität (CEC).
+- Kokos-CEC-Stellen binden bevorzugt Ca2+ und Mg2+-Ionen und geben
+  dafür Na+ und K+-Ionen frei.
+- Das bedeutet: Kokos "klaut" Kalzium und Magnesium aus der Lösung
+  und gibt Natrium und Kalium zurück.
+- Dieser Effekt ist bei neuem Kokos am stärksten und nimmt über die
+  Zeit ab ("Buffering").
+
+EMPFEHLUNGEN FÜR KOKOS:
+- IMMER CalMag bei JEDER Bewässerung hinzufügen (nicht optional!)
+- CalMag-Dosierung: 1-2 ml/L (herstellerabhängig), EC ca. 0.3-0.5
+  durch CalMag allein
+- ZUERST CalMag ins Wasser geben, DANN den Basisdünger
+- Neues Kokos vor der Verwendung mit CalMag-Lösung (EC 0.8-1.0)
+  spülen/buffern
+- Gepuffertes ("buffered") Kokos verwenden, wenn verfügbar
+- Ca:Mg-Verhältnis in der Lösung: mindestens 3:1
+- Gesamtkalzium in der Nährlösung: mindestens 150-200 ppm Ca
+
+TYPISCHE CalMag-DOSIERUNG IN KOKOS:
+- Stecklinge/Sämlinge: 0.5-1.0 ml/L
+- Vegetative Phase: 1.0-1.5 ml/L
+- Blüte früh: 1.0-1.5 ml/L
+- Blüte spät: 0.5-1.0 ml/L (K-Anteil steigt, Ca etwas reduzieren)
+
+──────────────────────────────────────────────────────────────────────────────
+6.2 ERDE (SOIL):
+──────────────────────────────────────────────────────────────────────────────
+
+- Gute Blumenerden enthalten oft bereits Kalzium (durch Kalkzusätze).
+- Der natürliche Ca-Gehalt im Leitungswasser deckt häufig den Bedarf.
+- Ca-Mangel in Erde ist seltener als in Kokos oder Hydro.
+- Häufigste Ursache in Erde: pH-Drift nach unten (Versauerung über Zeit).
+- Bei langem Grow ohne Umtopfen: Ca kann erschöpft sein.
+- Dolomitkalk enthält Ca und Mg und kann in die Erde gemischt werden
+  (1-2 EL/10L Erde).
+- Kalkhaltiges Leitungswasser (>150 ppm Ca) macht CalMag oft unnötig.
+
+──────────────────────────────────────────────────────────────────────────────
+6.3 HYDRO (DWC, NFT, RDWC, AEROPONIK):
+──────────────────────────────────────────────────────────────────────────────
+
+- In Hydro-Systemen ist Kalzium direkt in der Nährlösung gelöst.
+- Problem: Kalzium kann mit Sulfaten und Phosphaten ausfallen (weißer
+  Niederschlag im Tank) – besonders bei hohem pH oder hoher Konzentration.
+- NIEMALS Kalziumnitrat und konzentriertes Sulfat/Phosphat in derselben
+  Stammlösung mischen! (Ausfällung!)
+- Kalziumnitrat immer in Lösung A, Sulfate/Phosphate in Lösung B.
+- Bei Wasserwechsel: Frische Lösung mischen, nicht nur auffüllen.
+- Tanktemperatur unter 24°C halten, um Ausfällungen zu minimieren.
+- Kalziumgehalt in der Lösung: 150-250 ppm Ca (je nach Phase).
+
+──────────────────────────────────────────────────────────────────────────────
+6.4 STEINWOLLE (ROCKWOOL):
+──────────────────────────────────────────────────────────────────────────────
+
+- Steinwolle hat einen natürlich hohen pH (7.0-8.0) und muss vor
+  der Verwendung mit saurer Lösung (pH 5.5) eingeweicht werden.
+- Steinwolle hat keine CEC (bindet kein Kalzium wie Kokos).
+- Ca-Versorgung ähnlich wie in Hydro-Systemen.
+- Regelmäßig den Drain-EC und pH kontrollieren.
+
+
+################################################################################
+7. PHASEN-SPEZIFISCHE HINWEISE
+################################################################################
+
+──────────────────────────────────────────────────────────────────────────────
+7.1 KEIMLING / SÄMLING (Woche 1-2):
+──────────────────────────────────────────────────────────────────────────────
+
+- Kalziumbedarf: NIEDRIG bis MITTEL
+- Sämlinge haben noch wenig Blattfläche und geringe Transpiration.
+- Normales Leitungswasser reicht oft aus.
+- Bei RO-Wasser: 0.3-0.5 ml/L CalMag hinzufügen.
+- Gesamt-EC: 0.2-0.5 (inklusive Grundwasser-EC)
+- pH: 6.2-6.5 (Erde), 5.8-6.0 (Kokos)
+
+──────────────────────────────────────────────────────────────────────────────
+7.2 VEGETATIVE PHASE (Woche 3 bis Blüte-Umstellung):
+──────────────────────────────────────────────────────────────────────────────
+
+- Kalziumbedarf: HOCH
+- Die Pflanze wächst schnell, bildet ständig neue Zellen, Blätter,
+  Triebe und Wurzeln. Der Ca-Bedarf steigt stark an.
+- In Kokos: CalMag bei jeder Bewässerung (1.0-1.5 ml/L)
+- In Hydro: 150-200 ppm Ca in der Lösung
+- In Erde: Meistens durch Leitungswasser + Basisdünger abgedeckt
+- Gesamt-EC: 0.8-1.4 (je nach Genetik und Lichtintensität)
+- Schnellwachsende Sorten mit vielen Triebspitzen brauchen MEHR Kalzium.
+- Bei LST/Topping/Beschnitt: Erhöhter Ca-Bedarf für die Heilung der
+  Schnittwunden.
+
+──────────────────────────────────────────────────────────────────────────────
+7.3 FRÜHE BLÜTE / STRETCH (Woche 1-3 der Blüte):
+──────────────────────────────────────────────────────────────────────────────
+
+- Kalziumbedarf: SEHR HOCH
+- Die Pflanze streckt sich stark (Stretch) und bildet massiv neue
+  Zellen. Der Ca-Bedarf erreicht sein Maximum.
+- Gleichzeitig steigt der Kalium(K)-Bedarf in der Blüte, was zu
+  Kationenkonkurrenz führen kann.
+- KRITISCHE PHASE für Ca-Mangel! Hier zeigen sich die meisten Probleme.
+- CalMag nicht reduzieren, nur weil die Blüte begonnen hat.
+- Gesamt-EC: 1.2-1.8
+- pH besonders sorgfältig kontrollieren.
+
+──────────────────────────────────────────────────────────────────────────────
+7.4 MITTLERE/SPÄTE BLÜTE (Woche 4-8+ der Blüte):
+──────────────────────────────────────────────────────────────────────────────
+
+- Kalziumbedarf: MITTEL (leicht abnehmend)
+- Das vegetative Wachstum verlangsamt sich, der Ca-Bedarf sinkt etwas.
+- Der K-Bedarf ist jetzt am höchsten – Ca:K-Verhältnis beachten.
+- CalMag leicht reduzieren (0.5-1.0 ml/L in Kokos).
+- In Hydro: 100-150 ppm Ca ausreichend.
+- Weiterhin bei jeder Bewässerung CalMag geben (Kokos!).
+- Gesamt-EC: 1.4-2.0 (blütephase-abhängig)
+
+──────────────────────────────────────────────────────────────────────────────
+7.5 SPÜLUNG / LETZTE WOCHE:
+──────────────────────────────────────────────────────────────────────────────
+
+- Bei reiner Wasserspülung: Kein CalMag notwendig.
+- Manche Grower geben in der Spülung noch minimales CalMag (0.3 ml/L),
+  um strukturellen Zusammenbruch der Blüten zu vermeiden.
+- In Kokos: Auch in der Spülphase leichtes CalMag empfohlen, da Kokos
+  sonst Kalzium aus der Pflanze "zurückzieht".
+
+
+################################################################################
+8. EC-KONTEXT UND NÄHRSTOFFKONZENTRATION
+################################################################################
+
+──────────────────────────────────────────────────────────────────────────────
+8.1 EC-WERTE UND KALZIUM:
+──────────────────────────────────────────────────────────────────────────────
+
+GRUNDWASSER-EC UND KALZIUMGEHALT:
+- EC 0.0-0.1 (RO-Wasser): 0 ppm Ca → CalMag ZWINGEND erforderlich
+- EC 0.1-0.3 (weiches Wasser): 20-60 ppm Ca → CalMag empfohlen
+- EC 0.3-0.5 (mittleres Wasser): 60-120 ppm Ca → CalMag evtl. nötig
+- EC 0.5-0.7 (hartes Wasser): 120-200 ppm Ca → CalMag meist unnötig
+- EC über 0.7 (sehr hart): >200 ppm Ca → Kein CalMag, evtl. RO nötig
+
+EMPFOHLENE KALZIUM-PPM IN DER ENDLÖSUNG:
+- Sämlinge: 80-120 ppm Ca
+- Vegetation: 150-200 ppm Ca
+- Frühe Blüte: 150-200 ppm Ca
+- Späte Blüte: 100-150 ppm Ca
+- Ca:Mg-Verhältnis: 3:1 bis 5:1 (idealerweise 3:1)
+
+EC-BEITRAG DURCH CalMag:
+- CalMag erhöht den EC typischerweise um 0.2-0.5 pro ml/L
+  (herstellerabhängig).
+- IMMER den EC messen, nachdem CalMag UND Basisdünger gemischt wurden.
+- Wenn CalMag den Gesamt-EC zu hoch treibt, Basisdünger reduzieren
+  (nicht CalMag reduzieren, wenn Ca-Mangel vorliegt!).
+
+──────────────────────────────────────────────────────────────────────────────
+8.2 GESAMT-EC-RICHTLINIEN MIT CALMAG:
+──────────────────────────────────────────────────────────────────────────────
+
+                    Grundwasser   + CalMag     + Basisdünger   = Gesamt-EC
+Sämlinge:           0.0-0.3       0.1-0.3      0.2-0.4          0.3-0.6
+Vegetation früh:    0.0-0.3       0.2-0.4      0.4-0.8          0.6-1.2
+Vegetation spät:    0.0-0.3       0.3-0.5      0.6-1.0          0.8-1.4
+Blüte früh:         0.0-0.3       0.3-0.5      0.8-1.2          1.0-1.8
+Blüte mitte:        0.0-0.3       0.2-0.4      1.0-1.4          1.2-2.0
+Blüte spät:         0.0-0.3       0.1-0.3      0.8-1.2          1.0-1.6
+Spülung:            0.0-0.3       0.0-0.2      0.0              0.0-0.5
+
+HINWEIS: Diese Werte sind Richtwerte und können je nach Genetik,
+Lichtintensität und Umgebungsbedingungen variieren. Immer die Pflanze
+beobachten und den Drain-EC kontrollieren.
+
+
+################################################################################
+9. BEHANDLUNG UND KORREKTUR
+################################################################################
+
+──────────────────────────────────────────────────────────────────────────────
+9.1 SOFORTMASSNAHMEN:
+──────────────────────────────────────────────────────────────────────────────
+
+SCHRITT 1: pH-WERT PRÜFEN UND KORRIGIEREN
+- Dies ist der ERSTE und WICHTIGSTE Schritt!
+- Eingangslösung UND Drain-pH messen.
+- Wenn der pH zu niedrig ist → pH anheben mit pH-Up (Kaliumhydroxid
+  oder Kaliumsilikat).
+- Ziel-pH: Erde 6.5, Kokos 6.0, Hydro 5.8
+- Wenn pH korrekt ist → weiter zu Schritt 2.
+
+SCHRITT 2: CALMAG HINZUFÜGEN
+- Sofort CalMag-Supplement zur Nährlösung hinzufügen.
+- Dosierung bei aktivem Mangel: 1.0-2.0 ml/L (herstellerabhängig).
+- CalMag ZUERST ins Wasser geben, gut umrühren, DANN pH einstellen,
+  DANN Basisdünger hinzufügen.
+- Bei schwerem Mangel: Eine Blattdüngung mit Kalziumchlorid-Lösung
+  (0.5-1.0 g/L) kann schnelle Linderung bringen.
+
+SCHRITT 3: DRAIN-EC UND pH KONTROLLIEREN
+- Nach 2-3 Bewässerungen den Drain kontrollieren.
+- Drain-EC sollte nicht mehr als 20-30% über dem Eingangswert liegen.
+- Drain-pH sollte im optimalen Bereich sein.
+- Wenn Drain-EC zu hoch: Substrat mit pH-korrektem Wasser spülen.
+
+──────────────────────────────────────────────────────────────────────────────
+9.2 BLATTDÜNGUNG (FOLIAR SPRAY):
+──────────────────────────────────────────────────────────────────────────────
+
+- Blattdüngung kann bei akutem Ca-Mangel schnelle Linderung bringen,
+  da die Nährstoffe direkt über die Blätter aufgenommen werden.
+- Kalziumchlorid (CaCl2): 0.5-1.0 g/L Wasser
+- CalMag-Lösung: 0.5 ml/L Wasser
+- pH der Sprühlösung: 6.0-6.5
+- IMMER in der Dunkelphase oder bei abgeschaltetem Licht sprühen,
+  um Blattverbrennungen zu vermeiden.
+- Nicht in der Blütephase auf die Blüten sprühen (Schimmelgefahr)!
+- Blattdüngung ist eine ERGÄNZUNG, nicht ein Ersatz für die
+  Wurzeldüngung.
+
+──────────────────────────────────────────────────────────────────────────────
+9.3 LANGFRISTIGE KORREKTUR:
+──────────────────────────────────────────────────────────────────────────────
+
+- CalMag-Supplement dauerhaft in den Düngeplan aufnehmen (besonders
+  bei Kokos und RO-Wasser).
+- pH-Wert regelmäßig kontrollieren (mindestens bei jeder Bewässerung).
+- K-Dosierung in der Blüte nicht übertreiben (verdrängt Ca).
+- Drain-Werte regelmäßig kontrollieren.
+- Bei Kokos: Substrat regelmäßig mit CalMag-haltiger Lösung spülen.
+- Leitungswasser-Analyse durchführen (Wasserwerk gibt Auskunft über
+  Ca-Gehalt).
+
+──────────────────────────────────────────────────────────────────────────────
+9.4 ERHOLUNGSZEIT:
+──────────────────────────────────────────────────────────────────────────────
+
+- Da Kalzium immobil ist, werden sich BESTEHENDE Schäden an Blättern
+  NICHT zurückbilden. Braune Flecken und abgestorbenes Gewebe bleiben.
+- Neues Wachstum sollte innerhalb von 5-10 Tagen gesund erscheinen.
+- Wenn nach 7-10 Tagen keine Verbesserung am neuen Wachstum: Ursache
+  erneut prüfen (pH? Kationenkonkurrenz? Wurzelprobleme?).
+- Schwer beschädigte Triebspitzen können absterben – Seitentriebe
+  übernehmen dann die Führung.
+
+──────────────────────────────────────────────────────────────────────────────
+9.5 HÄUFIGE CalMag-PRODUKTE:
+──────────────────────────────────────────────────────────────────────────────
+
+- Canna CalMag Agent (für Kokos optimiert)
+- Terra Aquatica (GHE) CalMag
+- BioBizz CalMag
+- Advanced Nutrients Sensi Cal-Mag Xtra
+- Plagron CalMag Pro
+- Eigenherstellung: Kalziumnitrat (Ca(NO3)2) + Magnesiumsulfat (MgSO4)
+  im Verhältnis 3:1 (Ca:Mg nach Gewicht)
+
+──────────────────────────────────────────────────────────────────────────────
+9.6 DOSIERUNGSTABELLE CALMAG (ALLGEMEIN):
+──────────────────────────────────────────────────────────────────────────────
+
+Substrat     | Phase        | CalMag (ml/L) | Ca-Ziel (ppm)
+─────────────┼──────────────┼───────────────┼──────────────
+Erde (weiches Wasser)
+             | Veg          | 0.5-1.0       | 100-150
+             | Blüte        | 0.5           | 80-120
+Kokos (RO-Wasser)
+             | Sämling      | 0.5-1.0       | 80-120
+             | Veg          | 1.0-1.5       | 150-200
+             | Blüte früh   | 1.0-1.5       | 150-200
+             | Blüte spät   | 0.5-1.0       | 100-150
+Hydro (RO-Wasser)
+             | Veg          | 1.0-1.5       | 150-200
+             | Blüte        | 0.5-1.0       | 100-150
+
+HINWEIS: Diese Werte sind Richtwerte. Herstellerangaben beachten!
+
+
+################################################################################
+10. VERWECHSLUNGSGEFAHR – ZUSAMMENFASSENDE TABELLE
+################################################################################
+
+┌─────────────────┬──────────────────┬──────────────────┬─────────────────────┐
+│ Merkmal         │ Ca-Mangel        │ K-Mangel         │ Mn-Mangel           │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Betroffene      │ NEUE/obere       │ ALTE/untere      │ NEUE/obere          │
+│ Blätter         │ Blätter          │ Blätter          │ Blätter             │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Symptomort      │ MITTEN auf dem   │ BLATTRÄNDER      │ ZWISCHEN den        │
+│ am Blatt        │ Blatt, zufällig  │ (Margin Burn)    │ Blattadern          │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Hauptsymptom    │ Braune/roste     │ Braune/verbrannte│ Gelbe Chlorose      │
+│                 │ Flecken          │ Ränder           │ zwischen Adern      │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Blattverformung │ STARK (Cupping,  │ Gering bis       │ Gering              │
+│                 │ Crinkling)       │ mittel           │                     │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Nekrose-Muster  │ Zufällige        │ Von Rand nach    │ Kleine Punkte       │
+│                 │ Flecken          │ innen            │ entlang der Adern   │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Wachstums-      │ Spitzen sterben  │ Gesamte Pflanze  │ Leicht verzögertes  │
+│ auswirkung      │ ab               │ kümmert          │ Wachstum            │
+└─────────────────┴──────────────────┴──────────────────┴─────────────────────┘
+
+┌─────────────────┬──────────────────┬──────────────────┬─────────────────────┐
+│ Merkmal         │ Ca-Mangel        │ Fe-Mangel        │ Mg-Mangel           │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Betroffene      │ NEUE/obere       │ NEUE/obere       │ ALTE/untere         │
+│ Blätter         │ Blätter          │ Blätter          │ Blätter             │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Hauptsymptom    │ Braune Flecken   │ Gelb/weiße       │ Gelbe Chlorose      │
+│                 │ auf grünem Blatt │ neue Blätter     │ an alten Blättern   │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Chlorose        │ Keine typische   │ STARK – komplett │ Intervenal, an      │
+│                 │ Chlorose         │ gelb/weiß        │ alten Blättern      │
+├─────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│ Blattverformung │ STARK            │ Gering           │ Ränder rollen hoch  │
+└─────────────────┴──────────────────┴──────────────────┴─────────────────────┘
+
+┌─────────────────┬──────────────────┬──────────────────────────────────────────┐
+│ Merkmal         │ Ca-Mangel        │ Schädlingsbefall                         │
+├─────────────────┼──────────────────┼──────────────────────────────────────────┤
+│ Verteilung      │ Nur neue/obere   │ Überall, oft unten beginnend             │
+│                 │ Blätter          │ (bei Spinnmilben)                        │
+├─────────────────┼──────────────────┼──────────────────────────────────────────┤
+│ Insekten        │ KEINE            │ Sichtbar (Lupe!)                         │
+│ sichtbar?       │                  │                                          │
+├─────────────────┼──────────────────┼──────────────────────────────────────────┤
+│ Fleckenart      │ Trocken,         │ Silbrig (Thripse), stippelartig          │
+│                 │ braun, fest      │ (Milben), klebrig (Läuse)                │
+├─────────────────┼──────────────────┼──────────────────────────────────────────┤
+│ Begleit-        │ Blattverformung, │ Gespinste, Honigtau, Fraßspuren,        │
+│ symptome        │ hohle Stängel    │ Kotpunkte                                │
+└─────────────────┴──────────────────┴──────────────────────────────────────────┘
+
+VERWECHSLUNG MIT pH-LOCKOUT:
+- IMMER ZUERST den pH-Wert prüfen!
+- Wenn pH zu niedrig → pH korrigieren, KEIN extra Kalzium
+- Wenn pH korrekt → Kalzium in der Lösung erhöhen
+- Über 80% der vermeintlichen "Kalziummängel" sind pH-Probleme!
+
+VERWECHSLUNG MIT NÄHRSTOFFBRAND:
+- Nährstoffbrand: Braune, verbrannte SPITZEN an allen Blättern
+- Ca-Mangel: Braune FLECKEN MITTEN auf NEUEN Blättern
+- Nährstoffbrand beginnt immer an den Blattspitzen
+- Ca-Mangel hat zufällig verteilte Flecken
+
+
+################################################################################
+11. BILDMERKMALE FÜR KI-ANALYSE (COMPUTER VISION)
+################################################################################
+
+Diese Merkmale dienen zur automatisierten Erkennung von Kalziummangel
+auf Fotos/Bildern von Cannabispflanzen durch KI-Bildanalyse:
+
+──────────────────────────────────────────────────────────────────────────────
+11.1 PRIMÄRE BILDMERKMALE (HOHE KONFIDENZ):
+──────────────────────────────────────────────────────────────────────────────
+
+POSITION IN DER PFLANZE:
+- Symptome befinden sich im OBEREN Bereich der Pflanze (oberstes Drittel)
+- Betroffene Blätter sind die JÜNGSTEN, KLEINSTEN Blätter nahe der
+  Triebspitzen
+- Ältere, größere Blätter im unteren Bereich erscheinen gesund/normal
+- Kontrast: Gesunde untere Pflanze, kranke obere Pflanze
+
+FLECKENMUSTER:
+- Unregelmäßig geformte, braune bis rostfarbene Flecken
+- Flecken sind ZUFÄLLIG über die Blattfläche verteilt (stochastisches
+  Muster)
+- Flecken haben KEINEN Bezug zu den Blattadern (nicht intervenal)
+- Flecken beginnen NICHT am Blattrand (Unterschied zu K-Mangel)
+- Flecken beginnen NICHT an der Blattspitze (Unterschied zu Nährstoffbrand)
+- Farbspektrum der Flecken: RGB ca. (139,90,43) bis (101,67,33) –
+  hellbraun bis dunkelrostbraun
+- Flecken sind scharf begrenzt gegen das grüne Blattgewebe
+- Nekrotische Bereiche (tot) vs. chlorotische Bereiche (gelb) → bei
+  Ca-Mangel eher NEKROTISCH als chlorotisch
+
+BLATTVERFORMUNG (SHAPE FEATURES):
+- "Cupping": Blattränder wölben sich nach OBEN → konvexe Blattform
+  von oben betrachtet, wie eine Schüssel
+- "Crinkling": Blattoberfläche ist wellig/faltig/zerknittert, nicht
+  glatt. Unregelmäßige Höhenvariation der Blattoberfläche.
+- "Twisting": Verdrehte Blätter, asymmetrische Blattform
+- Die typische Cannabis-Blattform (gefingert) ist bei stark betroffenen
+  Blättern verzerrt
+
+──────────────────────────────────────────────────────────────────────────────
+11.2 SEKUNDÄRE BILDMERKMALE (UNTERSTÜTZENDE KONFIDENZ):
+──────────────────────────────────────────────────────────────────────────────
+
+TRIEBSPITZEN:
+- Abgestorbene (braune/schwarze) Triebspitzen
+- Neues Wachstum sieht "crispy", brüchig, vertrocknet aus
+- Wachstumspunkt gestaucht oder tot
+
+STÄNGEL:
+- Eventuell sichtbare braune Verfärbungen am Stängel
+- Stängel erscheint dünn oder schwach im Verhältnis zur Pflanzengröße
+- Bei aufgeschnittenen Stängeln: Hohler Kern sichtbar
+
+GESAMTPFLANZE:
+- Pflanze insgesamt "stämmig" oder verkümmert
+- Kurze Internodienabstände
+- Wenig oder verkümmertes neues Wachstum
+- Gesunder unterer Bereich, kranker oberer Bereich
+
+──────────────────────────────────────────────────────────────────────────────
+11.3 NEGATIVE MERKMALE (AUSSCHLUSS ANDERER URSACHEN):
+──────────────────────────────────────────────────────────────────────────────
+
+ABGRENZUNG ZU ANDEREN MÄNGELN:
+- KEIN intervenales Chlorose-Muster (schließt Mn, Fe, Mg aus)
+- KEINE Symptome an den UNTEREN Blättern (schließt N, K, Mg, P aus)
+- KEINE gleichmäßig gelben/weißen neuen Blätter (schließt Fe aus)
+- KEINE braunen RÄNDER an alten Blättern (schließt K aus)
+- KEINE verbrannten SPITZEN an allen Blättern (schließt Nährstoffbrand aus)
+
+ABGRENZUNG ZU SCHÄDLINGEN:
+- KEINE sichtbaren Insekten auf der Blattoberfläche
+- KEINE feinen Gespinste (Spinnmilben)
+- KEINE silbrig-glänzenden Streifen (Thripse)
+- KEINE klebrigen Rückstände (Blattläuse)
+- KEIN Kot oder Fraßspuren
+- Flecken sehen "von innen" aus (Gewebetod), nicht "von außen" (Fraß)
+
+──────────────────────────────────────────────────────────────────────────────
+11.4 KONFIDENZSTUFEN FÜR DIAGNOSE:
+──────────────────────────────────────────────────────────────────────────────
+
+HOHE KONFIDENZ (>80% Wahrscheinlichkeit Ca-Mangel):
+- Braune/roste Flecken auf NEUEN Blättern
+- + Blattverformung (Cupping/Crinkling)
+- + Untere Blätter gesund
+- + Keine Schädlinge sichtbar
+
+MITTLERE KONFIDENZ (50-80%):
+- Braune Flecken auf oberen Blättern
+- + Aber ohne klare Verformung
+- ODER: Flecken + Verformung, aber auch untere Blätter betroffen
+  (möglicher Multi-Mangel)
+
+NIEDRIGE KONFIDENZ (<50%):
+- Nur Flecken, ohne Bezug zur Blattposition
+- ODER: Nur Verformung ohne Flecken
+- ODER: Begleitende Chlorose (deutet auf anderen/zusätzlichen Mangel)
+
+──────────────────────────────────────────────────────────────────────────────
+11.5 DIFFERENZIAL-SCORE FÜR KI-KLASSIFIKATION:
+──────────────────────────────────────────────────────────────────────────────
+
+GEWICHTUNG DER MERKMALE FÜR DIE KI-BEWERTUNG:
+
+Merkmal                                          | Gewicht | Konfidenz-Plus
+─────────────────────────────────────────────────┼─────────┼───────────────
+Braune Flecken auf NEUEN Blättern                | 0.30    | +30%
+Flecken zufällig verteilt (nicht Rand/Ader)      | 0.20    | +20%
+Blattverformung (Cupping/Crinkling)              | 0.15    | +15%
+Untere Blätter gesund                            | 0.15    | +15%
+Keine intervenale Chlorose                       | 0.05    | +5%
+Abgestorbene Triebspitzen                        | 0.05    | +5%
+Keine sichtbaren Schädlinge                      | 0.05    | +5%
+Kontext: Kokos-Substrat sichtbar                 | 0.03    | +3%
+Kontext: Pflanze in Blütephase (Stretch)         | 0.02    | +2%
+
+GESAMT möglich:                                    1.00      100%
+
+Schwellenwerte:
+- Score > 0.70 → "Kalziummangel wahrscheinlich"
+- Score 0.40-0.70 → "Kalziummangel möglich, weitere Prüfung nötig"
+- Score < 0.40 → "Unwahrscheinlich Ca-Mangel, andere Ursache prüfen"
+
+──────────────────────────────────────────────────────────────────────────────
+11.6 ZUSÄTZLICHE KONTEXT-INFORMATIONEN FÜR DIAGNOSE:
+──────────────────────────────────────────────────────────────────────────────
+
+Folgende Kontext-Informationen erhöhen die Diagnosegenauigkeit, wenn
+sie verfügbar sind:
+
+- Substrattyp: Kokos → Ca-Mangel wahrscheinlicher (höheres Prior)
+- Wasserquelle: RO-Wasser → Ca-Mangel wahrscheinlicher
+- CalMag-Verwendung: Nicht verwendet → Ca-Mangel wahrscheinlicher
+- pH-Wert: Unter 6.0 (Erde) → pH-Lockout von Ca wahrscheinlich
+- Phase: Stretch/frühe Blüte → Ca-Bedarf am höchsten
+- Dünger: Nur organisch ohne Kalkzusatz → Ca kann fehlen
+- Andere Symptome: Untere Blätter auch betroffen → Multi-Mangel oder
+  anderes Problem
+
+
+################################################################################
+ZUSAMMENFASSUNG – SCHNELLREFERENZ
+################################################################################
+
+ERKENNUNG:     Braune/roste Flecken auf NEUEN/oberen Blättern,
+               zufällig verteilt, Blattverformung, Triebspitzen sterben
+
+MOBILITÄT:     IMMOBIL → neue Blätter zuerst betroffen
+
+HÄUFIGSTE
+URSACHE:       pH zu niedrig (Lockout) oder kein CalMag bei Kokos/RO
+
+ERSTE AKTION:  pH PRÜFEN und ggf. korrigieren!
+
+BEHANDLUNG:    CalMag hinzufügen (1-2 ml/L), pH optimieren,
+               Blattdüngung bei akutem Mangel
+
+ERHOLUNG:      Alte Schäden bleiben, neues Wachstum in 5-10 Tagen gesund
+
+PRÄVENTION:    CalMag dauerhaft im Düngeplan (Kokos IMMER), pH regelmäßig
+               kontrollieren, Ca:Mg-Verhältnis 3:1 einhalten
+
+================================================================================
+Ende der Wissensdatei: Kalziummangel (Ca) bei Cannabis
+Letzte Aktualisierung: 2026-03-15
+================================================================================

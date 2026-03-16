@@ -1,0 +1,286 @@
+================================================================================
+HITZESTRESS (Heat Stress)
+================================================================================
+
+KATEGORIE: Umweltstress (abiotisch)
+SCHWEREGRAD: Mittel bis schwer (kann bei extremer Hitze tödlich sein)
+HÄUFIGKEIT: Sehr häufig bei Indoor-Grows und Outdoor in heißen Sommern
+BETROFFENE STADIEN: Alle, besonders kritisch in der Blüte
+
+================================================================================
+1. BESCHREIBUNG UND URSACHE
+================================================================================
+
+Hitzestress tritt auf, wenn die Umgebungstemperatur der Pflanze einen
+kritischen Schwellenwert überschreitet. Cannabis ist eine warmliebende
+Pflanze, hat aber klare Obergrenzen. Bei zu hohen Temperaturen werden
+Enzyme denaturiert, die Photosynthese-Effizienz sinkt, die Transpiration
+steigt unkontrolliert, und zelluläre Prozesse werden gestört.
+
+TEMPERATUR-SCHWELLENWERTE:
+- 20-28°C: Optimaler Bereich für Cannabis
+- 28-30°C: Noch tolerabel, leichter Stress möglich
+- 30-33°C: Deutlicher Stress, Wachstum verlangsamt sich
+- 33-35°C: Schwerer Stress, Symptome deutlich sichtbar
+- 35-38°C: Sehr schwerer Stress, Pflanzenschäden wahrscheinlich
+- 38-40°C: Kritisch, irreversible Schäden möglich
+- Über 40°C: Potenziell tödlich, Proteindenaturierung
+
+NACHTTEMPERATUR:
+- Die Nachttemperatur sollte 5-10°C unter der Tagestemperatur liegen
+- Nachttemperaturen über 25°C sind problematisch
+- Fehlende Tag-Nacht-Differenz verstärkt Hitzestress
+- In der Blüte: Nachttemperaturen über 27°C können Terpene verflüchtigen
+
+URSACHEN:
+- Unzureichende Belüftung/Abluft im Growzelt/-raum
+- Lampen (besonders HPS/MH) erzeugen zu viel Abwärme
+- Sommer-Outdoor ohne Beschattungsmöglichkeit
+- Klimaanlage ausgefallen oder unzureichend dimensioniert
+- Reflektierende Oberflächen konzentrieren Wärme
+- Zu viele Lampen/Geräte im geschlossenen Raum
+- Mangelnde Luftzirkulation (Wärmenester)
+- Dunkle Töpfe absorbieren Wärmestrahlung
+
+================================================================================
+2. VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+FRÜHSTADIUM:
+- BLATTKRÄUSELUNG NACH OBEN: Das Hauptsymptom! Blattränder rollen sich
+  nach oben ein, das Blatt formt sich wie ein Taco oder Kanu
+  (wissenschaftlich: "epinastisches Kräuseln")
+- Die Pflanze versucht durch das Einrollen, die der Hitze ausgesetzte
+  Blattoberfläche zu reduzieren
+- Blätter fühlen sich TROCKEN und WARM an
+- Leicht erhöhte Transpiration (Pflanze "schwitzt")
+- Blätter können leicht heller werden, aber KEIN Bleaching wie bei Licht
+
+MITTELSTADIUM:
+- Starkes Taco/Kanu-Kräuseln der meisten oberen Blätter
+- Blattränder werden TROCKEN und KNUSPRIG (braune, trockene Ränder)
+- Blattspitzen verbrennen (braune, trockene Spitzen)
+- "Burnt Tips" - die äußersten 2-5mm der Blattspitzen werden braun
+- Blätter können sich insgesamt PAPIERARTIG anfühlen
+- Gelbfärbung möglich, aber ungleichmäßig und nicht das Hauptsymptom
+- Erhöhter Wasserverbrauch (Pflanze trinkt deutlich mehr)
+- Wachstumsgeschwindigkeit nimmt ab
+- Internodienabstand kann sich vergrößern (Stretching)
+
+SPÄTSTADIUM / SCHWERER HITZESTRESS:
+- Blätter werden komplett knusprig und sterben ab
+- Nekrotische Flecken (braun/schwarz) auf Blättern
+- Massive Wachstumsverlangsamung oder Stillstand
+- Welken trotz ausreichender Bewässerung
+- Pflanze sieht insgesamt "müde" und gestresst aus
+- Wurzelzone überhitzt -> zusätzlicher Wurzelstress
+
+IN DER BLÜTE - FOXTAILING:
+- Eines der charakteristischsten Symptome von Hitzestress in der Blüte
+- Die Buds bilden an ihren Spitzen neue Kelche, die turmartig nach oben
+  wachsen ("Fuchsschwanz")
+- Diese neuen Kelchformationen sind oft hell/weiß und weniger dicht
+- Foxtailing reduziert die Bud-Dichte und Qualität
+- Trichom-Entwicklung auf Foxtails ist oft minderwertig
+- ACHTUNG: Es gibt auch GENETISCHES Foxtailing (bei manchen Sativa-Sorten
+  normal) - dieses ist gleichmäßig und nicht mit Stress-Symptomen verbunden
+- Stress-Foxtailing: Unregelmäßig, nur an den heißesten Stellen, begleitet
+  von anderen Stresssymptomen
+
+WEITERE BLÜTE-SYMPTOME:
+- "Airy Buds": Buds werden locker und luftig statt dicht
+- Terpenverlust: Flüchtige Terpene verdampfen bei hohen Temperaturen
+  (Ernte riecht weniger intensiv)
+- Beschleunigte Trichom-Degradation: Trichome werden schneller bernstein
+- Hermaphroditismus-Risiko: Extreme Hitze kann Zwitterblüten auslösen
+- Reduzierte Harzproduktion
+
+================================================================================
+3. ABGRENZUNG ZU ÄHNLICHEN PROBLEMEN
+================================================================================
+
+HITZESTRESS vs. LICHTBRAND:
++---------------------------+---------------------------+
+| HITZESTRESS               | LICHTBRAND                |
++---------------------------+---------------------------+
+| Kräuselung ist HAUPT-     | Bleaching/Weißfärbung ist |
+| symptom                   | HAUPTSYMPTOM              |
+| Blätter werden NICHT weiß | Blätter werden weiß/bleich|
+| Betrifft GESAMTE Pflanze  | Nur lichtnahe Blätter     |
+| (obere Bereiche stärker)  |                           |
+| Tritt NUR bei hohen Temps | Kann bei JEDER Temperatur |
+| auf (>30°C)               | auftreten (LED!)          |
+| Trockene/knusprige Ränder | Gebleichte Flächen        |
+| Foxtailing in Blüte       | Bud-Bleaching in Blüte   |
+| Erhöhter Wasserverbrauch  | Wasserverbrauch normal    |
++---------------------------+---------------------------+
+WICHTIG: Beide können GLEICHZEITIG auftreten! Bei HPS-Lampen ist dies
+sehr häufig, da diese sowohl Hitze als auch Lichtintensität liefern.
+
+HITZESTRESS vs. ÜBERDÜNGUNG / NÄHRSTOFFBRAND:
++---------------------------+---------------------------+
+| HITZESTRESS               | NÄHRSTOFFBRAND            |
++---------------------------+---------------------------+
+| Taco-Kräuselung nach oben | Blattspitzen braun/         |
+|                           | "verbrannt", kein Kräuseln|
+| Gesamte Blattränder       | NUR die Spitzen betroffen |
+| Temperaturbezogen         | Unabhängig von Temperatur |
+| Erhöhter Wasserverbrauch  | Normaler Wasserverbrauch  |
+| Wird bei Kühlung besser   | Wird bei Spülung besser   |
++---------------------------+---------------------------+
+
+HITZESTRESS vs. WINDBURN:
++---------------------------+---------------------------+
+| HITZESTRESS               | WINDBURN                  |
++---------------------------+---------------------------+
+| Gesamte Pflanze betroffen | NUR ventilatorzugewandte  |
+| (obere Bereiche mehr)     | Seite betroffen           |
+| Taco-Kräuselung           | Krallen/Klauen-Form       |
+| Trocken, papierartig      | Verdickte Stängel möglich |
+| Temperaturabhängig        | Unabhängig von Temperatur |
++---------------------------+---------------------------+
+
+HITZESTRESS vs. UNTERBEWÄSSERUNG:
++---------------------------+---------------------------+
+| HITZESTRESS               | UNTERBEWÄSSERUNG          |
++---------------------------+---------------------------+
+| Blätter kräuseln sich     | Blätter hängen SCHLAFF    |
+| NACH OBEN (Taco)          | nach UNTEN (welk)         |
+| Blätter fühlen sich       | Blätter fühlen sich DÜNN  |
+| trocken/warm an           | und papierartig an        |
+| Topf kann feucht sein     | Topf ist LEICHT und       |
+|                           | TROCKEN                   |
+| Erhöhter Wasserverbrauch  | Wassermangel offensichtlich|
+| Kühlung hilft             | Gießen hilft sofort       |
++---------------------------+---------------------------+
+
+================================================================================
+4. VPD-KONTEXT (Vapor Pressure Deficit)
+================================================================================
+
+VPD beschreibt das Dampfdruckdefizit - die Differenz zwischen dem
+tatsächlichen Wasserdampfgehalt der Luft und dem maximal möglichen bei
+einer bestimmten Temperatur. VPD ist DER entscheidende Parameter für
+die Pflanzengesundheit und verknüpft Temperatur mit Luftfeuchtigkeit.
+
+OPTIMALE VPD-WERTE FÜR CANNABIS:
+- Sämlinge/Klone:     0.4 - 0.8 kPa
+- Vegetationsphase:   0.8 - 1.2 kPa
+- Frühe Blüte:        1.0 - 1.4 kPa
+- Späte Blüte:        1.2 - 1.6 kPa
+
+WARUM VPD BEI HITZESTRESS WICHTIG IST:
+- Bei hohen Temperaturen STEIGT der VPD automatisch
+- Hoher VPD = Pflanze transpiriert MEHR = höherer Wasserverbrauch
+- Wenn der VPD zu hoch wird (>1.6 kPa), schließt die Pflanze ihre
+  Stomata (Spaltöffnungen) zum Selbstschutz
+- Geschlossene Stomata = keine CO2-Aufnahme = keine Photosynthese
+- Ergebnis: Wachstumsstillstand trotz Licht und Nährstoffen
+
+PRAKTISCHES BEISPIEL:
+- 25°C bei 60% RH = VPD ~1.2 kPa (optimal für Blüte)
+- 32°C bei 60% RH = VPD ~1.9 kPa (zu hoch! Stress!)
+- 32°C bei 75% RH = VPD ~1.2 kPa (VPD OK, aber Schimmelrisiko!)
+
+DILEMMA BEI HITZESTRESS:
+Bei hohen Temperaturen hat man zwei schlechte Optionen:
+1. Niedrige Luftfeuchtigkeit -> VPD zu hoch -> Stomata schließen -> Stress
+2. Hohe Luftfeuchtigkeit -> VPD besser -> aber Schimmelrisiko steigt
+Die EINZIGE gute Lösung ist, die Temperatur zu senken!
+
+================================================================================
+5. SOFORTMASSNAHMEN
+================================================================================
+
+KURZFRISTIG (sofort):
+1. Belüftung maximieren: Abluft auf Maximum, Zuluft öffnen
+2. Ventilatoren: Mehr Luftzirkulation (aber nicht direkt auf Pflanzen!)
+3. Lampen dimmen oder Abstand erhöhen (reduziert auch Wärme)
+4. Lichtzyklus verschieben: Licht nachts an (wenn Outdoor-Temp kühler)
+5. Eisflaschen in den Grow-Raum stellen (Notlösung)
+6. Mehr gießen: Pflanze braucht bei Hitze mehr Wasser für Transpiration
+7. Foliares Sprühen mit kühlem Wasser (NUR in Veg, NICHT in Blüte!)
+8. Türen/Klappen des Zeltes öffnen (wenn Lichtleck kein Problem)
+
+MITTELFRISTIG:
+1. Klimaanlage installieren oder aufrüsten
+2. Stärkere Abluft (mit Aktivkohlefilter)
+3. Reflektierende Materialien an der Außenseite des Zeltes
+4. LED statt HPS/MH (weniger Abwärme bei gleicher Lichtleistung)
+5. Lampe außerhalb des Zeltes montieren (Glas-Trennung)
+6. Wurzelzone kühlen (hellere Töpfe, Isolation)
+
+OUTDOOR:
+1. Beschattungsnetz (40-60% Schattierung)
+2. Mulch auf der Erde (reduziert Bodenwärme)
+3. Morgens gießen (Verdunstungskühlung tagsüber)
+4. Helle Töpfe verwenden (reflektieren Wärme)
+5. Größere Töpfe (mehr thermische Masse, kühlen langsamer auf)
+
+================================================================================
+6. SUPPLEMENTS BEI HITZESTRESS
+================================================================================
+
+- Seetangextrakt / Kelp: Enthält natürliche Cytokinine, die
+  Hitzestress-Toleranz erhöhen
+- Silizium (z.B. Kieselsäure): Stärkt Zellwände, verbessert
+  Hitzestress-Resistenz signifikant
+- Salicylsäure: Aktiviert pflanzliche Stressabwehr (SAR)
+- Aminosäuren: Unterstützen die Proteinsynthese unter Stress
+- Kalium: Reguliert Stomata-Funktion, hilft bei Wasserhaushalt
+- ACHTUNG: Stickstoff bei Hitze REDUZIEREN! Hohe N-Levels
+  verschlimmern Hitzestress
+
+================================================================================
+7. LANGFRISTIGE PRÄVENTION
+================================================================================
+
+- Temperatur-/Feuchtigkeitscontroller mit automatischer Regelung
+- Klimaanlage für den Grow-Raum (Split-Gerät empfohlen)
+- Ausreichend dimensionierte Abluft (Faustregel: Raumvolumen x 60/h)
+- LED-Beleuchtung statt HPS/MH
+- Hitzeresistente Genetik wählen (Sativa-Landrassen aus tropischen
+  Regionen, z.B. Thai, Haze-Kreuzungen)
+- Grow-Raum im Keller (kühler) statt Dachboden
+- CO2-Supplementierung: Erlaubt höhere Temperaturen (bis 30-32°C mit
+  CO2 bei 1200-1500 ppm)
+- Automatische Bewässerung (Pflanze trocknet bei Hitze schneller aus)
+
+================================================================================
+8. ERHOLUNGSPROGNOSE
+================================================================================
+
+- Leichter Hitzestress: Vollständige Erholung in 3-5 Tagen nach Korrektur
+- Mittlerer Hitzestress: Erholung in 1-2 Wochen, beschädigte Blätter
+  erholen sich nicht, aber neue Blätter wachsen gesund
+- Schwerer Hitzestress: Kann Wochen dauern, Ertragsverlust unvermeidlich
+- Foxtailing: Irreversibel - betroffene Buds bleiben locker
+- Hermaphroditismus: Wenn einmal ausgelöst, bleibt das Risiko bestehen
+
+ERTRAGSVERLUST DURCH HITZESTRESS:
+- Leicht (30-33°C kurzzeitig): 5-15% Verlust
+- Mittel (33-35°C mehrere Tage): 15-30% Verlust
+- Schwer (>35°C länger): 30-50%+ Verlust
+- Zusätzlich: Qualitätsverlust (Terpene, Potenz)
+
+================================================================================
+9. HÄUFIGE FEHLER
+================================================================================
+
+- "Ich lüfte genug" - aber die Abluft ist zu schwach dimensioniert
+- Mehr gießen als Lösung -> kann zu Überwässerung führen, wenn die Pflanze
+  nicht genug transpirieren kann
+- Ventilator direkt auf die Pflanze -> verursacht zusätzlich Windburn
+- Lichtzyklus nicht anpassen -> Licht während der heißesten Stunden
+- CO2-Flasche als Allheilmittel -> CO2 hilft, löst aber das Grundproblem
+  der Hitze nicht
+- Foxtailing als "normal" akzeptieren -> ist ein klares Stresssignal
+- Raumtemperatur statt Blatttemperatur messen -> Blatttemperatur kann
+  deutlich höher sein als die Lufttemperatur
+
+================================================================================
+KURZFORMEL FÜR KI-DIAGNOSE:
+Taco-Kräuselung nach oben + trockene/knusprige Blattränder +
+Temperatur >30°C + kein Bleaching + erhöhter Wasserverbrauch +
+(in Blüte: Foxtailing) = HITZESTRESS
+================================================================================

@@ -1,0 +1,1214 @@
+================================================================================
+STICKSTOFFMANGEL (N-MANGEL) BEI CANNABIS
+Umfassende Wissensdatenbank fuer KI-gestuetzte Pflanzendiagnose
+================================================================================
+
+Naehrstoff: Stickstoff (N)
+Chemisches Symbol: N
+Makronaehrstoff: Ja (primaerer Makronaehrstoff)
+Mobilitaet in der Pflanze: MOBIL (sehr mobil)
+Betroffene Blaetter zuerst: ALTE / UNTERE Blaetter
+NPK-Position: Erster Wert (N-P-K)
+
+================================================================================
+1. UEBERSICHT - FUNKTION VON STICKSTOFF IN DER CANNABISPFLANZE
+================================================================================
+
+Stickstoff ist der wichtigste Makronaehrstoff fuer Cannabis und wird in
+groesseren Mengen benoetigt als jeder andere Naehrstoff. Er ist ein
+zentraler Baustein fuer nahezu alle lebenswichtigen Prozesse der Pflanze.
+
+Primaere Funktionen:
+- Hauptbestandteil von Chlorophyll (dem gruenen Blattfarbstoff), der fuer
+  die Photosynthese unentbehrlich ist
+- Baustein aller Aminosaeuren, die wiederum Proteine bilden
+- Bestandteil von Nukleinsaeuren (DNA und RNA)
+- Wesentlich fuer Zellteilung und Zellstreckung
+- Treibende Kraft fuer vegetatives Wachstum (Blatt- und Triebbildung)
+- Bestandteil von Enzymen und Coenzymen
+- Beteiligt an der Energieuebertragung (ATP, ADP)
+- Wichtig fuer die Bildung von Terpenen und Cannabinoiden
+
+Warum Stickstoff kritisch ist:
+Ohne ausreichend Stickstoff kann die Pflanze kein Chlorophyll bilden.
+Ohne Chlorophyll keine Photosynthese. Ohne Photosynthese keine Energie.
+Ohne Energie kein Wachstum, keine Bluete, kein Ertrag. Stickstoffmangel
+ist damit einer der ertragsreduzierendsten Maengel ueberhaupt.
+
+Da Stickstoff MOBIL ist, kann die Pflanze ihn aus aelteren Blaettern
+abziehen und zu den juengeren, wachsenden Pflanzenteilen transportieren.
+Deshalb zeigen sich Mangelsymptome IMMER zuerst an den unteren, aelteren
+Blaettern - die Pflanze opfert altes Gewebe, um neues zu versorgen.
+
+Typischer Stickstoffbedarf nach Phase:
+- Keimling: niedrig bis mittel
+- Vegetative Phase: HOCH bis SEHR HOCH
+- Frueher Bluetephase (Stretch): HOCH
+- Mittlere Bluetephase: mittel
+- Spaete Bluetephase: niedrig (natuerliche Reduktion erwuenscht)
+
+================================================================================
+2. VISUELLE SYMPTOME - EXTREM DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+------------------------------------------------------------------------
+2a. FRUEHES STADIUM (leichter Mangel)
+------------------------------------------------------------------------
+
+Farbveraenderungen:
+- Die untersten, aeltesten Blaetter beginnen, ihr sattes Dunkelgruen zu
+  verlieren
+- Farbe wechselt von dunkelgruen zu einem gleichmaessigen HELLGRUEN
+- Der Farbwechsel ist UNIFORM ueber das gesamte Blatt verteilt - NICHT
+  interveinal (nicht zwischen den Blattadern), sondern die gesamte
+  Blattflaeche einschliesslich der Adern verfaerbt sich gleichmaessig
+- Hex-Farbbereich: von ca. #4A7A2E (gesund dunkelgruen) zu ca. #8DB650
+  (helles Gruen) bis #A8C75A (gelbliches Hellgruen)
+- Die oberen Blaetter bleiben zunaechst noch normal dunkelgruen
+
+Blattmuster:
+- Die Vergilbung beginnt gleichmaessig ueber die gesamte Blattflaeche
+- KEIN Muster zwischen Blattadern sichtbar (Unterschied zu Mg-Mangel!)
+- Blattraender und Blattspitzen sind nicht staerker betroffen als die
+  Blattmitte
+- Die Blaetter wirken insgesamt "ausgewaschen" oder "verblasst"
+
+Betroffene Blaetter:
+- Zuallererst die untersten 1-3 Blattpaare
+- Oft zuerst die kleinen einblattrigen Keimblaetter oder die aeltesten
+  Faecher-Blaetter (Fan Leaves) am unteren Stielbereich
+- Schreitet von UNTEN nach OBEN fort
+
+Textur und Form:
+- Blaetter fuehlen sich noch normal an, evtl. leicht weicher als normal
+- Keine Veraenderung der Blattform
+- Blaetter haengen moeglicherweise leicht nach unten
+
+Stiel und Petiolen:
+- In fruehen Stadien noch keine sichtbaren Veraenderungen
+- Bei manchen Sorten koennen Stiele und Blattstiele (Petiolen) einen
+  leicht roetlichen oder violetten Schimmer bekommen - dies ist aber
+  nicht spezifisch fuer N-Mangel und kann auch genetisch bedingt sein
+
+Gesamterscheinung der Pflanze:
+- Leicht verlangsamtes Wachstum, aber noch nicht dramatisch
+- Pflanze wirkt insgesamt etwas heller als gesunde Vergleichspflanzen
+- Neuer Wuchs ist noch gruen, aber moeglicherweise weniger kraeftig
+
+------------------------------------------------------------------------
+2b. MITTLERES STADIUM (moderater Mangel)
+------------------------------------------------------------------------
+
+Farbveraenderungen:
+- Untere Blaetter wechseln von Hellgruen zu deutlichem GELBGRUEN
+  bis GELB
+- Hex-Farbbereich: #C5C73A (Gelbgruen) bis #D4C832 (Gelb) bis
+  #DDD44A (helles Gelb)
+- Die Vergilbung steigt nun deutlich sichtbar von unten nach oben
+- Mittlere Blaetter beginnen ebenfalls hellgruen zu werden
+- Obere Blaetter sind noch relativ gruen, aber heller als normal
+
+Blattmuster:
+- Die Vergilbung bleibt GLEICHMAESSIG ueber das gesamte Blatt
+- Blattadern verfaerben sich MIT der umgebenden Blattflaeche -
+  sie bleiben NICHT gruen (wichtiger Unterscheidungspunkt!)
+- Bei manchen Blaettern kann die Vergilbung an den Blattspitzen
+  minimal staerker sein, aber der Gesamteindruck bleibt uniform
+
+Betroffene Blaetter:
+- Untere Blaetter komplett gelb
+- Mittlere Blaetter beginnen mit der Vergilbung
+- Obere Blaetter heller als normal, aber noch nicht gelb
+- Deutlicher Farbverlauf von unten (gelb) nach oben (gruen) sichtbar
+
+Textur und Form:
+- Untere gelbe Blaetter werden duenn und papierartig
+- Blaetter fuehlen sich schlaff und weich an
+- Blattraender koennen beginnen, sich leicht nach unten zu rollen
+- Blaetter fallen bei leichter Beruehrung evtl. leichter ab
+- Kein Knusprig-Werden oder Austrocknen der Raender (Unterschied
+  zu Naehrstoffbrand!)
+
+Stiel und Petiolen:
+- Staengel koennen duenner erscheinen als bei gesunden Pflanzen
+- Blattstiele (Petiolen) werden heller, manchmal leicht roetlich
+  oder violett getoent
+- Seitentriebe wachsen langsam oder stagnieren
+- Internodienabstaende koennen laenger werden (Pflanze streckt sich
+  auf der Suche nach Licht, was aber eher durch weniger Blattmasse
+  und damit weniger Lichtabsorption kommt)
+
+Gesamterscheinung der Pflanze:
+- Deutlich verlangsamtes Wachstum
+- Pflanze wirkt "duenn" und "spindelduerr"
+- Weniger Blattmasse insgesamt
+- Pflanze sieht insgesamt ungesund und "ausgehungert" aus
+- Neue Blaetter bilden sich langsamer und sind kleiner
+
+------------------------------------------------------------------------
+2c. SPAETES / SCHWERES STADIUM (starker Mangel)
+------------------------------------------------------------------------
+
+Farbveraenderungen:
+- Untere Blaetter sind KOMPLETT GELB bis WEISSLICH-GELB
+- Hex-Farbbereich: #E8D44A (kraeftiges Gelb) bis #EDDC72 (blasses
+  Gelb) bis #E8DFA0 (weisslich-gelb) und schliesslich #C4A43A
+  (braun-gelb beim Absterben)
+- Mittlere Blaetter jetzt deutlich gelb
+- Selbst obere Blaetter werden hellgruen bis gelbgruen
+- Absterbende untere Blaetter verfaerben sich schliesslich braun
+  (hellbraun, trocken, nicht dunkelbraun-matschig)
+- Neuer Wuchs an der Spitze kann NOCH relativ gruen sein, da die
+  Pflanze dort den letzten verfuegbaren Stickstoff konzentriert
+
+Blattmuster:
+- Untere Blaetter sind gleichmaessig gelb bis braun, dann trocken
+  und fallen ab
+- Das Absterben beginnt oft an den Blattspitzen und Raendern der
+  bereits stark vergilbten Blaetter
+- Vergilbtes Gewebe wird zunaechst papierartig, dann trocken-knusprig,
+  dann braun und tot
+- Blaetter fallen von selbst ab oder loesen sich bei leichtester
+  Beruehrung
+
+Betroffene Blaetter:
+- Von unten nach oben - mittlerweile sind 50-80% der Pflanze betroffen
+- Untere Blaetter groesstenteils abgefallen oder abgestorben
+- Pflanze "frisst sich selbst auf" von unten nach oben
+- Nur die obersten 2-4 Blattetagen zeigen noch Gruen
+
+Textur und Form:
+- Absterbende Blaetter sind extrem duenn, papierartig, bruechig
+- Blaetter "zerkruemeln" bei Beruehrung
+- Kein Glanz mehr auf der Blattoberflaeche
+- Blaetter rollen sich ein oder haengen schlaff herab bevor sie
+  abfallen
+- Die Blattstiele werden duenn und knickig
+
+Stiel und Petiolen:
+- Hauptstamm kann duenner als normal sein
+- Staengel verlieren ihre Festigkeit
+- Roetliche/violette Verfaerbungen an Stielen und Petiolen staerker
+  ausgepraegt
+- Seitentriebe kuemmern oder stagnieren komplett
+
+Gesamterscheinung der Pflanze:
+- Pflanze sieht stark geschwaecht und kahl aus
+- Der untere Bereich ist nahezu blaetterfrei
+- Nur die Spitze hat noch Blaetter
+- Extremer Wachstumsstillstand
+- In der Bluete: Blueten bleiben klein und locker ("luftige Buds")
+- Ertragsverlust von 30-70% moeglich
+- Pflanze ist stark anfaellig fuer Schaedlinge und Krankheiten
+
+================================================================================
+3. UNTERSCHEIDUNG VON AEHNLICHEN PROBLEMEN
+================================================================================
+
+------------------------------------------------------------------------
+3a. Stickstoffmangel vs. Magnesiummangel (Mg)
+------------------------------------------------------------------------
+
+STICKSTOFF (N):
+- Vergilbung ist GLEICHMAESSIG ueber das gesamte Blatt
+- Blattadern verfaerben sich GENAUSO wie die Blattflaeche
+- Betrifft ALTE/UNTERE Blaetter zuerst (mobil)
+- Blatt wird vollstaendig und gleichmaessig gelb
+
+MAGNESIUM (Mg):
+- Vergilbung ist INTERVEINAL (zwischen den Blattadern)
+- Blattadern BLEIBEN GRUEN waehrend die Flaeche dazwischen vergilbt
+- Betrifft ebenfalls aeltere Blaetter zuerst (auch mobil)
+- Erzeugt ein charakteristisches "Fischgraeten-Muster"
+- Braune Flecken koennen in den vergilbten Bereichen auftreten
+
+ENTSCHEIDUNGSKRITERIUM: Sind die Blattadern noch gruen waehrend die
+Flaeche dazwischen gelb ist? -> Magnesium. Ist alles gleichmaessig
+vergilbt inklusive der Adern? -> Stickstoff.
+
+------------------------------------------------------------------------
+3b. Stickstoffmangel vs. Eisenmangel (Fe)
+------------------------------------------------------------------------
+
+STICKSTOFF (N):
+- Betrifft ALTE/UNTERE Blaetter zuerst
+- Gleichmaessige Vergilbung
+- Pflanze mobil -> alte Blaetter geopfert
+
+EISEN (Fe):
+- Betrifft NEUE/OBERE Blaetter zuerst!
+- Intervenale Chlorose an jungen Blaettern
+- Neue Blaetter koennen fast WEISS erscheinen
+- Eisen ist IMMOBIL -> neue Blaetter leiden
+
+ENTSCHEIDUNGSKRITERIUM: Wo tritt das Problem zuerst auf?
+Unten/alt -> N-Mangel. Oben/neu -> Fe-Mangel.
+
+------------------------------------------------------------------------
+3c. Stickstoffmangel vs. Lichtverbrennung (Light Burn)
+------------------------------------------------------------------------
+
+STICKSTOFF (N):
+- Beginnt UNTEN an der Pflanze
+- Gleichmaessige Vergilbung
+- Betrifft zuerst die am weitesten vom Licht entfernten Blaetter
+- Vergilbung schreitet von unten nach oben fort
+
+LICHTVERBRENNUNG:
+- Betrifft die OBERSTEN Blaetter, die dem Licht am naechsten sind
+- Blaetter werden bleich/weisslich an den Stellen mit hoechster
+  Lichtintensitaet
+- Blattspitzen und Raender der oberen Blaetter "verbrennen" und
+  werden braun/knusprig
+- Untere Blaetter bleiben normal gruen
+- Buds koennen an der Oberseite "gebleicht" werden
+
+ENTSCHEIDUNGSKRITERIUM: Position am Pflanzenkörper. N-Mangel = unten.
+Lichtverbrennung = oben, lichtnah.
+
+------------------------------------------------------------------------
+3d. Stickstoffmangel vs. pH-Lockout
+------------------------------------------------------------------------
+
+STICKSTOFF (N - reiner Mangel durch Unterfuetterung):
+- Betrifft primaer die unteren Blaetter
+- Klares Muster von unten nach oben
+- Reagiert schnell auf Stickstoffgabe
+
+pH-LOCKOUT (Naehrstoff-Blockade durch falschen pH):
+- Kann MEHRERE Maengel gleichzeitig zeigen
+- Symptome koennen gemischt und verwirrend sein
+- Obwohl genug Naehrstoffe vorhanden sind, kann die Pflanze sie
+  nicht aufnehmen
+- Oft treten Symptome verschiedener Maengel gleichzeitig auf
+  (z.B. N + Ca + Mg zusammen)
+- Reagiert NICHT auf zusaetzliche Naehrstoffgabe, sondern nur auf
+  pH-Korrektur
+
+ENTSCHEIDUNGSKRITERIUM: Treten mehrere Mangelsymptome gleichzeitig auf,
+obwohl gedüngt wird? -> pH messen! Ist der pH-Wert im falschen Bereich,
+ist ein Lockout wahrscheinlich.
+
+------------------------------------------------------------------------
+3e. Stickstoffmangel vs. Ueberwässerung
+------------------------------------------------------------------------
+
+STICKSTOFF (N):
+- Blaetter werden gelb, aber behalten zunaechst ihre Form
+- Blaetter haengen nicht notwendigerweise herab
+- Erde/Medium kann normal feucht oder trocken sein
+- Betrifft primaer untere Blaetter
+
+UEBERWAESSERUNG:
+- Blaetter haengen SCHLAFF herab (drooping), sehen "schwer" aus
+- Blaetter fuehlen sich prall und geschwollen an
+- Vergilbung kann auftreten, ist aber eher ein Sekundaereffekt
+- Betrifft die gesamte Pflanze, nicht nur unten
+- Erde/Medium ist staendig nass
+- Stiele sind weich
+- Wachstum stagniert insgesamt
+
+ENTSCHEIDUNGSKRITERIUM: Haengen die Blaetter schlaff und schwer herab
+bei nasser Erde? -> Ueberwaesserung. Werden Blaetter von unten nach
+oben gelb ohne starkes Haengen? -> N-Mangel.
+
+Hinweis: Ueberwaesserung KANN einen sekundaeren N-Mangel ausloesen,
+da die Wurzeln durch Sauerstoffmangel Naehrstoffe schlechter aufnehmen.
+
+------------------------------------------------------------------------
+3f. Stickstoffmangel vs. natuerliche Seneszenz in der Spaetbluete
+------------------------------------------------------------------------
+
+STICKSTOFF (N - echter Mangel in der Bluete):
+- Tritt ZU FRUEH auf (vor Woche 6-7 der Bluete)
+- Vergilbung schreitet schnell voran
+- Pflanze verliert zu viele Blaetter zu schnell
+- Buds entwickeln sich schlecht
+- Pflanze wirkt gestresst
+
+NATUERLICHE SENESZENZ (normal in spaeter Bluete):
+- Tritt in den letzten 2-3 Wochen vor der Ernte auf
+- Langsames, gleichmaessiges Vergilben von unten
+- Pflanze leitet Naehrstoffe in die Blueten um
+- Buds sind bereits gut entwickelt und reifen
+- Trichome verfaerben sich (milchig/bernstein)
+- Ist ein NORMALER und GEWUENSCHTER Prozess
+- Viele Grower reduzieren N bewusst in der Spaetbluete ("Flush")
+
+ENTSCHEIDUNGSKRITERIUM: Zeitpunkt in der Bluete und Zustand der Buds.
+Vor Woche 6: eher echter Mangel. Letzte 2-3 Wochen bei gut
+entwickelten Buds: wahrscheinlich normal.
+
+================================================================================
+4. URSACHEN FUER STICKSTOFFMANGEL
+================================================================================
+
+------------------------------------------------------------------------
+4a. Unterfuetterung / zu wenig Duenger
+------------------------------------------------------------------------
+- Zu geringe Duengerkonzentration
+- Zu seltenes Duengen
+- Duenger mit zu niedrigem N-Anteil fuer die aktuelle Wachstumsphase
+- Verwendung eines reinen Bluetenduengers (niedrig N, hoch P-K)
+  waehrend der vegetativen Phase
+- Langzeitduenger im Substrat erschoepft
+- "Heisse Erde" (vorgeduengt) ist nach 4-6 Wochen aufgebraucht und
+  es wird nicht nachgeduengt
+
+------------------------------------------------------------------------
+4b. Falscher pH-Wert (Naehrstoff-Lockout)
+------------------------------------------------------------------------
+- Bei falschem pH-Wert kann Stickstoff vorhanden, aber nicht
+  aufnehmbar sein
+- Stickstoff wird am besten in leicht saurem bis neutralem Bereich
+  aufgenommen
+- Zu saurer pH (unter 5.5): N-Aufnahme eingeschraenkt
+- Zu basischer pH (ueber 7.5): N-Aufnahme stark eingeschraenkt,
+  besonders Ammonium
+- Optimal: siehe Abschnitt 5 (pH-Bereiche)
+- HAEUFIGSTE Ursache fuer N-Mangel trotz Duengung!
+
+------------------------------------------------------------------------
+4c. Wurzelprobleme
+------------------------------------------------------------------------
+- Wurzelfaeule (durch Ueberwaesserung, Pythium, etc.)
+- Wurzeln eingeengt (Topf zu klein, "root-bound")
+- Beschaedigte Wurzeln (durch Umtopfen, Schaedlinge, Salze)
+- Zu kalte Wurzelzone (unter 15°C - Naehrstoffaufnahme stark reduziert)
+- Zu hohe Salzkonzentration im Wurzelbereich (EC zu hoch schaedigt
+  Wurzeln und blockiert paradoxerweise die Aufnahme)
+
+------------------------------------------------------------------------
+4d. Temperaturprobleme
+------------------------------------------------------------------------
+- Kalte Temperaturen (unter 18°C): Stoffwechsel verlangsamt,
+  Naehrstoffaufnahme reduziert
+- Besonders kalte Wurzelzone ist problematisch
+- Unter 15°C Wurzeltemperatur: N-Aufnahme kann um 50%+ sinken
+- Zu heisse Temperaturen (ueber 35°C): Stress reduziert ebenfalls
+  die Aufnahme, Pflanze schliesst Stomata
+
+------------------------------------------------------------------------
+4e. Ueberwaesserung
+------------------------------------------------------------------------
+- Staendig nasse Wurzeln haben zu wenig Sauerstoff
+- Ohne Sauerstoff koennen Wurzeln Naehrstoffe nicht aktiv aufnehmen
+- Wurzelfaeule kann die Folge sein
+- Sekundaerer N-Mangel als Folge der reduzierten Wurzelfunktion
+
+------------------------------------------------------------------------
+4f. Substrat-bedingte Ursachen
+------------------------------------------------------------------------
+- Erde mit hohem C:N-Verhaeltnis (viel unverottetes Holz/Rinde):
+  Mikroorganismen "stehlen" den Stickstoff fuer den Zersetzungsprozess
+  ("Stickstoff-Immobilisierung")
+- Zu stark ausgewaschenes Substrat
+- Altes, ausgelaugtes Substrat bei Wiederverwendung
+- Pufferwirkung von Torf kann pH beeinflussen
+
+------------------------------------------------------------------------
+4g. Andere Ursachen
+------------------------------------------------------------------------
+- Pflanze in starkem Wachstumsschub (Stretch zu Beginn der Bluete):
+  Bedarf uebersteigt temporaer das Angebot
+- Genetik: Manche Sorten sind "hungrigere" Fresser als andere
+- Konkurrenz: Bei mehreren Pflanzen in einem Behaelter oder System
+- Auswaschung: Zu viel Drainwasser spuelt Naehrstoffe aus dem Substrat
+
+================================================================================
+5. PH-BEREICHE FUER OPTIMALE STICKSTOFFAUFNAHME
+================================================================================
+
+------------------------------------------------------------------------
+5a. ERDE (Soil)
+------------------------------------------------------------------------
+Gesamter funktionaler Bereich: 6.0 - 7.0
+Optimaler Bereich: 6.2 - 6.8
+Idealer Wert: 6.5
+Kritisch niedrig (Lockout moeglich): unter 5.8
+Kritisch hoch (Lockout moeglich): ueber 7.5
+
+Hinweis: Erde hat eine natuerliche Pufferkapazitaet, die den pH
+stabiler haelt. Organische Erde tendiert leicht sauer. Kalkhaltige
+Erde tendiert basisch.
+
+Stickstoffformen in Erde:
+- Nitrat (NO3-): Am besten verfuegbar bei pH 6.0-7.0
+- Ammonium (NH4+): Am besten verfuegbar bei pH 6.0-7.0
+- Organischer Stickstoff: Wird von Bodenmikroben mineralisiert,
+  optimale Mikrobenaktivitaet bei pH 6.0-7.0
+
+------------------------------------------------------------------------
+5b. KOKOS (Coco Coir)
+------------------------------------------------------------------------
+Gesamter funktionaler Bereich: 5.5 - 6.5
+Optimaler Bereich: 5.8 - 6.2
+Idealer Wert: 5.9 - 6.0
+Kritisch niedrig (Lockout moeglich): unter 5.3
+Kritisch hoch (Lockout moeglich): ueber 6.8
+
+Hinweis: Kokos hat eine geringere Pufferkapazitaet als Erde. pH
+kann schneller schwanken. Kokos hat Kationen-Austausch-Kapazitaet
+(CEC) und kann Kalzium und Magnesium binden, waehrend es Natrium
+und Kalium freigibt. Vorpufferung (Buffering) des Kokos ist wichtig.
+
+------------------------------------------------------------------------
+5c. HYDRO (Hydrokultur / DWC / NFT / Aeroponik)
+------------------------------------------------------------------------
+Gesamter funktionaler Bereich: 5.5 - 6.5
+Optimaler Bereich: 5.5 - 6.0
+Idealer Wert: 5.8
+Kritisch niedrig (Lockout moeglich): unter 5.0
+Kritisch hoch (Lockout moeglich): ueber 6.5
+
+Hinweis: In Hydro ist der pH direkt steuerbar, aber auch instabiler.
+Taeglich kontrollieren und korrigieren. Durch Naehrstoffaufnahme
+verschiebt sich der pH staendig. Nitrat-Aufnahme erhoeht den pH,
+Ammonium-Aufnahme senkt ihn.
+
+------------------------------------------------------------------------
+5d. pH-Drift und Stickstoff
+------------------------------------------------------------------------
+Wenn eine Pflanze mehr Nitrat (NO3-) aufnimmt, gibt sie Hydroxid-
+Ionen (OH-) in die Loesung ab -> pH steigt.
+Wenn eine Pflanze mehr Ammonium (NH4+) aufnimmt, gibt sie Wasserstoff-
+Ionen (H+) in die Loesung ab -> pH sinkt.
+
+Ein stabiler pH nach dem Duengen ist ein gutes Zeichen. Starke pH-
+Schwankungen koennen auf Ungleichgewichte hindeuten.
+
+================================================================================
+6. SUBSTRAT-SPEZIFISCHE MANIFESTATION
+================================================================================
+
+------------------------------------------------------------------------
+6a. ERDE (Soil)
+------------------------------------------------------------------------
+Manifestation:
+- Langsamere Entwicklung der Symptome (Erde puffert)
+- Symptome treten oft erst nach Wochen der Unterfuetterung auf
+- Vorgeduengte Erden (wie BioBizz All-Mix, Plagron Royalmix) verzoegern
+  das Auftreten um 4-8 Wochen
+- Vergilbung schreitet langsamer fort als in Kokos oder Hydro
+- Aeltere, recycelte Erde hat weniger Naehrstoffreserven
+
+Besonderheiten:
+- Organischer Duenger braucht Zeit, um durch Mikroben pflanzenverfuegbar
+  zu werden -> kurzfristiger Mangel trotz Duengung moeglich
+- "Living Soil" kann den N-Bedarf teilweise selbst decken, aber bei
+  starkem Wachstum nicht immer ausreichend
+- Ueberduengung ist in Erde schwieriger auszuspuelen als in anderen Medien
+- Bei organischem Anbau: Stickstoffquellen wie Blutmehl, Hornmehl,
+  Fledermausguano (Wuchs), Komposttee
+
+Typischer Verlauf in Erde:
+Woche 1-2: Kaum merklich, evtl. etwas helleres Gruen unten
+Woche 2-4: Deutliche Vergilbung der unteren Blaetter
+Woche 4+: Fortschreitend nach oben, ohne Behandlung
+
+------------------------------------------------------------------------
+6b. KOKOS (Coco Coir)
+------------------------------------------------------------------------
+Manifestation:
+- Schnellere Entwicklung als in Erde (weniger Pufferkapazitaet)
+- Symptome koennen innerhalb von Tagen sichtbar werden
+- Kokos hat von Natur aus keine Naehrstoffe -> komplett auf Duengung
+  angewiesen
+- Haeufigeres Giessen/Fertigieren bedeutet auch haeufigere
+  Naehrstoffversorgung (oder Auswaschung)
+
+Besonderheiten:
+- Kokos bindet Kalzium und Magnesium -> kann indirekt den N-Haushalt
+  beeinflussen
+- Hohe Giessfrequenz in Kokos (oft taeglich oder oefter) bedeutet:
+  EC und Naehrstoffkonzentration muessen bei jeder Bewaesserung stimmen
+- Drain-EC messen: Wenn Drain-EC viel hoeher als Input-EC -> Salzansammlung
+- Wenn Drain-EC viel niedriger als Input-EC -> Pflanze ist hungrig
+- In Kokos ist "Fertigation" Standard (jede Bewaesserung mit Naehrstoffen)
+
+Typischer Verlauf in Kokos:
+Tag 1-3: Leichte Aufhellung der untersten Blaetter
+Tag 3-7: Deutliche Vergilbung, schnelles Fortschreiten
+Tag 7+: Rapide Verschlechterung ohne Korrektur
+
+------------------------------------------------------------------------
+6c. HYDRO (DWC, NFT, Aeroponik, Ebbe-Flut)
+------------------------------------------------------------------------
+Manifestation:
+- Schnellste Entwicklung aller Medien
+- Symptome koennen innerhalb von 24-48 Stunden sichtbar werden
+- Direkter Kontakt der Wurzeln mit der Naehrloesung -> sofortige Reaktion
+- Pflanze reagiert auch am schnellsten auf Korrektur
+
+Besonderheiten:
+- EC der Naehrloesung direkt messbar und steuerbar
+- pH-Schwankungen wirken sich sofort aus
+- Naehrloesung regelmaessig erneuern (alle 7-14 Tage)
+- Wassertemperatur entscheidend: 18-22°C optimal, ueber 25°C problematisch
+  (Sauerstoffgehalt sinkt, Wurzelfaeule-Risiko steigt)
+- N-Mangel in Hydro oft durch: falschen pH, zu niedrige EC, vergessenen
+  Naehrstoffwechsel, defekte Dosieranlage
+
+Typischer Verlauf in Hydro:
+Stunde 0-24: Erste Aufhellung moeglich
+Tag 1-3: Deutliche Vergilbung der unteren Blaetter
+Tag 3-5: Schnelles Fortschreiten nach oben, starker Wachstumsstopp
+
+================================================================================
+7. PHASEN-SPEZIFISCHE MANIFESTATION
+================================================================================
+
+------------------------------------------------------------------------
+7a. KEIMLING / FRUEHE VEGETATIVE PHASE (Woche 1-3)
+------------------------------------------------------------------------
+Stickstoffbedarf: Niedrig bis mittel
+EC-Bereich: 0.4-0.8 (inkl. Grundwasser)
+
+Symptome bei Mangel:
+- Keimblaetter (Cotyledonen) vergilben vorzeitig
+  (Achtung: leichte Vergilbung der Cotyledonen nach 2-3 Wochen ist NORMAL)
+- Erste echte Blaetter bleiben klein und hellgruen
+- Sehr langsames Wachstum
+- Keimling wirkt "verhuungert" und zart
+- Internodien kurz, Pflanze bleibt klein
+
+Haeufige Ursachen in dieser Phase:
+- "Heisse" Erde verbrennt eher (N-Mangel selten bei vorgeduengter Erde)
+- In ungeduengtem Substrat: zu frueh zu wenig gefuettert
+- Ueberwaesserung reduziert Wurzelfunktion beim Keimling drastisch
+
+Hinweis: Keimlinge brauchen WENIG Duenger. Ein leichter Mangel in
+dieser Phase ist weniger kritisch. Nicht ueberreagieren!
+
+------------------------------------------------------------------------
+7b. SPAETE VEGETATIVE PHASE (Woche 3-8 Veg)
+------------------------------------------------------------------------
+Stickstoffbedarf: HOCH
+EC-Bereich: 1.0-1.8
+
+Symptome bei Mangel:
+- Untere Faecher-Blaetter (Fan Leaves) werden gleichmaessig hellgruen
+  bis gelb
+- Wachstum verlangsamt sich deutlich
+- Pflanze bleibt kleiner als erwartet
+- Weniger Seitentriebbildung
+- Internodien evtl. laenger (Pflanze streckt sich)
+- Blaetter insgesamt kleiner als normal
+
+Haeufige Ursachen in dieser Phase:
+- Vorgeduengte Erde ist aufgebraucht, Grower hat nicht nachgeduengt
+- Duengerkonzentration nicht an das Wachstum angepasst
+- Schnell wachsende Pflanzen brauchen ploetzlich mehr
+- Topf zu klein, Pflanze ist wurzelgebunden
+
+Kritisch: Dies ist die Phase, in der N-Mangel am meisten Schaden
+anrichtet, da die Pflanzenmasse aufgebaut wird, die spaeter Blueten
+tragen soll.
+
+------------------------------------------------------------------------
+7c. FRUEHE BLUETEPHASE / STRETCH (Woche 1-3 Bluete)
+------------------------------------------------------------------------
+Stickstoffbedarf: HOCH (Pflanze streckt sich und braucht viel N)
+EC-Bereich: 1.2-2.0
+
+Symptome bei Mangel:
+- Besonders haefig in dieser Phase, da viele Grower zu frueh auf
+  Bluetenduenger (niedrig N) umstellen
+- Untere Blaetter vergilben schnell
+- Pflanze streckt sich, bildet aber duenne, schwache Triebe
+- Bluehohe Blatt-Internodien werden zu lang
+- Bluetenanlagen (Preflowers) entwickeln sich langsam
+
+Haeufige Ursachen in dieser Phase:
+- ZU FRUEHER Wechsel auf reinen Bluetenduenger mit niedrigem N-Anteil
+- Nicht beruecksichtigt, dass die Pflanze im Stretch noch viel N braucht
+- Der Stretch kann die Pflanzengroesse verdoppeln -> enormer N-Bedarf
+
+WICHTIG: Waehrend des Stretch braucht die Pflanze noch fast so viel
+Stickstoff wie in der Veg-Phase! Erst NACH dem Stretch sollte N
+reduziert werden.
+
+------------------------------------------------------------------------
+7d. MITTLERE BLUETEPHASE (Woche 4-6 Bluete)
+------------------------------------------------------------------------
+Stickstoffbedarf: Mittel (abnehmend)
+EC-Bereich: 1.2-1.8
+
+Symptome bei Mangel:
+- Vergilbung der unteren und mittleren Blaetter
+- Buds entwickeln sich langsam
+- Pflanze verliert zu schnell Blattmasse
+- Trichomproduktion reduziert
+
+Haeufige Ursachen in dieser Phase:
+- N wurde zu stark reduziert
+- Bluetenduenger hat zu wenig N
+- Pflanze braucht immer noch moderate N-Mengen fuer die Blueteproduktion
+
+Hinweis: Etwas weniger Stickstoff als in der Veg ist hier NORMAL und
+GEWUENSCHT. Aber zu wenig ist schaedlich.
+
+------------------------------------------------------------------------
+7e. SPAETE BLUETEPHASE (letzte 2-3 Wochen vor Ernte)
+------------------------------------------------------------------------
+Stickstoffbedarf: Niedrig (natuerliche Reduktion)
+EC-Bereich: 0.8-1.4 (manche Grower gehen niedriger oder spuelen)
+
+WICHTIGER HINWEIS:
+Eine gewisse Vergilbung der unteren und mittleren Blaetter in den
+letzten 2-3 Wochen vor der Ernte ist NORMAL und KEIN Grund zur Sorge!
+
+Dies ist NORMAL in der Spaetbluete:
+- Langsame, gleichmaessige Vergilbung von unten
+- Pflanze leitet Naehrstoffe in die Blueten um
+- Blaetter werden langsam gelb und fallen ab
+- Dies ist ein natuerlicher Reifeprozess (Seneszenz)
+- Viele Grower foerdern dies sogar bewusst ("Flush", "Ripen")
+
+Dies ist NICHT NORMAL und deutet auf echten Mangel hin:
+- Vergilbung schreitet ZU SCHNELL fort (mehr als 2-3 Blaetter pro Tag)
+- Obere Blaetter und Zuckerblaetter (Sugar Leaves) in den Buds vergilben
+- Buds sind noch nicht reif (Trichome noch klar/durchsichtig)
+- Pflanze ist noch 3-4 Wochen von der Ernte entfernt
+- Gesamte Pflanze wird rapide gelb
+
+================================================================================
+8. EC-KONTEXT UND STICKSTOFFMANGEL
+================================================================================
+
+------------------------------------------------------------------------
+8a. Allgemeine EC-Werte und N-Mangel-Risiko
+------------------------------------------------------------------------
+
+EC (Electrical Conductivity) misst die Gesamtkonzentration geloester
+Salze in der Naehrloesung. Ein niedriger EC kann auf zu wenig
+Naehrstoffe (einschliesslich N) hindeuten.
+
+Typische EC-Bereiche (Input/Giessloestung):
+- Keimling: 0.4 - 0.8 EC
+- Fruehe Veg: 0.8 - 1.2 EC
+- Spaete Veg: 1.2 - 1.8 EC
+- Fruehe Bluete (Stretch): 1.2 - 2.0 EC
+- Mittlere Bluete: 1.2 - 1.8 EC
+- Spaete Bluete: 0.8 - 1.4 EC
+- Flush (falls angewendet): 0.0 - 0.4 EC
+
+ACHTUNG: Diese Werte sind Richtwerte. Sortenabhaengig, klimaabhaengig
+und vom Duengersystem abhaengig. Leichte Sorten (Haze) fressen oft
+weniger als schwere Indicas.
+
+N-Mangel wahrscheinlich bei:
+- EC Input unter 0.6 in der vegetativen Phase
+- EC Input unter 0.8 waehrend des Stretch
+- Signifikanter Abfall des Drain-EC gegenueber dem Input-EC
+  (Pflanze nimmt alles auf und braucht mehr)
+
+N-Mangel trotz normalem EC moeglich bei:
+- Falscher pH (Lockout)
+- Duenger mit zu wenig N-Anteil (z.B. reiner PK-Booster)
+- Hohe EC, aber durch andere Salze (zu viel Ca, Mg, etc.)
+- Unausgewogenes N:P:K-Verhaeltnis
+
+------------------------------------------------------------------------
+8b. EC-Werte bei verschiedenen Duengersystemen
+------------------------------------------------------------------------
+
+Mineralische Duenger (z.B. Canna, Advanced Nutrients, General Hydroponics):
+- Folgen den oben genannten EC-Bereichen
+- N sofort pflanzenverfuegbar
+- EC direkt steuerbar
+- Bei N-Mangel: EC leicht erhoehen (0.2-0.4 Schritte)
+
+Organische Duenger (z.B. BioBizz, Plagron Bio):
+- EC-Messung weniger aussagekraeftig, da organische Molekuele
+  die Leitfaehigkeit anders beeinflussen
+- N muss erst von Mikroben mineralisiert werden
+- Reaktion auf Duengung langsamer (Tage statt Stunden)
+- EC kann niedrig sein, obwohl genug N vorhanden ist (in organischer
+  Form, noch nicht geloest)
+
+Langzeitduenger / Slow Release (z.B. Osmocote):
+- Geben Naehrstoffe temperaturabhaengig frei
+- Bei Kaelte: weniger N-Freisetzung -> Mangel moeglich
+- Bei Hitze: zu schnelle Freisetzung -> Verbrennung moeglich
+- EC schwer vorhersagbar
+
+------------------------------------------------------------------------
+8c. Drain-EC Interpretation
+------------------------------------------------------------------------
+
+Drain-EC = EC des Ablaufwassers nach dem Giessen
+
+Drain-EC deutlich HOEHER als Input-EC (z.B. Input 1.2, Drain 2.0+):
+- Salzansammlung im Substrat
+- N-Mangel trotzdem moeglich (Salze sind evtl. nicht N)
+- Spuelung kann noetig sein, danach korrekt nachduengen
+
+Drain-EC deutlich NIEDRIGER als Input-EC (z.B. Input 1.2, Drain 0.8):
+- Pflanze nimmt viel auf
+- Kann auf hohen Naehrstoffbedarf hindeuten
+- N-Mangel moeglich, wenn Nachschub nicht ausreicht
+
+Drain-EC nahe Input-EC (z.B. Input 1.2, Drain 1.2-1.4):
+- Idealzustand
+- Pflanze nimmt auf, was angeboten wird
+- Leichter Ueberschuss fuer Sicherheitsmarge
+
+================================================================================
+9. BEHANDLUNG - SCHRITT FUER SCHRITT
+================================================================================
+
+------------------------------------------------------------------------
+9a. SOFORTMASSNAHMEN
+------------------------------------------------------------------------
+
+Schritt 1: pH-Wert ueberpruefen
+- ZUERST den pH messen! Der haeufigste Grund fuer N-Mangel trotz
+  Duengung ist ein falscher pH-Wert
+- pH der Giessloesng/Naehrloesung messen
+- Wenn moeglich, pH des Drain/Ablaufwassers messen
+- pH-Wert in den optimalen Bereich korrigieren (siehe Abschnitt 5)
+
+Schritt 2: EC/PPM ueberpruefen
+- Aktuelle Naehrstoffkonzentration der Giessloesng messen
+- Drain-EC messen und mit Input vergleichen
+- Ist die EC zu niedrig fuer die aktuelle Phase?
+
+Schritt 3: Wurzeln und Medium ueberpruefen
+- Ist das Substrat staendig nass? -> Weniger giessen
+- Riecht es faulig? -> Wurzelfaeule moeglich
+- Ist der Topf zu klein? -> Umtopfen erwaegen
+- Substrattemperatur okay? (nicht zu kalt)
+
+------------------------------------------------------------------------
+9b. DOSIERUNGSANPASSUNG - MINERALISCHE DUENGER
+------------------------------------------------------------------------
+
+Bei leichtem Mangel:
+- Stickstoffanteil in der Naehrloesung um 10-20% erhoehen
+- Z.B. von EC 1.0 auf EC 1.2 bei gleichem N:P:K-Verhaeltnis
+- Oder: Spezifisches N-Supplement hinzufuegen (z.B. CalMag,
+  Calcium-Nitrat, Mono-Naehrstoffe)
+
+Bei moderatem Mangel:
+- EC um 20-30% erhoehen
+- pH nochmals genau einstellen
+- Evtl. einmalig eine leicht staerkere Loesung geben
+- Danach auf erhoehtem Niveau weiterfahren
+
+Bei schwerem Mangel:
+- Schnell wirkende N-Quelle verwenden:
+  - Calciumnitrat (Ca(NO3)2) - schnell verfuegbar
+  - Ammoniumnitrat - schnell, aber vorsichtig dosieren
+  - Urea (Harnstoff) - maessig schnell
+- EC schrittweise erhoehen, NICHT verdoppeln!
+  (Schock vermeiden)
+- Blattduengung als Sofortmassnahme moeglich:
+  0.1-0.2% Harnstoff-Loesung auf die Blaetter spruehen
+  (NUR bei ausgeschaltetem Licht oder in der Daemmerung!)
+
+KONKRETES BEISPIEL (mineralischer Duenger):
+- Bisherige Dosierung: 2ml/L Basis A + 2ml/L Basis B
+- Anpassung: 2.5ml/L Basis A + 2.5ml/L Basis B
+- Oder: Zusaetzlich 0.5ml/L eines N-betonten Zusatzes
+- Nicht mehr als 25-30% Erhoehung auf einmal!
+
+------------------------------------------------------------------------
+9c. DOSIERUNGSANPASSUNG - ORGANISCHE DUENGER
+------------------------------------------------------------------------
+
+Bei leichtem Mangel:
+- Organischen Duenger leicht erhoehen (10-20%)
+- Komposttee als Ergaenzung
+- Wurmhumus-Extrakt als Giessloesng
+- Brennnessel-Jauche (stickstoffreich)
+
+Bei moderatem bis schwerem Mangel:
+- Problem: Organische Quellen wirken LANGSAM
+- Uebergangsloesung: Kleine Menge mineralisches N als "Erste Hilfe"
+  (z.B. Calciumnitrat) um die Pflanze zu stabilisieren
+- Gleichzeitig organische Langzeitversorgung verbessern:
+  - Hornspäne/Hornmehl in die obere Substratschicht einarbeiten
+  - Blutmehl (sehr schnell wirkend fuer organisch, ca. 12% N)
+  - Fledermausguano (Wachstums-Guano, nicht Bluete-Guano!)
+  - Fischmehl oder Fischduenger
+- Bodenaktivitaet foerdern: Mykorrhiza, Trichoderma
+
+WICHTIG: Bei organischem Anbau dauert die Reaktion auf Massnahmen
+3-14 Tage! Geduld bewahren und nicht ueberreagieren.
+
+------------------------------------------------------------------------
+9d. ERWARTETE ERHOLUNGSZEIT
+------------------------------------------------------------------------
+
+Mineralische Duenger:
+- Erste Verbesserung: 3-5 Tage
+- Deutliche Erholung: 7-10 Tage
+- Vollstaendige Erholung: 14-21 Tage
+
+Organische Duenger:
+- Erste Verbesserung: 7-14 Tage
+- Deutliche Erholung: 14-21 Tage
+- Vollstaendige Erholung: 21-30 Tage
+
+Hydro/Kokos (mineralisch):
+- Erste Verbesserung: 1-3 Tage
+- Deutliche Erholung: 5-7 Tage
+- Vollstaendige Erholung: 10-14 Tage
+
+WICHTIG:
+- Bereits vergilbte Blaetter werden NICHT wieder gruen!
+- Die Erholung zeigt sich daran, dass NEUES Wachstum wieder gesund
+  und dunkelgruen ist
+- Die Vergilbung STOPPT und schreitet nicht weiter nach oben fort
+- Stark geschaedigte untere Blaetter koennen entfernt werden
+- Leicht vergilbte Blaetter (noch hellgruen) koennen sich teilweise
+  erholen
+
+------------------------------------------------------------------------
+9e. WAS MAN NICHT TUN SOLLTE
+------------------------------------------------------------------------
+
+NICHT die Duengerkonzentration verdoppeln oder verdreifachen!
+- Fuehrt zu Naehrstoffbrand (verbrannte Blattspitzen)
+- Kann die Wurzeln durch Salzstress schaedigen
+- "Viel hilft viel" gilt hier NICHT
+- Maximal 25-30% Erhoehung pro Anpassung
+
+NICHT mehrere Aenderungen gleichzeitig vornehmen!
+- Immer nur einen Faktor aendern (pH ODER EC, nicht beides drastisch)
+- Sonst ist nicht nachvollziehbar, was geholfen hat
+- Pflanze benoetigt Zeit zur Reaktion
+
+NICHT die alten gelben Blaetter als Massstab nehmen!
+- Diese werden nicht wieder gruen
+- Neues Wachstum beobachten, um Erfolg zu beurteilen
+
+NICHT in Panik geraten!
+- N-Mangel ist einer der am einfachsten zu behebenden Maengel
+- Pflanze erholt sich in der Regel gut, wenn rechtzeitig reagiert wird
+- Leichte Mangelsymptome sind kein Todesurteil
+
+NICHT bei organischem Anbau mit Mineraldünger "drueberduengen"!
+- Kann das Bodenleben schaedigen
+- Kleine Mengen als Notfallmassnahme sind okay
+- Grundsaetzlich beim gewaehlten System bleiben
+
+NICHT bei Spaetbluete ueberreagieren!
+- Leichte Vergilbung in den letzten 2-3 Wochen ist NORMAL
+- Nicht auf Biegen und Brechen N nachschieben
+- Im Zweifel: Trichome pruefen - wenn milchig/bernstein, ist Ernte nah
+
+================================================================================
+10. VERWECHSLUNGSGEFAHR - HAEUFIGE FEHLDIAGNOSEN
+================================================================================
+
+------------------------------------------------------------------------
+10a. FEHLDIAGNOSE: "Stickstoffmangel" ist eigentlich pH-Lockout
+------------------------------------------------------------------------
+Haeufigkeit: SEHR HAEUFIG (haeufigste Fehldiagnose)
+
+Situation: Grower duengt ausreichend, aber pH ist falsch -> Pflanze
+kann N nicht aufnehmen -> Symptome sehen aus wie N-Mangel
+
+Wie erkennen:
+- Grower duengt nach Herstellerangaben, aber Symptome bleiben
+- EC ist im normalen Bereich
+- pH wurde nicht kontrolliert oder ist ausserhalb des Optimums
+- Oft treten MEHRERE Mangelsymptome gleichzeitig auf
+
+Loesung: pH messen und korrigieren, NICHT mehr duengen!
+
+------------------------------------------------------------------------
+10b. FEHLDIAGNOSE: "Stickstoffmangel" ist eigentlich Ueberwaesserung
+------------------------------------------------------------------------
+Haeufigkeit: HAEUFIG
+
+Situation: Wurzeln werden durch staendige Naesse geschaedigt ->
+Naehrstoffaufnahme reduziert -> sekundaerer N-Mangel
+
+Wie erkennen:
+- Substrat ist staendig feucht/nass
+- Blaetter haengen schlaff herab ("drooping")
+- Topf fuehlt sich schwer an
+- Moeglicherweise fauliger Geruch
+- Wachstum stagniert insgesamt, nicht nur Vergilbung
+
+Loesung: Weniger giessen, Drainage verbessern, Substrat abtrocknen lassen
+
+------------------------------------------------------------------------
+10c. FEHLDIAGNOSE: "Stickstoffmangel" ist eigentlich Wurzelfaeule
+------------------------------------------------------------------------
+Haeufigkeit: MITTEL
+
+Situation: Kranke Wurzeln koennen keine Naehrstoffe aufnehmen
+
+Wie erkennen:
+- Pflanze welkt trotz feuchtem Substrat
+- Fauliger Geruch aus dem Topf/Reservoir
+- Wurzeln sind braun, schleimig statt weiss und fest
+- Symptome reagieren NICHT auf Duengung
+- Oft nach laengerer Ueberwaesserung oder bei zu warmem Wasser (Hydro)
+
+Loesung: Wurzeln behandeln (H2O2, Enzympraeparate), Ursache beheben
+
+------------------------------------------------------------------------
+10d. FEHLDIAGNOSE: "Stickstoffmangel" ist eigentlich Kaliummangel (K)
+------------------------------------------------------------------------
+Haeufigkeit: MITTEL
+
+Verwechslungsgefahr weil:
+- Auch Kalium ist mobil -> betrifft auch alte Blaetter zuerst
+- Auch Kaliummangel zeigt Vergilbung
+
+Unterscheidung:
+- K-Mangel: Vergilbung und BRAUNE/NEKROTISCHE Raender an den Blaettern
+  ("Randnekrose"), Blaetter werden "verbrannt" an den Raendern
+- N-Mangel: Gleichmaessige Vergilbung OHNE ausgepraegt braune Raender
+  (zumindest im fruehen/mittleren Stadium)
+- K-Mangel: Braune Flecken auf den Blaettern moeglich
+- N-Mangel: Keine Flecken, sondern uniforme Verfaerbung
+
+------------------------------------------------------------------------
+10e. FEHLDIAGNOSE: Natuerliche Seneszenz fuer Mangel gehalten
+------------------------------------------------------------------------
+Haeufigkeit: HAEUFIG (besonders bei Anfaengern)
+
+Situation: In der spaeten Bluete vergilben Blaetter natuerlich.
+Anfaenger halten dies fuer einen Mangel und duengen uebermässig nach.
+
+Wie erkennen:
+- Pflanze ist in den letzten 2-3 Wochen der Bluete
+- Buds sind gut entwickelt
+- Trichome sind milchig bis bernsteinfarben
+- Vergilbung schreitet langsam und gleichmaessig voran
+- Pflanze ist ansonsten gesund
+
+Loesung: Nichts tun! Dies ist ein normaler, gesunder Prozess.
+
+------------------------------------------------------------------------
+10f. FEHLDIAGNOSE: "Stickstoffmangel" ist eigentlich Lichtmangel
+------------------------------------------------------------------------
+Haeufigkeit: GERING BIS MITTEL
+
+Situation: Untere Blaetter bekommen zu wenig Licht und vergilben
+
+Wie erkennen:
+- Nur Blaetter im tiefen Schatten der Pflanze betroffen
+- Gut beleuchtete Blaetter auf gleicher Hoehe sind gruen
+- Vergilbung folgt dem Schattenmuster, nicht strikt von unten nach oben
+- Pflanze wachst ansonsten normal
+
+Loesung: Entlaubung (Lollipopping), bessere Lichtverteilung
+
+------------------------------------------------------------------------
+10g. ZUSAMMENFASSENDE ENTSCHEIDUNGSTABELLE
+------------------------------------------------------------------------
+
+Symptom                          -> Wahrscheinlichste Ursache
+Gleichmaessig gelb, unten        -> Stickstoffmangel
+Interveinal gelb, unten          -> Magnesiummangel
+Interveinal gelb, oben           -> Eisenmangel
+Gelb + braune Raender, unten     -> Kaliummangel
+Gelb + braune Spitzen            -> Naehrstoffbrand (zu viel Duenger)
+Gelb/bleich, nur oben            -> Lichtverbrennung
+Alles gelb + schlaff + nass      -> Ueberwaesserung
+Mehrere Symptome gleichzeitig    -> pH-Lockout pruefen!
+Gelb unten, Spaetbluete, reif    -> Natuerliche Seneszenz (normal!)
+
+================================================================================
+11. BILDMERKMALE FUER KI-ANALYSE
+================================================================================
+
+------------------------------------------------------------------------
+11a. FARBANALYSE - HEX-BEREICHE
+------------------------------------------------------------------------
+
+Gesundes Cannabisblatt (Referenz):
+- Dunkelgruen: #2D5A1E bis #3E7A2A
+- Normales Gruen: #4A8A30 bis #5A9A3A
+- Helles gesundes Gruen: #6AAA45 bis #7AB550
+
+N-Mangel Fruehstadium:
+- Aufgehelltes Gruen: #85B848 bis #99C654
+- Gelblich-Gruen: #A5CA55 bis #B5D460
+
+N-Mangel Mittleres Stadium:
+- Gelbgruen: #BDD44A bis #CADC50
+- Uebergang zu Gelb: #D0D840 bis #D8D835
+
+N-Mangel Spaetes Stadium:
+- Gelb: #DDD430 bis #E5D828
+- Blasses Gelb: #E8DC60 bis #EDDF80
+- Weisslich-Gelb: #EDE8A0 bis #F0ECBE
+- Absterbend (braun-gelb): #C4A43A bis #B89030
+- Tot (braun): #A08030 bis #8A6A28
+
+HINWEIS FUER KI-ANALYSE:
+- Kamerabedingungen (Weissabgleich, Grow-Licht) koennen Farben stark
+  verfaelschen! LED-Grow-Licht (besonders Blurple) macht Farbanalyse
+  sehr schwierig
+- Bilder unter natuerlichem Licht oder Blitz sind am zuverlaessigsten
+- Bei Bildern unter LED-Licht: Farbkorrektur beruecksichtigen
+- Relative Farbunterschiede (obere vs. untere Blaetter) sind zuverlaessiger
+  als absolute Farbwerte
+
+------------------------------------------------------------------------
+11b. MUSTERERKENNUNGS-HINWEISE
+------------------------------------------------------------------------
+
+Raeumliche Muster am Blatt:
+- UNIFORM: Die Vergilbung ist gleichmaessig ueber das GESAMTE Blatt
+  verteilt. Es gibt KEINE gruenen Adern mit gelber Flaeche dazwischen.
+  Dies ist DAS Haupterkennungsmerkmal fuer N-Mangel.
+- KEIN intervenales Muster: Blattadern und Blattflaeche verfaerben sich
+  gleichzeitig und gleichmaessig
+- KEINE Flecken: N-Mangel erzeugt keine braunen Punkte oder Flecken
+  (im Gegensatz zu Ca-Mangel, K-Mangel, oder Schaedlingen)
+- KEINE verbrannten Raender oder Spitzen (im Gegensatz zu
+  Naehrstoffbrand oder K-Mangel)
+- Die Blattform bleibt erhalten (keine Verkruemmung, kein Einrollen)
+  bis zum spaeten Stadium
+
+Raeumliche Muster an der Pflanze:
+- GRADIENT VON UNTEN NACH OBEN: Das wichtigste Diagnosemerkmal!
+  Die untersten Blaetter sind am staerksten betroffen, die obersten
+  am wenigsten
+- Wenn man die Pflanze von der Seite betrachtet, sollte ein klarer
+  Farbgradient von Gelb (unten) zu Gruen (oben) sichtbar sein
+- Symmetrisch: Beide Seiten der Pflanze sind gleichmaessig betroffen
+  (im Gegensatz zu lokalen Problemen wie Lichtverbrennung oder
+  Schaedlingsbefall, die asymmetrisch sein koennen)
+
+------------------------------------------------------------------------
+11c. BLATTPOSITONS-INDIKATOREN
+------------------------------------------------------------------------
+
+Klassifizierung der Blattposition:
+- UNTERE BLAETTER (aelteste): Blaetter am unteren Drittel der Pflanze
+  -> Hier beginnt N-Mangel IMMER
+- MITTLERE BLAETTER: Blaetter im mittleren Drittel
+  -> Sind bei moderatem Mangel betroffen
+- OBERE BLAETTER (juengste): Blaetter am oberen Drittel und Triebspitze
+  -> Sind erst bei schwerem Mangel betroffen
+  -> Wenn OBERE Blaetter gelb und untere gruen: KEIN N-Mangel!
+     Dann eher Fe-Mangel, Lichtverbrennung, oder anderes
+
+Spezielle Blatttypen:
+- COTYLEDONEN (Keimblaetter): Rund, einblattrig. Vergilben normalerweise
+  nach 2-4 Wochen natuerlich. Kein zuverlaessiger Indikator.
+- FAN LEAVES (grosse Faecherblaetter): Primaerer Indikator fuer N-Mangel.
+  Die grossen, 5-7-fingrigen Blaetter zeigen Symptome am deutlichsten.
+- SUGAR LEAVES (Zuckerblaetter in den Buds): Wenn diese vergilben,
+  ist der Mangel schwer ODER die Pflanze nah an der Ernte (Seneszenz).
+
+------------------------------------------------------------------------
+11d. KI-ENTSCHEIDUNGSBAUM FUER N-MANGEL-DIAGNOSE
+------------------------------------------------------------------------
+
+FRAGE 1: Welche Blaetter sind betroffen?
+  -> Untere/aeltere Blaetter = Weiter (mobiler Naehrstoff)
+  -> Obere/juengere Blaetter = KEIN N-Mangel (immobiler Naehrstoff)
+
+FRAGE 2: Ist die Vergilbung gleichmaessig ueber das ganze Blatt?
+  -> Ja, uniform, Adern auch gelb = Weiter (N-Mangel moeglich)
+  -> Nein, Adern bleiben gruen = KEIN N-Mangel (eher Mg oder Fe)
+
+FRAGE 3: Gibt es braune Flecken, Raender oder Spitzen?
+  -> Nein, reine Vergilbung = Weiter (N-Mangel wahrscheinlich)
+  -> Ja, braune Raender = eher K-Mangel oder Naehrstoffbrand
+  -> Ja, braune Flecken = eher Ca-Mangel oder Schaedlinge
+
+FRAGE 4: Gibt es einen Gradienten von unten (schlimmer) nach oben (besser)?
+  -> Ja, klarer Gradient = STARKER HINWEIS auf N-Mangel
+  -> Nein, ueberall gleich = eher pH-Lockout oder Ueberwaesserung
+
+FRAGE 5: In welcher Wachstumsphase ist die Pflanze?
+  -> Vegetativ oder fruehe Bluete = N-Mangel wahrscheinlich
+  -> Spaete Bluete (letzte 2-3 Wochen) = Moeglicherweise normale Seneszenz
+
+FRAGE 6: Haengen die Blaetter schlaff herab?
+  -> Nein = N-Mangel wahrscheinlicher
+  -> Ja + nasses Medium = eher Ueberwaesserung (sekundaerer Mangel)
+
+ERGEBNIS bei Fragen 1-4 positiv:
+WAHRSCHEINLICHKEIT STICKSTOFFMANGEL: HOCH (85-95%)
+Empfehlung: pH pruefen, EC pruefen, Stickstoff erhoehen
+
+------------------------------------------------------------------------
+11e. KONFIDENZ-INDIKATOREN FUER KI-BEWERTUNG
+------------------------------------------------------------------------
+
+HOHE KONFIDENZ fuer N-Mangel (90%+):
+- Untere Blaetter gleichmaessig gelb
+- Obere Blaetter noch gruen
+- Klarer Gradient von unten nach oben
+- Keine braunen Raender oder Flecken
+- Pflanze in Veg oder fruehe Bluete
+- Blattadern NICHT separiert sichtbar (nicht interveinal)
+
+MITTLERE KONFIDENZ (60-89%):
+- Untere Blaetter heller als obere
+- Aber: Lichtverhaeltnisse unklar (Foto unter Grow-LED)
+- Oder: Nur ein einzelnes Blatt sichtbar (Gesamtbild fehlt)
+- Oder: Pflanze in Spaetbluete (Seneszenz moeglich)
+- Oder: Leichte Anzeichen anderer Probleme zusaetzlich
+
+NIEDRIGE KONFIDENZ (unter 60%):
+- Bild unklar oder zu dunkel
+- Nur obere Blaetter sichtbar
+- Mehrere Probleme ueberlagern sich
+- Blatt zeigt gemischte Muster (teils interveinal, teils uniform)
+- Keine Information ueber Blattposition an der Pflanze
+
+------------------------------------------------------------------------
+11f. WICHTIGE BILDANALYSE-HINWEISE
+------------------------------------------------------------------------
+
+Grow-Licht-Korrektur:
+- Bilder unter HPS (Hochdruck-Natrium): Alles erscheint gelb/orange
+  -> Farbanalyse sehr eingeschraenkt, auf Muster und Position achten
+- Bilder unter Blurple-LED: Alles erscheint violett/rosa
+  -> Farbanalyse nahezu unmoeglich, nur Muster und Position bewertbar
+- Bilder unter Vollspektrum-LED (weisses Licht): Relativ natuerlich
+  -> Farbanalyse eingeschraenkt moeglich
+- Bilder unter Tageslicht oder Blitz: Am zuverlaessigsten
+  -> Farbanalyse am besten moeglich
+
+Empfehlung an Nutzer:
+- Foto unter natuerlichem Licht oder mit Blitz aufnehmen
+- Gesamte Pflanze UND Nahaufnahme der betroffenen Blaetter
+- Blattoberseite und -unterseite wenn moeglich
+- Angabe der Wachstumsphase, des Mediums, des pH und EC
+
+Automatische Bildmerkmale fuer maschinelle Erkennung:
+- Farbhistogramm: Verschiebung von Gruen-Peak zu Gelb-Peak bei
+  betroffenen Blaettern
+- Saettigungsabnahme: Betroffene Blaetter haben geringere
+  Farbsaettigung als gesunde
+- Helligkeitszunahme: Gelbe Blaetter sind heller als gesunde gruene
+- Raeumliche Analyse: Farbgradient von unten nach oben an der Pflanze
+- Texturanalyse: Betroffene Blaetter zeigen gleichmaessigere Textur
+  (keine Aderung sichtbar) im Vergleich zu Mg-Mangel (Aderung sichtbar)
+- Symmetrie: N-Mangel ist bilateral symmetrisch an der Pflanze
+- Keine lokalen Laesionen oder Punkte (im Gegensatz zu Schaedlingen,
+  Pilzen oder Ca-Mangel)
+
+================================================================================
+ZUSAMMENFASSUNG: SCHNELLDIAGNOSE STICKSTOFFMANGEL
+================================================================================
+
+Mobilitaet:           MOBIL (alte Blaetter zuerst)
+Betroffene Blaetter:  UNTERE / AELTERE zuerst
+Vergilbungsmuster:    GLEICHMAESSIG / UNIFORM (inklusive Adern)
+Blattadern:           Verfaerben sich MIT (NICHT interveinal)
+Braune Raender:       NEIN (nicht im fruehen/mittleren Stadium)
+Braune Flecken:       NEIN
+Gradient an Pflanze:  JA, von unten (gelb) nach oben (gruen)
+Haeufigste Ursache:   Unterfuetterung ODER falscher pH
+Schnellste Loesung:   pH pruefen + EC erhoehen
+Erholungszeit:        3-14 Tage je nach Medium und Duengerart
+
+================================================================================
+Ende der Wissensdatenbank - Stickstoffmangel (N)
+================================================================================

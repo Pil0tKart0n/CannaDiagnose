@@ -33,8 +33,11 @@ interface DiagnosisContextType {
 }
 
 const emptyQuestionnaire: QuestionnaireData = {
+  growPhase: null,
   plantAgeWeeks: null,
   substrateType: null,
+  perliteAdded: false,
+  perlitePercent: null,
   fertilizerType: null,
   waterTempCelsius: null,
   substrateTempCelsius: null,

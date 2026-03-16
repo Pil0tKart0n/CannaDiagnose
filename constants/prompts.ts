@@ -22,11 +22,9 @@ function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | 
   let phase = '';
   if (plantAge) {
     if (plantAge.includes('0–2')) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
-    else if (plantAge.includes('3–4 Wochen')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
+    else if (plantAge.includes('3–4')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
     else if (plantAge.includes('5–8')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
     else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte'; }
-    else if (plantAge.includes('3–4 Monate')) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Blüte'; }
-    else if (plantAge.includes('5+')) { ecRange = profile.ecRanges.lateFlower; phase = 'späte Blüte/Flush'; }
   }
 
   if (!ecRange || !phase) {
@@ -114,11 +112,9 @@ function getECState(ecValue: string | null, fertilizerName: string | null, plant
   let ecRange = '';
   if (plantAge) {
     if (plantAge.includes('0–2')) ecRange = profile.ecRanges.seedling;
-    else if (plantAge.includes('3–4 Wochen')) ecRange = profile.ecRanges.earlyVeg;
+    else if (plantAge.includes('3–4')) ecRange = profile.ecRanges.earlyVeg;
     else if (plantAge.includes('5–8')) ecRange = profile.ecRanges.lateVeg;
     else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.earlyFlower;
-    else if (plantAge.includes('3–4 Monate')) ecRange = profile.ecRanges.midFlower;
-    else if (plantAge.includes('5+')) ecRange = profile.ecRanges.lateFlower;
   }
 
   if (!ecRange) {
@@ -397,6 +393,70 @@ HITZESTRESS:
   D5: Gesamte Pflanze
   EXTRA: Erde/Substrat feucht + schlaffe Blätter = Überwässerung. NICHT mit N-Mangel verwechseln (bei N sind Blätter gelb aber nicht schlaff)
 
+SCHWEFEL(S)-MANGEL:
+  D1: Gleichmäßig hellgrün/gelb – ähnlich wie N, aber an NEUEN Blättern!
+  D2: Fest, nicht welk (anders als N-Mangel)
+  D3: Gleichmäßig über gesamtes Blatt, KEIN Adernmuster
+  D4: NEUE/OBERE Blätter zuerst (semi-mobil) – DAS unterscheidet von N-Mangel!
+  D5: Obere Blattetage, neues Wachstum
+  EXTRA: Selten, aber verwechselbar mit N-Mangel. Schlüssel: N=unten zuerst, S=oben zuerst. Blätter bleiben fest bei S.
+
+MANGAN(Mn)-MANGEL:
+  D1: Hellgelb/tan zwischen Adern, tan-braune Flecken
+  D2: Papierartig, trocken an Fleckenstellen
+  D3: Gesprenkelt/"mottled" – unregelmäßige tan/braune Flecken zwischen Adern
+  D4: NEUE/JUNGE Blätter (immobil)
+  D5: Wenige neue Blätter
+  EXTRA: Ähnlich wie Fe, aber milder – mehr tan/braun statt weiß/gebleicht. Häufig bei pH >6.5
+
+ZINK(Zn)-MANGEL:
+  D1: Interveinal-Chlorose auf neuen Blättern + Wachstumsstörung
+  D2: Neue Blätter verdreht, deformiert
+  D3: Kleine, zusammengestauchte Blätter ("Rosetting"), verkürzte Internodien
+  D4: NEUE Blätter und Triebspitzen (immobil)
+  D5: Wachstumspunkte, neue Triebe
+  EXTRA: Schlüsselzeichen = gestörtes WACHSTUMSMUSTER (nicht nur Farbe!). Häufig bei hohem pH oder Phosphor-Überschuss.
+
+BOR(B)-MANGEL:
+  D1: Braun/abgestorbene Wachstumspunkte
+  D2: Brüchig, hohl, rau
+  D3: Triebspitzen sterben, hohle Stängel, dicke/raue Blätter
+  D4: Triebspitzen, neue Blätter, Stängel
+  D5: Wachstumspunkte
+  EXTRA: Selten. Hohle/brüchige Stängel + abgestorbene Triebspitzen = B-Mangel. Nicht verwechseln mit Ca.
+
+KUPFER(Cu)-MANGEL:
+  D1: Dunkelgrün mit bläulichem Schimmer, welke Spitzen
+  D2: Welk trotz ausreichend Wasser, Blätter verdrehen sich
+  D3: Neue Blätter dunkel/blaugrün, Spitzen welken/sterben
+  D4: NEUE Blätter (immobil)
+  D5: Wenige neue Blätter
+  EXTRA: Sehr selten. Blaugrüner Farbton + verdrehte welke neue Blätter. Langsame Blütenentwicklung.
+
+MOLYBDÄN(Mo)-MANGEL:
+  D1: Gelb, ähnlich N-Mangel
+  D2: Ränder kräuseln sich nach oben
+  D3: Interveinal-Chlorose an MITTLEREN Blättern (ungewöhnlich!), Blattränder kräuseln
+  D4: MITTLERE Blätter zuerst (nicht oben, nicht unten!)
+  D5: Mittlere Blattetage
+  EXTRA: Extrem selten. Besonderheit: mittlere Blätter betroffen. Häufig bei pH <5.5. Stört N-Aufnahme.
+
+WINDBURN:
+  D1: Ränder kräuseln sich, "krallenartig"
+  D2: Lebendig aber verkrampft
+  D3: Blätter krallen/kräuseln sich, NUR auf der WIND-ZUGEWANDTEN Seite
+  D4: Blätter die dem Ventilator zugewandt sind
+  D5: Nur eine Seite der Pflanze
+  EXTRA: Einseitiges Muster = Windburn. N-Toxizität krallt die GANZE Pflanze, Windburn nur eine Seite.
+
+UNTERWÄSSERUNG:
+  D1: Normal bis blass
+  D2: Dünn, schlaff, papierartig – hängende dünne Blätter (NICHT prall wie bei Überwässerung!)
+  D3: Gesamte Pflanze hängt
+  D4: Alle Blätter
+  D5: Gesamte Pflanze
+  EXTRA: Trockenes leichtes Substrat + dünne schlaffe Blätter = Unterwässerung. Erholt sich SCHNELL nach Gießen (1-4 Stunden).
+
 SCHÄDLINGE:
   Spinnmilben: D1=winzige helle Punkte/Stippen D2=lebendig D3=Punktmuster + feine Gespinste D4=Blattunterseiten D5=breitet sich schnell aus
   Thripse: D1=silbrige Streifen D2=Oberfläche aufgeraspelt D3=Streifen/Kratzer + schwarze Kotpunkte D4=junge Blätter zuerst D5=wenige bis viele
@@ -429,6 +489,20 @@ KRANKHEITEN:
      - Mehrere Mangelsymptome gleichzeitig → pH-Lockout (wahrscheinlichste Ursache!)
      - EC zu hoch (>2.0 in Kokos, >1.5 für Jungpflanzen) → Nährstoffbrand + Lockout
      - EC zu niedrig (<0.4) → genereller Mangel
+
+NÄHRSTOFF-MOBILITÄT (SCHLÜSSEL zur Unterscheidung!):
+  MOBIL (alte/untere Blätter zuerst): N, P, K, Mg → Pflanze zieht Nährstoff aus alten Blättern ab
+  IMMOBIL (neue/obere Blätter zuerst): Ca, Fe, Mn, Zn, B, Cu → Pflanze kann nicht umverteilen
+  SEMI-MOBIL (neue Blätter, aber nicht immer): S, Mo
+  → Wenn UNTERE Blätter betroffen: N, P, K, Mg prüfen
+  → Wenn OBERE/NEUE Blätter betroffen: Ca, Fe, Mn, Zn, B, Cu prüfen
+  → Das ist die ERSTE und WICHTIGSTE Unterscheidung!
+
+PHASEN-KONTEXT (Vegetativ vs. Blüte):
+  VEGETATIV: Hoher N-Bedarf, K/P sekundär. N-Mangel häufigster Mangel.
+  BLÜTE: K- und P-Bedarf steigt MASSIV, N-Bedarf sinkt. K-Mangel, P-Mangel, Mg-Mangel häufig!
+  SPÄTE BLÜTE: Leichte Vergilbung unterer Blätter ist NORMAL (natürliche Seneszenz) – nicht als Mangel diagnostizieren!
+  MUTTERPFLANZE: Dauerhaft in Veg, gleichmäßiger N/Ca/Mg-Bedarf.
 
 WICHTIGE DIAGNOSE-REGELN:
 - 5-DIMENSIONEN-PFLICHT: Prüfe bei JEDEM Symptom alle 5 Dimensionen (Farbe, Textur, Muster, Position, Ausmaß). Nenne in der rootCauseAnalysis mindestens 3 der 5 Dimensionen die deine Diagnose stützen. Diagnosen die nur auf 1 Dimension basieren sind VERBOTEN.
@@ -632,8 +706,15 @@ export function buildRefinePrompt(
 export function buildUserPrompt(data: QuestionnaireData): string {
   const parts: string[] = ['Anbaubedingungen des Growers:\n'];
 
+  if (data.growPhase) parts.push(`- Wachstumsphase: ${data.growPhase}`);
   if (data.plantAgeWeeks) parts.push(`- Alter der Pflanze: ${data.plantAgeWeeks}`);
-  if (data.substrateType) parts.push(`- Substrat: ${data.substrateType}`);
+  if (data.substrateType) {
+    let substrate = data.substrateType;
+    if (data.perliteAdded) {
+      substrate += ' + Perlite' + (data.perlitePercent ? ` (${data.perlitePercent})` : '');
+    }
+    parts.push(`- Substrat: ${substrate}`);
+  }
   if (data.fertilizerType) parts.push(`- Dünger: ${data.fertilizerType}`);
   if (data.lightType) parts.push(`- Lichttyp/Anbauart: ${data.lightType}`);
   if (data.symptomDurationDays) parts.push(`- Symptome sichtbar seit: ${data.symptomDurationDays}`);
@@ -659,7 +740,7 @@ export function buildUserPrompt(data: QuestionnaireData): string {
   }
 
   // Add fertilizer context if available
-  const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks);
+  const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks, data.growPhase);
   if (fertContext) {
     parts.push(fertContext);
   }

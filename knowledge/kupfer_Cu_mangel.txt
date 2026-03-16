@@ -1,0 +1,528 @@
+================================================================================
+KUPFERMANGEL (Cu) BEI CANNABIS - UMFASSENDE REFERENZ
+================================================================================
+
+================================================================================
+1. ÜBERSICHT
+================================================================================
+
+Nährstoff: Kupfer (Cu)
+Kategorie: Mikronährstoff (Spurenelement)
+Mobilität in der Pflanze: IMMOBIL bis SCHWACH MOBIL
+Häufigkeit bei Cannabis: Selten
+Kritischer Bereich: 5-20 ppm im Blattgewebe
+
+Kupfer ist ein essenzieller Mikronährstoff, der in extrem geringen Mengen benötigt
+wird, aber unverzichtbar für zahlreiche enzymatische Prozesse ist. Cannabis benötigt
+nur Spurenmengen von Kupfer, weshalb ein echter Mangel relativ selten auftritt.
+Wenn er jedoch vorkommt, sind die Auswirkungen auf Wachstum und Blüte erheblich.
+
+Kupfer ist im Pflanzengewebe überwiegend IMMOBIL, was bedeutet, dass Mangelsymptome
+sich zuerst an den JÜNGSTEN Pflanzenteilen zeigen. In einigen Fällen kann Kupfer
+geringfügig umverlagert werden, weshalb es als "schwach mobil" eingestuft wird.
+
+Funktionen von Kupfer in der Cannabispflanze:
+- Bestandteil von Plastocyanin (Photosynthese, Elektronentransportkette)
+- Bestandteil von Cytochromoxidase (Zellatmung)
+- Lignin-Biosynthese (Verholzung, Festigkeit der Zellwände)
+- Polyphenoloxidase-Aktivität (Abwehrmechanismen)
+- Ascorbatoxidase (Vitamin-C-Stoffwechsel)
+- Superoxiddismutase (Schutz vor oxidativem Stress)
+- Ethylensynthese (Reifungsprozesse)
+- Stickstofffixierung und -reduktion
+- Pollenfertilität und Samenentwicklung
+- Chlorophyll-Biosynthese (indirekt)
+
+Kupfer interagiert stark mit anderen Nährstoffen:
+- Hoher Phosphorgehalt hemmt Kupferaufnahme
+- Hoher Zinkgehalt hemmt Kupferaufnahme (Antagonismus)
+- Hoher Eisengehalt hemmt Kupferaufnahme
+- Hoher Stickstoff erhöht den Kupferbedarf
+- Organische Substanz bindet Kupfer stark (kann Mangel verursachen)
+
+================================================================================
+2. VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+--- FRÜHSTADIUM (Tag 1-10 nach Beginn des Mangels) ---
+
+Neue Blätter und Triebspitzen:
+- Allererste Anzeichen: Neue Blätter haben einen ungewöhnlichen BLAUGRÜNEN bis
+  DUNKELGRÜNEN Farbton, der sich von der normalen Blattfarbe abhebt
+- Der blaugrüne Schimmer ist besonders unter natürlichem Licht erkennbar
+- Neue Blätter haben einen metallisch-glänzenden Schimmer auf der Oberfläche
+- Blätter fühlen sich etwas schlaffer an als normal, leicht welk
+- Junges Gewebe zeigt eine leichte Epinastie (Abwärtskrümmung der Blattspitzen)
+- Wachstumsrate verlangsamt sich leicht
+
+Gesamtpflanze:
+- Pflanze wirkt insgesamt etwas dunkler als normal
+- Leichte allgemeine Wachstumsverlangsamung
+- Stängel können eine leicht violett-rötliche Färbung entwickeln
+  (allerdings kann dies auch genetisch oder stressbedingt sein)
+
+--- MITTELSTADIUM (Tag 10-21) ---
+
+Neue Blätter - Detailbeschreibung:
+- BLAUGRÜNE FÄRBUNG wird sehr deutlich und auffällig
+- Blätter haben einen fast metallisch-bläulichen Schein
+- WELKEN der neuen Blätter auch bei ausreichender Bewässerung
+- Blätter hängen schlaff herab, obwohl das Substrat feucht ist
+- Blattränder beginnen sich nach UNTEN zu rollen
+- VERDREHUNG der Blattspreite: Blätter drehen sich um ihre Längsachse
+- Die Verdrehung ist unregelmäßig, gibt den Blättern ein "verknittertes" Aussehen
+- Blattspitzen der neuen Blätter können leicht verblassen (hellgrün bis gelblich)
+- Nekrotische Flecken erscheinen an den Blattspitzen der jüngsten Blätter
+
+Farbbeschreibung im Detail:
+- Grundfarbe: Dunkelgrün bis blaugrün (deutlich dunkler als gesunde Blätter)
+- Blaustich: Besonders an den Blatträndern und der Blattoberseite
+- Unterseite: Kann einen leicht kupfrig-violetten Schimmer zeigen
+- Chlorose (wenn vorhanden): Beginnt an den Blattspitzen, blassgrün bis gelb
+- Die Kombination aus dunklem Blaugrün und welkem Erscheinungsbild ist
+  HOCHCHARAKTERISTISCH für Kupfermangel
+
+Stängel und Struktur:
+- Stängel werden schwach und dünn
+- Reduzierte Festigkeit, Pflanze kann "schlaksig" wirken
+- Internodien können ungewöhnlich lang werden (im Gegensatz zu Bormangel!)
+- Leichte Verfärbung der Stängel möglich (violett/rötlich)
+
+--- SPÄTSTADIUM (Tag 21+) ---
+
+Blätter (oberer Bereich):
+- Stark verdrehte, welke, schlaffe Blätter im oberen Pflanzenbereich
+- Blätter können sich einrollen und "papierartig" werden
+- Nekrose schreitet von den Blattspitzen und -rändern voran
+- Nekrotische Bereiche sind erst hellbraun, dann dunkelbraun bis schwarz
+- Absterbende Blätter können sich vor dem Abfallen ungewöhnlich hell verfärben
+- Blattgewebe wird spröde und bricht leicht
+- Bei starkem Mangel: Neue Blätter können fast vollständig absterben
+
+Blätter (mittlerer Bereich - bei schwerem Mangel):
+- Auch ältere Blätter können leichte Symptome zeigen (Kupfer minimal mobil)
+- Verblassende Farbe, leichtes Welken
+- UNGEWÖHNLICHE CHLOROSE: Kann als intervenale Gelbfärbung auftreten
+  (unterscheidet sich von klassischer Eisenchlorose durch die gleichzeitige
+  dunkle Blattfarbe des restlichen Gewebes)
+
+Blüte-spezifische Symptome:
+- VERZÖGERTE BLÜTENBILDUNG - eines der markantesten Merkmale
+- Pflanze geht später in die Blüte als erwartet
+- Blütenentwicklung ist extrem langsam
+- Blüten bleiben klein und luftig/locker
+- Harzproduktion deutlich vermindert (Kupfer wichtig für Terpensynthese)
+- Pistille (Blütenstempel) reifen langsam und ungleichmäßig
+- Blütenkelche können eine ungewöhnliche Farbe haben (blasser oder bräunlich)
+- Gesamtertrag stark reduziert (50-80% Ertragseinbußen möglich)
+
+Wurzeln:
+- Wurzelwachstum verlangsamt
+- Wurzeln können dunkler erscheinen als normal
+- Reduzierte Seitenwurzelbildung
+- Anfälligkeit für Pathogene erhöht (Kupfer wichtig für Abwehr)
+
+Gesamterscheinung:
+- Pflanze wirkt "krank" und schwach trotz scheinbar korrekter Pflege
+- Oberer Bereich welk und dunkel-blaugrün
+- Langsames, schwaches Wachstum
+- "Leblose" Erscheinung - Pflanze wirkt nicht vital
+- Untere Blätter meist noch relativ normal (bei mildem Mangel)
+
+================================================================================
+3. UNTERSCHEIDUNG VON ÄHNLICHEN MÄNGELN
+================================================================================
+
+Kupfermangel vs. Überwässerung:
+- GEMEINSAMKEIT: Welke Blätter trotz feuchtem Substrat
+- UNTERSCHIED Kupfer: Blaugrüne Farbe, Verdrehung der Blätter, NUR oben
+- UNTERSCHIED Überwässerung: Alle Blätter betroffen, saftig-geschwollen,
+  normales Grün, keine Verdrehung
+- Tipp: Bei Überwässerung sind auch untere Blätter schlaff
+
+Kupfermangel vs. Stickstoffüberschuss:
+- GEMEINSAMKEIT: Sehr dunkles, sattgrünes Laub
+- UNTERSCHIED Kupfer: Blauschimmer, Welken, Verdrehung, nur neue Blätter
+- UNTERSCHIED N-Überschuss: Alle Blätter gleichmäßig dunkelgrün, "Klauenblätter"
+  (Blattspitzen nach unten gebogen), kein Blauschimmer
+
+Kupfermangel vs. Eisenmangel:
+- GEMEINSAMKEIT: Beide betreffen neue Blätter (beide immobil)
+- UNTERSCHIED Kupfer: Blätter DUNKEL blaugrün, welk
+- UNTERSCHIED Eisen: Blätter HELL gelbgrün, intervenale Chlorose, nicht welk
+- Tipp: Komplett gegensätzliche Farbveränderung!
+
+Kupfermangel vs. Bormangel:
+- GEMEINSAMKEIT: Beide betreffen neue Blätter, beide verursachen Deformationen
+- UNTERSCHIED Kupfer: Welk, schlaff, dünn, blaugrün, langes Wachstum
+- UNTERSCHIED Bor: Dick, rau, brüchig, Hohlstängel, gestauchtes Wachstum
+- Tipp: Kupfer = schlaff und dunkel; Bor = hart und deformiert
+
+Kupfermangel vs. Phosphormangel:
+- GEMEINSAMKEIT: Dunkle Blattfärbung, violette/rötliche Stängel
+- UNTERSCHIED Kupfer: Blauschimmer, betrifft primär neue Blätter, Welken
+- UNTERSCHIED Phosphor: Betrifft ALTE Blätter zuerst (P ist mobil), tiefes
+  Dunkelgrün bis Violett, Blätter nicht welk sondern steif
+
+Kupfermangel vs. Kältestress:
+- GEMEINSAMKEIT: Violett/bläuliche Verfärbung möglich
+- UNTERSCHIED Kupfer: Primär neue Blätter, Welken, langsame Blüte
+- UNTERSCHIED Kälte: Gleichmäßig über gesamte Pflanze, Wachstumsstillstand,
+  violette Stängel und Blattstiele ausgeprägter
+
+Kupfermangel vs. Zinkmangel:
+- GEMEINSAMKEIT: Beide Mikronährstoffe, können sich gegenseitig hemmen
+- UNTERSCHIED Kupfer: Welken, blaugrün, verzögerte Blüte
+- UNTERSCHIED Zink: Kleinere Blätter ("little leaf"), intervenale Chlorose,
+  verkürzte Internodien, keine blaue Färbung
+
+================================================================================
+4. URSACHEN
+================================================================================
+
+Primäre Ursachen:
+
+pH-Wert außerhalb des optimalen Bereichs:
+- Kupfer wird bei hohem pH zunehmend unlöslich
+- pH über 7.0 in Erde: Kupfer fast vollständig blockiert
+- Zu niedrige pH-Werte (unter 5.0) können auch problematisch sein
+- Optimaler pH für Kupferaufnahme: leicht sauer (5.5-6.5 je nach Medium)
+
+Hoher organischer Gehalt im Substrat:
+- Organische Substanz (Humus, Torf, Kompost) BINDET Kupfer sehr stark
+- In stark organischen Substraten ist Kupfer oft vorhanden aber nicht pflanzenverfügbar
+- DIES IST DIE HÄUFIGSTE URSACHE für echten Kupfermangel bei Cannabis
+- Besonders Torf bindet Kupfer fast irreversibel
+
+Nährstoff-Antagonismen:
+- Hohe Phosphorwerte → Kupfermangel (P-Cu-Antagonismus)
+- Hohe Zinkwerte → Kupfermangel (Zn-Cu-Antagonismus)
+- Hohe Eisenwerte → Kupfermangel (Fe-Cu-Antagonismus)
+- Hoher Stickstoff → erhöhter Kupferbedarf
+- Überdosierung von Cal-Mag-Produkten → kann Cu blockieren
+- Überdüngung allgemein → Lockout-Risiko für Spurenelemente
+
+Übermäßiges Spülen:
+- Kupfer wird durch häufiges Spülen/Flushen ausgewaschen
+- Besonders in sandigen oder kokosfasernen Substraten
+- RO-Wasser-Spülung entfernt praktisch alles Kupfer
+
+Sekundäre Ursachen:
+- Verwendung von reinem RO-Wasser ohne Remineralisierung
+- Billige oder unvollständige Dünger ohne Spurenelemente
+- Neues, ungedüngtes Substrat (Perlit, Vermiculit, frischer Kokos)
+- Kalkung des Substrats (erhöht pH, bindet Kupfer)
+- Sehr kaltes Substrat (Wurzeltemperatur unter 15°C)
+- Hohe Bewässerungsfrequenz in gut drainierenden Substraten
+
+================================================================================
+5. PH-BEREICHE FÜR OPTIMALE KUPFERAUFNAHME
+================================================================================
+
+ERDE / ORGANISCHES SUBSTRAT:
+- Optimaler pH für Kupferaufnahme: 5.8 - 6.5
+- Akzeptabler Bereich: 5.5 - 6.8
+- Mangel wahrscheinlich ab: pH über 7.0 oder unter 5.0
+- Lockout fast sicher ab: pH über 7.5
+- ACHTUNG: Selbst bei optimalem pH kann Kupfer in organischen Substraten
+  gebunden und unverfügbar sein
+
+KOKOS / COCO:
+- Optimaler pH für Kupferaufnahme: 5.5 - 6.2
+- Akzeptabler Bereich: 5.3 - 6.5
+- Mangel wahrscheinlich ab: pH über 6.5 oder unter 5.0
+- Lockout fast sicher ab: pH über 7.0
+
+HYDROPONIK (DWC, NFT, Aeroponik):
+- Optimaler pH für Kupferaufnahme: 5.2 - 5.8
+- Akzeptabler Bereich: 5.0 - 6.2
+- Mangel wahrscheinlich ab: pH über 6.5 oder unter 4.8
+- Lockout fast sicher ab: pH über 7.0
+- In Hydro ist Kupfermangel am seltensten, da keine organische Bindung stattfindet
+
+WICHTIGER HINWEIS:
+Kupfer ist bei niedrigerem pH BESSER verfügbar als die meisten anderen Mikronährstoffe.
+Bei pH 5.0-5.5 ist Kupfer gut löslich, aber andere Nährstoffe können dann blockiert
+sein. Daher den pH nicht absichtlich zu niedrig einstellen.
+
+================================================================================
+6. SUBSTRAT-SPEZIFISCHE INFORMATIONEN
+================================================================================
+
+ERDE / ORGANISCHES SUBSTRAT:
+- Höchstes Risiko für Kupfermangel aufgrund organischer Kupferbindung
+- Je mehr Torf/Humus im Substrat, desto höher das Risiko
+- Natürlicher Kupfergehalt in Böden variiert stark (2-100 ppm)
+- Sandige Böden: Wenig Kupfer, leicht auswaschbar
+- Lehmböden: Mehr Kupfer, aber bei hohem pH blockiert
+- Kompost enthält Kupfer, aber oft in organisch gebundener Form
+- Empfehlung: Bei stark torfhaltigen Substraten Kupfer über Blattdüngung zuführen
+- Regenwurmhumus kann Kupfer besser pflanzenverfügbar machen
+
+KOKOS / COCO:
+- Mittleres Risiko für Kupfermangel
+- Kokos enthält natürlicherweise kein Kupfer
+- Kokos bindet einige Kationen (K, Na, Ca), aber Kupfer weniger stark
+- Vollständig auf Düngerlösung angewiesen
+- Bei häufigem Gießen (typisch für Kokos) kann Auswaschung auftreten
+- Empfehlung: Hochwertigen Kokos-Dünger mit vollständigem Spurenelementprofil verwenden
+- Bei Cal-Mag-Ergänzung auch Spurenelemente beachten
+
+HYDROPONIK:
+- Geringstes Risiko für Kupfermangel
+- Keine organische Bindung, Kupfer bleibt in Lösung
+- Kupfergehalt der Nährlösung: 0.01-0.05 ppm ausreichend
+- In rezirkulierenden Systemen: Kupfergehalt kontrollieren
+- Bei Verwendung von Kupferleitungen: Mögliche Kupferüberschuss-Gefahr!
+- Empfehlung: Regelmäßig EC und pH kontrollieren, Nährlösung wechseln
+
+STEINWOLLE / PERLIT / VERMICULIT:
+- Kein natürliches Kupfer vorhanden
+- Vollständig auf Düngerlösung angewiesen
+- Risiko ähnlich wie Hydroponik
+- Vermiculit kann geringe Mengen Kupfer adsorbieren
+
+================================================================================
+7. PHASE-SPEZIFISCHE INFORMATIONEN
+================================================================================
+
+SÄMLINGS-/KEIMPHASE:
+- Kupferbedarf: Sehr niedrig
+- Risiko: Sehr gering, Samen haben kleine Kupferreserven
+- Symptome bei Mangel: Bläulich-grüne Keimblätter, langsames Wachstum
+- Besonderheit: Echte Mangelsymptome in dieser Phase extrem selten
+
+VEGETATIVE PHASE (Wachstum):
+- Kupferbedarf: Niedrig bis mittel
+- Risiko: Gering bis mittel
+- Symptome: Wie oben beschrieben (blaugrüne Blätter, Welken, Verdrehung)
+- Besonderheit: Schnelles vegetatives Wachstum erhöht den Kupferbedarf leicht
+- Pflanze kann mit mildem Mangel relativ lange überleben
+- Wichtig: Kupfer ist essenziell für Ligninbildung → schwache Stängel bei Mangel
+
+ÜBERGANGSPHASE (Stretch/Vorblüte):
+- Kupferbedarf: Steigend
+- Risiko: Mittel
+- Symptome: Verzögerter Blühbeginn, langsame Blütenansätze
+- Besonderheit: Stretch kann schwächer ausfallen, Pflanze wirkt "lustlos"
+
+BLÜTEPHASE (früh bis mittel):
+- Kupferbedarf: MITTEL BIS HOCH - kritische Phase
+- Risiko: Mittel bis hoch
+- Symptome: Langsame Blütenentwicklung, kleine/lockere Blüten
+- Besonderheit: Kupfer essenziell für Harzproduktion und Terpen-Biosynthese
+- Mangel in dieser Phase hat GRÖSSTE AUSWIRKUNG auf Ertrag und Qualität
+- Reduzierte Harzdrüsen-Entwicklung sichtbar unter Lupe
+
+BLÜTEPHASE (spät/Reife):
+- Kupferbedarf: Mittel
+- Risiko: Mittel (besonders beim Flushing)
+- Symptome: Verlangsamte Reifung, blasse Trichome
+- Besonderheit: Kupfermangel kann die Reifezeit deutlich verlängern
+- Bei Flush: Bereits minimale Kupferreserven werden aufgebraucht
+
+================================================================================
+8. BEHANDLUNG
+================================================================================
+
+SOFORTMASSNAHMEN:
+
+Schritt 1: pH-Wert überprüfen und korrigieren
+- Substrat-pH in den optimalen Bereich bringen
+- Erde: pH 5.8-6.5
+- Kokos: pH 5.5-6.2
+- Hydro: pH 5.2-5.8
+- Wenn pH zu hoch: Mit pH-Down korrigieren
+- Substrat-Flush nur wenn pH weit außerhalb des Bereichs (→ wäscht Kupfer weiter aus!)
+
+Schritt 2: Kupfer zuführen
+- Kupfersulfat (CuSO4): 0.1-0.2 g pro 10 Liter Gießwasser
+  ACHTUNG: Extrem vorsichtig dosieren! Kupfertoxizität tritt schnell auf!
+- Kupferchelat (Cu-EDTA): 0.5-1.0 ml pro 10 Liter (je nach Konzentrat)
+  Bevorzugt, da besser pflanzenverfügbar und gleichmäßiger
+- Kommerzieller Mikronährstoff-Komplex: Nach Herstellerangaben
+
+Blattdüngung (schnellste Wirkung):
+- Kupfersulfat-Lösung: 0.05-0.1 g pro Liter Sprühwasser
+- Kupferchelat-Lösung: Stark verdünnt nach Herstellerangaben
+- Auf Blattunterseiten sprühen (Spaltöffnungen)
+- NICHT in der Blüte auf Blüten sprühen (Schimmelrisiko)
+- Morgens oder abends sprühen, nie unter direktem starken Licht
+- Einmal pro Woche bis Besserung eintritt
+
+Schritt 3: Antagonismen beseitigen
+- Phosphordüngung reduzieren, wenn überhöht
+- Zinkgaben reduzieren, wenn überhöht
+- Eisengaben reduzieren, wenn überhöht
+- Cal-Mag-Dosierung überprüfen
+
+WARNUNG: Kupfertoxizität ist gefährlicher als Kupfermangel!
+Der Bereich zwischen "zu wenig" und "zu viel" ist EXTREM SCHMAL.
+Niemals mehr als die empfohlene Menge geben.
+Toxizität zeigt sich als: Wurzelschäden, Eisenmangel-ähnliche Chlorose,
+reduziertes Wachstum, Blattverbrennungen.
+
+LANGFRISTMASSNAHMEN:
+
+- Hochwertigen Volldünger mit Spurenelementen verwenden
+- pH-Wert regelmäßig kontrollieren
+- Bei stark organischen Substraten: Regelmäßig Kupfer über Düngung nachführen
+- Kelp-/Seetang-Extrakt als natürliche Kupferquelle
+- Gießwasser nicht übermäßig filtern (RO-Wasser remineralisieren)
+- Nährstoffantagonismen vermeiden (ausgewogene Düngung)
+- Substrat nicht übermäßig kalken
+
+ZEITRAHMEN FÜR ERHOLUNG:
+- Blattdüngung: Erste Besserung in 3-7 Tagen
+- Wurzeldüngung: Erste Besserung in 7-14 Tagen
+- Bereits geschädigtes Gewebe erholt sich NICHT vollständig
+- Neue Blätter sollten nach 1-2 Wochen normal aussehen
+- Blütenentwicklung normalisiert sich in 2-3 Wochen
+- Vollständige Erholung: 3-4 Wochen
+
+================================================================================
+9. VERWECHSLUNGSGEFAHR
+================================================================================
+
+HÄUFIGSTE VERWECHSLUNGEN:
+
+1. Überwässerung - HÖCHSTE Verwechslungsgefahr
+   Beide: Welke, hängende Blätter bei feuchtem Substrat
+   Tipp: Kupfermangel → blaugrüne Farbe, nur oben, verdrehte Blätter
+   Überwässerung → normales Grün, gesamte Pflanze, keine Verdrehung
+   TEST: 2-3 Tage nicht gießen → Überwässerung bessert sich, Cu-Mangel nicht
+
+2. Stickstoffüberschuss - HOHE Verwechslungsgefahr
+   Beide: Sehr dunkle, sattgrüne Blätter
+   Tipp: Cu-Mangel → Blauschimmer, Welken, nur oben
+   N-Überschuss → gleichmäßig dunkelgrün, "Klauenblätter", gesamte Pflanze
+
+3. Phosphormangel - MITTLERE Verwechslungsgefahr
+   Beide: Dunkle Blätter, violette Stängel möglich
+   Tipp: Cu-Mangel → Blauton, welk, oben zuerst
+   P-Mangel → Violettton, nicht welk, UNTEN zuerst (P ist mobil)
+
+4. Kältestress - MITTLERE Verwechslungsgefahr
+   Beide: Violett/bläuliche Verfärbung, langsames Wachstum
+   Tipp: Cu-Mangel → nur neue Blätter, Verdrehung
+   Kälte → gesamte Pflanze, Temperaturcheck liefert Antwort
+
+5. Bormangel - NIEDRIGE bis MITTLERE Verwechslungsgefahr
+   Beide: Deformierte neue Blätter
+   Tipp: Cu = welk, dünn, blaugrün; B = dick, rau, brüchig, Hohlstängel
+
+6. Zinkmangel - NIEDRIGE Verwechslungsgefahr
+   Beide: Mikronährstoffmangel, können sich gegenseitig verursachen
+   Tipp: Cu = dunkel + welk; Zn = klein + chlorotisch
+
+BESONDERS SCHWIERIGE FÄLLE:
+- Kupfermangel + Überwässerung gleichzeitig: Sehr schwer zu unterscheiden
+  → pH kontrollieren, organischen Gehalt des Substrats prüfen
+- Kupfermangel + Stickstoffüberschuss: Dunkle Blätter verstärken sich gegenseitig
+  → Auf Blauschimmer und Welken achten
+- Leichter Kupfermangel in der Blüte: Kann als "normale Verlangsamung" missdeutet werden
+  → Blütenentwicklung mit Referenzpflanzen vergleichen
+
+================================================================================
+10. BILDMERKMALE FÜR KI-ANALYSE
+================================================================================
+
+PRIMÄRE ERKENNUNGSMERKMALE (hohe Gewichtung):
+
+Merkmal_Cu_01: BLAUGRÜNE BLATTFÄRBUNG
+- Neue Blätter zeigen deutlichen blaugrünen bis blau-metallischen Farbton
+- Farbton unterscheidet sich merklich vom normalen Cannabis-Grün
+- Besonders auf der Blattoberseite sichtbar
+- Unter natürlichem/weißem Licht am besten erkennbar
+- ACHTUNG: Unter LED-Beleuchtung kann der Blauton verfälscht werden
+- Konfidenzniveau: HOCH wenn unter korrektem Licht beurteilt
+
+Merkmal_Cu_02: WELKEN NEUER BLÄTTER BEI FEUCHTEM SUBSTRAT
+- Obere/neue Blätter hängen schlaff herab
+- Substrat ist erkennbar feucht
+- Untere Blätter sind nicht welk (Unterschied zu Überwässerung)
+- Blätter "hängen" eher als dass sie sich kräuseln
+- Konfidenzniveau: MITTEL bis HOCH
+
+Merkmal_Cu_03: VERDREHTE/GEDREHTE NEUE BLÄTTER
+- Blattspreiten drehen sich um die Längsachse
+- Unregelmäßige Verdrehung, nicht symmetrisch
+- Blätter sehen "verknittert" oder "verkrampft" aus
+- Oft kombiniert mit Welken
+- Konfidenzniveau: MITTEL bis HOCH
+
+Merkmal_Cu_04: VERZÖGERTE BLÜTENENTWICKLUNG
+- Blüten deutlich kleiner als erwartet für das Alter
+- Lockere, luftige Blütenstruktur
+- Wenig Harzdrüsen sichtbar
+- Langsame Pistillenentwicklung
+- Konfidenzniveau: MITTEL (schwer bildbasiert zu beurteilen ohne Referenz)
+
+SEKUNDÄRE ERKENNUNGSMERKMALE (mittlere Gewichtung):
+
+Merkmal_Cu_05: DUNKLE GESAMTERSCHEINUNG
+- Pflanze insgesamt dunkler als typisch
+- Kombination aus dunklem Grün und bläulichem Schimmer
+- Kein gelblicher oder hellgrüner Ton (Ausschluss vieler anderer Mängel)
+- Konfidenzniveau: NIEDRIG bis MITTEL (unspezifisch)
+
+Merkmal_Cu_06: DÜNNE, SCHWACHE STÄNGEL
+- Stängel erscheinen dünn im Verhältnis zur Pflanzengröße
+- Möglicherweise violett/rötliche Stängelfarbe
+- Pflanze kann instabil wirken
+- Konfidenzniveau: NIEDRIG (viele mögliche Ursachen)
+
+Merkmal_Cu_07: NEKROSE AN NEUEN BLATTSPITZEN
+- Braune, trockene Spitzen an jüngsten Blättern
+- Beginnt als kleine braune Punkte, breitet sich aus
+- In Kombination mit blaugrüner Grundfarbe
+- Konfidenzniveau: NIEDRIG bis MITTEL
+
+Merkmal_Cu_08: KONTRAST OBEN VS. UNTEN
+- Oberer Bereich deutlich geschädigt (welk, verdreht, blaugrün)
+- Unterer Bereich relativ gesund und normalfarbig
+- Übergangszone erkennbar
+- Konfidenzniveau: MITTEL (weist auf immobilen Nährstoff hin)
+
+NEGATIVE ERKENNUNGSMERKMALE (Ausschluss):
+
+Negativ_Cu_01: Wenn UNTERE Blätter primär betroffen → KEIN Kupfermangel
+Negativ_Cu_02: Wenn Blätter DICK und RAUHE Oberfläche → eher Bormangel
+Negativ_Cu_03: Wenn HELLE Gelbfärbung dominiert → eher Fe, Mn, oder N-Mangel
+Negativ_Cu_04: Wenn Hohlstängel und brüchige Stiele → eher Bormangel
+Negativ_Cu_05: Wenn intervenale Chlorose auf mittleren Blättern → eher Mo-Mangel
+Negativ_Cu_06: Wenn "Rost"-Flecken auf Blättern → eher Ca oder Mg-Mangel
+
+KI-ANALYSE ENTSCHEIDUNGSBAUM:
+
+1. Sind primär NEUE Blätter/Triebspitzen betroffen? → JA → weiter
+2. Haben die Blätter einen BLAUGRÜNEN Farbton? → JA → weiter
+3. WELKEN die neuen Blätter trotz ausreichend Feuchtigkeit? → JA → weiter
+4. Sind die Blätter VERDREHT (nicht verdickt)? → JA → HOHE Wahrscheinlichkeit Cu-Mangel
+5. Ist die Blütenentwicklung VERZÖGERT? → JA → Bestätigung
+6. Sind untere Blätter relativ gesund? → JA → Bestätigung (immobiler Nährstoff)
+
+KONFIDENZ-SCHWELLENWERTE:
+- Merkmal_Cu_01 (Blaugrün) + Merkmal_Cu_02 (Welken) vorhanden: Hohe Konfidenz (>80%)
+- Merkmal_Cu_01 + Merkmal_Cu_03 (Verdrehung) vorhanden: Hohe Konfidenz (>75%)
+- Nur Merkmal_Cu_01 vorhanden: Mittlere Konfidenz (40-60%)
+- Nur Welken ohne Blaugrün: Niedrige Konfidenz (<30%), andere Ursachen prüfen
+- Negative Merkmale vorhanden: Konfidenz deutlich reduzieren
+
+FARBWERTE FÜR BILDANALYSE:
+- Gesundes Cannabisblatt: RGB ca. 60-100, 140-180, 40-80 (normales Grün)
+- Cu-Mangel-Blatt (blaugrün): RGB ca. 40-80, 100-150, 70-120 (deutlicher Blauwert)
+- Cu-Mangel-Blatt (dunkelgrün): RGB ca. 30-60, 80-130, 40-80 (reduziert + bläulich)
+- Nekrotische Blattspitzen: RGB ca. 120-160, 80-110, 40-70 (braun)
+- Violette Stängel: RGB ca. 80-130, 40-80, 70-120 (Rotblau-Anteil erhöht)
+
+LICHTBEDINGUNGEN FÜR KORREKTE ANALYSE:
+- IDEAL: Natürliches Tageslicht oder Vollspektrum-LED (CRI >90)
+- AKZEPTABEL: Blitzlicht der Kamera
+- PROBLEMATISCH: Unter "Blurple"-LED (lila Grow-Licht) → Blauton nicht beurteilbar
+- PROBLEMATISCH: Unter HPS (Natriumdampf) → Blauton stark verfälscht
+- EMPFEHLUNG: User auffordern, Foto unter weißem Licht oder Blitz zu machen
+
+================================================================================
+ENDE DER REFERENZDATEI - KUPFERMANGEL (Cu)
+================================================================================

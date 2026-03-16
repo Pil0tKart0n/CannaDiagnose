@@ -1,0 +1,846 @@
+================================================================================
+  MANGANMANGEL (Mn) BEI CANNABIS
+  Vollstaendige Wissensreferenz fuer KI-gestuetzte Pflanzendiagnose
+================================================================================
+
+================================================================================
+1. UEBERSICHT – ROLLE VON MANGAN IN DER CANNABISPFLANZE
+================================================================================
+
+Mangan (Mn) ist ein essentieller Mikro-Naehrstoff, der in vergleichsweise
+geringen Mengen benoetigt wird, aber fuer zentrale Stoffwechselprozesse
+unverzichtbar ist.
+
+PRIMAERE FUNKTIONEN:
+
+1.1 Photosynthese – Wasserspaltung (Photolyse)
+    - Mangan ist ein direkter Bestandteil des Wasserspaltungskomplexes
+      (Oxygen Evolving Complex, OEC) im Photosystem II (PSII).
+    - Ein Cluster aus 4 Mn-Atomen (Mn4CaO5) katalysiert die Oxidation
+      von Wasser zu Sauerstoff, Protonen und Elektronen.
+    - Ohne ausreichend Mn bricht die Lichtreaktion zusammen, weil der
+      Elektronentransport nicht mehr angetrieben werden kann.
+    - Direkte Folge: Drastisch reduzierte Photosynthesekapazitaet, sichtbar
+      als Chlorose (Vergilbung), da Chlorophyll ohne funktionierendes PSII
+      abgebaut wird.
+
+1.2 Enzymaktivierung
+    - Mangan dient als Cofaktor fuer ueber 35 Enzyme, darunter:
+      * Mn-Superoxiddismutase (MnSOD) – Schutz vor oxidativem Stress durch
+        Umwandlung von Superoxid-Radikalen in Wasserstoffperoxid.
+      * Decarboxylasen im Citratzyklus (Krebs-Zyklus) – Energiegewinnung.
+      * Malatdehydrogenase – Beteiligt am Malat-Shuttle.
+      * Isocitrat-Dehydrogenase – Schluesselenzym im Citratzyklus.
+      * Phenylalanin-Ammoniak-Lyase (PAL) – Wichtig fuer die Synthese
+        von Phenolen, Lignin und Abwehrstoffen.
+    - Manganmangel fuehrt zu erhoehtem oxidativem Stress, da die MnSOD
+      nicht mehr ausreichend arbeiten kann.
+
+1.3 Chloroplasten-Struktur und Thylakoid-Integritaet
+    - Mangan stabilisiert die Thylakoidmembranen in den Chloroplasten.
+    - Bei Mangel werden die Thylakoide desorganisiert, Grana-Stapel loesen
+      sich auf, und die Chloroplasten verlieren ihre typische Linsenform.
+    - Dies verstaerkt die Chlorose zusaetzlich und fuehrt zu irreversiblen
+      Schaeden bei laengerem Mangel.
+
+1.4 Weitere Funktionen
+    - Stickstoffmetabolismus: Mn aktiviert Nitratreduktase.
+    - Ligninsynthese: Beteiligt an der Verholzung von Zellwaenden ueber
+      die Aktivierung der Peroxidasen.
+    - Pollenviabilitaet: Mn ist wichtig fuer die Pollenfertilitaet –
+      Mangel kann bei maennlichen Pflanzen die Befruchtungsfaehigkeit
+      reduzieren.
+    - Auxin-Stoffwechsel: Mn beeinflusst die IAA-Oxidase und damit den
+      Auxinabbau. Mangel kann zu veraendertem Wuchsverhalten fuehren.
+
+TYPISCHER GEHALT IN GESUNDEM CANNABISGEWEBE:
+    - Blaetter: 20–200 mg/kg Trockenmasse (optimal: 50–100 mg/kg)
+    - Mangelsymptome treten meist unter 20 mg/kg auf
+    - Toxizitaet beginnt ab ca. 300–500 mg/kg
+
+================================================================================
+2. VISUELLE SYMPTOME
+================================================================================
+
+KERNPRINZIP: MANGAN IST IMMOBIL IN DER PFLANZE
+    - Anders als mobile Naehrstoffe (N, P, K, Mg) kann Mangan NICHT aus
+      aelteren Blaettern in juengere remobilisiert werden.
+    - Symptome erscheinen daher ZUERST an jungen, sich entwickelnden
+      Blaettern und im oberen Kronenbereich (neue Triebe, obere Internodien).
+    - Aeltere Blaetter bleiben zunaechst gesund – ein entscheidendes
+      Unterscheidungsmerkmal zu mobilen Naehrstoffmaengeln.
+
+2.1 FRUEHSTADIUM (Leichter Mangel)
+    -------------------------------------------------------------------------
+    - Intervenale Chlorose an den juengsten, voll entfalteten Blaettern:
+      * Die Blattadern (Haupt- und Nebenadern) bleiben GRUEN.
+      * Das Gewebe ZWISCHEN den Adern wird hellgruen bis gelbgruen.
+      * Das Muster ist gleichmaessiger und weniger kontrastreich als bei
+        Eisenmangel – die Vergilbung wirkt "weicher" und diffuser.
+    - Die Chlorose beginnt typischerweise an der Blattbasis und breitet
+      sich zur Blattspitze hin aus.
+    - Die Blattraender koennen zunaechst noch leicht gruen bleiben.
+    - Blaetter wirken insgesamt "blass" oder "ausgewaschen".
+    - Die Pflanze zeigt leicht verlangsamtes Wachstum im oberen Bereich.
+
+2.2 MITTLERES STADIUM (Moderater Mangel)
+    -------------------------------------------------------------------------
+    - Die intervenale Chlorose verstaerkt sich und wird deutlich gelb.
+    - CHARAKTERISTISCH: Es entwickeln sich kleine, TAN- bis HELLBRAUNE
+      nekrotische Flecken (tote Punkte) ZWISCHEN den Blattadern.
+      * Diese Flecken sind typischerweise 1–3 mm gross.
+      * Sie erscheinen zunaechst vereinzelt, dann zunehmend zahlreicher.
+      * Die Farbe ist eher warm-braun/tan, NICHT schwarz oder dunkelbraun.
+    - Das Gesamtbild ist eine "GESPRENKELTE" oder "GEFLECKTE" Erscheinung
+      (englisch: "speckled" / "mottled leaf pattern").
+    - Die Blattadern bleiben als gruenes Netzwerk sichtbar, waehrend das
+      umgebende Gewebe gelb mit braunen Punkten wird.
+    - Neue Blaetter koennen bereits verkleinert aus dem Trieb kommen.
+    - Die Blattoberflaeche kann eine leicht raue, ungleichmaessige Textur
+      entwickeln.
+
+2.3 FORTGESCHRITTENES STADIUM (Schwerer Mangel)
+    -------------------------------------------------------------------------
+    - Die nekrotischen Flecken verschmelzen zu groesseren toten Bereichen.
+    - Blaetter werden PAPIERARTIG und TROCKEN – sie fuehlen sich duenn und
+      bruechig an, fast wie Pergament.
+    - Die Blattfarbe geht in ein blasses Gelb bis Weisslich ueber, mit
+      ausgedehnten braunen, abgestorbenen Bereichen.
+    - Blattverformungen: Blaetter koennen sich einrollen (meist nach oben),
+      wellig oder verknittert werden.
+    - Der Neuaustrieb ist stark verlangsamt oder stoppt voellig.
+    - Die juengsten Blaetter (noch nicht voll entfaltet) koennen komplett
+      chlorotisch (gelb-weiss) aus dem Trieb kommen.
+    - Blatttrockenheit: Betroffene Blaetter trocknen ein und fallen
+      vorzeitig ab.
+    - Massiver Ertragsverlust, insbesondere wenn der Mangel in der Bluete
+      auftritt.
+
+2.4 SPEZIFISCHE MERKMALE FUER CANNABIS
+    -------------------------------------------------------------------------
+    - Bei Cannabis betrifft der Mangel bevorzugt die oberen Facherblaetter
+      (Fan Leaves) im Kronenbereich.
+    - Die typischen 5–7-fingrigen Cannabisblaetter zeigen die Chlorose
+      gleichmaessig auf allen Fingern, beginnend an den mittleren Fingern.
+    - In der Bluete kann Mn-Mangel die Trichomproduktion an den
+      Zuckerblaettern (Sugar Leaves) reduzieren.
+    - Stiele und Aeste zeigen keine auffaelligen Verfaerbungen (anders als
+      bei P- oder Mg-Mangel, wo violette Stiele auftreten koennen).
+
+ZUSAMMENFASSUNG DER VISUELLEN PROGRESSION:
+    Gesund → Leichte intervenale Aufhellung (junge Blaetter) →
+    Deutliche Gelbfaerbung zwischen Adern → Tan/braune Flecken ("Sprenkel") →
+    Zusammenfliessende Nekrosen → Papierartige, trockene, absterbende Blaetter
+
+================================================================================
+3. UNTERSCHEIDUNG VON ANDEREN MAENGELN UND SCHAEDEN
+================================================================================
+
+3.1 MANGANMANGEL vs. EISENMANGEL (Fe)
+    -------------------------------------------------------------------------
+    Dies ist die HAEUFIGSTE VERWECHSLUNG, da beide immobile Mikro-
+    naehrstoffe sind und intervenale Chlorose an jungen Blaettern zeigen.
+
+    MANGAN (Mn):
+    - Chlorose ist eher GELBGRUEN bis GELB, wirkt "mild" und "weich".
+    - Nekrotische Flecken sind TAN/HELLBRAUN, warm in der Farbe.
+    - Die Blatttextur wird rau und gesprenkelt.
+    - Blattadern bleiben gruen, aber das Netz ist weniger scharf abgegrenzt.
+    - Betrifft eher die etwas AELTEREN der jungen Blaetter (2.–4. Blattetage
+      von oben).
+    - Entwickelt sich langsamer als Fe-Mangel.
+
+    EISEN (Fe):
+    - Chlorose ist INTENSIVER – kann bis WEISS/ELFENBEIN gehen.
+    - Blaetter koennen fast voellig farblos (gebleicht) werden.
+    - Die Blattadern bilden ein SCHARFES, kontrastreichen gruenes Netzwerk
+      auf nahezu weissem Grund.
+    - Beginnt an den JUENGSTEN Blaettern ganz oben (Neuzuwachs).
+    - Nekrotische Flecken sind seltener; wenn vorhanden, eher WEISSLICH
+      bis HELLGRAU, nicht tan/braun.
+    - Schreitet schneller voran.
+
+    MERKE: "Mn = milde gelbe Sprenkel; Fe = scharfe weisse Bleichung"
+
+3.2 MANGANMANGEL vs. CALCIUMMANGEL (Ca)
+    -------------------------------------------------------------------------
+    CALCIUM (Ca):
+    - Ebenfalls immobil, betrifft neue Blaetter.
+    - ABER: Ca-Mangel zeigt vorwiegend VERFORMUNGEN – Blaetter sind
+      verknittert, verdreht, mit nach unten gerollten Raendern.
+    - Nekrotische Flecken bei Ca sind eher DUNKELBRAUN bis SCHWARZ, mit
+      scharfen Raendern, unregaelmaessig verteilt.
+    - Ca-Mangel zeigt KEINE typische intervenale Chlorose.
+    - Statt gleichmaessiger Sprenkelung: unregelmaessige, groessere Flecken,
+      oft an Blattraendern und Blattspitzen.
+    - Wurzelprobleme begleiten Ca-Mangel haeufig (braune Wurzelspitzen).
+
+    MERKE: "Ca = Deformation + dunkle Flecken; Mn = Chlorose + helle Sprenkel"
+
+3.3 MANGANMANGEL vs. ZINKMANGEL (Zn)
+    -------------------------------------------------------------------------
+    ZINK (Zn):
+    - Ebenfalls immobil, betrifft neue Blaetter.
+    - ABER: Zn zeigt charakteristische VERKUERZUNG DER INTERNODIEN
+      (Rosettenbildung, "Stauche").
+    - Blaetter werden KLEIN und SCHMAL ("Little Leaf Syndrome").
+    - Chlorose beginnt eher an den Blattraendern und schreitet nach innen
+      vor (bei Mn von der Basis zur Spitze).
+    - Zn-Mangel zeigt keine tan/braunen Sprenkel.
+
+3.4 MANGANMANGEL vs. MAGNESIUMMANGEL (Mg)
+    -------------------------------------------------------------------------
+    MAGNESIUM (Mg):
+    - Mg ist MOBIL – Symptome erscheinen an AELTEREN/UNTEREN Blaettern.
+    - Das allein ist das Hauptunterscheidungsmerkmal.
+    - Intervenale Chlorose bei Mg ist aehnlich, aber an unteren Blaettern.
+    - Mg kann violette/rote Stiele verursachen, Mn nicht.
+
+    MERKE: "Oben = Mn (immobil); Unten = Mg (mobil)"
+
+3.5 MANGANMANGEL vs. SCHWEFELMANGEL (S)
+    -------------------------------------------------------------------------
+    SCHWEFEL (S):
+    - S-Mangel vergilbt das GESAMTE Blatt gleichmaessig (nicht intervenal).
+    - Beginnt auch an juengeren Blaettern, aber die Adern vergilben MIT.
+    - Keine Sprenkelung oder Fleckenbildung.
+
+3.6 MANGANMANGEL vs. SCHAEDLINGSBEFALL (insb. Thripse)
+    -------------------------------------------------------------------------
+    THRIPSE (Frankliniella spp., Thrips tabaci):
+    - Thripse erzeugen ebenfalls ein "gesprenkeltes" Muster, das dem
+      Mn-Mangel taeuschend aehnlich sehen kann!
+    - UNTERSCHIEDE:
+      * Thrips-Schaden zeigt SILBRIGE/GLITZERNDE Flecken (Luft in den
+        ausgesaugten Zellen), Mn-Mangel zeigt GELBE bis TAN Flecken.
+      * Thrips-Schaden ist oft auf die BLATTOBERSEITE konzentriert und
+        zeigt SCHWARZE KOTPUNKTE (kleine schwarze Kugelchen).
+      * Thrips-Schaden betrifft ALLE Blattetagen, nicht nur die oberen.
+      * Bei Thrips findet man die Tiere selbst: 1–2 mm lange, schlanke
+        Insekten, oft an Blattunterseiten oder in Blueten.
+      * Thrips-Flecken haben unregelmaessige Formen und folgen KEINEM
+        venalen Muster, waehrend Mn-Mangel dem Adernetz folgt.
+
+    SPINNMILBEN (Tetranychus urticae):
+    - Aehnliche Sprenkelung, aber:
+      * Winzige helle Punkte (Saugstellen), sehr gleichmaessig verteilt.
+      * Feines Gespinst (Webbing) an Blattunterseiten.
+      * Betrifft alle Blaetter, typischerweise untere zuerst.
+
+    MERKE: "Sprenkel + silbrig + schwarze Punkte = Thripse;
+            Sprenkel + gelb/tan + Adernmuster = Mn-Mangel"
+
+================================================================================
+4. URSACHEN FUER MANGANMANGEL
+================================================================================
+
+4.1 ZU HOHER PH-WERT (Haeufigste Ursache)
+    -------------------------------------------------------------------------
+    - Mangan wird bei hohem pH-Wert im Boden/Substrat AUSGEFAELLT
+      (als MnO2, Mn-Oxide, Mn-Hydroxide) und ist dann pflanzlich nicht
+      mehr verfuegbar.
+    - Die Verfuegbarkeit von Mn sinkt DRASTISCH ab pH 6.5 und ist bei
+      pH >7.0 extrem gering.
+    - Bei jedem Anstieg um eine pH-Einheit sinkt die Mn-Verfuegbarkeit
+      um etwa den Faktor 100 (da Mn2+ zu Mn4+ oxidiert wird).
+    - BESONDERS PROBLEMATISCH: Kalkhaltige Substrate oder hartes Giesswasser
+      koennen den pH schleichend erhoehen.
+    - In hydroponischen Systemen kann der pH innerhalb von Stunden steigen
+      und Mn aussperren.
+
+4.2 UEBERSCHUSS AN EISEN (Fe)
+    -------------------------------------------------------------------------
+    - Eisen und Mangan konkurrieren um die gleichen Transportproteine
+      (IRT1-Transporter) an den Wurzeln.
+    - Ein Ueberangebot an Fe (z.B. durch ueberdosierten Fe-Chelat-Duenger)
+      hemmt die Mn-Aufnahme kompetitiv.
+    - Verhaeltnis Fe:Mn sollte idealerweise zwischen 1:1 und 5:1 liegen.
+    - Stark eisenhaltiges Leitungswasser kann Mn-Mangel verursachen.
+
+4.3 UEBERWAESSERUNG
+    -------------------------------------------------------------------------
+    - Staendig nasses Substrat fuehrt zu anaeroben Bedingungen in der
+      Wurzelzone.
+    - Paradox: In reduzierenden (sauerstoffarmen) Bedingungen wird Mn
+      zwar mobiler, aber die Wurzeln koennen es nicht aufnehmen, da die
+      Wurzelfunktion durch Sauerstoffmangel beeintraechtigt ist.
+    - Geschaedigte Wurzeln (Wurzelfaeule durch Ueberwaesserung) nehmen
+      generell weniger Mikro-Naehrstoffe auf.
+    - Die mangelnde Drainage verstaerkt gleichzeitig pH-Probleme.
+
+4.4 HOHE ORGANISCHE SUBSTANZ / TORF
+    -------------------------------------------------------------------------
+    - Organische Saeuren und Huminstoffe koennen Mn in nicht verfuegbare
+      Komplexe binden.
+    - Stark humose Substrate (>30% Torfanteil) neigen dazu, Mn zu fixieren.
+    - Besonders problematisch in Kombination mit hohem pH.
+
+4.5 UEBERKALKUNG
+    -------------------------------------------------------------------------
+    - Zu viel Kalk (CaCO3, Dolomit) im Substrat hebt den pH und faellt
+      Mn als Oxid aus.
+    - Haeufig bei selbst gemischten Erdsubstraten, wenn zu viel Dolomit
+      zugegeben wird.
+
+4.6 KALTES SUBSTRAT / NIEDRIGE BODENTEMPERATUR
+    -------------------------------------------------------------------------
+    - Unter 15°C verlangsamt sich die Mn-Aufnahme ueber die Wurzeln
+      erheblich.
+    - Besonders im Fruehling bei Outdoor-Grows oder in unbeheizten
+      Grow-Raeumen.
+
+4.7 WEITERE URSACHEN
+    -------------------------------------------------------------------------
+    - Hohe Calcium-Konzentrationen: Ca konkurriert ebenfalls mit Mn an
+      Kationenaustauschplaetzen im Substrat.
+    - Hohe Zink- oder Kupferkonzentrationen: Antagonismus zwischen
+      Mikro-Naehrstoffen.
+    - Mangelhafte Duengerformulierung: Billige Duenger enthalten oft
+      kein oder zu wenig Mn.
+    - Umkehrosmose-Wasser (RO-Wasser) ohne Remineralisierung: Enthaelt
+      keinerlei Spurenelemente.
+
+================================================================================
+5. PH-BEREICHE UND MANGAN-VERFUEGBARKEIT
+================================================================================
+
+5.1 VERFUEGBARKEITSKURVE
+    -------------------------------------------------------------------------
+    pH 4.0–5.0  : Mn SEHR gut verfuegbar; aber VORSICHT: Gefahr der
+                   Mn-Toxizitaet bei niedrigem pH!
+    pH 5.0–5.5  : Mn gut verfuegbar (optimaler Bereich fuer Hydro/Coco).
+    pH 5.5–6.0  : Mn maessig bis gut verfuegbar.
+    pH 6.0–6.2  : Mn noch ausreichend verfuegbar (unterer Optimalbereich
+                   fuer Erde).
+    pH 6.2–6.5  : Mn-Verfuegbarkeit nimmt deutlich ab.
+    pH 6.5–7.0  : Mn-Verfuegbarkeit STARK reduziert – Mangelsymptome
+                   wahrscheinlich.
+    pH 7.0+     : Mn praktisch NICHT VERFUEGBAR – akuter Mangel.
+
+5.2 OPTIMALE PH-BEREICHE NACH SUBSTRATTYP
+    -------------------------------------------------------------------------
+    ERDE (organisch):
+        Optimaler Bereich:  pH 6.0–6.5
+        Mn gut verfuegbar:  pH 6.0–6.3
+        Mn-Mangel droht:    ab pH 6.5+
+        EMPFEHLUNG:         pH-Wert im Bereich 6.0–6.3 halten, um Mn-
+                            Verfuegbarkeit sicherzustellen, ohne andere
+                            Naehrstoffe zu blockieren.
+
+    KOKOS (Coco Coir):
+        Optimaler Bereich:  pH 5.5–6.5
+        Mn gut verfuegbar:  pH 5.5–6.0
+        Mn-Mangel droht:    ab pH 6.3+
+        EMPFEHLUNG:         pH-Wert 5.5–6.2 anstreben.
+
+    HYDROPONIK (DWC, NFT, Aeroponik):
+        Optimaler Bereich:  pH 5.5–6.0
+        Mn gut verfuegbar:  pH 5.5–5.8
+        Mn-Mangel droht:    ab pH 6.2+
+        EMPFEHLUNG:         pH-Wert 5.5–5.8 strikt einhalten.
+                            Bei Hydro steigt der pH oft schnell an –
+                            taegliche Kontrolle notwendig.
+
+5.3 PH-FLUSH-STRATEGIE BEI AKUTEM MN-MANGEL
+    -------------------------------------------------------------------------
+    - Bei bestaetigt zu hohem pH: Flush mit pH-angepasstem Wasser
+      (Ziel-pH: untere Grenze des jeweiligen Substratbereichs).
+    - ERDE:   Flushen mit pH 6.0 Wasser.
+    - KOKOS:  Flushen mit pH 5.6–5.8 Wasser.
+    - HYDRO:  Naehrloesung komplett wechseln, pH auf 5.5–5.8 einstellen.
+    - Nach dem Flush: Naehrloesung mit ausgewogenem Mikro-Naehrstoff-
+      profil (inkl. Mn) geben.
+
+================================================================================
+6. SUBSTRAT-SPEZIFISCHE INFORMATIONEN
+================================================================================
+
+6.1 ERDE / SOIL
+    -------------------------------------------------------------------------
+    - Mn liegt im Boden als Mn2+ (verfuegbar) oder Mn3+/Mn4+-Oxide
+      (nicht verfuegbar) vor.
+    - Hoher Humusgehalt kann Mn binden, aber bei niedrigem pH auch
+      wieder freisetzen.
+    - Gut durchlueftete Boeden oxidieren Mn zu nicht verfuegbaren Formen
+      (bei hohem pH).
+    - Staunasse Boeden reduzieren Mn zu verfuegbarer Form, aber
+      schaedigen gleichzeitig die Wurzeln.
+    - PRAXIS: In vorgemischten Cannabis-Erden (z.B. Biobizz, Plagron)
+      ist meist ausreichend Mn enthalten. Mangel tritt vor allem bei:
+      * Selbstgemischten Substraten ohne Spurenelemente
+      * Langzeitkulturen (>8 Wochen im gleichen Topf)
+      * Ueberkalkung auf.
+    - LOESUNG: Mangan-haltige organische Zusaetze: Seetang-Extrakt,
+      Wurmhumus, Komposttee. Oder mineralisch: MnSO4 als Blattduenger.
+
+6.2 KOKOS / COCO COIR
+    -------------------------------------------------------------------------
+    - Kokos hat eine hohe Kationenaustauschkapazitaet (KAK) und kann
+      Mn an seinen Austauschplaetzen fixieren, besonders wenn der
+      Kokos nicht vorgewaschen/vorbepuffert wurde.
+    - Unbepufferter Kokos entzieht der Naehrloesung Ca und Mg und kann
+      indirekt auch die Mn-Aufnahme stoeren.
+    - PRAXIS: Immer vorgespuelten/gepufferten Kokos verwenden.
+    - Kokos-spezifische Duengerlinien (z.B. Canna Coco, Advanced Nutrients
+      pH Perfect Sensi Coco) enthalten angepasste Mn-Mengen.
+    - Der pH im Kokos driftet weniger schnell als in Hydro, aber
+      regelmaessige Drain-Messung (Ablaufwasser-pH) ist wichtig.
+    - LOESUNG: pH-Korrektur des Zulaufwassers + Mn-haltiger Mikro-
+      Naehrstoff-Mix (z.B. Canna Trace Mix, GHE TriPart Micro).
+
+6.3 HYDROPONIK (DWC, RDWC, NFT, Aeroponik)
+    -------------------------------------------------------------------------
+    - In hydro hat die Pflanze keinen Boden-Puffer; pH-Schwankungen
+      wirken sich SOFORT auf die Mn-Verfuegbarkeit aus.
+    - Mn faellt in stehenden Loesungen bei pH >6.0 schnell als Oxid aus
+      und lagert sich als brauner Niederschlag im Behaelter ab.
+    - Mn-Mangel tritt in Hydro haeufiger auf als in Erde, weil:
+      * Der pH schneller steigt
+      * Kein Boden-Puffer vorhanden ist
+      * Die Loesungskonzentrationen genauer sein muessen
+    - PRAXIS: Chelat-basierte Mn-Formen (EDTA, DTPA) sind stabiler
+      in Loesung als anorganische Salze (MnSO4).
+    - Naehrloesung woechentlich komplett erneuern.
+    - Behaelter regelmaessig reinigen (Mn-Oxide als Ablagerung entfernen).
+    - LOESUNG: Mn-EDTA oder Mn-DTPA in der Naehrloesung, pH strikt
+      unter 6.0 halten.
+
+6.4 TIEFWASSERKULTUR (DWC) SPEZIFISCH
+    -------------------------------------------------------------------------
+    - Besonders anfaellig fuer Mn-Mangel, da grosse Loesungsvolumina
+      langsam oxidieren und Mn ausfaellen.
+    - Wassertemperatur ueber 24°C foerdert mikrobielle Aktivitaet, die
+      Mn oxidieren kann.
+    - Beluechtung des Reservoirs beguenstigt Algenbildung, die Mn
+      verbrauchen/binden.
+    - EMPFEHLUNG: Dunkle, kuehle Behaelter (18–22°C), regelmaessiger
+      Loesungswechsel, pH-Monitoring 2x taeglich.
+
+================================================================================
+7. PHASE-SPEZIFISCHE INFORMATIONEN
+================================================================================
+
+7.1 SAEMLINGS- UND JUNGPFLANZENPHASE (Woche 1–3)
+    -------------------------------------------------------------------------
+    - Mn-Mangel in dieser Phase ist SELTEN, da der Bedarf gering ist
+      und Samen einen kleinen Mn-Vorrat enthalten.
+    - Wenn er auftritt: Meist durch extrem hohen pH des Substrats
+      (z.B. ungepufferte Erde mit viel Kalk).
+    - Symptome: Blasse, hellgruene Keimblaetter, verlangsamtes Wachstum.
+    - EMPFEHLUNG: Substrat-pH vor dem Einpflanzen pruefen (Ziel: 6.0–6.5
+      fuer Erde, 5.5–6.0 fuer Kokos).
+
+7.2 VEGETATIONSPHASE (Woche 3 bis Blueteneinleitung)
+    -------------------------------------------------------------------------
+    - Mn-Bedarf steigt mit zunehmendem Wachstum und erhoehter
+      Photosyntheserate.
+    - Mangelsymptome treten am ehesten in der mittleren bis spaeten
+      Vegetationsphase auf, wenn die Pflanze viel Blattmasse bildet
+      und den Mn-Vorrat im Substrat verbraucht hat.
+    - AUSWIRKUNG: Verlangsamtes vegetatives Wachstum, weniger Verzweigungen,
+      blassere Blaetter im oberen Bereich.
+    - In dieser Phase ist Mn-Mangel noch GUT KORRIGIERBAR, da die Pflanze
+      sich erholen kann, bevor die Bluete beginnt.
+    - EMPFEHLUNG: pH kontrollieren, ggf. Mikro-Naehrstoff-Supplement
+      erhoehen. Blattduengung mit MnSO4 (0.05–0.1%) als Sofortmassnahme.
+
+7.3 FRUEHER BLUETENPHASE / STRETCH (Woche 1–3 der Bluete)
+    -------------------------------------------------------------------------
+    - Kritische Phase, da die Pflanze in der Stretch-Phase enormen
+      Naehrstoffbedarf hat.
+    - Mn-Mangel zeigt sich hier besonders an den vielen neuen Blaettern
+      und Trieben, die waehrend des Stretch gebildet werden.
+    - AUSWIRKUNG: Reduzierte Bluetenanlage, weniger Bluetenstellen,
+      schwache Stretch-Phase.
+    - DRINGENDE KORREKTUR notwendig, da die Bluete sonst kompromittiert
+      wird.
+
+7.4 MITTLERE BIS SPAETE BLUETE (Woche 4–8+)
+    -------------------------------------------------------------------------
+    - Mn-Bedarf bleibt relevant fuer die Trichomproduktion und
+      Chlorophyllerhaltung in den Zuckerblaettern.
+    - Mangel in dieser Phase beeintraechtigt die Photosyntheseleistung
+      und damit die Harz- und Terpenbiosynthese.
+    - AUSWIRKUNG: Reduzierte Trichomproduktion, weniger dichte Blueten,
+      fruehzeitige Alterung der Zuckerblaetter.
+    - VORSICHT: In der spaeten Bluete ist die Korrektur schwierig, da
+      die Pflanze naturgemaess seneszent wird und weniger Naehrstoffe
+      aufnimmt.
+    - Nicht mit natuerlicher Bluete-Seneszenz verwechseln (natuerliche
+      Vergilbung beginnt an UNTEREN, aelteren Blaettern, Mn-Mangel an
+      OBEREN).
+
+7.5 SPAETE BLUETE / SPUELUNG (Letzte 1–2 Wochen)
+    -------------------------------------------------------------------------
+    - Wenn in dieser Phase gespuelt wird, ist leichter Mn-Mangel normal
+      und akzeptabel – die Pflanze verbraucht ihre Reserven.
+    - KEINE Korrektur notwendig, wenn die Ernte in Kuerze bevorsteht.
+    - Nur eingreifen, wenn die Blueten noch mehrere Wochen brauchen und
+      die Chlorose die Photosynthesekapazitaet zu stark reduziert.
+
+================================================================================
+8. EC-KONTEXT (ELECTRICAL CONDUCTIVITY)
+================================================================================
+
+8.1 ALLGEMEINE EC-BEREICHE FUER CANNABIS
+    -------------------------------------------------------------------------
+    Saemling:        EC 0.4–0.8 mS/cm
+    Fruehe Veg:      EC 0.8–1.2 mS/cm
+    Spaete Veg:      EC 1.2–1.8 mS/cm
+    Fruehe Bluete:   EC 1.4–2.0 mS/cm
+    Mittlere Bluete: EC 1.6–2.2 mS/cm
+    Spaete Bluete:   EC 1.0–1.6 mS/cm (abnehmend)
+
+8.2 MN IM EC-KONTEXT
+    -------------------------------------------------------------------------
+    - Mangan hat als Mikro-Naehrstoff nur einen minimalen Beitrag zum
+      Gesamt-EC-Wert (da es in Spuren dosiert wird).
+    - Ein hoher EC-Wert allein sagt NICHTS ueber die Mn-Versorgung aus.
+    - Mn-Mangel kann bei jedem EC-Wert auftreten, da er primaer
+      pH-abhaengig ist, nicht EC-abhaengig.
+    - ABER: Ein sehr niedriger EC (<0.5) deutet auf generelle Unter-
+      duengung hin, bei der auch Mn fehlen kann.
+    - Ein sehr hoher EC (>2.5) kann auf Salzanreicherung hindeuten, die
+      den pH verschieben und die Mn-Aufnahme indirekt beeinflussen kann.
+
+8.3 MN-KONZENTRATION IN DER NAEHRLOESUNG
+    -------------------------------------------------------------------------
+    - Typische Mn-Konzentration in Cannabis-Naehrloesungen: 0.5–2.0 mg/L
+      (ppm).
+    - Optimal: 0.5–1.0 mg/L in Hydro, 1.0–2.0 mg/L in Kokos/Erde
+      (Erde hat hoehere Fixierung).
+    - In Chelat-Form (Mn-EDTA): Stabiler in Loesung, weniger pH-anfaellig.
+    - MERKE: Die absolute Konzentration ist weniger wichtig als der
+      pH-Wert! Selbst 5 mg/L Mn nuetzen nichts, wenn der pH bei 7.5 liegt.
+
+8.4 DRAIN-EC / ABLAUF-EC
+    -------------------------------------------------------------------------
+    - Drain-EC deutlich hoeher als Zulauf-EC: Salzakkumulation im Substrat,
+      die pH-Verschiebungen verursachen kann.
+    - Drain-EC deutlich niedriger als Zulauf-EC: Pflanze nimmt mehr
+      Salze auf als zugefuehrt – Nachduengung erhoehen.
+    - Optimale Differenz: Drain-EC sollte max. 0.3–0.5 mS/cm ueber
+      dem Zulauf-EC liegen.
+
+================================================================================
+9. BEHANDLUNG VON MANGANMANGEL
+================================================================================
+
+9.1 SOFORTMASSNAHMEN
+    -------------------------------------------------------------------------
+    SCHRITT 1: pH-WERT KORRIGIEREN (Wichtigste Massnahme!)
+        - pH des Zulaufwassers / der Naehrloesung messen.
+        - pH des Substrats/Ablaufwassers messen.
+        - Ziel-pH einstellen:
+          * Erde:   6.0–6.3
+          * Kokos:  5.5–6.0
+          * Hydro:  5.5–5.8
+        - Bei pH > 6.5: Sofortige Korrektur mit pH-Down (Phosphorsaeure
+          oder Zitronensaeure).
+        - Wenn Substrat-pH zu hoch: Flush mit pH-angepasstem Wasser
+          (2–3x Topfvolumen), dann erneut duengen.
+
+    SCHRITT 2: MN-BLATTDUENGUNG (Schnellste Korrektur)
+        - MnSO4 (Mangansulfat) als Blattspray:
+          * Konzentration: 0.05–0.1% (0.5–1.0 g pro Liter Wasser)
+          * pH der Spruehloesung: 5.5–6.0
+          * Anwendung: Morgens oder abends, bei ausgeschaltetem Licht
+            (unter LED) oder im Schatten.
+          * Blattoberseiten UND -unterseiten benetzen.
+          * Wiederholung: Alle 3–5 Tage, bis Symptome sich bessern.
+          * ACHTUNG: Nicht in der Bluete auf Blueten spruehen!
+            Nur auf Facherblaetter.
+        - Alternative: Chelat-basierte Mikro-Naehrstoff-Sprays
+          (z.B. Compo Fetrilon, EDTA-Chelate).
+
+    SCHRITT 3: MN UEBER DIE WURZEL ZUFUEHREN
+        - Mn-haltige Duenger-Supplements:
+          * Calmag-Produkte MIT Mikro-Naehrstoffen (z.B. GHE Calcium
+            Magnesium Supplement, sofern Mn enthalten).
+          * Spezielle Mikro-Naehrstoff-Mischungen: Canna Trace Mix,
+            GHE TriPart Micro, Advanced Nutrients Micro.
+          * MnSO4 direkt: 1–2 g pro 10 Liter Wasser (= 0.01–0.02%).
+          * Mn-EDTA Chelat: Gemaess Herstellerangaben, typisch 0.5–1 ml/L.
+        - IMMER in Kombination mit korrektem pH anwenden!
+
+9.2 MITTELFRISTIGE MASSNAHMEN
+    -------------------------------------------------------------------------
+    - Ueberpruefen und Optimieren des Duengerregimes:
+      * Verwenden die verwendeten Duenger alle notwendigen Mikro-
+        Naehrstoffe, einschliesslich Mn?
+      * Ist das Fe:Mn-Verhaeltnis ausgewogen (max. 5:1)?
+    - Wasserqualitaet pruefen:
+      * Leitungswasser-Analyse: Enthaelt es zu viel Fe, Ca oder
+        Carbonat-Haerte?
+      * Bei hartem Wasser: Verschneiden mit RO-Wasser oder Wasser-
+        enthaarung in Betracht ziehen.
+    - Ueberwaesserung abstellen:
+      * Giessen erst, wenn das obere Drittel des Substrats trocken ist.
+      * Drainage sicherstellen.
+      * Topfgroesse ueberpruefen (zu grosse Toepfe fuehren zu
+        laengerer Naesse).
+
+9.3 LANGFRISTIGE PRAEVENTION
+    -------------------------------------------------------------------------
+    - pH-Wert REGELMAESSIG kontrollieren (mindestens woechentlich, in
+      Hydro taeglich).
+    - Vollstaendigen Duenger verwenden, der alle Mikro-Naehrstoffe
+      abdeckt.
+    - Substrat-pH bei jedem Umtopfen ueberpruefen.
+    - Wasserqualitaet jaehrlich testen lassen.
+    - Bei Erde: Nicht uebkalken! Dolomit sparsam einsetzen.
+    - Bei Hydro: Naehrloesung woechentlich erneuern, pH taeglich pruefen.
+
+9.4 ZEITRAHMEN DER ERHOLUNG
+    -------------------------------------------------------------------------
+    - BLATTDUENGUNG: Erste Verbesserung innerhalb von 3–5 Tagen sichtbar.
+    - WURZELDUENGUNG + PH-KORREKTUR: Erste Verbesserung nach 5–10 Tagen.
+    - BEREITS BESCHAEDIGTE BLAETTER erholen sich NICHT vollstaendig.
+      Die nekrotischen Flecken und Chlorosen bleiben auf den betroffenen
+      Blaettern bestehen. Die Erholung zeigt sich an den NEU WACHSENDEN
+      Blaettern, die wieder gesund und gruen erscheinen sollten.
+    - Volle Erholung: 2–4 Wochen nach Korrekturmassnahmen.
+
+================================================================================
+10. VERWECHSLUNGSGEFAHR – DETAILLIERTE DIFFERENZIALDIAGNOSE
+================================================================================
+
+10.1 UEBERBLICKSTABELLE: SYMPTOMVERGLEICH
+    -------------------------------------------------------------------------
+    Symptom/Merkmal          | Mn-Mangel     | Fe-Mangel     | Mg-Mangel
+    -------------------------+---------------+---------------+---------------
+    Betroffene Blaetter      | Jung/oben     | Juengste/oben | Alt/unten
+    Art der Chlorose         | Intervenal    | Intervenal    | Intervenal
+    Chlorose-Intensitaet     | Mild-gelb     | Stark-weiss   | Mittel-gelb
+    Adern-Kontrast           | Maessig       | Sehr scharf   | Maessig
+    Nekrotische Flecken      | Tan/hellbraun | Selten/weiss  | Braun/Raender
+    Sprenkel-Muster          | JA, typisch   | NEIN          | NEIN
+    Stiel-Verfaerbung        | NEIN          | NEIN          | Violett moegl.
+    Papierartige Textur      | JA (spaet)    | Eher nein     | NEIN
+    Blattraender             | Eher intakt   | Eher intakt   | Nekrotisch
+    -------------------------+---------------+---------------+---------------
+
+    Symptom/Merkmal          | Ca-Mangel     | Zn-Mangel     | S-Mangel
+    -------------------------+---------------+---------------+---------------
+    Betroffene Blaetter      | Jung/oben     | Jung/oben     | Jung/oben
+    Art der Chlorose         | Keine typ.    | Randbetont    | Gleichmaessig
+    Chlorose-Intensitaet     | --            | Mittel        | Mild-gelb
+    Adern-Kontrast           | --            | Maessig       | Gering (Adern
+                             |               |               |  MIT vergilbt)
+    Nekrotische Flecken      | Dunkel/scharf | Selten        | Selten
+    Sprenkel-Muster          | NEIN          | NEIN          | NEIN
+    Blattverformung          | STARK (typisch)| Klein/schmal | Leicht
+    Internodien              | Normal        | VERKUERZT     | Normal
+    -------------------------+---------------+---------------+---------------
+
+10.2 ENTSCHEIDUNGSBAUM FUER DIE DIAGNOSE
+    -------------------------------------------------------------------------
+    1. Sind die JUNGEN/OBEREN oder ALTEN/UNTEREN Blaetter betroffen?
+       → Alte/Untere: Mobiler Naehrstoff (N, P, K, Mg) → KEIN Mn-Mangel
+       → Junge/Obere: Weiter mit 2.
+
+    2. Zeigen die Blaetter INTERVENALE CHLOROSE (Adern bleiben gruen)?
+       → NEIN: → Andere Ursache (Ca, Zn, S, Schaedlinge)
+       → JA:   Weiter mit 3.
+
+    3. Wie INTENSIV ist die Chlorose?
+       → Sehr stark, bis WEISS → Eher EISENMANGEL (Fe)
+       → Mild bis GELB → Weiter mit 4.
+
+    4. Gibt es TAN/BRAUNE SPRENKEL oder FLECKEN zwischen den Adern?
+       → JA → HOCH WAHRSCHEINLICH MANGANMANGEL (Mn)
+       → NEIN → Moeglicherweise milder Fe-Mangel oder frueher Mn-Mangel
+
+    5. Sind die Flecken SILBRIG/GLAENZEND mit SCHWARZEN KOTPUNKTEN?
+       → JA → THRIPS-BEFALL, kein Naehrstoffmangel
+
+    6. Hat die Pflanze auch VERKUERZTE INTERNODIEN und KLEINE Blaetter?
+       → JA → Eher ZINKMANGEL (Zn)
+
+    7. pH-Wert des Substrats/Ablaufs pruefen:
+       → pH > 6.5 → Bestaetigt Mn-Mangel (Lockout)
+       → pH < 5.5 → Mn-Mangel unwahrscheinlich (zu niedrig = eher Toxizitaet)
+
+10.3 HAEUFIGE FEHLDIAGNOSEN
+    -------------------------------------------------------------------------
+    FEHLDIAGNOSE 1: "Das ist Eisenmangel"
+    - Sehr haeufig, da beide Symptome aehnlich sind.
+    - Unterscheidung: Mn ist milder, zeigt Sprenkel, Fe ist schaerfer,
+      bleicht Blaetter weiss.
+    - GEFAHR: Wenn faelschlich Fe supplementiert wird, verschlimmert sich
+      der Mn-Mangel durch Fe-Antagonismus!
+
+    FEHLDIAGNOSE 2: "Das sind Thripse"
+    - Thrips-Sprenkel sind silbrig, mit schwarzen Kotpunkten.
+    - Mn-Sprenkel sind gelb/tan, ohne Kotpunkte, folgen dem Adernmuster.
+    - Im Zweifel: Blaetter mit Lupe untersuchen!
+
+    FEHLDIAGNOSE 3: "Das ist natuerliche Alterung"
+    - Seneszenz (natuerliche Blattalterung) beginnt UNTEN an alten Blaettern.
+    - Mn-Mangel beginnt OBEN an jungen Blaettern.
+    - In der Bluete kann beides gleichzeitig auftreten!
+
+    FEHLDIAGNOSE 4: "Lichtbrand / Licht-Stress"
+    - Lichtbrand verursacht Bleichung an den lichtnaechsten Blaettern,
+      aber GLEICHMAESSIG ueber die Blattflaeche, nicht intervenal.
+    - Lichtbrand zeigt keine Sprenkelung.
+    - Lichtbrand betrifft bevorzugt Blattspitzen und -raender, die dem
+      Licht am naechsten sind.
+
+================================================================================
+11. BILDMERKMALE FUER KI-ANALYSE
+================================================================================
+
+Dieser Abschnitt beschreibt die visuellen Merkmale in einer fuer
+maschinelles Lernen und Bilderkennungsalgorithmen geeigneten Weise.
+
+11.1 PRIMAERE VISUELLE FEATURES (Hohe Konfidenz)
+    -------------------------------------------------------------------------
+    FEATURE_01: INTERVENALE_CHLOROSE_JUNG
+        Beschreibung:   Gelbfaerbung zwischen den Blattadern bei jungen
+                        Blaettern im oberen Pflanzenbereich.
+        Farbwerte:      Gesundes Gewebe: RGB ~(40-80, 120-180, 30-60)
+                        Chlorotisches Gewebe: RGB ~(180-220, 200-230, 80-120)
+        Kontrast:       Adern bleiben gruen (Delta-G > 40 gegenueber
+                        intervenalen Bereichen).
+        Muster:         Regelmaessig, dem Adernverlauf folgend.
+        Lokalisierung:  Obere 30% der Pflanzenkrone.
+
+    FEATURE_02: TAN_NEKROTISCHE_SPRENKEL
+        Beschreibung:   Kleine (1–3 mm), tan- bis hellbraune, abgestorbene
+                        Punkte zwischen den Blattadern.
+        Farbwerte:      Nekrose: RGB ~(180-210, 150-180, 80-110)
+                        (warm-braun, nicht dunkel, nicht schwarz)
+        Form:           Rundlich bis leicht unregelmaessig, einzeln stehend.
+        Verteilung:     Gleichmaessig ueber die intervenalen Bereiche
+                        verteilt, NICHT an Blattraendern gehaeuft.
+        Groesse:        1–3 mm im Fruehstadium, bis 5–8 mm bei
+                        Fortschreiten (Verschmelzung).
+
+    FEATURE_03: PAPIER_TEXTUR
+        Beschreibung:   Betroffene Blaetter wirken duenn, trocken und
+                        bruechig (nur im fortgeschrittenen Stadium).
+        Visuelle Merkmale: Mattes, nicht glaenzendes Erscheinungsbild.
+                        Blatt kann leicht wellig/zerknittert wirken.
+                        Farbe: Helles Gelb bis Beige mit braunen Bereichen.
+
+11.2 SEKUNDAERE VISUELLE FEATURES (Mittlere Konfidenz)
+    -------------------------------------------------------------------------
+    FEATURE_04: ADERN_NETZWERK
+        Beschreibung:   Gruenes Adernetz auf hellem/gelbem Hintergrund.
+        Kontrast:       Moderater Kontrast (geringer als bei Fe-Mangel).
+        Ordnung:        Haupt- und Nebenadern bleiben gruen; feinste
+                        Adern (Adern 3. Ordnung) koennen ebenfalls
+                        vergilben.
+
+    FEATURE_05: CHLOROSE_GRADIENT
+        Beschreibung:   Die Chlorose breitet sich von der Blattbasis
+                        zur Blattspitze aus.
+        Zeitlicher Verlauf: Basis zeigt staerkere Symptome als Spitze
+                        im Fruehstadium.
+
+    FEATURE_06: BLATTALTER_GRADIENT
+        Beschreibung:   Symptomstaerke nimmt von oben nach unten AB.
+        Obere Blaetter: Staerkste Symptome (juengste voll entfaltete).
+        Mittlere Blaetter: Leichtere Symptome.
+        Untere Blaetter: Keine oder minimale Symptome.
+
+11.3 AUSSCHLUSS-FEATURES (Sprechen GEGEN Mn-Mangel)
+    -------------------------------------------------------------------------
+    ANTI_FEATURE_01: SYMPTOME_NUR_UNTEN
+        Wenn nur alte/untere Blaetter betroffen → Mobiler Naehrstoffmangel,
+        KEIN Mn-Mangel.
+
+    ANTI_FEATURE_02: WEISSE_BLEICHUNG
+        Wenn Blaetter bis WEISS/ELFENBEIN ausbleichen → Eher Fe-Mangel.
+
+    ANTI_FEATURE_03: SILBRIGE_FLECKEN
+        Silbrig glaenzende Flecken mit schwarzen Kotpunkten → Thripse,
+        KEIN Mn-Mangel.
+
+    ANTI_FEATURE_04: GLEICHMAESSIGE_GESAMTVERGILBUNG
+        Wenn das GESAMTE Blatt gleichmaessig vergilbt (Adern UND
+        intervenale Bereiche gleich) → Eher S-Mangel oder N-Mangel.
+
+    ANTI_FEATURE_05: STARKE_BLATTVERFORMUNG
+        Wenn Blaetter stark verformt/verdreht sind OHNE Chlorose →
+        Eher Ca-Mangel oder pH-Extreme.
+
+    ANTI_FEATURE_06: VIOLETTE_STIELE
+        Violette/rote Stiele und Blattstiele → Eher P- oder Mg-Mangel,
+        NICHT Mn-Mangel.
+
+11.4 KONFIDENZ-SCORING FUER KI-DIAGNOSE
+    -------------------------------------------------------------------------
+    HOHE KONFIDENZ (>80%) – Mn-Mangel wahrscheinlich, wenn:
+        [x] Intervenale Chlorose an jungen Blaettern
+        [x] Tan/braune Sprenkel zwischen Adern
+        [x] pH > 6.5 (wenn bekannt)
+        [x] Kein Schaedlingsbefall sichtbar
+        [x] Adernmuster sichtbar (Adern gruen, Intervenal gelb)
+
+    MITTLERE KONFIDENZ (50–80%) – Mn-Mangel moeglich, wenn:
+        [x] Intervenale Chlorose an jungen Blaettern
+        [?] Flecken vorhanden, aber Farbe/Form unklar
+        [?] pH nicht bekannt
+        [ ] Kein eindeutiges Adernmuster
+
+    NIEDRIGE KONFIDENZ (<50%) – Mn-Mangel unwahrscheinlich, wenn:
+        [ ] Symptome an alten Blaettern
+        [ ] Weisse/bleiche Chlorose
+        [ ] Silbrige Flecken oder Schaedlingsanzeichen
+        [ ] Gleichmaessige Vergilbung ohne Adernmuster
+
+11.5 DIFFERENZIERUNG IN BILDERN: MN vs. FE MANGEL
+    -------------------------------------------------------------------------
+    Fuer die KI-gestuetzte Unterscheidung zwischen Mn und Fe:
+
+    FARBANALYSE:
+        Mn: Chlorotische Bereiche sind GELB (H: 50-65, S: 40-70%, L: 60-80%)
+        Fe: Chlorotische Bereiche sind GELB-WEISS bis WEISS
+            (H: 40-60, S: 10-30%, L: 80-95%)
+
+    KONTRASTANALYSE:
+        Mn: Mittlerer Kontrast zwischen Adern und Intervenal
+            (Differenz in G-Kanal: 30-60)
+        Fe: Hoher Kontrast zwischen Adern und Intervenal
+            (Differenz in G-Kanal: 60-120)
+
+    NEKROSE-ANALYSE:
+        Mn: Tan/braune Punkte VORHANDEN (frueh im Verlauf)
+        Fe: Nekrose ABWESEND oder spaet (erst bei extremem Mangel)
+
+    TEXTURFANALYSE:
+        Mn: Raue, gesprenkelte Textur (hohe lokale Varianz)
+        Fe: Glatte Textur trotz Chlorose (niedrige lokale Varianz)
+
+11.6 BILDVERARBEITUNGS-EMPFEHLUNGEN
+    -------------------------------------------------------------------------
+    - Beleuchtung: Bilder bei gleichmaessigem, neutralem Licht aufnehmen
+      (kein gelbes HPS, kein violettes LED-Blurple). Idealerweise
+      Blitz oder weisses Licht.
+    - Fokus: Nahaufnahme der betroffenen Blaetter UND Uebersichtsaufnahme
+      der gesamten Pflanze (um Lokalisierung zu bestimmen).
+    - Referenz: Gesundes Blatt der gleichen Pflanze im Bild fuer
+      Farbvergleich.
+    - Blattoberseite UND -unterseite fotografieren (Schaedlingsausschluss).
+    - Aufloesng: Mindestens 8 MP, damit Sprenkel (1–3 mm) erkennbar sind.
+    - Weissabgleich: Korrekt oder manuell nachkorrigieren, da
+      Grow-Lampen die Farbwahrnehmung verfaelschen.
+
+================================================================================
+  ZUSAMMENFASSUNG – QUICK-REFERENCE
+================================================================================
+
+    NAEHRSTOFF:     Mangan (Mn), Mikro-Naehrstoff
+    MOBILITAET:     IMMOBIL → Symptome an JUNGEN Blaettern (oben)
+    HAUPTSYMPTOM:   Intervenale Chlorose + tan/braune Sprenkel
+    HAUPTURSACHE:   pH ZU HOCH (>6.5 in Erde, >6.0 in Hydro)
+    ERSTE HILFE:    1. pH korrigieren  2. Mn-Blattduengung  3. Mn im Wasser
+    VERWECHSLUNG:   Fe-Mangel (schaerfer, weisser), Thripse (silbrig, Kot)
+    ERHOLUNG:       3–10 Tage (neue Blaetter); alte Blaetter bleiben
+                    geschaedigt
+
+================================================================================
+  ENDE DER WISSENSREFERENZ – MANGANMANGEL (Mn) BEI CANNABIS
+================================================================================

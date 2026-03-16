@@ -64,6 +64,9 @@ export default function QuestionnaireScreen() {
     const updated = { ...questionnaire, [question.id]: newValue };
     setQuestionnaire(updated);
 
+    // Don't auto-advance for substrate (user might want to add perlite)
+    if (question.id === 'substrateType') return;
+
     if (question.type === 'select' || question.type === 'searchable-select') {
       const nextQuestions = questions.filter((q) => {
         if (!q.conditional) return true;
@@ -107,15 +110,24 @@ export default function QuestionnaireScreen() {
 
         {/* Centered question card */}
         <View style={styles.centerArea}>
-          <QuestionCard question={question} value={value} onChange={handleChange} />
+          <QuestionCard
+            question={question}
+            value={value}
+            onChange={handleChange}
+            perliteAdded={questionnaire.perliteAdded}
+            perlitePercent={questionnaire.perlitePercent}
+            onPerliteToggle={(added) => setQuestionnaire({ ...questionnaire, perliteAdded: added })}
+            onPerlitePercentChange={(pct) => setQuestionnaire({ ...questionnaire, perlitePercent: pct })}
+          />
         </View>
 
-        {/* Only show bottom button for multi-select and text/number inputs */}
-        {question.type !== 'select' && question.type !== 'searchable-select' ? (
+        {/* Show bottom button for multi-select, text/number, and substrate (needs confirm for perlite) */}
+        {(question.type !== 'select' && question.type !== 'searchable-select') || question.id === 'substrateType' ? (
           <View style={styles.bottomBar}>
             <Button
               title={isLast ? 'Analyse starten' : 'Weiter'}
               onPress={goNext}
+              disabled={question.id === 'substrateType' && !value}
             />
           </View>
         ) : (

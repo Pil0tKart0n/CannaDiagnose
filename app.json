@@ -16,6 +16,8 @@
       "backgroundColor": "#0A0E0D"
     },
     "android": {
+      "package": "com.cannadiagnose.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -23,7 +25,13 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "backgroundColor": "#0A0E0D"
+      "backgroundColor": "#0A0E0D",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

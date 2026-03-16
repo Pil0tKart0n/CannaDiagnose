@@ -1,0 +1,328 @@
+================================================================================
+UNTERWÄSSERUNG / WASSERMANGEL (Underwatering)
+================================================================================
+
+KATEGORIE: Umweltstress (abiotisch) / Bewässerungsfehler
+SCHWEREGRAD: Leicht bis mittel (selten tödlich, da schnell behebbar)
+HÄUFIGKEIT: Häufig, besonders in heißen Perioden und bei kleinen Töpfen
+BETROFFENE STADIEN: Alle, besonders kritisch für Sämlinge
+
+================================================================================
+1. BESCHREIBUNG UND URSACHE
+================================================================================
+
+Unterwässerung tritt auf, wenn die Pflanze nicht genügend Wasser erhält,
+um ihren Bedarf an Transpiration, Nährstofftransport und Zellturgor
+aufrechtzuerhalten. Anders als Überwässerung ist Unterwässerung in der
+Regel schnell und einfach zu beheben - die Pflanze erholt sich meist
+innerhalb weniger Stunden nach dem Gießen.
+
+WARUM IST WASSERMANGEL PROBLEMATISCH?
+- Wasser ist das Transportmedium für ALLE Nährstoffe in der Pflanze
+- Ohne Wasser kein Turgor (Zelldruck) -> Pflanze wird schlaff
+- Ohne Wasser keine Transpiration -> keine Kühlung -> Überhitzung
+- Ohne Wasser keine Photosynthese (Stomata schließen sich)
+- Bei anhaltendem Mangel: Zellen sterben ab (irreversibel)
+- Nährstoffe im trockenen Substrat sind nicht pflanzenverfügbar
+
+URSACHEN:
+- Zu seltenes Gießen (Hauptursache)
+- Zu kleine Töpfe für die Pflanzengröße
+- Hohe Temperaturen (erhöhte Verdunstung und Transpiration)
+- Niedrige Luftfeuchtigkeit (erhöhte Transpiration)
+- Starker Luftstrom / Wind (erhöhte Verdunstung)
+- Viel Licht (erhöhte Transpiration)
+- Große Pflanze in kleinem Topf (Wurzeln verbrauchen Wasser schnell)
+- Substrat zu durchlässig (zu viel Perlite, zu wenig Wasserhaltekapazität)
+- Hydrophobes (wasserabweisendes) Substrat - Wasser läuft am Topfrand
+  vorbei statt in die Erde einzuziehen
+- Vergessen zu gießen (menschlicher Faktor)
+- Automatische Bewässerung ausgefallen
+- Pflanze in der Blüte -> stark erhöhter Wasserverbrauch
+
+================================================================================
+2. VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+DAS HAUPTSYMPTOM - WELKEN:
+
+Die Blätter welken und hängen nach unten - aber im Gegensatz zur
+Überwässerung sind sie dabei DÜNN, SCHLAFF und LEBLOS, nicht prall
+und geschwollen!
+
+FRÜHSTADIUM:
+- Leichtes Hängen der Blattstiele
+- Blätter verlieren ihre straffe Ausrichtung
+- Die Blätter sehen etwas "müde" aus
+- Blattoberfläche kann leicht matt/stumpf erscheinen (weniger glänzend)
+- Pflanze wirkt insgesamt weniger vital
+- Obere jüngere Blätter können noch OK aussehen, während untere
+  zuerst hängen
+
+MITTELSTADIUM:
+- Deutliches Welken: Alle Blätter hängen SCHLAFF nach unten
+- Blätter sind DÜNN und PAPIERARTIG (nicht prall!)
+- Blätter fühlen sich TROCKEN und LEICHT an
+- Blätter sind BIEGSAM aber ohne Spannung (wie nasser Stoff)
+- Die gesamte Pflanze sieht aus, als wäre sie "zusammengefallen"
+- Blattstiele können sich nach unten biegen
+- Blätter können beginnen, sich an den Rändern einzurollen
+  (Schutzreaktion zur Reduktion der Verdunstungsfläche)
+- Pflanze wirkt deutlich kleiner/kompakter als normal
+
+SPÄTSTADIUM / SCHWERER WASSERMANGEL:
+- Blätter sind völlig schlaff und hängen leblos herunter
+- Blattränder werden knusprig und braun
+- Blattspitzen sterben ab (braun/trocken)
+- Untere Blätter vergilben und fallen ab
+  (Pflanze opfert alte Blätter, um Wasser zu sparen)
+- Stängel werden dünn und biegsam
+- In extremen Fällen: Stängel knickt ein
+- Bud-Entwicklung stoppt in der Blüte
+- Trichom-Produktion wird eingestellt
+
+SUBSTRAT-INDIKATOREN:
+- Erde ist TROCKEN, STAUBIG und LEICHT
+- Erde zieht sich vom Topfrand zurück (Schrumpfung)
+- Beim Gießen: Wasser läuft am Topfrand vorbei (hydrophob geworden!)
+- Topf ist LEICHT (im Vergleich zu einem frisch gegossenen Topf)
+- Oberfläche ist rissig und hell
+- Bei Coco: Substrat ist hellbraun/beige statt dunkelbraun
+
+DAS ENTSCHEIDENDE MERKMAL - SCHNELLE ERHOLUNG:
+- Nach dem Gießen erholt sich die Pflanze innerhalb von
+  30 MINUTEN bis 4 STUNDEN!
+- Dies ist DER Bestätigungstest: Wenn die Pflanze nach dem Gießen
+  schnell wieder straff wird, war es definitiv Unterwässerung
+- Bei Überwässerung würde Gießen das Problem VERSCHLIMMERN
+- Die Erholungsgeschwindigkeit hängt vom Schweregrad ab:
+  Leicht: 30-60 Minuten
+  Mittel: 1-4 Stunden
+  Schwer: 6-12 Stunden (manche Blätter erholen sich nicht mehr)
+
+================================================================================
+3. ABGRENZUNG ZU ÄHNLICHEN PROBLEMEN
+================================================================================
+
+UNTERWÄSSERUNG vs. ÜBERWÄSSERUNG - DIE WICHTIGSTE UNTERSCHEIDUNG:
++---------------------------+---------------------------+
+| UNTERWÄSSERUNG            | ÜBERWÄSSERUNG             |
++---------------------------+---------------------------+
+| Blätter DÜNN und SCHLAFF  | Blätter PRALL und         |
+|                           | GESCHWOLLEN                |
+| Papierartig, trocken      | Gummiartig, fest          |
+| Topf ist LEICHT           | Topf ist SCHWER           |
+| Erde TROCKEN              | Erde NASS                 |
+| Oft HELLERE Blattfarbe    | Oft DUNKELGRÜNE Blattfarbe|
+| Erholung in STUNDEN       | Erholung in TAGEN         |
+| nach dem Gießen           | nach dem Trocknen         |
+| Pflanze sieht "zusammen-  | Pflanze sieht "über-      |
+| gefallen" aus             | laden" aus                |
+| Stängel dünn/biegsam      | Stängel fest, evtl. weich |
+|                           | an der Basis              |
+| Keine Trauermücken        | Trauermücken möglich      |
+| Sofort gießen!            | NICHT gießen!             |
++---------------------------+---------------------------+
+
+DER PRAXIS-TEST:
+Wenn du nicht sicher bist, ob es Über- oder Unterwässerung ist:
+1. Hebe den Topf an: LEICHT = Unterwässerung, SCHWER = Überwässerung
+2. Drücke die Erde: TROCKEN/HART = Unterwässerung, NASS = Überwässerung
+3. Fühle ein Blatt: DÜNN/SCHLAFF = Unterwässerung, PRALL = Überwässerung
+
+UNTERWÄSSERUNG vs. HITZESTRESS:
++---------------------------+---------------------------+
+| UNTERWÄSSERUNG            | HITZESTRESS               |
++---------------------------+---------------------------+
+| Blätter hängen SCHLAFF    | Blätter kräuseln sich     |
+| nach unten                | NACH OBEN (Taco)          |
+| Blätter dünn/papierartig  | Blätter trocken/knusprig  |
+| Topf ist leicht/trocken   | Topf kann feucht sein     |
+| Gießen hilft sofort       | Kühlung hilft             |
+| Temperatur kann normal    | Temperatur ist >30°C      |
+| sein                      |                           |
++---------------------------+---------------------------+
+Hinweis: Beide können GLEICHZEITIG auftreten! Bei Hitze verbraucht
+die Pflanze mehr Wasser, was zu schnellerer Austrocknung führt.
+
+UNTERWÄSSERUNG vs. WURZELPROBLEME:
++---------------------------+---------------------------+
+| UNTERWÄSSERUNG            | WURZELPROBLEME            |
++---------------------------+---------------------------+
+| Schnelle Erholung nach    | KEINE Erholung nach       |
+| Gießen (Stunden)          | Gießen (oder sehr langsam)|
+| Erde ist trocken          | Erde kann nass ODER       |
+|                           | trocken sein              |
+| Wurzeln gesund (weiß)     | Wurzeln braun/schleimig   |
+| Regelmäßiges Muster       | Unregelmäßig, manchmal    |
+|                           | einseitig                 |
++---------------------------+---------------------------+
+
+UNTERWÄSSERUNG vs. KALIUMMANGEL:
+- Kaliummangel: Braune Blattränder, die sich über Tage entwickeln
+- Unterwässerung: Gesamtes Blatt welkt, Erholung nach Gießen
+- Kaliummangel wird durch Gießen allein NICHT besser
+
+================================================================================
+4. WASSER-BEDARF IN VERSCHIEDENEN PHASEN
+================================================================================
+
+SÄMLING (Woche 1-2):
+- Sehr geringer Wasserverbrauch
+- Gefahr: Überwässerung ist hier häufiger als Unterwässerung!
+- Nur die Erde um den Sämling befeuchten (nicht den ganzen Topf)
+- Kleine Mengen, aber Erde nie komplett austrocknen lassen
+- Sprühflasche verwenden statt Gießkanne
+
+VEGETATIONSPHASE (Woche 3-6):
+- Steigender Wasserverbrauch mit zunehmender Pflanzengroße
+- Nass-Trocken-Zyklus beginnen
+- Gießen wenn obere 2-3 cm trocken sind
+- Gießen bis 10-20% Runoff
+
+BLÜTEPHASE (Woche 7+):
+- HÖCHSTER Wasserverbrauch!
+- Große Pflanzen in der Blüte können TÄGLICH gegossen werden müssen
+- In der späten Blüte kann der Wasserverbrauch wieder leicht sinken
+- Achtung: In der Blüte ist Unterwässerung kritischer, da die Bud-
+  Entwicklung direkt leidet und nicht nachgeholt werden kann
+
+FAKTOREN, DIE DEN WASSERBEDARF ERHÖHEN:
+- Hohe Temperaturen (>28°C)
+- Niedrige Luftfeuchtigkeit (<40%)
+- Viel Licht (hohe PPFD)
+- Starke Luftbewegung
+- Große Pflanze / viel Blattmasse
+- Kleine Töpfe
+- Durchlässiges Substrat (viel Perlite)
+- Stofftöpfe (Fabric Pots) - trocknen schneller
+
+FAKTOREN, DIE DEN WASSERBEDARF SENKEN:
+- Niedrige Temperaturen (<22°C)
+- Hohe Luftfeuchtigkeit (>60%)
+- Wenig Licht
+- Wenig Luftbewegung
+- Kleine Pflanze
+- Große Töpfe
+- Kompaktes Substrat
+
+================================================================================
+5. SOFORTMASSNAHMEN
+================================================================================
+
+BEI LEICHTEM WASSERMANGEL:
+1. Normal gießen bis 10-20% Runoff
+2. Pflanze erholt sich in 30-60 Minuten
+3. Gießintervall anpassen (häufiger gießen)
+
+BEI MITTLEREM WASSERMANGEL:
+1. Langsam gießen! Wenn das Substrat hydrophob geworden ist (Wasser
+   perlt ab), in mehreren kleinen Portionen gießen
+2. Methode: 100ml -> 5 Min warten -> 100ml -> 5 Min warten -> etc.
+3. Das gibt dem Substrat Zeit, das Wasser wieder aufzunehmen
+4. Alternativ: Topf in einen Eimer mit Wasser stellen (Untersetzer-
+   Methode) und von unten saugen lassen (15-20 Minuten)
+5. Erholung in 1-4 Stunden
+
+BEI SCHWEREM WASSERMANGEL:
+1. Nicht panisch zu viel auf einmal gießen
+2. Langsam und schrittweise rehydrieren (siehe oben)
+3. Nach dem ersten Gießen 30 Minuten warten, dann nochmal gießen
+4. Beschädigte/braune Blätter NICHT sofort entfernen
+5. Lichtintensität für 24-48 Stunden reduzieren (weniger Transpiration)
+6. Luftfeuchtigkeit leicht erhöhen (reduziert Transpirationsrate)
+7. Erholung: 6-24 Stunden für die überlebenden Blätter
+
+HYDROPHOBES SUBSTRAT (Wasser perlt ab):
+- Einen Tropfen Spülmittel pro Liter Wasser (senkt Oberflächenspannung)
+- ODER: Yucca-Extrakt als natürliches Netzmittel
+- Von unten saugen lassen (Topf in Wasserschale stellen)
+- Substrat vorsichtig mit einer Gabel auflockern (ohne Wurzeln zu
+  beschädigen)
+- Für die Zukunft: Nicht mehr so weit austrocknen lassen
+
+================================================================================
+6. PRÄVENTION
+================================================================================
+
+BEWÄSSERUNGS-ROUTINE:
+- Tägliche Kontrolle! Mindestens einmal täglich den Topf anheben
+- Bei Hitze: Morgens UND abends kontrollieren
+- Finger-Test: Obere 2-3 cm trocken = gießen
+- Topf-Hebe-Test: Topf leicht = gießen
+- Auf die Pflanze achten: Leichtes Hängen am Abend = morgens gießen
+  (eine leichte Trockenheit vor dem Gießen ist normal und gewünscht!)
+
+AUTOMATISCHE BEWÄSSERUNG:
+- Tropfbewässerung mit Timer (sehr zuverlässig)
+- Blumat-Tonkegel (automatische Bewässerung basierend auf Bodenfeuchtigkeit)
+- Autopot-Systeme (Untersetzer-Bewässerung)
+- Feuchtigkeitssensoren mit automatischer Pumpe
+- Dochtsystem für kurze Abwesenheiten
+
+SUBSTRAT-OPTIMIERUNG:
+- Vermiculite hinzufügen (erhöht Wasserhaltekapazität)
+- Nicht zu viel Perlite (>40% kann zu schnell trocknen)
+- Coco-Coir hält Wasser gut, ist aber trotzdem gut belüftet
+- Super-Soil-Mischungen mit Kompost halten Feuchtigkeit länger
+- Mulch auf die Oberfläche (reduziert Verdunstung um 30-50%)
+
+TOPFGRÖSSE:
+- Ausreichend große Töpfe verwenden
+- In der Blüte: Mindestens 11 Liter für mittelgroße Pflanzen
+- Größere Töpfe = mehr Pufferzeit zwischen den Gießvorgängen
+- Aber: Nicht zu groß für kleine Pflanzen (Überwässerungsgefahr!)
+
+================================================================================
+7. ERHOLUNGSPROGNOSE
+================================================================================
+
+Unterwässerung ist einer der am EINFACHSTEN zu behebenden Probleme:
+
+- Leichter Wassermangel: 100% Erholung in 30-60 Minuten, kein Schaden
+- Mittlerer Wassermangel: 90-100% Erholung in 1-4 Stunden,
+  vereinzelt gelbe untere Blätter möglich
+- Schwerer Wassermangel: 60-90% Erholung in 6-24 Stunden,
+  beschädigte Blätter (braune Ränder/Spitzen) erholen sich nicht,
+  aber neue Blätter wachsen gesund nach
+- Extremer Wassermangel: Pflanze kann Teile absterben lassen,
+  erholt sich aber oft erstaunlich gut, wenn rechtzeitig gegossen
+  Kann 1-2 Wochen Wachstumsverzögerung bedeuten
+
+IN DER BLÜTE:
+- Wassermangel in der Blüte ist KRITISCHER als in der Veg
+- Bud-Entwicklung stoppt bei Wassermangel und kann nicht vollständig
+  nachgeholt werden
+- Wiederholter Wassermangel in der Blüte = deutlicher Ertragsverlust
+- Trichom-Produktion leidet
+
+POSITIVER ASPEKT:
+- Leichter, kurzzeitiger Wasserstress kann die Pflanze tatsächlich
+  STÄRKEN (Hormesis-Effekt)
+- Manche Grower lassen absichtlich leicht welken vor dem Gießen
+  (NICHT empfohlen für Anfänger!)
+- Der Nass-Trocken-Zyklus ist gesund - die Pflanze SOLL zwischen den
+  Gießvorgängen leicht austrocknen
+
+================================================================================
+8. HÄUFIGE FEHLER
+================================================================================
+
+- Panisches Übergießen nach Wassermangel -> kann zu Überwässerung führen
+- "Die Oberfläche ist trocken, also muss ich gießen" -> die obere Schicht
+  trocknet immer zuerst, darunter kann es noch feucht sein (Finger-Test!)
+- Zu viel Perlite im Substrat -> trocknet zu schnell
+- Kleiner Topf + große Pflanze + Hitze -> tägliches Gießen nötig!
+  In manchen Fällen sogar ZWEIMAL täglich!
+- Stofftöpfe in heißer Umgebung -> trocknen EXTREM schnell
+- Automatische Bewässerung nicht kontrollieren -> kann ausfallen
+- Unterschätzung des Wasserbedarfs in der Blüte (kann sich verdoppeln!)
+- Verwechslung mit Überwässerung und deshalb NICHT gießen -> gefährlich!
+  Im Zweifel: IMMER den Topf anheben und die Erde fühlen!
+
+================================================================================
+KURZFORMEL FÜR KI-DIAGNOSE:
+Blätter hängen schlaff nach unten + DÜNN/PAPIERARTIG (nicht prall) +
+trockenes/leichtes Substrat + leichter Topf + schnelle Erholung nach
+Gießen (Stunden) = UNTERWÄSSERUNG
+================================================================================

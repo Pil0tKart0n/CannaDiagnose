@@ -15,9 +15,13 @@ interface QuestionCardProps {
   question: Question;
   value: any;
   onChange: (value: any) => void;
+  perliteAdded?: boolean;
+  perlitePercent?: string | null;
+  onPerliteToggle?: (added: boolean) => void;
+  onPerlitePercentChange?: (percent: string | null) => void;
 }
 
-export default function QuestionCard({ question, value, onChange }: QuestionCardProps) {
+export default function QuestionCard({ question, value, onChange, perliteAdded, perlitePercent, onPerliteToggle, onPerlitePercentChange }: QuestionCardProps) {
   const renderSelect = () => (
     <View style={styles.optionsGrid}>
       {question.options?.map((opt) => {
@@ -135,11 +139,49 @@ export default function QuestionCard({ question, value, onChange }: QuestionCard
     );
   };
 
+  const renderPerliteAddon = () => {
+    if (question.id !== 'substrateType' || !value || !onPerliteToggle) return null;
+    return (
+      <View style={styles.perliteContainer}>
+        <TouchableOpacity
+          style={[styles.perliteToggle, perliteAdded && styles.perliteToggleActive]}
+          onPress={() => {
+            onPerliteToggle(!perliteAdded);
+            if (perliteAdded && onPerlitePercentChange) {
+              onPerlitePercentChange(null);
+            }
+          }}
+        >
+          <Text style={[styles.perliteToggleText, perliteAdded && styles.optionTextSelected]}>
+            + Perlite
+          </Text>
+        </TouchableOpacity>
+        {perliteAdded && onPerlitePercentChange && (
+          <View style={styles.perlitePercentRow}>
+            <Text style={styles.perliteLabel}>Anteil:</Text>
+            {['10%', '20%', '30%', '40%', '50%'].map((pct) => (
+              <TouchableOpacity
+                key={pct}
+                style={[styles.perliteChip, perlitePercent === pct && styles.perliteChipActive]}
+                onPress={() => onPerlitePercentChange(perlitePercent === pct ? null : pct)}
+              >
+                <Text style={[styles.perliteChipText, perlitePercent === pct && styles.optionTextSelected]}>
+                  {pct}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  };
+
   return (
     <View style={styles.card}>
       <Text style={styles.question}>{question.question}</Text>
       {question.hint && <Text style={styles.hint}>{question.hint}</Text>}
       {question.type === 'select' && renderSelect()}
+      {renderPerliteAddon()}
       {question.type === 'multi-select' && renderMultiSelect()}
       {question.type === 'searchable-select' && renderSearchableSelect()}
       {question.type === 'number' && renderNumber()}
@@ -277,5 +319,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.accent,
     fontWeight: '700',
+  },
+
+  // Perlite addon
+  perliteContainer: {
+    marginTop: 16,
+    paddingTop: 14,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  perliteToggle: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    backgroundColor: colors.cardMid,
+  },
+  perliteToggleActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accentSubtle,
+  },
+  perliteToggleText: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    fontWeight: '500',
+  },
+  perlitePercentRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+  },
+  perliteLabel: {
+    fontSize: 14,
+    color: colors.textMuted,
+    marginRight: 4,
+  },
+  perliteChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    backgroundColor: colors.cardMid,
+  },
+  perliteChipActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accentSubtle,
+  },
+  perliteChipText: {
+    fontSize: 13,
+    color: colors.textSecondary,
   },
 });

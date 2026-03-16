@@ -1,0 +1,829 @@
+========================================================
+MAGNESIUMMANGEL (Mg) BEI CANNABIS
+Vollständige Wissensreferenz für Diagnose und Behandlung
+========================================================
+
+================================================================
+1. ÜBERSICHT – ROLLE VON MAGNESIUM IN DER CANNABISPFLANZE
+================================================================
+
+Magnesium (Mg) ist ein sekundärer Makronährstoff, der in der Cannabispflanze eine absolut zentrale Rolle spielt. Es gehört zu den essentiellen Nährstoffen, ohne die kein gesundes Pflanzenwachstum möglich ist.
+
+KERNFUNKTIONEN VON MAGNESIUM:
+
+1.1 ZENTRALATOM IM CHLOROPHYLL
+Magnesium bildet das Zentralatom im Chlorophyll-Molekül. Jedes einzelne Chlorophyll-Molekül enthält genau ein Magnesium-Ion in seinem Porphyrin-Ring. Ohne Magnesium kann die Pflanze kein Chlorophyll aufbauen. Chlorophyll ist der grüne Farbstoff, der Lichtenergie einfängt und die Photosynthese ermöglicht. Wenn Magnesium fehlt, kann die Pflanze buchstäblich nicht genug grünen Farbstoff produzieren – das Gewebe vergilbt. Etwa 15-20% des gesamten Magnesiums in der Pflanze ist im Chlorophyll gebunden.
+
+1.2 PHOTOSYNTHESE
+Da Magnesium das Herzstück des Chlorophylls ist, beeinflusst es direkt die Photosynthesekapazität. Ohne ausreichend Magnesium sinkt die Photosyntheseeffizienz drastisch. Die Pflanze kann weniger CO2 fixieren, weniger Zucker produzieren und weniger Energie für Wachstum und Blütenbildung bereitstellen. Magnesiummangel bedeutet daher immer auch reduziertes Wachstum und geringere Erträge.
+
+1.3 ENZYMAKTIVIERUNG
+Magnesium aktiviert über 300 verschiedene Enzymsysteme in der Pflanze. Besonders wichtig:
+- Enzyme des Energiestoffwechsels (ATP-Bildung und -Nutzung)
+- Enzyme der Proteinsynthese (Ribosomen benötigen Mg zur Stabilisierung)
+- Enzyme der DNA- und RNA-Synthese
+- Enzyme des Kohlenhydratstoffwechsels
+- Phosphatasen und Kinasen
+
+1.4 ENERGIETRANSPORT (ATP)
+Magnesium bildet Komplexe mit ATP (Adenosintriphosphat), dem universellen Energieträger der Zelle. Fast alle ATP-abhängigen Reaktionen benötigen Mg-ATP-Komplexe. Ohne Magnesium kann die Zelle ihre Energie nicht effektiv nutzen.
+
+1.5 STRUKTURELLE FUNKTIONEN
+- Stabilisierung der Ribosomenstruktur (essentiell für Proteinbiosynthese)
+- Aufrechterhaltung der Membranintegrität
+- Beteiligung an der Zellteilung
+- Phloemtransport von Assimilaten (Zuckertransport)
+
+1.6 MOBILITÄT IM PHLOEM
+Magnesium ist ein MOBILER Nährstoff. Das bedeutet: Bei Mangel kann die Pflanze Magnesium aus älteren Blättern abziehen und zu jüngeren, wachsenden Geweben umverlagern. Deshalb zeigen sich Mangelsymptome IMMER ZUERST an den unteren, älteren Blättern. Dies ist ein entscheidendes diagnostisches Kriterium.
+
+TYPISCHER MAGNESIUMGEHALT IN GESUNDEM CANNABIS-GEWEBE:
+- Blattgewebe: 0.2-0.5% der Trockenmasse
+- Bedarf steigt in der Blütephase deutlich an
+- Magnesium wird in der Blüte stark aus den Blättern mobilisiert
+
+================================================================
+2. VISUELLE SYMPTOME – DETAILLIERTE BESCHREIBUNG
+================================================================
+
+Magnesiummangel zeigt eines der markantesten und am leichtesten erkennbaren Symptombilder aller Nährstoffmängel bei Cannabis. Das Leitsymptom ist die INTERVENALE CHLOROSE – die Vergilbung der Blattfläche zwischen den Blattadern, während die Adern selbst grün bleiben.
+
+2.1 MOBILITÄT – UNTERE/ÄLTERE BLÄTTER ZUERST
+Da Magnesium mobil ist, verlagert die Pflanze es bei Mangel von den alten zu den jungen Blättern. Die Symptome beginnen IMMER an den unteren und mittleren Blättern. Die oberen, jüngsten Blätter bleiben zunächst grün und gesund. Dies ist der erste diagnostische Hinweis. Wenn ähnliche Symptome an den oberen Blättern auftreten, handelt es sich NICHT um Magnesiummangel.
+
+Reihenfolge des Auftretens:
+- Zuerst: Unterste Blattetage (älteste Blätter)
+- Dann: Mittlere Blattetage
+- Zuletzt: Obere Blätter (nur bei schwerem, fortgeschrittenem Mangel)
+- Die allerjüngsten Triebspitzen bleiben fast immer verschont
+
+2.2 DAS LEITSYMPTOM: INTERVENALE CHLOROSE
+Das absolut charakteristische Merkmal ist die INTERVENALE CHLOROSE. Dieses Muster ist der Schlüssel zur Diagnose:
+
+- Die BLATTADERN (Hauptader und Seitenadern) bleiben GRÜN
+- Die FLÄCHEN ZWISCHEN den Adern werden GELB
+- Es entsteht ein deutliches, fast geometrisches Muster
+- Die grünen Adern wirken wie ein "Skelett" oder "Netzwerk" auf gelbem Grund
+- Das Muster folgt exakt der Aderarchitektur des Blattes
+- Die Bereiche direkt neben den Adern bleiben oft am längsten grün (grüner Saum um jede Ader)
+
+Dieses Muster ist SO TYPISCH für Magnesiummangel, dass es in den meisten Fällen eine sichere Diagnose allein anhand des visuellen Erscheinungsbilds ermöglicht.
+
+2.3 FRÜHSTADIUM (LEICHTER MANGEL)
+Zeitpunkt: Erste 1-2 Wochen des Mangels
+
+Symptome:
+- Leichte Aufhellung der Blattfläche zwischen den Adern an den untersten Blättern
+- Die Farbe wechselt von Dunkelgrün zu einem helleren, leicht gelblichen Grün
+- Die Blattadern sind noch grün, aber der Kontrast ist noch subtil
+- Oft beginnt es an den Blattspitzen und Blatträndern der unteren Blätter
+- Das Muster ist zu diesem Zeitpunkt noch schwach ausgeprägt
+- Die Pflanze wirkt insgesamt noch gesund
+- Leicht matte, weniger glänzende Blattoberfläche bei betroffenen Blättern
+- Bei genauer Betrachtung: feine hellgrüne Flecken oder Streifen zwischen den Hauptadern
+- Die Blätter können sich leicht nach oben wölben
+
+Verwechslungsgefahr im Frühstadium:
+- Kann mit normalem Blattaltern verwechselt werden
+- Kann mit leichtem Stickstoffmangel verwechselt werden
+- Erst das intervenale Muster macht die Diagnose eindeutig
+
+2.4 MITTLERES STADIUM (DEUTLICHER MANGEL)
+Zeitpunkt: 2-4 Wochen unbehandelter Mangel
+
+Symptome:
+- DEUTLICHE gelbe Bereiche zwischen GRÜNEN Adern – das "Markenzeichen"
+- Stark kontrastierendes Muster: dunkelgrüne Adern auf gelbem Grund
+- "Gestreiftes" oder "getigertes" Erscheinungsbild der Blätter
+- Betroffene Blätter sehen fast wie ein Fischgrätenmuster aus
+- Das Muster breitet sich von den unteren auf die mittleren Blätter aus
+- Die untersten Blätter können bereits fast vollständig gelb sein
+- Blattränder beginnen sich nach oben einzurollen
+- Erste kleine braune oder rotbraune Flecken können in den gelben Bereichen auftreten
+- Die Pflanze wirkt insgesamt blasser und weniger vital
+- Wachstumsverlangsamung wird sichtbar
+- Die grünen Adern bilden ein deutlich sichtbares "Skelettmuster"
+- Manche Blätter zeigen auch rötliche oder violette Verfärbungen an den Adern und Stielen
+- Die Blattfläche zwischen den Adern kann sich leicht knittrig oder wellig anfühlen
+
+Typisches Bild:
+Stellt man sich ein Cannabisblatt vor: Die Hauptader in der Mitte ist grün, die fingerförmigen Seitenadern sind grün, und die gesamte Blattfläche dazwischen ist gelb. Das ergibt ein fast künstlerisch wirkendes, regelmäßiges Muster.
+
+2.5 SPÄTSTADIUM (SCHWERER MANGEL)
+Zeitpunkt: 4+ Wochen unbehandelter Mangel
+
+Symptome:
+- BRAUNE NEKROTISCHE FLECKEN erscheinen in den gelben Bereichen
+- Die Nekrosen breiten sich aus und verbinden sich zu größeren toten Flächen
+- Betroffene Blätter rollen sich nach oben ein und werden brüchig
+- Blattränder werden braun und vertrocknen (Randnekrosen)
+- Die untersten Blätter sterben vollständig ab und fallen ab
+- Das Mangelmuster hat sich bis in die mittleren und oberen Blattetagen ausgebreitet
+- Die Pflanze verliert massiv Blattmasse
+- Stängel und Blattstiele können rötlich-violett verfärbt sein
+- Deutliche Wachstumshemmung und bei blühenden Pflanzen: reduzierte Blütenentwicklung
+- In extremen Fällen: Welke der gesamten Pflanze
+- Die Blätter werden brüchig, trocken und zerfallen bei Berührung
+- Großflächiger Blattverlust von unten nach oben
+
+PROGRESSION DER SYMPTOME (ZUSAMMENFASSUNG):
+Hellgrüne Flecken → Gelbe Bereiche zwischen grünen Adern → Intensives Gelb mit deutlich grünem Adernetz → Braune Nekrosen in den gelben Flächen → Blattrand-Nekrosen und Einrollen → Absterben und Abfallen der Blätter → Aufsteigende Progression von unten nach oben.
+
+2.6 BESONDERHEITEN DES MUSTERS
+- Das Muster ist BILATERAL SYMMETRISCH – beide Blatthälften sind gleich betroffen
+- Das Muster folgt EXAKT der Aderarchitektur
+- An fingerförmigen Cannabisblättern besonders gut erkennbar: jeder "Finger" zeigt das Muster
+- Der Übergang von grüner Ader zu gelbem Gewebe ist oft relativ SCHARF, nicht fließend
+- Die kleinsten Äderchen (tertiäre Adern) können ebenfalls grün bleiben, was ein feines Netzmuster erzeugt
+- Unter starker Beleuchtung (z.B. HPS, LED) können die Symptome schneller und intensiver auftreten
+
+================================================================
+3. UNTERSCHEIDUNG VON ANDEREN MÄNGELN
+================================================================
+
+Die korrekte Unterscheidung von Magnesiummangel gegenüber ähnlich aussehenden Mängeln ist entscheidend für die richtige Behandlung.
+
+3.1 MAGNESIUMMANGEL vs. STICKSTOFFMANGEL (N)
+
+STICKSTOFFMANGEL:
+- Gleichmäßige, UNIFORME Vergilbung des GESAMTEN Blattes
+- KEINE Unterscheidung zwischen Adern und Zwischenaderflächen
+- Das ganze Blatt wird gleichmäßig hellgrün, dann gelb
+- Beginnt ebenfalls an unteren Blättern (N ist auch mobil)
+- Blätter werden weich und schlaff
+- Kein "Skelettmuster" der Adern
+
+MAGNESIUMMANGEL:
+- INTERVENALE Vergilbung – Adern bleiben grün
+- Deutliches Kontrastmuster zwischen grünen Adern und gelbem Gewebe
+- "Gestreiftes" Erscheinungsbild
+- Blätter werden eher brüchig als schlaff
+
+SCHLÜSSELUNTERSCHEIDUNG: Beim Stickstoffmangel wird das Blatt GLEICHMÄSSIG gelb. Beim Magnesiummangel bleiben die Adern GRÜN und nur die Flächen dazwischen werden gelb. Dieses Muster ist der entscheidende Unterschied.
+
+3.2 MAGNESIUMMANGEL vs. EISENMANGEL (Fe)
+
+EISENMANGEL:
+- Betrifft JUNGE, OBERE Blätter (Eisen ist IMMOBIL)
+- Intervenale Chlorose an der Triebspitze und den neuesten Blättern
+- Die jüngsten Blätter können fast weiß werden
+- Beginnt OBEN an der Pflanze
+
+MAGNESIUMMANGEL:
+- Betrifft ALTE, UNTERE Blätter (Magnesium ist MOBIL)
+- Intervenale Chlorose an den ältesten Blättern
+- Beginnt UNTEN an der Pflanze
+
+SCHLÜSSELUNTERSCHEIDUNG: Die POSITION an der Pflanze ist entscheidend. Beide zeigen intervenale Chlorose, aber Eisenmangel tritt an den OBERSTEN Blättern auf, Magnesiummangel an den UNTERSTEN. Dies ist eines der klarsten Unterscheidungsmerkmale in der Pflanzendiagnose.
+
+3.3 MAGNESIUMMANGEL vs. MANGANMANGEL (Mn)
+
+MANGANMANGEL:
+- Zeigt ebenfalls intervenale Chlorose
+- Betrifft jedoch eher JÜNGERE bis MITTLERE Blätter (Mangan ist weniger mobil)
+- Das Muster ist oft feiner und weniger kontrastreich
+- Kleine braune Flecken können früher auftreten
+- Die Vergilbung ist oft fleckiger und weniger gleichmäßig
+- Adern bleiben grün, aber der Kontrast ist weniger dramatisch
+
+MAGNESIUMMANGEL:
+- Betrifft klar die ÄLTESTEN, UNTERSTEN Blätter
+- Das Muster ist gröber und kontrastierter
+- Sehr deutlicher Kontrast zwischen grünen Adern und gelbem Gewebe
+
+SCHLÜSSELUNTERSCHEIDUNG: Blattalter und -position. Magnesiummangel beginnt definitiv an den ältesten Blättern, Manganmangel eher an jüngeren bis mittleren. Außerdem ist der Kontrast bei Magnesiummangel typischerweise dramatischer.
+
+3.4 MAGNESIUMMANGEL vs. ZINKMANGEL (Zn)
+
+ZINKMANGEL:
+- Betrifft jüngere Blätter (Zink ist wenig mobil)
+- Blätter bleiben kleiner als normal
+- Internodienlänge verkürzt sich (gestauchtes Wachstum)
+- Blätter können verdreht oder deformiert wachsen
+- Chlorose kann intervenal sein, aber Blattform ist verändert
+
+MAGNESIUMMANGEL:
+- Betrifft alte Blätter
+- Blattform bleibt normal
+- Keine Wachstumsstauchung im Frühstadium
+
+3.5 MAGNESIUMMANGEL vs. pH-PROBLEME
+
+PH-PROBLEME:
+- Können MEHRERE Mangelsymptome gleichzeitig verursachen
+- Oft chaotisches Bild mit verschiedenen Symptomen an verschiedenen Blättern
+- Fleckige, unregelmäßige Verfärbungen
+- Können auch intervenale Chlorose verursachen (weil Mg bei falschem pH ausgesperrt wird)
+- Oft begleitet von Nährstoffverbrennungen oder anderen Anomalien
+
+MAGNESIUMMANGEL:
+- Klares, konsistentes Muster
+- Systematische Progression von unten nach oben
+- Einheitliches Erscheinungsbild an allen betroffenen Blättern
+
+SCHLÜSSELUNTERSCHEIDUNG: pH-Probleme verursachen meist ein "buntes" Bild mit mehreren Symptomen gleichzeitig. Reiner Magnesiummangel zeigt ein konsistentes, einheitliches Muster. WICHTIG: pH-Probleme können Magnesiummangel VERURSACHEN (Lockout), auch wenn genug Mg in der Nährlösung ist.
+
+3.6 MAGNESIUMMANGEL vs. KALIUMMANGEL (K)
+
+KALIUMMANGEL:
+- Beginnt ebenfalls an unteren Blättern (K ist mobil)
+- Aber: Vergilbung beginnt am BLATTRAND, nicht intervenal
+- "Verbrannte" Blattränder sind typisch
+- Braune, trockene Blattränder (Randnekrosen)
+- Die Blattfläche kann anfangs noch grün sein
+
+MAGNESIUMMANGEL:
+- Vergilbung beginnt ZWISCHEN den Adern, nicht am Rand
+- Blattränder sind anfangs noch grün
+- Erst im Spätstadium Randnekrosen
+
+3.7 MAGNESIUMMANGEL vs. KALZIUMMANGEL (Ca)
+
+KALZIUMMANGEL:
+- Betrifft JUNGE Blätter (Ca ist immobil)
+- Braune Flecken an neuen Blättern
+- Deformiertes Wachstum der Triebspitzen
+- Neue Blätter können verdreht oder verkrüppelt wachsen
+
+MAGNESIUMMANGEL:
+- Betrifft ALTE Blätter
+- Keine Deformierung der Blattform
+- Klares intervenales Muster
+
+================================================================
+4. URSACHEN FÜR MAGNESIUMMANGEL
+================================================================
+
+Magnesiummangel bei Cannabis kann durch verschiedene Faktoren verursacht werden. Oft liegt eine Kombination mehrerer Ursachen vor.
+
+4.1 UNTERDÜNGUNG / ZU GERINGE MAGNESIUMZUFUHR
+- Verwendung von Düngern ohne ausreichend Magnesium
+- Zu starke Verdünnung der Nährlösung
+- Verwendung von Wasser mit sehr geringer Mineralisierung (z.B. Osmosewasser) ohne Mg-Zusatz
+- Leitungswasser mit niedrigem Magnesiumgehalt
+- Viele Cannabis-Basisdünger enthalten nicht genug Mg für die Blütephase
+
+4.2 PH-WERT ZU NIEDRIG (LOCKOUT)
+Dies ist eine der HÄUFIGSTEN Ursachen:
+- Magnesium wird bei zu niedrigem pH-Wert im Wurzelbereich "ausgesperrt" (Lockout)
+- In ERDE: Bei pH unter 6.0 sinkt die Magnesiumverfügbarkeit drastisch
+- In KOKOS: Bei pH unter 5.5 beginnt der Lockout
+- In HYDRO: Bei pH unter 5.5 wird Mg zunehmend unverfügbar
+- WICHTIG: Es kann genug Magnesium im Substrat/in der Lösung sein, aber die Pflanze kann es bei falschem pH nicht aufnehmen
+- Saure Substrate (z.B. unbehandelte Torfsubstrate) können den pH natürlich senken
+- Übermäßige Nutzung von pH-Down-Produkten
+
+4.3 KALIUMÜBERSCHUSS BLOCKIERT MAGNESIUM
+- Kalium (K) und Magnesium (Mg) konkurrieren um die gleichen Aufnahmemechanismen an der Wurzel
+- Ein ÜBERSCHUSS an Kalium kann die Magnesiumaufnahme blockieren
+- Besonders häufig in der Blütephase, wenn kaliumreiche Blütedünger verwendet werden
+- Das K:Mg-Verhältnis sollte idealerweise nicht über 3:1 liegen
+- Viele PK-Booster verschärfen dieses Problem
+- Auch Kalzium (Ca) kann in sehr hohen Konzentrationen die Mg-Aufnahme hemmen
+
+4.4 KALTE WURZELZONE
+- Bei Temperaturen unter 18°C im Wurzelbereich wird die Magnesiumaufnahme gehemmt
+- Die Wurzeln arbeiten bei Kälte weniger effizient
+- Ionenaufnahme ist ein aktiver Prozess, der Energie und Wärme benötigt
+- Besonders problematisch im Winter oder bei Pflanzen auf kalten Böden
+- Steinböden, Betonböden oder kalte Keller verschärfen das Problem
+- Optimal für die Mg-Aufnahme: Wurzeltemperatur 20-25°C
+
+4.5 ÜBERWÄSSERUNG
+- Überwässerung reduziert den Sauerstoffgehalt im Wurzelbereich
+- Sauerstoffarme Wurzeln können Nährstoffe schlechter aufnehmen
+- Magnesium gehört zu den Nährstoffen, deren Aufnahme bei Überwässerung leidet
+- Staunässe kann zudem Wurzelfäule fördern, was die Aufnahmekapazität weiter reduziert
+- Verdichtetes Substrat hat den gleichen Effekt
+
+4.6 KALKARMES SUBSTRAT / AUSGELAUGTES SUBSTRAT
+- Substrate ohne Kalkzusatz haben oft wenig Magnesium
+- Nach mehreren Wochen kann das Magnesium aus dem Substrat ausgewaschen sein
+- Häufiges Durchspülen (Flushing) wäscht Magnesium aus
+- Torf-basierte Substrate sind von Natur aus magnesiumarm
+- Kokossubstrat enthält von Natur aus kein Magnesium
+
+4.7 HOHE EC-WERTE / SALZSTRESS
+- Sehr hohe EC-Werte können die Mg-Aufnahme paradoxerweise hemmen
+- Salzstress im Wurzelbereich stört die selektive Ionenaufnahme
+- Besonders wenn die hohe EC durch andere Salze (K, Na) verursacht wird
+
+4.8 GENETISCHE FAKTOREN
+- Manche Cannabis-Sorten haben einen höheren Magnesiumbedarf als andere
+- Schnell wachsende Sorten verbrauchen mehr Magnesium
+- Sativa-dominante Sorten zeigen manchmal erhöhten Mg-Bedarf
+
+================================================================
+5. OPTIMALE PH-BEREICHE FÜR MAGNESIUMVERFÜGBARKEIT
+================================================================
+
+Der pH-Wert ist einer der kritischsten Faktoren für die Magnesiumverfügbarkeit. Die optimalen Bereiche unterscheiden sich je nach Anbaumedium.
+
+5.1 ERDE (SOIL)
+- Verfügbarkeitsbereich: 6.0 – 7.0
+- OPTIMALER Bereich für Mg-Aufnahme: 6.2 – 6.8
+- Idealer Sweet Spot: 6.2 – 6.5
+- UNTER 6.0: Magnesiumverfügbarkeit sinkt deutlich – Lockout-Gefahr!
+- ÜBER 7.5: Auch hier kann die Verfügbarkeit eingeschränkt werden
+- Bei pH 6.0 sind etwa 70% des Magnesiums verfügbar
+- Bei pH 6.5 sind nahezu 100% des Magnesiums verfügbar
+- Bei pH 5.5 sinkt die Verfügbarkeit auf unter 50%
+- EMPFEHLUNG: Gießwasser-pH auf 6.2-6.5 einstellen, um optimale Mg-Aufnahme zu gewährleisten
+
+5.2 KOKOS (COCO COIR)
+- Verfügbarkeitsbereich: 5.5 – 6.5
+- OPTIMALER Bereich für Mg-Aufnahme: 5.8 – 6.2
+- Idealer Sweet Spot: 6.0 – 6.2
+- UNTER 5.5: Deutlicher Lockout
+- Kokos hat eine natürliche Kationenaustauschkapazität, die Ca und Mg binden kann
+- Frisches Kokos muss oft mit CalMag vorbehandelt werden
+- Kokos gibt natürlich vorhandene Kalium- und Natriumionen ab und bindet dafür Ca und Mg
+- EMPFEHLUNG: Immer CalMag bei Kokos verwenden, pH auf 5.8-6.2 einstellen
+
+5.3 HYDRO (HYDROPONICS / DWC / NFT / AEROPONIK)
+- Verfügbarkeitsbereich: 5.0 – 6.5
+- OPTIMALER Bereich für Mg-Aufnahme: 5.5 – 6.0
+- Idealer Sweet Spot: 5.5 – 5.8
+- UNTER 5.0: Starker Lockout
+- In Hydro ist der pH-Wert besonders kritisch, da kein Substratpuffer vorhanden ist
+- pH-Schwankungen wirken sich sofort auf die Nährstoffverfügbarkeit aus
+- EMPFEHLUNG: pH täglich kontrollieren, auf 5.5-6.0 einstellen
+
+5.4 PH-MANAGEMENT-TIPPS FÜR MAGNESIUM
+- pH-Wert REGELMÄSSIG messen (Eingangs-pH UND Ablauf-pH)
+- Wenn der Ablauf-pH deutlich unter dem Eingangs-pH liegt: Substrat ist zu sauer
+- pH-Wert des Gießwassers NACH Zugabe aller Dünger messen
+- Bei Magnesiummangel: pH eher im oberen Bereich des Optimums halten
+- pH-Messgerät regelmäßig kalibrieren für akkurate Werte
+- pH-Pufferlösungen im Substrat können Schwankungen abmildern (Dolomitkalk in Erde)
+
+================================================================
+6. SUBSTRAT-SPEZIFISCHE INFORMATIONEN
+================================================================
+
+6.1 ERDE (VORGEDÜNGTE BLUMENERDE)
+- Vorgedüngte Erden enthalten meist Magnesium, aber oft nicht genug für die gesamte Kulturdauer
+- Nach 4-6 Wochen ist das Magnesium in den meisten Erden verbraucht
+- Torf-basierte Substrate sind natürlich magnesiumarm
+- Dolomitkalk (enthält MgCO3 und Cite3) ist die beste Langzeit-Mg-Quelle für Erde
+- 2-4 g Dolomitkalk pro Liter Erde einmischen (bei Eigenherstellung)
+- Dolomitkalk stabilisiert gleichzeitig den pH-Wert im optimalen Bereich
+- Wurmhumus und Kompost enthalten natürliches Magnesium
+- Perlite, Vermiculit und Blähton enthalten kein Magnesium
+
+6.2 KOKOS (COCO COIR)
+- Kokos enthält von Natur aus KEIN nennenswertes Magnesium
+- Kokos hat eine hohe Kationenaustauschkapazität (CEC) für Ca und Mg
+- Frisches, unbehandeltes Kokos bindet Ca und Mg aus der Nährlösung und gibt Na und K ab
+- VORBEHANDLUNG: Kokos immer mit CalMag-Lösung (EC ~0.5-0.8) vorspülen
+- CalMag ist in Kokos ESSENTIELL – bei jeder Bewässerung zusetzen
+- Typische CalMag-Dosierung in Kokos: 0.5-1.5 ml/L je nach Produkt
+- Magnesiummangel ist eine der HÄUFIGSTEN Mangelerscheinungen in Kokos
+- Drain-to-Waste-Systeme in Kokos: 10-20% Überlauf einplanen, um Salzansammlungen zu vermeiden
+
+6.3 HYDRO (TIEFWASSERKULTUR / DWC)
+- In Hydrosystemen muss ALLES über die Nährlösung zugeführt werden
+- Magnesium muss in jeder Nährlösung enthalten sein
+- Typischer Mg-Gehalt in Hydrolösung: 30-60 ppm (Wachstum) bis 60-100 ppm (Blüte)
+- Bei Osmosewasser (RO): CalMag ist PFLICHT
+- EC und pH der Lösung mindestens täglich kontrollieren
+- Nährlösung regelmäßig komplett wechseln (alle 7-14 Tage)
+- Steinwolle (Rockwool) enthält kein Magnesium
+- Blähton enthält kein Magnesium
+
+6.4 STEINWOLLE (ROCKWOOL)
+- Inert – enthält keine Nährstoffe
+- Ähnlich wie Hydro zu behandeln
+- pH der Nährlösung auf 5.5-6.0 einstellen
+- Vor dem Gebrauch in pH-angepasstem Wasser einweichen
+
+6.5 MAPITO / PERLITE / BLÄHTON
+- Alle inerten Substrate: kein eigenes Magnesium
+- Volle Nährstoffversorgung über die Bewässerung nötig
+- CalMag bei weichem Wasser oder RO-Wasser immer zusetzen
+
+================================================================
+7. PHASEN-SPEZIFISCHE INFORMATIONEN
+================================================================
+
+Der Magnesiumbedarf von Cannabis variiert stark je nach Wachstumsphase.
+
+7.1 KEIMLING / SÄMLING (WOCHE 1-2)
+- Sehr geringer Magnesiumbedarf
+- Die Samen enthalten genug Nährstoffe für die ersten Tage
+- Vorgedüngte Erde reicht vollkommen aus
+- Bei Hydro/Kokos: nur sehr schwache Nährlösung (EC 0.2-0.4)
+- Magnesiummangel in dieser Phase ist sehr selten
+- Falls doch: deutet auf extrem saures Substrat oder kontaminiertes Wasser hin
+
+7.2 VEGETATIVE PHASE (WOCHE 2-6)
+- Steigender Magnesiumbedarf mit zunehmendem Wachstum
+- Die Pflanze baut Blattmasse auf und benötigt viel Chlorophyll
+- In vorgedüngter Erde meist kein Problem bis Woche 4-5
+- In Kokos und Hydro: CalMag von Anfang an zusetzen
+- Typische Mg-Konzentration in der Nährlösung: 30-50 ppm
+- Magnesiummangel in der Veg-Phase ist weniger häufig als in der Blüte
+- Falls er auftritt: oft pH-Problem oder zu schwache Düngung
+
+7.3 ÜBERGANG ZUR BLÜTE (STRETCH / WOCHE 1-3 DER BLÜTE)
+- Stark steigender Bedarf durch schnelles Wachstum (Streckung)
+- Die Pflanze wächst in dieser Phase oft um 50-200% in der Höhe
+- Der Magnesiumbedarf steigt proportional zum Wachstum
+- Hier beginnen oft die ersten Mangelsymptome, wenn nicht angepasst wird
+- EMPFEHLUNG: Mg-Zufuhr beim Umschalten auf 12/12 erhöhen
+
+7.4 BLÜTEPHASE (WOCHE 3-8+)
+- HÖCHSTER Magnesiumbedarf der gesamten Kulturperiode
+- Die Pflanze verlagert Magnesium aktiv aus den Blättern in die Blüten
+- Gleichzeitig werden oft kaliumreiche Blütedünger verwendet, die Mg-Aufnahme hemmen
+- Dies ist die Phase, in der Magnesiummangel AM HÄUFIGSTEN auftritt
+- Typische Mg-Konzentration in der Nährlösung: 50-80 ppm
+- CalMag-Zusatz in der Blüte oft unverzichtbar
+- ACHTUNG: Viele Blütedünger enthalten wenig oder kein Magnesium!
+- PK-Booster können das K:Mg-Verhältnis ungünstig verschieben
+
+WARUM MAGNESIUMMANGEL IN DER BLÜTE SO HÄUFIG IST:
+1. Die Pflanze verbraucht mehr Mg für die Blütenproduktion
+2. Kaliumreiche Blütedünger konkurrieren mit Mg um die Aufnahme
+3. Der pH-Wert kann durch veränderte Düngung schwanken
+4. Die Pflanze mobilisiert Mg aus alten Blättern (natürlicher Prozess)
+5. Viele Grower übersehen die gesteigerten Mg-Anforderungen
+
+7.5 SPÄTBLÜTE / REIFE (LETZTE 2 WOCHEN)
+- Natürliches Vergilben der unteren Blätter ist in dieser Phase NORMAL (Seneszenz)
+- Mag-Mobilisierung aus den Blättern in die Blüten ist ein natürlicher Reifeprozess
+- Bei Flushing/Spülung vor der Ernte: verstärkter Mangel ist zu erwarten und akzeptabel
+- Nur behandeln, wenn die Symptome die oberen Blätter und Blütenblätter erreichen
+- In den letzten 1-2 Wochen nicht mehr korrigieren, wenn nur untere Blätter betroffen
+
+7.6 AUTOFLOWER-BESONDERHEITEN
+- Autoflowers haben einen komprimierten Lebenszyklus
+- Magnesiummangel kann sich schneller auswirken, da weniger Erholungszeit
+- Von Anfang an auf ausreichende Mg-Versorgung achten
+- CalMag ab der 3. Woche empfohlen (vor allem in Kokos/Hydro)
+
+================================================================
+8. EC-KONTEXT UND NÄHRSTOFFKONZENTRATIONEN
+================================================================
+
+8.1 EC-RICHTWERTE PRO PHASE (MIT FOKUS AUF MG)
+- Sämling: EC 0.2-0.5 (Mg-Anteil minimal)
+- Frühe Veg: EC 0.5-0.8 (Mg ca. 30 ppm)
+- Späte Veg: EC 0.8-1.2 (Mg ca. 40-50 ppm)
+- Frühe Blüte: EC 1.0-1.5 (Mg ca. 50-60 ppm)
+- Mitte Blüte: EC 1.2-1.8 (Mg ca. 60-80 ppm)
+- Späte Blüte: EC 1.0-1.5 (Mg ca. 50-70 ppm)
+- Flush: EC 0.0-0.3 (kein Mg)
+
+8.2 MAGNESIUM IN DER GESAMTLÖSUNG
+- Magnesium sollte etwa 5-10% des gesamten Nährstoffgehalts ausmachen
+- In ppm: typisch 30-80 ppm Mg in der fertigen Nährlösung
+- Bei hartem Leitungswasser: kann bereits 20-40 ppm Mg enthalten sein (Wasseranalyse!)
+- Bei weichem Wasser oder RO-Wasser: 0 ppm Mg – alles muss zugesetzt werden
+
+8.3 VERHÄLTNISSE
+- Ca:Mg-Verhältnis: idealerweise 3:1 bis 5:1 (nach Gewicht)
+- K:Mg-Verhältnis: nicht über 3:1 (zu viel K blockiert Mg)
+- N:Mg-Verhältnis: variiert je nach Phase
+
+8.4 EC UND MAGNESIUMMANGEL
+- Ein NIEDRIGER EC bedeutet nicht automatisch Magnesiummangel
+- Ein HOHER EC kann Magnesiummangel verursachen (Ionenkonkurrenz)
+- ENTSCHEIDEND ist das Verhältnis der Nährstoffe zueinander
+- Bei konstantem Magnesiummangel trotz angemessener EC: Verhältnisse prüfen
+
+8.5 OSMOSEWASSER (RO) UND MAGNESIUM
+- RO-Wasser enthält 0 ppm Mg – CalMag ist PFLICHT
+- CalMag zuerst zum RO-Wasser geben, dann erst Basisdünger
+- Typisch: CalMag auf EC 0.3-0.5 bringen, dann mit Basisdünger auf Ziel-EC gehen
+- Ohne CalMag bei RO-Wasser: Magnesiummangel ist quasi GARANTIERT
+
+================================================================
+9. BEHANDLUNG UND KORREKTUR
+================================================================
+
+9.1 SOFORTMASSNAHME: PH-WERT PRÜFEN UND KORRIGIEREN
+ALLERERSTER SCHRITT bei jedem Magnesiummangel:
+- pH-Wert des Gießwassers und des Ablaufs messen
+- Liegt der pH außerhalb des optimalen Bereichs? → ZUERST pH korrigieren!
+- In Erde: auf 6.2-6.5 einstellen
+- In Kokos: auf 5.8-6.2 einstellen
+- In Hydro: auf 5.5-6.0 einstellen
+- Ohne korrekten pH nutzt jede Mg-Zugabe nichts (Lockout!)
+
+9.2 EPSOM-SALZ (BITTERSALZ / MAGNESIUMSULFAT – MgSO4)
+Dies ist die schnellste und günstigste Methode zur Mg-Korrektur:
+
+ÜBER DIE WURZEL (BEWÄSSERUNG):
+- Dosierung: 1-2 g Bittersalz pro Liter Gießwasser
+- Bei leichtem Mangel: 1 g/L
+- Bei schwerem Mangel: 2 g/L (nicht mehr!)
+- In warmem Wasser auflösen, dann zur Nährlösung geben
+- 1-2 Mal pro Woche anwenden, bis Symptome stoppen
+- ACHTUNG: Bittersalz senkt den pH-Wert leicht
+- pH nach Zugabe kontrollieren und ggf. anpassen
+
+BLATTDÜNGUNG (FOLIÄRAPPLIKATION):
+- Dosierung: 1-2 g Bittersalz pro Liter Wasser (lauwarmes Wasser)
+- Auf die UNTERSEITE der Blätter sprühen (dort sind die Stomata)
+- Am besten abends oder bei ausgeschalteter Beleuchtung sprühen
+- Nicht unter direkter Beleuchtung sprühen (Verbrennungsgefahr)
+- Wirkung setzt innerhalb von 24-48 Stunden ein
+- Blattdüngung ist SCHNELLER als Wurzeldüngung
+- Kann als Sofortmaßnahme parallel zur Wurzelbehandlung eingesetzt werden
+- 2-3 Mal im Abstand von 3-4 Tagen wiederholen
+- NICHT in der Blüte auf die Blüten sprühen (Schimmelgefahr, Geschmacksbeeinträchtigung)
+
+BITTERSALZ-INFORMATIONEN:
+- Chemische Formel: MgSO4·7H2O (Magnesiumsulfat-Heptahydrat)
+- Enthält ca. 10% Magnesium und 13% Schwefel
+- In Apotheken, Drogerien und Gartencentern erhältlich
+- Sehr günstig (wenige Euro pro Kilogramm)
+- Löst sich gut in Wasser
+- Liefert gleichzeitig Schwefel (ein sekundärer Nährstoff)
+- KEINE Überdosierung: Mehr als 2 g/L können zu Salzstress führen
+
+9.3 CALMAG-PRODUKTE
+- Speziell formulierte Kalzium-Magnesium-Ergänzungen
+- Enthalten typisch Ca und Mg im Verhältnis 3:1 bis 5:1
+- Manche enthalten auch Eisen und Stickstoff
+- IDEAL für Kokos und Hydro
+- Dosierung nach Herstellerangaben
+- Bekannte Produkte: Canna CalMag Agent, GHE/Terra Aquatica CalMag, Advanced Nutrients CalMag Extra, BioBizz CalMag
+- Bei reinem Magnesiummangel ohne Kalziummangel: Bittersalz kann ausreichen
+- CalMag zuerst zum Wasser geben, dann Basisdünger
+
+9.4 DOLOMITKALK (LANGFRISTIGE LÖSUNG FÜR ERDE)
+- Enthält Magnesiumcarbonat (MgCO3) und Calciumcarbonat (CaCO3)
+- Wirkt langsam aber nachhaltig
+- Hebt gleichzeitig den pH-Wert an (gut bei saurem Substrat)
+- Kann beim Umtopfen ins Substrat eingemischt werden: 2-4 g/L Erde
+- Als Top-Dressing auf die Substratoberfläche: 1-2 Teelöffel pro 10-Liter-Topf
+- Braucht 1-2 Wochen, um zu wirken
+- NICHT für Kokos oder Hydro geeignet (zu langsam, pH-Verschiebung)
+- Ideale Vorbeugung beim Mischen eigener Erde
+
+9.5 MAGNESIUMCHELATE
+- Chelatiertes Magnesium (z.B. Mg-EDTA) hat eine höhere Bioverfügbarkeit
+- Wird schneller aufgenommen als Magnesiumsulfat
+- Teurer als Bittersalz
+- In professionellen Blattdüngern oft enthalten
+- Besonders effektiv bei Blattdüngung
+
+9.6 BEHANDLUNGS-ZEITPLAN
+Tag 1:
+- pH-Wert messen und korrigieren
+- Blattdüngung mit Bittersalz (1-2 g/L) abends durchführen
+- Bewässerung mit Bittersalz (1-2 g/L) oder CalMag
+
+Tag 3-4:
+- Zweite Blattdüngung
+- Normale Bewässerung mit angepasster Nährlösung
+
+Tag 7:
+- Überprüfung: Neue Symptome sollten gestoppt haben
+- Bereits geschädigte Blätter erholen sich NICHT – auf neue Blätter achten!
+- Dritte Blattdüngung wenn nötig
+
+Tag 14:
+- Symptome sollten nicht weiter fortschreiten
+- Neue Blätter sollten gesund und grün sein
+- Bittersalz-Dosierung auf Erhaltungsdosis reduzieren (0.5-1 g/L)
+
+WICHTIG: Bereits vergilbte und nekrotische Blätter werden NICHT wieder grün! Der Erfolg der Behandlung zeigt sich daran, dass NEUE Blätter gesund aussehen und die Symptome sich nicht weiter nach oben ausbreiten.
+
+9.7 ÜBERBEHANDLUNG VERMEIDEN
+- Zu viel Magnesium kann Kalzium- und Kaliumaufnahme hemmen
+- Überdosierung von Bittersalz kann zu Salzstress führen
+- Lieber moderat und regelmäßig als einmalig zu viel
+- Bei Überschuss: braune Flecken, Lockout anderer Nährstoffe
+
+================================================================
+10. VERWECHSLUNGSGEFAHR – ZUSAMMENFASSUNG
+================================================================
+
+10.1 HÄUFIGSTE VERWECHSLUNGEN
+
+VERWECHSLUNG #1: Magnesiummangel vs. Stickstoffmangel
+- Beide beginnen an unteren Blättern
+- UNTERSCHIED: N = gleichmäßig gelb, Mg = Adern bleiben grün
+- TIPP: Wenn die Blattadern genauso gelb sind wie der Rest: eher N-Mangel
+
+VERWECHSLUNG #2: Magnesiummangel vs. Eisenmangel
+- Beide zeigen intervenale Chlorose
+- UNTERSCHIED: Mg = unten an der Pflanze, Fe = oben an der Pflanze
+- TIPP: Wo sind die Symptome? Unten = Mg, Oben = Fe
+
+VERWECHSLUNG #3: Magnesiummangel vs. Normaler Alterungsprozess
+- In der Spätblüte verlieren untere Blätter natürlich ihre Farbe
+- UNTERSCHIED: Normales Altern ist gleichmäßig, Mg-Mangel zeigt intervenales Muster
+- TIPP: Intervenales Muster = nicht normal, selbst in der Spätblüte
+
+VERWECHSLUNG #4: Magnesiummangel vs. Lichtbrand/Lichtstreß
+- Lichtbrand kann bleiche Flecken verursachen
+- UNTERSCHIED: Lichtbrand betrifft die der Lichtquelle am nächsten liegenden Blätter
+- TIPP: Position der Symptome relativ zum Licht beachten
+
+VERWECHSLUNG #5: Magnesiummangel vs. pH-bedingter Multi-Mangel
+- pH-Probleme können gleichzeitig Mg-Mangel und andere Mängel auslösen
+- UNTERSCHIED: Reiner Mg-Mangel ist ein einheitliches Bild, pH-Probleme sind chaotisch
+- TIPP: Immer pH messen! Bei multiplen Symptomen: zuerst pH korrigieren
+
+10.2 KOEXISTENZ MIT ANDEREN MÄNGELN
+- Magnesiummangel tritt häufig zusammen mit Kalziummangel auf (beide abhängig von pH)
+- CalMag-Probleme sind besonders häufig in Kokos und bei RO-Wasser
+- Bei gleichzeitigem Ca- und Mg-Mangel: CalMag-Produkt verwenden
+- Magnesiummangel kann zusammen mit pH-Problemen, K-Überschuss und anderen Mängeln auftreten
+
+10.3 SICHERE DIAGNOSEKRITERIEN FÜR MAGNESIUMMANGEL
+Ein sicherer Magnesiummangel liegt vor, wenn ALLE folgenden Kriterien zutreffen:
+1. Symptome beginnen an den UNTEREN/ÄLTESTEN Blättern
+2. INTERVENALE Chlorose: Adern grün, Flächen dazwischen gelb
+3. Systematische Progression von unten nach oben
+4. Blattform ist nicht deformiert
+5. Das Muster ist bilateral symmetrisch
+6. Die jüngsten Blätter sind (zunächst) gesund
+
+================================================================
+11. BILDMERKMALE FÜR KI-ANALYSE
+================================================================
+
+Dieser Abschnitt beschreibt die visuellen Merkmale, die eine KI-gestützte Bildanalyse zur Erkennung von Magnesiummangel verwenden sollte.
+
+11.1 PRIMÄRER DIAGNOSTISCHER MARKER: INTERVENALE CHLOROSE
+
+Dies ist der #1 diagnostische Marker für Magnesiummangel:
+
+MUSTER-BESCHREIBUNG:
+- Die Blattadern (Haupt- und Seitenadern) bleiben GRÜN (RGB: hoher G-Wert)
+- Die Blattfläche ZWISCHEN den Adern wird GELB (RGB: hoher R+G-Wert, niedriger B-Wert)
+- Es entsteht ein KONTRASTREICHES Muster mit klar definierten Grenzen
+- Die grünen Adern bilden ein lineares Netzwerk auf gelbem Hintergrund
+- Das Muster ähnelt einem "Fischgrätenmuster" oder "Blattaderngerüst"
+
+PIXELANALYSE-MERKMALE:
+- Grüne Kanäle: Hohe Werte entlang der Aderlinien, mittlere bis niedrige Werte dazwischen
+- Roter Kanal: Niedrige Werte auf Adern, steigende Werte in den chlorotischen Bereichen
+- Blauer Kanal: Generell niedrig bei Vergilbung
+- KONTRAST zwischen Adernbereich und Zwischenadernbereich ist KEY
+- Die Adern erscheinen als dunkle (grüne) Linien auf hellem (gelbem) Hintergrund
+- Das Muster hat eine lineare, verästelte Struktur (folgt der Blattaderarchitektur)
+
+11.2 SEKUNDÄRE MARKER
+
+BLATTPOSITION AN DER PFLANZE:
+- Betroffene Blätter befinden sich im UNTEREN bis MITTLEREN Bereich
+- Obere Blätter sind gesund und grün
+- Diese vertikale Verteilung ist ein starker sekundärer Marker
+- Bei Ganzkörperaufnahmen: Gradient von grün (oben) nach gelb (unten)
+
+PROGRESSIONSMUSTER:
+- Mehrere Blätter in verschiedenen Stadien (unterschiedliche Schweregrade)
+- Unterste Blätter am stärksten betroffen
+- Mittlere Blätter weniger stark betroffen
+- Dieser Gradient bestätigt die Diagnose
+
+NEKROTISCHE FLECKEN (SPÄTSTADIUM):
+- Braune bis dunkelbraune Flecken INNERHALB der gelben Bereiche
+- Die Flecken treten NICHT auf den grünen Adern auf
+- Unregelmäßig geformte Nekrosen
+- Können sich zu größeren toten Flächen verbinden
+
+BLATTRAND-EINROLLEN:
+- Leichtes bis mittleres Einrollen der Blattränder nach OBEN
+- Betrifft vor allem die Blattspitzen und Randbereiche
+- Ist ein Begleiterscheinung, nicht allein diagnostisch
+
+11.3 MUSTERERKENNUNG – GEOMETRISCHE EIGENSCHAFTEN
+
+LINIENSTRUKTUR DER ADERN:
+- Hauptader: Zentrale gerade Linie vom Blattstiel zur Blattspitze
+- Seitenadern: Verzweigen sich von der Hauptader zu den Blatträndern
+- Bei Cannabis (Palmatblatt): fingerförmig, jeder "Finger" hat eine zentrale Ader
+- Die Adern bilden ein hierarchisches, verästeltes Netzwerk
+- Das Netzwerk ist bei Magnesiummangel als GRÜNES Muster auf GELBEM Grund sichtbar
+
+KONTRASTANALYSE:
+- Der Kontrast zwischen Ader und Zwischenaderbereich nimmt mit der Schwere des Mangels zu
+- Frühstadium: Geringer Kontrast (hellgrün vs. grün)
+- Mittleres Stadium: Starker Kontrast (gelb vs. dunkelgrün)
+- Spätstadium: Sehr starker Kontrast (gelb-braun vs. grün)
+- Der Kontrast ist ein guter Indikator für die Schwere des Mangels
+
+SYMMETRIE:
+- Das Muster ist links-rechts symmetrisch auf dem Blatt
+- Beide Blatthälften (relativ zur Hauptader) sind gleich betroffen
+- Asymmetrische Muster deuten auf andere Ursachen hin (mechanischer Schaden, Schädlinge)
+
+11.4 ABGRENZUNGSMERKMALE FÜR KI
+
+GEGEN STICKSTOFFMANGEL:
+- Mg: Grüne Linien (Adern) auf gelbem Grund → HOHER lokaler Kontrast
+- N: Gleichmäßig gelb → NIEDRIGER lokaler Kontrast
+- KI-METRIK: Lokale Kontrastvarianz in Blattfläche berechnen
+- Hohe Varianz = wahrscheinlich Mg, Niedrige Varianz = wahrscheinlich N
+
+GEGEN EISENMANGEL:
+- Mg: Intervenale Chlorose an UNTEREN Blättern
+- Fe: Intervenale Chlorose an OBEREN/JÜNGSTEN Blättern
+- KI-METRIK: Position des betroffenen Blattes im Pflanzengesamtbild
+- ACHTUNG: Bei Einzelblatt-Fotos ohne Kontext ist diese Unterscheidung schwierig
+
+GEGEN NORMALE VERGILBUNG:
+- Mg: Klares intervenales Muster mit grünen Adern
+- Normal: Gleichmäßige Vergilbung oder Fleckenbildung ohne Adernmuster
+- KI-METRIK: Adernerkennungsalgorithmus anwenden, prüfen ob Adern deutlich grüner als Umgebung
+
+GEGEN NÄHRSTOFFVERBRENNUNG:
+- Mg: Vergilbung ZWISCHEN Adern, Ränder anfangs noch normal
+- Verbrennung: Braune, verbrannte Blattspitzen und -ränder, oft OHNE intervenales Muster
+- KI-METRIK: Randanalyse – braune Ränder = eher Verbrennung, grüne Adern auf gelbem Grund = Mg
+
+11.5 KONFIDENZ-BEWERTUNG FÜR DIAGNOSE
+
+HOHE KONFIDENZ (>85%):
+- Klares intervenales Muster sichtbar
+- Symptome an unteren/älteren Blättern
+- Progression von unten nach oben erkennbar
+- Bilateral symmetrisch
+- Blattform normal (nicht deformiert)
+
+MITTLERE KONFIDENZ (50-85%):
+- Intervenales Muster vorhanden, aber schwach
+- Blattposition nicht eindeutig (Einzelblatt ohne Kontext)
+- Muster nur an einem Blatt erkennbar
+- Begleitende Symptome anderer Mängel vorhanden
+
+NIEDRIGE KONFIDENZ (<50%):
+- Kein klares intervenales Muster
+- Symptome an oberen Blättern
+- Asymmetrisches Muster
+- Deformierte Blattform
+- Fleckiges, unregelmäßiges Muster ohne Bezug zur Aderarchitektur
+
+11.6 FARBWERTE (RICHTBEREICHE, VARIIERT JE NACH BELEUCHTUNG UND KAMERA)
+
+GESUNDES BLATT:
+- Ader: RGB ca. (30-60, 100-160, 20-50) – Dunkelgrün
+- Blattfläche: RGB ca. (40-70, 110-170, 30-60) – Grün
+
+FRÜHSTADIUM MG-MANGEL:
+- Ader: RGB ca. (30-60, 100-160, 20-50) – Bleibt grün
+- Blattfläche: RGB ca. (80-120, 130-170, 30-60) – Hellgrün/Gelbgrün
+
+MITTLERES STADIUM MG-MANGEL:
+- Ader: RGB ca. (30-70, 90-150, 20-50) – Bleibt grün
+- Blattfläche: RGB ca. (140-200, 170-220, 30-70) – Deutlich gelb
+
+SPÄTSTADIUM MG-MANGEL:
+- Ader: RGB ca. (40-80, 80-130, 20-50) – Grün, eventuell leicht blasser
+- Blattfläche: RGB ca. (160-220, 160-200, 30-60) – Gelb bis Gelbbraun
+- Nekrosen: RGB ca. (80-130, 60-90, 20-40) – Braun
+
+WICHTIGER HINWEIS ZU FARBWERTEN:
+Diese Werte sind Richtwerte und variieren stark je nach:
+- Beleuchtungsart (HPS macht alles gelblich, LED kann blau/violett verfärben, Blitz/Tageslicht am zuverlässigsten)
+- Kameraqualität und Weißabgleich
+- Abstand und Winkel
+- Blattdicke und Sorte
+Die KI sollte primär auf KONTRAST und MUSTER achten, nicht auf absolute Farbwerte.
+
+11.7 MERKMALE FÜR SCHWEREGRAD-EINSCHÄTZUNG
+
+LEICHT (Handlungsbedarf, keine Panik):
+- 1-5 untere Blätter leicht betroffen
+- Intervenales Muster schwach, aber erkennbar
+- Keine Nekrosen
+- Obere 2/3 der Pflanze gesund
+
+MITTEL (Sofortige Behandlung empfohlen):
+- 5-15 Blätter betroffen
+- Deutliches intervenales Muster mit starkem Kontrast
+- Erste Nekrosen an den untersten Blättern
+- Symptome haben die mittlere Pflanzenetage erreicht
+
+SCHWER (Dringende Behandlung erforderlich):
+- Mehr als 15 Blätter betroffen
+- Großflächige Nekrosen und Blattabwurf
+- Symptome an fast allen Blattetagen
+- Deutliche Wachstums- oder Blütenhemmung
+- Nur die allerjüngsten Triebspitzen noch grün
+
+================================================================
+ZUSAMMENFASSUNG DER SCHLÜSSEL-DIAGNOSEMERKMALE
+================================================================
+
+1. INTERVENALE CHLOROSE an UNTEREN Blättern = Magnesiummangel
+2. Grüne Adern auf gelbem Grund = "Skelettmuster" = DAS Leitsymptom
+3. Progression von unten nach oben = Mobile Nährstoff-Mobilisierung
+4. KEIN gleichmäßiges Vergilben (das wäre Stickstoff)
+5. NICHT an den oberen Blättern (das wäre Eisen)
+6. Bilateral symmetrisch und regelmäßig
+7. Am häufigsten in der BLÜTEPHASE
+8. Am häufigsten bei niedrigem pH, Kokos ohne CalMag, oder K-Überschuss
+9. Schnelle Hilfe: Bittersalz/Epsomsalz + pH-Korrektur
+10. Bereits geschädigte Blätter erholen sich nicht – Erfolg an neuen Blättern messen
+
+================================================================
+Ende der Wissensreferenz – Magnesiummangel (Mg) bei Cannabis
+================================================================

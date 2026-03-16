@@ -1,0 +1,383 @@
+================================================================================
+STICKSTOFF-TOXIZITAET (NITROGEN TOXICITY) - N-UEBERSCHUSS
+================================================================================
+Chemisches Symbol: N (Stickstoff)
+Mobilität: Mobiler Naehrstoff
+Betroffene Pflanzenteile: Gesamte Pflanze, sichtbar zuerst an aelteren Blaettern
+Schweregrad: Mittel bis schwer (kann Ernte massiv reduzieren)
+Haeufigkeit: SEHR HAEUFIG - einer der haeufigsten Anfaengerfehler
+================================================================================
+
+================================================================================
+ABSCHNITT 1: URSACHEN DER STICKSTOFF-TOXIZITAET
+================================================================================
+
+1.1 DIREKTE URSACHEN
+--------------------
+- Ueberdosierung von Stickstoff-haltigen Duengern (zu hohe Konzentration)
+- Zu haeufiges Duengen ohne ausreichende Spuelphasen
+- Verwendung von "Wachstumsduenger" (hoher N-Anteil) waehrend der Bluete
+- Zu viel Guano, Blutmehl oder andere organische N-Quellen
+- Hot Soil (zu stark vorgeduengte Erde, z.B. frischer Kompost)
+- Kombination mehrerer Stickstoffquellen (Grundduenger + Zusatzduenger)
+- Stickstoff-Freisetzung aus zersetzender organischer Substanz im Substrat
+
+1.2 INDIREKTE URSACHEN
+----------------------
+- Ueberwaesserung: Wurzeln nehmen bei staendig nassem Substrat mehr N auf
+- Kalte Wurzelzone: Verlangsamt den Stoffwechsel, N akkumuliert
+- Zu kleine Toepfe: Naehrstoffkonzentration steigt schneller
+- pH zu niedrig (unter 6.0 in Erde): N-Aufnahme wird verstaerkt
+- Schwache Beleuchtung: Pflanze kann ueberschuessigen N nicht verarbeiten
+- Fehlende andere Naehrstoffe: N-Verhaeltnis wird relativ zu hoch
+
+1.3 TYPISCHE FEHLERSZENARIEN
+-----------------------------
+- Anfaenger duengen "mehr hilft mehr" -> klassische Ueberdosierung
+- Umstieg von Wachstum auf Bluete vergessen -> weiterhin hoher N-Anteil
+- Organischer Boden + mineralischer Duenger = doppelte N-Zufuhr
+- Slow-Release-Duenger + fluessiger Duenger kombiniert
+- "Die Pflanze sieht so blass aus" -> Duenger erhoehen, obwohl Problem woanders liegt
+
+================================================================================
+ABSCHNITT 2: VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+2.1 HAUPTSYMPTOM: TOXISCH DUNKELGRUENE BLAETTER
+-------------------------------------------------
+Beschreibung:
+Die Blaetter werden extrem dunkelgruen, weit ueber das normale Gruen hinaus.
+Die Farbe kann als "giftgruen-dunkel", "waldgruen" bis fast "schwarzgruen"
+beschrieben werden. Das Gruen wirkt unnatuerlich intensiv und gleichmaessig.
+
+Unterscheidung gesundes Dunkelgruen vs. toxisches Dunkelgruen:
+- GESUND: Gleichmaessig dunkelgruen, Blaetter flach und entspannt, leicht
+  nach oben zur Lichtquelle orientiert, Blattspitzen zeigen nach oben oder
+  seitlich, normaler Wuchs
+- TOXISCH: Uebermaessig dunkelgruen (fast schwarz), Blaetter zeigen deutliche
+  Klauen-Bildung (nach unten gekruemmt), glaenzende/wachsartige Oberflaeche,
+  oft in Kombination mit anderen Stresssymptomen
+
+Farbabstufungen nach Schweregrad:
+- Leicht: Tiefgruen, etwas dunkler als normal (fruehes Stadium)
+- Mittel: Sehr dunkelgruen, deutlich dunkler als gesunde Referenzpflanzen
+- Schwer: Fast schwarzgruen, extrem dunkle Pigmentierung
+- Kritisch: Blaetter erscheinen fast schwarz, oft mit violetten Untertonen
+
+2.2 HAUPTSYMPTOM: BLATTKLAUEN ("THE CLAW" / "NITROGEN CLAW")
+--------------------------------------------------------------
+Beschreibung:
+DAS Erkennungsmerkmal schlechthin fuer Stickstoff-Toxizitaet! Die Blattspitzen
+und oft das gesamte Blatt kruemmen sich charakteristisch nach UNTEN. Die
+Blaetter sehen aus wie Klauen oder Krallen - daher der englische Name
+"The Claw" oder "Clawing".
+
+Detaillierter Verlauf der Klauen-Bildung:
+1. STADIUM 1 (Frueh): Nur die aeussersten Blattspitzen biegen sich leicht
+   nach unten. Noch leicht zu uebersehen. Blaetter wirken etwas "muede".
+2. STADIUM 2 (Maessig): Die Blattspitzen kruemmen sich deutlich nach unten,
+   ca. 45-90 Grad. Die Blattraender beginnen sich ebenfalls zu woelben.
+   Jetzt klar erkennbar als Klaue.
+3. STADIUM 3 (Schwer): Das gesamte Blatt kruemmt sich nach unten und
+   seitlich ein. Die Blaetter rollen sich teilweise roehrenfoermig ein.
+   Die Pflanze sieht aus, als wuerde sie "trauern".
+4. STADIUM 4 (Kritisch): Blaetter sind stark deformiert, kruemmen sich
+   extrem nach unten, einige beginnen abzusterben. Nekrotische Flecken
+   koennen auftreten.
+
+WICHTIG - Unterscheidung von anderen "Curling"-Problemen:
+- N-Toxizitaet: Blaetter kruemmen nach UNTEN + dunkelgruen = Klaue
+- Hitze-Stress: Blaetter rollen nach OBEN (Taco-Form) = kein N-Problem
+- Ueberwaesserung: Blaetter haengen schlaff herunter (nicht gekruemmt)
+- Unterbewasserung: Blaetter welken und haengen = nicht dasselbe
+- Windburn: Klauen nur an windexponierter Seite
+- pH-Probleme: Verschiedene Symptome, selten einheitliche Klauen
+
+2.3 GLAENZENDE / WACHSARTIGE BLATTOBERFLAECHE
+-----------------------------------------------
+Beschreibung:
+Bei N-Ueberschuss entwickeln die Blaetter einen ungewoehnlichen Glanz. Die
+Oberflaeche wirkt wachsartig, fast als waere sie poliert. Dieser Effekt
+entsteht durch die veraenderte Zellstruktur und ueberschuessige
+Stickstoffverbindungen in den Blattzellen.
+
+Erkennung:
+- Blaetter reflektieren Licht staerker als normal
+- Oberflaeche fuehlt sich glatter an als bei gesunden Blaettern
+- Besonders sichtbar unter direkter Beleuchtung
+- Gesunde Blaetter haben eine eher matte, leicht strukturierte Oberflaeche
+- N-toxische Blaetter wirken "plastik-artig" glaenzend
+
+2.4 SCHWACHE STIELE/STAENGEL TROTZ DUNKLER FARBE
+--------------------------------------------------
+Beschreibung:
+Paradoxerweise werden die Stiele und Staengel SCHWAECHER, obwohl die Pflanze
+extrem gruen und "gesund" aussieht. Das liegt daran, dass ueberschuessiger
+Stickstoff zu schnellem, aber strukturell schwachem Wachstum fuehrt.
+
+Merkmale:
+- Staengel sind duenner als normal fuer die Pflanzgroesse
+- Zweige knicken leicht unter dem Gewicht der Blaetter
+- Pflanze neigt sich, kann sich nicht gut selbst tragen
+- Internodien (Abstaende zwischen Blattknoten) koennen verlaengert sein
+- Trotz krassem Dunkelgruen wirkt die Pflanze "schlapp"
+
+2.5 REDUZIERTE BLUETE / LAUBIGE BUDS
+--------------------------------------
+Beschreibung:
+Einer der gravierendsten Effekte von N-Ueberschuss in der Blutephase!
+Stickstoff foerdert vegetatives Wachstum (Blaetter, Staengel). In der Bluete
+soll die Pflanze aber generatives Wachstum priorisieren (Blueten). Zu viel N
+in der Bluete fuehrt zu:
+
+- Verzoegerter Blueteeinleitung
+- Blueten bleiben klein und luftig (nicht kompakt)
+- Uebermeasssiges Blattwachstum in und um die Buds ("leafy buds")
+- Kleine Blaetter wachsen direkt aus den Blueten heraus
+- Gesamtertrag wird deutlich reduziert
+- Trichomproduktion kann vermindert sein
+- Reifung verzoegert sich
+- Endprodukt schmeckt "gruenig" und kratzt (Chlorophyll-Geschmack)
+
+Schweregrad in der Bluete:
+- Leichter N-Ueberschuss: 10-20% Ertragseinbusse, leicht laubige Buds
+- Mittlerer N-Ueberschuss: 20-40% Ertragseinbusse, deutlich laubig
+- Schwerer N-Ueberschuss: 40-70% Ertragseinbusse, Buds kaum gebildet
+- Extremer N-Ueberschuss: Pflanze bleibt quasi im vegetativen Modus
+
+2.6 ERHOEHTE SCHAEDLINGSANFAELLIGKEIT
+---------------------------------------
+Beschreibung:
+Pflanzen mit N-Ueberschuss sind DEUTLICH anfaelliger fuer Schaedlinge und
+Krankheiten. Der Grund: Der hohe Stickstoffgehalt in den Blaettern macht
+diese fuer saugende und fressende Insekten attraktiver.
+
+Betroffene Schaedlinge:
+- Blattlaeuse lieben stickstoffreiche Pflanzen
+- Thripse werden angelockt
+- Spinnmilben vermehren sich schneller
+- Weisse Fliegen bevorzugen N-reiche Pflanzen
+- Trauermucken im Substrat nehmen zu
+
+Krankheiten:
+- Schimmel/Botrytis: Ueppiges, weiches Blattwerk = ideal fuer Pilze
+- Mehltau: Schwaches Gewebe ist anfaelliger
+- Wurzelfaeule: Oft in Kombination mit Ueberwaesserung
+
+2.7 WEITERE SYMPTOME
+---------------------
+- Blattstiele koennen violett/rotbraun verfaerbt sein (Stressreaktion)
+- Aeltere Blaetter koennen bei extremem Ueberschuss gelb werden und abfallen
+- Wurzelwachstum ist gehemmt (schlechtes Wurzel-zu-Spross-Verhaeltnis)
+- Pflanze waechst zu schnell und duenn (Vergeilung/Etiolierung)
+- Wasseraufnahme kann gestoert sein
+- Bei extremem Ueberschuss: Blattrandnekrosen (braune Raender)
+- Geruch der Pflanze kann sich veraendern (weniger aromatisch)
+
+================================================================================
+ABSCHNITT 3: VERLAUF UND STADIEN
+================================================================================
+
+3.1 FRUHSTADIUM (Tag 1-5 nach Ueberdosierung)
+-----------------------------------------------
+- Blaetter werden merklich dunkler
+- Leichtes Klauen der Blattspitzen beginnt
+- Pflanze sieht oberflaechlich "super gesund" aus wegen des satten Gruens
+- Wachstum kann kurzzeitig beschleunigt sein
+- Noch leicht umkehrbar
+
+3.2 MITTLERES STADIUM (Tag 5-14)
+---------------------------------
+- Deutliche Klauen-Bildung an mehreren Blaettern
+- Toxisch dunkelgruene Faerbung ueberdeutlich
+- Glaenzende Blattoberflaeche erkennbar
+- Stiele beginnen schwaecher zu werden
+- Wachstum wird ungleichmaessig
+- Korrektur noch gut moeglich
+
+3.3 FORTGESCHRITTENES STADIUM (Tag 14-28)
+-------------------------------------------
+- Starke Klauen an den meisten Blaettern
+- Einige untere Blaetter werden gelb und fallen ab
+- Braune Flecken/Nekrosen koennen erscheinen
+- Deutlich schwaches Stielmaterial
+- In der Bluete: Buds bleiben klein und laubig
+- Schaedlingsbefall wahrscheinlich
+- Korrektur dauert laenger, Schaeden teilweise irreversibel
+
+3.4 KRITISCHES STADIUM (ueber 28 Tage ohne Korrektur)
+-------------------------------------------------------
+- Massive Blattschaeden
+- Pflanze ist stark geschwaecht
+- Ernteverlust erheblich
+- Sekundaerinfektionen wahrscheinlich
+- Erholung moeglich, aber mit bleibenden Ertragseinbussen
+
+================================================================================
+ABSCHNITT 4: DIAGNOSE UND ABGRENZUNG
+================================================================================
+
+4.1 DIAGNOSE-CHECKLISTE
+------------------------
+Pruefe folgende Punkte - je mehr zutreffen, desto sicherer N-Toxizitaet:
+
+[_] Blaetter sind EXTREM dunkelgruen (dunkler als normal)
+[_] Blattspitzen/Blaetter kruemmen sich nach UNTEN (Klauen)
+[_] Blattoberflaeche glaenzt ungewoehnlich
+[_] Symptome betreffen ZUERST aeltere, dann juengere Blaetter
+[_] Stiele/Staengel wirken schwach trotz dunkler Farbe
+[_] Duengung wurde kuerzlich erhoeht oder ist generell hoch
+[_] In der Bluete: Buds sind uebermassig laubig
+[_] EC/PPM-Wert des Ablaufwassers ist hoch
+
+Wenn 3+ Punkte zutreffen: Sehr wahrscheinlich N-Toxizitaet
+Wenn 5+ Punkte zutreffen: Fast sicher N-Toxizitaet
+
+4.2 ABGRENZUNG ZU AEHNLICHEN PROBLEMEN
+----------------------------------------
+
+N-Toxizitaet vs. Ueberwaesserung:
+- N-Toxizitaet: Blaetter kruemmen nach UNTEN (Klaue), dunkelgruen, steif
+- Ueberwaesserung: Blaetter haengen SCHLAFF herunter, normales Gruen, weich
+- BEIDES ZUSAMMEN ist haeufig und verstaerkt sich gegenseitig!
+
+N-Toxizitaet vs. Windburn:
+- N-Toxizitaet: Klauen an der GESAMTEN Pflanze gleichmaessig
+- Windburn: Klauen nur an der windexponieren Seite/Bereich
+
+N-Toxizitaet vs. Hitzestress:
+- N-Toxizitaet: Blaetter kruemmen nach UNTEN, dunkelgruen
+- Hitzestress: Blaetter rollen nach OBEN (Taco), eher gelblich/hellgruen
+
+N-Toxizitaet vs. Magnesiummangel:
+- N-Toxizitaet: Gleichmaessig dunkelgruen, Klauen
+- Mg-Mangel: Intervenale Chlorose (Adern gruen, Flaeche gelb)
+
+N-Toxizitaet vs. gesundes Wachstum:
+- GESUND: Dunkelgruen, Blaetter flach, nach oben orientiert, kein Glaenzen
+- TOXISCH: Zu dunkel, Klauen, glaenzend, eventuell schwache Stiele
+
+4.3 MESSWERTE ZUR BESTAETIGUNG
+-------------------------------
+- EC des Ablaufwassers: Deutlich hoeher als Eingabewert = Salzansammlung
+- PPM des Ablaufwassers: Ueber 2000 PPM ist bedenklich
+- pH des Ablaufwassers: Kann durch Salzansammlung sinken
+- Blattsaftanalyse (wenn verfuegbar): N-Gehalt ueber 4% = Ueberschuss
+
+================================================================================
+ABSCHNITT 5: BEHANDLUNG UND KORREKTUR
+================================================================================
+
+5.1 SOFORTMASSNAHMEN
+---------------------
+1. DUENGUNG SOFORT STOPPEN
+   - Keine Stickstoff-haltigen Duenger mehr geben
+   - Auch "leichte" Duengerloesungen erstmal einstellen
+
+2. SUBSTRAT SPUELEN (FLUSH)
+   - Mit pH-korrigiertem Wasser spuelen (pH 6.0-6.5 fuer Erde)
+   - Wassermenge: 3x das Topfvolumen durchlaufen lassen
+   - Beispiel: 10-Liter-Topf -> 30 Liter Wasser zum Spuelen
+   - EC des Ablaufwassers messen: Spuelen bis EC unter 0.5 faellt
+   - Vorsicht: Nicht ueberwaessern danach, gut abtrocknen lassen!
+
+3. WARTEN UND BEOBACHTEN
+   - Nach dem Flush 3-5 Tage NUR mit klarem Wasser giessen
+   - Neue Blaetter sollten normaleres Gruen zeigen
+   - Klauen an bestehenden Blaettern gehen NICHT zurueck
+   - Neue Blaetter werden aber normal wachsen
+
+5.2 LANGFRISTIGE KORREKTUR
+---------------------------
+1. Duengung mit REDUZIERTER Staerke wieder aufnehmen (50% der vorherigen Dosis)
+2. N-Anteil im Duenger reduzieren:
+   - Wachstumsphase: NPK-Verhaeltnis wie 3-1-2 statt 5-1-1
+   - Blutephase: NPK-Verhaeltnis wie 1-3-2 oder niedriger in N
+3. EC-Wert langsam steigern, nicht auf einmal hochfahren
+4. Regelmaessig Ablaufwasser messen (EC und pH)
+5. Bei organischem Anbau: Weniger N-reiche Amendments verwenden
+
+5.3 BEHANDLUNG NACH SUBSTRATTYP
+---------------------------------
+
+ERDE:
+- Flush mit 3x Topfvolumen, pH 6.2-6.5
+- Erde speichert N laenger -> laengere Erholungszeit (7-14 Tage)
+- Eventuell Umtopfen in frische, leichtere Erde erwaegen
+- Bei Slow-Release-Duenger im Boden: Umtopfen ist oft einzige Option
+
+KOKOS:
+- Flush mit 3x Topfvolumen, pH 5.8-6.2
+- Kokos speichert weniger -> schnellere Erholung (3-7 Tage)
+- Nach Flush mit leichter CalMag-Loesung nachgiessen
+- Kokos gibt Kalium ab beim Spuelen -> CalMag wichtig
+
+HYDRO (DWC/NFT/RDWC):
+- Naehrloesung komplett wechseln
+- System mit klarem pH-Wasser spuelen
+- Neue Loesung mit reduziertem N ansetzen (50% N)
+- pH 5.5-6.0
+- Schnellste Erholung moeglich (2-5 Tage)
+
+5.4 VORBEUGUNG
+---------------
+- EC/PPM bei jeder Duengung messen
+- Ablaufwasser regelmaessig kontrollieren
+- Duengerhersteller-Angaben als MAXIMUM betrachten, nicht als Standard
+- In der Bluete auf Blueteduenger umstellen (niedrigerer N-Anteil)
+- "Weniger ist mehr" als Grundsatz verinnerlichen
+- Regelmaessige Spueltage einplanen (z.B. alle 2 Wochen)
+- Auf Zeichen frueh achten: Dunkler werdendes Gruen = Warnsignal
+
+================================================================================
+ABSCHNITT 6: SPEZIALFAELLE
+================================================================================
+
+6.1 N-TOXIZITAET IN DER BLUETE
+-------------------------------
+Dies ist der SCHLIMMSTE Zeitpunkt fuer N-Ueberschuss!
+- Direkte Auswirkung auf Ertrag und Qualitaet
+- Buds werden laubig, luftig und klein
+- Geschmack wird negativ beeinflusst (chlorophyll-lastig)
+- SOFORTIGE Korrektur noetig!
+- Auf Blueteduenger mit niedrigem N umstellen
+- Letzte 2 Wochen vor Ernte: Nur noch klares Wasser
+
+6.2 N-TOXIZITAET BEI AUTOFLOWERS
+---------------------------------
+- Autoflowers sind GENERELL empfindlicher gegenueber N
+- Duengerdosis bei Autoflowers: Maximal 50-75% der Empfehlung
+- Autoflowers haben kuerzere Wachstumsphase -> weniger Zeit zur Korrektur
+- Schnelles Handeln ist bei Autoflowers besonders wichtig
+
+6.3 N-TOXIZITAET IN KOMBINATION MIT ANDEREN PROBLEMEN
+-------------------------------------------------------
+- N-Toxizitaet + Ueberwaesserung = Verstaerkte Symptome, Wurzelfaeule-Risiko
+- N-Toxizitaet + Hitzestress = Doppelter Stress, schwer zu diagnostizieren
+- N-Toxizitaet + pH-Probleme = Andere Maengel werden maskiert
+- N-Toxizitaet + Lichtbrand = Obere Blaetter extrem geschaedigt
+
+================================================================================
+ABSCHNITT 7: ZUSAMMENFASSUNG DER ERKENNUNGSMERKMALE
+================================================================================
+
+PRIMAERE ERKENNUNGSMERKMALE (muessen vorhanden sein):
+1. Extrem dunkelgruene Blaetter (dunkler als normales, gesundes Gruen)
+2. Blattklauen - Blaetter/Spitzen kruemmen sich nach UNTEN
+
+SEKUNDAERE ERKENNUNGSMERKMALE (unterstuetzen die Diagnose):
+3. Glaenzende/wachsartige Blattoberflaeche
+4. Schwache Stiele/Staengel
+5. Laubige Buds in der Bluete
+6. Erhoehter Schaedlingsdruck
+
+MESS-INDIKATOREN:
+7. Hoher EC/PPM im Ablaufwasser
+8. Hohe Duengerdosen in der Vorgeschichte
+
+EINFACHE FAUSTREGEL:
+"Dunkelgruen + Klauen nach unten = Stickstoff-Ueberschuss"
+
+================================================================================
+ENDE - STICKSTOFF-TOXIZITAET (N-UEBERSCHUSS)
+================================================================================

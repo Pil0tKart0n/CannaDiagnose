@@ -3,8 +3,8 @@ import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, ActionStep } from '../types';
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 
-const API_URL = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-6';
+const API_URL = 'https://api.openai.com/v1/chat/completions';
+const MODEL = 'gpt-4o-mini';
 
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
@@ -60,7 +60,7 @@ export async function checkConnectivity(): Promise<boolean> {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
-    await fetch('https://api.anthropic.com', {
+    await fetch('https://api.openai.com', {
       method: 'HEAD',
       signal: controller.signal,
     });
@@ -261,10 +261,10 @@ export async function analyzePlant(
   onAttempt?: (attempt: number, maxAttempts: number) => void,
   preOptimizedImages?: string[],
 ): Promise<AnalyzeResult> {
-  const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
+  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
   if (!apiKey) {
     throw new Error(
-      'API Key nicht konfiguriert. Bitte setze EXPO_PUBLIC_CLAUDE_API_KEY in der .env Datei.'
+      'API Key nicht konfiguriert. Bitte setze EXPO_PUBLIC_OPENAI_API_KEY in der .env Datei.'
     );
   }
 
@@ -283,13 +283,11 @@ export async function analyzePlant(
     )
   );
 
-  // Build image content blocks (all optimized to JPEG)
+  // Build image content blocks for OpenAI format
   const imageBlocks = base64Results.map((data) => ({
-    type: 'image' as const,
-    source: {
-      type: 'base64' as const,
-      media_type: 'image/jpeg' as const,
-      data,
+    type: 'image_url' as const,
+    image_url: {
+      url: `data:image/jpeg;base64,${data}`,
     },
   }));
 
@@ -319,14 +317,16 @@ export async function analyzePlant(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
+          'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1500,
-          system: systemPrompt,
           messages: [
+            {
+              role: 'system',
+              content: systemPrompt,
+            },
             {
               role: 'user',
               content: [
@@ -357,7 +357,7 @@ export async function analyzePlant(
       }
 
       const data = await response.json();
-      const content = data.content?.[0]?.text;
+      const content = data.choices?.[0]?.message?.content;
 
       if (!content) {
         const classified: ApiError = {
@@ -422,7 +422,7 @@ export async function refineDiagnosis(
   fertilizerType?: string | null,
   plantAge?: string | null,
 ): Promise<DiagnosisResult> {
-  const apiKey = process.env.EXPO_PUBLIC_CLAUDE_API_KEY;
+  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
   if (!apiKey) {
     throw new Error('API Key nicht konfiguriert.');
   }
@@ -440,11 +440,9 @@ export async function refineDiagnosis(
   );
 
   const imageBlocks = base64Results.map((data) => ({
-    type: 'image' as const,
-    source: {
-      type: 'base64' as const,
-      media_type: 'image/jpeg' as const,
-      data,
+    type: 'image_url' as const,
+    image_url: {
+      url: `data:image/jpeg;base64,${data}`,
     },
   }));
 
@@ -457,14 +455,16 @@ export async function refineDiagnosis(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
+          'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 2048,
-          system: REFINE_SYSTEM_PROMPT,
           messages: [
+            {
+              role: 'system',
+              content: REFINE_SYSTEM_PROMPT,
+            },
             {
               role: 'user',
               content: [
@@ -484,7 +484,7 @@ export async function refineDiagnosis(
       }
 
       const data = await response.json();
-      const content = data.content?.[0]?.text;
+      const content = data.choices?.[0]?.message?.content;
       console.log('[CannaDiagnose] Refine raw response:', content?.substring(0, 500));
 
       if (!content) {
@@ -492,9 +492,8 @@ export async function refineDiagnosis(
         throw new Error('Keine Antwort von der API erhalten.');
       }
 
-      // Check if response was truncated (stop_reason !== 'end_turn')
-      const stopReason = data.stop_reason;
-      console.log('[CannaDiagnose] Refine stop_reason:', stopReason);
+      const stopReason = data.choices?.[0]?.finish_reason;
+      console.log('[CannaDiagnose] Refine finish_reason:', stopReason);
 
       const parsed = extractJSON(content);
       let result = validateDiagnosisResult(parsed);

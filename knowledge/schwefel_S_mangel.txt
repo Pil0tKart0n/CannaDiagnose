@@ -1,0 +1,891 @@
+================================================================================
+SCHWEFELMANGEL (S) BEI CANNABIS
+================================================================================
+Nährstoff:        Schwefel (S)
+Kategorie:        Sekundärer Makronährstoff
+Mobilität:        Semi-mobil (eingeschränkt mobil in der Pflanze)
+Häufigkeit:       Selten bis mittel (oft übersehen oder verwechselt)
+Verwechslungsgef: Hoch (wird oft mit Stickstoffmangel verwechselt)
+================================================================================
+
+
+================================================================================
+1. ÜBERSICHT — ROLLE VON SCHWEFEL IN DER CANNABISPFLANZE
+================================================================================
+
+Schwefel ist ein sekundärer Makronährstoff, der in der Cannabispflanze
+zahlreiche essenzielle Funktionen erfüllt. Obwohl er in geringeren Mengen
+benötigt wird als Stickstoff, Phosphor oder Kalium, ist er für eine gesunde
+Pflanzenentwicklung unverzichtbar.
+
+PROTEINBIOSYNTHESE:
+- Schwefel ist Bestandteil der Aminosäuren Cystein und Methionin
+- Ohne Schwefel kann die Pflanze keine vollständigen Proteine aufbauen
+- Cystein bildet Disulfidbrücken, die Proteinstrukturen stabilisieren
+- Methionin ist eine essentielle Startaminosäure bei der Translation
+- Proteinmangel durch S-Defizit führt zu verlangsamtem Gesamtwachstum
+
+TERPENBIOSYNTHESE:
+- Schwefel spielt eine Rolle bei der Synthese schwefelhaltiger Terpene
+- Einige Cannabis-spezifische Aromastoffe enthalten Schwefelverbindungen
+  (z.B. Thiole, die für skunkartige Aromen verantwortlich sind)
+- S-Mangel kann das Terpenprofil negativ beeinflussen
+- Besonders relevant in der Blütephase für Geschmack und Aroma
+- Volatile Schwefelverbindungen (VSCs) tragen zu intensiven Aromen bei
+
+ENZYMFUNKTION:
+- Schwefel ist Bestandteil vieler Coenzyme, insbesondere Coenzym A (CoA)
+- CoA ist essenziell für den Citratzyklus und Fettsäurestoffwechsel
+- Ferredoxin, ein eisenhaltiges Schwefelprotein, ist zentral für die
+  Photosynthese (Elektronentransportkette)
+- Schwefel aktiviert Enzyme des Stickstoffstoffwechsels
+- Biothin und Thiamin (Vitamin B1) enthalten Schwefel
+
+CHLOROPHYLLPRODUKTION:
+- Schwefel ist zwar kein direkter Bestandteil von Chlorophyll, aber
+  essenziell für dessen Synthese
+- S-Mangel reduziert die Chlorophyllproduktion = Vergilbung
+- Die Photosyntheseleistung sinkt bei S-Defizit deutlich
+
+STRESSRESISTENZ:
+- Glutathion, ein schwefelhaltiges Tripeptid, ist das wichtigste
+  Antioxidans in Pflanzenzellen
+- Schützt vor oxidativem Stress, Hitzeschäden und Pathogenen
+- Phytoalexine (Abwehrstoffe) enthalten oft Schwefelverbindungen
+- S-Mangel schwächt die natürliche Abwehr der Pflanze erheblich
+
+WEITERE FUNKTIONEN:
+- Beteiligt an der Samenbildung
+- Wichtig für die Zellwandstruktur
+- Unterstützt die Aufnahme und Verwertung anderer Nährstoffe
+- Interaktion mit Stickstoffmetabolismus (S:N-Verhältnis wichtig)
+
+
+================================================================================
+2. VISUELLE SYMPTOME — DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+GRUNDPRINZIP DER SYMPTOMVERTEILUNG:
+Schwefel ist semi-mobil in der Pflanze. Das bedeutet, dass die Pflanze
+Schwefel nur eingeschränkt aus älteren Blättern in neuere umverlagern kann.
+Daher zeigen sich Mangelsymptome ZUERST an den NEUEN, OBEREN Blättern.
+Dies ist das WICHTIGSTE Unterscheidungsmerkmal zu Stickstoffmangel.
+
+--- FRÜHSTADIUM (Woche 1-2 nach Beginn des Mangels) ---
+
+Symptome:
+- Neue, obere Blätter entwickeln eine gleichmäßig hellgrüne Färbung
+- Die Vergilbung ist UNIFORM über das gesamte Blatt verteilt
+  (NICHT interveinal, NICHT fleckig)
+- Die Blattadern sind zunächst gleich hell wie die Blattfläche
+- Der Farbunterschied zwischen neuen und alten Blättern wird sichtbar
+- Ältere, untere Blätter bleiben zunächst normal dunkelgrün
+- Die Wachstumsgeschwindigkeit beginnt sich leicht zu verringern
+
+Tastbefund:
+- Blätter fühlen sich FEST und STRUKTURELL NORMAL an
+- KEIN Welken, KEIN Hängen (wichtiger Unterschied zu N-Mangel)
+- Blattdicke ist normal
+- Blatttextur ist unverändert
+
+Verteilungsmuster:
+- Beginnt an der Triebspitze (Apex)
+- Breitet sich von oben nach unten aus
+- Seitentriebe können ebenfalls betroffen sein
+- Alle neuen Blätter gleichzeitig betroffen
+
+--- MITTELSTADIUM (Woche 2-4) ---
+
+Symptome:
+- Neue Blätter werden deutlich gelb (nicht mehr nur hellgrün)
+- Die Gelbfärbung ist weiterhin gleichmäßig über das Blatt verteilt
+- Ältere Blätter beginnen ebenfalls leicht hellgrün zu werden
+- Deutlicher Farbgradient von oben (gelb) nach unten (grün) sichtbar
+- Internodienabstände können sich verkürzen
+- Stängel können eine leicht rötlich-violette Färbung entwickeln
+- Blütenentwicklung verlangsamt sich merklich (in der Blütephase)
+- Neue Triebe wirken dünn und unterentwickelt
+
+Blattdetails:
+- Blattränder können leicht nach unten rollen
+- Blattoberfläche bleibt relativ glatt
+- KEINE nekrotischen Flecken im Mittelstadium
+- KEINE braunen Blattspitzen (anders als bei Nährstoffverbrennungen)
+- Blattstiele können violett anlaufen
+
+--- SPÄTSTADIUM (Woche 4+, schwerer Mangel) ---
+
+Symptome:
+- Starke Gelbfärbung breitet sich über die gesamte Pflanze aus
+- Auch untere Blätter werden hellgrün bis gelb
+- Violette/rötliche Verfärbung der Stängel wird deutlich
+- Blattstiele zeigen ausgeprägte Violettfärbung
+- Wachstum kommt nahezu zum Stillstand
+- Blätter können beginnen, an den Spitzen leicht zu vertrocknen
+- Erste nekrotische Bereiche möglich (selten)
+- In der Blüte: kleine, lockere, unterentwickelte Blüten
+- Terpenprofil deutlich reduziert
+- Pflanze wird anfällig für Schädlinge und Krankheiten
+
+Schwere Fälle:
+- Gesamte Pflanze wirkt chlorotisch (gelblich)
+- Blätter können spröde werden
+- Blütenproduktion stark eingeschränkt
+- Ernteverluste von 20-50% möglich
+- Qualitätsverlust durch reduziertes Terpenprofil
+
+ENTWICKLUNGSVERLAUF ZUSAMMENGEFASST:
+1. Neue Blätter → gleichmäßig hellgrün
+2. Neue Blätter → gelb, alte Blätter → noch grün
+3. Gelbfärbung breitet sich abwärts aus
+4. Violette Stängel/Blattstiele erscheinen
+5. Gesamte Pflanze chlorotisch, Wachstumsstopp
+6. Nekrose möglich (nur bei extremem Mangel)
+
+
+================================================================================
+3. UNTERSCHEIDUNG VON ÄHNLICHEN PROBLEMEN
+================================================================================
+
+--- SCHWEFELMANGEL vs. STICKSTOFFMANGEL (N) ---
+
+Dies ist die HÄUFIGSTE Verwechslung.
+
+SCHWEFELMANGEL:
+- Beginnt an den OBEREN/NEUEN Blättern (Triebspitze)
+- Gelbfärbung ist gleichmäßig über das Blatt
+- Blätter bleiben FEST, kein Welken
+- Ältere Blätter bleiben lange grün
+- Violette Stängel möglich
+- Wachstum verlangsamt, aber Pflanze steht aufrecht
+- Selteneres Problem
+
+STICKSTOFFMANGEL:
+- Beginnt an den UNTEREN/ÄLTEREN Blättern
+- Gelbfärbung von der Blattspitze einwärts
+- Blätter werden WEICH, können welken und hängen
+- Obere Blätter bleiben lange grün
+- Blätter fallen leichter ab
+- Pflanze wird insgesamt schlapp
+- Sehr häufiges Problem
+
+MERKSATZ: "Schwefel oben, Stickstoff unten"
+
+--- SCHWEFELMANGEL vs. EISENMANGEL (Fe) ---
+
+SCHWEFELMANGEL:
+- GLEICHMÄSSIGE Gelbfärbung des gesamten Blattes
+- Blattadern und Blattfläche gleich hell
+- Beginnt hellgrün, wird dann gelb
+- Betrifft obere UND mittlere neue Blätter
+
+EISENMANGEL:
+- INTERVENALE Chlorose (Adern bleiben grün, Fläche wird gelb)
+- Deutliches Netzmuster sichtbar
+- Blattadern bilden grünes Netzwerk auf gelbem Grund
+- Betrifft hauptsächlich die jüngsten Blätter ganz oben
+- Oft durch zu hohen pH verursacht
+
+MERKSATZ: "Schwefel gleichmäßig gelb, Eisen gestreift gelb"
+
+--- SCHWEFELMANGEL vs. LICHTSTRESS ---
+
+SCHWEFELMANGEL:
+- Betrifft alle neuen Blätter, unabhängig von der Position zum Licht
+- Gelbfärbung ist gleichmäßig
+- Auch seitliche Triebe, die nicht direkt im Licht stehen, betroffen
+- Entwickelt sich langsam über Tage/Wochen
+- Stängelviolettierung möglich
+
+LICHTSTRESS:
+- Betrifft nur Blätter in direkter Lichtnähe
+- Blätter können ausbleichen/weiß werden (Photobleaching)
+- Blätter können sich nach oben falten (Taco-Form)
+- Unterseite der Canopy bleibt grün
+- Entwickelt sich schneller (Stunden bis Tage)
+- Oft begleitet von Hitzestress-Symptomen (Blattränder rollen hoch)
+
+--- SCHWEFELMANGEL vs. MAGNESIUMMANGEL (Mg) ---
+
+SCHWEFELMANGEL:
+- Beginnt an den NEUEN oberen Blättern
+- Gleichmäßige Gelbfärbung
+- Semi-mobiler Nährstoff
+
+MAGNESIUMMANGEL:
+- Beginnt an den MITTLEREN bis UNTEREN Blättern
+- Intervenale Chlorose (Adern bleiben grün)
+- Mobiler Nährstoff
+- Blattränder können braun werden
+
+--- SCHWEFELMANGEL vs. ZINK-/MANGANMANGEL ---
+
+SCHWEFELMANGEL:
+- Gleichmäßige Vergilbung neuer Blätter
+- Keine Deformierung der Blätter
+- Kein spezifisches Fleckenmuster
+
+ZINKMANGEL:
+- Neue Blätter werden klein und verdreht
+- Internodienlänge stark verkürzt
+- Blattspitzen können sich nach oben biegen
+
+MANGANMANGEL:
+- Kleine braune/nekrotische Flecken auf jungen Blättern
+- Intervenale Chlorose mit spezifischem Muster
+- Kann mit S-Mangel kombiniert auftreten bei hohem pH
+
+
+================================================================================
+4. URSACHEN — WARUM ENTSTEHT SCHWEFELMANGEL?
+================================================================================
+
+--- SELTENHEIT IN NORMALEN ANBAUBEDINGUNGEN ---
+
+Schwefelmangel ist bei Cannabis relativ selten, weil:
+- Die meisten kommerziellen Dünger enthalten Schwefel als Begleitelement
+- Kaliumsulfat, Magnesiumsulfat (Bittersalz) und andere Salze liefern S
+- Leitungswasser enthält oft gelöste Sulfate
+- Der Schwefelbedarf von Cannabis ist moderat
+
+Dennoch tritt er unter bestimmten Umständen auf:
+
+--- pH-PROBLEME (häufigste Ursache) ---
+
+- Bei pH über 7.5 wird Schwefel im Boden schwerer verfügbar
+- Bei sehr niedrigem pH (unter 5.0) können Bodenorganismen, die Schwefel
+  umwandeln, gehemmt werden
+- Lockout: Schwefel kann im Substrat vorhanden sein, aber durch falschen
+  pH nicht aufgenommen werden
+- Überschuss an Kalzium oder Barium kann Schwefel als unlösliches Sulfat
+  ausfällen
+
+--- OSMOSEWASSER (RO-WASSER) OHNE REMINERALISIERUNG ---
+
+- Umkehrosmose entfernt praktisch alle gelösten Mineralien, inkl. Sulfate
+- Wird reines RO-Wasser verwendet und der Dünger enthält wenig Schwefel,
+  kann ein Mangel entstehen
+- Besonders riskant bei organischen Düngern, die oft wenig Schwefel enthalten
+- Regenwasser hat ähnlich niedrige Schwefelwerte
+- Destilliertes Wasser enthält keinen Schwefel
+
+--- BESTIMMTE ORGANISCHE SUBSTRATE UND DÜNGER ---
+
+- Rein organische Substrate können schwefelarm sein
+- Kompost enthält Schwefel, aber die Verfügbarkeit hängt vom Zersetzungsgrad ab
+- Organische Flüssigdünger enthalten oft weniger Schwefel als mineralische
+- Frisches, nicht kompostiertes Material bindet Schwefel durch mikrobielle
+  Aktivität
+- Torfbasierte Substrate sind generell schwefelärmer als mineralische Erden
+
+--- AUSGELAUGTES SUBSTRAT ---
+
+- Bei langen Grow-Zyklen kann Schwefel ausgewaschen werden
+- Übermäßiges Spülen (Flushing) entfernt auch Schwefel
+- Besonders in Kokos und Hydro, wo kein Puffer vorhanden ist
+- In der späten Blütephase nach intensivem Flushing
+
+--- HOHER STICKSTOFFGEHALT ---
+
+- Ein Überangebot an Stickstoff kann die Schwefelaufnahme hemmen
+- Das S:N-Verhältnis sollte ungefähr 1:15 betragen
+- Ammoniumbasierte Dünger können S-Aufnahme stärker hemmen als
+  nitratbasierte
+
+--- KALKHALTIGES SUBSTRAT/WASSER ---
+
+- Sehr kalkhaltiges Wasser (hoher Kalziumgehalt) kann Schwefel binden
+- Kalziumsulfat (Gips) ist zwar löslich, aber bei Überangebot von Ca
+  wird die S-Aufnahme kompetitiv gehemmt
+- Dolomitikalk im Substrat kann bei Überdosierung S-Verfügbarkeit senken
+
+--- KÄLTE ---
+
+- Niedrige Wurzeltemperaturen (unter 15°C) verlangsamen die S-Aufnahme
+- In kühlen Kelleranbauumgebungen häufiger
+- Kombiniert mit anderen Faktoren kann dies den Mangel auslösen
+
+
+================================================================================
+5. OPTIMALE pH-BEREICHE FÜR SCHWEFELAUFNAHME
+================================================================================
+
+Die Schwefelaufnahme ist stark pH-abhängig. In jedem Medium gibt es einen
+optimalen Bereich, in dem Sulfat-Ionen (SO4²⁻) am besten verfügbar sind.
+
+--- ERDE (SOIL) ---
+
+Optimaler pH-Bereich: 6.0 - 7.0
+Idealer Sweetspot:    6.2 - 6.8
+Kritisch niedrig:     unter 5.5 (mikrobielle Umwandlung gehemmt)
+Kritisch hoch:        über 7.5 (Sulfat wird gebunden)
+
+Erläuterung:
+- In Erde wird organischer Schwefel durch Mikroorganismen in Sulfat
+  umgewandelt (Mineralisierung)
+- Dieser Prozess funktioniert am besten bei pH 6.0-7.0
+- Bei zu niedrigem pH werden die schwefeloxidierenden Bakterien gehemmt
+- Bei zu hohem pH können Kalzium-Sulfat-Verbindungen ausfallen
+- Erde hat natürliche Pufferwirkung, die den pH stabilisiert
+
+--- KOKOS (COCO COIR) ---
+
+Optimaler pH-Bereich: 5.5 - 6.5
+Idealer Sweetspot:    5.8 - 6.3
+Kritisch niedrig:     unter 5.0
+Kritisch hoch:        über 7.0
+
+Erläuterung:
+- Kokos hat weniger Pufferkapazität als Erde
+- Schwefel muss als Sulfat im Gießwasser zugeführt werden
+- Kationenaustauschkapazität (CEC) von Kokos beeinflusst die Verfügbarkeit
+- Unbehandeltes Kokos kann durch hohen Natriumgehalt S-Aufnahme hemmen
+- Regelmäßige pH-Kontrolle des Drainagewassers wichtig
+
+--- HYDROPONIK (HYDRO) ---
+
+Optimaler pH-Bereich: 5.5 - 6.0
+Idealer Sweetspot:    5.6 - 5.9
+Kritisch niedrig:     unter 5.0
+Kritisch hoch:        über 6.5
+
+Erläuterung:
+- In Hydro muss ALLES über die Nährlösung kommen
+- Keine mikrobielle Umwandlung wie in Erde
+- pH-Schwankungen wirken sich direkter und schneller aus
+- Schwefel ist als Sulfat in den meisten Hydro-Düngern enthalten
+- Bei pH über 6.5 beginnt die Verfügbarkeit rapide zu sinken
+- Tägliche pH-Kontrolle empfohlen
+
+--- pH-WECHSELWIRKUNGEN MIT ANDEREN NÄHRSTOFFEN ---
+
+- Bei pH unter 5.5: S verfügbar, aber Kalzium/Magnesium können fehlen
+- Bei pH 6.0-6.5: Optimaler Bereich für S und die meisten anderen Nährstoffe
+- Bei pH über 7.0: S-Verfügbarkeit sinkt, ebenso Fe, Mn, Zn, Cu
+- Phosphor-Überschuss bei niedrigem pH kann S-Aufnahme hemmen
+
+
+================================================================================
+6. SUBSTRAT-SPEZIFISCHE INFORMATIONEN
+================================================================================
+
+--- ERDE / SOIL ---
+
+Schwefelquellen im Substrat:
+- Organisches Material (Humus) enthält gebundenen Schwefel
+- Wird durch mikrobielle Aktivität freigesetzt (Mineralisierung)
+- Gips (Kalziumsulfat) als natürliche Quelle
+- Viele Bodenverbesserer enthalten Schwefel
+
+Besonderheiten:
+- Erde hat die höchste natürliche Schwefelversorgung
+- Schwefelmangel in guter Erde ist selten
+- Überaltertes/ausgelaugtes Substrat kann schwefelarm werden
+- Kompostzugabe verbessert die Schwefelversorgung
+- Nach mehrmaligem Recycling kann der S-Gehalt sinken
+
+Vorbeugung:
+- Hochwertige vorgedüngte Erde verwenden
+- Bei Langzeitanbau regelmäßig Kompost oder Wurmhumus ergänzen
+- pH regelmäßig prüfen und im Bereich 6.0-7.0 halten
+- Bei Bedarf Bittersalz (Magnesiumsulfat) als Ergänzung
+
+--- KOKOS / COCO COIR ---
+
+Schwefelquellen:
+- Ausschließlich über die Nährlösung
+- Kokos selbst enthält keinen pflanzenverfügbaren Schwefel
+- Abhängig vom verwendeten Dünger
+
+Besonderheiten:
+- Höheres Risiko für S-Mangel als in Erde
+- Kokos hat hohe CEC und kann Kationen binden, beeinflusst aber
+  Sulfat (Anion) weniger direkt
+- Häufiges Gießen kann Schwefel auswaschen
+- Run-to-Waste-Systeme verbrauchen mehr Dünger
+
+Vorbeugung:
+- Coco-spezifische Dünger verwenden (enthalten angepasste S-Mengen)
+- EC und pH des Drainagewassers regelmäßig messen
+- Bei Verwendung von RO-Wasser: Cal-Mag-Produkt mit Schwefel wählen
+- Nicht übermäßig spülen
+
+--- HYDROPONIK ---
+
+Schwefelquellen:
+- Ausschließlich über die Nährlösung
+- Kaliumsulfat (K₂SO₄) in den meisten Hydro-Düngern
+- Magnesiumsulfat (MgSO₄) als Sekundärquelle
+- Einige Dünger nutzen Ammoniumsulfat als N+S-Quelle
+
+Besonderheiten:
+- Höchstes Risiko für S-Mangel bei fehlerhafter Düngung
+- Kein Puffer im System — Mangel zeigt sich schnell
+- pH-Abweichungen wirken sich sofort auf die Verfügbarkeit aus
+- Tankwechsel entfernt alle Nährstoffe — frische Lösung muss korrekt sein
+- DWC, NFT, Aeroponik alle gleichermaßen betroffen
+
+Vorbeugung:
+- Hochwertige Hydro-Dünger verwenden, die S enthalten
+- Nährlösung nach Herstellerangaben anmischen
+- EC und pH täglich kontrollieren
+- Regelmäßiger Nährlösungswechsel (alle 7-14 Tage)
+- Bittersalz als Ergänzung bei Bedarf (0.1-0.3 g/L)
+
+--- AEROPONIK ---
+
+- Gleiche Prinzipien wie Hydroponik
+- Noch schnellere Reaktion auf Nährstoffdefizite
+- pH-Kontrolle besonders kritisch
+- Sprühdüsen können durch Sulfat-Ablagerungen verstopfen bei hohem EC
+
+--- LIVING SOIL / SUPER SOIL ---
+
+- Schwefel wird über organische Quellen bereitgestellt
+- Gips, Kieserit, Gesteinsmehl als Langzeit-S-Quellen
+- Mikrobielle Aktivität essenziell für die Freisetzung
+- Selten Mangel, wenn die Erde gut aufgebaut ist
+- Bei Wasserkultur-Ansätzen (SIPS, Wicking) auf ausreichend S achten
+
+
+================================================================================
+7. PHASEN-SPEZIFISCHE INFORMATIONEN
+================================================================================
+
+--- KEIMLINGS-/SÄMLINGS-PHASE (Woche 1-2) ---
+
+Schwefelbedarf: Niedrig
+Anfälligkeit:   Gering (Samen enthält S-Reserven)
+Symptome:       Sehr selten in dieser Phase
+Hinweise:
+- Sämlinge haben minimalen S-Bedarf
+- Samenschale enthält Schwefelreserven
+- Vorgedüngte Erde reicht vollkommen aus
+- In Hydro: leichte Nährlösung (EC 0.3-0.5) enthält genug S
+- Mangel in dieser Phase deutet auf schwerwiegendes Substratproblem hin
+
+--- VEGETATIVE PHASE (Woche 3-8) ---
+
+Schwefelbedarf: Mittel, steigend
+Anfälligkeit:   Mittel
+Symptome:       Ab Woche 4-5 möglich bei Unterversorgung
+Hinweise:
+- Schnelles Wachstum erhöht den Schwefelbedarf
+- Besonders bei stark stickstoffbetonter Düngung steigt der S-Bedarf
+  (S:N-Verhältnis beachten)
+- Topping und Training erhöhen den Bedarf durch Bildung neuer Triebe
+- In dieser Phase ist die Pflanze noch tolerant — Mangel entwickelt sich
+  langsam
+- Rechtzeitige Korrektur hat gute Erfolgsaussichten
+- Erste Symptome zeigen sich an den schnell wachsenden Triebspitzen
+
+--- ÜBERGANGSPHASE / STRETCH (Woche 1-3 der Blüte) ---
+
+Schwefelbedarf: Hoch
+Anfälligkeit:   Hoch
+Symptome:       Können schnell auftreten durch explosives Wachstum
+Hinweise:
+- Der Stretch (starkes Längenwachstum nach Umstellung auf 12/12)
+  erhöht den Nährstoffbedarf rapide
+- Viele Grower reduzieren N zu früh und vergessen, dass S ebenfalls
+  benötigt wird
+- Umstellung auf Blütedünger kann S-Unterversorgung auslösen, wenn der
+  Blütedünger weniger S enthält als der Vegdünger
+- Kritische Phase für die Früherkennung
+
+--- BLÜTEPHASE / MITTE (Woche 3-6 der Blüte) ---
+
+Schwefelbedarf: Mittel bis Hoch
+Anfälligkeit:   Hoch
+Symptome:       Deutliche Auswirkung auf Blütenqualität
+Hinweise:
+- Schwefel ist essenziell für die Terpensynthese
+- Mangel in dieser Phase reduziert Aroma und Geschmack der Ernte
+- Blütenentwicklung wird verlangsamt
+- Harzproduktion kann beeinträchtigt sein
+- Korrektur dauert 1-2 Wochen, bis Verbesserung sichtbar wird
+- Bereits vergilbte Blätter erholen sich NICHT vollständig
+
+--- SPÄTE BLÜTE / REIFE (Woche 6-10 der Blüte) ---
+
+Schwefelbedarf: Mittel, abnehmend
+Anfälligkeit:   Mittel (natürliche Alterung kann Symptome maskieren)
+Symptome:       Schwer von natürlicher Seneszenz zu unterscheiden
+Hinweise:
+- Natürliche Blattalterung am Ende der Blüte ist normal
+- Ein gewisser S-Mangel in den letzten 1-2 Wochen ist akzeptabel
+- Flushing vor der Ernte kann S-Mangel-Symptome auslösen — das ist
+  normal und erwünscht
+- Starker Mangel ab Woche 6 ist problematisch für die Reifung
+- In dieser Phase ist Korrektur nur bei extremem Mangel sinnvoll
+
+--- AUTOFLOWER-BESONDERHEITEN ---
+
+- Autoflower haben einen komprimierten Lebenszyklus (8-12 Wochen gesamt)
+- S-Mangel muss SCHNELLER korrigiert werden, da weniger Zeit verfügbar ist
+- Kein separater Vegdünger/Blütedünger-Wechsel — kann S-Versorgung
+  vereinfachen oder komplizieren
+- Autoflower sind generell empfindlicher auf Nährstoffprobleme
+- Prävention ist bei Autoflowern wichtiger als Korrektur
+
+
+================================================================================
+8. EC-KONTEXT — LEITWERT UND SCHWEFELVERSORGUNG
+================================================================================
+
+ALLGEMEINE EC-BEREICHE (Gesamtlösung, in der Schwefel enthalten ist):
+
+Sämlinge:           EC 0.3 - 0.5 mS/cm
+Frühe Vegetation:   EC 0.5 - 1.0 mS/cm
+Späte Vegetation:   EC 1.0 - 1.6 mS/cm
+Stretch/Übergang:   EC 1.2 - 1.8 mS/cm
+Mitte Blüte:        EC 1.4 - 2.0 mS/cm
+Späte Blüte:        EC 1.0 - 1.6 mS/cm
+Flushing:           EC 0.0 - 0.3 mS/cm
+
+SCHWEFEL IM EC-KONTEXT:
+- Schwefel trägt als Sulfat-Ion (SO₄²⁻) zum EC bei
+- Bei einem EC von 1.5 mS/cm sollten ca. 30-80 ppm S enthalten sein
+- Typischer S-Gehalt in Nährlösungen: 50-150 ppm je nach Phase
+- S macht normalerweise 3-8% des Gesamt-EC aus
+
+OPTIMALE SCHWEFELKONZENTRATIONEN:
+- Sämlinge:         20-40 ppm S
+- Vegetation:       50-100 ppm S
+- Blüte:            60-120 ppm S
+- Späte Blüte:      40-80 ppm S
+
+EC ZU HOCH, ABER S-MANGEL:
+- Möglich wenn EC durch andere Salze (NaCl, überschüssiges N) verursacht wird
+- EC allein sagt NICHTS über die Schwefelversorgung aus
+- Ein hoher EC mit wenig S kann S-Lockout verursachen
+- Lösung: Nährstoffverhältnisse prüfen, nicht nur EC
+
+EC ZU NIEDRIG:
+- Bei sehr niedrigem EC (unter 0.5) fehlen wahrscheinlich alle Nährstoffe
+- S-Mangel ist dann nur ein Teil des Problems
+- Gesamte Düngung anpassen, nicht nur S supplementieren
+
+DRAINAGEWASSER-EC:
+- Drainage-EC sollte nicht mehr als 0.5 mS/cm über dem Input-EC liegen
+- Deutlich höherer Drainage-EC = Salzakkumulation, die S-Aufnahme hemmen kann
+- Deutlich niedrigerer Drainage-EC = unwahrscheinlich, deutet auf
+  Verdünnung hin
+
+
+================================================================================
+9. BEHANDLUNG — KORREKTUR VON SCHWEFELMANGEL
+================================================================================
+
+--- SOFORTMASSNAHMEN ---
+
+1. pH-KORREKTUR (WICHTIGSTER erster Schritt):
+   - pH des Gießwassers/der Nährlösung in den optimalen Bereich bringen
+   - Erde: pH 6.0-6.8
+   - Kokos: pH 5.8-6.3
+   - Hydro: pH 5.6-5.9
+   - Wenn der pH zu hoch ist, ist dies wahrscheinlich die alleinige Ursache
+   - pH-Korrektur allein kann den Mangel bereits beheben
+
+2. BITTERSALZ (MAGNESIUMSULFAT / MgSO₄·7H₂O):
+   - Schnellste und einfachste Schwefelquelle
+   - Dosierung Blattspray: 1-2 g pro Liter Wasser
+   - Dosierung Gießwasser: 1-3 g pro Liter Wasser
+   - Blattspray wirkt innerhalb von 2-5 Tagen
+   - Über Wurzel innerhalb von 5-10 Tagen
+   - VORSICHT: Enthält auch Magnesium — bei Mg-Überschuss nicht verwenden
+   - Nicht überdosieren — lieber mehrfach niedrig dosiert anwenden
+   - Lösung komplett auflösen vor Anwendung
+
+3. KALIUMSULFAT (K₂SO₄):
+   - Gute Schwefelquelle, die auch Kalium liefert
+   - Dosierung: 0.5-1.5 g pro Liter Gießwasser
+   - Besonders geeignet in der Blütephase (K + S)
+   - pH-neutral bis leicht sauer
+
+4. GIPS (KALZIUMSULFAT / CaSO₄):
+   - Für Erde geeignet, langsam freisetzend
+   - Dosierung: 1-2 g pro Liter Substrat einarbeiten
+   - Liefert auch Kalzium
+   - Verändert den pH kaum
+   - Nicht für Hydro geeignet (schwer löslich)
+
+--- BEHANDLUNG NACH SUBSTRAT ---
+
+ERDE:
+- pH prüfen und ggf. korrigieren (Essig/Zitronensäure zum Senken)
+- Bittersalz-Lösung gießen (2 g/L)
+- Bei organischem Anbau: Gips oder Kieserit einarbeiten
+- Kompost-Tee mit schwefelhaltigen Zusätzen
+- Elementaren Schwefel NICHT verwenden (wirkt zu langsam und versauert)
+- Neem-Kuchen enthält etwas Schwefel
+
+KOKOS:
+- pH auf 5.8-6.3 einstellen
+- Coco-Dünger auf S-Gehalt prüfen
+- Bittersalz als Ergänzung (1-2 g/L)
+- Drainagewasser analysieren
+- Bei Salzakkumulation: einmal mit pH-korrigiertem Wasser spülen,
+  dann frische Nährlösung mit S-Ergänzung
+
+HYDRO:
+- Nährlösung komplett erneuern
+- S-Gehalt der Lösung prüfen/berechnen
+- Bittersalz oder Kaliumsulfat zur Lösung hinzufügen
+- pH nach Zugabe erneut prüfen
+- EC-Wert kontrollieren
+- Bei DWC: Wurzeln auf Gesundheit prüfen (braune Wurzeln = anderes Problem)
+
+--- BLATTDÜNGUNG (SCHNELLSTE METHODE) ---
+
+Rezept:
+- 1-2 g Bittersalz pro Liter Wasser
+- pH auf 6.0-6.5 einstellen
+- Optional: wenige Tropfen Netzmittel (z.B. Yucca-Extrakt)
+- Auf Blattunterseiten sprühen (dort sind mehr Stomata)
+- Morgens oder bei gedämpftem Licht sprühen
+- NIEMALS bei voller Lichtintensität sprühen (Verbrennungsgefahr)
+- Bei HPS/LED: Licht dimmen oder Abstand vergrößern beim Sprühen
+- 2-3 Mal im Abstand von 3-5 Tagen wiederholen
+
+--- ZEITRAHMEN DER ERHOLUNG ---
+
+- Blattspray: Erste Verbesserung nach 3-5 Tagen
+- Wurzeldüngung: Erste Verbesserung nach 7-14 Tagen
+- Bereits vergilbte Blätter werden NICHT wieder grün
+- Neue Blätter sollten wieder normal grün austreiben
+- Vollständige Erholung: 2-4 Wochen
+- Je früher der Mangel erkannt wird, desto schneller die Erholung
+
+--- LANGFRISTIGE PRÄVENTION ---
+
+- Dünger verwenden, der ausreichend Schwefel enthält
+- pH-Wert regelmäßig kontrollieren (mindestens wöchentlich)
+- Bei RO-Wasser: immer remineralisieren (Cal-Mag + Dünger)
+- Wasseranalyse durchführen, um natürlichen S-Gehalt zu kennen
+- Substratanalyse bei wiederkehrenden Problemen
+- S:N-Verhältnis im Auge behalten (1:15 Richtwert)
+- Nicht übermäßig spülen
+
+--- ÜBERDOSIERUNG VERMEIDEN ---
+
+Schwefelüberschuss ist ebenfalls möglich und zeigt sich durch:
+- Blätter werden klein und dunkelgrün
+- Wachstumshemmung
+- In extremen Fällen: Blattrandnekrosen
+- Kann andere Nährstoffe (besonders Molybdän) blockieren
+- Weniger ist mehr — schrittweise erhöhen
+
+
+================================================================================
+10. VERWECHSLUNGSGEFAHR — ZUSAMMENFASSUNG
+================================================================================
+
+SCHWEFELMANGEL WIRD HÄUFIG VERWECHSELT MIT:
+
++------------------+------------------+----------------------------------+
+| Verwechslung     | Hauptunterschied | Schnelltest                      |
++------------------+------------------+----------------------------------+
+| Stickstoff (N)   | N: untere Blätter| Wo beginnt die Vergilbung?       |
+|                  | S: obere Blätter | Oben = S, Unten = N              |
++------------------+------------------+----------------------------------+
+| Eisen (Fe)       | Fe: interveinal  | Adern grün (Fe) oder auch        |
+|                  | S: gleichmäßig   | gelb (S)?                        |
++------------------+------------------+----------------------------------+
+| Magnesium (Mg)   | Mg: untere/mittl.| Wo + Muster prüfen              |
+|                  | S: obere Blätter | Mg = interveinal, S = uniform    |
++------------------+------------------+----------------------------------+
+| Lichtstress      | Licht: nur oben  | Auch schattige Stellen betroffen?|
+|                  | direkt unter Lamp| Ja = S, Nein = Licht             |
++------------------+------------------+----------------------------------+
+| Zink (Zn)        | Zn: verdrehte    | Blattform normal?                |
+|                  | kleine Blätter   | Ja = S, Nein = Zn                |
++------------------+------------------+----------------------------------+
+| Neues Wachstum   | Neuwuchs: hell   | Bleibt hellgrün oder wird        |
+| (normal)         | aber temporär    | gelber? Normal = wird grün       |
++------------------+------------------+----------------------------------+
+| pH-Lockout       | Lockout: mehrere | pH messen. Außerhalb des         |
+| (allgemein)      | Nährstoffe       | Bereichs = wahrscheinlich Lockout|
++------------------+------------------+----------------------------------+
+
+DIAGNOSTISCHER ENTSCHEIDUNGSBAUM:
+
+1. Vergilbung beginnt oben oder unten?
+   → Unten = N, Mg, oder K-Mangel → KEIN S-Mangel
+   → Oben = Weiter zu Schritt 2
+
+2. Vergilbung gleichmäßig oder interveinal?
+   → Interveinal (Adern bleiben grün) = Fe oder Mn-Mangel
+   → Gleichmäßig = Weiter zu Schritt 3
+
+3. Nur direkt unter dem Licht oder überall oben?
+   → Nur direkt unter Licht = Lichtstress
+   → Überall an neuen Blättern = Weiter zu Schritt 4
+
+4. Blätter verdreht/deformiert?
+   → Ja = Zn-Mangel oder pH-Extremwert
+   → Nein, Form normal = Weiter zu Schritt 5
+
+5. pH im richtigen Bereich?
+   → Nein = pH-Lockout korrigieren
+   → Ja = WAHRSCHEINLICH SCHWEFELMANGEL
+
+6. Bestätigung: Bittersalz-Test
+   → 2 g/L Bittersalz als Blattspray
+   → Verbesserung nach 3-5 Tagen = S-Mangel bestätigt
+
+
+================================================================================
+11. BILDMERKMALE FÜR KI-ANALYSE
+================================================================================
+
+Dieser Abschnitt beschreibt die visuellen Merkmale, die ein KI-basiertes
+Bilderkennungssystem nutzen sollte, um Schwefelmangel zu identifizieren.
+
+--- PRIMÄRE ERKENNUNGSMERKMALE (hohe Gewichtung) ---
+
+FARBANALYSE:
+- Neues Wachstum (obere Blätter): RGB-Werte verschieben sich von
+  Dunkelgrün (ca. R:35-60, G:100-140, B:20-50) zu
+  Hellgrün (ca. R:120-170, G:170-210, B:60-100) zu
+  Gelb (ca. R:180-220, G:200-230, B:70-120)
+- GLEICHMÄSSIGE Farbverteilung über das gesamte Blatt — kein
+  intervenales Muster
+- Blattadern und Blattzwischenräume haben ÄHNLICHE Farbe
+- Farbgradient in der Pflanze: oben heller als unten
+- Kein abrupter Farbwechsel, sondern fließender Übergang
+
+FARBDIFFERENZ INNERHALB DER PFLANZE:
+- Delta-Grünwert zwischen oberen und unteren Blättern > 30-50 RGB-Punkte
+- Obere Blätter: dominant Gelb-Grün bis Gelb
+- Untere Blätter: dominant Grün (normal)
+- Mittlere Blätter: Übergangsfarbe
+
+BLATTPOSITION DER SYMPTOME:
+- Oberstes Drittel der Pflanze betroffen
+- Triebspitzen und neueste Blattpaare zuerst
+- Seitentriebspitzen ebenfalls betroffen
+- Unteres Drittel: grün (keine Symptome)
+
+--- SEKUNDÄRE ERKENNUNGSMERKMALE (mittlere Gewichtung) ---
+
+BLATTFORM UND STRUKTUR:
+- Blattform ist NORMAL (nicht verdreht, nicht deformiert)
+- Blattränder sind INTAKT (keine Nekrosen, kein Einrollen im Frühstadium)
+- Blattoberfläche ist GLATT (keine Flecken, keine Punkte)
+- Blattdicke erscheint normal
+- Blätter stehen aufrecht, kein Hängen oder Welken
+
+STÄNGELFARBE:
+- Violette/rötliche Verfärbung der Stängel (im Mittel-/Spätstadium)
+- Blattstiele können violett anlaufen
+- Dieser Farbwechsel ist NICHT genetisch bedingt bei gleichzeitiger
+  Blattvergilbung oben
+
+WACHSTUMSMUSTER:
+- Internodienabstände können leicht verkürzt sein
+- Neue Blätter erscheinen kleiner als erwartet
+- Triebspitze wirkt kompakter als normal
+- Blütenentwicklung verlangsamt (falls in Blütephase)
+
+--- AUSSCHLUSSKRITERIEN (Merkmale, die GEGEN S-Mangel sprechen) ---
+
+FOLGENDE MERKMALE DEUTEN NICHT AUF S-MANGEL:
+- Vergilbung NUR an unteren Blättern → N- oder Mg-Mangel
+- Intervenale Chlorose (grüne Adern, gelbe Fläche) → Fe- oder Mn-Mangel
+- Braune Blattspitzen → Nährstoffverbrennung oder K-Mangel
+- Welke, hängende Blätter → Über-/Unterbewässerung oder N-Mangel
+- Braune/nekrotische Flecken → Ca-Mangel, Mg-Mangel, oder Pathogen
+- Blattrandnekrose → K-Mangel oder Salzstress
+- Ausbleichen/Weißwerden nur an Pflanzenspitze → Lichtstress
+- Verdrehte/krallenartige Blätter → N-Toxizität oder pH-Extreme
+- Nur einzelne Blätter betroffen → lokaler Schaden, kein Nährstoffproblem
+- Gelbe Flecken/Punkte → Schädlingsbefall (Spinnmilben etc.)
+
+--- KONFIDENZ-INDIKATOREN FÜR KI ---
+
+HOHE KONFIDENZ (>80%) für S-Mangel wenn:
+- Obere neue Blätter gleichmäßig hellgrün/gelb
+- UND untere Blätter noch grün
+- UND keine intervenale Musterung
+- UND Blätter nicht welk
+- UND keine Nekrosen
+- UND Blattform normal
+
+MITTLERE KONFIDENZ (50-80%) wenn:
+- Obere Blätter hellgrün (nicht eindeutig gelb)
+- ODER Bild zeigt nicht genug von der Pflanze für Vergleich oben/unten
+- ODER leichte Farbungleichmäßigkeiten vorhanden
+- ODER Beleuchtung im Bild verfälscht Farben (HPS-Licht = gelb/orange)
+
+NIEDRIGE KONFIDENZ (<50%) wenn:
+- Nur einzelne Blätter betroffen
+- ODER Symptome an unteren/mittleren Blättern
+- ODER intervenales Muster sichtbar
+- ODER Bild zu dunkel/unscharf für Farbanalyse
+- ODER HPS-Beleuchtung ohne Farbkorrektur
+
+--- BILDQUALITÄTS-ANFORDERUNGEN ---
+
+Für zuverlässige Diagnose sollte das Bild:
+- Die GESAMTE Pflanze zeigen (oben UND unten sichtbar)
+- Bei natürlichem Licht oder Weißlicht aufgenommen sein
+  (HPS-Licht verfälscht Farben massiv)
+- Mindestens 1 Megapixel Auflösung haben
+- Scharf und nicht verwackelt sein
+- Mehrere Blätter auf verschiedenen Höhen zeigen
+- Idealerweise ein Referenzblatt (gesund) im gleichen Bild haben
+
+HINWEIS ZUR BELEUCHTUNG:
+- Unter HPS-Licht (gelb/orange) ist Farbanalyse stark eingeschränkt
+- Unter LED mit hohem Rotanteil ebenfalls verfälscht
+- Weißlicht-LED oder Blitz empfohlen für Diagnosefotos
+- Farbkalibrierung anhand bekannter Referenzpunkte wenn möglich
+- Wenn nur HPS-Fotos verfügbar: auf relative Farbunterschiede
+  zwischen Blättern achten, nicht auf absolute Farben
+
+--- SCHWEFEL-SPEZIFISCHES SCORING-MODELL ---
+
+Für eine quantitative Bewertung kann folgendes Punktesystem verwendet werden:
+
+Kriterium                                          Punkte
+---------------------------------------------------+-------
+Neue/obere Blätter gleichmäßig hellgrün/gelb        +3
+Untere Blätter noch grün                             +2
+Keine intervenale Musterung                          +2
+Blätter fest, nicht welk                             +1
+Violette Stängel/Blattstiele                         +1
+Verlangsamtes Wachstum sichtbar                      +1
+Blattform normal (nicht verdreht)                    +1
+Keine Nekrosen oder braune Flecken                   +1
+---------------------------------------------------+-------
+Intervenale Chlorose sichtbar                        -3
+Vergilbung beginnt unten                             -4
+Blätter welk/hängend                                 -2
+Nekrotische Flecken/Ränder                           -2
+Nur lichtnahe Blätter betroffen                      -2
+Blätter verdreht/deformiert                          -2
+
+Bewertung:
+8-12 Punkte: Schwefelmangel sehr wahrscheinlich
+4-7 Punkte:  Schwefelmangel möglich, weitere Analyse nötig
+0-3 Punkte:  Schwefelmangel unwahrscheinlich
+<0 Punkte:   Anderes Problem liegt vor
+
+
+================================================================================
+KURZREFERENZ — SCHWEFELMANGEL AUF EINEN BLICK
+================================================================================
+
+WAS:    Schwefel (S) — sekundärer Makronährstoff, semi-mobil
+WO:     Symptome beginnen an NEUEN/OBEREN Blättern
+WIE:    Gleichmäßige Vergilbung (NICHT interveinal), Blätter bleiben fest
+WANN:   Am häufigsten in Übergangs-/Blütephase
+WARUM:  pH-Probleme, RO-Wasser, schwefelarme Dünger, organische Substrate
+FIX:    1. pH korrigieren  2. Bittersalz (1-2 g/L)  3. Dünger anpassen
+ZEIT:   Erholung nach 1-2 Wochen (neue Blätter), alte bleiben gelb
+MERKE:  "Schwefel = oben + gleichmäßig gelb + Blatt fest"
+
+================================================================================
+ENDE — SCHWEFELMANGEL (S) BEI CANNABIS — WISSENSDATEI
+================================================================================

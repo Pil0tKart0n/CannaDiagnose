@@ -1,9 +1,12 @@
-export type SubstrateType = 'Erde' | 'Kokos' | 'Perlite-Mix' | 'DWC / Hydro' | 'Aeroponik' | 'Sonstige';
+export type SubstrateType = 'Erde' | 'Kokos' | 'DWC / Hydro' | 'Aeroponik' | 'Sonstige';
 export type Severity = 'niedrig' | 'mittel' | 'hoch' | 'kritisch';
 
 export interface QuestionnaireData {
+  growPhase: string | null;
   plantAgeWeeks: string | null;
   substrateType: string | null;
+  perliteAdded: boolean;
+  perlitePercent: string | null;
   fertilizerType: string | null;
   waterTempCelsius: string | null;
   substrateTempCelsius: string | null;
@@ -15,7 +18,7 @@ export interface QuestionnaireData {
   humidityPercent: string | null;
   symptomDurationDays: string | null;
   recentChanges: string[];
-  [key: string]: string | string[] | null;
+  [key: string]: string | string[] | boolean | null;
 }
 
 export interface ContributingFactor {

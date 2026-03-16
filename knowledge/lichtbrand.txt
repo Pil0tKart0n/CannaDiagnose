@@ -1,0 +1,214 @@
+================================================================================
+LICHTBRAND / LICHTSTRESS (Light Burn / Light Stress)
+================================================================================
+
+KATEGORIE: Umweltstress (abiotisch)
+SCHWEREGRAD: Mittel bis schwer
+HÄUFIGKEIT: Sehr häufig bei Indoor-Grows, besonders mit LED-Beleuchtung
+BETROFFENE STADIEN: Alle, besonders Blüte (kürzerer Abstand zur Lichtquelle)
+
+================================================================================
+1. BESCHREIBUNG UND URSACHE
+================================================================================
+
+Lichtbrand entsteht, wenn Cannabis-Pflanzen zu viel Lichtenergie erhalten -
+entweder durch zu geringen Abstand zur Lichtquelle oder durch zu hohe
+Lichtintensität (PPFD/DLI). Die Photosynthese-Maschinerie der Pflanze wird
+überlastet. Überschüssige Lichtenergie erzeugt reaktive Sauerstoffspezies
+(ROS), die Chlorophyll und Zellstrukturen zerstören (Photooxidation).
+
+Wichtig: Lichtbrand kann auch bei NIEDRIGEN Temperaturen auftreten! Dies ist
+besonders bei modernen LED-Lampen der Fall, die weniger Wärme abstrahlen als
+HPS/MH-Lampen. Eine Pflanze kann also Lichtbrand erleiden, obwohl die
+Temperatur im optimalen Bereich liegt. Bei HPS-Lampen tritt Hitzestress oft
+VOR dem Lichtbrand auf, bei LEDs ist es häufig umgekehrt.
+
+Ursachen im Detail:
+- Lampe zu nah an den Pflanzenspitzen
+- Lichtintensität zu hoch eingestellt (Dimmer)
+- Reflektierende Wände konzentrieren Licht auf bestimmte Bereiche
+- Pflanze wächst nach einem Stretch plötzlich zu nah an die Lampe
+- Ungleichmäßige Lichtverteilung (Hotspots)
+- Zu langer Lichtzyklus (z.B. 24/0 in Veg ohne Erholungsphase)
+
+================================================================================
+2. VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+FRÜHSTADIUM:
+- Die OBERSTEN Blätter, die der Lichtquelle am nächsten sind, zeigen als
+  erste Anzeichen eine leichte Aufhellung/Vergilbung
+- Die Vergilbung beginnt NICHT an den Blatträndern oder -spitzen, sondern
+  in der Blattfläche selbst, besonders zwischen den Blattadern
+- Blätter erscheinen "ausgewaschen" oder "ausgebleicht"
+- Die Blattadern können zunächst noch grün bleiben (intervenale Chlorose)
+- Leichtes Aufwärtskräuseln der Blattränder ("Taco-Form" / "Kanu-Form")
+
+MITTELSTADIUM:
+- Deutliche WEISSE oder HELLGELBE FLECKEN auf den Blattoberseiten
+- Diese Flecken treten NUR auf den lichtexponierten Flächen auf
+- Blätter, die durch obere Blätter beschattet werden, bleiben grün
+- Die "Taco-Kräuselung" wird ausgeprägter - Blattränder rollen sich
+  nach oben ein, das Blatt formt sich wie ein Taco oder Kanu
+- Blätter werden brüchig und papierartig in den gebleichten Bereichen
+- Die Pflanze kann versuchen, Blätter wegzudrehen (Phototropismus-Stress)
+
+SPÄTSTADIUM / SCHWERER LICHTBRAND:
+- Komplettes Bleaching: Blätter werden vollständig weiß/hellgelb
+- Gebleichte Blätter werden knusprig und sterben ab
+- Nekrotische (braune, tote) Flecken auf gebleichten Bereichen
+- In der Blüte: Buds können "foxtailen" oder bleichen ("weiße Buds")
+- Gebleichte Buds haben WENIGER Potenz (THC-Abbau durch UV/Licht)
+- Trichome auf gebleichten Buds degradieren schneller
+
+BESONDERE MERKMALE:
+- Symmetrie: Lichtbrand folgt dem LICHTMUSTER, nicht der Pflanzenstruktur
+  Blätter direkt unter der Lampe sind am stärksten betroffen
+  Blätter am Rand des Lichtfeldes weniger betroffen
+  Beschattete Blätter gar nicht betroffen
+- Die Vergilbung geht VON OBEN NACH UNTEN (nicht von unten nach oben!)
+- Blätter lassen sich NICHT "abreiben" wie bei manchen Pilzerkrankungen
+- Keine Flecken auf der Blattunterseite (nur Oberseite betroffen)
+
+================================================================================
+3. ABGRENZUNG ZU ÄHNLICHEN PROBLEMEN
+================================================================================
+
+LICHTBRAND vs. STICKSTOFFMANGEL (N-Mangel):
++---------------------------+---------------------------+
+| LICHTBRAND                | STICKSTOFFMANGEL          |
++---------------------------+---------------------------+
+| Beginnt OBEN (nah am      | Beginnt UNTEN an den      |
+| Licht)                    | ältesten Blättern         |
+| Weiß/bleich, ausgewaschen | Gleichmäßig hellgelb      |
+| Nur lichtexponierte       | Gesamtes Blatt betroffen  |
+| Flächen                   |                           |
+| Blattadern können grün    | Blatt wird GLEICHMÄSSIG   |
+| bleiben (anfangs)         | gelb inkl. Adern          |
+| Taco-Kräuselung           | Kein Kräuseln, Blätter    |
+|                           | werden weich und fallen ab|
+| Nicht mobilisierbar       | N ist mobil, daher wandert|
+|                           | der Mangel von unten hoch |
++---------------------------+---------------------------+
+
+LICHTBRAND vs. EISENMANGEL (Fe-Mangel):
++---------------------------+---------------------------+
+| LICHTBRAND                | EISENMANGEL               |
++---------------------------+---------------------------+
+| Hauptsächlich an den      | An NEUEN Blättern überall |
+| lichtexponierten Tops     | (nicht nur oben)          |
+| Fleckig, unregelmäßig     | Sehr gleichmäßige         |
+|                           | intervenale Chlorose      |
+| Weiß/bleich               | Hellgelb bis fast weiß    |
+| Folgt Lichtmuster         | Folgt Blattaderstruktur   |
+| Blattadern und -fläche    | Blattadern bleiben DEUTLICH|
+| können beide bleichen     | grün (starker Kontrast)   |
+| Beschattete Blätter OK    | ALLE neuen Blätter, auch  |
+|                           | beschattete               |
++---------------------------+---------------------------+
+
+LICHTBRAND vs. HITZESTRESS:
++---------------------------+---------------------------+
+| LICHTBRAND                | HITZESTRESS               |
++---------------------------+---------------------------+
+| Bleaching/Weißfärbung     | Blätter werden NICHT weiß |
+| Kann bei kühlen Temps     | Nur bei hohen Temperaturen|
+| auftreten (LED!)          | (>30°C)                   |
+| Hauptsymptom: Farbverlust | Hauptsymptom: Kräuselung, |
+|                           | trockene Blattränder      |
+| Folgt Lichtmuster         | Gesamte Pflanze betroffen |
+| Blätter werden brüchig    | Blätter werden trocken    |
++---------------------------+---------------------------+
+Hinweis: Beide können GLEICHZEITIG auftreten, besonders bei HPS-Lampen!
+
+LICHTBRAND vs. PH-PROBLEME:
+- pH-Probleme verursachen unregelmäßige Verfärbungen überall an der Pflanze
+- Lichtbrand ist strikt auf lichtnahe Bereiche begrenzt
+- pH-Probleme betreffen oft auch ältere Blätter
+
+================================================================================
+4. LICHTWERTE - PPFD UND DLI KONTEXT
+================================================================================
+
+PPFD (Photosynthetische Photonenflussdichte) in µmol/m²/s:
+- Sämlinge/Klone:      100 - 300 µmol/m²/s
+- Vegetationsphase:    300 - 600 µmol/m²/s
+- Frühe Blüte:         600 - 800 µmol/m²/s
+- Volle Blüte:         800 - 1000 µmol/m²/s
+- Maximum (mit CO2):   1000 - 1500 µmol/m²/s
+
+ÜBER 1000 µmol/m²/s ohne CO2-Supplementierung = hohes Lichtbrand-Risiko!
+ÜBER 1500 µmol/m²/s auch mit CO2 = sehr hohes Risiko!
+
+DLI (Daily Light Integral) in mol/m²/Tag:
+- Sämlinge:            12 - 20 mol/m²/Tag
+- Vegetation (18/6):   25 - 40 mol/m²/Tag
+- Blüte (12/12):       30 - 45 mol/m²/Tag
+- Maximum:             50 - 65 mol/m²/Tag (nur mit CO2!)
+
+Berechnung: DLI = PPFD x Stunden Licht x 3600 / 1.000.000
+
+LICHTABSTAND (Richtwerte - immer Herstellerangaben beachten!):
+- LED 100W:  30-45 cm Abstand
+- LED 200W:  40-55 cm Abstand
+- LED 400W:  50-70 cm Abstand
+- LED 600W+: 60-90 cm Abstand
+- HPS 400W:  40-60 cm Abstand (Hitze beachten!)
+- HPS 600W:  50-75 cm Abstand (Hitze beachten!)
+
+================================================================================
+5. SOFORTMASSNAHMEN
+================================================================================
+
+1. ABSTAND ERHÖHEN: Lampe sofort 10-20 cm höher hängen
+2. DIMMEN: Falls möglich, Lichtintensität um 20-30% reduzieren
+3. BESCHATTUNG: Stark betroffene Pflanzenteile temporär beschatten
+4. TRAINING: LST (Low Stress Training) oder Supercropping, um Tops vom
+   Licht wegzubiegen
+5. SCROG-Netz: Pflanzenspitzen unter ein Netz biegen
+6. NICHT ENTBLÄTTERN: Gebleichte Blätter NICHT sofort entfernen -
+   sie bieten noch etwas Schutz für darunterliegende Blätter
+
+================================================================================
+6. LANGFRISTIGE PRÄVENTION
+================================================================================
+
+- PAR-Meter / PPFD-Meter verwenden (z.B. Apogee, Photone-App als Budget)
+- Lichtabstand regelmäßig kontrollieren, besonders im Stretch
+- Automatische Lichtsteuerung mit Timer und Dimmer
+- Gleichmäßige Lichtverteilung sicherstellen (Lampe zentrieren)
+- CO2-Supplementierung bei hohen Lichtlevels (>800 PPFD)
+- Genetik beachten: Sativa-dominante Sorten sind oft lichtempfindlicher
+- Akklimatisierung: Lichtintensität schrittweise erhöhen, nicht sprunghaft
+- Regelmäßiges Training/Topping für gleichmäßige Canopy-Höhe
+
+================================================================================
+7. ERHOLUNGSPROGNOSE
+================================================================================
+
+- Leicht gebleichte Blätter: Erholen sich TEILWEISE, werden aber nie
+  wieder vollständig grün
+- Stark gebleichte/weiße Blätter: Erholen sich NICHT, bleiben geschädigt
+- Neue Blätter wachsen nach Korrektur gesund nach
+- Gebleichte Buds: THC-Gehalt ist DAUERHAFT reduziert in diesen Bereichen
+- Erholungszeit nach Korrektur: 1-2 Wochen für sichtbare Besserung
+- Bereits nekrotisches Gewebe ist irreversibel geschädigt
+
+================================================================================
+8. HÄUFIGE FEHLER
+================================================================================
+
+- "Meine LED ist ja kühl, die kann keinen Lichtbrand verursachen" - FALSCH!
+  LEDs verursachen sehr häufig Lichtbrand gerade WEIL sie kühl sind und
+  man sie zu nah hängt
+- Verwechslung mit Nährstoffmangel und Dünger erhöhen -> verschlimmert!
+- Gebleichte Blätter sofort abschneiden -> reduziert Photosynthesefläche
+- Nur Abstand erhöhen ohne PPFD zu prüfen -> ggf. immer noch zu viel
+- Lichtbrand nur an einer Pflanze -> wahrscheinlich ist diese Pflanze
+  höher oder steht direkt unter einem Hotspot
+
+================================================================================
+KURZFORMEL FÜR KI-DIAGNOSE:
+Vergilbung/Bleaching + OBEN an der Pflanze + Nähe zur Lichtquelle +
+Taco-Kräuselung + beschattete Blätter gesund = LICHTBRAND
+================================================================================

@@ -287,7 +287,7 @@ export function getFertilizerNames(): string[] {
 }
 
 /** Get profile info as context string for Claude */
-export function getFertilizerContext(fertilizerName: string | null, plantAge: string | null): string {
+export function getFertilizerContext(fertilizerName: string | null, plantAge: string | null, growPhase?: string | null): string {
   if (!fertilizerName || fertilizerName === 'Anderer Dünger' || fertilizerName === 'Kein Dünger / nur Wasser') {
     return '';
   }
@@ -297,13 +297,22 @@ export function getFertilizerContext(fertilizerName: string | null, plantAge: st
 
   let ecRange = '';
   let phase = '';
-  if (plantAge) {
+  if (plantAge && growPhase) {
+    const isFlower = growPhase === 'Blüte';
+    if (plantAge.includes('0–2') && !isFlower) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
+    else if (plantAge.includes('3–4') && !isFlower) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
+    else if (plantAge.includes('5–8') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
+    else if (plantAge.includes('0–2') && isFlower) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte'; }
+    else if (plantAge.includes('3–4') && isFlower) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte'; }
+    else if (plantAge.includes('5–8') && isFlower) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Blüte'; }
+    else if (plantAge.includes('9–12') && isFlower) { ecRange = profile.ecRanges.lateFlower; phase = 'späte Blüte/Flush'; }
+    else if (plantAge.includes('9–12') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
+    else if (growPhase === 'Mutterpflanze') { ecRange = profile.ecRanges.lateVeg; phase = 'Mutterpflanze (Veg-Werte)'; }
+  } else if (plantAge) {
     if (plantAge.includes('0–2')) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
-    else if (plantAge.includes('3–4 Wochen')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
+    else if (plantAge.includes('3–4')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
     else if (plantAge.includes('5–8')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
     else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte'; }
-    else if (plantAge.includes('3–4 Monate')) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Blüte'; }
-    else if (plantAge.includes('5+')) { ecRange = profile.ecRanges.lateFlower; phase = 'späte Blüte/Flush'; }
   }
 
   const typeLabel = profile.type === 'organic' ? 'organisch' : profile.type === 'hybrid' ? 'hybrid (bio+mineral)' : 'mineralisch';

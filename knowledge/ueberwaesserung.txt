@@ -1,0 +1,311 @@
+================================================================================
+ÜBERWÄSSERUNG (Overwatering)
+================================================================================
+
+KATEGORIE: Umweltstress (abiotisch) / Bewässerungsfehler
+SCHWEREGRAD: Leicht bis schwer (kann bei Dauerzustand tödlich sein)
+HÄUFIGKEIT: Der HÄUFIGSTE Anfängerfehler überhaupt
+BETROFFENE STADIEN: Alle, besonders gefährlich für Sämlinge und Klone
+
+================================================================================
+1. BESCHREIBUNG UND URSACHE
+================================================================================
+
+Überwässerung bedeutet NICHT, dass die Pflanze einmal zu viel Wasser bekommen
+hat. Es bedeutet, dass die Wurzeln DAUERHAFT in zu feuchtem Substrat stehen
+und keinen ausreichenden Zugang zu Sauerstoff haben. Cannabis-Wurzeln
+brauchen einen Wechsel zwischen feucht und trocken (Nass-Trocken-Zyklus).
+
+DIE WAHRE URSACHE IST SAUERSTOFFMANGEL:
+Wenn das Substrat ständig nass ist, sind die Luftporen im Boden mit Wasser
+gefüllt statt mit Luft. Die Wurzeln können nicht atmen (keine Zellatmung
+möglich). Ohne Sauerstoff können die Wurzeln keine Nährstoffe aufnehmen,
+selbst wenn diese im Überfluss vorhanden sind.
+
+KONKRETE URSACHEN:
+- Zu häufiges Gießen (Hauptursache Nr. 1!)
+- Zu große Töpfe für kleine Pflanzen (Substrat bleibt zu lange nass)
+- Schlechte Drainage (kein/zu wenig Perlite, keine Drainagelöcher)
+- Untersetzer mit stehendem Wasser
+- Zu dichtes/kompaktes Substrat (reine Blumenerde ohne Zusätze)
+- Zu niedrige Temperatur (Verdunstung zu gering)
+- Zu hohe Luftfeuchtigkeit (Verdunstung zu gering)
+- Zu wenig Licht (Pflanze transpiriert weniger, braucht weniger Wasser)
+- "Liebevolles" Gießen - Anfänger gießen aus Fürsorge zu oft
+
+WARUM ANFÄNGER ÜBERWÄSSERN:
+- Verwechslung: "Meine Pflanze sieht schlapp aus" -> gießen -> wird
+  schlimmer -> noch mehr gießen -> Teufelskreis!
+- Kein Verständnis des Nass-Trocken-Zyklus
+- Angst vor Unterwässerung (die viel schneller zu beheben wäre!)
+- Tägliches Gießen als Routine statt bedarfsorientiert
+
+================================================================================
+2. VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+DAS HAUPTSYMPTOM - DIE CHARAKTERISTISCHE "HÄNGE":
+
+Die Blätter hängen/droopen NACH UNTEN, aber - und das ist ENTSCHEIDEND -
+sie sind dabei PRALL, AUFGEDUNSEN und GESCHWOLLEN, nicht dünn und schlaff!
+
+Detaillierte Beschreibung der Blattstellung:
+- Die Blattstiele (Petiolen) zeigen nach unten
+- Die Blattspreiten selbst hängen schwer herunter
+- Die Blätter sehen aus wie "nasse Wäsche auf der Leine"
+- Die Blätter fühlen sich FEST und PRALL an (turgeszent)
+- Sie sind NICHT dünn, papierartig oder knusprig
+- Die gesamte Pflanze sieht aus, als wäre sie "zu schwer für sich selbst"
+- Bei leichter Berührung fühlen sich die Blätter fast gummiartig an
+
+FARBE:
+- Blätter werden oft DUNKELGRÜN (nicht hellgrün!)
+- Das Dunkelgrün entsteht, weil die Pflanze nicht wächst und kein
+  Stickstoff verbraucht wird, der sich daher in den Blättern anreichert
+- Manchmal leicht gelblich, besonders an unteren Blättern
+- In schweren Fällen: Vergilbung beginnt von unten nach oben
+
+WACHSTUM:
+- DEUTLICH verlangsamtes Wachstum oder kompletter Stillstand
+- Neue Blätter wachsen sehr langsam
+- Internodienabstand bleibt kurz
+- Die Pflanze "sitzt" einfach da und tut nichts
+
+SUBSTRAT-INDIKATOREN:
+- Erde fühlt sich NASS und SCHWER an
+- Oberfläche kann grünliche Algen oder weißen Schimmel zeigen
+- Topf ist deutlich SCHWERER als ein gut durchgetrockneter Topf
+- Staunässe im Untersetzer
+- Substrat kann muffig/modrig riechen
+- Bei Druck auf das Substrat tritt Wasser aus
+
+WURZEL-SYMPTOME (wenn sichtbar):
+- Wurzeln werden braun statt weiß
+- Schleimige Textur der Wurzeln
+- Fauliger Geruch aus dem Wurzelbereich
+- -> Dies ist bereits WURZELFÄULE (Pythium, Fusarium)!
+
+FORTGESCHRITTENE SYMPTOME:
+- Ödeme: Wasserblässchen/Beulen auf der Blattunterseite
+  (die Pflanze "schwitzt" Wasser durch die Blätter aus)
+- Blätter werden gelb und fallen ab (von unten nach oben)
+- Stängel wird weich an der Basis
+- Mücken (Trauermücken/Fungus Gnats) als Sekundärbefall
+  (lieben feuchtes Substrat!)
+- Wurzelfäule mit fauligem Geruch
+- In extremen Fällen: Stängelbasisfäule, Pflanze knickt um
+
+================================================================================
+3. ABGRENZUNG ZU ÄHNLICHEN PROBLEMEN
+================================================================================
+
+ÜBERWÄSSERUNG vs. UNTERWÄSSERUNG - DIE WICHTIGSTE UNTERSCHEIDUNG:
++---------------------------+---------------------------+
+| ÜBERWÄSSERUNG             | UNTERWÄSSERUNG            |
++---------------------------+---------------------------+
+| Blätter hängen nach unten | Blätter hängen nach unten |
+| Blätter sind PRALL,       | Blätter sind DÜNN,        |
+| GESCHWOLLEN, FEST         | SCHLAFF, PAPIERARTIG      |
+| Blätter fühlen sich       | Blätter fühlen sich       |
+| gummiartig/fest an        | trocken/leicht an         |
+| Dunkelgrüne Farbe         | Oft hellere Farbe         |
+| Stängel fest, evtl. weich | Stängel dünn, biegsam     |
+| an der Basis              |                           |
+| Erde NASS und SCHWER      | Erde TROCKEN und LEICHT   |
+| Topf SCHWER               | Topf LEICHT               |
+| Erholung dauert TAGE      | Erholung in STUNDEN       |
+| Langsame Entwicklung      | Kann plötzlich auftreten  |
+| Trauermücken möglich      | Keine Trauermücken        |
+| WENIGER gießen!           | SOFORT gießen!            |
++---------------------------+---------------------------+
+
+DER ENTSCHEIDENDE UNTERSCHIED IST DIE BLATT-TEXTUR:
+- Überwässerung: Blätter prall und geschwollen wie ein übervoller Wassersack
+- Unterwässerung: Blätter dünn und schlaff wie ein leerer Luftballon
+
+ÜBERWÄSSERUNG vs. STICKSTOFF-TOXIZITÄT (N-Toxizität):
++---------------------------+---------------------------+
+| ÜBERWÄSSERUNG             | N-TOXIZITÄT               |
++---------------------------+---------------------------+
+| Dunkelgrün, Blätter       | SEHR dunkelgrün,          |
+| hängen GERADE nach unten  | "Klauen"-Form: Blattspitzen|
+|                           | biegen sich nach UNTEN     |
+| Gesamte Pflanze hängt     | Blattspitzen "krallt" sich|
+|                           | nach unten (Eagle Claw)    |
+| Erde ist nass             | Erde kann normal sein     |
+| Kein Blattspitzen-Clawing | Deutliches Clawing der    |
+|                           | Blattspitzen              |
+| Lösung: Weniger gießen    | Lösung: Substrat spülen,  |
+|                           | weniger N düngen          |
+| Wachstum verlangsamt      | Wachstum kann noch OK sein|
++---------------------------+---------------------------+
+
+ÜBERWÄSSERUNG vs. WURZELFÄULE:
+Wurzelfäule IST eine direkte FOLGE von chronischer Überwässerung!
+- Überwässerung -> Sauerstoffmangel -> anaerobe Bedingungen ->
+  pathogene Pilze (Pythium, Fusarium) vermehren sich -> Wurzelfäule
+- Wurzelfäule zeigt zusätzlich: brauner, schleimiger Wurzelballen,
+  fauliger Geruch, Welken trotz nasser Erde
+- Wurzelfäule ist VIEL schwerer zu beheben als einfache Überwässerung!
+
+ÜBERWÄSSERUNG vs. PH-PROBLEME:
+- Beide können vergilbende Blätter verursachen
+- pH-Probleme: Spezifische Mangelmuster je nach pH-Wert
+- Überwässerung: Allgemeine Hänge + dunkelgrün + nasses Substrat
+- pH-Probleme können durch Überwässerung VERSTÄRKT werden
+
+================================================================================
+4. DER NASS-TROCKEN-ZYKLUS
+================================================================================
+
+Cannabis-Wurzeln brauchen einen rhythmischen Wechsel zwischen feucht und
+relativ trocken. Dieser Zyklus ist ESSENZIELL für gesunde Wurzeln:
+
+PHASE 1 - NASS (nach dem Gießen):
+- Substrat ist gleichmäßig durchfeuchtet
+- Wasser verteilt sich in Makro- und Mikroporen
+- Nährstoffe sind gelöst und verfügbar
+- Dauer: unmittelbar nach dem Gießen
+
+PHASE 2 - FEUCHT (1-2 Tage danach):
+- Überschüssiges Wasser ist abgelaufen
+- Substrat ist gleichmäßig feucht, nicht nass
+- Ideale Bedingungen für Nährstoffaufnahme
+- Sauerstoff ist in den Makroporen verfügbar
+- Dauer: 1-3 Tage je nach Bedingungen
+
+PHASE 3 - LEICHT TROCKEN (vor dem nächsten Gießen):
+- Obere 2-3 cm des Substrats sind trocken
+- Wurzeln haben maximalen Sauerstoffzugang
+- Wurzeln wachsen aktiv auf der Suche nach Wasser
+- Dies STÄRKT das Wurzelsystem!
+- Dauer: 0.5-1 Tag
+
+PHASE 4 - ERNEUTES GIESSEN:
+- Wenn der Topf sich deutlich leichter anfühlt
+- Finger-Test: Obere 2-3 cm trocken
+- Oder Topf-Hebe-Test: Topf ist merklich leichter
+
+FAUSTREGEL FÜR GIESSINTERVALLE:
+- Sämlinge in großen Töpfen: Alle 4-7 Tage (!)
+- Kleine Pflanzen: Alle 3-5 Tage
+- Mittlere Pflanzen in Veg: Alle 2-3 Tage
+- Große Pflanzen in Blüte: Alle 1-2 Tage
+- Achtung: Dies sind RICHTWERTE - immer den Topf anheben und prüfen!
+
+================================================================================
+5. SOFORTMASSNAHMEN
+================================================================================
+
+BEI LEICHTER ÜBERWÄSSERUNG:
+1. AUFHÖREN ZU GIESSEN! Einfach warten, bis das Substrat trocknet
+2. Untersetzer leeren - kein stehendes Wasser!
+3. Drainage verbessern: Topf leicht anheben (z.B. auf Steine stellen)
+4. Luftzirkulation erhöhen: Ventilator auf niedrigster Stufe
+5. Temperatur leicht erhöhen (fördert Verdunstung)
+6. Falls möglich: Lichtintensität leicht erhöhen (mehr Transpiration)
+7. GEDULD: Es kann 3-7 Tage dauern, bis sich die Pflanze erholt
+
+BEI SCHWERER ÜBERWÄSSERUNG / VERDACHT AUF WURZELFÄULE:
+1. Pflanze vorsichtig aus dem Topf nehmen
+2. Wurzelballen inspizieren: Gesunde Wurzeln = weiß, Kranke = braun/schleimig
+3. Falls Wurzelfäule: Betroffene Wurzeln abschneiden (mit steriler Schere)
+4. Wurzeln an der Luft trocknen lassen (30-60 Minuten)
+5. In frisches, trockenes Substrat mit mehr Perlite umtopfen
+6. Mykorrhiza und Trichoderma beim Umtopfen hinzufügen
+7. Erst nach 2-3 Tagen wieder gießen, und dann nur wenig
+8. Bei schwerem Befall: Wasserstoffperoxid-Lösung (3%, 1:4 verdünnt)
+   zur Wurzelbehandlung
+
+BEI TRAUERMÜCKEN-BEFALL (Sekundärproblem):
+1. Oberfläche abtrocknen lassen
+2. Gelbtafeln aufstellen (fängt erwachsene Mücken)
+3. Quarzsand oder Diatomeenerde auf die Substratoberfläche
+4. Neem-Öl-Lösung zum Gießen
+5. Nematoden (Steinernema feltiae) gegen Larven
+6. BTI (Bacillus thuringiensis israelensis) zum Gießwasser
+
+================================================================================
+6. PRÄVENTION - RICHTIGES GIESSEN
+================================================================================
+
+DER TOPF-HEBE-TEST (wichtigste Methode!):
+- Hebe den Topf nach dem Gießen an und merke dir das Gewicht
+- Hebe den Topf regelmäßig an
+- Gieße erst, wenn der Topf sich DEUTLICH leichter anfühlt
+- Mit etwas Übung wird dies zur zweiten Natur
+
+DER FINGER-TEST:
+- Finger 2-3 cm in die Erde stecken
+- Fühlt es sich feucht an? -> NICHT gießen
+- Fühlt es sich trocken an? -> Gießen
+
+RICHTIGE GIESSMETHODE:
+- Gießen bis 10-20% Runoff (Wasser läuft unten raus)
+- Dann WARTEN bis der Topf deutlich leichter ist
+- Lieber einmal richtig viel als oft wenig!
+- Runoff aus dem Untersetzer nach 15-20 Minuten entfernen
+- Immer den GESAMTEN Topf gleichmäßig gießen, nicht nur eine Stelle
+
+SUBSTRAT-OPTIMIERUNG:
+- 30% Perlite zum Standard-Substrat mischen (verbessert Drainage)
+- Alternativ: 20% Perlite + 10% Vermiculite
+- Coco-Coir: Hervorragende Drainage, schwer zu überwässern
+- Stofftöpfe (Fabric Pots): "Air Pruning" trocknet Außenseite schneller
+- Töpfe mit ausreichend Drainagelöchern verwenden
+- Nie in Töpfe ohne Drainagelöcher pflanzen!
+
+TOPFGRÖSSEN-EMPFEHLUNG:
+- Sämling: 0.25-0.5 Liter
+- Kleine Pflanze: 1-3 Liter
+- Vegetationsphase: 5-11 Liter
+- Blüte (finale Topfgröße): 11-20 Liter
+- WICHTIG: Nicht zu früh in den finalen Topf umtopfen!
+  Ein kleiner Sämling in einem 20L-Topf -> die Erde bleibt wochenlang
+  nass in den Bereichen, die die Wurzeln noch nicht erreicht haben
+
+================================================================================
+7. ERHOLUNGSPROGNOSE
+================================================================================
+
+- Leichte Überwässerung (2-3 Tage zu nass):
+  Vollständige Erholung in 3-5 Tagen nach dem Trocknen
+  Kein dauerhafter Schaden
+
+- Mittlere Überwässerung (1 Woche zu nass):
+  Erholung in 1-2 Wochen
+  Einige untere Blätter können gelb werden und abfallen
+  Wachstumsverzögerung von 1-2 Wochen
+
+- Schwere Überwässerung / Wurzelfäule:
+  Erholung kann 2-4 Wochen dauern
+  Signifikanter Ertragsverlust
+  Pflanze kann sterben, wenn Wurzelfäule zu weit fortgeschritten
+  Oft lohnt es sich, mit einem neuen Sämling anzufangen
+
+- GRUNDSATZ: Nach Korrektur erholt sich die Pflanze umso schneller,
+  je jünger und vitaler sie vorher war
+
+================================================================================
+8. HÄUFIGE FEHLER
+================================================================================
+
+- "Die Blätter hängen, also braucht sie Wasser" -> NEIN! Erst Erde prüfen!
+- "Ich gieße jeden Tag ein bisschen" -> FALSCH! Lieber selten und viel
+- "Mein Topf hat Löcher, also kann ich nicht überwässern" -> DOCH! Die
+  Frequenz ist das Problem, nicht die Menge pro Gießvorgang
+- "Ich gieße mit Dünger, also wird nicht überwässert" -> Dünger im Wasser
+  ändert nichts an der Problematik
+- "Die Pflanze steht im Untersetzer mit Wasser für später" -> NEIN!
+  Stehendes Wasser im Untersetzer = permanente Staunässe
+- "Coco kann man nicht überwässern" -> Stimmt fast, aber bei sehr
+  kompakter Coco ohne Perlite ist es möglich
+- Auf Zeitplan gießen statt auf Bedarf -> Pflanzen brauchen je nach
+  Stadium, Temperatur und Größe unterschiedlich viel Wasser
+
+================================================================================
+KURZFORMEL FÜR KI-DIAGNOSE:
+Blätter hängen nach unten + PRALL/GESCHWOLLEN (nicht dünn/schlaff) +
+dunkelgrüne Farbe + nasses/schweres Substrat + verlangsamtes Wachstum +
+(eventuell Trauermücken) = ÜBERWÄSSERUNG
+================================================================================

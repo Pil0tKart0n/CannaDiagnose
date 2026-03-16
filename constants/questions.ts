@@ -3,18 +3,25 @@ import { getFertilizerNames } from './fertilizers';
 
 export const questions: Question[] = [
   {
+    id: 'growPhase',
+    section: 'Pflanze',
+    question: 'In welcher Phase ist die Pflanze?',
+    type: 'select',
+    options: ['Vegetativ', 'Blüte', 'Mutterpflanze'],
+  },
+  {
     id: 'plantAgeWeeks',
     section: 'Pflanze',
     question: 'Wie alt ist die Pflanze?',
     type: 'select',
-    options: ['0–2 Wochen', '3–4 Wochen', '5–8 Wochen', '9–12 Wochen', '3–4 Monate', '5+ Monate'],
+    options: ['0–2 Wochen', '3–4 Wochen', '5–8 Wochen', '9–12 Wochen'],
   },
   {
     id: 'substrateType',
     section: 'Setup',
     question: 'In welchem Substrat wird angebaut?',
     type: 'select',
-    options: ['Erde', 'Kokos', 'Perlite-Mix', 'DWC / Hydro', 'Aeroponik', 'Sonstige'],
+    options: ['Erde', 'Kokos', 'DWC / Hydro', 'Aeroponik', 'Sonstige'],
   },
   {
     id: 'fertilizerType',

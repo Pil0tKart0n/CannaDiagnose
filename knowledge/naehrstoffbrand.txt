@@ -1,0 +1,523 @@
+================================================================================
+NAEHRSTOFFBRAND (NUTRIENT BURN) - ALLGEMEINE UEBERDÜNGUNG
+================================================================================
+Kurzbezeichnung: Nute Burn, Naehrstoffverbrennung, Salzstress
+Ursache: Zu hohe Gesamtkonzentration geloester Naehrsalze
+Betroffene Pflanzenteile: ALLE Blaetter, beginnend an den Spitzen
+Schweregrad: Leicht bis schwer (abhaengig von Dauer und Intensitaet)
+Haeufigkeit: EXTREM HAEUFIG - der haeufigste Duengerfehler ueberhaupt
+================================================================================
+
+================================================================================
+ABSCHNITT 1: WAS IST NAEHRSTOFFBRAND?
+================================================================================
+
+1.1 DEFINITION
+--------------
+Naehrstoffbrand (Nutrient Burn) entsteht, wenn die Gesamtkonzentration an
+geloesten Naehrsalzen im Substrat zu hoch ist. Es handelt sich NICHT um
+einen Mangel eines einzelnen Naehrstoffs, sondern um eine generelle
+Ueberkonzentration. Die Wurzeln koennen bei zu hoher Salzkonzentration
+durch Osmose sogar Wasser VERLIEREN statt aufzunehmen (umgekehrte Osmose).
+
+1.2 GRUNDLEGENDES PRINZIP
+---------------------------
+Pflanzen nehmen Wasser und Naehrstoffe ueber die Wurzeln auf. Dieser Prozess
+funktioniert ueber Osmose - Wasser wandert von der niedrigeren zur hoeheren
+Konzentration. Wenn die Naehrsalzkonzentration im Substrat HOEHER ist als in
+den Wurzelzellen, wird der Pflanze Wasser ENTZOGEN. Die Blattspitzen - als
+am weitesten von den Wurzeln entfernte Punkte - leiden zuerst.
+
+Die Salzkonzentration wird gemessen als:
+- EC (Electrical Conductivity) in mS/cm oder µS/cm
+- PPM (Parts Per Million) - Umrechnungsfaktor variiert je nach Messgeraet
+  - EC x 500 = PPM (USA-Standard/Hanna)
+  - EC x 700 = PPM (EU-Standard/Truncheon)
+  - EC x 640 = PPM (Australischer Standard)
+
+1.3 WARUM PASSIERT ES SO HAEUFIG?
+-----------------------------------
+- Duengerhersteller geben oft MAXIMALE Dosierungen an (Marketing!)
+- Anfaenger denken "mehr Duenger = mehr Ertrag"
+- Wasser verdunstet, aber Salze bleiben -> Konzentration steigt
+- Mehrere Produkte werden kombiniert ohne Gesamtwert zu berechnen
+- Substrate mit eingebautem Duenger + zusaetzliche Duengung
+- Leitungswasser hat bereits hohen EC-Grundwert
+- Temperatur und Luftfeuchtigkeit beeinflussen die Aufnahme
+
+================================================================================
+ABSCHNITT 2: VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+2.1 HAUPTSYMPTOM: VERBRANNTE BLATTSPITZEN ("TIP BURN")
+--------------------------------------------------------
+DAS klassische Erkennungsmerkmal von Naehrstoffbrand!
+
+Beschreibung:
+Die allerersten Anzeichen zeigen sich an den SPITZEN der Blaetter. Die
+aeussersten 1-3 mm der Blattspitze verfaerben sich braun/gelb und werden
+trocken und knusprig. Dieses braune Ende sieht aus, als haette jemand die
+Spitze mit einer Zigarette verbrannt.
+
+Detaillierter Verlauf:
+1. BEGINN: Nur die alleraeusserste Spitze (1-2mm) wird hellbraun/gelb
+2. LEICHT: Braune Spitze dehnt sich auf 3-5mm aus, wird knusprig
+3. MAESSIG: Braun erstreckt sich 5-15mm von der Spitze, Raender betroffen
+4. SCHWER: Braun/Verbrennungen gehen 15-30mm+ die Blaetter hinein
+5. KRITISCH: Grossflaechige braune/tote Bereiche, Blaetter sterben ab
+
+Farbverlauf der Verbrennung:
+- Beginn: Hellbraun/Gelb an der aeussersten Spitze
+- Fortschreitend: Dunkelbraun, trocken, knusprig
+- Spaet: Fast schwarz verbrannt, bricht bei Beruehrung ab
+- Uebergangszone: Gelber/hellgruener Saum zwischen gesund und verbrannt
+
+2.2 FORTSCHREITEN VON SPITZEN NACH INNEN
+------------------------------------------
+Beschreibung:
+Wenn die Ursache nicht behoben wird, wandert die Verbrennung von den Spitzen
+her NACH INNEN in Richtung Blattmitte. Der Verlauf ist:
+
+Spitze -> Blattrand -> Blattzaehne -> Blattflaeche -> Blattstiel
+
+Merkmale des Fortschreitens:
+- Klar definierte Linie zwischen gesundem und verbranntem Gewebe
+- Gelber "Halo" (Saum) vor der braunen Verbrennungsfront
+- Blattzaehne (Serrations) werden zuerst braun, dann die Flaeche dazwischen
+- Fortschreitende Wellung und Verkruemmung der betroffenen Bereiche
+
+2.3 KNUSPRIGE/TROCKENE VERBRANNTE RAENDER
+-------------------------------------------
+Beschreibung:
+Die verbrannten Bereiche fuehlen sich knusprig-trocken an. Sie sind sproede
+und brechen bei Beruehrung ab. Im Gegensatz zu Pilzinfektionen (die eher
+matschig/feucht sind) oder Kalziummangel (der eher fleckig ist) sind die
+Raender bei Naehrstoffbrand gleichmaessig trocken und braun.
+
+Haptische Merkmale:
+- Papierartig duenn und trocken
+- Bricht/kruemelt bei Beruehrung
+- Kein Feuchtigkeitsgefuehl
+- Raschelt wenn man das Blatt bewegt
+- Klare Grenze zwischen lebendem und totem Gewebe
+
+2.4 BETRIFFT ALLE BLAETTER GLEICHMAESSIG
+------------------------------------------
+SEHR WICHTIGES UNTERSCHEIDUNGSMERKMAL!
+
+Bei echtem Naehrstoffbrand sind ALLE Blaetter mehr oder weniger gleichmaessig
+betroffen - sowohl alte als auch neue, sowohl obere als auch untere. Das
+unterscheidet Naehrstoffbrand von naehrstoffspezifischen Problemen:
+
+- Kaliummangel: Betrifft AELTERE Blaetter zuerst (mobil)
+- Kalziummangel: Betrifft NEUERE Blaetter zuerst (immobil)
+- Lichtbrand: Betrifft nur OBERE, lichtnahe Blaetter
+- Naehrstoffbrand: Betrifft ALLE Blaetter, gleichmaessig verteilt
+
+Anmerkung: Die unteren/aelteren Blaetter koennen etwas staerker betroffen
+sein, weil die Verbrennungen dort laenger bestehen. Aber ALLE Etagen
+zeigen das typische Tip-Burn-Muster.
+
+2.5 WEITERE VISUELLE SYMPTOME
+-------------------------------
+- Blaetter koennen sich insgesamt leicht nach oben woelben
+- Blattraender koennen sich wellig/kraus verformen
+- Gesamte Pflanze kann etwas dunkler gruen erscheinen (erhoehte N-Aufnahme)
+- Bei extremem Burn: Blaetter trocknen komplett aus und fallen ab
+- Blueten/Buds koennen braune/verbrannte Kelchblaetter zeigen
+- In der Bluete: Pistils (Stempel) koennen vorzeitig braun werden
+- Trichome koennen in Mitleidenschaft gezogen werden
+
+2.6 VISUELLE UNTERSCHEIDUNG: NAEHRSTOFFBRAND VS. AEHNLICHE PROBLEME
+----------------------------------------------------------------------
+
+NAEHRSTOFFBRAND vs. KALIUMMANGEL (K):
+- Naehrstoffbrand: Braune SPITZEN, dann nach innen, ALLE Blaetter
+- K-Mangel: Braune RAENDER (nicht Spitzen), erst UNTERE Blaetter
+- K-Mangel zeigt auch Chlorose (Vergilbung) zwischen den Adern
+- Bei K-Mangel sind die Spitzen oft noch gruen, Raender zuerst braun
+
+NAEHRSTOFFBRAND vs. KALZIUMMANGEL (Ca):
+- Naehrstoffbrand: Gleichmaessig braune Spitzen, klar definiert
+- Ca-Mangel: ZUFAELLIGE braune/rostige Flecken auf Blattflaeche
+- Ca-Mangel betrifft NEUE Blaetter zuerst
+- Ca-Mangel-Flecken erscheinen mitten auf dem Blatt, nicht am Rand
+
+NAEHRSTOFFBRAND vs. LICHTBRAND (Light Burn):
+- Naehrstoffbrand: ALLE Blaetter betroffen, Spitzen zuerst
+- Lichtbrand: NUR oberste/lichtnaechste Blaetter betroffen
+- Lichtbrand: Bleaching (Ausbleichen) der Blaetter von oben
+- Lichtbrand: Untere Blaetter sind voellig gesund
+
+NAEHRSTOFFBRAND vs. HITZESTRESS:
+- Naehrstoffbrand: Braune Spitzen, knusprig, klar begrenzt
+- Hitzestress: Blaetter rollen nach oben (Taco), Vergilbung
+- Hitzestress: Eher obere/lichtnahe Blaetter betroffen
+- Hitzestress: Raender koennen wellig werden, aber eher gelb als braun
+
+NAEHRSTOFFBRAND vs. PHOSPHOR-UEBERSCHUSS:
+- Naehrstoffbrand: Allgemeine Spitzenverbrennung
+- P-Ueberschuss: Dunkle Blaetter + Anzeichen von Fe/Zn-Mangel
+- P-Ueberschuss: Blockiert andere Naehrstoffe -> Sekundaersymptome
+
+NAEHRSTOFFBRAND vs. SALZAUFBAU (Langzeit):
+- Akuter Naehrstoffbrand: Schnelles Auftreten nach Ueberdosierung
+- Chronischer Salzaufbau: Langsam zunehmende Spitzenverbrennung
+- Salzaufbau: Weisse Krusten an Topfoberflaeche/Ablaufloechern
+- Salzaufbau: EC des Ablaufwassers deutlich hoeher als Eingabe
+
+================================================================================
+ABSCHNITT 3: URSACHEN IM DETAIL
+================================================================================
+
+3.1 PRIMAERE URSACHE: EC ZU HOCH
+----------------------------------
+Die Hauptursache ist fast immer ein zu hoher EC-Wert der Naehrloesung oder
+des Substrats. Empfohlene EC-Werte:
+
+ERDE:
+- Saemlinge: EC 0.4-0.8 (200-400 PPM)
+- Fruehe Wachstumsphase: EC 0.8-1.2 (400-600 PPM)
+- Spaete Wachstumsphase: EC 1.2-1.6 (600-800 PPM)
+- Fruehe Bluete: EC 1.4-1.8 (700-900 PPM)
+- Volle Bluete: EC 1.6-2.0 (800-1000 PPM)
+- Spaete Bluete/Reife: EC 1.0-1.4 (500-700 PPM)
+- Flush vor Ernte: EC 0.0-0.3 (0-150 PPM)
+
+KOKOS:
+- Saemlinge: EC 0.4-0.6 (200-300 PPM)
+- Fruehe Wachstumsphase: EC 0.8-1.2 (400-600 PPM)
+- Spaete Wachstumsphase: EC 1.2-1.8 (600-900 PPM)
+- Fruehe Bluete: EC 1.4-2.0 (700-1000 PPM)
+- Volle Bluete: EC 1.6-2.2 (800-1100 PPM)
+- Spaete Bluete/Reife: EC 1.0-1.6 (500-800 PPM)
+- Flush vor Ernte: EC 0.0-0.4 (0-200 PPM)
+
+HYDRO:
+- Saemlinge: EC 0.3-0.5 (150-250 PPM)
+- Fruehe Wachstumsphase: EC 0.6-1.0 (300-500 PPM)
+- Spaete Wachstumsphase: EC 1.0-1.6 (500-800 PPM)
+- Fruehe Bluete: EC 1.2-1.8 (600-900 PPM)
+- Volle Bluete: EC 1.4-2.2 (700-1100 PPM)
+- Spaete Bluete/Reife: EC 0.8-1.4 (400-700 PPM)
+- Flush vor Ernte: EC 0.0-0.2 (0-100 PPM)
+
+WICHTIG: Diese Werte sind Richtwerte! Jede Genetik reagiert anders.
+Empfindliche Sorten brauchen weniger, kraeftige Sorten vertragen mehr.
+Im Zweifel: IMMER am unteren Ende beginnen!
+
+3.2 SEKUNDAERE URSACHEN
+-------------------------
+
+Salzaufbau im Substrat:
+- Wasser verdunstet, Salze bleiben zurueck
+- Bei jedem Giessvorgang addieren sich Salze
+- Besonders bei zu wenig Ablaufwasser (weniger als 10-20% Runoff)
+- Weisse Krusten an Topfrand/Oberflaeche = Alarmzeichen
+
+Leitungswasser mit hohem Grundwert:
+- Manche Regionen haben EC 0.5+ aus der Leitung
+- Kalk, Chlor, Natrium erhoehen den EC
+- Duenger wird ZUSAETZLICH zum hohen Grundwert gegeben
+- Loesung: Osmosewasser verwenden (EC nahe 0)
+
+Fehlerhafte Dosierung:
+- ml und Liter verwechselt
+- Teeloefel statt Milliliter
+- Dosierung pro Liter statt pro Gallone gelesen
+- Konzentrat nicht richtig verduennt
+
+Mehrere Produkte kombiniert:
+- Grundduenger + Booster + Enzyme + Zusaetze
+- Jedes Produkt traegt zum Gesamt-EC bei
+- Gesamtwert wird selten gemessen
+- "Staple" von 5+ Produkten ist haeufig = Probleme vorprogrammiert
+
+Temperatur-Effekte:
+- Heisses Substrat: Schnellere Salzfreisetzung
+- Kaltes Substrat: Langsamere Aufnahme, Salze akkumulieren
+- Grosse Temperaturschwankungen: Unberechenbare Freisetzung
+
+Topfgroesse:
+- Zu kleine Toepfe: Salzkonzentration steigt schneller
+- Groessere Toepfe puffern besser
+- Generell: Mindestens 10-15 Liter fuer ausgewachsene Pflanzen
+
+3.3 GENETISCHE EMPFINDLICHKEIT
+--------------------------------
+Nicht alle Cannabis-Sorten reagieren gleich auf hohe EC-Werte:
+
+Empfindliche Sorten (niedriger EC noetig):
+- Die meisten Autoflowers
+- Landrace-Sorten aus tropischen Regionen
+- Sativa-dominante Genetik
+- Haze-Varianten
+- Junge Saemling generell
+
+Tolerante Sorten (vertragen hoehere EC):
+- Indica-dominante Genetik
+- Kush-Varianten
+- Afghan-Abstammung
+- Robuste Hybrid-Zuchtungen
+- Ausgewachsene, kraeftige Pflanzen
+
+================================================================================
+ABSCHNITT 4: DIAGNOSE
+================================================================================
+
+4.1 DIAGNOSE-CHECKLISTE NAEHRSTOFFBRAND
+-----------------------------------------
+[_] Braune/verbrannte Blattspitzen sichtbar
+[_] Verbrennung beginnt an der SPITZE (nicht Rand, nicht Mitte)
+[_] Verbrennung schreitet von Spitze nach innen fort
+[_] Verbrannte Bereiche sind knusprig/trocken (nicht matschig)
+[_] ALLE Blaetter zeigen aehnliche Symptome (nicht nur alte oder neue)
+[_] EC/PPM der Naehrloesung ist hoch
+[_] EC des Ablaufwassers ist HOEHER als Eingabewert
+[_] Kuerzlich wurde Duengung erhoeht oder neues Produkt hinzugefuegt
+[_] Eventuell weisse Salzkrusten an Topf/Substrat sichtbar
+
+Wenn 4+ Punkte zutreffen: Wahrscheinlich Naehrstoffbrand
+Wenn 6+ Punkte zutreffen: Sehr sicher Naehrstoffbrand
+
+4.2 ABLAUFWASSER-TEST (RUNOFF-TEST)
+-------------------------------------
+Der wichtigste diagnostische Test!
+
+Durchfuehrung:
+1. Normal giessen mit bekanntem EC-Wert
+2. Ablaufwasser (Runoff) in sauberem Gefaess auffangen
+3. EC und pH des Ablaufwassers messen
+4. Vergleichen mit Eingabewert
+
+Interpretation:
+- Ablauf-EC aehnlich wie Eingabe-EC: Substrat ist OK
+- Ablauf-EC 0.3-0.5 hoeher: Leichter Salzaufbau, beobachten
+- Ablauf-EC 0.5-1.0 hoeher: Deutlicher Salzaufbau, Flush empfohlen
+- Ablauf-EC mehr als 1.0 hoeher: Schwerer Salzaufbau, sofortiger Flush!
+
+4.3 VISUELLE SUBSTRAT-INSPEKTION
+----------------------------------
+- Weisse/gelbliche Krusten an der Substratoberflaeche = Salzansammlung
+- Weisse Ablagerungen an Ablaufloechern = Salze kristallisieren aus
+- Weisse Raender am Topf (bei Stoff-Toepfen/Air-Pots) = Salzaufbau
+- Gruenliche Ablagerungen = Algen (anderes Problem, aber oft zusammen)
+
+================================================================================
+ABSCHNITT 5: BEHANDLUNG UND KORREKTUR
+================================================================================
+
+5.1 SOFORTMASSNAHME: FLUSH (SPUELUNG)
+---------------------------------------
+Die wichtigste und effektivste Sofortmassnahme!
+
+FLUSH-ANLEITUNG ERDE:
+1. pH-korrigiertes Wasser vorbereiten (pH 6.2-6.5)
+2. Wassertemperatur: Zimmerwarm (18-22°C)
+3. Wassermenge: 3x das Topfvolumen (10L Topf = 30L Wasser)
+4. Langsam und gleichmaessig giessen, nicht auf einmal flutten
+5. Ablaufwasser laufen lassen und EC messen
+6. Weiterspuelen bis Ablauf-EC unter 0.5 faellt
+7. Optional am Ende: Sehr leichte Naehrloesung (EC 0.3-0.5) geben
+8. Gut abtrocknen lassen vor naechster Wasserung
+
+FLUSH-ANLEITUNG KOKOS:
+1. pH-korrigiertes Wasser vorbereiten (pH 5.8-6.2)
+2. Wassertemperatur: Zimmerwarm (18-22°C)
+3. Wassermenge: 3x das Topfvolumen
+4. Durchspuelen und EC des Ablaufs messen
+5. Weiterspuelen bis Ablauf-EC unter 0.3
+6. WICHTIG: Danach IMMER leichte CalMag-Loesung (EC 0.3-0.4) geben!
+   (Kokos zieht Kalzium und Magnesium aus der Loesung)
+7. Kokos trocknet schneller -> weniger Ueberwaesserungs-Risiko
+
+FLUSH-ANLEITUNG HYDRO:
+1. Reservoir komplett entleeren
+2. Mit frischem, pH-korrigiertem Wasser fuellen (pH 5.5-6.0)
+3. System 1-2 Stunden mit klarem Wasser laufen lassen
+4. Erneut entleeren
+5. Frische Naehrloesung ansetzen mit REDUZIERTEM EC (50-60% normal)
+6. Roots Wash / Enzymloesung kann helfen, Salzreste an Wurzeln zu loesen
+
+5.2 NACH DEM FLUSH
+--------------------
+- 2-3 Tage nur mit klarem Wasser giessen (Erde)
+- Bei Kokos: Leichte Naehrloesung ab sofort (Kokos puffert nicht)
+- Naehrstoffzufuhr mit 50% der vorherigen Dosis wieder aufnehmen
+- EC langsam ueber 1-2 Wochen steigern
+- Regelmaessig Ablaufwasser kontrollieren
+- Verbrannte Blattspitzen werden NICHT regenerieren!
+- Neue Blaetter sollten gesund nachwachsen
+- Wenn Symptome zurueckkehren: Dosis weiter reduzieren
+
+5.3 LANGFRISTIGE PRAEVENTION
+------------------------------
+1. EC IMMER MESSEN - bei jedem Duengen!
+2. Ablaufwasser REGELMAESSIG testen (mindestens woechentlich)
+3. Immer mit 10-20% Ablaufwasser giessen (spuelt ueberschuessige Salze)
+4. Mit niedriger Dosis starten und langsam steigern
+5. Duengerhersteller-Angaben als MAXIMUM sehen
+6. Bei empfindlichen Sorten: 50-70% der Herstellerangabe als Standard
+7. Regelmaessige Flush-Tage einplanen (alle 2-3 Wochen)
+8. Osmosewasser verwenden bei hartem Leitungswasser
+9. Temperatur des Substrats kontrollieren (nicht zu heiss)
+10. Topfgroesse angemessen waehlen (nicht zu klein)
+
+5.4 RETTUNG BEI SCHWEREM NAEHRSTOFFBRAND
+------------------------------------------
+Bei stark geschaedigten Pflanzen:
+1. Sofortiger Flush (wie oben)
+2. Stark beschaedigte Blaetter (>50% braun) vorsichtig entfernen
+3. Leicht beschaedigte Blaetter NICHT entfernen (Photosynthese!)
+4. Fuer 5-7 Tage nur Wasser (oder sehr leichte Loesung)
+5. Langsam mit 25% Normalstaerke wieder anfangen
+6. Enzyme-Produkte koennen helfen, Salzreste abzubauen
+7. Mykorrhiza/Trichoderma koennen Wurzelgesundheit unterstuetzen
+8. Geduld haben - Erholung dauert 2-3 Wochen
+
+================================================================================
+ABSCHNITT 6: NAEHRSTOFFBRAND IN VERSCHIEDENEN PHASEN
+================================================================================
+
+6.1 SAEMLINGS-PHASE
+--------------------
+Saemlinge sind EXTREM empfindlich! Naehrstoffbrand bei Saemlingen:
+- Bereits bei EC 0.5-0.8 moeglich
+- Cotyledonen (Keimblaetter) werden braun an den Raendern
+- Erste echte Blaetter zeigen sofort Tip Burn
+- Wachstum wird stark verlangsamt oder gestoppt
+- Kann zum Absterben fuehren
+- NIEMALS voll duengen bei Saemlingen!
+- Vorgeduengte Erde reicht fuer erste 2-3 Wochen
+
+6.2 VEGETATIVE PHASE
+---------------------
+- Pflanze vertraegt am meisten Naehrstoffe in dieser Phase
+- Naehrstoffbrand trotzdem moeglich bei Ueberdosierung
+- Pflanzen erholen sich relativ schnell
+- Wachstum wird verlangsamt aber nicht fatal
+- Korrektur ist einfach und effektiv
+
+6.3 BLUETE-PHASE
+-----------------
+- Pflanze wird EMPFINDLICHER gegenueber hohem EC
+- Naehrstoffbrand kann Blueten direkt schaedigen
+- Verbrannte Kelchblaetter/Pistils
+- Trichomproduktion kann leiden
+- Geschmack und Aroma werden negativ beeinflusst
+- Ertragsreduktion moeglich
+- Korrektur ist dringender als in Veg-Phase
+
+6.4 SPAETE BLUETE / REIFE
+---------------------------
+- EC sollte natuerlich sinken in dieser Phase
+- Viele Grower machen einen Final Flush (letzte 1-2 Wochen)
+- Naehrstoffbrand in dieser Phase = schlechter Geschmack
+- Chlorophyll wird nicht ordentlich abgebaut
+- Endprodukt schmeckt "gruenig", "chemisch" oder kratzt
+
+================================================================================
+ABSCHNITT 7: SPEZIELLE SITUATIONEN
+================================================================================
+
+7.1 NAEHRSTOFFBRAND BEI ORGANISCHEM ANBAU
+-------------------------------------------
+Auch organisch ist Ueberdüngung moeglich!
+- Zu viel Guano, Blutmehl, Fischmehl, etc.
+- Frischer Kompost kann zu "heiss" sein
+- Wurmhumus in zu hoher Konzentration
+- Organischer Duenger braucht LAENGER zur Korrektur
+- Flush bei organischem Substrat waescht auch nuetzliche Mikroorganismen aus
+- Besser: Umtopfen in weniger naehrstoffreiche Erde
+- Praevention ist bei Organik besonders wichtig
+
+7.2 NAEHRSTOFFBRAND BEI AUTOFLOWERS
+-------------------------------------
+- Autoflowers benoetigen generell WENIGER Naehrstoffe
+- EC-Empfehlungen: 60-75% der Werte fuer Photoperiode-Pflanzen
+- Kuerzerer Lebenszyklus = weniger Zeit zur Korrektur
+- Tip Burn bei Autos = sofort handeln
+- Auch "Light Mix" Erde kann fuer junge Autos zu stark sein
+
+7.3 NAEHRSTOFFBRAND DURCH FOLIARDÜNGUNG
+-----------------------------------------
+- Blattduengung kann Verbrennungen auf der Blattoberflaeche verursachen
+- Sieht anders aus: Fleckige Verbrennungen wo Tropfen waren
+- Besonders unter starkem Licht problematisch (Lupen-Effekt)
+- Loesung: Nie unter direktem Licht spruehen, immer bei Dunkelheit
+
+7.4 "SCHLEICHENDER" NAEHRSTOFFBRAND
+-------------------------------------
+Nicht immer ist Naehrstoffbrand akut/offensichtlich. Haeufig ist ein
+langsamer, schleichender Aufbau:
+- Ueber Wochen sammeln sich Salze an
+- Leichtes Tip Burn wird ignoriert oder uebersehen
+- Problem verschlimmert sich graduell
+- Irgendwann "explodiert" das Problem scheinbar ueber Nacht
+- In Wahrheit war es ein langfristiger Aufbau
+- Daher: Regelmaessige EC-Kontrolle des Ablaufwassers ist ESSENTIELL
+
+================================================================================
+ABSCHNITT 8: EC-MANAGEMENT - BEST PRACTICES
+================================================================================
+
+8.1 GRUNDREGELN
+-----------------
+1. IMMER den EC der fertigen Naehrloesung messen
+2. IMMER den EC des Ablaufwassers messen
+3. Ablauf-EC sollte idealerweise = Eingabe-EC sein (oder knapp hoeher)
+4. Bei steigendem Ablauf-EC: Duengung reduzieren oder Flush durchfuehren
+5. Bei sinkendem Ablauf-EC: Pflanze frisst mehr als gegeben -> leicht erhoehen
+6. EC des Giesswassers dokumentieren (Grow-Tagebuch!)
+
+8.2 EC-KORREKTUR-TABELLE
+--------------------------
+Ablauf-EC vs. Eingabe-EC -> Aktion:
+- Gleich oder niedriger: Alles OK, weiter so
+- 0.1-0.3 hoeher: Normal, beobachten
+- 0.3-0.5 hoeher: Leichter Aufbau, naechstes Mal weniger duengen
+- 0.5-0.8 hoeher: Deutlicher Aufbau, Flush empfohlen
+- 0.8-1.2 hoeher: Starker Aufbau, Flush noetig
+- Mehr als 1.2 hoeher: Kritisch, sofortiger Flush + Reduzierung
+
+8.3 GIESSEN MIT RUNOFF
+------------------------
+- Immer so viel giessen, dass 10-20% Ablaufwasser entstehen
+- Dieses Ablaufwasser spuelt ueberschuessige Salze aus
+- Ablaufwasser NICHT wiederverenden (enthaelt Abfallsalze)
+- Unterteller nach 15 Minuten entleeren
+- Ohne Runoff: Salze bauen sich unweigerlich auf!
+
+================================================================================
+ABSCHNITT 9: ZUSAMMENFASSUNG DER ERKENNUNGSMERKMALE
+================================================================================
+
+PRIMAERE ERKENNUNGSMERKMALE (muessen vorhanden sein):
+1. Braune/verbrannte Blattspitzen (beginnt an der aeussersten Spitze)
+2. Verbrannte Bereiche sind knusprig/trocken
+3. Fortschreiten von Spitze nach innen bei anhaltendem Problem
+
+SEKUNDAERE ERKENNUNGSMERKMALE (unterstuetzen die Diagnose):
+4. ALLE Blaetter betroffen (nicht nur alte oder nur neue)
+5. Klare Grenzlinie zwischen gesundem und verbranntem Gewebe
+6. Gelber Saum vor der braunen Verbrennungsfront
+
+SITUATIVE INDIKATOREN:
+7. Hoher EC/PPM der Naehrloesung
+8. Ablaufwasser-EC deutlich hoeher als Eingabe-EC
+9. Weisse Salzkrusten an Topf/Substratoberflaeche
+10. Kuerzlich wurde Duengung erhoeht oder neues Produkt zugefuegt
+
+EINFACHE FAUSTREGEL:
+"Braune, knusprige Blattspitzen an ALLEN Blaettern = Naehrstoffbrand"
+
+ABGRENZUNG KURZFORMEL:
+- Spitzen braun = Naehrstoffbrand
+- Raender braun (nicht Spitzen) = Kaliummangel
+- Zufaellige Flecken = Kalziummangel
+- Nur oben verbrannt = Lichtbrand
+- Dunkelgruen + Klauen = Stickstoff-Ueberschuss (verwandtes Problem)
+
+================================================================================
+ENDE - NAEHRSTOFFBRAND (NUTRIENT BURN)
+================================================================================

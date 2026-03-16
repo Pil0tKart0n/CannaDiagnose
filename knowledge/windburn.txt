@@ -1,0 +1,328 @@
+================================================================================
+WINDBURN / WINDSTRESS (Wind Burn)
+================================================================================
+
+KATEGORIE: Umweltstress (abiotisch)
+SCHWEREGRAD: Leicht bis mittel
+HÄUFIGKEIT: Mäßig häufig, besonders bei Indoor-Grows mit starken Ventilatoren
+BETROFFENE STADIEN: Alle, besonders Vegetationsphase (mehr Blattmasse exponiert)
+
+================================================================================
+1. BESCHREIBUNG UND URSACHE
+================================================================================
+
+Windburn entsteht, wenn Cannabis-Pflanzen über einen längeren Zeitraum zu
+starkem, direktem Luftstrom ausgesetzt sind. Während eine leichte
+Luftzirkulation essenziell für gesundes Wachstum ist (stärkt Stängel,
+verhindert Schimmel, reguliert Temperatur und Feuchtigkeit), kann ein zu
+starker, dauerhafter Luftstrom direkt auf die Pflanze die Blätter
+beschädigen.
+
+WARUM IST ZU VIEL WIND SCHÄDLICH?
+- Exzessive Transpiration: Der ständige Luftstrom trocknet die Blatt-
+  oberfläche schneller aus, als die Pflanze Wasser nachliefern kann
+- Mechanischer Stress: Dauerhaftes Biegen und Bewegen der Blätter
+  beschädigt das Gewebe
+- Stomata-Störung: Die Spaltöffnungen können sich nicht normal regulieren,
+  wenn ständig trockene Luft darüber streicht
+- Evapotranspiration steigt unkontrolliert: Die Pflanze verliert mehr
+  Wasser als sie aufnehmen kann (lokaler Wasserstress)
+- Die Blätter reagieren mit Schutzmaßnahmen: Einrollen, Verdicken,
+  Verformen
+
+URSACHEN IM DETAIL:
+- Ventilator zu stark eingestellt
+- Ventilator zu nah an den Pflanzen
+- Ventilator direkt auf die Pflanzen gerichtet (nicht oszillierend)
+- Kein oszillierender (schwenkender) Ventilator -> eine Seite der Pflanze
+  bekommt DAUERHAFT Wind ab
+- Zuluft bläst direkt auf Pflanzen (z.B. Lüftungsschlauch-Austritt)
+- Abluft erzeugt zu starken Sog in bestimmten Bereichen
+- Outdoor: Dauerhafter starker Wind ohne Windschutz
+- Zu viele Ventilatoren in einem kleinen Raum
+
+DER RICHTIGE WIND:
+- Cannabis BRAUCHT Luftbewegung!
+- Leichte Brise: Blätter bewegen sich sanft = PERFEKT
+- Starker Wind: Blätter flattern unkontrolliert = ZU VIEL
+- Faustregel: Wenn du vor dem Ventilator stehst und es unangenehm ist,
+  ist es auch für die Pflanze zu viel
+- Blätter sollten sich leicht bewegen, wie bei einer sanften Brise,
+  nicht wie bei einem Sturm
+
+================================================================================
+2. VISUELLE SYMPTOME - DETAILLIERTE BESCHREIBUNG
+================================================================================
+
+DAS HAUPTSYMPTOM - "CLAWING" / KRALLENBILDUNG:
+
+Die Blätter auf der dem Wind zugewandten Seite kräuseln sich, verformen
+sich und bilden eine charakteristische "Krallen"- oder "Klauen"-Form.
+
+FRÜHSTADIUM:
+- Blattränder der windexponierten Blätter beginnen sich einzurollen
+- Leichtes Kräuseln der Blattspitzen
+- Die Verformung ist NUR auf der Seite sichtbar, die dem Ventilator/Wind
+  zugewandt ist (ASYMMETRISCHES Schadbild!)
+- Gegenüberliegende Seite der Pflanze sieht normal aus
+- Blätter können leicht "wellig" oder "zerknittert" aussehen
+- Blätter sehen aus, als würden sie versuchen, sich vom Wind "wegzudrehen"
+
+MITTELSTADIUM:
+- Deutliche Klauen-/Krallenform der betroffenen Blätter
+- Blattspitzen biegen sich nach UNTEN und EINWÄRTS
+- Die Blattränder rollen sich zusammen, manchmal komplett
+- Betroffene Blätter werden steifer und dicker als normale Blätter
+  (Schutzmechanismus: die Pflanze verdickt das Gewebe)
+- Hellgelbe bis braune Verfärbung der am stärksten exponierten
+  Blattränder und -spitzen
+- Blätter können "ledrig" werden
+- Die Form erinnert an "Eagle Claw" (Adlerkralle)
+
+SPÄTSTADIUM / SCHWERER WINDBURN:
+- Blattspitzen und -ränder werden BRAUN und NEKROTISCH (abgestorben)
+- Betroffene Blätter werden knusprig und brüchig
+- Blätter können sich komplett einrollen und absterben
+- Wachstum auf der windexponierten Seite ist verlangsamt
+- Sichtbar asymmetrische Pflanzenentwicklung möglich
+
+STÄNGEL-SYMPTOME:
+- Bei dauerhaftem, starkem Wind können Stängel ÜBERMÄSSIG DICK werden
+- Die Pflanze versucht, sich gegen den mechanischen Stress zu wappnen
+  (Thigmomorphogenese)
+- Stängel auf der Windseite sind oft dicker als auf der Gegenseite
+- Internodien können kürzer werden (Pflanze wird kompakter)
+- In extremen Fällen: Stängelbruch, besonders bei jungen Pflanzen oder
+  während des Stretchs in der Blüte
+
+BESONDERES MERKMAL - ASYMMETRIE:
+Das WICHTIGSTE Erkennungsmerkmal von Windburn ist die ASYMMETRIE:
+- NUR die Seite der Pflanze, die dem Luftstrom zugewandt ist, zeigt
+  Symptome
+- Die abgewandte Seite sieht normal und gesund aus
+- Wenn man die Pflanze dreht, sieht man deutlich den Unterschied
+- Bei mehreren Pflanzen: Alle zeigen Symptome auf der GLEICHEN Seite
+  (der dem Ventilator zugewandten Seite)
+- Dies unterscheidet Windburn von fast allen anderen Problemen!
+
+================================================================================
+3. ABGRENZUNG ZU ÄHNLICHEN PROBLEMEN
+================================================================================
+
+WINDBURN vs. STICKSTOFF-TOXIZITÄT (N-Toxizität):
++---------------------------+---------------------------+
+| WINDBURN                  | N-TOXIZITÄT               |
++---------------------------+---------------------------+
+| NUR die windexponierte    | ALLE Blätter betroffen,   |
+| Seite betroffen           | gleichmäßig               |
+| Asymmetrisches Schadbild  | Symmetrisches Schadbild   |
+| Blattfarbe normal oder    | Blätter SEHR DUNKELGRÜN   |
+| leicht aufgehellt         | (übersättigt mit N)       |
+| Clawing nur auf einer     | Clawing an ALLEN Blatt-   |
+| Seite                     | spitzen ("Eagle Claw")    |
+| Ursache: Ventilator       | Ursache: Zu viel Dünger   |
+| Lösung: Ventilator        | Lösung: Substrat spülen,  |
+| anpassen                  | weniger N düngen          |
+| Stängel evtl. verdickt    | Stängel normal            |
+| auf Windseite             |                           |
+| Blätter können austrocknen| Blätter bleiben feucht    |
++---------------------------+---------------------------+
+
+DER ENTSCHEIDENDE UNTERSCHIED:
+N-Toxizität -> ALLE Blätter, DUNKELGRÜN, SYMMETRISCH
+Windburn -> NUR EINE SEITE, normale Farbe, ASYMMETRISCH
+
+WINDBURN vs. HITZESTRESS:
++---------------------------+---------------------------+
+| WINDBURN                  | HITZESTRESS               |
++---------------------------+---------------------------+
+| Asymmetrisch (eine Seite) | Symmetrisch (ganze        |
+|                           | Pflanze, oben stärker)    |
+| Klauen/Krallen nach unten | Taco-Kräuselung nach OBEN |
+| Windseite betroffen       | Obere Blätter stärker     |
+| Kann bei jeder Temperatur | Nur bei hohen Temperaturen|
+| auftreten                 | (>30°C)                   |
+| Verdickte Stängel möglich | Foxtailing in Blüte       |
+| Ventilator ist die Ursache| Temperatur ist die Ursache|
++---------------------------+---------------------------+
+
+WINDBURN vs. LICHTBRAND:
++---------------------------+---------------------------+
+| WINDBURN                  | LICHTBRAND                |
++---------------------------+---------------------------+
+| Folgt Windrichtung        | Folgt Lichtmuster         |
+| (horizontal/seitlich)     | (von oben)                |
+| Klauen-/Krallenform       | Bleaching/Weißfärbung     |
+| Kein Bleaching            | Deutliches Bleaching      |
+| Seitlich asymmetrisch     | Vertikal asymmetrisch     |
+|                           | (oben vs. unten)          |
+| Stängelverdickung         | Keine Stängelverdickung   |
++---------------------------+---------------------------+
+
+WINDBURN vs. ÜBERDÜNGUNG / NÄHRSTOFFBRAND:
++---------------------------+---------------------------+
+| WINDBURN                  | NÄHRSTOFFBRAND            |
++---------------------------+---------------------------+
+| Asymmetrisch              | Symmetrisch, alle Spitzen |
+| Klauen + Einrollen        | Nur braune Spitzen,       |
+|                           | kein Kräuseln             |
+| Stängelverdickung         | Keine Stängelverdickung   |
+| Lösung: Wind reduzieren   | Lösung: Spülen            |
++---------------------------+---------------------------+
+
+WINDBURN vs. KALZIUMMANGEL:
+- Kalziummangel: Braune Flecken auf NEUEN Blättern, überall an der
+  Pflanze, nicht seitenabhängig
+- Windburn: Verformung + Bräunung nur auf einer Seite
+
+================================================================================
+4. MECHANIK DES WINDSTRESSES
+================================================================================
+
+THIGMOMORPHOGENESE:
+Cannabis reagiert auf mechanischen Stress (Berührung, Wind) durch
+veränderte Wuchsformen. In moderatem Maß ist dies NÜTZLICH:
+- Leichter Wind -> stärkere, dickere Stängel
+- Manche Grower nutzen "LST durch Wind" absichtlich
+- Leichtes Streicheln/Bewegen der Pflanzen ("brushing") stärkt sie
+- Aber: ZU VIEL mechanischer Stress führt zu den oben beschriebenen
+  Schäden
+
+TRANSPIRATIONSRATE BEI WIND:
+- Ohne Wind: Pflanze baut eine Feuchtigkeitsschicht um ihre Blätter auf
+  (Grenzschicht / Boundary Layer)
+- Diese Grenzschicht reduziert die Transpirationsrate
+- Wind bläst diese Grenzschicht weg -> Transpiration steigt
+- Leichter Wind: Optimiert Gasaustausch (CO2 rein, O2 raus)
+- Starker Wind: Transpiration wird zu hoch, Stomata schließen sich als
+  Notreaktion -> keine CO2-Aufnahme -> keine Photosynthese
+- Ergebnis: Wachstumsstillstand + Wasserstress + Gewebeschaden
+
+WINDGESCHWINDIGKEIT UND AUSWIRKUNG:
+- 0 m/s (keine Bewegung): Schlecht! Schimmelrisiko, schwache Stängel
+- 0.3-0.8 m/s (sanfte Brise): IDEAL! Blätter bewegen sich sanft
+- 0.8-1.5 m/s (leichter Wind): OK, aber nicht dauerhaft direkt
+- 1.5-3.0 m/s (mäßiger Wind): Zu stark für direkten Dauerkontakt
+- >3.0 m/s (starker Wind): Schadbild wahrscheinlich
+
+================================================================================
+5. SOFORTMASSNAHMEN
+================================================================================
+
+1. VENTILATOR UMPOSITIONIEREN:
+   - Nicht direkt auf die Pflanzen richten
+   - Auf die Zeltwand oder über die Pflanzen richten
+   - Der Wind sollte INDIREKT über die Pflanzen streichen
+
+2. VENTILATOR-STÄRKE REDUZIEREN:
+   - Niedrigere Stufe wählen
+   - Falls kein Dimmer: Weiter weg stellen
+   - Oszillierenden Modus aktivieren (falls vorhanden)
+
+3. OSZILLIERENDEN VENTILATOR VERWENDEN:
+   - Der Wind wechselt ständig die Richtung
+   - Keine dauerhafte Belastung einer Seite
+   - Gleichmäßigere Luftverteilung
+
+4. WINDSCHUTZ:
+   - Andere Pflanzen als Windschutz positionieren
+   - Mesh/Netz als Windbrecher aufhängen
+   - SCROG-Netz kann auch als Windbrecher dienen
+
+5. BESCHÄDIGTE BLÄTTER:
+   - Leicht beschädigte Blätter stehen lassen (erholen sich teilweise)
+   - Stark nekrotische/braune Blätter können entfernt werden
+   - Pflanze wird schnell neue, gesunde Blätter nachproduzieren
+
+OUTDOOR:
+- Windschutzzaun oder -netz aufstellen
+- Pflanze an geschützterer Stelle positionieren
+- Benachbarte Pflanzen als natürlichen Windschutz nutzen
+- Stroh-/Reisigballen als Windbrecher
+
+================================================================================
+6. PRÄVENTION
+================================================================================
+
+VENTILATOR-SETUP FÜR INDOOR:
+- Oszillierende Ventilatoren bevorzugen
+- Ventilator NICHT direkt auf die Pflanzen richten
+- Luftzirkulation über den Pflanzen erzeugen (Luft steigt auf, wird
+  umgewälzt)
+- Mehrere kleine Ventilatoren statt einem großen
+- "Faustregel des Blattes": Blätter sollten sich sanft bewegen, aber
+  nicht flattern oder gebogen werden
+- Clip-Ventilatoren am oberen Zeltrahmen -> blasen Luft nach unten und
+  erzeugen indirekte Zirkulation
+
+LUFTSTROM-DESIGN:
+- Zuluft unten, Abluft oben (natürliche Konvektion unterstützen)
+- Ventilatoren für Umwälzung, nicht für direkten Windkanal-Effekt
+- Tote Ecken vermeiden (Schimmelrisiko)
+- Gleichmäßige Verteilung anstreben
+
+FÜR VERSCHIEDENE GROW-PHASEN:
+- Sämlinge: Sehr sanfte Luftbewegung, fast kein direkter Wind
+- Vegetationsphase: Moderate Luftbewegung, stärkt Stängel
+- Blüte: Sanfte Luftbewegung, besonders wichtig gegen Botrytis (Knospenfäule)
+  ABER: Zu viel Wind kann Trichome beschädigen und Terpene verflüchtigen!
+
+================================================================================
+7. ERHOLUNGSPROGNOSE
+================================================================================
+
+Windburn ist eines der am einfachsten zu behebenden Probleme:
+
+- Leichter Windburn: Vollständige Erholung in 3-5 Tagen nach Korrektur
+  des Ventilators. Leicht verformte Blätter können sich zurückformen.
+- Mittlerer Windburn: Betroffene Blätter erholen sich teilweise in
+  1-2 Wochen. Verformte Blätter bleiben verformt, aber neue Blätter
+  wachsen normal. Keine dauerhaften Ertragseinbußen.
+- Schwerer Windburn: Stark beschädigte/nekrotische Blätter erholen sich
+  NICHT. Die Pflanze muss neue Blätter produzieren. Kann 2-3 Wochen
+  Wachstumsverzögerung bedeuten.
+- Verdickte Stängel: Bleiben verdickt, was sogar VORTEILHAFT sein kann
+  (mehr Nährstofftransport)
+
+ERTRAGSVERLUST:
+- Leichter Windburn: Kein messbarer Verlust
+- Mittlerer Windburn: 5-10% Verlust möglich
+- Schwerer Windburn: 10-20% Verlust möglich, hauptsächlich durch
+  verlorene Blattmasse und Wachstumsverzögerung
+
+================================================================================
+8. POSITIVER ASPEKT VON MODERATEM WIND
+================================================================================
+
+Richtig dosierter Wind hat POSITIVE Effekte:
+- Stärkere, dickere Stängel (mehr Nährstofftransport möglich)
+- Bessere Luftzirkulation = weniger Schimmel (Botrytis, Mehltau)
+- Gleichmäßigere Temperaturverteilung im Zelt
+- CO2-Nachschub an der Blattoberfläche (frische Luft statt verbrauchte)
+- Transpiration wird optimiert (verbessert Nährstoffaufnahme)
+- Pflanze wird widerstandsfähiger (abhärten/"hardening off")
+
+DAHER: Wind ist NICHT der Feind - er muss nur richtig dosiert werden!
+
+================================================================================
+9. HÄUFIGE FEHLER
+================================================================================
+
+- "Mehr Wind = mehr CO2 an den Blättern = besseres Wachstum" -> nur bis
+  zu einem gewissen Punkt, danach schädlich
+- Ventilator auf Maximum und direkt auf die Pflanze -> klassischer Fehler
+- "Meine Pflanze braucht keinen Wind" -> FALSCH! Ohne Luftbewegung:
+  Schimmelrisiko, schwache Stängel, Temperatur-/Feuchtigkeits-Hotspots
+- Clawing = N-Toxizität angenommen, ohne auf die Symmetrie zu achten ->
+  Wenn nur eine Seite betroffen ist, zuerst den Wind prüfen!
+- Abluft zu stark -> erzeugt starken Sog, der Pflanzen verbiegt
+- Nach dem Umstellen des Ventilators ungeduldig sein -> Erholung dauert
+  einige Tage
+
+================================================================================
+KURZFORMEL FÜR KI-DIAGNOSE:
+Clawing/Krallenbildung + NUR AUF EINER SEITE (windexponiert) +
+gegenüberliegende Seite normal + eventuell verdickte Stängel auf
+Windseite + Ventilator/Windquelle auf dieser Seite identifizierbar
+= WINDBURN
+================================================================================
