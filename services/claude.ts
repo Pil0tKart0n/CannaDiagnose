@@ -595,3 +595,208 @@ function postProcessRefineResult(
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// ---------------------------------------------------------------------------
+// Reference Image Verification
+// ---------------------------------------------------------------------------
+
+import { Asset } from 'expo-asset';
+import referenceImageRegistry from '../assets/reference_images/registry';
+
+let _refImagesInitialized = false;
+
+/**
+ * Copies bundled reference images to documentDirectory on first launch.
+ * Safe to call multiple times — no-ops after first successful run.
+ */
+export async function initReferenceImages(): Promise<void> {
+  if (_refImagesInitialized) return;
+
+  const markerFile = `${FileSystem.documentDirectory}reference_images/.initialized`;
+  const markerInfo = await FileSystem.getInfoAsync(markerFile);
+  if (markerInfo.exists) {
+    _refImagesInitialized = true;
+    console.log('[CannaDiagnose] Reference images already initialized');
+    return;
+  }
+
+  console.log('[CannaDiagnose] Initializing reference images...');
+
+  // Ensure base directory exists
+  await FileSystem.makeDirectoryAsync(
+    `${FileSystem.documentDirectory}reference_images`,
+    { intermediates: true },
+  );
+
+  // Group registry by folder to create subdirectories
+  const folders = new Set(referenceImageRegistry.map(r => r.folder));
+  for (const folder of folders) {
+    await FileSystem.makeDirectoryAsync(
+      `${FileSystem.documentDirectory}reference_images/${folder}`,
+      { intermediates: true },
+    );
+  }
+
+  // Download each asset to documentDirectory
+  for (const entry of referenceImageRegistry) {
+    try {
+      const [asset] = await Asset.loadAsync(entry.asset);
+      if (asset.localUri) {
+        const destPath = `${FileSystem.documentDirectory}reference_images/${entry.folder}/${entry.file}`;
+        await FileSystem.copyAsync({ from: asset.localUri, to: destPath });
+      }
+    } catch (err: any) {
+      console.log(`[CannaDiagnose] Failed to copy ${entry.folder}/${entry.file}:`, err.message);
+    }
+  }
+
+  // Write marker so we don't re-copy next time
+  await FileSystem.writeAsStringAsync(markerFile, new Date().toISOString());
+  _refImagesInitialized = true;
+  console.log('[CannaDiagnose] Reference images initialized:', referenceImageRegistry.length, 'files');
+}
+
+/**
+ * Maps a diagnosis string to the reference image folder name.
+ */
+function diagnosisToRefFolder(diagnosis: string): string | null {
+  const d = diagnosis.toLowerCase();
+  if (d.includes('stickstoff') && (d.includes('überschuss') || d.includes('toxiz'))) return null;
+  if (d.includes('stickstoff') || d.includes('nitrogen') || d.includes('n-mangel') || d.includes('(n)')) return 'N_mangel';
+  if (d.includes('phosphor') || d.includes('(p)') || d.includes('p-mangel')) return 'P_mangel';
+  if (d.includes('kalium') || d.includes('potassium') || d.includes('(k)') || d.includes('k-mangel')) return 'K_mangel';
+  if (d.includes('kalzium') || d.includes('calcium') || d.includes('(ca)') || d.includes('ca-mangel')) return 'Ca_mangel';
+  if (d.includes('magnesium') || d.includes('(mg)') || d.includes('mg-mangel')) return 'Mg_mangel';
+  if (d.includes('schwefel') || d.includes('sulfur') || d.includes('(s)') || d.includes('s-mangel')) return 'S_mangel';
+  if (d.includes('eisen') || d.includes('iron') || d.includes('(fe)') || d.includes('fe-mangel')) return 'Fe_mangel';
+  if (d.includes('mangan') || d.includes('manganese') || d.includes('(mn)') || d.includes('mn-mangel')) return 'Mn_mangel';
+  if (d.includes('zink') || d.includes('zinc') || d.includes('(zn)') || d.includes('zn-mangel')) return 'Zn_mangel';
+  if (d.includes('bor') || d.includes('boron') || d.includes('(b)')) return 'B_mangel';
+  if (d.includes('kupfer') || d.includes('copper') || d.includes('(cu)')) return 'Cu_mangel';
+  if (d.includes('molybdän') || d.includes('(mo)')) return 'Mo_mangel';
+  return null;
+}
+
+/**
+ * Loads reference images for a given deficiency folder as base64 strings.
+ * Returns up to 2 reference images to keep API costs low.
+ */
+async function loadReferenceImages(folder: string): Promise<string[]> {
+  const base64Images: string[] = [];
+  const refDir = `${FileSystem.documentDirectory}reference_images/${folder}`;
+
+  const dirInfo = await FileSystem.getInfoAsync(refDir);
+  if (!dirInfo.exists) {
+    console.log('[CannaDiagnose] Reference folder not found:', folder);
+    return [];
+  }
+
+  for (let i = 1; i <= 2; i++) {
+    const filePath = `${refDir}/ref_${i}.jpg`;
+    const fileInfo = await FileSystem.getInfoAsync(filePath);
+    if (fileInfo.exists) {
+      const b64 = await FileSystem.readAsStringAsync(filePath, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      base64Images.push(b64);
+    }
+  }
+
+  return base64Images;
+}
+
+const VERIFY_PROMPT = `Du bist ein Cannabis-Diagnose-Verifikator. Du bekommst:
+1. Das Foto des Users (erstes Bild)
+2. Bestätigte Referenzbilder einer bestimmten Mangelerscheinung (weitere Bilder)
+3. Die vorgeschlagene Diagnose
+
+Deine Aufgabe: Vergleiche das User-Foto mit den Referenzbildern.
+
+Antworte NUR mit JSON:
+{
+  "verified": true/false,
+  "confidence": 0.0-1.0,
+  "reasoning": "Kurze Begründung warum das User-Foto den Referenzbildern entspricht oder nicht",
+  "alternative": "Falls nicht verifiziert: welche Diagnose passt besser? Sonst null"
+}`;
+
+/**
+ * Verifies a diagnosis by comparing the user's image with reference images.
+ * Returns the original result (possibly with adjusted confidence) or null if no ref images available.
+ */
+export async function verifyDiagnosis(
+  userImageBase64: string,
+  diagnosis: DiagnosisResult,
+): Promise<{ verified: boolean; confidence: number; alternative: string | null } | null> {
+  const folder = diagnosisToRefFolder(diagnosis.primaryDiagnosis);
+  if (!folder) {
+    console.log('[CannaDiagnose] No reference folder for:', diagnosis.primaryDiagnosis);
+    return null;
+  }
+
+  const refImages = await loadReferenceImages(folder);
+  if (refImages.length === 0) {
+    console.log('[CannaDiagnose] No reference images found for:', folder);
+    return null;
+  }
+
+  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
+  if (!apiKey) return null;
+
+  console.log('[CannaDiagnose] Verifying diagnosis with', refImages.length, 'reference images for', folder);
+
+  const imageBlocks = [
+    // User image first
+    { type: 'image_url' as const, image_url: { url: `data:image/jpeg;base64,${userImageBase64}` } },
+    // Reference images
+    ...refImages.map(b64 => ({
+      type: 'image_url' as const,
+      image_url: { url: `data:image/jpeg;base64,${b64}` },
+    })),
+  ];
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 300,
+        messages: [
+          { role: 'system', content: VERIFY_PROMPT },
+          {
+            role: 'user',
+            content: [
+              ...imageBlocks,
+              { type: 'text', text: `Vorgeschlagene Diagnose: "${diagnosis.primaryDiagnosis}". Bild 1 = User-Foto. Bilder 2-${refImages.length + 1} = bestätigte Referenzbilder. Stimmt die Diagnose?` },
+            ],
+          },
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      console.log('[CannaDiagnose] Verify API error:', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) return null;
+
+    console.log('[CannaDiagnose] Verify response:', content.substring(0, 300));
+    const parsed = extractJSON(content);
+
+    return {
+      verified: !!parsed.verified,
+      confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.5,
+      alternative: parsed.alternative || null,
+    };
+  } catch (err: any) {
+    console.log('[CannaDiagnose] Verify error:', err.message);
+    return null;
+  }
+}

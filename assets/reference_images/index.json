@@ -1,0 +1,174 @@
+{
+  "Ca_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Progression of calcium (Ca) deficiency, (a) starting on lower fan leaves in week three, with severit"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Image of a cannabis plant displaying symptoms of calcium deficiency, with distorted new growth at th"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Image of a cannabis plant displaying symptoms of calcium deficiency, with distorted new growth at th"
+    }
+  ],
+  "Cu_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "Zamnesia - Macro/Micro Deficiencies",
+      "description": "Copper Deficiency"
+    }
+  ],
+  "Fe_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "Grow-Outdoor.de - Mangel Bildergalerie",
+      "description": "eisenmangel-cannabis-mangel-bilder-galerie-detailaufnahme.jpg"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Grow-Outdoor.de - Mangel Bildergalerie",
+      "description": "eisenmangel-cannabis-entwicklung.jpg"
+    }
+  ],
+  "K_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Progression of potassium (K) deficiency on (a) sugar, and (b) fan leaves on week four and in the mid"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "A cannabis plant showing signs of potassium deficiency, characterized by brown and yellow leaf tips,"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "A cannabis plant showing signs of potassium deficiency, characterized by brown and yellow leaf tips,"
+    }
+  ],
+  "Mg_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Progression of magnesium deficiency, first appearing in week four (a), with interveinal chlorotic (b"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Magnesium deficiency in cannabis plants, displaying yellowing leaves that eventually dry out and tur"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Grow-Outdoor.de - Mangel Bildergalerie",
+      "description": "Detailaufnahmen einer Cannabispflanze, die durch Magnesiummangel sichtbare Nährstoffmängel entwickel"
+    }
+  ],
+  "Mn_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Comparison of apical inflorescence tissues between plants in the manganese deficiency treatment (a) "
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "An illustration depicting manganese deficiency in cannabis plants, showing light green discoloration"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "An illustration depicting manganese deficiency in cannabis plants, showing light green discoloration"
+    }
+  ],
+  "Mo_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Molybdenum deficiency in cannabis plants, showing red and pink discoloration at the edges of new gro"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Molybdenum deficiency in cannabis plants, showing red and pink discoloration at the edges of new gro"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Zamnesia - Macro/Micro Deficiencies",
+      "description": "Molybdenum Deficiency"
+    }
+  ],
+  "N_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "Grow-Outdoor.de - Mangel Bildergalerie",
+      "description": "Wissenschaftliche Bilderserien zu Cannabispflanzen mit und ohne Nährstoffmängel. Jede Bilderserie be"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Hanfjournal",
+      "description": "led-panele-modell-s4w-sanlight"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Progression of the various disparate symptoms iron deficiency on upper and lower canopy tissues thro"
+    }
+  ],
+  "P_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Progression of foliar phosphorous (P) deficiency symptoms in fan leaves during week three (a), week "
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "A cannabis plant exhibiting signs of phosphorus deficiency, including red/purple stems and brown spo"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Grow-Outdoor.de - Mangel Bildergalerie",
+      "description": "Detailaufnahmen von Hanfblättern, die durch Phosphormangel braune Flecken und Blattränder aufweisen."
+    }
+  ],
+  "S_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "PMC - Llewellyn et al. 2023 (Hydroponic Deficiencies)",
+      "description": "Progression of sulfur deficiency which first appeared as yellowing on the younger sugar leaves (a) a"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "A visual representation of sulfur deficiency in cannabis plants, showing yellowing of new growth and"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "A visual representation of sulfur deficiency in cannabis plants, showing yellowing of new growth and"
+    }
+  ],
+  "Zn_mangel": [
+    {
+      "file": "ref_1.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Zinc deficiency in cannabis plants, characterized by slowed new growth, reduced distance between nod"
+    },
+    {
+      "file": "ref_2.jpg",
+      "source": "Royal Queen Seeds - Deficiency Table",
+      "description": "Zinc deficiency in cannabis plants, characterized by slowed new growth, reduced distance between nod"
+    },
+    {
+      "file": "ref_3.jpg",
+      "source": "Zamnesia - Macro/Micro Deficiencies",
+      "description": "Zinc Deficiency"
+    }
+  ]
+}

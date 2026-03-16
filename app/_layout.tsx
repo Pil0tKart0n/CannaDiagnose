@@ -6,7 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import { colors } from '../constants/colors';
 import { setupNotificationHandler } from '../services/notifications';
-import { optimizeImage } from '../services/claude';
+import { optimizeImage, initReferenceImages } from '../services/claude';
 
 SplashScreen.preventAutoHideAsync();
 setupNotificationHandler();
@@ -109,6 +109,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     SplashScreen.hideAsync();
+    // Copy bundled reference images to documentDirectory on first launch
+    initReferenceImages().catch((err) =>
+      console.log('[CannaDiagnose] initReferenceImages error:', err)
+    );
   }, []);
 
   return (

@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'rea
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { analyzePlant, ApiError } from '../services/claude';
+import * as FileSystem from 'expo-file-system/legacy';
+import { analyzePlant, verifyDiagnosis, ApiError } from '../services/claude';
 import { saveEntry, addEntryToPlant } from '../services/storage';
 import { scheduleFollowUpReminder } from '../services/notifications';
 import { getPlant } from '../services/storage';
@@ -15,6 +16,7 @@ const loadingTexts = [
   'Erkenne Symptome...',
   'Prüfe Anbaubedingungen...',
   'Kreuz-referenziere Faktoren...',
+  'Verifiziere mit Referenzbildern...',
   'Erstelle Diagnose...',
 ];
 
@@ -72,6 +74,34 @@ export default function AnalyzingScreen() {
       );
 
       console.log('[CannaDiagnose] diagResult:', JSON.stringify(diagResult).substring(0, 300));
+
+      // Verify diagnosis against reference images (non-blocking — if it fails, we use original result)
+      try {
+        const firstUri = preOptimized.length > 0 ? preOptimized[0] : allUris[0];
+        if (firstUri) {
+          const userBase64 = await FileSystem.readAsStringAsync(firstUri, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+          const verification = await verifyDiagnosis(userBase64, diagResult);
+          if (verification) {
+            console.log('[CannaDiagnose] Verification:', JSON.stringify(verification));
+            if (verification.verified) {
+              // Boost confidence when reference images confirm
+              diagResult.confidence = Math.min(1, diagResult.confidence * 1.1);
+            } else if (verification.confidence < 0.3 && verification.alternative) {
+              // Low confidence + alternative → note it in root cause
+              diagResult.rootCauseAnalysis += `\n\nHinweis: Referenzbild-Vergleich deutet eher auf "${verification.alternative}" hin.`;
+              diagResult.confidence = Math.max(0.3, diagResult.confidence * 0.8);
+            } else {
+              // Not verified but no strong alternative — slightly reduce confidence
+              diagResult.confidence = Math.max(0.4, diagResult.confidence * 0.9);
+            }
+          }
+        }
+      } catch (verifyErr: any) {
+        console.log('[CannaDiagnose] Verification failed (non-critical):', verifyErr.message);
+      }
+
       setResult(diagResult);
       const entryId = Date.now().toString();
       await saveEntry({
