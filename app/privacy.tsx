@@ -51,10 +51,21 @@ export default function PrivacyScreen() {
 
         <Section title="6. Deine Rechte">
           Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der
-          Verarbeitung deiner Daten. Da alle personenbezogenen Daten lokal gespeichert
-          werden, kannst du diese jederzeit durch Löschen der App-Daten oder Deinstallation
-          der App vollständig entfernen.{'\n\n'}
+          Verarbeitung deiner Daten (Art. 15–18 DSGVO). Da alle personenbezogenen Daten
+          lokal gespeichert werden, kannst du diese jederzeit durch Löschen der App-Daten
+          oder Deinstallation der App vollständig entfernen.{'\n\n'}
+          Du hast zudem das Recht, dich bei einer Aufsichtsbehörde zu beschweren
+          (Art. 77 DSGVO). Die zuständige Aufsichtsbehörde findest du unter
+          www.bfdi.bund.de.{'\n\n'}
           Bei Fragen: leafscan@proton.me
+        </Section>
+
+        <Section title="6a. Automatisierte Entscheidungsfindung">
+          Die App verwendet künstliche Intelligenz (OpenAI) zur Analyse von Pflanzenfotos.
+          Dies stellt eine automatisierte Verarbeitung dar. Die Ergebnisse sind rein
+          informativ und haben keine rechtlichen oder ähnlich erheblichen Auswirkungen
+          auf den Nutzer. Eine Überprüfung durch einen Menschen findet nicht statt –
+          die Diagnosen dienen ausschließlich als Orientierungshilfe.
         </Section>
 
         <Section title="7. Internetverbindung">

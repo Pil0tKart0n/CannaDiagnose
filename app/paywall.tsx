@@ -200,6 +200,10 @@ export default function PaywallScreen() {
           <TouchableOpacity onPress={() => router.push('/privacy')}>
             <Text style={styles.footerLink}>Datenschutz</Text>
           </TouchableOpacity>
+          <Text style={styles.footerDot}>·</Text>
+          <TouchableOpacity onPress={() => router.push('/terms')}>
+            <Text style={styles.footerLink}>AGB</Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.legalNote}>

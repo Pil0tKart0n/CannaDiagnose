@@ -125,8 +125,18 @@ export default function HomeScreen() {
             <Text style={styles.legalText}>
               Internetverbindung erforderlich
             </Text>
+          </View>
+          <View style={styles.legalFooter}>
             <TouchableOpacity onPress={() => router.push('/privacy')}>
               <Text style={styles.legalLink}>Datenschutz</Text>
+            </TouchableOpacity>
+            <Text style={styles.legalDot}>·</Text>
+            <TouchableOpacity onPress={() => router.push('/terms')}>
+              <Text style={styles.legalLink}>AGB</Text>
+            </TouchableOpacity>
+            <Text style={styles.legalDot}>·</Text>
+            <TouchableOpacity onPress={() => router.push('/impressum')}>
+              <Text style={styles.legalLink}>Impressum</Text>
             </TouchableOpacity>
           </View>
 
@@ -342,6 +352,10 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     letterSpacing: 0.2,
     textDecorationLine: 'underline',
+  },
+  legalDot: {
+    fontSize: 10,
+    color: colors.textMuted,
   },
 
   // Buttons

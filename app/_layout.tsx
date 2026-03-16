@@ -10,6 +10,7 @@ import { optimizeImage, initReferenceImages } from '../services/claude';
 import { cleanupStorage } from '../services/storage';
 import { initLanguage } from '../services/i18n';
 import { initPurchases } from '../services/purchases';
+import CookieConsent from '../components/CookieConsent';
 
 SplashScreen.preventAutoHideAsync();
 setupNotificationHandler();
@@ -221,7 +222,10 @@ export default function RootLayout() {
         <Stack.Screen name="library" options={{ title: 'Bibliothek' }} />
         <Stack.Screen name="privacy" options={{ title: 'Datenschutz' }} />
         <Stack.Screen name="paywall" options={{ title: 'Premium', presentation: 'modal', headerShown: false }} />
+        <Stack.Screen name="impressum" options={{ title: 'Impressum' }} />
+        <Stack.Screen name="terms" options={{ title: 'Nutzungsbedingungen' }} />
       </Stack>
+      {Platform.OS === 'web' && <CookieConsent />}
     </DiagnosisContext.Provider>
     </View>
   );

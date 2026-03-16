@@ -5,11 +5,27 @@ import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, Actio
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 import { readAsBase64 } from './fileSystemWeb';
 
-const API_URL = 'https://api.openai.com/v1/chat/completions';
+// On web (PWA), route through our proxy to protect the API key.
+// On native, call OpenAI directly (key is embedded in the binary, not inspectable via browser).
+const PROXY_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || '';
+const DIRECT_API_URL = 'https://api.openai.com/v1/chat/completions';
+const API_URL = (Platform.OS === 'web' && PROXY_URL)
+  ? `${PROXY_URL}/v1/chat/completions`
+  : DIRECT_API_URL;
+const USE_PROXY = Platform.OS === 'web' && !!PROXY_URL;
 const MODEL = 'gpt-4o-mini';
 
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
+
+/** Build fetch headers — omit Authorization when using proxy (key lives server-side) */
+function apiHeaders(apiKey: string): Record<string, string> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (!USE_PROXY) {
+    headers['Authorization'] = `Bearer ${apiKey}`;
+  }
+  return headers;
+}
 
 // Claude API resizes images internally to max 1568px.
 // Resizing locally saves 80-90% upload time with zero quality loss.
@@ -313,10 +329,7 @@ export async function analyzePlant(
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
+        headers: apiHeaders(apiKey),
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1500,
@@ -447,10 +460,7 @@ export async function refineDiagnosis(
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
+        headers: apiHeaders(apiKey),
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 2048,
