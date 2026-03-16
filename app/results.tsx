@@ -480,6 +480,14 @@ export default function ResultsScreen() {
         </View>
       )}
 
+      {/* Disclaimer */}
+      <View style={styles.disclaimer}>
+        <Text style={styles.disclaimerText}>
+          Diese Diagnose wurde durch KI erstellt und kann fehlerhaft sein.
+          Kein Ersatz für professionelle Beratung. Nutzung auf eigene Verantwortung.
+        </Text>
+      </View>
+
       {selectedPlantId && !isFromHistory ? (
         <View style={styles.btnRow}>
           <Button
@@ -553,6 +561,22 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     color: colors.textMuted,
+  },
+  disclaimer: {
+    marginTop: 16,
+    marginBottom: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: 'rgba(248,113,113,0.06)',
+    borderWidth: 1,
+    borderColor: 'rgba(248,113,113,0.1)',
+  },
+  disclaimerText: {
+    fontSize: 11,
+    color: colors.textMuted,
+    lineHeight: 16,
+    textAlign: 'center',
   },
   newBtn: {
     marginTop: 8,

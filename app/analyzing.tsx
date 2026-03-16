@@ -8,6 +8,7 @@ import { analyzePlant, verifyDiagnosis, ApiError } from '../services/claude';
 import { saveEntry, addEntryToPlant } from '../services/storage';
 import { scheduleFollowUpReminder } from '../services/notifications';
 import { getPlant } from '../services/storage';
+import { canScan, recordScan } from '../services/quota';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
@@ -52,6 +53,23 @@ export default function AnalyzingScreen() {
     setScreenState('loading');
     setError(null);
     setAttemptText('');
+
+    // Check scan quota before proceeding
+    try {
+      const quota = await canScan();
+      if (!quota.allowed) {
+        setError({
+          type: 'unknown',
+          message: 'Du hast deine kostenlose Diagnose für heute bereits verwendet. Schalte Premium frei für unbegrenzte Scans.',
+          retryable: false,
+        });
+        setScreenState('error');
+        return;
+      }
+    } catch (quotaErr) {
+      // If quota check fails, allow scan (fail open)
+      console.log('[CannaDiagnose] Quota check failed, allowing scan:', quotaErr);
+    }
 
     try {
       const allUris = imageUris.length > 0 ? imageUris : (imageUri ? [imageUri] : []);
@@ -101,6 +119,9 @@ export default function AnalyzingScreen() {
       } catch (verifyErr: any) {
         console.log('[CannaDiagnose] Verification failed (non-critical):', verifyErr.message);
       }
+
+      // Record successful scan in quota
+      await recordScan().catch(() => {});
 
       setResult(diagResult);
       const entryId = Date.now().toString();

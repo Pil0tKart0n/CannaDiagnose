@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
+import { getQuotaDisplay } from '../services/quota';
 
 const webCSS = Platform.OS === 'web' ? `
   .cd-screen {
@@ -51,8 +52,16 @@ export default function HomeScreen() {
   const router = useRouter();
   const { reset } = useDiagnosis();
   const [showInfo, setShowInfo] = useState(false);
+  const [quotaText, setQuotaText] = useState('');
+  const [quotaIsPremium, setQuotaIsPremium] = useState(false);
 
-  useEffect(() => { injectCSS(); }, []);
+  useEffect(() => {
+    injectCSS();
+    getQuotaDisplay().then((q) => {
+      setQuotaText(q.text);
+      setQuotaIsPremium(q.isPremium);
+    }).catch(() => {});
+  }, []);
 
   const startDiagnosis = () => {
     reset();
@@ -88,10 +97,28 @@ export default function HomeScreen() {
             <TouchableOpacity onPress={() => setShowInfo(true)} style={styles.infoLink}>
               <Text style={styles.infoLinkText}>Wie funktioniert's?</Text>
             </TouchableOpacity>
+
+            {quotaText ? (
+              <View style={[styles.quotaBadge, quotaIsPremium && styles.quotaBadgePremium]}>
+                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>
+                  {quotaText}
+                </Text>
+              </View>
+            ) : null}
           </View>
 
           {/* Bottom spacer */}
           <View style={{ flex: 1.2 }} />
+
+          {/* Legal footer */}
+          <View style={styles.legalFooter}>
+            <Text style={styles.legalText}>
+              Internetverbindung erforderlich
+            </Text>
+            <TouchableOpacity onPress={() => router.push('/privacy')}>
+              <Text style={styles.legalLink}>Datenschutz</Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Buttons */}
           <View style={styles.buttons}>
@@ -261,6 +288,50 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     fontWeight: '500',
     letterSpacing: 0.3,
+  },
+
+  // Quota badge
+  quotaBadge: {
+    marginTop: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    backgroundColor: 'rgba(74,222,128,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(74,222,128,0.15)',
+  },
+  quotaBadgePremium: {
+    backgroundColor: 'rgba(251,191,36,0.08)',
+    borderColor: 'rgba(251,191,36,0.2)',
+  },
+  quotaText: {
+    fontSize: 11,
+    color: colors.textMuted,
+    fontWeight: '500',
+    letterSpacing: 0.3,
+  },
+  quotaTextPremium: {
+    color: colors.accentWarm,
+  },
+
+  // Legal footer
+  legalFooter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
+  },
+  legalText: {
+    fontSize: 10,
+    color: colors.textMuted,
+    letterSpacing: 0.2,
+  },
+  legalLink: {
+    fontSize: 10,
+    color: colors.textMuted,
+    letterSpacing: 0.2,
+    textDecorationLine: 'underline',
   },
 
   // Buttons

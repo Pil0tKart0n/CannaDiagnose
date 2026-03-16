@@ -205,6 +205,7 @@ export default function RootLayout() {
         <Stack.Screen name="plant-detail" options={{ title: 'Pflanze' }} />
         <Stack.Screen name="add-plant" options={{ title: 'Neue Pflanze' }} />
         <Stack.Screen name="library" options={{ title: 'Bibliothek' }} />
+        <Stack.Screen name="privacy" options={{ title: 'Datenschutz' }} />
       </Stack>
     </DiagnosisContext.Provider>
     </View>
