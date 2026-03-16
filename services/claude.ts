@@ -1,7 +1,9 @@
 import * as FileSystem from 'expo-file-system/legacy';
+import { Platform } from 'react-native';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, ActionStep } from '../types';
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
+import { readAsBase64 } from './fileSystemWeb';
 
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 const MODEL = 'gpt-4o-mini';
@@ -276,11 +278,7 @@ export async function analyzePlant(
     ? preOptimizedImages
     : await Promise.all(uris.map(optimizeImage));
   const base64Results = await Promise.all(
-    optimizedUris.map((uri) =>
-      FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-    )
+    optimizedUris.map((uri) => readAsBase64(uri))
   );
 
   // Build image content blocks for OpenAI format
@@ -432,11 +430,7 @@ export async function refineDiagnosis(
   // Optimize images (resize to max 1568px) then read as base64
   const optimizedUris = await Promise.all(uris.map(optimizeImage));
   const base64Results = await Promise.all(
-    optimizedUris.map((uri) =>
-      FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-    )
+    optimizedUris.map((uri) => readAsBase64(uri))
   );
 
   const imageBlocks = base64Results.map((data) => ({
@@ -610,6 +604,7 @@ let _refImagesInitialized = false;
  * Safe to call multiple times — no-ops after first successful run.
  */
 export async function initReferenceImages(): Promise<void> {
+  if (Platform.OS === 'web') { _refImagesInitialized = true; return; }
   if (_refImagesInitialized) return;
 
   const markerFile = `${FileSystem.documentDirectory}reference_images/.initialized`;
@@ -682,6 +677,7 @@ function diagnosisToRefFolder(diagnosis: string): string | null {
  * Returns up to 2 reference images to keep API costs low.
  */
 async function loadReferenceImages(folder: string): Promise<string[]> {
+  if (Platform.OS === 'web') return [];
   const base64Images: string[] = [];
   const refDir = `${FileSystem.documentDirectory}reference_images/${folder}`;
 

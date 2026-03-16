@@ -34,7 +34,17 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "CannaDiagnose",
+      "shortName": "CannaDiagnose",
+      "lang": "de",
+      "description": "KI-gestützte Pflanzendiagnose für Cannabis",
+      "backgroundColor": "#0A0E0D",
+      "themeColor": "#4ADE80",
+      "orientation": "portrait",
+      "display": "standalone",
+      "startUrl": "/",
+      "scope": "/"
     },
     "scheme": "cannadiagnose",
     "plugins": [

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
@@ -113,6 +113,57 @@ export default function RootLayout() {
     initReferenceImages().catch((err) =>
       console.log('[CannaDiagnose] initReferenceImages error:', err)
     );
+
+    // Web PWA setup: register service worker + inject manifest link + responsive CSS
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      // Manifest link
+      if (!document.querySelector('link[rel="manifest"]')) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = '/manifest.json';
+        document.head.appendChild(link);
+      }
+      // Apple touch icon
+      if (!document.querySelector('link[rel="apple-touch-icon"]')) {
+        const apple = document.createElement('link');
+        apple.rel = 'apple-touch-icon';
+        apple.href = '/assets/icon.png';
+        document.head.appendChild(apple);
+      }
+      // Apple web app meta
+      if (!document.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
+        const meta = document.createElement('meta');
+        meta.name = 'apple-mobile-web-app-capable';
+        meta.content = 'yes';
+        document.head.appendChild(meta);
+      }
+      // Responsive desktop container CSS
+      if (!document.getElementById('pwa-responsive-css')) {
+        const style = document.createElement('style');
+        style.id = 'pwa-responsive-css';
+        style.textContent = `
+          html, body, #root { background: #0A0E0D; }
+          @media (min-width: 768px) {
+            body { background: #050805; }
+            #root {
+              max-width: 480px !important;
+              margin: 0 auto !important;
+              min-height: 100vh;
+              box-shadow: 0 0 60px rgba(0,0,0,0.5);
+              border-left: 1px solid rgba(74,222,128,0.08);
+              border-right: 1px solid rgba(74,222,128,0.08);
+            }
+          }
+          ::-webkit-scrollbar { width: 0; height: 0; }
+          * { -webkit-tap-highlight-color: transparent; }
+        `;
+        document.head.appendChild(style);
+      }
+      // Service worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+    }
   }, []);
 
   return (

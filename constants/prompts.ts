@@ -457,11 +457,28 @@ UNTERWÄSSERUNG:
   D5: Gesamte Pflanze
   EXTRA: Trockenes leichtes Substrat + dünne schlaffe Blätter = Unterwässerung. Erholt sich SCHNELL nach Gießen (1-4 Stunden).
 
+KÄLTESTRESS:
+  D1: Violett/purpur an Stängeln und Blattstielen, Blätter können dunkelgrün werden
+  D2: Steif, starr, Wachstum verlangsamt
+  D3: Violette Verfärbung besonders an Stängeln und Blattstielen
+  D4: Gesamte Pflanze, besonders untere Pflanzenteile
+  D5: Gesamte Pflanze bei <15°C
+  EXTRA: P-Mangel-Symptome ohne echten P-Mangel! Unter 15°C wird P-Aufnahme massiv blockiert. Violette Stängel + kalte Nachttemperatur = Kältestress, NICHT P-Mangel! UNTERSCHEIDUNG: Genetische Purpur-Färbung ist GLÄNZEND, Kältestress/P-Mangel ist MATT.
+
+HERMAPHRODISMUS (Zwitter):
+  D1: Gelbe "Bananen" in Buds, runde Pollensäcke an Blattachseln
+  D2: Glatt, rund (Pollensäcke), gebogen/gekrümmt (Bananen)
+  D3: Pollensäcke in Trauben an Nodien, Bananen ragen aus Calyxen heraus
+  D4: Blattachseln, zwischen Buds
+  D5: Kann vereinzelt oder massiv auftreten
+  EXTRA: SOFORT handeln! Häufigste Ursache = Lichtleck in Dunkelphase. Auch Hitze >35°C, extremer Stress. Bananen = Stressreaktion in später Blüte. Pollensäcke = früher/genetischer Hermie. Bei Bananen: sofortige Ernte erwägen!
+
 SCHÄDLINGE:
   Spinnmilben: D1=winzige helle Punkte/Stippen D2=lebendig D3=Punktmuster + feine Gespinste D4=Blattunterseiten D5=breitet sich schnell aus
-  Thripse: D1=silbrige Streifen D2=Oberfläche aufgeraspelt D3=Streifen/Kratzer + schwarze Kotpunkte D4=junge Blätter zuerst D5=wenige bis viele
+  Thripse: D1=silbrige Streifen/Kratzer D2=Oberfläche aufgeraspelt, silbriger Schimmer D3=Streifen + schwarze Kotpunkte (Miniatur-Kothäufchen!) D4=junge Blätter, UNTERSEITEN D5=wenige bis viele. EXTRA: Weiße Larven + graue Adulte, kaum sichtbar. Blaue Leimtafeln effektiver als gelbe! Können Krankheitserreger übertragen.
   Blattläuse: D1=grün/schwarz/weiß D2=klebrig D3=Kolonien an Triebspitzen + klebriger Belag D4=neue Triebe D5=Kolonien wachsen schnell
   Trauermücken: D1=kleine schwarze Fliegen D2=Larven im Substrat D3=Fliegen am Substrat D4=Wurzelzone D5=bei dauerhaft feuchtem Substrat
+  Weiße Fliegen: D1=kleine weiße "Motten" (1-2mm) D2=fliegen auf bei Berührung D3=Kolonien an Blattunterseiten + Honigtau + Rußtau D4=Blattunterseiten D5=vermehren sich schnell bei Wärme. EXTRA: Gelbtafeln sehr effektiv! Schlupfwespen (Encarsia formosa) als Nützlinge.
 
 KRANKHEITEN:
   Mehltau: D1=weiß, pudrig D2=Belag auf Oberfläche D3=runde weiße Flecken auf Blattoberseite D4=mittlere Blätter, schlechte Luftzirkulation D5=breitet sich schnell aus
@@ -609,6 +626,96 @@ pH-SCHNELLDIAGNOSE (Erde):
 → 6.0–6.5: OPTIMAL – alles verfügbar
 → >7.0: Fe, Mn, Zn, Cu, B stark blockiert
 → REGEL: Mehrere Mängel gleichzeitig = 90% Wahrscheinlichkeit pH-Problem!
+
+── KOKOS-SPEZIFISCHE DIAGNOSTIK (Dr. Coco / CocoForCannabis) ──
+
+WICHTIG: Kokos verhält sich GRUNDLEGEND ANDERS als Erde!
+- In Kokos gibt es praktisch KEIN Risiko der Überwässerung! Gut konditionierter Kokos hält genug Sauerstoff auch bei Sättigung. Wenn eine Pflanze in Kokos "hängt", ist es NICHT Überwässerung – prüfe stattdessen: EC zu hoch (Salzstress), pH-Problem, oder Unterwässerung.
+- Kokos darf NIE austrocknen! Wenn die Oberfläche hellbraun wird, ist die Bewässerungsfrequenz zu niedrig.
+- Bewässerungsfrequenz Kokos: Sämling 1x/Tag, nach Umtopfen 2x/Tag, Blüte 3–5x/Tag (automatisch) oder mind. 2x/Tag (Hand).
+- IMMER mit Nährlösung gießen – NIEMALS reines Wasser in Kokos!
+- 10–20% Run-off bei jeder Bewässerung ist PFLICHT.
+- Run-off EC überwachen: Steigt der Run-off-EC deutlich über Input-EC = häufiger gießen.
+- Unbuffered/ungewaschener Kokos = CalMag-Probleme garantiert. Kokos MUSS gepuffert sein.
+- Eisen-Mangel ist eine "ständige Bedrohung" für Kokos-Grower (CocoForCannabis).
+- DIAGNOSE-FALLE: Pflanze hängt in Kokos ≠ Überwässerung! Immer erst EC/pH prüfen.
+
+── VPD (Vapor Pressure Deficit) – KLIMADIAGNOSE ──
+
+VPD ist der wichtigste Klima-Parameter für Cannabis. Nutze diese Werte wenn Temperatur und Luftfeuchtigkeit angegeben sind:
+
+| VPD (kPa) | Phase | Status |
+| < 0.4 | ALLE | GEFAHR: Pflanze transpiriert nicht → Nährstofftransport gestört, Pilzgefahr! |
+| 0.4–0.8 | Sämling/frühe Veg | OK – niedrige Transpiration passend |
+| 0.8–1.2 | Späte Veg/frühe Blüte | OPTIMAL – gesunde Transpiration |
+| 1.2–1.6 | Mittlere/späte Blüte | OK – hohe Transpiration passend |
+| > 1.6 | ALLE | GEFAHR: Über-Transpiration → Blätter rollen ein, Ränder verbrennen, Ca-Transport gestört |
+
+BERECHNUNG: VPD basiert auf BLATT-Temperatur (ca. 2°C unter Lufttemperatur). Wenn der User 28°C/50% RH angibt: Blatttemp ≈ 26°C → VPD ≈ 1.3 kPa (ok für Blüte).
+→ Niedriger VPD (<0.4) + Symptome = Pilzrisiko, schlechter Ca-Transport
+→ Hoher VPD (>1.6) + Symptome = Trockenstress, eingerollte Blätter, verbrannte Ränder
+
+── HÄUFIGE FEHLDIAGNOSEN AUS DER PRAXIS ──
+
+Diese Verwechslungen passieren am häufigsten (aus Forum-Analysen von 108+ realen Grow-Threads):
+
+1. NATÜRLICHE SENESZENZ vs. NÄHRSTOFFMANGEL:
+   Ab Woche 6 der Blüte werden unterste Fächerblätter gelb und sterben ab – auch bei PERFEKTER Nährstoffversorgung! Das ist NORMAL (Seneszenz). NICHT als Mangel diagnostizieren! Muster: Ränder-zur-Mittelrippe auf den ältesten Fächerblättern.
+
+2. LICHTBRAND vs. ZINKMANGEL:
+   Beide zeigen gebleichte/gelbe obere Blätter. Unterscheidung: Zn = gestaucht/kompakte Knoten + verdrehte Blätter + hoher pH? Lichtbrand = nur obere Etage, folgt dem Lichtmuster, nicht der Blattstruktur.
+
+3. K-MANGEL vs. NÄHRSTOFFBRAND:
+   Beide zeigen braune Blattränder. Unterscheidung: K = ganzer Rand vergilbt ZUERST dann braun, untere Blätter zuerst. Burn = NUR Spitzen 1–3mm, sofort braun, alle Blätter gleichzeitig.
+
+4. P-MANGEL vs. ÜBERFLUTUNG:
+   Beide können ähnliche Flecken erzeugen. P = einzigartige chlorotisch-dann-nekrotische Flecken-Progression. Prüfe ob Substrat dauernass ist.
+
+5. Fe-MANGEL vs. Mg-MANGEL:
+   Beide interveinal. Schlüssel: Fe = NEUE/obere Blätter (immobil). Mg = ALTE/untere Blätter (mobil). Das ist die ERSTE Frage!
+
+── ERNTEZEITPUNKT-ERKENNUNG (GrowWeedEasy / Univ. of Guelph) ──
+
+Wenn ein User nach Erntezeitpunkt fragt oder Trichom-Bilder zeigt:
+
+TRICHOME (präziseste Methode, braucht Lupe/Mikroskop):
+- KLAR/GLASIG = zu früh, THC-Produktion läuft noch
+- 50% klar / 50% MILCHIG = frühes Erntefenster, mehr "High"/psychoaktiv
+- ÜBERWIEGEND MILCHIG = PEAK Potenz – maximales THC, CBD, Terpene
+- BERNSTEIN/GOLD = THC → CBN Umwandlung, mehr Körper/Sedierung
+- >20% BERNSTEIN = zunehmend sedierend/müde machend
+- LILA Trichome = sagen NICHTS über Reife! Manche Sorten produzieren sie natürlich
+
+PISTILLEN (weniger präzis):
+- Mehrheit weiß + abstehend = zu früh
+- 70–80% braun/eingerollt = Erntefenster offen
+- Fast alle braun = spätes Fenster, mehr Körpereffekt
+
+WICHTIG:
+- Foxtailing durch Hitze/Licht erzeugt neue weiße Pistillen → ignorieren!
+- Gelbe Bananen in Buds = Hermie-Stressreaktion → SOFORT ernten!
+- Trichome an BUDS prüfen, NICHT an Zuckerblättern (reifen schneller)
+- Häufigster Anfängerfehler = zu FRÜH ernten
+
+── HERMAPHRODISMUS-ERKENNUNG ──
+
+BANANEN (Staubgefäße): Gelbe, gekrümmte Strukturen die aus Buds ragen. Zeichen für extremen Stress (Lichtleck, Hitze >35°C, zu späte Ernte). → Sofortige Ernte erwägen, Bestäubung anderer Pflanzen verhindern.
+
+POLLENSÄCKE: Runde, glatte Kugeln an Blattachseln, oft in Trauben. Erscheinen vor/während Blüte. → Einzelne entfernen und beobachten; bei vielen: Pflanze entfernen.
+
+HÄUFIGSTE URSACHE: Lichtleck während Dunkelphase (12/12). Ein einziger Lichtblitz kann Hermie auslösen!
+
+── ERTRAGS-IMPACT NACH MANGEL (Llewellyn et al. 2023, Universität Guelph) ──
+
+| Mangel | Vegetativer Frischgewicht-Verlust | Ertrags-Impact |
+| N | 73% | 33–72% Reduktion |
+| P | 59% | 33–72% Reduktion |
+| K | moderat | 33–50% Reduktion |
+| Ca | moderat | 33–50% Reduktion |
+| Fe | minimal | KEIN signifikanter Ertragsverlust |
+| Mn | minimal | KEIN signifikanter Ertragsverlust |
+
+→ N und P sind die ZERSTÖRERISCHSTEN Mängel. Fe und Mn hatten selbst bei sehr niedrigen Blatt-Konzentrationen kaum Ertragseinbußen. Cannabis ist erstaunlich effizient bei der Nutzung von Mn.
 
 LETZTE PRÜFUNG VOR DER ANTWORT: Lies deine komplette Antwort nochmal durch. Steht irgendwo "5.5" im Zusammenhang mit Kokos? Dann LÖSCHE es und ersetze es durch 5.8. pH-Bereiche für Kokos: 5.8–6.2, IMMER.
 

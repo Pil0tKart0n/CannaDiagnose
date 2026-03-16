@@ -127,8 +127,8 @@ export default function CameraScreen() {
         </View>
       </View>
 
-      {/* Primary action: large shutter button */}
-      {canAddMore && (
+      {/* Primary action: large shutter button (native only — web has no camera API) */}
+      {canAddMore && Platform.OS !== 'web' && (
         <View style={styles.shutterArea}>
           <TouchableOpacity onPress={takePhoto} activeOpacity={0.8} style={styles.shutterOuter}>
             <LinearGradient
@@ -146,8 +146,8 @@ export default function CameraScreen() {
         </View>
       )}
 
-      {/* Divider */}
-      {canAddMore && (
+      {/* Divider (native only) */}
+      {canAddMore && Platform.OS !== 'web' && (
         <View style={styles.divider}>
           <View style={styles.dividerLine} />
           <Text style={styles.dividerText}>oder</Text>
@@ -155,8 +155,27 @@ export default function CameraScreen() {
         </View>
       )}
 
-      {/* Secondary action: gallery row */}
-      {canAddMore && (
+      {/* Web: primary upload button */}
+      {canAddMore && Platform.OS === 'web' && (
+        <View style={styles.shutterArea}>
+          <TouchableOpacity onPress={pickImage} activeOpacity={0.8} style={styles.shutterOuter}>
+            <LinearGradient
+              colors={['#5AEF90', '#4ADE80', '#3CC870']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.shutterInner}
+            >
+              <Ionicons name="cloud-upload-outline" size={32} color={colors.textOnAccent} />
+            </LinearGradient>
+          </TouchableOpacity>
+          <Text style={styles.shutterLabel}>
+            {hasPhotos ? 'Weiteres Foto hochladen' : 'Foto hochladen'}
+          </Text>
+        </View>
+      )}
+
+      {/* Secondary action: gallery row (native only) */}
+      {canAddMore && Platform.OS !== 'web' && (
         <TouchableOpacity onPress={pickImage} activeOpacity={0.7} style={styles.galleryRow}>
           <View style={styles.galleryIcon}>
             <Ionicons name="images-outline" size={20} color={colors.accent} />

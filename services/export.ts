@@ -1,5 +1,7 @@
 import * as FileSystem from 'expo-file-system/legacy';
+import { Platform } from 'react-native';
 import { DiagnosisResult, Severity } from '../types';
+import { readAsBase64 } from './fileSystemWeb';
 
 // expo-print and expo-sharing are not available in Expo Go
 // Use dynamic imports so the app doesn't crash on startup
@@ -372,10 +374,7 @@ function generateHTML(result: DiagnosisResult, imageBase64?: string): string {
 async function imageToBase64(uri: string): Promise<string | undefined> {
   try {
     if (!uri || uri.startsWith('http')) return undefined;
-    const base64 = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
-    });
-    // Determine mime type from extension
+    const base64 = await readAsBase64(uri);
     const ext = uri.split('.').pop()?.toLowerCase() || 'jpg';
     const mime = ext === 'png' ? 'image/png' : 'image/jpeg';
     return `data:${mime};base64,${base64}`;
@@ -403,6 +402,25 @@ export async function shareDiagnosis(
   result: DiagnosisResult,
   imageUri?: string
 ): Promise<void> {
+  // Web: download as HTML file (user can print to PDF from browser)
+  if (Platform.OS === 'web') {
+    let imageBase64: string | undefined;
+    if (imageUri) {
+      imageBase64 = await imageToBase64(imageUri);
+    }
+    const html = generateHTML(result, imageBase64);
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `CannaDiagnose_${new Date().toISOString().slice(0, 10)}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return;
+  }
+
   const fileUri = await generateDiagnosisPDF(result, imageUri);
 
   const SharingModule = await getSharing();
