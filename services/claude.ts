@@ -5,14 +5,12 @@ import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, Actio
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 import { readAsBase64 } from './fileSystemWeb';
 
-// On web (PWA), route through our proxy to protect the API key.
+// On web (PWA), route through our nginx proxy (/api/...) to protect the API key.
 // On native, call OpenAI directly (key is embedded in the binary, not inspectable via browser).
-const PROXY_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || '';
 const DIRECT_API_URL = 'https://api.openai.com/v1/chat/completions';
-const API_URL = (Platform.OS === 'web' && PROXY_URL)
-  ? `${PROXY_URL}/v1/chat/completions`
-  : DIRECT_API_URL;
-const USE_PROXY = Platform.OS === 'web' && !!PROXY_URL;
+const PROXY_API_URL = '/api/v1/chat/completions';
+const API_URL = Platform.OS === 'web' ? PROXY_API_URL : DIRECT_API_URL;
+const USE_PROXY = Platform.OS === 'web';
 const MODEL = 'gpt-4o-mini';
 
 const MAX_RETRIES = 2;
