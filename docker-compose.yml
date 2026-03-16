@@ -3,6 +3,9 @@ services:
     build: .
     ports:
       - "80:80"
+      - "443:443"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     restart: unless-stopped
