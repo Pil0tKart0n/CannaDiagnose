@@ -36,37 +36,39 @@ EISEN(Fe)-MANGEL:
   D3: Interveinal (wie Mg), aber viel stärker gebleicht
   D4: NEUE/OBERE Blätter zuerst! (immobil – unterscheidet von Mg!)
 
-PHOSPHOR(P)-MANGEL:
-  D1: Dunkelgrün mit VIOLETTEM/PURPURNEM Schimmer, dunkel-rötlich
-  D2: Noch LEBENDIG (nicht trocken!) – lebendige violette Farbe
-  D3: Blattränder, Blattstiele, Stängel verfärben sich violett/purpur
+PHOSPHOR(P)-MANGEL [Wissenschaftlich korrigiert]:
+  D1: Dunkelgrün bis blau-grün, MATT/stumpf. Olive-grüne Flecken. Violett/purpur erst SPÄTER
+  D2: Noch LEBENDIG, Blätter werden dicker. Olive Flecken wirken "eingesunken"
+  D3: INITIAL: olive-grüne Flecken auf alten Blättern. DANN: Stängel/Blattstiele violett/rot
   D4: Untere/mittlere Blätter, auch Stängel
+  EXTRA: Genetisch violett = GLÄNZEND; P-Mangel violett = MATT/stumpf
 
-KALIUM(K)-MANGEL:
-  D1: BRAUN, rostfarben – eindeutig braun, nicht violett!
-  D2: TROCKEN, knusprig, papierartig – TOTES Gewebe (Nekrose)
-  D3: Blattränder und -spitzen, wandert von AUSSEN nach INNEN
+KALIUM(K)-MANGEL [Wissenschaftlich]:
+  D1: ZUERST gelb an Sägezahn-Rändern, DANN braun/nekrotisch. Nicht violett!
+  D2: TROCKEN, knusprig, papierartig – TOTES Gewebe
+  D3: Beginnt an Sägezahn-Blatträndern, wandert INNEN zum Mittelnerv
   D4: Untere/mittlere Blätter zuerst (mobil)
+  EXTRA: UNTERSCHIED Nährstoffbrand: K = ganzer Rand erst gelb dann braun. Nährstoffbrand = NUR Spitzen 1-3mm sofort braun
 
-KALZIUM(Ca)-MANGEL:
-  D1: Braune/rostfarbene FLECKEN (nicht Ränder!)
-  D2: Trocken, nekrotisch an den Flecken
-  D3: Unregelmäßige FLECKEN mitten im Blatt, nicht an Rändern
-  D4: NEUE Blätter zuerst (immobil!) – deformiert, gekräuselt
+KALZIUM(Ca)-MANGEL [Wissenschaftlich]:
+  D1: Kleine gelbe Flecken → braun. Basisteil der Leaflets heller als Spitze
+  D2: Trocken, nekrotisch. Stängel brüchig
+  D3: Unregelmäßige FLECKEN + intervenale Chlorose. Irreguläre Blattformen
+  D4: NEUE Blätter (immobil!) – deformiert, schmale Basis, Wachstumsspitze stirbt
 
 NÄHRSTOFFBRAND (Überdüngung):
-  D1: Braun, verbrannt
-  D2: Trocken, knusprig
-  D3: NUR die äußersten BLATTSPITZEN (1-3mm), scharf abgegrenzt
-  D4: Kann alle Blätter betreffen, oft zuerst mittlere/obere
-  D5: Viele Blätter gleichzeitig, alle Spitzen betroffen. Rest des Blattes noch grün
+  D1: Braun – NUR an den ÄUSSERSTEN SPITZEN
+  D2: Trocken, knusprig – scharf abgegrenzt
+  D3: NUR Blattspitzen (1-3mm), wie angesengt. NICHT die Ränder entlang!
+  D4: Alle Blätter gleichmäßig, Rest grün
+  EXTRA: K-Mangel = ganzer Rand betroffen. Nährstoffbrand = NUR Spitze
 
 STICKSTOFF(N)-ÜBERSCHUSS (Toxizität):
-  D1: DUNKELGRÜN, unnatürlich satt, fast schwarz-grün, glänzend
-  D2: Lebendig aber steif
-  D3: Gesamtes Blatt extrem dunkelgrün, Blattspitzen krallen nach UNTEN ("Eagle Claw")
-  D4: Alle Blätter, besonders neue
-  EXTRA: Blätter krallen sich nach unten = Schlüsselzeichen
+  D1: DUNKELGRÜN, unnatürlich satt, GLÄNZEND/glossy (auffällig!)
+  D2: Lebendig aber steif, wachsartig
+  D3: Dunkelgrün ab Rändern, Blattspitzen krallen UNTEN ("Eagle Claw")
+  D4: Alle Blätter, gesamte Pflanze auffällig dunkler als gesund
+  EXTRA: Extrem dunkelgrün = NICHT "gesund"! Gesunde Pflanzen sind mittelgrün, nicht schwarz-grün
 
 LICHTBRAND:
   D1: Weiß, gebleicht, hellgelb
@@ -81,11 +83,11 @@ HITZESTRESS:
   D4: Obere/lampennahe Blätter zuerst
 
 ÜBERWÄSSERUNG:
-  D1: Gelblich-grün, blass
-  D2: SCHLAFF, hängt aber Blätter sind PRALL/geschwollen (nicht dünn/welk!)
-  D3: Gesamtes Blatt, hängende Blätter trotz feuchter Erde
+  D1: Dunkelgrün bis gelblich-grün, Blätter sehen "zu voll" aus
+  D2: SCHLAFF, PRALL/geschwollen/schwer (nicht dünn wie bei Unterwässerung!)
+  D3: Gesamte Pflanze hängt/sackt bei NASSEM Substrat
   D4: Alle Blätter gleichzeitig
-  EXTRA: Blätter hängen nach unten, sind aber dick/schwer, nicht dünn
+  EXTRA: Nasses Substrat + hängende Pflanze = Überwässerung! Auch dunkelgrün + hängend = Überwässerung
 
 UNTERWÄSSERUNG:
   D1: Normal bis blass

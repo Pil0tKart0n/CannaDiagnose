@@ -305,69 +305,69 @@ Gleiche diese 5 Dimensionen mit der SYMPTOM-TABELLE unten ab. Das Problem mit de
 
 ── SYMPTOM-TABELLE (gleiche JEDES Symptom gegen alle Einträge ab!) ──
 
-STICKSTOFF(N)-MANGEL:
+STICKSTOFF(N)-MANGEL [Wissenschaftlich: Cockson et al. 2019, Llewellyn et al. 2023]:
   D1: Gelb – gesamtes Blatt gleichmäßig blass/gelb (Adern können LEICHT grüner sein – das ist normal bei N, NICHT Mg!)
-  D2: Noch lebendig, weich, nicht knusprig
+  D2: Noch lebendig, weich, nicht knusprig. Stängel können rötlich werden
   D3: GLEICHMÄSSIG über gesamte Blattfläche, inkl. Ränder. KEIN auffälliges Adernmuster
-  D4: Alte/untere Blätter zuerst, wandert nach oben. Neues Wachstum kann auch blasser sein
-  D5: Viele Blätter, progressiv von unten nach oben
-  EXTRA: Pflanze insgesamt blass, reduziertes Wachstum. Häufigster Mangel überhaupt!
+  D4: Alte/untere Blätter zuerst, wandert nach oben. Gelbe Blätter werden nekrotisch und fallen ab
+  D5: Viele Blätter, progressiv von unten nach oben. Pflanze wird "skelettartig" unten
+  EXTRA: Häufigster Mangel! Biomasse-Verlust bis 50% (Studie). Foliar N bei Mangel: 1.62% vs. 4.28% normal
 
-MAGNESIUM(Mg)-MANGEL:
-  D1: Gelb ZWISCHEN Adern, Adern bleiben DEUTLICH SATTGRÜN (STARKER Kontrast – Adern müssen richtig hervorstechen!)
-  D2: Noch lebendig, Blattränder können sich nach oben rollen
+MAGNESIUM(Mg)-MANGEL [Cockson et al. 2019]:
+  D1: Gelb ZWISCHEN Adern, Adern bleiben DEUTLICH SATTGRÜN (STARKER Kontrast – "Blattader-Mosaik")
+  D2: Noch lebendig, Blattränder können sich nach oben rollen. Braune/rostige Flecken im Verlauf
   D3: Klar IN FELDERN zwischen Adern, "Fischgräten-Muster". Von Blattmitte nach außen
   D4: Untere bis mittlere Blätter. Neue Blätter meist noch gesund
   D5: Wenige bis mehrere Blätter, eher vereinzelt
-  EXTRA: Häufig bei pH <5.8 in Kokos. ACHTUNG: Leicht grünere Adern bei sonst gelbem Blatt = N-Mangel, NICHT Mg!
+  EXTRA: Häufig bei pH <5.8 in Kokos. Hoher K-Level hemmt Mg-Aufnahme! ACHTUNG: Leicht grünere Adern bei sonst gelbem Blatt = N-Mangel, NICHT Mg!
 
-EISEN(Fe)-MANGEL:
-  D1: Gelb bis weiß/bleich, Adern bleiben grün
-  D2: Noch lebendig
+EISEN(Fe)-MANGEL [Cockson et al. 2019]:
+  D1: Gelb bis weiß/bleich, Adern bleiben grün. Kann bis fast WEISS werden bei schwerem Mangel
+  D2: Noch lebendig, Vergilbung beginnt am Blattstiel
   D3: Interveinal (wie Mg), aber viel stärker gebleicht
-  D4: NEUE/OBERE Blätter zuerst! (immobiler Nährstoff – DAS unterscheidet von Mg!)
+  D4: NEUE/OBERE Blätter zuerst! (immobil – DAS unterscheidet von Mg!)
   D5: Neue Blätter, Triebspitzen
-  EXTRA: Häufig bei pH >7.0 oder Phosphor-Überschuss
+  EXTRA: Echter Fe-Mangel ist SELTEN! Meist pH-Lockout (pH >6.5), niedrige Temp (<18°C) oder Überschuss von Zn/P. Prüfe pH ZUERST!
 
-PHOSPHOR(P)-MANGEL:
-  D1: Dunkelgrün mit VIOLETTEM/PURPURNEM Schimmer, oder dunkel-rötliche Verfärbung
-  D2: Noch LEBENDIG (nicht trocken!) – das Gewebe hat eine lebendige violette Farbe
-  D3: Blattränder, Blattstiele, Stängel verfärben sich violett/purpur. Gesamtblatt wird dunkelgrün
-  D4: Untere/mittlere Blätter, auch Stängel
-  D5: Mehrere Blätter + Stängel betroffen
-  EXTRA: Häufig in der Blüte. Bei dunklen Rändern IMMER auch P prüfen! Violetter Stängel = starker Hinweis
+PHOSPHOR(P)-MANGEL [Cockson et al. 2019 – WICHTIGE KORREKTUR]:
+  D1: Dunkelgrün bis blau-grün, MATT/stumpf (Glanz geht verloren!). Dann olive-grüne Flecken. Violett/purpur kommt SPÄTER
+  D2: Noch LEBENDIG, Blätter werden dicker/steifer. Olive-grüne Flecken wirken "eingesunken/feucht"
+  D3: INITIAL: olive-grüne Flecken unregelmäßig auf alten Blättern. DANN: Stängel/Blattstiele violett/purpur/rot-orange
+  D4: Untere/mittlere Blätter zuerst (mobil!), auch Stängel
+  D5: Mehrere Blätter + Stängel betroffen. Buds bleiben klein
+  EXTRA: NICHT NUR VIOLETT! Frühstadium = dunkle, stumpfe Blätter + olive Flecken! Violetter Stängel = fortgeschritten. Häufig in der Blüte. Kälte verstärkt P-Mangel. Genetisch bedingte violette Färbung ist GLÄNZEND – P-Mangel ist MATT
 
-KALIUM(K)-MANGEL:
-  D1: BRAUN, rostfarben – eindeutig braun, nicht violett!
-  D2: TROCKEN, knusprig, papierartig – TOTES Gewebe (Nekrose)
-  D3: Blattränder und -spitzen, wandert von AUSSEN nach INNEN
-  D4: Untere/mittlere Blätter zuerst (mobiler Nährstoff)
-  D5: Mehrere Blätter, progressiv
-  EXTRA: Bei dunklen Blatträndern → P und K IMMER BEIDE als Möglichkeit nennen! User soll prüfen ob Gewebe lebendig (→P) oder tot/trocken (→K)
+KALIUM(K)-MANGEL [Cockson et al. 2019]:
+  D1: ZUERST gelb an Sägezahn-Rändern, DANN braun/rostfarben/nekrotisch. Nicht violett!
+  D2: TROCKEN, knusprig, papierartig – TOTES Gewebe (Nekrose). Blätter brechen leicht
+  D3: Beginnt an Sägezahn-Blatträndern, wandert nach INNEN zum Mittelnerv. Tan-Nekrose an Rändern
+  D4: Untere/mittlere Blätter zuerst (mobil). Stängel werden weich/brüchig
+  D5: Mehrere Blätter, progressiv. Erhöhte Krankheitsanfälligkeit (Pilze!)
+  EXTRA: UNTERSCHIED zu Nährstoffbrand: K-Mangel = Ränder vergilben ZUERST dann nekrotisch, ganzer Rand betroffen. Nährstoffbrand = NUR Spitzen 1-3mm, sofort braun ohne vorher gelb. Bei dunklen Rändern → P und K BEIDE prüfen! Tot/trocken=K, lebendig/violett=P
 
-KALZIUM(Ca)-MANGEL:
-  D1: Braune/rostfarbene FLECKEN (nicht Ränder!)
-  D2: Trocken, nekrotisch an den Flecken
-  D3: Unregelmäßige FLECKEN mitten im Blatt, nicht an Rändern
-  D4: NEUE Blätter zuerst (immobil!) – deformiert, gekräuselt, verdreht
-  D5: Neue Blätter, Triebspitzen
-  EXTRA: In Kokos häufig ohne CalMag. Neue Blätter deformiert = Schlüsselzeichen
+KALZIUM(Ca)-MANGEL [Cockson et al. 2019]:
+  D1: Kleine gelbe Flecken auf neuen Blättern, dann braun/nekrotisch. Basisteil der Leaflets heller als Spitze
+  D2: Trocken, nekrotisch an den Flecken. Stängel werden schwach/brüchig
+  D3: Unregelmäßige FLECKEN mitten im Blatt + intervenale Chlorose. Blätter mit irregulären Geometrien
+  D4: NEUE Blätter zuerst (immobil!) – deformiert, schmaler an der Basis, gekräuselt
+  D5: Neue Blätter, Triebspitzen. Tod der Wachstumsspitze → vermehrte Seitentriebbildung
+  EXTRA: In Kokos PFLICHT: CalMag! Neue Blätter deformiert + schmale Basis = Schlüsselzeichen. In Blüte: "Blütenendfäule"
 
 NÄHRSTOFFBRAND (Überdüngung):
-  D1: Braun, verbrannt
-  D2: Trocken, knusprig
-  D3: NUR die äußersten BLATTSPITZEN (1-3mm), scharf abgegrenzt – NICHT mit K-Mangel verwechseln!
+  D1: Braun, verbrannt – NUR an den ÄUSSERSTEN SPITZEN
+  D2: Trocken, knusprig – scharf abgegrenzte braune Spitzen
+  D3: NUR die äußersten BLATTSPITZEN (1-3mm), wie mit Feuerzeug angesengt. NICHT die Ränder entlang!
   D4: Kann alle Blätter betreffen, oft zuerst mittlere/obere
-  D5: Viele Blätter gleichzeitig, alle Spitzen betroffen
-  EXTRA: EC zu hoch. Die Spitzen sehen aus wie verbrannt. Rest des Blattes noch grün
+  D5: Viele Blätter gleichzeitig, ALLE Spitzen gleichmäßig betroffen
+  EXTRA: KRITISCHER UNTERSCHIED zu K-Mangel: Nährstoffbrand = nur Spitze, sofort braun, gleichmäßig alle Blätter. K-Mangel = ganzer Rand, erst gelb dann braun, untere Blätter zuerst. EC zu hoch = Nährstoffbrand
 
-STICKSTOFF(N)-ÜBERSCHUSS (Toxizität):
-  D1: DUNKELGRÜN, unnatürlich satt, fast schwarz-grün, glänzend
-  D2: Lebendig aber steif
-  D3: Gesamtes Blatt extrem dunkelgrün, Blattspitzen krallen nach UNTEN ("Eagle Claw")
-  D4: Alle Blätter, besonders neue
-  D5: Gesamte Pflanze betroffen
-  EXTRA: Gegenteil von N-Mangel! Blätter krallen sich nach unten = Schlüsselzeichen
+STICKSTOFF(N)-ÜBERSCHUSS (Toxizität) [Dinafem]:
+  D1: DUNKELGRÜN, unnatürlich satt, fast schwarz-grün, GLÄNZEND (auffällig glossy!)
+  D2: Lebendig aber steif, Blätter fühlen sich wachsartig an
+  D3: Dunkelgrün beginnt an Blatträndern, breitet sich aus. Blattspitzen krallen nach UNTEN ("Eagle Claw"/"Krallen")
+  D4: Alle Blätter, besonders neue. Dunkelgrün ab Rändern nach innen
+  D5: Gesamte Pflanze betroffen – auffällig dunkler als gesunde Pflanzen
+  EXTRA: Gegenteil von N-Mangel! GLÄNZEND dunkelgrün + Krallen nach unten = N-Überschuss. Eine gesunde Pflanze ist NICHT so dunkel! Wenn Pflanze extrem dunkelgrün ist = NICHT "gesund" sagen sondern N-Überschuss prüfen!
 
 LICHTBRAND:
   D1: Weiß, gebleicht, hellgelb
@@ -386,12 +386,12 @@ HITZESTRESS:
   EXTRA: Temp >30°C? "Taco"-Blätter = Hitzestress. NICHT mit Mg-Mangel verwechseln (kein Adernmuster!)
 
 ÜBERWÄSSERUNG:
-  D1: Gelblich-grün, blass
-  D2: SCHLAFF, hängt aber Blätter sind PRALL/geschwollen (nicht dünn/welk!)
-  D3: Gesamtes Blatt, hängende Blätter trotz feuchter Erde
-  D4: Alle Blätter gleichzeitig
+  D1: Dunkelgrün bis gelblich-grün. Blätter sehen "zu voll" aus
+  D2: SCHLAFF, hängt aber Blätter sind PRALL/geschwollen/schwer (nicht dünn/welk!)
+  D3: Gesamte Pflanze hängt NACH UNTEN, Blätter droop trotz feuchter Erde
+  D4: Alle Blätter gleichzeitig – gesamte Pflanze sackt zusammen
   D5: Gesamte Pflanze
-  EXTRA: Erde/Substrat feucht + schlaffe Blätter = Überwässerung. NICHT mit N-Mangel verwechseln (bei N sind Blätter gelb aber nicht schlaff)
+  EXTRA: SCHLÜSSEL: Substrat ist NASS/FEUCHT + Pflanze hängt = Überwässerung. Blätter fühlen sich dick und schwer an. NICHT mit Unterwässerung verwechseln (dort sind Blätter DÜNN/papierartig und Substrat ist TROCKEN). Auch eine dunkelgrüne hängende Pflanze bei nassem Substrat = Überwässerung!
 
 SCHWEFEL(S)-MANGEL:
   D1: Gleichmäßig hellgrün/gelb – ähnlich wie N, aber an NEUEN Blättern!
@@ -497,6 +497,20 @@ NÄHRSTOFF-MOBILITÄT (SCHLÜSSEL zur Unterscheidung!):
   → Wenn UNTERE Blätter betroffen: N, P, K, Mg prüfen
   → Wenn OBERE/NEUE Blätter betroffen: Ca, Fe, Mn, Zn, B, Cu prüfen
   → Das ist die ERSTE und WICHTIGSTE Unterscheidung!
+
+NÄHRSTOFF-ANTAGONISMUS (Überschuss eines Nährstoffs blockiert anderen!):
+  - Überschuss P → blockiert Zn, Cu, Fe
+  - Überschuss K → blockiert Mg, Mn, Zn, Fe
+  - Überschuss Ca → blockiert K, Mg, Mn, Fe
+  - Überschuss Zn → verursacht akuten Fe-Mangel (kann Pflanze töten!)
+  - Überschuss Mo → blockiert Fe und Cu
+  → Bei Mangel-Diagnose IMMER prüfen ob ein ÜBERSCHUSS eines anderen Nährstoffs die Ursache sein könnte!
+
+DIAGNOSTIK-GRUPPEN [Cannabis Business Times / NC State]:
+  Gruppe 1 – Deformiertes Wachstum + Nekrose: Ca und B (immobil, neue Blätter)
+  Gruppe 2 – Gleichmäßige Vergilbung: N (mobil, alte Blätter) und S (immobil, neue Blätter)
+  Gruppe 3 – Intervenale Chlorose: Fe (immobil, neue) und Mg (mobil, alte)
+  Gruppe 4 – Rand-Chlorose + Nekrose: K, Mn, Zn, Mo
 
 PHASEN-KONTEXT (Vegetativ vs. Blüte):
   VEGETATIV: Hoher N-Bedarf, K/P sekundär. N-Mangel häufigster Mangel.
