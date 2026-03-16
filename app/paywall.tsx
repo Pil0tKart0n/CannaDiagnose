@@ -8,6 +8,7 @@ import {
   Alert,
   Platform,
   ScrollView,
+  Linking,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +20,7 @@ import {
   restorePurchases,
   SubscriptionPackage,
 } from '../services/purchases';
+import { setPremium } from '../services/quota';
 
 interface Feature {
   icon: string;
@@ -46,39 +48,108 @@ const proFeatures: Feature[] = [
   { icon: 'trending-up-outline', text: 'Detaillierte Berichte', pro: true },
 ];
 
+// ── Stripe Web Checkout ──
+
+interface StripePlan {
+  id: string;
+  priceId: string;
+  name: string;
+  description: string;
+  price: string;
+  interval: string;
+}
+
+async function getStripePlans(): Promise<StripePlan[]> {
+  try {
+    const res = await fetch('/api/stripe/products');
+    const data = await res.json();
+    return data.plans || [];
+  } catch {
+    return [];
+  }
+}
+
+async function startStripeCheckout(priceId: string): Promise<string | null> {
+  try {
+    const res = await fetch('/api/stripe/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId }),
+    });
+    const data = await res.json();
+    return data.url || null;
+  } catch {
+    return null;
+  }
+}
+
 export default function PaywallScreen() {
   const router = useRouter();
+  const isWeb = Platform.OS === 'web';
+
+  // Native state
   const [packages, setPackages] = useState<SubscriptionPackage[]>([]);
+  // Web state
+  const [stripePlans, setStripePlans] = useState<StripePlan[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [restoring, setRestoring] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
-    getOfferings().then((pkgs) => {
-      setPackages(pkgs);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    if (isWeb) {
+      // Check for payment success redirect
+      if (typeof window !== 'undefined' && window.location.search.includes('payment=success')) {
+        setPaymentSuccess(true);
+        setPremium(true);
+        // Clean URL
+        window.history.replaceState({}, '', '/');
+      }
+      // Load Stripe plans
+      getStripePlans().then((plans) => {
+        setStripePlans(plans);
+        setLoading(false);
+      }).catch(() => setLoading(false));
+    } else {
+      // Load RevenueCat offerings
+      getOfferings().then((pkgs) => {
+        setPackages(pkgs);
+        setLoading(false);
+      }).catch(() => setLoading(false));
+    }
   }, []);
 
   const handlePurchase = async () => {
-    if (packages.length === 0) return;
     setPurchasing(true);
-    const result = await purchasePackage(packages[selectedIdx]);
-    setPurchasing(false);
 
-    if (result.success) {
-      if (Platform.OS === 'web') {
-        router.back();
+    if (isWeb) {
+      // Stripe Checkout
+      const plan = stripePlans[selectedIdx];
+      if (!plan?.priceId) {
+        setPurchasing(false);
+        alert('Produkt nicht verfügbar.');
+        return;
+      }
+      const url = await startStripeCheckout(plan.priceId);
+      setPurchasing(false);
+      if (url) {
+        window.location.href = url;
       } else {
+        alert('Checkout konnte nicht gestartet werden. Bitte versuche es erneut.');
+      }
+    } else {
+      // RevenueCat purchase
+      if (packages.length === 0) { setPurchasing(false); return; }
+      const result = await purchasePackage(packages[selectedIdx]);
+      setPurchasing(false);
+
+      if (result.success) {
         Alert.alert('Willkommen!', 'Premium wurde aktiviert. Viel Spaß mit unbegrenzten Diagnosen!', [
           { text: 'Super!', onPress: () => router.back() },
         ]);
-      }
-    } else if (result.error) {
-      if (Platform.OS === 'web') {
-        alert(result.error);
-      } else {
+      } else if (result.error) {
         Alert.alert('Hinweis', result.error);
       }
     }
@@ -100,8 +171,35 @@ export default function PaywallScreen() {
     }
   };
 
-  const selectedPkg = packages[selectedIdx];
+  // Determine display data based on platform
+  const displayPlans = isWeb
+    ? stripePlans.map(p => ({ title: p.name, priceString: p.price }))
+    : packages.map(p => ({ title: p.title, priceString: p.priceString }));
+
+  const selectedPlan = displayPlans[selectedIdx];
   const features = selectedIdx === 0 ? growerFeatures : proFeatures;
+
+  if (paymentSuccess) {
+    return (
+      <SafeAreaView style={styles.safe} edges={['bottom']}>
+        <View style={styles.successContainer}>
+          <View style={styles.successIcon}>
+            <Ionicons name="checkmark-circle" size={64} color={colors.accent} />
+          </View>
+          <Text style={styles.successTitle}>Premium aktiviert!</Text>
+          <Text style={styles.successText}>
+            Viel Spaß mit unbegrenzten Diagnosen.
+          </Text>
+          <TouchableOpacity
+            style={styles.purchaseBtn}
+            onPress={() => router.replace('/')}
+          >
+            <Text style={styles.purchaseBtnText}>Zur Startseite</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
@@ -136,19 +234,19 @@ export default function PaywallScreen() {
           <ActivityIndicator size="large" color={colors.accent} style={{ marginVertical: 32 }} />
         ) : (
           <View style={styles.packagesRow}>
-            {packages.map((pkg, i) => (
+            {displayPlans.map((plan, i) => (
               <TouchableOpacity
-                key={pkg.id}
+                key={i}
                 style={[styles.packageCard, i === selectedIdx && styles.packageCardSelected]}
                 onPress={() => setSelectedIdx(i)}
                 activeOpacity={0.8}
               >
                 {i === 1 && <View style={styles.popularBadge}><Text style={styles.popularText}>Beliebt</Text></View>}
                 <Text style={[styles.packageTitle, i === selectedIdx && styles.packageTitleSelected]}>
-                  {pkg.title}
+                  {plan.title}
                 </Text>
                 <Text style={[styles.packagePrice, i === selectedIdx && styles.packagePriceSelected]}>
-                  {pkg.priceString}
+                  {plan.priceString}
                 </Text>
                 <Text style={styles.packagePeriod}>/ Monat</Text>
               </TouchableOpacity>
@@ -157,9 +255,9 @@ export default function PaywallScreen() {
         )}
 
         {/* Features for selected package */}
-        {selectedPkg && (
+        {selectedPlan && (
           <View style={styles.featuresCard}>
-            <Text style={styles.featuresTitle}>{selectedPkg.title} enthält:</Text>
+            <Text style={styles.featuresTitle}>{selectedPlan.title} enthält:</Text>
             {features.map((f, i) => (
               <View key={i} style={styles.featureRow}>
                 <Ionicons
@@ -178,25 +276,29 @@ export default function PaywallScreen() {
           style={styles.purchaseBtn}
           onPress={handlePurchase}
           activeOpacity={0.85}
-          disabled={purchasing || packages.length === 0}
+          disabled={purchasing || displayPlans.length === 0}
         >
           {purchasing ? (
             <ActivityIndicator color={colors.textOnAccent} />
           ) : (
             <Text style={styles.purchaseBtnText}>
-              {selectedPkg ? `${selectedPkg.title} für ${selectedPkg.priceString}/Monat` : 'Laden...'}
+              {selectedPlan ? `${selectedPlan.title} für ${selectedPlan.priceString}/Monat` : 'Laden...'}
             </Text>
           )}
         </TouchableOpacity>
 
         {/* Restore + Terms */}
         <View style={styles.footer}>
-          <TouchableOpacity onPress={handleRestore} disabled={restoring}>
-            <Text style={styles.footerLink}>
-              {restoring ? 'Wird wiederhergestellt...' : 'Käufe wiederherstellen'}
-            </Text>
-          </TouchableOpacity>
-          <Text style={styles.footerDot}>·</Text>
+          {!isWeb && (
+            <>
+              <TouchableOpacity onPress={handleRestore} disabled={restoring}>
+                <Text style={styles.footerLink}>
+                  {restoring ? 'Wird wiederhergestellt...' : 'Käufe wiederherstellen'}
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.footerDot}>·</Text>
+            </>
+          )}
           <TouchableOpacity onPress={() => router.push('/privacy')}>
             <Text style={styles.footerLink}>Datenschutz</Text>
           </TouchableOpacity>
@@ -207,9 +309,10 @@ export default function PaywallScreen() {
         </View>
 
         <Text style={styles.legalNote}>
-          Das Abo verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor
-          Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo jederzeit in den
-          Einstellungen deines Google Play / App Store Kontos verwalten.
+          {isWeb
+            ? 'Das Abo verlängert sich automatisch. Du kannst es jederzeit über dein Stripe-Kundenkonto kündigen. Die Bezahlung erfolgt sicher über Stripe.'
+            : 'Das Abo verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo jederzeit in den Einstellungen deines Google Play / App Store Kontos verwalten.'
+          }
         </Text>
       </ScrollView>
     </SafeAreaView>
@@ -248,6 +351,29 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: colors.textMuted,
+  },
+
+  // Success
+  successContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 32,
+  },
+  successIcon: {
+    marginBottom: 24,
+  },
+  successTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 8,
+  },
+  successText: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    marginBottom: 32,
+    textAlign: 'center',
   },
 
   // Free tier

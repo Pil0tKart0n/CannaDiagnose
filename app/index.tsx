@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
-import { getQuotaDisplay } from '../services/quota';
+import { getQuotaDisplay, setPremium } from '../services/quota';
 import { hasCompletedOnboarding } from './onboarding';
 
 const webCSS = Platform.OS === 'web' ? `
@@ -58,6 +58,16 @@ export default function HomeScreen() {
 
   useEffect(() => {
     injectCSS();
+    // Check for Stripe payment success redirect
+    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('payment=success')) {
+      setPremium(true).then(() => {
+        window.history.replaceState({}, '', '/');
+        getQuotaDisplay().then((q) => {
+          setQuotaText(q.text);
+          setQuotaIsPremium(q.isPremium);
+        });
+      });
+    }
     // Check onboarding
     hasCompletedOnboarding().then((done) => {
       if (!done) router.replace('/onboarding');

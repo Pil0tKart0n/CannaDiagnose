@@ -1,5 +1,5 @@
 services:
-  leafscan:
+  web:
     build: .
     ports:
       - "80:80"
@@ -8,4 +8,14 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  api:
+    build: ./server
+    environment:
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - DOMAIN=https://leafscan.de
     restart: unless-stopped
