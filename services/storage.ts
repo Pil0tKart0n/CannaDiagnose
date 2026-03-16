@@ -15,7 +15,12 @@ export async function saveEntry(entry: DiagnosisEntry): Promise<void> {
 export async function getEntries(): Promise<DiagnosisEntry[]> {
   const data = await AsyncStorage.getItem(ENTRIES_KEY);
   if (!data) return [];
-  return JSON.parse(data);
+  try {
+    return JSON.parse(data);
+  } catch {
+    console.error('[LeafScan] Corrupted history data, resetting');
+    return [];
+  }
 }
 
 export async function getEntry(id: string): Promise<DiagnosisEntry | null> {
@@ -50,7 +55,12 @@ export async function savePlant(plant: Plant): Promise<void> {
 export async function getPlants(): Promise<Plant[]> {
   const data = await AsyncStorage.getItem(PLANTS_KEY);
   if (!data) return [];
-  return JSON.parse(data);
+  try {
+    return JSON.parse(data);
+  } catch {
+    console.error('[LeafScan] Corrupted plants data, resetting');
+    return [];
+  }
 }
 
 export async function getPlant(id: string): Promise<Plant | null> {

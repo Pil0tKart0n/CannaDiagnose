@@ -16,7 +16,9 @@ export async function readAsBase64(uri: string): Promise<string> {
 
   // Web: data URI → strip prefix
   if (uri.startsWith('data:')) {
-    return uri.split(',')[1];
+    const commaIdx = uri.indexOf(',');
+    if (commaIdx === -1) throw new Error('Malformed data URI');
+    return uri.substring(commaIdx + 1);
   }
 
   // Web: blob URI or http URI → fetch + FileReader
@@ -26,7 +28,9 @@ export async function readAsBase64(uri: string): Promise<string> {
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
-      resolve(result.split(',')[1]); // strip "data:...;base64," prefix
+      if (!result) { reject(new Error('FileReader returned null')); return; }
+      const commaIdx = result.indexOf(',');
+      resolve(commaIdx >= 0 ? result.substring(commaIdx + 1) : result);
     };
     reader.onerror = reject;
     reader.readAsDataURL(blob);

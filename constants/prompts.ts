@@ -24,7 +24,7 @@ function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | 
     if (plantAge.includes('0–2')) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
     else if (plantAge.includes('3–4')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
     else if (plantAge.includes('5–8')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
-    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte'; }
+    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.midFlower; phase = 'Blüte'; }
   }
 
   if (!ecRange || !phase) {

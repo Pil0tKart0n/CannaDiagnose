@@ -62,11 +62,11 @@ export default function PlantsScreen() {
   };
 
   const renderItem = ({ item }: { item: PlantWithLatest }) => {
-    const hasFollowUp = item.latestEntry?.result.followUpDays;
-    const followUpDate = hasFollowUp && item.latestEntry
-      ? new Date(new Date(item.latestEntry.date).getTime() + (item.latestEntry.result.followUpDays! * 86400000))
+    const followUpDays = typeof item.latestEntry?.result.followUpDays === 'number' ? item.latestEntry.result.followUpDays : 0;
+    const followUpDate = followUpDays > 0 && item.latestEntry
+      ? new Date(new Date(item.latestEntry.date).getTime() + (followUpDays * 86400000))
       : null;
-    const isFollowUpDue = followUpDate && followUpDate <= new Date();
+    const isFollowUpDue = followUpDate && !isNaN(followUpDate.getTime()) && followUpDate <= new Date();
 
     return (
       <TouchableOpacity

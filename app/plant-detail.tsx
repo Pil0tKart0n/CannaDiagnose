@@ -99,8 +99,10 @@ export default function PlantDetailScreen() {
   const getFollowUpInfo = () => {
     if (entries.length === 0) return null;
     const latest = entries[0];
-    if (!latest.result.followUpDays) return null;
-    const due = new Date(new Date(latest.date).getTime() + latest.result.followUpDays * 86400000);
+    const days = typeof latest.result.followUpDays === 'number' ? latest.result.followUpDays : 0;
+    if (days <= 0) return null;
+    const due = new Date(new Date(latest.date).getTime() + days * 86400000);
+    if (isNaN(due.getTime())) return null;
     const now = new Date();
     const daysLeft = Math.ceil((due.getTime() - now.getTime()) / 86400000);
     return { due, daysLeft, isDue: daysLeft <= 0 };

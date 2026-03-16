@@ -69,7 +69,7 @@ export async function checkSubscriptionStatus(): Promise<boolean> {
 
   try {
     const customerInfo = await Purchases.getCustomerInfo();
-    const isPremiumActive = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    const isPremiumActive = customerInfo?.entitlements?.active?.[ENTITLEMENT_ID] !== undefined;
 
     // Sync with quota system
     await setPremium(isPremiumActive);
@@ -92,7 +92,7 @@ export async function getOfferings(): Promise<SubscriptionPackage[]> {
     const offerings = await Purchases.getOfferings();
     if (!offerings.current) return getDemoOfferings();
 
-    return offerings.current.availablePackages.map((pkg: any) => ({
+    return (offerings.current.availablePackages || []).map((pkg: any) => ({
       id: pkg.identifier,
       title: pkg.product.title,
       description: pkg.product.description,
@@ -115,7 +115,7 @@ export async function purchasePackage(pkg: SubscriptionPackage): Promise<{ succe
 
   try {
     const { customerInfo } = await Purchases.purchasePackage(pkg.rcPackage);
-    const isPremiumActive = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    const isPremiumActive = customerInfo?.entitlements?.active?.[ENTITLEMENT_ID] !== undefined;
 
     if (isPremiumActive) {
       await setPremium(true);
@@ -139,7 +139,7 @@ export async function restorePurchases(): Promise<{ success: boolean; isPremium:
 
   try {
     const customerInfo = await Purchases.restorePurchases();
-    const isPremiumActive = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    const isPremiumActive = customerInfo?.entitlements?.active?.[ENTITLEMENT_ID] !== undefined;
     await setPremium(isPremiumActive);
     return { success: true, isPremium: isPremiumActive };
   } catch (err) {
