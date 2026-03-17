@@ -137,13 +137,14 @@ function getECState(ecValue: string | null, fertilizerName: string | null, plant
     else if (plantAge.includes('5–8') && isFlower) ecRange = profile.ecRanges.lateFlower;
     else if (plantAge.includes('9–12') && isFlower) ecRange = profile.ecRanges.flush;
     else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.lateVeg;
+    else if (growPhase === 'Mutterpflanze') ecRange = profile.ecRanges.lateVeg;
   }
 
   if (!ecRange) {
     // Fallback: use earlyVeg–midFlower range
-    const mins = [profile.ecRanges.earlyVeg, profile.ecRanges.lateVeg, profile.ecRanges.earlyFlower]
+    const mins = [profile.ecRanges.earlyVeg, profile.ecRanges.lateVeg, profile.ecRanges.earlyFlower, profile.ecRanges.midFlower]
       .map(r => parseFloat(r.split('–')[0])).filter(n => !isNaN(n));
-    const maxs = [profile.ecRanges.earlyVeg, profile.ecRanges.lateVeg, profile.ecRanges.earlyFlower]
+    const maxs = [profile.ecRanges.earlyVeg, profile.ecRanges.lateVeg, profile.ecRanges.earlyFlower, profile.ecRanges.midFlower]
       .map(r => parseFloat(r.split('–')[1])).filter(n => !isNaN(n));
     if (mins.length && maxs.length) {
       if (ecNum < Math.min(...mins)) return 'low';
@@ -647,8 +648,8 @@ PATHOGNOMONISCHE ZEICHEN (fast eindeutige Erkennungsmerkmale):
 → Asymmetrisches Bild (nur eine Pflanzenseite) = WINDBURN
 
 MOBILITÄTS-SCHNELLREFERENZ:
-→ MOBIL (Symptome UNTEN/ALT): N, P, K, Mg, Mo
-→ SEMI-MOBIL: S (beginnt oben, wandert)
+→ MOBIL (Symptome UNTEN/ALT): N, P, K, Mg
+→ SEMI-MOBIL: S (beginnt oben, wandert), Mo (mittlere Blätter!)
 → IMMOBIL (Symptome OBEN/NEU): Fe, Mn, Zn, Cu, B, Ca
 
 NÄHRSTOFF-ANTAGONISMUS CHEAT-SHEET:
@@ -894,7 +895,7 @@ export function buildRefinePrompt(
   if (fertilizerType) parts.push('- Dünger: ' + fertilizerType);
 
   // Late flowering senescence warning
-  if (plantAge && (plantAge.includes('9–12') || plantAge.includes('9-12'))) {
+  if (plantAge && growPhase === 'Blüte' && (plantAge.includes('9–12') || plantAge.includes('9-12'))) {
     parts.push('\n⚠️ WICHTIG – SPÄTE BLÜTE / ERNTEPHASE:');
     parts.push('Die Pflanze ist ' + plantAge + ' alt und damit in der SPÄTEN BLÜTE oder kurz vor der Ernte.');
     parts.push('In dieser Phase ist es VÖLLIG NORMAL, dass:');

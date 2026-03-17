@@ -106,6 +106,7 @@ export default function ResultsScreen() {
   const [refineOpen, setRefineOpen] = useState(false);
   const [refineLoading, setRefineLoading] = useState(false);
   const [refined, setRefined] = useState(false);
+  const [apiRefinedResult, setApiRefinedResult] = useState<DiagnosisResult | null>(null);
   const [phInput, setPhInput] = useState('');
   const [ecInput, setEcInput] = useState('');
   const [fertilizerInput, setFertilizerInput] = useState<string | null>(questionnaire.fertilizerType || null);
@@ -173,8 +174,10 @@ export default function ResultsScreen() {
   const handleColorRemove = () => {
     setSelectedColor(null);
     setColorCorrected(false);
-    // Revert to original result
-    if (!refined) {
+    // Revert to API-refined result if available, otherwise to original
+    if (refined) {
+      setRefinedResult(apiRefinedResult);
+    } else {
       setRefinedResult(null);
     }
   };
@@ -197,6 +200,7 @@ export default function ResultsScreen() {
         questionnaire.plantAgeWeeks,
         questionnaire.growPhase,
       );
+      setApiRefinedResult(refined);
       setRefinedResult(refined);
       setRefined(true);
       setRefineOpen(false);
@@ -610,7 +614,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderAccent,
     marginTop: 16,
-    overflow: 'hidden',
   },
   refineHeader: {
     flexDirection: 'row',
