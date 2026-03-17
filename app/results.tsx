@@ -195,6 +195,7 @@ export default function ResultsScreen() {
         ecInput || null,
         fertilizerInput,
         questionnaire.plantAgeWeeks,
+        questionnaire.growPhase,
       );
       setRefinedResult(refined);
       setRefined(true);

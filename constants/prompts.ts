@@ -10,21 +10,28 @@ function parseNum(value: string): number {
  * Compares user's EC value against the fertilizer manufacturer's recommended range.
  * Returns a clear evaluation string that tells the AI whether EC is too low/high/ok.
  */
-function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | null): string {
+function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | null, growPhase?: string | null): string {
   const profile = FERTILIZER_PROFILES[fertilizerName];
   if (!profile) return '';
 
   const ecNum = parseNum(ecValue);
   if (isNaN(ecNum)) return '';
 
-  // Determine the recommended range for the plant's age
+  // Determine the recommended range for the plant's age + grow phase
   let ecRange = '';
   let phase = '';
+  const isFlower = growPhase === 'Blüte';
   if (plantAge) {
-    if (plantAge.includes('0–2')) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
-    else if (plantAge.includes('3–4')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
-    else if (plantAge.includes('5–8')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
-    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.midFlower; phase = 'Blüte'; }
+    if (plantAge.includes('0–2') && !isFlower) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
+    else if (plantAge.includes('3–4') && !isFlower) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
+    else if (plantAge.includes('5–8') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
+    else if (plantAge.includes('0–2') && isFlower) { ecRange = profile.ecRanges.earlyFlower; phase = 'frühe Blüte (Woche 1–2)'; }
+    else if (plantAge.includes('3–4') && isFlower) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Blüte (Woche 3–4)'; }
+    else if (plantAge.includes('5–8') && isFlower) { ecRange = profile.ecRanges.lateFlower; phase = 'späte Blüte (Woche 5–8)'; }
+    else if (plantAge.includes('9–12') && isFlower) { ecRange = profile.ecRanges.flush; phase = 'Ernte/Seneszenz (Woche 9–12)'; }
+    else if (plantAge.includes('9–12') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
+    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.flush; phase = 'späte Blüte/Ernte'; }
+    else if (growPhase === 'Mutterpflanze') { ecRange = profile.ecRanges.lateVeg; phase = 'Mutterpflanze (Veg-Werte)'; }
   }
 
   if (!ecRange || !phase) {
@@ -53,10 +60,21 @@ function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | 
 
   if (isNaN(rangeMin) || isNaN(rangeMax)) return '';
 
+  // Special handling for late flower / flush phase
+  const isLateFlower = phase.includes('späte Blüte') || phase.includes('Flush');
+
   if (ecNum < rangeMin) {
+    if (isLateFlower) {
+      // In late flower, low EC is intentional (flush) — not alarming
+      return '\n✅ EC-BEWERTUNG: EC ' + ecValue + ' – späte Blüte/Flush-Phase. Niedrige EC ist hier normal und gewollt.';
+    }
     const deficit = ((1 - ecNum / rangeMin) * 100).toFixed(0);
     return '\n🚨 EC-BEWERTUNG: EC ' + ecValue + ' liegt ' + deficit + '% UNTER dem ' + profile.name + ' Zielbereich für ' + phase + ' (' + ecRange + '). Die Pflanze ist deutlich UNTERVERSORGT! Bei genereller Unterversorgung ist N-MANGEL die wahrscheinlichste Diagnose – N ist der mobilste Nährstoff und zeigt Mangel ZUERST. Wenn die Erstdiagnose Mg/Ca/Fe-Mangel war UND der pH optimal ist, ist die Diagnose WAHRSCHEINLICH FALSCH → korrigiere zu N-Mangel!';
   } else if (ecNum > rangeMax) {
+    if (isLateFlower) {
+      // In late flower, higher EC means grower is still feeding (not flushing) — this is a valid choice, not necessarily a problem
+      return '\nℹ️ EC-BEWERTUNG: EC ' + ecValue + ' – die Pflanze ist in der späten Blüte (' + phase + '). Der Hersteller empfiehlt für diese Phase Flush/niedrige EC (' + ecRange + '). Der Grower füttert aber noch aktiv. Das ist eine valide Entscheidung. Gelbe/absterbende Blätter in dieser Phase sind natürliche Seneszenz, KEIN Nährstoffproblem.';
+    }
     return '\n⚠️ EC-BEWERTUNG: EC ' + ecValue + ' liegt ÜBER dem ' + profile.name + ' Zielbereich für ' + phase + ' (' + ecRange + '). Nährstoffbrand oder Lockout möglich.';
   } else {
     return '\n✅ EC-BEWERTUNG: EC ' + ecValue + ' liegt IM ' + profile.name + ' Zielbereich für ' + phase + ' (' + ecRange + '). EC ist NICHT das Problem – suche andere Ursachen.';
@@ -101,20 +119,26 @@ function detectDiagnosisType(diagnosis: string): string {
 /**
  * Determines EC state relative to the fertilizer's recommended range.
  */
-function getECState(ecValue: string | null, fertilizerName: string | null, plantAge: string | null): ECState | null {
+function getECState(ecValue: string | null, fertilizerName: string | null, plantAge: string | null, growPhase?: string | null): ECState | null {
   if (!ecValue || !fertilizerName) return null;
   const profile = FERTILIZER_PROFILES[fertilizerName];
   if (!profile) return null;
   const ecNum = parseNum(ecValue);
   if (isNaN(ecNum)) return null;
 
-  // Get recommended range
+  // Get recommended range (matching getFertilizerContext logic)
   let ecRange = '';
+  const isFlower = growPhase === 'Blüte';
   if (plantAge) {
-    if (plantAge.includes('0–2')) ecRange = profile.ecRanges.seedling;
-    else if (plantAge.includes('3–4')) ecRange = profile.ecRanges.earlyVeg;
-    else if (plantAge.includes('5–8')) ecRange = profile.ecRanges.lateVeg;
-    else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.earlyFlower;
+    if (plantAge.includes('0–2') && !isFlower) ecRange = profile.ecRanges.seedling;
+    else if (plantAge.includes('3–4') && !isFlower) ecRange = profile.ecRanges.earlyVeg;
+    else if (plantAge.includes('5–8') && !isFlower) ecRange = profile.ecRanges.lateVeg;
+    else if (plantAge.includes('0–2') && isFlower) ecRange = profile.ecRanges.earlyFlower;
+    else if (plantAge.includes('3–4') && isFlower) ecRange = profile.ecRanges.midFlower;
+    else if (plantAge.includes('5–8') && isFlower) ecRange = profile.ecRanges.lateFlower;
+    else if (plantAge.includes('9–12') && isFlower) ecRange = profile.ecRanges.flush;
+    else if (plantAge.includes('9–12') && !isFlower) ecRange = profile.ecRanges.lateVeg;
+    else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.flush;
   }
 
   if (!ecRange) {
@@ -731,6 +755,16 @@ Wenn der User angibt, dass die Pflanze 9–12 Wochen oder älter ist, PRÜFE ob 
 - Die Pflanze leitet Nährstoffe bewusst in die Blüten um, daher werden Blätter gelb und fallen ab
 Wenn Seneszenz wahrscheinlich ist: Setze severity auf "niedrig", erkläre dass es natürlich ist, und empfehle KEINE Behandlung sondern normales Weiterarbeiten bis zur Ernte. Diagnostiziere Mangel NUR bei untypischen Symptomen (z.B. nur neue Blätter betroffen, extreme Nekrose, Schädlinge).
 
+ERNTE-HINWEIS BEI BLÜTE (ab Woche 5–8):
+Wenn die Pflanze in Woche 5–8 oder 9–12 der Blüte ist (also potenziell im Erntefenster), füge IMMER einen Ernte-Hinweis in den actionPlan ein:
+- Viele Indica-dominante Strains werden schon ab Woche 8 geerntet, Sativas brauchen oft 10–14 Wochen
+- Prüfe auf dem Foto ob Trichome sichtbar sind (bei Nahaufnahmen/Makros):
+  - Falls JA: Schätze den Reifegrad anhand der Trichom-Regeln oben ein und gib eine Ernte-Empfehlung
+  - Falls NEIN (normales Foto ohne sichtbare Trichome): Empfehle dem User als Maßnahme, Makroaufnahmen/Lupenbilder der Trichome hochzuladen, damit du den optimalen Erntezeitpunkt bestimmen kannst
+- Erwähne in den preventiveTips, dass die meisten Anfänger ZU FRÜH ernten
+- Wenn Pistillen auf dem Foto sichtbar sind, schätze grob den Reifegrad ein (% braune Pistillen)
+- Erkläre kurz was der User je nach Erntezeitpunkt erwarten kann (mehr THC/High vs. mehr CBN/Körper)
+
 LETZTE PRÜFUNG VOR DER ANTWORT: Lies deine komplette Antwort nochmal durch. Steht irgendwo "5.5" im Zusammenhang mit Kokos? Dann LÖSCHE es und ersetze es durch 5.8. pH-Bereiche für Kokos: 5.8–6.2, IMMER.
 
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
@@ -765,6 +799,11 @@ VERGLEICHS-ANALYSE:
 3. Prüfe ob neue Symptome aufgetreten sind
 4. Beurteile ob die empfohlenen Maßnahmen gewirkt haben
 
+ERNTE-HINWEIS:
+- Wenn das Pflanzenalter im Prompt 8+ Wochen Blüte ist, füge im actionPlan eine Empfehlung ein, Makro-/Trichombilder hochzuladen um den Erntezeitpunkt zu bestimmen
+- Falls Trichome oder Pistillen auf dem Foto sichtbar sind, schätze den Reifegrad ein
+- Wenn Seneszenz erkennbar ist (gelbe Blätter, violette Färbung): Das ist NORMAL in dieser Phase, kein Mangel
+
 TONALITÄT:
 - Besserung: Bestärke den User, er ist auf dem richtigen Weg
 - Gleich: Schlage Anpassungen vor (z.B. Dosierung erhöhen, pH genauer prüfen)
@@ -798,6 +837,7 @@ ABSOLUTE REGELN:
 - KORREKTUR-ANALYSE IST GESETZ: Im User-Prompt steht eine 📋 KORREKTUR-ANALYSE vom Expertensystem. Du MUSST sie befolgen. KORREKTUR → Diagnose ändern. BESTÄTIGT → bestätigen. WIDERSPRUCH → korrigieren.
 - pH/EC-BEWERTUNGEN SIND FAKTEN: Die ⚠️ pH-BEWERTUNG und 🚨 EC-BEWERTUNG im User-Prompt sind vorberechnete Fakten. Übernimm sie WÖRTLICH. Widerspreche NICHT. Relativiere NICHT. Erfinde KEINE eigenen Interpretationen.
 - SENESZENZ IN SPÄTER BLÜTE: Wenn das Pflanzenalter 9–12 Wochen beträgt UND eine ⚠️ SPÄTE BLÜTE Warnung im Prompt steht, BEACHTE diese! Gelbe Blätter und violette Färbung in dieser Phase sind NORMAL (natürliche Seneszenz). Setze severity "niedrig" und erkläre, dass es natürlich ist. Diagnostiziere Mangel NUR bei untypischen Symptomen.
+- ERNTE-EMPFEHLUNG: Wenn die Pflanze in Blüte Woche 5–8 oder 9–12 ist, oder ein 🌾 ERNTE-HINWEIS im User-Prompt steht, füge im actionPlan IMMER eine Empfehlung ein, Makro-/Trichombilder hochzuladen um den Erntezeitpunkt zu bestimmen. Viele Strains werden ab Woche 8 geerntet! Falls Trichome/Pistillen auf dem Foto sichtbar sind, schätze den Reifegrad ein.
 
 TONALITÄT:
 - Schreibe wie ein erfahrener Grower, direkt und klar
@@ -831,6 +871,7 @@ export function buildRefinePrompt(
   ecValue: string | null,
   fertilizerType?: string | null,
   plantAge?: string | null,
+  growPhase?: string | null,
 ): string {
   const parts: string[] = ['NACHTRÄGLICH GEMESSENE WERTE:\n'];
 
@@ -844,7 +885,7 @@ export function buildRefinePrompt(
   if (plantAge) parts.push('- Pflanzenalter: ' + plantAge);
   if (fertilizerType) parts.push('- Dünger: ' + fertilizerType);
 
-  // Late flowering senescence warning
+  // Late flowering senescence warning (9-12 only)
   if (plantAge && (plantAge.includes('9–12') || plantAge.includes('9-12'))) {
     parts.push('\n⚠️ WICHTIG – SPÄTE BLÜTE / ERNTEPHASE:');
     parts.push('Die Pflanze ist ' + plantAge + ' alt und damit in der SPÄTEN BLÜTE oder kurz vor der Ernte.');
@@ -857,21 +898,33 @@ export function buildRefinePrompt(
     parts.push('Wenn die Symptome zur natürlichen Seneszenz passen, setze severity auf "niedrig" und sage dem User, dass dies normal ist.');
   }
 
+  // Harvest hint for week 5-8 AND 9-12 (many strains harvest at week 8+)
+  const isRefineHarvestPhase = plantAge && growPhase === 'Blüte' && (
+    plantAge.includes('5–8') || plantAge.includes('5-8') ||
+    plantAge.includes('9–12') || plantAge.includes('9-12')
+  );
+  if (isRefineHarvestPhase) {
+    parts.push('\n🌾 ERNTE-HINWEIS: Die Pflanze ist in Blüte ' + plantAge + '. Viele Strains werden ab Woche 8 geerntet. Füge im actionPlan eine Empfehlung ein, Makroaufnahmen/Lupenbilder der Trichome hochzuladen, damit der optimale Erntezeitpunkt bestimmt werden kann. Falls auf dem Foto Trichome oder Pistillen erkennbar sind, schätze den Reifegrad ein.');
+  }
+
   parts.push('\nVORHERIGE DIAGNOSE (erstellt OHNE pH/EC/Dünger-Daten – kann falsch sein!):');
   parts.push('- Diagnose: ' + previousResult.primaryDiagnosis);
   parts.push('- Schweregrad: ' + previousResult.severity);
   parts.push('- Ursachenanalyse: ' + previousResult.rootCauseAnalysis);
   parts.push('- Empfohlene Maßnahmen: ' + previousResult.actionPlan.map(function(s) { return s.action + ': ' + s.details; }).join(' | '));
 
+  // Add grow phase info
+  if (growPhase) parts.push('- Wachstumsphase: ' + growPhase);
+
   // Add fertilizer context if available
-  const fertContext = getFertilizerContext(fertilizerType || null, plantAge || null);
+  const fertContext = getFertilizerContext(fertilizerType || null, plantAge || null, growPhase || null);
   if (fertContext) {
     parts.push(fertContext);
   }
 
   // Add explicit EC evaluation if we have both EC and fertilizer context
   if (ecValue && fertilizerType) {
-    const ecEvaluation = evaluateEC(ecValue, fertilizerType, plantAge || null);
+    const ecEvaluation = evaluateEC(ecValue, fertilizerType, plantAge || null, growPhase || null);
     if (ecEvaluation) {
       parts.push(ecEvaluation);
     }
@@ -908,7 +961,7 @@ export function buildRefinePrompt(
 
   // Add correction hint from the matrix
   const diagType = detectDiagnosisType(previousResult.primaryDiagnosis + ' ' + previousResult.rootCauseAnalysis);
-  const ecState = getECState(ecValue, fertilizerType || null, plantAge || null);
+  const ecState = getECState(ecValue, fertilizerType || null, plantAge || null, growPhase || null);
   const phStateVal = getPHState(phValue, substrateType);
   const correctionHint = getCorrectionHint(diagType, ecState, phStateVal);
 
@@ -964,9 +1017,17 @@ export function buildUserPrompt(data: QuestionnaireData): string {
     parts.push(fertContext);
   }
 
-  // Late flowering senescence hint
+  // Late flowering senescence hint (9-12 weeks only)
   if (data.plantAgeWeeks && (data.plantAgeWeeks.includes('9–12') || data.plantAgeWeeks.includes('9-12'))) {
     parts.push('\n⚠️ HINWEIS: Die Pflanze ist ' + data.plantAgeWeeks + ' alt (späte Blüte/Erntephase). Prüfe ob die Symptome zur natürlichen Seneszenz passen, bevor du einen Mangel diagnostizierst!');
+  }
+  // Harvest hint for week 5-8 AND 9-12 (many strains harvest at week 8+)
+  const isLateFlower = data.plantAgeWeeks && data.growPhase === 'Blüte' && (
+    data.plantAgeWeeks.includes('5–8') || data.plantAgeWeeks.includes('5-8') ||
+    data.plantAgeWeeks.includes('9–12') || data.plantAgeWeeks.includes('9-12')
+  );
+  if (isLateFlower) {
+    parts.push('\n🌾 ERNTE-HINWEIS: Die Pflanze ist in Blüte ' + data.plantAgeWeeks + '. Viele Strains (besonders Indica-dominante) werden ab Woche 8 geerntet. Füge im actionPlan IMMER eine Empfehlung ein, Makroaufnahmen/Lupenbilder der Trichome hochzuladen, damit der optimale Erntezeitpunkt bestimmt werden kann. Falls auf dem Foto bereits Trichome oder Pistillen erkennbar sind, schätze den Reifegrad ein und gib eine Ernte-Einschätzung. Erkläre kurz, was der User je nach Erntezeitpunkt erwarten kann (klar = zu früh, milchig = Peak THC, bernstein = mehr Körper/Sedierung).');
   }
 
   parts.push('\nAnalysiere die Fotos systematisch anhand deiner Diagnose-Checkliste. Wenn wichtige Daten fehlen (pH, EC, Temperatur), erwähne welche Messungen der Grower durchführen sollte.');
