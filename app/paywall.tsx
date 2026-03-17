@@ -219,7 +219,13 @@ export default function PaywallScreen() {
       <ScrollView contentContainerStyle={styles.scroll}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.closeBtn}>
+          <TouchableOpacity onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace('/');
+            }
+          }} style={styles.closeBtn}>
             <Ionicons name="close" size={24} color={colors.textMuted} />
           </TouchableOpacity>
           <View style={styles.crownCircle}>
@@ -334,7 +340,7 @@ export default function PaywallScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  scroll: { padding: 20, paddingBottom: 40 },
+  scroll: { padding: 20, paddingBottom: 80 },
 
   header: { alignItems: 'center', marginBottom: 24 },
   closeBtn: {
