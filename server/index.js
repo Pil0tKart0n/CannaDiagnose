@@ -14,7 +14,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
 const FREE_SCANS_PER_DAY = 1;
 const TESTER_SCANS_PER_DAY = 50;
-const TESTER_KEY = 'ls-tester-2024-xK9mQ'; // embedded in APK, not security-critical
+const TESTER_KEY = process.env.TESTER_KEY || 'ls-tester-2024-xK9mQ';
 
 // ── SQLite setup ──
 const dbPath = path.join(__dirname, 'data', 'leafscan.db');
@@ -112,13 +112,9 @@ function getClientIP(req) {
   return req.ip;
 }
 
-/** Check if request comes from APK/native app (via custom header or browser detection) */
+/** Check if request comes from APK with tester key */
 function isTester(req) {
-  // Explicit tester key (new APK builds)
-  if (req.headers['x-leafscan-key'] === TESTER_KEY) return true;
-  // Browsers always send Sec-Fetch-Site header, native apps never do
-  if (!req.headers['sec-fetch-site']) return true;
-  return false;
+  return req.headers['x-leafscan-key'] === TESTER_KEY;
 }
 
 /** Get the applicable scan limit for this request */
@@ -293,7 +289,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     // Refund scan if OpenAI returned an error (free user paid quota but got no result)
     if (!premiumSession && !openaiRes.ok) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
-      console.log('[LeafScan] Scan refunded for', ip, '(upstream status', openaiRes.status + ')');
+      console.log('[LeafScan] Scan refunded (upstream status', openaiRes.status + ')');
     }
 
     // Forward response as-is (preserve upstream content-type)
@@ -304,7 +300,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     // Refund scan on network/fetch failure
     if (!premiumSession) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
-      console.log('[LeafScan] Scan refunded for', ip, '(fetch error)');
+      console.log('[LeafScan] Scan refunded (fetch error)');
     }
     console.error('[LeafScan] OpenAI proxy error:', err.message);
     res.status(502).json({ error: 'upstream_error', message: 'KI-Service nicht erreichbar.' });
