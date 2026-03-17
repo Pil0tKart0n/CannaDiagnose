@@ -210,7 +210,7 @@ export default function AnalyzingScreen() {
           {isQuotaExceeded
             ? 'Du hast deine kostenlose Diagnose für heute bereits verwendet.'
             : isNoPlant
-              ? 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte mache ein neues Foto von deiner Pflanze.'
+              ? 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte mache ein neues Foto von deiner Pflanze.'
               : error.message}
         </Text>
 

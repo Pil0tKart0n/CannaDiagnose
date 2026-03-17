@@ -434,10 +434,10 @@ export async function analyzePlant(
 
       // Check validation result before processing diagnosis
       if (!isCannabis) {
-        const err: any = new Error('Keine Cannabis-Pflanze erkannt.');
+        const err: any = new Error('Keine passende Pflanze erkannt.');
         err.apiError = {
           type: 'no_plant' as ApiErrorType,
-          message: 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch.',
+          message: 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
           retryable: false,
         };
         throw err;
@@ -484,8 +484,8 @@ export async function analyzePlant(
 
       // Check if the API detected no cannabis plant
       if (parsed.noPlant) {
-        const err: any = new Error(parsed.message || 'Keine Cannabis-Pflanze erkannt.');
-        err.apiError = { type: 'no_plant' as ApiErrorType, message: parsed.message || 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch.', retryable: false };
+        const err: any = new Error(parsed.message || 'Keine passende Pflanze erkannt.');
+        err.apiError = { type: 'no_plant' as ApiErrorType, message: parsed.message || 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.', retryable: false };
         throw err;
       }
 

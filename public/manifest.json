@@ -1,7 +1,7 @@
 {
   "name": "LeafScan",
   "short_name": "LeafScan",
-  "description": "KI-gestützte Pflanzendiagnose für Cannabis",
+  "description": "KI-gestützte Pflanzendiagnose – Foto machen, Probleme erkennen",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

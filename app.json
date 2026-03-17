@@ -16,7 +16,7 @@
       "backgroundColor": "#0A0E0D"
     },
     "android": {
-      "package": "com.cannadiagnose.app",
+      "package": "com.leafscan.app",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -38,7 +38,7 @@
       "name": "LeafScan",
       "shortName": "LeafScan",
       "lang": "de",
-      "description": "KI-gestützte Pflanzendiagnose für Cannabis",
+      "description": "KI-gestützte Pflanzendiagnose – Foto machen, Probleme erkennen",
       "backgroundColor": "#0A0E0D",
       "themeColor": "#4ADE80",
       "orientation": "portrait",

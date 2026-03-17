@@ -20,9 +20,9 @@ export default function TermsScreen() {
         </View>
 
         <Section title="2. Leistungsbeschreibung">
-          Die App bietet eine KI-gestützte Pflanzendiagnose für Cannabis an. Nutzer können
+          Die App bietet eine KI-gestützte Pflanzendiagnose an. Nutzer können
           Fotos ihrer Pflanzen hochladen und erhalten eine automatisierte Analyse möglicher
-          Probleme mit Handlungsempfehlungen.{'\n\n'}
+          Nährstoffmängel und Probleme mit Handlungsempfehlungen.{'\n\n'}
           Die kostenlose Version umfasst 1 Diagnose pro Tag. Erweiterte Funktionen sind über
           ein kostenpflichtiges Abonnement verfügbar.
         </Section>
@@ -48,7 +48,7 @@ export default function TermsScreen() {
           • Die App nur für legale Zwecke zu nutzen{'\n'}
           • Keine missbräuchliche oder übermäßige Nutzung der API-Dienste{'\n'}
           • Keine Manipulation der App oder Umgehung von Nutzungsbeschränkungen{'\n'}
-          • Die geltenden Gesetze bezüglich des Anbaus von Cannabis in seiner
+          • Die geltenden Gesetze bezüglich des Pflanzenanbaus in seiner
           Rechtsordnung einzuhalten
         </Section>
 

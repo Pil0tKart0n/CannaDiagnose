@@ -89,7 +89,7 @@ export default function PrivacyScreen() {
           Verantwortung. Für Schäden, die durch fehlerhafte Diagnosen oder falsche
           Anwendung der Empfehlungen entstehen, wird keine Haftung übernommen.{'\n\n'}
           Der Nutzer ist selbst dafür verantwortlich, die geltenden Gesetze in seiner
-          Rechtsordnung bezüglich des Anbaus von Cannabis einzuhalten.
+          Rechtsordnung bezüglich des Pflanzenanbaus einzuhalten.
         </Section>
 
         <View style={styles.spacer} />

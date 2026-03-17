@@ -15,10 +15,10 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="LeafScan" />
-        <meta name="description" content="KI-gestützte Pflanzendiagnose für Cannabis – Foto machen, Diagnose erhalten, Pflanze retten." />
+        <meta name="description" content="KI-gestützte Pflanzendiagnose – Foto machen, Diagnose erhalten, Pflanze retten." />
         {/* Open Graph */}
         <meta property="og:title" content="LeafScan – KI-Pflanzendiagnose" />
-        <meta property="og:description" content="Foto machen, Diagnose erhalten, Pflanze retten. KI-gestützte Analyse für Cannabis-Grower." />
+        <meta property="og:description" content="Foto machen, Diagnose erhalten, Pflanze retten. KI-gestützte Pflanzenanalyse." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/assets/icon.png" />
         {/* Twitter Card */}
