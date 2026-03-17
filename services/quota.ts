@@ -73,7 +73,11 @@ export async function recordScan(): Promise<void> {
 /** Set premium flag locally (for immediate UI feedback after purchase) */
 export async function setPremium(premium: boolean): Promise<void> {
   try {
-    await AsyncStorage.setItem(PREMIUM_KEY, JSON.stringify(premium));
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.localStorage.setItem(PREMIUM_KEY, JSON.stringify(premium));
+    } else {
+      await AsyncStorage.setItem(PREMIUM_KEY, JSON.stringify(premium));
+    }
   } catch {}
 }
 

@@ -11,12 +11,6 @@ test_*.png
 test_*.mjs
 test_*.sh
 generate-icons.js
-assets/
-public/
-app/
-services/
-components/
-constants/
-hooks/
 scripts/
 *.md
+server/data/

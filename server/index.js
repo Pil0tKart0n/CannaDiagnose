@@ -571,7 +571,13 @@ app.get('/api/health', (req, res) => {
 // ── Global error handler (prevents stack traces leaking to clients) ──
 app.use((err, req, res, next) => {
   console.error('[LeafScan] Unhandled error:', err.message);
+  if (res.headersSent) return next(err);
   res.status(500).json({ error: 'Internal server error' });
+});
+
+// ── Crash safety ──
+process.on('unhandledRejection', (reason) => {
+  console.error('[LeafScan] Unhandled promise rejection:', reason);
 });
 
 // ── Start ──

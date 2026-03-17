@@ -274,8 +274,13 @@ function classifyError(err: any, statusCode?: number): ApiError {
     return { type: 'server', message: 'Server-Fehler. Bitte versuche es erneut.', retryable: true };
   }
 
+  // Quota exceeded (server returns 403 with quota_exceeded)
+  if (statusCode === 403) {
+    return { type: 'rate_limit', message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Diagnosen.', retryable: false };
+  }
+
   // Auth
-  if (statusCode === 401 || statusCode === 403) {
+  if (statusCode === 401) {
     return { type: 'auth', message: 'API-Authentifizierung fehlgeschlagen.', retryable: false };
   }
 
