@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
-const FREE_SCANS_PER_DAY = 10;
+const FREE_SCANS_PER_DAY = 50;
 
 // ── SQLite setup ──
 const dbPath = path.join(__dirname, 'data', 'leafscan.db');
@@ -151,32 +151,13 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
   const ip = getClientIP(req);
 
-  // 1. Check for premium session token
-  const authHeader = req.headers['authorization'];
-  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const premiumSession = checkPremium(token);
-
-  // 2. If not premium, atomically reserve a free scan slot (prevents TOCTOU race)
-  if (!premiumSession) {
-    const result = stmtAtomicScan.run(ip, ip, FREE_SCANS_PER_DAY);
-    if (result.changes === 0) {
-      const { count } = stmtCountScans.get(ip);
-      return res.status(403).json({
-        error: 'quota_exceeded',
-        message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Scans.',
-        scansToday: count,
-        limit: FREE_SCANS_PER_DAY,
-      });
-    }
-  }
-
-  // 3. Validate request body
+  // 1. Validate request body FIRST (before burning a scan slot)
   const { messages, max_tokens } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'invalid_request', message: 'messages array required' });
   }
 
-  // 3b. Strict message validation — prevent abuse as free GPT proxy
+  // 1b. Strict message validation — prevent abuse as free GPT proxy
   if (messages.length > 5) {
     return res.status(400).json({ error: 'invalid_request', message: 'Too many messages (max 5)' });
   }
@@ -229,6 +210,25 @@ app.post('/api/scan', rateLimit, async (req, res) => {
           }
         }
       }
+    }
+  }
+
+  // 2. Check for premium session token
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const premiumSession = checkPremium(token);
+
+  // 3. If not premium, atomically reserve a free scan slot AFTER validation
+  if (!premiumSession) {
+    const result = stmtAtomicScan.run(ip, ip, FREE_SCANS_PER_DAY);
+    if (result.changes === 0) {
+      const { count } = stmtCountScans.get(ip);
+      return res.status(403).json({
+        error: 'quota_exceeded',
+        message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Scans.',
+        scansToday: count,
+        limit: FREE_SCANS_PER_DAY,
+      });
     }
   }
 
