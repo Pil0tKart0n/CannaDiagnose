@@ -199,10 +199,21 @@ app.post('/api/scan', rateLimit, async (req, res) => {
         if (block.type !== 'text' && block.type !== 'image_url') {
           return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block type' });
         }
+        // Text blocks: text must be a string with length limit
+        if (block.type === 'text') {
+          if (typeof block.text !== 'string') {
+            return res.status(400).json({ error: 'invalid_request', message: 'Text block must have string text' });
+          }
+          if (block.text.length > 5000) {
+            return res.status(400).json({ error: 'invalid_request', message: 'Text block content too long' });
+          }
+        }
         // Image URLs must be data URIs (base64), not arbitrary external URLs
         if (block.type === 'image_url') {
-          const url = block.image_url?.url || '';
-          if (!url.startsWith('data:image/')) {
+          if (!block.image_url || typeof block.image_url !== 'object' || typeof block.image_url.url !== 'string') {
+            return res.status(400).json({ error: 'invalid_request', message: 'Invalid image_url block' });
+          }
+          if (!block.image_url.url.startsWith('data:image/')) {
             return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed for images' });
           }
         }
@@ -229,7 +240,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     const openaiBody = {
       messages: sanitizedMessages,
       model: ALLOWED_MODEL,
-      max_tokens: Math.min(max_tokens || 4000, 4000),
+      max_tokens: Math.min(Number.isFinite(max_tokens) && max_tokens > 0 ? max_tokens : 4000, 4000),
     };
 
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -305,19 +316,6 @@ app.get('/api/verify-session', rateLimit, async (req, res) => {
       return res.status(402).json({ error: 'not_paid', message: 'Zahlung nicht abgeschlossen.' });
     }
 
-    // Check if we already have an active, non-expired session for this customer
-    const existing = stmtFindByCustomer.get(session.customer);
-    if (existing) {
-      const createdAt = new Date(existing.created_at + 'Z');
-      const ageMs = Date.now() - createdAt.getTime();
-      if (ageMs < SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
-        // Still valid — return existing token
-        return res.json({ token: existing.session_token, plan: existing.plan });
-      }
-      // Expired — deactivate old session, create a new one below
-      stmtDeactivateByCustomer.run(session.customer);
-    }
-
     // Determine plan from the price
     const lineItems = await stripe.checkout.sessions.listLineItems(session_id);
     let plan = 'pro'; // default
@@ -326,12 +324,28 @@ app.get('/api/verify-session', rateLimit, async (req, res) => {
       if (priceId === growerPriceId) plan = 'grower';
     }
 
-    // Create new premium session
-    const sessionToken = crypto.randomBytes(32).toString('hex');
-    stmtCreateSession.run(sessionToken, session.customer, session.subscription, plan);
+    // Atomic check-then-insert in a transaction to prevent race conditions (double-click etc.)
+    const upsertSession = db.transaction((customerId, subscriptionId, plan) => {
+      const existing = stmtFindByCustomer.get(customerId);
+      if (existing) {
+        const createdAt = new Date(existing.created_at + 'Z');
+        const ageMs = Date.now() - createdAt.getTime();
+        if (ageMs < SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
+          return { token: existing.session_token, plan: existing.plan, isNew: false };
+        }
+        // Expired — deactivate old session
+        stmtDeactivateByCustomer.run(customerId);
+      }
+      const sessionToken = crypto.randomBytes(32).toString('hex');
+      stmtCreateSession.run(sessionToken, customerId, subscriptionId, plan);
+      return { token: sessionToken, plan, isNew: true };
+    });
 
-    console.log('[LeafScan] Premium activated:', { customer: session.customer, plan });
-    res.json({ token: sessionToken, plan });
+    const result = upsertSession(session.customer, session.subscription, plan);
+    if (result.isNew) {
+      console.log('[LeafScan] Premium activated:', { customer: session.customer, plan: result.plan });
+    }
+    res.json({ token: result.token, plan: result.plan });
   } catch (err) {
     console.error('[LeafScan] verify-session error:', err.message);
     res.status(500).json({ error: 'verification_failed' });
