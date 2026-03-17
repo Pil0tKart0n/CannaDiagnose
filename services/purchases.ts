@@ -44,9 +44,9 @@ export async function initPurchases(): Promise<void> {
       ? REVENUECAT_API_KEY_APPLE
       : REVENUECAT_API_KEY_GOOGLE;
 
-    // Don't initialize without API key
-    if (!apiKey) {
-      console.log('[LeafScan] RevenueCat: No API key – running in demo mode');
+    // Don't initialize without API key or with test keys (test keys crash release builds)
+    if (!apiKey || apiKey.startsWith('test_')) {
+      console.log('[LeafScan] RevenueCat: No production API key – running in demo mode');
       return;
     }
 
