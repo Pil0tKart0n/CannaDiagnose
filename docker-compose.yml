@@ -12,10 +12,9 @@ services:
 
   api:
     build: ./server
+    env_file:
+      - .env.server
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
       - DOMAIN=https://leafscan.de
     volumes:
       - leafscan-data:/app/data
