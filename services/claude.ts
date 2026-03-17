@@ -397,6 +397,10 @@ export async function analyzePlant(
     systemPrompt = FOLLOWUP_SYSTEM_PROMPT;
   } else {
     userPrompt = buildUserPrompt(questionnaire);
+    // Multi-image cross-reference hint
+    if (uris.length > 1) {
+      userPrompt += '\n\n📸 MULTI-FOTO-ANALYSE (' + uris.length + ' Fotos): Vergleiche ALLE Fotos miteinander! Prüfe ob die Symptome auf allen Fotos KONSISTENT sind (= systematisches Problem) oder ob verschiedene Fotos UNTERSCHIEDLICHE Symptome zeigen. Wenn die Fotos verschiedene Pflanzenbereiche zeigen (oben vs. unten), nutze das für die Mobilitäts-Analyse (mobil vs. immobil). Nenne in der rootCauseAnalysis, was du auf den verschiedenen Fotos siehst.';
+    }
     systemPrompt = SYSTEM_PROMPT;
   }
 
@@ -610,7 +614,7 @@ export async function refineDiagnosis(
       let result = validateDiagnosisResult(parsed);
 
       // Post-processing: strip lockout nonsense when pH is optimal
-      result = postProcessRefineResult(result, substrateType, phValue);
+      result = postProcessRefineResult(result, substrateType, phValue, ecValue);
 
       return result;
     } catch (err: any) {
@@ -631,6 +635,7 @@ function postProcessRefineResult(
   result: DiagnosisResult,
   substrateType: string | null,
   phValue: string | null,
+  ecValue?: string | null,
 ): DiagnosisResult {
   if (!phValue || !substrateType) return result;
 
@@ -696,6 +701,39 @@ function postProcessRefineResult(
   // Ensure we still have contributing factors
   if (result.contributingFactors.length === 0) {
     result.contributingFactors = [{ factor: 'Weitere Beobachtung', impact: 'Symptome nach EC-Korrektur beobachten' }];
+  }
+
+  // Post-process: strip EC-problem mentions when EC is optimal
+  const ecNum = ecValue ? parseFloat(ecValue.replace(',', '.')) : NaN;
+  if (!isNaN(ecNum)) {
+    // Check if EC is in a reasonable range (not too high, not too low)
+    // We already have evaluateEC logic in prompts.ts, here we just check for obvious contradictions
+    const negativeECPatterns = /ec.*zu hoch|ec.*zu niedrig|überdüng|nährstoffbrand|ec.*problem|ec.*grenzwertig/i;
+    // Only clean if the refine prompt already said EC is OK
+    const ecOkInPrompt = result.rootCauseAnalysis.includes('EC ist NICHT das Problem') ||
+                         result.rootCauseAnalysis.includes('EC liegt IM');
+    if (ecOkInPrompt) {
+      // Remove sentences that claim EC is problematic when it's in range
+      const cleanECText = (text: string): string => {
+        const sentences = text.split(/(?<=[.!?])\s+/);
+        return sentences.filter(s => !negativeECPatterns.test(s)).join(' ').replace(/\s{2,}/g, ' ').trim();
+      };
+      if (negativeECPatterns.test(result.rootCauseAnalysis)) {
+        result.rootCauseAnalysis = cleanECText(result.rootCauseAnalysis);
+      }
+      result.contributingFactors = result.contributingFactors.filter(f => {
+        const text = f.factor + ' ' + f.impact;
+        return !negativeECPatterns.test(text);
+      });
+      if (result.contributingFactors.length === 0) {
+        result.contributingFactors = [{ factor: 'Weitere Beobachtung', impact: 'Symptome beobachten' }];
+      }
+    }
+  }
+
+  // Confidence floor: never return below 0.3 for a refined diagnosis
+  if (result.confidence < 0.3) {
+    result.confidence = 0.3;
   }
 
   console.log('[LeafScan] Post-processed: removed negative pH mentions (pH ' + phValue + ' is optimal)');

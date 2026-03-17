@@ -106,12 +106,20 @@ function detectDiagnosisType(diagnosis: string): string {
   if (d.includes('eisen') || d.includes('(fe)') || d.includes('fe-mangel') || d.includes('iron')) return 'Fe';
   if (d.includes('mangan') || d.includes('(mn)') || d.includes('mn-mangel')) return 'Mn';
   if (d.includes('zink') || d.includes('(zn)') || d.includes('zn-mangel')) return 'Zn';
+  if (d.includes('schwefel') || d.includes('sulfur') || d.includes('(s)') || d.includes('s-mangel')) return 'S';
+  if (d.includes('bor') || d.includes('boron') || d.includes('b-mangel')) return 'B';
+  if (d.includes('kupfer') || d.includes('copper') || d.includes('cu-mangel')) return 'Cu';
+  if (d.includes('molybdän') || d.includes('molybdenum') || d.includes('mo-mangel')) return 'Mo';
   if (d.includes('nährstoffbrand') || d.includes('überdüngung') || d.includes('nutrient burn') || d.includes('verbrennung')) return 'burn';
   if (d.includes('lichtbrand') || d.includes('light burn') || d.includes('gebleicht')) return 'lightburn';
   if (d.includes('hitzestress') || d.includes('heat stress')) return 'heat';
   if (d.includes('überwässerung') || d.includes('overwater')) return 'overwater';
+  if (d.includes('unterwässerung') || d.includes('underwater') || d.includes('trocken')) return 'underwater';
   if (d.includes('n-toxizität') || d.includes('n-überschuss') || d.includes('stickstoff-überschuss') || d.includes('dunkelgrün')) return 'N-tox';
+  if (d.includes('windburn') || d.includes('wind')) return 'windburn';
+  if (d.includes('kältestress') || d.includes('cold stress') || d.includes('kälte')) return 'cold';
   if (d.includes('ph-lockout') || d.includes('lockout')) return 'lockout';
+  if (d.includes('thrips') || d.includes('schädling') || d.includes('spinnmilb') || d.includes('insekt')) return 'pest';
   return 'unknown';
 }
 
@@ -213,6 +221,17 @@ function getCorrectionHint(
       'N-tox': '🔄 WIDERSPRUCH: EC zu niedrig + N-Überschuss ist ein WIDERSPRUCH! Bei niedrigem EC gibt es keinen N-Überschuss. KORRIGIERE die Diagnose.',
       'N': '✅ BESTÄTIGT: EC zu niedrig + pH optimal + N-Mangel-Diagnose passt perfekt. Die Pflanze bekommt zu wenig Nährstoffe, N zeigt Mangel zuerst. Empfehle EC auf Herstellerbereich erhöhen.',
       'lockout': '🔄 KORREKTUR: EC zu niedrig + pH optimal = KEIN Lockout! Lockout wird durch falschen pH verursacht. Das Problem ist generelle Unterversorgung → EC erhöhen.',
+      'S': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. S-Mangel bei niedrigem EC ist möglich, aber N-Mangel zeigt sich ZUERST und sieht ähnlich aus. Schlüsselunterschied: S betrifft NEUE/OBERE Blätter, N betrifft ALTE/UNTERE. Prüfe Position!',
+      'B': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. B-Mangel bei niedrigem EC ist selten. Generelle Unterversorgung (N) ist wahrscheinlicher. Prüfe: Sind Triebspitzen abgestorben und Stängel hohl? Dann B bestätigt.',
+      'Cu': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. Cu-Mangel ist extrem selten. Bei niedrigem EC ist generelle Unterversorgung → N-Mangel wahrscheinlicher.',
+      'Mo': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH optimal. Mo-Mangel ist extrem selten und tritt typisch bei pH <5.5 auf. Bei optimalem pH und niedrigem EC ist N-Mangel wahrscheinlicher.',
+      'lightburn': '⚠️ PRÜFE: EC zu niedrig + Lichtbrand. Lichtbrand ist EC-unabhängig (Lampenabstand!). Wenn nur obere Blätter gebleicht sind UND lampennah → Lichtbrand bestätigt. Aber niedrige EC kann Lichtbrand-Anfälligkeit erhöhen.',
+      'heat': '⚠️ PRÜFE: EC zu niedrig + Hitzestress. Hitzestress ist EC-unabhängig (Temperatur!). Aber niedrige EC kann die Pflanze anfälliger machen. Löse BEIDE Probleme: EC erhöhen UND Temperatur senken.',
+      'overwater': '⚠️ PRÜFE: EC zu niedrig + Überwässerung. Beide sind unabhängig voneinander. Überwässerung = zu häufiges Gießen. EC erhöhen hilft nicht gegen Überwässerung. ABER: die Pflanze könnte hängen wegen niedrigem EC (Salzstress), nicht wegen Überwässerung. Prüfe Substratfeuchtigkeit!',
+      'underwater': '⚠️ MÖGLICH: EC zu niedrig + Unterwässerung. Beides zusammen = doppelter Stress. Erst richtig gießen, dann EC auf Herstellerbereich erhöhen.',
+      'windburn': '⚠️ PRÜFE: EC zu niedrig + Windburn. Windburn ist EC-unabhängig (Ventilator!). Aber EC trotzdem erhöhen.',
+      'cold': '⚠️ PRÜFE: EC zu niedrig + Kältestress. Kältestress ist EC-unabhängig (Temperatur!). Kälte kann P-Aufnahme blockieren. Temperatur erhöhen UND EC auf Herstellerbereich bringen.',
+      'pest': '⚠️ HINWEIS: EC zu niedrig + Schädlingsbefall. Schädlinge sind EC-unabhängig. Aber geschwächte Pflanzen (durch niedrigen EC) sind anfälliger. EC erhöhen UND Schädlingsbekämpfung einleiten.',
     };
     return rules[diagnosisType] || '⚠️ EC liegt unter dem empfohlenen Bereich des Herstellers bei optimalem pH. Das deutet auf generelle Unterversorgung hin. N-Mangel ist bei Unterversorgung immer die wahrscheinlichste Ursache (zeigt sich zuerst). Prüfe ob die Erstdiagnose wirklich stimmt oder ob EC-Erhöhung das eigentliche Problem löst.';
   }
@@ -225,6 +244,11 @@ function getCorrectionHint(
       'Fe': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH zu niedrig. Fe-Mangel wird durch HOHEN pH verursacht, nicht niedrigen. Bei niedrigem pH ist Fe eigentlich gut verfügbar. Prüfe ob es wirklich Fe ist oder eher Mg/Ca-Lockout + N-Unterversorgung.',
       'N': '⚠️ BESTÄTIGT + pH-WARNUNG: N-Mangel bei niedrigem EC ist plausibel. ABER der pH ist auch zu niedrig – das kann zusätzlich Mg/Ca-Lockout verursachen. EC erhöhen UND pH korrigieren.',
       'burn': '🔄 WIDERSPRUCH: EC zu niedrig + Nährstoffbrand ist ein WIDERSPRUCH! KORRIGIERE die Diagnose.',
+      'K': '⚠️ DOPPELPROBLEM: EC zu niedrig + pH zu niedrig. K-Mangel bei niedrigem EC ist möglich (generelle Unterversorgung). Der niedrige pH kann zusätzlich Ca/Mg blockieren. pH korrigieren UND EC erhöhen.',
+      'P': '⚠️ DOPPELPROBLEM: EC zu niedrig + pH zu niedrig. P-Aufnahme wird bei niedrigem pH eingeschränkt. EC erhöhen UND pH korrigieren.',
+      'S': '⚠️ PRÜFE: EC zu niedrig + pH zu niedrig. S-Mangel ist selten. Prüfe ob es N-Mangel (alte Blätter) oder Mg-Lockout durch pH ist.',
+      'Mo': '✅ PLAUSIBEL: EC zu niedrig + pH zu niedrig. Mo wird bei pH <5.5 stark blockiert. pH korrigieren hat Priorität.',
+      'lockout': '✅ BESTÄTIGT: EC zu niedrig + pH zu niedrig → Lockout durch pH + Unterversorgung durch EC. pH korrigieren, dann EC erhöhen.',
     };
     return rules[diagnosisType] || '⚠️ DOPPELPROBLEM: EC unter Herstellerbereich UND pH zu niedrig. Zwei Probleme gleichzeitig: Unterversorgung + möglicher Nährstoff-Lockout. pH korrigieren hat Priorität (beeinflusst Verfügbarkeit), dann EC auf Herstellerbereich erhöhen.';
   }
@@ -237,6 +261,12 @@ function getCorrectionHint(
       'Mg': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH zu hoch. Mg-Mangel wird durch NIEDRIGEN pH verursacht, nicht hohen. Bei hohem pH ist eher Fe/Mn-Lockout das Problem. Prüfe ob die Symptome wirklich interveinal (Mg) oder eher an neuen Blättern (Fe) sind.',
       'N': '⚠️ TEILWEISE BESTÄTIGT: N-Mangel bei niedrigem EC ist plausibel. Aber pH ist auch zu hoch – kann zusätzlich Fe/Mn-Lockout verursachen. EC erhöhen UND pH senken.',
       'burn': '🔄 WIDERSPRUCH: EC zu niedrig + Nährstoffbrand = WIDERSPRUCH!',
+      'K': '⚠️ DOPPELPROBLEM: EC zu niedrig + pH zu hoch. K-Mangel durch Unterversorgung ist möglich. Hoher pH blockiert zusätzlich Fe/Mn. EC erhöhen UND pH senken.',
+      'P': '⚠️ PRÜFE: EC zu niedrig + pH zu hoch. P ist bei hohem pH schlechter verfügbar. EC erhöhen UND pH senken.',
+      'Ca': '🔄 KORREKTUR PRÜFEN: EC zu niedrig + pH zu hoch. Ca ist bei hohem pH eigentlich gut verfügbar. Ca-Mangel bei hohem pH deutet eher auf fehlende CalMag-Ergänzung oder Antagonismus hin.',
+      'Cu': '⚠️ BESTÄTIGT: EC zu niedrig + pH zu hoch. Cu wird bei hohem pH blockiert. pH senken, dann EC erhöhen.',
+      'B': '⚠️ BESTÄTIGT: EC zu niedrig + pH zu hoch. B wird bei hohem pH blockiert. pH senken, dann EC erhöhen.',
+      'S': '🔄 KORREKTUR PRÜFEN: S-Mangel ist selten. Bei niedrigem EC + hohem pH ist Fe/Mn-Lockout wahrscheinlicher. Prüfe ob NEUE Blätter betroffen sind (→ Fe/Mn, nicht S).',
     };
     return rules[diagnosisType] || '⚠️ EC unter Herstellerbereich UND pH zu hoch. Generelle Unterversorgung + möglicher Fe/Mn/Zn-Lockout durch hohen pH. pH senken hat Priorität, dann EC erhöhen.';
   }
@@ -253,6 +283,19 @@ function getCorrectionHint(
       'P': '✅ MÖGLICH: EC und pH sind im Bereich. P-Mangel kann in der Blüte auftreten wenn P-Bedarf steigt. P-Anteil prüfen.',
       'burn': '🤔 HINTERFRAGEN: EC ist im Herstellerbereich. Nährstoffbrand bei normalem EC ist ungewöhnlich. Prüfe ob es wirklich Nährstoffbrand ist oder K-Mangel/Lichtbrand.',
       'N-tox': '🤔 HINTERFRAGEN: EC ist im Herstellerbereich. N-Überschuss bei normalem EC ist ungewöhnlich, es sei denn der Dünger hat einen sehr hohen N-Anteil.',
+      'Mn': '🤔 HINTERFRAGEN: EC und pH sind optimal. Mn-Mangel bei gutem pH ist sehr selten. Prüfe ob Phosphor-Überschuss Mn blockiert (Antagonismus). Oder ob es doch Ca-Mangel ist (ähnliche Flecken auf neuen Blättern).',
+      'Zn': '🤔 HINTERFRAGEN: EC und pH sind optimal. Zn-Mangel bei gutem pH ist selten. Prüfe Phosphor-Überschuss als mögliche Blockade. Schlüsselzeichen: gestauchte/verdrehte neue Blätter = Zn bestätigt.',
+      'S': '🤔 HINTERFRAGEN: EC und pH sind optimal. S-Mangel ist sehr selten. Prüfe ob es nicht N-Mangel ist (sehr ähnlich!). Schlüssel: S = NEUE Blätter + fest, N = ALTE Blätter + schlaff.',
+      'B': '🤔 PRÜFE: EC und pH sind optimal. B-Mangel ist selten aber möglich bei optimalem EC/pH. Schlüsselzeichen: hohle Stängel + abgestorbene Triebspitzen. Wenn bestätigt → B-haltiges Produkt oder Borax in Mikrodosis.',
+      'Cu': '🤔 PRÜFE: EC und pH sind optimal. Cu-Mangel ist extrem selten. Schlüssel: blau-grüne Blätter + Welken bei nassem Substrat. Wenn bestätigt → Cu-haltiges Mikronährstoff-Supplement.',
+      'Mo': '🤔 PRÜFE: EC und pH sind optimal. Mo-Mangel bei gutem pH ist extrem selten (Mo wird bei niedrigem pH blockiert). Schlüssel: MITTLERE Blätter betroffen (nicht oben, nicht unten).',
+      'lightburn': '✅ MÖGLICH: Lichtbrand ist EC/pH-unabhängig. Lampenabstand prüfen und erhöhen. PPFD >1000 µmol/m²/s ohne CO2-Supplementierung kann Lichtbrand verursachen.',
+      'heat': '✅ MÖGLICH: Hitzestress ist EC/pH-unabhängig. Temperatur senken (<28°C ideal). Blätter rollen sich nach oben = typisch.',
+      'overwater': '✅ MÖGLICH: Überwässerung ist EC/pH-unabhängig. Seltener gießen, Substrat zwischen Gießvorgängen antrocknen lassen. In Kokos: Überwässerung ist fast unmöglich – prüfe stattdessen EC-Salzstress.',
+      'underwater': '✅ MÖGLICH: Unterwässerung ist EC/pH-unabhängig. Häufiger gießen. Trockenes Substrat + dünne schlaffe Blätter = klar.',
+      'windburn': '✅ MÖGLICH: Windburn ist EC/pH-unabhängig. Ventilator weiter weg oder auf niedrigere Stufe stellen.',
+      'cold': '✅ MÖGLICH: Kältestress ist EC/pH-unabhängig. Nachttemperatur erhöhen (>18°C). Violette Stängel + Kälte = Kältestress, nicht P-Mangel.',
+      'pest': '⚠️ HINWEIS: Schädlinge sind EC/pH-unabhängig. Schädlingsbekämpfung einleiten. Gesunde Pflanzen (optimale EC/pH) sind resistenter.',
     };
     return rules[diagnosisType] || '✅ EC und pH sind beide im optimalen Bereich. Die Erstdiagnose kann trotzdem stimmen – nicht alle Probleme sind EC/pH-bedingt. Prüfe: CalMag-Ergänzung, Wurzelgesundheit, Temperatur, Luftfeuchtigkeit.';
   }
@@ -266,6 +309,11 @@ function getCorrectionHint(
       'N': '🔄 KORREKTUR PRÜFEN: EC ist im Bereich, pH ist zu niedrig. Bei niedrigem pH können Ca/Mg/P blockiert werden. Sind die Symptome wirklich gleichmäßig gelb (N) oder interveinal (Mg durch pH-Lockout)?',
       'burn': '⚠️ MÖGLICH: EC im Bereich + niedriger pH. Niedriger pH kann Symptome verstärken die wie Nährstoffbrand aussehen (Spitzenverbrennungen). pH korrigieren und beobachten.',
       'lockout': '✅ BESTÄTIGT: pH zu niedrig → Nährstoff-Lockout. pH korrigieren ist die Lösung.',
+      'K': '⚠️ PRÜFE: EC ok + pH zu niedrig. K ist bei niedrigem pH noch gut verfügbar. K-Mangel hier hat wahrscheinlich andere Ursachen (hoher Ca/Mg blockiert K durch Antagonismus). pH trotzdem korrigieren.',
+      'Mn': '🔄 KORREKTUR PRÜFEN: pH zu niedrig. Mn ist bei niedrigem pH eigentlich GUT verfügbar (sogar toxisch möglich!). Mn-Mangel bei niedrigem pH ist sehr unwahrscheinlich. Prüfe ob es Mg-Lockout ist.',
+      'Zn': '🔄 KORREKTUR PRÜFEN: pH zu niedrig. Zn ist bei niedrigem pH noch verfügbar. Zn-Mangel bei niedrigem pH ist unwahrscheinlich. Prüfe ob es Mg/Ca-Lockout ist.',
+      'S': '🔄 KORREKTUR PRÜFEN: pH zu niedrig. S-Mangel ist selten. Bei niedrigem pH sind Ca/Mg-Lockout wahrscheinlicher. Prüfe ob es Mg-Mangel ist (interveinal, alte Blätter).',
+      'Mo': '✅ BESTÄTIGT: pH zu niedrig blockiert Mo-Aufnahme massiv. Mo-Mangel bei niedrigem pH ist plausibel. pH korrigieren ist die Lösung.',
     };
     return rules[diagnosisType] || '⚠️ pH ist zu niedrig – das kann Ca, Mg und P blockieren (Lockout). EC ist im Bereich, also ist genug Nährstoff vorhanden. Das Problem ist die VERFÜGBARKEIT, nicht die MENGE. pH korrigieren hat Priorität!';
   }
@@ -278,6 +326,13 @@ function getCorrectionHint(
       'Mg': '🔄 KORREKTUR PRÜFEN: pH zu hoch. Mg ist bei hohem pH eigentlich GUT verfügbar. Mg-Mangel bei hohem pH ist unwahrscheinlich. Prüfe ob es Fe-Mangel ist (wird bei hohem pH blockiert, sieht ähnlich interveinal aus aber an NEUEN Blättern).',
       'N': '🔄 KORREKTUR PRÜFEN: EC ist im Bereich, pH zu hoch. N-Aufnahme ist bei hohem pH etwas eingeschränkt, aber N-Mangel ist nicht die typische Folge. Prüfe ob Fe/Mn-Lockout durch hohen pH die eigentliche Ursache ist.',
       'lockout': '✅ BESTÄTIGT: pH zu hoch → Fe/Mn/Zn-Lockout. pH senken.',
+      'K': '⚠️ PRÜFE: pH zu hoch. K ist bei hohem pH noch gut verfügbar. K-Mangel hat wahrscheinlich andere Ursachen. pH trotzdem senken wegen Fe/Mn/Zn.',
+      'P': '⚠️ PRÜFE: pH zu hoch. P-Verfügbarkeit sinkt bei hohem pH. P-Mangel hier ist plausibel. pH senken.',
+      'Ca': '🔄 KORREKTUR PRÜFEN: pH zu hoch. Ca ist bei hohem pH gut verfügbar. Ca-Mangel bei hohem pH ist unwahrscheinlich (eher ist es Fe-Lockout). Prüfe ob NEUE Blätter betroffen sind (Ca) oder ob es intervenale Chlorose ist (Fe).',
+      'S': '🔄 KORREKTUR PRÜFEN: S-Mangel bei hohem pH ist möglich aber selten. Wahrscheinlicher ist Fe/Mn-Lockout. Prüfe ob NEUE Blätter interveinal gebleicht sind (Fe) oder gleichmäßig gelb (S).',
+      'Cu': '✅ BESTÄTIGT: Cu wird bei hohem pH blockiert. pH senken.',
+      'B': '✅ BESTÄTIGT: B wird bei hohem pH (>6.5) blockiert. pH senken.',
+      'Mo': '🔄 KORREKTUR: Mo ist bei hohem pH eigentlich GUT verfügbar. Mo-Mangel bei hohem pH ist extrem unwahrscheinlich. Prüfe ob es Fe/Mn-Lockout ist.',
     };
     return rules[diagnosisType] || '⚠️ pH ist zu hoch – das blockiert Fe, Mn und Zn. EC ist im Bereich. Das Problem ist pH-Lockout, nicht Düngermenge. pH senken hat Priorität!';
   }
@@ -293,6 +348,14 @@ function getCorrectionHint(
       'Ca': '🔄 KORREKTUR PRÜFEN: EC zu hoch. Zu viel K oder NH4 kann Ca-Aufnahme hemmen (Antagonismus). EC leicht senken und CalMag prüfen.',
       'K': '🔄 WIDERSPRUCH: EC über Herstellerbereich + K-Mangel ist unwahrscheinlich. Prüfe ob es Nährstoffbrand ist (sieht ähnlich aus an Blatträndern).',
       'lockout': '✅ PLAUSIBEL: Hoher EC kann zu Salz-Lockout führen. EC senken durch Spülen, dann normal weiterdüngen.',
+      'Fe': '⚠️ PRÜFE: EC zu hoch + pH ok. Hoher EC / Überschuss an P oder Zn kann Fe blockieren (Antagonismus). EC senken. Prüfe ob Dünger sehr viel P enthält.',
+      'Mn': '⚠️ PRÜFE: EC zu hoch. Hoher EC / Überschuss an Ca oder Fe kann Mn hemmen. EC senken auf Herstellerbereich.',
+      'Zn': '⚠️ PRÜFE: EC zu hoch. Hoher EC / Überschuss an P kann Zn blockieren. EC senken auf Herstellerbereich.',
+      'P': '🔄 WIDERSPRUCH: EC über Herstellerbereich + P-Mangel ist unwahrscheinlich. Bei hohem EC ist genug P vorhanden. Prüfe ob es Nährstoffbrand ist.',
+      'S': '🔄 KORREKTUR PRÜFEN: EC zu hoch + S-Mangel. S-Mangel bei hohem EC ist extrem unwahrscheinlich. Prüfe ob es N-Toxizität oder Nährstoffbrand ist.',
+      'lightburn': '⚠️ BEIDE PROBLEME: EC zu hoch + Lichtbrand. Beide unabhängig. Lampe höher stellen UND EC senken. Hoher EC + Lichtbrand = doppelter Stress.',
+      'heat': '⚠️ BEIDE PROBLEME: EC zu hoch + Hitzestress. Hohe Temperatur + hoher EC = Pflanze kann Wasser schlecht aufnehmen. Temperatur senken UND EC auf Herstellerbereich.',
+      'overwater': '⚠️ PRÜFE: EC zu hoch + Überwässerung. Überwässerung verhindert Sauerstoff an Wurzeln → schlechtere Nährstoffaufnahme. Seltener gießen UND EC senken.',
     };
     return rules[diagnosisType] || '⚠️ EC über Herstellerbereich bei optimalem pH. Mögliche Probleme: Nährstoffbrand, Salz-Lockout, oder Nährstoff-Antagonismus. EC senken (Spülen mit pH-korrektem Wasser), dann auf Herstellerbereich zurück.';
   }
@@ -556,6 +619,9 @@ PHASEN-KONTEXT (Vegetativ vs. Blüte):
   MUTTERPFLANZE: Dauerhaft in Veg, gleichmäßiger N/Ca/Mg-Bedarf.
 
 WICHTIGE DIAGNOSE-REGELN:
+- OCCAM'S RAZOR: Bevorzuge IMMER eine EINZELNE Diagnose, die alle Symptome erklärt, über mehrere gleichzeitige Diagnosen. Mehrere Mängel gleichzeitig sind NUR plausibel bei: pH-Lockout (blockiert mehrere Nährstoffe), extrem niedrigem EC (generelle Unterversorgung), oder fortgeschrittener Vernachlässigung. Wenn du 2+ Diagnosen stellen willst, frage dich: "Kann EIN Problem alles erklären?" Wenn ja → nur EINE Diagnose.
+- FOTO-QUALITÄT: Wenn das Foto unscharf, überbelichtet, zu dunkel oder aus zu großer Entfernung ist, SENKE die Confidence um 0.1–0.2. Erwähne in der rootCauseAnalysis, dass ein besseres/näheres Foto die Diagnose verbessern könnte. Nahaufnahmen einzelner Blätter sind ideal.
+- GESUNDE PFLANZE ERKENNEN: Wenn die Pflanze gesund aussieht, sage das KLAR mit hoher Confidence (0.85+). Suche NICHT nach Problemen die nicht da sind! Leichte kosmetische Unregelmäßigkeiten sind NORMAL und kein Mangel. Ein einzelnes gelbes Blatt unten bei sonst grüner Pflanze = NORMAL (natürlicher Blattabwurf).
 - 5-DIMENSIONEN-PFLICHT: Prüfe bei JEDEM Symptom alle 5 Dimensionen (Farbe, Textur, Muster, Position, Ausmaß). Nenne in der rootCauseAnalysis mindestens 3 der 5 Dimensionen die deine Diagnose stützen. Diagnosen die nur auf 1 Dimension basieren sind VERBOTEN.
 - ÄHNLICHKEITS-WARNUNG: Wenn 2+ Probleme ähnliche Treffer haben, nenne BEIDE als Möglichkeit und erkläre dem User wie er sie unterscheiden kann (z.B. "Prüfe ob das Gewebe lebendig oder trocken ist").
 - KONSISTENZ-REGEL: Deine Empfehlungen dürfen sich NIEMALS widersprechen! Gib EINEN klaren pH-Bereich an und verwende diesen ÜBERALL in deiner Antwort. Für Kokos ist das IMMER 5.8–6.2 – verwende NICHT 5.5 als Untergrenze, auch nicht als Lockout-Schwelle
