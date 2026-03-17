@@ -100,12 +100,26 @@ export default function PaywallScreen() {
 
   useEffect(() => {
     if (isWeb) {
-      // Check for payment success redirect
-      if (typeof window !== 'undefined' && window.location.search.includes('payment=success')) {
-        setPaymentSuccess(true);
-        setPremium(true);
-        // Clean URL
-        window.history.replaceState({}, '', '/');
+      // Check for Stripe payment success — verify with server
+      if (typeof window !== 'undefined' && window.location.search.includes('session_id=')) {
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+        if (sessionId) {
+          fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
+            .then(r => r.ok ? r.json() : Promise.reject())
+            .then(data => {
+              if (data.token) {
+                const { setSessionToken } = require('../services/quota');
+                setSessionToken(data.token);
+                setPremium(true);
+                setPaymentSuccess(true);
+              }
+            })
+            .catch(() => {})
+            .finally(() => {
+              window.history.replaceState({}, '', '/');
+            });
+        }
       }
       // Load Stripe plans
       getStripePlans().then((plans) => {

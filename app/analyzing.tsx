@@ -67,8 +67,11 @@ export default function AnalyzingScreen() {
         return;
       }
     } catch (quotaErr) {
-      // If quota check fails, allow scan (fail open)
-      console.log('[LeafScan] Quota check failed, allowing scan:', quotaErr);
+      // If quota check fails, block scan (fail closed for security)
+      console.log('[LeafScan] Quota check failed, blocking scan:', quotaErr);
+      setError({ type: 'unknown', message: 'quota_check_failed', retryable: true });
+      setScreenState('error');
+      return;
     }
 
     try {

@@ -5,10 +5,10 @@ import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, Actio
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 import { readAsBase64 } from './fileSystemWeb';
 
-// On web (PWA), route through our nginx proxy (/api/...) to protect the API key.
-// On native, call OpenAI directly (key is embedded in the binary, not inspectable via browser).
+// On web (PWA), route through our Express /api/scan endpoint (server holds the API key).
+// On native, call OpenAI directly (key is embedded in the binary).
 const DIRECT_API_URL = 'https://api.openai.com/v1/chat/completions';
-const PROXY_API_URL = '/api/v1/chat/completions';
+const PROXY_API_URL = '/api/scan';
 const API_URL = Platform.OS === 'web' ? PROXY_API_URL : DIRECT_API_URL;
 const USE_PROXY = Platform.OS === 'web';
 const MODEL = 'gpt-4o-mini';
@@ -16,10 +16,20 @@ const MODEL = 'gpt-4o-mini';
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
 
-/** Build fetch headers — omit Authorization when using proxy (key lives server-side) */
+/** Build fetch headers — include session token when using proxy, API key for direct */
 function apiHeaders(apiKey: string): Record<string, string> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (!USE_PROXY) {
+  if (USE_PROXY) {
+    // Include premium session token if available
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = window.localStorage.getItem('leafscan_session_token');
+        if (raw) {
+          headers['Authorization'] = `Bearer ${raw}`;
+        }
+      } catch {}
+    }
+  } else {
     headers['Authorization'] = `Bearer ${apiKey}`;
   }
   return headers;

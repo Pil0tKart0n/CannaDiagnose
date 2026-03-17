@@ -58,15 +58,30 @@ export default function HomeScreen() {
 
   useEffect(() => {
     injectCSS();
-    // Check for Stripe payment success redirect
-    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('payment=success')) {
-      setPremium(true).then(() => {
-        window.history.replaceState({}, '', '/');
-        getQuotaDisplay().then((q) => {
-          setQuotaText(q.text);
-          setQuotaIsPremium(q.isPremium);
-        });
-      });
+    // Check for Stripe payment success redirect — verify with server
+    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('session_id=')) {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('session_id');
+      if (sessionId) {
+        fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(data => {
+            if (data.token) {
+              // Store server-issued token + mark premium locally
+              const { setSessionToken } = require('../services/quota');
+              setSessionToken(data.token);
+              setPremium(true);
+            }
+          })
+          .catch(() => {})
+          .finally(() => {
+            window.history.replaceState({}, '', '/');
+            getQuotaDisplay().then((q) => {
+              setQuotaText(q.text);
+              setQuotaIsPremium(q.isPremium);
+            });
+          });
+      }
     }
     // Check onboarding
     hasCompletedOnboarding().then((done) => {
