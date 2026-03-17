@@ -144,26 +144,6 @@ export default function HomeScreen() {
           {/* Bottom spacer */}
           <View style={{ flex: 1.2 }} />
 
-          {/* Legal footer */}
-          <View style={styles.legalFooter}>
-            <Text style={styles.legalText}>
-              Internetverbindung erforderlich
-            </Text>
-          </View>
-          <View style={styles.legalFooter}>
-            <TouchableOpacity onPress={() => router.push('/privacy')}>
-              <Text style={styles.legalLink}>Datenschutz</Text>
-            </TouchableOpacity>
-            <Text style={styles.legalDot}>·</Text>
-            <TouchableOpacity onPress={() => router.push('/terms')}>
-              <Text style={styles.legalLink}>AGB</Text>
-            </TouchableOpacity>
-            <Text style={styles.legalDot}>·</Text>
-            <TouchableOpacity onPress={() => router.push('/impressum')}>
-              <Text style={styles.legalLink}>Impressum</Text>
-            </TouchableOpacity>
-          </View>
-
           {/* Buttons */}
           <View style={styles.buttons}>
             {isWeb ? (
@@ -236,6 +216,26 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               </>
             )}
+          </View>
+
+          {/* Legal footer */}
+          <View style={styles.legalFooter}>
+            <Text style={styles.legalText}>
+              Internetverbindung erforderlich
+            </Text>
+          </View>
+          <View style={styles.legalFooter}>
+            <TouchableOpacity onPress={() => router.push('/privacy')}>
+              <Text style={styles.legalLink}>Datenschutz</Text>
+            </TouchableOpacity>
+            <Text style={styles.legalDot}>·</Text>
+            <TouchableOpacity onPress={() => router.push('/terms')}>
+              <Text style={styles.legalLink}>AGB</Text>
+            </TouchableOpacity>
+            <Text style={styles.legalDot}>·</Text>
+            <TouchableOpacity onPress={() => router.push('/impressum')}>
+              <Text style={styles.legalLink}>Impressum</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>

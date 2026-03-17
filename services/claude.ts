@@ -397,7 +397,7 @@ export async function analyzePlant(
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1500,
-          countScan: true,
+          ...(USE_PROXY ? { countScan: true } : {}),
           messages: [
             {
               role: 'system',
