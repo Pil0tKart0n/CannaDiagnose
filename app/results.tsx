@@ -297,7 +297,7 @@ export default function ResultsScreen() {
               </Text>
 
               {/* Color correction field */}
-              <View style={styles.refineInputGroup}>
+              <View style={[styles.refineInputGroup, { zIndex: 10 }]}>
                 <Text style={styles.refineLabel}>Blattfarbe</Text>
                 {selectedColor ? (
                   <View style={styles.colorChipRow}>
@@ -309,7 +309,7 @@ export default function ResultsScreen() {
                     </View>
                   </View>
                 ) : (
-                  <>
+                  <View style={{ position: 'relative' }}>
                     <TextInput
                       style={styles.refineInput}
                       placeholder="z.B. violett, braun, gelb..."
@@ -337,11 +337,11 @@ export default function ResultsScreen() {
                         ))}
                       </View>
                     )}
-                  </>
+                  </View>
                 )}
               </View>
 
-              <View style={styles.refineInputRow}>
+              <View style={[styles.refineInputRow, { zIndex: 1 }]}>
                 <View style={styles.refineInputGroup}>
                   <Text style={styles.refineLabel}>pH-Wert</Text>
                   <TextInput
@@ -754,12 +754,18 @@ const styles = StyleSheet.create({
     color: colors.accent,
   },
   colorSuggestions: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
     backgroundColor: colors.backgroundElevated,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: colors.borderAccent,
     marginTop: 4,
     overflow: 'hidden',
+    zIndex: 20,
+    elevation: 10,
   },
   colorSuggestionItem: {
     paddingVertical: 11,
