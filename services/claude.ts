@@ -39,6 +39,28 @@ function apiHeaders(apiKey: string): Record<string, string> {
 // Resizing locally saves 80-90% upload time with zero quality loss.
 const MAX_IMAGE_DIMENSION = 1568;
 
+// Cache base64 conversions to avoid re-reading the same file multiple times
+// (validation call, main diagnosis, verification all need the same base64)
+const base64Cache = new Map<string, string>();
+
+async function cachedReadAsBase64(uri: string): Promise<string> {
+  const cached = base64Cache.get(uri);
+  if (cached) return cached;
+  const data = await readAsBase64(uri);
+  base64Cache.set(uri, data);
+  // Keep cache bounded — clear if too many entries
+  if (base64Cache.size > 10) {
+    const firstKey = base64Cache.keys().next().value;
+    if (firstKey) base64Cache.delete(firstKey);
+  }
+  return data;
+}
+
+/** Clear base64 cache (call after diagnosis flow completes) */
+export function clearImageCache(): void {
+  base64Cache.clear();
+}
+
 /**
  * Resize an image so its longest side is at most MAX_IMAGE_DIMENSION pixels.
  * Returns the URI of the resized image (JPEG, quality 0.95 for minimal loss).
@@ -53,7 +75,7 @@ export async function optimizeImage(uri: string): Promise<string> {
     if (width <= MAX_IMAGE_DIMENSION && height <= MAX_IMAGE_DIMENSION) {
       // Still convert to JPEG for consistent format & slight compression
       const result = await manipulateAsync(uri, [], {
-        compress: 0.95,
+        compress: 0.85,
         format: SaveFormat.JPEG,
       });
       return result.uri;
@@ -67,7 +89,7 @@ export async function optimizeImage(uri: string): Promise<string> {
     const result = await manipulateAsync(
       uri,
       [{ resize: { width: newWidth, height: newHeight } }],
-      { compress: 0.95, format: SaveFormat.JPEG },
+      { compress: 0.85, format: SaveFormat.JPEG },
     );
 
     console.log(`[LeafScan] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
@@ -146,7 +168,7 @@ export function validateDiagnosisResult(data: any): DiagnosisResult {
         : 'Diagnose nicht verfügbar',
     confidence: (() => {
       const c = Number(data.confidence);
-      if (isNaN(c)) return 0.75;
+      if (isNaN(c)) return 0.5;
       // Normalize: if value > 1, assume 0-100 scale and convert to 0-1
       if (c > 1) return Math.min(c / 100, 1);
       return Math.max(0, Math.min(c, 1));
@@ -346,7 +368,7 @@ export async function analyzePlant(
     ? preOptimizedImages
     : await Promise.all(uris.map(optimizeImage));
   const base64Results = await Promise.all(
-    optimizedUris.map((uri) => readAsBase64(uri))
+    optimizedUris.map((uri) => cachedReadAsBase64(uri))
   );
 
   // Build image content blocks for OpenAI format
@@ -356,18 +378,6 @@ export async function analyzePlant(
       url: `data:image/jpeg;base64,${data}`,
     },
   }));
-
-  // Pre-check: is this actually a cannabis plant?
-  const isCannabis = await validateImageIsCannabis(imageBlocks, apiKey);
-  if (!isCannabis) {
-    const err: any = new Error('Keine Cannabis-Pflanze erkannt.');
-    err.apiError = {
-      type: 'no_plant' as ApiErrorType,
-      message: 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch.',
-      retryable: false,
-    };
-    throw err;
-  }
 
   let userPrompt: string;
   let systemPrompt: string;
@@ -386,12 +396,16 @@ export async function analyzePlant(
   const maxAttempts = 1 + MAX_RETRIES; // 3 total
   let lastError: any = null;
 
+  // Start validation + first diagnosis attempt IN PARALLEL to save 1-2 seconds
+  const validationPromise = validateImageIsCannabis(imageBlocks, apiKey);
+
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     // Notify caller about which attempt we're on
     onAttempt?.(attempt, maxAttempts);
 
     try {
-      const response = await fetch(API_URL, {
+      // On first attempt, fire diagnosis while validation runs concurrently
+      const diagnosisPromise = fetch(API_URL, {
         method: 'POST',
         headers: apiHeaders(apiKey),
         body: JSON.stringify({
@@ -416,6 +430,24 @@ export async function analyzePlant(
           ],
         }),
       });
+
+      // Wait for both validation and diagnosis response
+      // On first attempt both run in parallel; on retries validation is already resolved
+      const [isCannabis, response] = await Promise.all([
+        attempt === 1 ? validationPromise : Promise.resolve(true),
+        diagnosisPromise,
+      ]);
+
+      // Check validation result before processing diagnosis
+      if (!isCannabis) {
+        const err: any = new Error('Keine Cannabis-Pflanze erkannt.');
+        err.apiError = {
+          type: 'no_plant' as ApiErrorType,
+          message: 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch.',
+          retryable: false,
+        };
+        throw err;
+      }
 
       if (!response.ok) {
         const errorBody = await response.text();
@@ -506,6 +538,7 @@ export async function refineDiagnosis(
   fertilizerType?: string | null,
   plantAge?: string | null,
   growPhase?: string | null,
+  preOptimizedImages?: string[],
 ): Promise<DiagnosisResult> {
   const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
   if (!apiKey && !USE_PROXY) {
@@ -514,10 +547,12 @@ export async function refineDiagnosis(
 
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
 
-  // Optimize images (resize to max 1568px) then read as base64
-  const optimizedUris = await Promise.all(uris.map(optimizeImage));
+  // Use pre-optimized images if available, otherwise optimize now
+  const optimizedUris = preOptimizedImages && preOptimizedImages.length > 0
+    ? preOptimizedImages
+    : await Promise.all(uris.map(optimizeImage));
   const base64Results = await Promise.all(
-    optimizedUris.map((uri) => readAsBase64(uri))
+    optimizedUris.map((uri) => cachedReadAsBase64(uri))
   );
 
   const imageBlocks = base64Results.map((data) => ({

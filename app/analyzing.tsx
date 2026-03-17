@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as FileSystem from 'expo-file-system/legacy';
-import { analyzePlant, verifyDiagnosis, ApiError } from '../services/claude';
+import { analyzePlant, verifyDiagnosis, clearImageCache, ApiError } from '../services/claude';
 import { saveEntry, addEntryToPlant } from '../services/storage';
 import { scheduleFollowUpReminder } from '../services/notifications';
 import { getPlant } from '../services/storage';
@@ -129,6 +129,9 @@ export default function AnalyzingScreen() {
 
       // Record successful scan in quota
       await recordScan().catch(() => {});
+
+      // Free cached base64 data from memory
+      clearImageCache();
 
       setResult(diagResult);
       const entryId = Date.now().toString();

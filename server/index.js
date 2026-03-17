@@ -59,8 +59,9 @@ const stmtDeactivateBySubscription = db.prepare(`UPDATE premium_sessions SET act
 const stmtDeactivateByCustomer = db.prepare(`UPDATE premium_sessions SET active = 0 WHERE stripe_customer_id = ?`);
 
 // Cleanup old scan logs (keep 7 days)
+const stmtCleanupScans = db.prepare(`DELETE FROM scan_log WHERE scanned_at < date('now', '-7 days')`);
 function cleanupOldScans() {
-  db.prepare(`DELETE FROM scan_log WHERE scanned_at < date('now', '-7 days')`).run();
+  stmtCleanupScans.run();
 }
 setInterval(cleanupOldScans, 24 * 60 * 60 * 1000); // daily
 cleanupOldScans();
@@ -82,7 +83,7 @@ app.set('trust proxy', true);
 
 // Webhook needs raw body, everything else gets JSON parsed
 app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }));
-app.use(express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '10mb' }));
 
 /** Extract client IP from request */
 function getClientIP(req) {
@@ -210,9 +211,9 @@ app.get('/api/quota', (req, res) => {
 // ══════════════════════════════════════════════════
 // ██  /api/verify-session — VERIFY STRIPE PAYMENT ██
 // ══════════════════════════════════════════════════
-app.get('/api/verify-session', async (req, res) => {
+app.get('/api/verify-session', rateLimit, async (req, res) => {
   const { session_id } = req.query;
-  if (!session_id) {
+  if (!session_id || typeof session_id !== 'string' || session_id.length > 200) {
     return res.status(400).json({ error: 'session_id required' });
   }
 

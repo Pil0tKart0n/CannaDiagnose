@@ -24,7 +24,7 @@ export default function CameraScreen() {
       return;
     }
     const result = await ImagePicker.launchCameraAsync({
-      quality: 1,
+      quality: 0.8,
     });
     if (!result.canceled && result.assets[0]) {
       setPhotos((prev) => [...prev, result.assets[0].uri]);
@@ -40,7 +40,7 @@ export default function CameraScreen() {
     }
     const remaining = MAX_PHOTOS - photos.length;
     const result = await ImagePicker.launchImageLibraryAsync({
-      quality: 1,
+      quality: 0.8,
       selectionLimit: remaining,
       allowsMultipleSelection: remaining > 1,
     });

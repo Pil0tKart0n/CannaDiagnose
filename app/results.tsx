@@ -100,7 +100,7 @@ function applyColorCorrection(color: typeof KNOWN_COLORS[number], currentResult:
 
 export default function ResultsScreen() {
   const router = useRouter();
-  const { result, setResult, questionnaire, imageUri, imageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
+  const { result, setResult, questionnaire, imageUri, imageUris, optimizedImageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
   const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string; historyImages?: string }>();
   const [sharing, setSharing] = useState(false);
   const [refineOpen, setRefineOpen] = useState(false);
@@ -184,12 +184,17 @@ export default function ResultsScreen() {
 
   const handleRefine = async () => {
     if (!phInput && !ecInput) {
-      Alert.alert('Fehlende Daten', 'Bitte gib mindestens einen pH- oder EC-Wert ein.');
+      if (Platform.OS === 'web' && typeof window !== 'undefined') {
+        window.alert('Bitte gib mindestens einen pH- oder EC-Wert ein.');
+      } else {
+        Alert.alert('Fehlende Daten', 'Bitte gib mindestens einen pH- oder EC-Wert ein.');
+      }
       return;
     }
     setRefineLoading(true);
     try {
       const allUris = imageUris.length > 0 ? imageUris : (displayImage ? [displayImage] : []);
+      const preOptimized = optimizedImageUris.length === allUris.length ? optimizedImageUris : [];
       const refined = await refineDiagnosis(
         allUris,
         displayResult!,
@@ -199,13 +204,18 @@ export default function ResultsScreen() {
         fertilizerInput,
         questionnaire.plantAgeWeeks,
         questionnaire.growPhase,
+        preOptimized,
       );
       setApiRefinedResult(refined);
       setRefinedResult(refined);
       setRefined(true);
       setRefineOpen(false);
     } catch (err: any) {
-      Alert.alert('Fehler', err.message || 'Verfeinerung fehlgeschlagen.');
+      if (Platform.OS === 'web' && typeof window !== 'undefined') {
+        window.alert(err.message || 'Verfeinerung fehlgeschlagen.');
+      } else {
+        Alert.alert('Fehler', err.message || 'Verfeinerung fehlgeschlagen.');
+      }
     } finally {
       setRefineLoading(false);
     }
@@ -218,7 +228,11 @@ export default function ResultsScreen() {
       await shareDiagnosis(displayResult, displayImage || undefined);
     } catch (err: any) {
       if (!err.message?.includes('abgebrochen') && !err.message?.includes('cancelled')) {
-        Alert.alert('Fehler', err.message || 'Teilen fehlgeschlagen.');
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+          window.alert(err.message || 'Teilen fehlgeschlagen.');
+        } else {
+          Alert.alert('Fehler', err.message || 'Teilen fehlgeschlagen.');
+        }
       }
     } finally {
       setSharing(false);

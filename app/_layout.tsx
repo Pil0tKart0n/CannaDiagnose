@@ -112,16 +112,16 @@ export default function RootLayout() {
   };
 
   useEffect(() => {
-    SplashScreen.hideAsync();
-    // Copy bundled reference images to documentDirectory on first launch
+    // Run all init tasks in parallel, hide splash when critical ones complete
+    Promise.all([
+      initLanguage().catch(() => {}),
+      initPurchases().catch(() => {}),
+    ]).then(() => SplashScreen.hideAsync()).catch(() => SplashScreen.hideAsync());
+
+    // Non-critical: run in background without blocking splash
     initReferenceImages().catch((err) =>
       console.log('[LeafScan] initReferenceImages error:', err)
     );
-    // Init language from device/storage
-    initLanguage().catch(() => {});
-    // Init RevenueCat purchases
-    initPurchases().catch(() => {});
-    // Cleanup old storage entries
     cleanupStorage().then(({ archived, deleted }) => {
       if (archived > 0 || deleted > 0) {
         console.log(`[LeafScan] Storage cleanup: ${archived} archived, ${deleted} deleted`);

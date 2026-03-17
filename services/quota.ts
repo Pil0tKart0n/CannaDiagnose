@@ -43,7 +43,9 @@ export async function setSessionToken(token: string | null): Promise<void> {
         await AsyncStorage.removeItem(SESSION_TOKEN_KEY);
       }
     }
-  } catch {}
+  } catch (err) {
+    console.warn('[LeafScan] setSessionToken failed:', err);
+  }
 }
 
 /** Check quota — asks the server if on web, falls back to local on native */
