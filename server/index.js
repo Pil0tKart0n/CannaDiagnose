@@ -456,9 +456,16 @@ app.post('/api/stripe/portal', rateLimit, async (req, res) => {
 });
 
 // ── POST /api/stripe/webhook — WITH signature verification ──
+// Required events in Stripe Dashboard:
+//   checkout.session.completed, customer.subscription.deleted,
+//   customer.subscription.updated, invoice.payment_failed
 app.post('/api/stripe/webhook', async (req, res) => {
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!sig) {
+    return res.status(400).send('Missing stripe-signature header');
+  }
 
   let event;
   try {
@@ -472,47 +479,85 @@ app.post('/api/stripe/webhook', async (req, res) => {
     return res.status(400).send('Webhook Error');
   }
 
-  switch (event.type) {
-    case 'checkout.session.completed': {
-      const session = event.data.object;
-      console.log('[LeafScan] Payment successful:', session.customer_email || session.customer);
+  try {
+    switch (event.type) {
+      // ── Payment completed → activate premium ──
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        console.log('[LeafScan] Payment successful:', session.customer);
 
-      // Create premium session if not already created by verify-session
-      const existing = stmtFindByCustomer.get(session.customer);
-      if (!existing) {
-        // Determine actual plan from line items
-        let plan = 'pro';
-        try {
-          const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-          if (lineItems.data.length > 0) {
-            const priceId = lineItems.data[0].price?.id;
-            if (priceId === growerPriceId) plan = 'grower';
+        // Use transaction to prevent race conditions with verify-session
+        const upsertFromWebhook = db.transaction((customerId, subscriptionId) => {
+          const existing = stmtFindByCustomer.get(customerId);
+          if (existing) return; // Already created by verify-session
+
+          let plan = 'pro';
+          // Plan will be determined async below, but create with default first
+          const sessionToken = crypto.randomBytes(32).toString('hex');
+          stmtCreateSession.run(sessionToken, customerId, subscriptionId, plan);
+          return sessionToken;
+        });
+
+        const newToken = upsertFromWebhook(session.customer, session.subscription);
+        if (newToken) {
+          // Determine actual plan and update if needed
+          try {
+            const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+            if (lineItems.data.length > 0) {
+              const priceId = lineItems.data[0].price?.id;
+              if (priceId === growerPriceId) {
+                db.prepare(`UPDATE premium_sessions SET plan = ? WHERE session_token = ?`).run('grower', newToken);
+              }
+            }
+          } catch (e) {
+            console.log('[LeafScan] Could not determine plan from webhook, using default pro');
           }
-        } catch (e) {
-          console.log('[LeafScan] Could not determine plan from webhook, defaulting to pro');
+          console.log('[LeafScan] Premium session created via webhook for:', session.customer);
         }
-        const sessionToken = crypto.randomBytes(32).toString('hex');
-        stmtCreateSession.run(sessionToken, session.customer, session.subscription, plan);
-        console.log('[LeafScan] Premium session created via webhook for:', session.customer, 'plan:', plan);
+        break;
       }
-      break;
-    }
-    case 'customer.subscription.deleted': {
-      const sub = event.data.object;
-      console.log('[LeafScan] Subscription cancelled:', sub.customer);
-      stmtDeactivateBySubscription.run(sub.id);
-      break;
-    }
-    case 'customer.subscription.updated': {
-      const sub = event.data.object;
-      if (sub.status === 'canceled' || sub.status === 'past_due' || sub.status === 'unpaid') {
-        console.log('[LeafScan] Subscription deactivated:', sub.customer, sub.status);
+
+      // ── Subscription cancelled → deactivate immediately ──
+      case 'customer.subscription.deleted': {
+        const sub = event.data.object;
+        console.log('[LeafScan] Subscription cancelled:', sub.customer);
         stmtDeactivateBySubscription.run(sub.id);
+        stmtDeactivateByCustomer.run(sub.customer);
+        break;
       }
-      break;
+
+      // ── Subscription status changed → check if still active ──
+      case 'customer.subscription.updated': {
+        const sub = event.data.object;
+        const inactiveStatuses = ['canceled', 'past_due', 'unpaid', 'incomplete_expired'];
+        if (inactiveStatuses.includes(sub.status)) {
+          console.log('[LeafScan] Subscription deactivated:', sub.customer, sub.status);
+          stmtDeactivateBySubscription.run(sub.id);
+        }
+        // If subscription is reactivated, verify-session handles re-creation
+        break;
+      }
+
+      // ── Payment failed → warn but don't deactivate yet (Stripe retries) ──
+      case 'invoice.payment_failed': {
+        const invoice = event.data.object;
+        console.log('[LeafScan] Payment failed for:', invoice.customer, 'attempt:', invoice.attempt_count);
+        // After 3 failed attempts, Stripe will cancel the subscription
+        // which triggers customer.subscription.deleted above
+        if (invoice.attempt_count >= 3) {
+          console.log('[LeafScan] 3+ failed payments — deactivating:', invoice.customer);
+          stmtDeactivateByCustomer.run(invoice.customer);
+        }
+        break;
+      }
+
+      default:
+        // Ignore unknown events silently (don't log spam)
+        break;
     }
-    default:
-      console.log('[LeafScan] Webhook event:', event.type);
+  } catch (err) {
+    // Log but don't fail — always return 200 to prevent Stripe retries on our bugs
+    console.error('[LeafScan] Webhook processing error:', err.message);
   }
 
   res.json({ received: true });
