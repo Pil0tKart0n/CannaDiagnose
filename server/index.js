@@ -568,6 +568,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// ── Global error handler (prevents stack traces leaking to clients) ──
+app.use((err, req, res, next) => {
+  console.error('[LeafScan] Unhandled error:', err.message);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 // ── Start ──
 app.listen(PORT, () => {
   console.log(`[LeafScan] API server running on port ${PORT}`);

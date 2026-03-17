@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 # Build tools needed for better-sqlite3 native compilation
 RUN apk add --no-cache python3 make g++
@@ -8,8 +8,22 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install --production
 
+# ── Runtime stage (no build tools) ──
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy only production node_modules from builder
+COPY --from=builder /app/node_modules ./node_modules
+COPY package.json ./
 COPY index.js ./
-RUN mkdir -p /app/data
+
+RUN mkdir -p /app/data && \
+    addgroup -S leafscan && \
+    adduser -S leafscan -G leafscan && \
+    chown -R leafscan:leafscan /app
+
+USER leafscan
 
 EXPOSE 4000
 

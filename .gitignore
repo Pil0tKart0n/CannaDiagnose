@@ -41,10 +41,13 @@ yarn-error.*
 # generated native folders
 /ios
 /android
-# dev/test scripts
-test_diagnosis.sh
-test_diagnosis.mjs
-test_api.mjs
+# dev/test scripts & generated files
+test_*.sh
+test_*.mjs
+test_*.png
+test_*.js
 sort_reference_images.py
+generate-icons.js
+window_dump.xml
 scraper_data/
 PROJEKTSTAND.txt
