@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -55,8 +55,10 @@ export default function AnalyzingScreen() {
     setAttemptText('');
 
     // Check scan quota before proceeding
+    let isPremiumUser = false;
     try {
       const quota = await canScan();
+      isPremiumUser = quota.isPremium;
       if (!quota.allowed) {
         setError({
           type: 'unknown',
@@ -97,8 +99,10 @@ export default function AnalyzingScreen() {
       console.log('[LeafScan] diagResult:', JSON.stringify(diagResult).substring(0, 300));
 
       // Verify diagnosis against reference images (non-blocking — if it fails, we use original result)
+      // Skip verification for free web users: their 1 scan quota is already consumed by the diagnosis call above
       try {
-        const firstUri = preOptimized.length > 0 ? preOptimized[0] : allUris[0];
+        const skipVerify = Platform.OS === 'web' && !isPremiumUser;
+        const firstUri = !skipVerify ? (preOptimized.length > 0 ? preOptimized[0] : allUris[0]) : null;
         if (firstUri) {
           const userBase64 = await FileSystem.readAsStringAsync(firstUri, {
             encoding: FileSystem.EncodingType.Base64,
