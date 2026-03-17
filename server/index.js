@@ -73,13 +73,23 @@ let productsReady = false;
 
 // ── Middleware ──
 app.use(cors({
-  origin: ['https://leafscan.de', 'https://www.leafscan.de'],
+  origin: function(origin, callback) {
+    // Allow requests from web domain
+    const allowedOrigins = ['https://leafscan.de', 'https://www.leafscan.de'];
+    // Allow requests with no origin (native apps, server-to-server)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Trust proxy (nginx sets X-Real-IP)
-app.set('trust proxy', true);
+// Trust only the first proxy hop (nginx). Using `true` would trust ALL proxies,
+// allowing attackers to spoof X-Forwarded-For and bypass rate limits.
+app.set('trust proxy', 1);
 
 // Webhook needs raw body, everything else gets JSON parsed
 app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }));
@@ -90,10 +100,21 @@ function getClientIP(req) {
   return req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip;
 }
 
-/** Check if a session token is valid premium */
+/** Check if a session token is valid premium (with expiry safety-net) */
+const SESSION_MAX_AGE_DAYS = 35; // slightly over 1 month — forces re-verification
 function checkPremium(token) {
   if (!token) return null;
-  return stmtFindSession.get(token) || null;
+  const session = stmtFindSession.get(token);
+  if (!session) return null;
+  // Safety-net expiry: if webhook secret isn't configured, sessions could live forever.
+  // Expire after SESSION_MAX_AGE_DAYS to force re-verification via Stripe.
+  const createdAt = new Date(session.created_at + 'Z');
+  const ageMs = Date.now() - createdAt.getTime();
+  if (ageMs > SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
+    stmtDeactivateBySubscription.run(session.stripe_subscription_id);
+    return null;
+  }
+  return session;
 }
 
 // ── IP-based rate limiting (anti-abuse) ──
@@ -142,6 +163,51 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   const { messages, max_tokens, countScan } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'invalid_request', message: 'messages array required' });
+  }
+
+  // 3b. Strict message validation — prevent abuse as free GPT proxy
+  if (messages.length > 5) {
+    return res.status(400).json({ error: 'invalid_request', message: 'Too many messages (max 5)' });
+  }
+
+  const ALLOWED_ROLES = new Set(['system', 'user', 'assistant']);
+  for (const msg of messages) {
+    if (typeof msg !== 'object' || msg === null) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message format' });
+    }
+    if (!ALLOWED_ROLES.has(msg.role)) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message role' });
+    }
+    // Validate content exists
+    if (msg.content === undefined || msg.content === null) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Message content required' });
+    }
+    // String content: limit length (max 2000 chars for text-only messages)
+    if (typeof msg.content === 'string' && msg.content.length > 5000) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Message content too long' });
+    }
+    // Array content (multimodal): validate each block
+    if (Array.isArray(msg.content)) {
+      if (msg.content.length > 10) {
+        return res.status(400).json({ error: 'invalid_request', message: 'Too many content blocks' });
+      }
+      for (const block of msg.content) {
+        if (typeof block !== 'object' || block === null) {
+          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block' });
+        }
+        // Only allow 'text' and 'image_url' block types
+        if (block.type !== 'text' && block.type !== 'image_url') {
+          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block type' });
+        }
+        // Image URLs must be data URIs (base64), not arbitrary external URLs
+        if (block.type === 'image_url') {
+          const url = block.image_url?.url || '';
+          if (!url.startsWith('data:image/')) {
+            return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed for images' });
+          }
+        }
+      }
+    }
   }
 
   // 4. Forward to OpenAI (enforce model + cap tokens, whitelist fields only)
@@ -224,10 +290,17 @@ app.get('/api/verify-session', rateLimit, async (req, res) => {
       return res.status(402).json({ error: 'not_paid', message: 'Zahlung nicht abgeschlossen.' });
     }
 
-    // Check if we already have a session for this customer
+    // Check if we already have an active, non-expired session for this customer
     const existing = stmtFindByCustomer.get(session.customer);
     if (existing) {
-      return res.json({ token: existing.session_token, plan: existing.plan });
+      const createdAt = new Date(existing.created_at + 'Z');
+      const ageMs = Date.now() - createdAt.getTime();
+      if (ageMs < SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
+        // Still valid — return existing token
+        return res.json({ token: existing.session_token, plan: existing.plan });
+      }
+      // Expired — deactivate old session, create a new one below
+      stmtDeactivateByCustomer.run(session.customer);
     }
 
     // Determine plan from the price
@@ -328,11 +401,24 @@ app.post('/api/stripe/checkout', async (req, res) => {
 });
 
 // ── POST /api/stripe/portal ──
-app.post('/api/stripe/portal', async (req, res) => {
-  const { sessionId } = req.body;
+// Secured: requires valid premium session token — portal is opened for the
+// customer linked to that token, not for an arbitrary client-supplied sessionId.
+app.post('/api/stripe/portal', rateLimit, async (req, res) => {
+  // Authenticate via premium session token
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const premiumSession = checkPremium(token);
+
+  if (!premiumSession || !premiumSession.stripe_customer_id) {
+    return res.status(401).json({ error: 'Nicht autorisiert. Bitte melde dich als Premium-Nutzer an.' });
+  }
+
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    const portalSession = await stripe.billingPortal.sessions.create({ customer: session.customer, return_url: DOMAIN });
+    // Use the customer ID from our DB (not from client input) to prevent IDOR
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: premiumSession.stripe_customer_id,
+      return_url: DOMAIN,
+    });
     res.json({ url: portalSession.url });
   } catch (err) {
     console.error('[LeafScan] Portal error:', err.message);
@@ -394,11 +480,16 @@ app.post('/api/stripe/webhook', async (req, res) => {
 
 // ── Health check ──
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', stripe: productsReady && !!growerPriceId, db: !!db });
+  res.json({ status: 'ok' });
 });
 
 // ── Start ──
 app.listen(PORT, () => {
   console.log(`[LeafScan] API server running on port ${PORT}`);
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.warn('[LeafScan] ⚠️  WARNING: STRIPE_WEBHOOK_SECRET is not set!');
+    console.warn('[LeafScan] ⚠️  Subscription cancellations will NOT be processed.');
+    console.warn('[LeafScan] ⚠️  Set it in .env.server from your Stripe Dashboard → Webhooks.');
+  }
   ensureProducts();
 });

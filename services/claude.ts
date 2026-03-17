@@ -5,32 +5,28 @@ import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, Actio
 import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 import { readAsBase64 } from './fileSystemWeb';
 
-// On web (PWA), route through our Express /api/scan endpoint (server holds the API key).
-// On native, call OpenAI directly (key is embedded in the binary).
-const DIRECT_API_URL = 'https://api.openai.com/v1/chat/completions';
-const PROXY_API_URL = '/api/scan';
-const API_URL = Platform.OS === 'web' ? PROXY_API_URL : DIRECT_API_URL;
-const USE_PROXY = Platform.OS === 'web';
+// ALL platforms route through our Express /api/scan proxy (server holds the API key).
+// Never expose the API key to the client — prevents paywall bypass via APK extraction.
+const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
+const API_URL = Platform.OS === 'web' ? '/api/scan' : `${SERVER_URL}/api/scan`;
 const MODEL = 'gpt-4o-mini';
 
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
 
-/** Build fetch headers — include session token when using proxy, API key for direct */
-function apiHeaders(apiKey: string): Record<string, string> {
+/** Build fetch headers — include session token for premium check */
+function apiHeaders(sessionToken?: string | null): Record<string, string> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (USE_PROXY) {
-    // Include premium session token if available
-    if (typeof window !== 'undefined') {
-      try {
-        const raw = window.localStorage.getItem('leafscan_session_token');
-        if (raw) {
-          headers['Authorization'] = `Bearer ${raw}`;
-        }
-      } catch {}
-    }
-  } else {
-    headers['Authorization'] = `Bearer ${apiKey}`;
+  if (sessionToken) {
+    headers['Authorization'] = `Bearer ${sessionToken}`;
+  } else if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    // Web fallback: read from localStorage directly
+    try {
+      const raw = window.localStorage.getItem('leafscan_session_token');
+      if (raw) {
+        headers['Authorization'] = `Bearer ${raw}`;
+      }
+    } catch {}
   }
   return headers;
 }
@@ -108,8 +104,10 @@ export async function checkConnectivity(): Promise<boolean> {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
-    await fetch('https://api.openai.com', {
-      method: 'HEAD',
+    // Check connectivity via our server (not OpenAI directly)
+    const healthUrl = Platform.OS === 'web' ? '/api/health' : `${SERVER_URL}/api/health`;
+    await fetch(healthUrl, {
+      method: 'GET',
       signal: controller.signal,
     });
     clearTimeout(timeout);
@@ -299,12 +297,12 @@ Keine weitere Erklärung. Nur JSON.`;
 
 async function validateImageIsCannabis(
   imageBlocks: Array<{ type: 'image_url'; image_url: { url: string } }>,
-  apiKey: string,
+  sessionToken?: string | null,
 ): Promise<boolean> {
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: apiHeaders(apiKey),
+      headers: apiHeaders(sessionToken),
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 20,
@@ -353,12 +351,9 @@ export async function analyzePlant(
   onAttempt?: (attempt: number, maxAttempts: number) => void,
   preOptimizedImages?: string[],
 ): Promise<AnalyzeResult> {
-  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
-  if (!apiKey && !USE_PROXY) {
-    throw new Error(
-      'API Key nicht konfiguriert. Bitte setze EXPO_PUBLIC_OPENAI_API_KEY in der .env Datei.'
-    );
-  }
+  // Get session token for premium authentication (works on all platforms)
+  const { getSessionToken } = require('./quota');
+  const sessionToken: string | null = await getSessionToken();
 
   // Normalize to array (backward compatible with single string)
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
@@ -397,7 +392,7 @@ export async function analyzePlant(
   let lastError: any = null;
 
   // Start validation + first diagnosis attempt IN PARALLEL to save 1-2 seconds
-  const validationPromise = validateImageIsCannabis(imageBlocks, apiKey);
+  const validationPromise = validateImageIsCannabis(imageBlocks, sessionToken);
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     // Notify caller about which attempt we're on
@@ -407,11 +402,11 @@ export async function analyzePlant(
       // On first attempt, fire diagnosis while validation runs concurrently
       const diagnosisPromise = fetch(API_URL, {
         method: 'POST',
-        headers: apiHeaders(apiKey),
+        headers: apiHeaders(sessionToken),
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 1500,
-          ...(USE_PROXY ? { countScan: true } : {}),
+          countScan: true,
           messages: [
             {
               role: 'system',
@@ -540,10 +535,8 @@ export async function refineDiagnosis(
   growPhase?: string | null,
   preOptimizedImages?: string[],
 ): Promise<DiagnosisResult> {
-  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
-  if (!apiKey && !USE_PROXY) {
-    throw new Error('API Key nicht konfiguriert.');
-  }
+  const { getSessionToken } = require('./quota');
+  const sessionToken: string | null = await getSessionToken();
 
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
 
@@ -569,7 +562,7 @@ export async function refineDiagnosis(
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: apiHeaders(apiKey),
+        headers: apiHeaders(sessionToken),
         body: JSON.stringify({
           model: MODEL,
           max_tokens: 2048,
@@ -855,8 +848,8 @@ export async function verifyDiagnosis(
     return null;
   }
 
-  const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
-  if (!apiKey && !USE_PROXY) return null;
+  const { getSessionToken } = require('./quota');
+  const sessionToken: string | null = await getSessionToken();
 
   console.log('[LeafScan] Verifying diagnosis with', refImages.length, 'reference images for', folder);
 
@@ -873,7 +866,7 @@ export async function verifyDiagnosis(
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: apiHeaders(apiKey),
+      headers: apiHeaders(sessionToken),
       body: JSON.stringify({
         model: MODEL,
         max_tokens: 300,

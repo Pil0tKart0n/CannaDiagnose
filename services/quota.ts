@@ -5,6 +5,9 @@ const QUOTA_KEY = 'leafscan_quota';
 const SESSION_TOKEN_KEY = 'leafscan_session_token';
 const FREE_SCANS_PER_DAY = 1;
 
+// Server URL for native API calls
+const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
+
 export interface QuotaState {
   usedToday: number;
   lastResetDate: string;
@@ -48,42 +51,34 @@ export async function setSessionToken(token: string | null): Promise<void> {
   }
 }
 
-/** Check quota — asks the server if on web, falls back to local on native */
+/** Check quota — always asks the server (all platforms route through server) */
 export async function canScan(): Promise<{ allowed: boolean; remaining: number; isPremium: boolean }> {
-  if (Platform.OS === 'web') {
-    try {
-      const token = await getSessionToken();
-      const headers: Record<string, string> = {};
-      if (token) headers['Authorization'] = `Bearer ${token}`;
+  try {
+    const token = await getSessionToken();
+    const headers: Record<string, string> = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
 
-      const res = await fetch('/api/quota', { headers });
-      if (res.ok) {
-        const data = await res.json();
-        return {
-          allowed: data.allowed,
-          remaining: data.isPremium ? Infinity : Math.max(0, data.limit - data.scansToday),
-          isPremium: data.isPremium,
-        };
-      }
-    } catch {
-      // Server unreachable — fall back to local (fail closed)
-      return { allowed: false, remaining: 0, isPremium: false };
+    const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
+    const res = await fetch(quotaUrl, { headers });
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        allowed: data.allowed,
+        remaining: data.isPremium ? Infinity : Math.max(0, data.limit - data.scansToday),
+        isPremium: data.isPremium,
+      };
     }
+  } catch {
+    // Server unreachable — fail closed (don't allow scans without server validation)
+    return { allowed: false, remaining: 0, isPremium: false };
   }
 
-  // Native: use local quota (unchanged)
-  const state = await loadQuota();
-  if (state.isPremium) return { allowed: true, remaining: Infinity, isPremium: true };
-  const remaining = Math.max(0, FREE_SCANS_PER_DAY - state.usedToday);
-  return { allowed: remaining > 0, remaining, isPremium: false };
+  return { allowed: false, remaining: 0, isPremium: false };
 }
 
-/** Record scan — on web the server handles this, on native use local */
+/** Record scan — server handles this for all platforms via /api/scan */
 export async function recordScan(): Promise<void> {
-  if (Platform.OS === 'web') return; // server records it in /api/scan
-  const state = await loadQuota();
-  state.usedToday += 1;
-  await saveQuota(state);
+  // Server records scans in /api/scan endpoint — no local tracking needed
 }
 
 /** Set premium status — stores token on web, flag on native */
@@ -93,39 +88,34 @@ export async function setPremium(premium: boolean): Promise<void> {
   await saveQuota(state);
 }
 
-/** Get display info for the quota */
+/** Get display info for the quota — always checks server */
 export async function getQuotaDisplay(): Promise<{
   text: string;
   scansLeft: number;
   isPremium: boolean;
 }> {
-  if (Platform.OS === 'web') {
-    try {
-      const token = await getSessionToken();
-      const headers: Record<string, string> = {};
-      if (token) headers['Authorization'] = `Bearer ${token}`;
+  try {
+    const token = await getSessionToken();
+    const headers: Record<string, string> = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
 
-      const res = await fetch('/api/quota', { headers });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.isPremium) {
-          return { text: 'Premium – Unbegrenzte Scans', scansLeft: Infinity, isPremium: true };
-        }
-        const left = Math.max(0, data.limit - data.scansToday);
-        if (left > 0) {
-          return { text: `${left} kostenlose${left === 1 ? ' Diagnose' : ' Diagnosen'} heute`, scansLeft: left, isPremium: false };
-        }
-        return { text: 'Tageslimit erreicht', scansLeft: 0, isPremium: false };
+    const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
+    const res = await fetch(quotaUrl, { headers });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.isPremium) {
+        return { text: 'Premium – Unbegrenzte Scans', scansLeft: Infinity, isPremium: true };
       }
-    } catch {}
-  }
+      const left = Math.max(0, data.limit - data.scansToday);
+      if (left > 0) {
+        return { text: `${left} kostenlose${left === 1 ? ' Diagnose' : ' Diagnosen'} heute`, scansLeft: left, isPremium: false };
+      }
+      return { text: 'Tageslimit erreicht', scansLeft: 0, isPremium: false };
+    }
+  } catch {}
 
-  // Fallback: local state
-  const state = await loadQuota();
-  if (state.isPremium) return { text: 'Premium – Unbegrenzte Scans', scansLeft: Infinity, isPremium: true };
-  const left = Math.max(0, FREE_SCANS_PER_DAY - state.usedToday);
-  if (left > 0) return { text: `${left} kostenlose${left === 1 ? ' Diagnose' : ' Diagnosen'} heute`, scansLeft: left, isPremium: false };
-  return { text: 'Tageslimit erreicht', scansLeft: 0, isPremium: false };
+  // Fallback: server unreachable
+  return { text: 'Server nicht erreichbar', scansLeft: 0, isPremium: false };
 }
 
 export async function getQuotaState(): Promise<QuotaState> {
