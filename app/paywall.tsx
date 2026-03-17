@@ -345,9 +345,9 @@ const styles = StyleSheet.create({
   header: { alignItems: 'center', marginBottom: 24 },
   closeBtn: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 8,
+    top: 12,
+    right: 4,
+    padding: 12,
     zIndex: 1,
   },
   crownCircle: {
