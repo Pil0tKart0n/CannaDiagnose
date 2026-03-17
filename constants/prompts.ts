@@ -893,7 +893,7 @@ export function buildRefinePrompt(
   if (plantAge) parts.push('- Pflanzenalter: ' + plantAge);
   if (fertilizerType) parts.push('- Dünger: ' + fertilizerType);
 
-  // Late flowering senescence warning (9-12 only)
+  // Late flowering senescence warning
   if (plantAge && (plantAge.includes('9–12') || plantAge.includes('9-12'))) {
     parts.push('\n⚠️ WICHTIG – SPÄTE BLÜTE / ERNTEPHASE:');
     parts.push('Die Pflanze ist ' + plantAge + ' alt und damit in der SPÄTEN BLÜTE oder kurz vor der Ernte.');
@@ -904,6 +904,11 @@ export function buildRefinePrompt(
     parts.push('Diese Symptome sind KEIN Mangel und brauchen KEINE Behandlung!');
     parts.push('Diagnostiziere einen Mangel NUR wenn die Symptome UNTYPISCH für die späte Blüte sind (z.B. nur obere/neue Blätter betroffen, extreme Nekrose an allen Blättern, Schädlingsbefall).');
     parts.push('Wenn die Symptome zur natürlichen Seneszenz passen, setze severity auf "niedrig" und sage dem User, dass dies normal ist.');
+  } else if (plantAge && growPhase === 'Blüte' && (plantAge.includes('5–8') || plantAge.includes('5-8'))) {
+    parts.push('\n⚠️ SENESZENZ-HINWEIS: Die Pflanze ist in Blüte Woche 5–8. Viele Indica-dominante Strains werden ab Woche 8 geerntet!');
+    parts.push('Ab Woche 6–8 können erste natürliche Seneszenz-Symptome auftreten: gelbe untere Blätter, violette Verfärbungen.');
+    parts.push('PRÜFE ob die Buds reif aussehen und die Symptome hauptsächlich an unteren/mittleren Blättern sind → dann ist es wahrscheinlich natürliche Alterung, KEIN Mangel.');
+    parts.push('In diesem Fall: severity "niedrig" oder "mittel" setzen und Ernte-Empfehlung geben statt Mangel-Behandlung.');
   }
 
   // Harvest hint for week 5-8 AND 9-12 (many strains harvest at week 8+)
@@ -1025,9 +1030,13 @@ export function buildUserPrompt(data: QuestionnaireData): string {
     parts.push(fertContext);
   }
 
-  // Late flowering senescence hint (9-12 weeks only)
-  if (data.plantAgeWeeks && (data.plantAgeWeeks.includes('9–12') || data.plantAgeWeeks.includes('9-12'))) {
-    parts.push('\n⚠️ HINWEIS: Die Pflanze ist ' + data.plantAgeWeeks + ' alt (späte Blüte/Erntephase). Prüfe ob die Symptome zur natürlichen Seneszenz passen, bevor du einen Mangel diagnostizierst!');
+  // Senescence hint for late bloom
+  if (data.plantAgeWeeks && data.growPhase === 'Blüte') {
+    if (data.plantAgeWeeks.includes('9–12') || data.plantAgeWeeks.includes('9-12')) {
+      parts.push('\n⚠️ HINWEIS: Die Pflanze ist ' + data.plantAgeWeeks + ' alt (späte Blüte/Erntephase). Prüfe ob die Symptome zur natürlichen Seneszenz passen, bevor du einen Mangel diagnostizierst!');
+    } else if (data.plantAgeWeeks.includes('5–8') || data.plantAgeWeeks.includes('5-8')) {
+      parts.push('\n⚠️ SENESZENZ-HINWEIS: Die Pflanze ist in Blüte Woche 5–8. Viele Indica-dominante Strains werden ab Woche 8 geerntet! Ab Woche 6–8 können erste natürliche Seneszenz-Symptome auftreten: gelbe untere Blätter, violette Verfärbungen, "verbrauchtes" Aussehen. PRÜFE ob die Symptome zur natürlichen Alterung passen könnten, BEVOR du einen Mangel diagnostizierst. Wenn die Buds reif aussehen und die Symptome hauptsächlich an unteren/mittleren Blättern sind → wahrscheinlich Seneszenz, severity "niedrig" setzen.');
+    }
   }
   // Harvest hint for week 5-8 AND 9-12 (many strains harvest at week 8+)
   const isLateFlower = data.plantAgeWeeks && data.growPhase === 'Blüte' && (
