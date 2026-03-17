@@ -138,7 +138,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   }
 
   // 3. Validate request body
-  const { messages, max_tokens } = req.body;
+  const { messages, max_tokens, countScan } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'invalid_request', message: 'messages array required' });
   }
@@ -162,8 +162,8 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
     const data = await openaiRes.text();
 
-    // 5. Record scan ONLY on success and ONLY for free users
-    if (openaiRes.ok && !premiumSession) {
+    // 5. Record scan ONLY on success, ONLY for free users, ONLY for actual diagnoses
+    if (openaiRes.ok && !premiumSession && countScan) {
       stmtInsertScan.run(ip);
     }
 
@@ -191,7 +191,7 @@ app.get('/api/quota', (req, res) => {
       isPremium: true,
       plan: premiumSession.plan,
       scansToday: 0,
-      limit: Infinity,
+      limit: 999999,
       allowed: true,
     });
   }

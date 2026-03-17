@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert, Platform, RefreshControl,
+  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl,
 } from 'react-native';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,6 +9,7 @@ import { getPlant, getEntriesForPlant, deleteEntry } from '../services/storage';
 import { cancelReminder } from '../services/notifications';
 import { Plant, DiagnosisEntry, Severity, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
+import { confirmAlert } from '../services/alert';
 import { useDiagnosis } from './_layout';
 
 const severityColor: Record<Severity, string> = {
@@ -77,13 +78,9 @@ export default function PlantDetailScreen() {
   };
 
   const handleDeleteEntry = (entryId: string) => {
-    Alert.alert('Diagnose löschen?', 'Diese Diagnose wird unwiderruflich gelöscht.', [
-      { text: 'Abbrechen', style: 'cancel' },
-      {
-        text: 'Löschen', style: 'destructive',
-        onPress: async () => { await deleteEntry(entryId); loadData(); },
-      },
-    ]);
+    confirmAlert('Diagnose löschen?', 'Diese Diagnose wird unwiderruflich gelöscht.', async () => {
+      await deleteEntry(entryId); loadData();
+    });
   };
 
   const formatDate = (iso: string) => {

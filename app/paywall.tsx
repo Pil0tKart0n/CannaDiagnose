@@ -20,7 +20,7 @@ import {
   restorePurchases,
   SubscriptionPackage,
 } from '../services/purchases';
-import { setPremium } from '../services/quota';
+import { setPremium, setSessionToken } from '../services/quota';
 
 interface Feature {
   icon: string;
@@ -109,7 +109,6 @@ export default function PaywallScreen() {
             .then(r => r.ok ? r.json() : Promise.reject())
             .then(data => {
               if (data.token) {
-                const { setSessionToken } = require('../services/quota');
                 setSessionToken(data.token);
                 setPremium(true);
                 setPaymentSuccess(true);

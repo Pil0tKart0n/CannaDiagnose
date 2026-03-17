@@ -16,6 +16,8 @@
 const ALLOWED_ORIGINS = [
   'https://leafscan.app',
   'https://www.leafscan.app',
+  'https://leafscan.de',
+  'https://www.leafscan.de',
   'http://localhost:8081',
   'http://localhost:19006',
 ];
@@ -70,6 +72,9 @@ export default {
       if (!parsed.model || !parsed.messages) {
         return new Response('Missing required fields', { status: 400, headers: cors });
       }
+
+      // Enforce model to prevent cost abuse
+      parsed.model = 'gpt-4o-mini';
 
       // Enforce max_tokens cap to prevent abuse
       if (!parsed.max_tokens || parsed.max_tokens > 4000) {

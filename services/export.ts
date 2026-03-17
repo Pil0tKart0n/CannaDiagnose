@@ -128,7 +128,7 @@ function generateHTML(result: DiagnosisResult, imageBase64?: string): string {
     hour: '2-digit',
     minute: '2-digit',
   });
-  const confidence = Math.round(result.confidence);
+  const confidence = Math.round(result.confidence * 100);
 
   return `<!DOCTYPE html>
 <html lang="de">

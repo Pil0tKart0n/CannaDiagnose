@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Image, Platform, RefreshControl,
+  View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { getPlants, deletePlant, getEntriesForPlant } from '../services/storage';
 import { Plant, DiagnosisEntry } from '../types';
 import { colors } from '../constants/colors';
+import { confirmAlert } from '../services/alert';
 
 interface PlantWithLatest extends Plant {
   latestEntry?: DiagnosisEntry;
@@ -48,16 +49,10 @@ export default function PlantsScreen() {
   };
 
   const handleDelete = (id: string, name: string) => {
-    Alert.alert(
+    confirmAlert(
       `"${name}" löschen?`,
       'Alle Diagnosen dieser Pflanze werden gelöscht.',
-      [
-        { text: 'Abbrechen', style: 'cancel' },
-        {
-          text: 'Löschen', style: 'destructive',
-          onPress: async () => { await deletePlant(id); loadPlants(); },
-        },
-      ]
+      async () => { await deletePlant(id); loadPlants(); },
     );
   };
 

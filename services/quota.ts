@@ -134,7 +134,12 @@ export async function getQuotaState(): Promise<QuotaState> {
 async function loadQuota(): Promise<QuotaState> {
   const raw = await AsyncStorage.getItem(QUOTA_KEY);
   if (!raw) return { usedToday: 0, lastResetDate: todayDateString(), isPremium: false };
-  const state: QuotaState = JSON.parse(raw);
+  let state: QuotaState;
+  try {
+    state = JSON.parse(raw);
+  } catch {
+    return { usedToday: 0, lastResetDate: todayDateString(), isPremium: false };
+  }
   const today = todayDateString();
   if (state.lastResetDate !== today) {
     state.usedToday = 0;

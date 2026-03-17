@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert, RefreshControl } from 'react-native';
+import { View, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import HistoryItem from '../components/HistoryItem';
 import { getEntries, deleteEntry } from '../services/storage';
 import { DiagnosisEntry, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
+import { confirmAlert } from '../services/alert';
 import { useDiagnosis } from './_layout';
 
 export default function HistoryScreen() {
@@ -33,17 +34,10 @@ export default function HistoryScreen() {
   };
 
   const handleDelete = (id: string) => {
-    Alert.alert('Diagnose löschen?', 'Diese Aktion kann nicht rückgängig gemacht werden.', [
-      { text: 'Abbrechen', style: 'cancel' },
-      {
-        text: 'Löschen',
-        style: 'destructive',
-        onPress: async () => {
-          await deleteEntry(id);
-          loadEntries();
-        },
-      },
-    ]);
+    confirmAlert('Diagnose löschen?', 'Diese Aktion kann nicht rückgängig gemacht werden.', async () => {
+      await deleteEntry(id);
+      loadEntries();
+    });
   };
 
   const handlePress = (entry: DiagnosisEntry) => {

@@ -173,10 +173,6 @@ export default function RootLayout() {
         `;
         document.head.appendChild(style);
       }
-      // Service worker
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      }
     }
   }, []);
 

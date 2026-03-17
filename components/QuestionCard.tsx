@@ -21,6 +21,48 @@ interface QuestionCardProps {
   onPerlitePercentChange?: (percent: string | null) => void;
 }
 
+function SearchableSelect({ question, value, onChange }: { question: Question; value: any; onChange: (value: any) => void }) {
+  const [search, setSearch] = useState('');
+  const options = question.options || [];
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return options;
+    const q = search.toLowerCase();
+    return options.filter((opt) => opt.toLowerCase().includes(q));
+  }, [search, options]);
+
+  return (
+    <View style={styles.searchableContainer}>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Suchen..."
+        placeholderTextColor={colors.textMuted}
+        value={search}
+        onChangeText={setSearch}
+        autoCorrect={false}
+      />
+      <ScrollView style={styles.searchableList} nestedScrollEnabled showsVerticalScrollIndicator={false}>
+        {filtered.map((opt) => {
+          const selected = value === opt;
+          return (
+            <TouchableOpacity
+              key={opt}
+              style={[styles.searchableItem, selected && styles.searchableItemSelected]}
+              onPress={() => onChange(opt)}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.searchableItemText, selected && styles.optionTextSelected]}>
+                {opt}
+              </Text>
+              {selected && <Text style={styles.checkmark}>✓</Text>}
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
+}
+
 export default function QuestionCard({ question, value, onChange, perliteAdded, perlitePercent, onPerliteToggle, onPerlitePercentChange }: QuestionCardProps) {
   const renderSelect = () => (
     <View style={styles.optionsGrid}>
@@ -75,8 +117,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
         style={styles.numberInput}
         value={value != null ? String(value) : ''}
         onChangeText={(t) => {
-          const num = parseFloat(t.replace(',', '.'));
-          onChange(isNaN(num) ? null : num);
+          onChange(t.trim() || null);
         }}
         keyboardType="decimal-pad"
         placeholder={question.placeholder}
@@ -96,48 +137,6 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
       multiline
     />
   );
-
-  const renderSearchableSelect = () => {
-    const [search, setSearch] = useState('');
-    const options = question.options || [];
-
-    const filtered = useMemo(() => {
-      if (!search.trim()) return options;
-      const q = search.toLowerCase();
-      return options.filter((opt) => opt.toLowerCase().includes(q));
-    }, [search, options]);
-
-    return (
-      <View style={styles.searchableContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Suchen..."
-          placeholderTextColor={colors.textMuted}
-          value={search}
-          onChangeText={setSearch}
-          autoCorrect={false}
-        />
-        <ScrollView style={styles.searchableList} nestedScrollEnabled showsVerticalScrollIndicator={false}>
-          {filtered.map((opt) => {
-            const selected = value === opt;
-            return (
-              <TouchableOpacity
-                key={opt}
-                style={[styles.searchableItem, selected && styles.searchableItemSelected]}
-                onPress={() => onChange(opt)}
-                activeOpacity={0.7}
-              >
-                <Text style={[styles.searchableItemText, selected && styles.optionTextSelected]}>
-                  {opt}
-                </Text>
-                {selected && <Text style={styles.checkmark}>✓</Text>}
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-    );
-  };
 
   const renderPerliteAddon = () => {
     if (question.id !== 'substrateType' || !value || !onPerliteToggle) return null;
@@ -183,7 +182,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
       {question.type === 'select' && renderSelect()}
       {renderPerliteAddon()}
       {question.type === 'multi-select' && renderMultiSelect()}
-      {question.type === 'searchable-select' && renderSearchableSelect()}
+      {question.type === 'searchable-select' && <SearchableSelect question={question} value={value} onChange={onChange} />}
       {question.type === 'number' && renderNumber()}
       {question.type === 'text' && renderText()}
     </View>

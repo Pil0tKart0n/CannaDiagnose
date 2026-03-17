@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
-import { getQuotaDisplay, setPremium } from '../services/quota';
+import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota';
 import { hasCompletedOnboarding } from './onboarding';
 
 const webCSS = Platform.OS === 'web' ? `
@@ -68,7 +68,6 @@ export default function HomeScreen() {
           .then(data => {
             if (data.token) {
               // Store server-issued token + mark premium locally
-              const { setSessionToken } = require('../services/quota');
               setSessionToken(data.token);
               setPremium(true);
             }
