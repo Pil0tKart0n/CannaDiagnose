@@ -12,7 +12,7 @@ export default function ImpressumScreen() {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Verantwortlich</Text>
-          <Text style={styles.tinyText}>Daniel Klyro</Text>
+          <Text style={styles.tinyText}>Daniel Bösche</Text>
           <Text style={styles.tinyText}>Klyro Labs</Text>
           <Text style={styles.tinyText}>{'\n'}E-Mail: leafscan@proton.me</Text>
         </View>

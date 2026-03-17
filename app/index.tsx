@@ -106,10 +106,7 @@ export default function HomeScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
 
-          {/* Top spacer */}
-          <View style={{ flex: 0.4 }} />
-
-          {/* Center: Title + Flow */}
+          {/* Center: Title + Flow — takes all available space, centered */}
           <View style={styles.centerArea}>
             <Text style={styles.title}>Leaf</Text>
             <Text style={styles.titleAccent}>Scan</Text>
@@ -140,9 +137,6 @@ export default function HomeScreen() {
               </TouchableOpacity>
             ) : null}
           </View>
-
-          {/* Bottom spacer */}
-          <View style={{ flex: 1.2 }} />
 
           {/* Buttons */}
           <View style={styles.buttons}>
@@ -277,11 +271,16 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingBottom: 20,
+    ...Platform.select({
+      web: { minHeight: '100%' },
+    }),
   },
 
   // Center
   centerArea: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 44,
