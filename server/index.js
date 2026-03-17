@@ -11,7 +11,7 @@ const PORT = 4000;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const ALLOWED_MODEL = 'gpt-4o-mini';
+const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
 const FREE_SCANS_PER_DAY = 1;
 
 // ── SQLite setup ──
@@ -247,12 +247,20 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   });
 
   // 5. Forward to OpenAI (enforce model + cap tokens, whitelist fields only)
+  const { temperature, response_format } = req.body;
+  const requestedModel = req.body.model;
   try {
     const openaiBody = {
       messages: sanitizedMessages,
-      model: ALLOWED_MODEL,
+      model: ALLOWED_MODELS.has(requestedModel) ? requestedModel : 'gpt-4o',
       max_tokens: Math.min(Number.isFinite(max_tokens) && max_tokens > 0 ? max_tokens : 4000, 4000),
+      // temperature 0 = deterministic (more consistent diagnoses)
+      temperature: typeof temperature === 'number' ? Math.max(0, Math.min(temperature, 1)) : 0.2,
     };
+    // Enable JSON mode if requested (guarantees valid JSON output)
+    if (response_format && typeof response_format === 'object' && response_format.type === 'json_object') {
+      openaiBody.response_format = { type: 'json_object' };
+    }
 
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -360,8 +368,9 @@ app.post('/api/validate', rateLimit, async (req, res) => {
       },
       body: JSON.stringify({
         messages: sanitizedMessages,
-        model: ALLOWED_MODEL,
+        model: 'gpt-4o-mini', // validation is lightweight, mini is fine here
         max_tokens: Math.min(Number(max_tokens) || 20, 50),
+        temperature: 0,
       }),
     });
     const data = await openaiRes.text();

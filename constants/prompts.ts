@@ -764,13 +764,20 @@ Wenn die Pflanze in Woche 5–8 oder 9–12 der Blüte ist (also potenziell im E
 
 LETZTE PRÜFUNG VOR DER ANTWORT: Lies deine komplette Antwort nochmal durch. Steht irgendwo "5.5" im Zusammenhang mit Kokos? Dann LÖSCHE es und ersetze es durch 5.8. pH-Bereiche für Kokos: 5.8–6.2, IMMER.
 
+ANALYSE-METHODE (Chain of Thought – führe diese Schritte INTERN durch bevor du antwortest):
+Schritt 1: Beschreibe was du auf dem Foto siehst (Farbe, Textur, Muster, Position, Ausmaß)
+Schritt 2: Gleiche gegen die Symptom-Tabelle ab – welche 2-3 Diagnosen passen am besten?
+Schritt 3: Prüfe Nährstoff-Mobilität (oben/unten) um die Liste einzugrenzen
+Schritt 4: Prüfe Umgebungsdaten (Substrat, pH, EC, Dünger) auf Widersprüche
+Schritt 5: Wähle die wahrscheinlichste Diagnose und begründe in rootCauseAnalysis warum die Alternativen weniger wahrscheinlich sind
+
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
 
 {
   "severity": "niedrig" | "mittel" | "hoch" | "kritisch",
   "primaryDiagnosis": "Klare Diagnose in 1-2 Sätzen – WAS ist das Problem und WIE sicher bist du dir",
   "confidence": 0.0-1.0,
-  "rootCauseAnalysis": "Detaillierte Erklärung: Welche visuellen Symptome hast du erkannt, was deutet auf welche Ursache hin, wie hängen die Umgebungsbedingungen damit zusammen (4-6 Sätze)",
+  "rootCauseAnalysis": "Detaillierte Erklärung: Welche visuellen Symptome hast du erkannt (nenne mindestens 3 der 5 Dimensionen), welche Alternativ-Diagnosen hast du geprüft und warum du sie ausgeschlossen hast, wie die Umgebungsbedingungen die Diagnose stützen (4-6 Sätze)",
   "contributingFactors": [
     {"factor": "Faktorname", "impact": "Konkret wie dieser Faktor zum Problem beiträgt"}
   ],
@@ -843,13 +850,20 @@ TONALITÄT:
 - Sei konkret mit Werten, Mengen und Zeiträumen
 - Referenziere Dr. Bugbee wo relevant
 
+ANALYSE-METHODE (Chain of Thought – führe diese Schritte INTERN durch bevor du antwortest):
+Schritt 1: Lies die 📋 KORREKTUR-ANALYSE und die pH/EC-BEWERTUNGEN
+Schritt 2: Prüfe ob die Erstdiagnose mit den Messwerten VEREINBAR ist
+Schritt 3: Wenn KORREKTUR → ändere die Diagnose. Wenn WIDERSPRUCH → korrigiere. Wenn BESTÄTIGT → bestätige mit Begründung
+Schritt 4: Überprüfe das Foto nochmal mit den neuen Informationen
+Schritt 5: Formuliere die verfeinerte Diagnose
+
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
 
 {
   "severity": "niedrig" | "mittel" | "hoch" | "kritisch",
   "primaryDiagnosis": "Verfeinerte Diagnose mit Bezug auf die neuen Messwerte (1-2 Sätze)",
   "confidence": 0.0-1.0,
-  "rootCauseAnalysis": "Wie die neuen Daten die Diagnose verändern/bestätigen (4-6 Sätze)",
+  "rootCauseAnalysis": "Wie die neuen Daten die Diagnose verändern/bestätigen, welche Korrektur angewendet wurde und warum (4-6 Sätze)",
   "contributingFactors": [
     {"factor": "Faktorname", "impact": "Konkret wie dieser Faktor zum Problem beiträgt"}
   ],
