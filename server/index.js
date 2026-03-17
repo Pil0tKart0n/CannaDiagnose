@@ -95,9 +95,9 @@ app.set('trust proxy', 1);
 app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json({ limit: '10mb' }));
 
-/** Extract client IP from request */
+/** Extract client IP — use req.ip which respects trust proxy setting safely */
 function getClientIP(req) {
-  return req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip;
+  return req.ip;
 }
 
 /** Check if a session token is valid premium (with expiry safety-net) */
@@ -160,7 +160,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   }
 
   // 3. Validate request body
-  const { messages, max_tokens, countScan } = req.body;
+  const { messages, max_tokens } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'invalid_request', message: 'messages array required' });
   }
@@ -178,11 +178,11 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     if (!ALLOWED_ROLES.has(msg.role)) {
       return res.status(400).json({ error: 'invalid_request', message: 'Invalid message role' });
     }
-    // Validate content exists
-    if (msg.content === undefined || msg.content === null) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Message content required' });
+    // Validate content type: must be string or array (reject numbers, booleans, objects)
+    if (typeof msg.content !== 'string' && !Array.isArray(msg.content)) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Message content must be string or array' });
     }
-    // String content: limit length (max 2000 chars for text-only messages)
+    // String content: limit length
     if (typeof msg.content === 'string' && msg.content.length > 5000) {
       return res.status(400).json({ error: 'invalid_request', message: 'Message content too long' });
     }
@@ -210,10 +210,24 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     }
   }
 
-  // 4. Forward to OpenAI (enforce model + cap tokens, whitelist fields only)
+  // 4. Sanitize messages — strip any extra properties (name, function_call, tool_calls etc.)
+  const sanitizedMessages = messages.map(msg => {
+    const clean = { role: msg.role, content: msg.content };
+    // For array content, also sanitize each block to only allowed keys
+    if (Array.isArray(clean.content)) {
+      clean.content = clean.content.map(block => {
+        if (block.type === 'text') return { type: 'text', text: block.text };
+        if (block.type === 'image_url') return { type: 'image_url', image_url: { url: block.image_url.url } };
+        return block;
+      });
+    }
+    return clean;
+  });
+
+  // 5. Forward to OpenAI (enforce model + cap tokens, whitelist fields only)
   try {
     const openaiBody = {
-      messages,
+      messages: sanitizedMessages,
       model: ALLOWED_MODEL,
       max_tokens: Math.min(max_tokens || 4000, 4000),
     };
@@ -229,8 +243,9 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
     const data = await openaiRes.text();
 
-    // 5. Record scan ONLY on success, ONLY for free users, ONLY for actual diagnoses
-    if (openaiRes.ok && !premiumSession && countScan) {
+    // 5. Record scan ONLY on success, ONLY for free users
+    // Always count — never trust client-side countScan flag (paywall bypass)
+    if (openaiRes.ok && !premiumSession) {
       stmtInsertScan.run(ip);
     }
 
@@ -451,9 +466,20 @@ app.post('/api/stripe/webhook', async (req, res) => {
       // Create premium session if not already created by verify-session
       const existing = stmtFindByCustomer.get(session.customer);
       if (!existing) {
+        // Determine actual plan from line items
+        let plan = 'pro';
+        try {
+          const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+          if (lineItems.data.length > 0) {
+            const priceId = lineItems.data[0].price?.id;
+            if (priceId === growerPriceId) plan = 'grower';
+          }
+        } catch (e) {
+          console.log('[LeafScan] Could not determine plan from webhook, defaulting to pro');
+        }
         const sessionToken = crypto.randomBytes(32).toString('hex');
-        stmtCreateSession.run(sessionToken, session.customer, session.subscription, 'pro');
-        console.log('[LeafScan] Premium session created via webhook for:', session.customer);
+        stmtCreateSession.run(sessionToken, session.customer, session.subscription, plan);
+        console.log('[LeafScan] Premium session created via webhook for:', session.customer, 'plan:', plan);
       }
       break;
     }
