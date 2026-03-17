@@ -29,8 +29,7 @@ function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | 
     else if (plantAge.includes('3–4') && isFlower) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Blüte (Woche 3–4)'; }
     else if (plantAge.includes('5–8') && isFlower) { ecRange = profile.ecRanges.lateFlower; phase = 'späte Blüte (Woche 5–8)'; }
     else if (plantAge.includes('9–12') && isFlower) { ecRange = profile.ecRanges.flush; phase = 'Ernte/Seneszenz (Woche 9–12)'; }
-    else if (plantAge.includes('9–12') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
-    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.flush; phase = 'späte Blüte/Ernte'; }
+    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
     else if (growPhase === 'Mutterpflanze') { ecRange = profile.ecRanges.lateVeg; phase = 'Mutterpflanze (Veg-Werte)'; }
   }
 
@@ -60,8 +59,8 @@ function evaluateEC(ecValue: string, fertilizerName: string, plantAge: string | 
 
   if (isNaN(rangeMin) || isNaN(rangeMax)) return '';
 
-  // Special handling for late flower / flush phase
-  const isLateFlower = phase.includes('späte Blüte') || phase.includes('Flush');
+  // Special handling for late flower / flush / harvest phase
+  const isLateFlower = phase.includes('späte Blüte') || phase.includes('Flush') || phase.includes('Ernte') || phase.includes('Seneszenz');
 
   if (ecNum < rangeMin) {
     if (isLateFlower) {
@@ -137,8 +136,7 @@ function getECState(ecValue: string | null, fertilizerName: string | null, plant
     else if (plantAge.includes('3–4') && isFlower) ecRange = profile.ecRanges.midFlower;
     else if (plantAge.includes('5–8') && isFlower) ecRange = profile.ecRanges.lateFlower;
     else if (plantAge.includes('9–12') && isFlower) ecRange = profile.ecRanges.flush;
-    else if (plantAge.includes('9–12') && !isFlower) ecRange = profile.ecRanges.lateVeg;
-    else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.flush;
+    else if (plantAge.includes('9–12')) ecRange = profile.ecRanges.lateVeg;
   }
 
   if (!ecRange) {

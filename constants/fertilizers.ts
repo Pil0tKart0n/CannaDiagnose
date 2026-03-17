@@ -313,7 +313,7 @@ export function getFertilizerContext(fertilizerName: string | null, plantAge: st
     if (plantAge.includes('0–2')) { ecRange = profile.ecRanges.seedling; phase = 'Sämling'; }
     else if (plantAge.includes('3–4')) { ecRange = profile.ecRanges.earlyVeg; phase = 'frühe Veg'; }
     else if (plantAge.includes('5–8')) { ecRange = profile.ecRanges.lateVeg; phase = 'späte Veg'; }
-    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.flush; phase = 'späte Blüte/Ernte'; }
+    else if (plantAge.includes('9–12')) { ecRange = profile.ecRanges.lateFlower; phase = 'Blüte (Phase unbekannt)'; }
   }
 
   const typeLabel = profile.type === 'organic' ? 'organisch' : profile.type === 'hybrid' ? 'hybrid (bio+mineral)' : 'mineralisch';
