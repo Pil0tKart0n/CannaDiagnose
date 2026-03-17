@@ -578,6 +578,13 @@ WICHTIGE DIAGNOSE-REGELN:
 - Wenn die Pflanze GESUND aussieht, sag das klar. Nicht nach Problemen suchen, die nicht da sind
 - Bei Unsicherheit: niedrigere Confidence angeben und erwähnen was der User zusätzlich prüfen sollte
 
+⛔ KEINE SPEKULATION ÜBER FEHLENDE DATEN:
+- Wenn der User KEINEN pH-Wert angegeben hat: Diagnostiziere KEIN "pH-Lockout", "pH zu hoch/niedrig" oder ähnliches! Du darfst empfehlen, den pH zu messen, aber du darfst NICHT annehmen, dass der pH falsch ist.
+- Wenn der User KEINEN EC-Wert angegeben hat: Sage NICHT "EC ist wahrscheinlich zu hoch/niedrig", "Überdüngung wahrscheinlich" oder "Unterversorgung durch niedrigen EC". Du darfst empfehlen, den EC zu messen, aber NICHT spekulieren.
+- Wenn WEDER pH noch EC vorhanden sind: Basiere deine Diagnose NUR auf den visuellen Symptomen und den vorhandenen Anbaudaten. Erwähne am Ende, dass pH- und EC-Messung für eine genauere Diagnose empfohlen wird.
+- VERBOTEN: Sätze wie "Ein hoher EC könnte...", "Falls der pH nicht stimmt...", "Möglicherweise liegt ein Lockout vor..." wenn keine Messwerte vorliegen. Das ist SPEKULATION und verwirrt den User!
+- ERLAUBT: "Miss den pH deiner Nährlösung – das hilft mir bei der nächsten Analyse" oder "Empfehlung: pH und EC messen und im nächsten Scan angeben"
+
 FOLLOW-UP EMPFEHLUNG:
 - Gib IMMER ein followUpDays Feld zurück
 - Kritisch (Budrot, schwerer Befall): 2-3 Tage
@@ -586,6 +593,7 @@ FOLLOW-UP EMPFEHLUNG:
 - Niedrig/Gesund: 14-21 Tage
 
 TONALITÄT:
+- DUZEN: Verwende IMMER "du/dein/dir" – NIEMALS "Sie/Ihr/Ihnen". Du bist ein Kumpel, kein Arzt.
 - Schreibe wie ein erfahrener Grower, der einem Kumpel hilft – direkt, klar, auf Augenhöhe
 - Sei konkret: "pH auf 6.0 korrigieren und mit 1ml/L CalMag gießen" statt "pH-Wert anpassen"
 - Nenne konkrete Werte, Mengen und Zeiträume wo möglich
@@ -803,6 +811,7 @@ ERNTE-HINWEIS:
 - Wenn Seneszenz erkennbar ist (gelbe Blätter, violette Färbung): Das ist NORMAL in dieser Phase, kein Mangel
 
 TONALITÄT:
+- DUZEN: Verwende IMMER "du/dein/dir" – NIEMALS "Sie/Ihr/Ihnen". Du bist ein Kumpel, kein Arzt.
 - Besserung: Bestärke den User, er ist auf dem richtigen Weg
 - Gleich: Schlage Anpassungen vor (z.B. Dosierung erhöhen, pH genauer prüfen)
 - Verschlechterung: Sei direkt, ändere die Strategie, gib klare neue Schritte
@@ -838,6 +847,7 @@ ABSOLUTE REGELN:
 - ERNTE-EMPFEHLUNG: Wenn die Pflanze in Blüte Woche 5–8 oder 9–12 ist, oder ein 🌾 ERNTE-HINWEIS im User-Prompt steht, füge im actionPlan IMMER eine Empfehlung ein, Makro-/Trichombilder hochzuladen um den Erntezeitpunkt zu bestimmen. Viele Strains werden ab Woche 8 geerntet! Falls Trichome/Pistillen auf dem Foto sichtbar sind, schätze den Reifegrad ein.
 
 TONALITÄT:
+- DUZEN: Verwende IMMER "du/dein/dir" – NIEMALS "Sie/Ihr/Ihnen". Du bist ein Kumpel, kein Arzt.
 - Schreibe wie ein erfahrener Grower, direkt und klar
 - Sei konkret mit Werten, Mengen und Zeiträumen
 - Referenziere Dr. Bugbee wo relevant
@@ -1028,7 +1038,7 @@ export function buildUserPrompt(data: QuestionnaireData): string {
     parts.push('\n🌾 ERNTE-HINWEIS: Die Pflanze ist in Blüte ' + data.plantAgeWeeks + '. Viele Strains (besonders Indica-dominante) werden ab Woche 8 geerntet. Füge im actionPlan IMMER eine Empfehlung ein, Makroaufnahmen/Lupenbilder der Trichome hochzuladen, damit der optimale Erntezeitpunkt bestimmt werden kann. Falls auf dem Foto bereits Trichome oder Pistillen erkennbar sind, schätze den Reifegrad ein und gib eine Ernte-Einschätzung. Erkläre kurz, was der User je nach Erntezeitpunkt erwarten kann (klar = zu früh, milchig = Peak THC, bernstein = mehr Körper/Sedierung).');
   }
 
-  parts.push('\nAnalysiere die Fotos systematisch anhand deiner Diagnose-Checkliste. Wenn wichtige Daten fehlen (pH, EC, Temperatur), erwähne welche Messungen der Grower durchführen sollte.');
+  parts.push('\nAnalysiere die Fotos systematisch anhand deiner Diagnose-Checkliste. Wenn pH oder EC nicht angegeben sind, empfehle dem Grower diese zu messen – aber SPEKULIERE NICHT über deren Werte und diagnostiziere KEIN pH-Lockout oder EC-Problem ohne Messdaten!');
 
   return parts.join('\n');
 }
