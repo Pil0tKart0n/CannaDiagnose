@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
@@ -64,7 +65,7 @@ export default function CameraScreen() {
   const canAddMore = photos.length < MAX_PHOTOS;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       {/* Photo thumbnails strip */}
       {hasPhotos && (
         <View style={styles.thumbnailStrip}>
@@ -203,7 +204,7 @@ export default function CameraScreen() {
       )}
 
       <View style={styles.bottomSpacer} />
-    </View>
+    </SafeAreaView>
   );
 }
 
