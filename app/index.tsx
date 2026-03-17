@@ -214,6 +214,11 @@ export default function HomeScreen() {
 
           {/* Legal footer */}
           <View style={styles.legalFooter}>
+            <Text style={styles.legalText}>
+              Internetverbindung erforderlich
+            </Text>
+          </View>
+          <View style={styles.legalFooter}>
             <TouchableOpacity onPress={() => router.push('/privacy')}>
               <Text style={styles.legalLink}>Datenschutz</Text>
             </TouchableOpacity>
@@ -225,11 +230,6 @@ export default function HomeScreen() {
             <TouchableOpacity onPress={() => router.push('/impressum')}>
               <Text style={styles.legalLink}>Impressum</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.legalFooter}>
-            <Text style={styles.legalText}>
-              Internetverbindung erforderlich
-            </Text>
           </View>
         </View>
       </SafeAreaView>
