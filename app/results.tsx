@@ -9,7 +9,7 @@ import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { DiagnosisResult } from '../types';
 import { shareDiagnosis } from '../services/export';
-import { refineDiagnosis } from '../services/claude';
+import { refineDiagnosis, validateDiagnosisResult } from '../services/claude';
 import { getFertilizerNames } from '../constants/fertilizers';
 
 // ── Color correction mapping (local, no API cost) ──────────────────
@@ -131,7 +131,7 @@ export default function ResultsScreen() {
   const displayResult: DiagnosisResult | null = refinedResult
     ? refinedResult
     : params.historyResult
-      ? (() => { try { return JSON.parse(params.historyResult); } catch { return result; } })()
+      ? (() => { try { return validateDiagnosisResult(JSON.parse(params.historyResult)); } catch { return result; } })()
       : result;
 
   const displayImage = params.historyImage || imageUri;
@@ -190,6 +190,23 @@ export default function ResultsScreen() {
         Alert.alert('Fehlende Daten', 'Bitte gib mindestens einen pH- oder EC-Wert ein.');
       }
       return;
+    }
+    // Validate pH/EC ranges before sending to API
+    if (phInput) {
+      const ph = parseFloat(phInput.replace(',', '.'));
+      if (isNaN(ph) || ph < 0 || ph > 14) {
+        const msg = 'Bitte gib einen gültigen pH-Wert ein (0–14).';
+        if (Platform.OS === 'web' && typeof window !== 'undefined') { window.alert(msg); } else { Alert.alert('Ungültiger Wert', msg); }
+        return;
+      }
+    }
+    if (ecInput) {
+      const ec = parseFloat(ecInput.replace(',', '.'));
+      if (isNaN(ec) || ec < 0 || ec > 15) {
+        const msg = 'Bitte gib einen gültigen EC-Wert ein (0–15).';
+        if (Platform.OS === 'web' && typeof window !== 'undefined') { window.alert(msg); } else { Alert.alert('Ungültiger Wert', msg); }
+        return;
+      }
     }
     setRefineLoading(true);
     try {

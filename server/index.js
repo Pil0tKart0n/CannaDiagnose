@@ -53,6 +53,11 @@ const stmtAtomicScan = db.prepare(`
   INSERT INTO scan_log (ip)
   SELECT ? WHERE (SELECT COUNT(*) FROM scan_log WHERE ip = ? AND scanned_at >= date('now')) < ?
 `);
+const stmtRefundScan = db.prepare(`
+  DELETE FROM scan_log WHERE id = (
+    SELECT id FROM scan_log WHERE ip = ? ORDER BY id DESC LIMIT 1
+  )
+`);
 const stmtUpdatePlan = db.prepare(`UPDATE premium_sessions SET plan = ? WHERE session_token = ?`);
 const stmtFindSession = db.prepare(`SELECT * FROM premium_sessions WHERE session_token = ? AND active = 1`);
 const stmtCreateSession = db.prepare(`
@@ -260,13 +265,22 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
     const data = await openaiRes.text();
 
-    // Scan already recorded atomically in step 2 (for free users)
+    // Refund scan if OpenAI returned an error (free user paid quota but got no result)
+    if (!premiumSession && !openaiRes.ok) {
+      try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
+      console.log('[LeafScan] Scan refunded for', ip, '(upstream status', openaiRes.status + ')');
+    }
 
     // Forward response as-is (preserve upstream content-type)
     res.status(openaiRes.status)
       .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
       .send(data);
   } catch (err) {
+    // Refund scan on network/fetch failure
+    if (!premiumSession) {
+      try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
+      console.log('[LeafScan] Scan refunded for', ip, '(fetch error)');
+    }
     console.error('[LeafScan] OpenAI proxy error:', err.message);
     res.status(502).json({ error: 'upstream_error', message: 'KI-Service nicht erreichbar.' });
   }
@@ -283,6 +297,60 @@ app.post('/api/validate', rateLimit, async (req, res) => {
   if (!messages || !Array.isArray(messages) || messages.length > 2) {
     return res.status(400).json({ error: 'invalid_request' });
   }
+
+  // Validate messages with same rigor as /api/scan to prevent abuse as free proxy
+  for (const msg of messages) {
+    if (typeof msg !== 'object' || msg === null) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message format' });
+    }
+    if (msg.role !== 'system' && msg.role !== 'user') {
+      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message role' });
+    }
+    if (typeof msg.content !== 'string' && !Array.isArray(msg.content)) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Message content must be string or array' });
+    }
+    if (typeof msg.content === 'string' && msg.content.length > 2000) {
+      return res.status(400).json({ error: 'invalid_request', message: 'Message content too long' });
+    }
+    if (Array.isArray(msg.content)) {
+      if (msg.content.length > 5) {
+        return res.status(400).json({ error: 'invalid_request', message: 'Too many content blocks' });
+      }
+      for (const block of msg.content) {
+        if (typeof block !== 'object' || block === null) {
+          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block' });
+        }
+        if (block.type !== 'text' && block.type !== 'image_url') {
+          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block type' });
+        }
+        if (block.type === 'text' && (typeof block.text !== 'string' || block.text.length > 2000)) {
+          return res.status(400).json({ error: 'invalid_request', message: 'Invalid text block' });
+        }
+        if (block.type === 'image_url') {
+          if (!block.image_url || typeof block.image_url !== 'object' || typeof block.image_url.url !== 'string') {
+            return res.status(400).json({ error: 'invalid_request', message: 'Invalid image_url block' });
+          }
+          if (!block.image_url.url.startsWith('data:image/')) {
+            return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed' });
+          }
+        }
+      }
+    }
+  }
+
+  // Sanitize messages — strip extra properties
+  const sanitizedMessages = messages.map(msg => {
+    const clean = { role: msg.role, content: msg.content };
+    if (Array.isArray(clean.content)) {
+      clean.content = clean.content.map(block => {
+        if (block.type === 'text') return { type: 'text', text: block.text };
+        if (block.type === 'image_url') return { type: 'image_url', image_url: { url: block.image_url.url } };
+        return block;
+      });
+    }
+    return clean;
+  });
+
   try {
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -291,7 +359,7 @@ app.post('/api/validate', rateLimit, async (req, res) => {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        messages,
+        messages: sanitizedMessages,
         model: ALLOWED_MODEL,
         max_tokens: Math.min(Number(max_tokens) || 20, 50),
       }),

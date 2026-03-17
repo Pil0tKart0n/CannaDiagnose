@@ -3,12 +3,11 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform }
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as FileSystem from 'expo-file-system/legacy';
-import { analyzePlant, verifyDiagnosis, clearImageCache, ApiError } from '../services/claude';
+import { analyzePlant, verifyDiagnosis, clearImageCache, cachedReadAsBase64, ApiError } from '../services/claude';
 import { saveEntry, addEntryToPlant } from '../services/storage';
 import { scheduleFollowUpReminder } from '../services/notifications';
 import { getPlant } from '../services/storage';
-import { canScan, recordScan } from '../services/quota';
+import { canScan } from '../services/quota';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
@@ -104,9 +103,8 @@ export default function AnalyzingScreen() {
         const skipVerify = Platform.OS === 'web' && !isPremiumUser;
         const firstUri = !skipVerify ? (preOptimized.length > 0 ? preOptimized[0] : allUris[0]) : null;
         if (firstUri) {
-          const userBase64 = await FileSystem.readAsStringAsync(firstUri, {
-            encoding: FileSystem.EncodingType.Base64,
-          });
+          // Use cached base64 from the diagnosis call instead of re-reading from disk
+          const userBase64 = await cachedReadAsBase64(firstUri);
           const verification = await verifyDiagnosis(userBase64, diagResult);
           if (verification) {
             console.log('[LeafScan] Verification:', JSON.stringify(verification));
@@ -127,8 +125,7 @@ export default function AnalyzingScreen() {
         console.log('[LeafScan] Verification failed (non-critical):', verifyErr.message);
       }
 
-      // Record successful scan in quota
-      await recordScan().catch(() => {});
+      // Scan is already recorded atomically on the server in /api/scan (step 2)
 
       // Free cached base64 data from memory
       clearImageCache();

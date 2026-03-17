@@ -38,18 +38,21 @@ const MAX_IMAGE_DIMENSION = 1568;
 
 // Cache base64 conversions to avoid re-reading the same file multiple times
 // (validation call, main diagnosis, verification all need the same base64)
+// Limit to 3 entries (= max photos per scan) to keep memory bounded (~6-15 MB)
+const MAX_CACHE_ENTRIES = 3;
 const base64Cache = new Map<string, string>();
 
-async function cachedReadAsBase64(uri: string): Promise<string> {
+export async function cachedReadAsBase64(uri: string): Promise<string> {
   const cached = base64Cache.get(uri);
   if (cached) return cached;
   const data = await readAsBase64(uri);
-  base64Cache.set(uri, data);
-  // Keep cache bounded — clear if too many entries
-  if (base64Cache.size > 10) {
+  // Evict oldest entries before adding new one
+  while (base64Cache.size >= MAX_CACHE_ENTRIES) {
     const firstKey = base64Cache.keys().next().value;
     if (firstKey) base64Cache.delete(firstKey);
+    else break;
   }
+  base64Cache.set(uri, data);
   return data;
 }
 
@@ -397,16 +400,24 @@ export async function analyzePlant(
   const maxAttempts = 1 + MAX_RETRIES; // 3 total
   let lastError: any = null;
 
-  // Start validation + first diagnosis attempt IN PARALLEL to save 1-2 seconds
-  const validationPromise = validateImageIsCannabis(imageBlocks, sessionToken);
+  // Validate image BEFORE diagnosis to avoid burning a scan quota on non-plant images
+  const isCannabis = await validateImageIsCannabis(imageBlocks, sessionToken);
+  if (!isCannabis) {
+    const err: any = new Error('Keine passende Pflanze erkannt.');
+    err.apiError = {
+      type: 'no_plant' as ApiErrorType,
+      message: 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
+      retryable: false,
+    };
+    throw err;
+  }
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     // Notify caller about which attempt we're on
     onAttempt?.(attempt, maxAttempts);
 
     try {
-      // On first attempt, fire diagnosis while validation runs concurrently
-      const diagnosisPromise = fetch(API_URL, {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: apiHeaders(sessionToken),
         body: JSON.stringify({
@@ -430,24 +441,6 @@ export async function analyzePlant(
           ],
         }),
       });
-
-      // Wait for both validation and diagnosis response
-      // On first attempt both run in parallel; on retries validation is already resolved
-      const [isCannabis, response] = await Promise.all([
-        attempt === 1 ? validationPromise : Promise.resolve(true),
-        diagnosisPromise,
-      ]);
-
-      // Check validation result before processing diagnosis
-      if (!isCannabis) {
-        const err: any = new Error('Keine passende Pflanze erkannt.');
-        err.apiError = {
-          type: 'no_plant' as ApiErrorType,
-          message: 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
-          retryable: false,
-        };
-        throw err;
-      }
 
       if (!response.ok) {
         const errorBody = await response.text();
@@ -783,9 +776,9 @@ function diagnosisToRefFolder(diagnosis: string): string | null {
   if (d.includes('eisen') || d.includes('iron') || d.includes('(fe)') || d.includes('fe-mangel')) return 'Fe_mangel';
   if (d.includes('mangan') || d.includes('manganese') || d.includes('(mn)') || d.includes('mn-mangel')) return 'Mn_mangel';
   if (d.includes('zink') || d.includes('zinc') || d.includes('(zn)') || d.includes('zn-mangel')) return 'Zn_mangel';
-  if (d.includes('bor') || d.includes('boron') || d.includes('(b)')) return 'B_mangel';
-  if (d.includes('kupfer') || d.includes('copper') || d.includes('(cu)')) return 'Cu_mangel';
-  if (d.includes('molybdän') || d.includes('(mo)')) return 'Mo_mangel';
+  if (d.includes('bor') || d.includes('boron') || d.includes('b-mangel')) return 'B_mangel';
+  if (d.includes('kupfer') || d.includes('copper') || d.includes('cu-mangel')) return 'Cu_mangel';
+  if (d.includes('molybdän') || d.includes('mo-mangel')) return 'Mo_mangel';
   return null;
 }
 
