@@ -12,7 +12,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
-const FREE_SCANS_PER_DAY = 50;
+const FREE_SCANS_PER_DAY = 1;
+const TESTER_SCANS_PER_DAY = 50;
+const TESTER_KEY = 'ls-tester-2024-xK9mQ'; // embedded in APK, not security-critical
 
 // ── SQLite setup ──
 const dbPath = path.join(__dirname, 'data', 'leafscan.db');
@@ -94,7 +96,7 @@ app.use(cors({
     }
   },
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-LeafScan-Key'],
 }));
 
 // Trust only the first proxy hop (nginx). Using `true` would trust ALL proxies,
@@ -108,6 +110,16 @@ app.use(express.json({ limit: '10mb' }));
 /** Extract client IP — use req.ip which respects trust proxy setting safely */
 function getClientIP(req) {
   return req.ip;
+}
+
+/** Check if request comes from APK tester (via custom header) */
+function isTester(req) {
+  return req.headers['x-leafscan-key'] === TESTER_KEY;
+}
+
+/** Get the applicable scan limit for this request */
+function getScanLimit(req) {
+  return isTester(req) ? TESTER_SCANS_PER_DAY : FREE_SCANS_PER_DAY;
 }
 
 /** Check if a session token is valid premium (with expiry safety-net) */
@@ -220,14 +232,15 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
   // 3. If not premium, atomically reserve a free scan slot AFTER validation
   if (!premiumSession) {
-    const result = stmtAtomicScan.run(ip, ip, FREE_SCANS_PER_DAY);
+    const limit = getScanLimit(req);
+    const result = stmtAtomicScan.run(ip, ip, limit);
     if (result.changes === 0) {
       const { count } = stmtCountScans.get(ip);
       return res.status(403).json({
         error: 'quota_exceeded',
         message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Scans.',
         scansToday: count,
-        limit: FREE_SCANS_PER_DAY,
+        limit,
       });
     }
   }
@@ -402,13 +415,14 @@ app.get('/api/quota', (req, res) => {
     });
   }
 
+  const limit = getScanLimit(req);
   const { count } = stmtCountScans.get(ip);
-  const allowed = count < FREE_SCANS_PER_DAY;
+  const allowed = count < limit;
   res.json({
     isPremium: false,
     plan: null,
     scansToday: count,
-    limit: FREE_SCANS_PER_DAY,
+    limit,
     allowed,
   });
 });

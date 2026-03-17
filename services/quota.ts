@@ -40,12 +40,21 @@ export async function setSessionToken(token: string | null): Promise<void> {
   }
 }
 
+/** Build headers with tester key for APK builds */
+function buildHeaders(token?: string | null): Record<string, string> {
+  const headers: Record<string, string> = {};
+  if (Platform.OS !== 'web') {
+    headers['X-LeafScan-Key'] = 'ls-tester-2024-xK9mQ';
+  }
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  return headers;
+}
+
 /** Check quota — always asks the server (all platforms route through server) */
 export async function canScan(): Promise<{ allowed: boolean; remaining: number; isPremium: boolean }> {
   try {
     const token = await getSessionToken();
-    const headers: Record<string, string> = {};
-    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const headers = buildHeaders(token);
 
     const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
     const res = await fetch(quotaUrl, { headers });
@@ -89,8 +98,7 @@ export async function getQuotaDisplay(): Promise<{
 }> {
   try {
     const token = await getSessionToken();
-    const headers: Record<string, string> = {};
-    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const headers = buildHeaders(token);
 
     const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
     const res = await fetch(quotaUrl, { headers });

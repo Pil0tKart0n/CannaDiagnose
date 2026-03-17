@@ -17,9 +17,13 @@ const MODEL = 'gpt-4o';
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
 
-/** Build fetch headers — include session token for premium check */
+/** Build fetch headers — include session token for premium check + tester key for APK */
 function apiHeaders(sessionToken?: string | null): Record<string, string> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  // APK builds send tester key for higher free scan limit
+  if (Platform.OS !== 'web') {
+    headers['X-LeafScan-Key'] = 'ls-tester-2024-xK9mQ';
+  }
   if (sessionToken) {
     headers['Authorization'] = `Bearer ${sessionToken}`;
   } else if (Platform.OS === 'web' && typeof window !== 'undefined') {
