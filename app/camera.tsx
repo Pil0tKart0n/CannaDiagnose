@@ -345,18 +345,18 @@ const styles = StyleSheet.create({
     height: 92,
     borderRadius: 46,
     borderWidth: 3,
-    borderColor: 'rgba(74,222,128,0.25)',
+    borderColor: colors.accentShadow,
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
       ios: {
-        shadowColor: 'rgba(74,222,128,0.4)',
+        shadowColor: colors.accentShadowStrong,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 1,
         shadowRadius: 16,
       },
       android: { elevation: 8 },
-      web: { boxShadow: '0 4px 24px rgba(74,222,128,0.2)' },
+      web: { boxShadow: `0 4px 24px ${colors.accentShadowLight}` },
     }),
   },
   shutterInner: {
@@ -431,13 +431,13 @@ const styles = StyleSheet.create({
     gap: 8,
     ...Platform.select({
       ios: {
-        shadowColor: 'rgba(74,222,128,0.4)',
+        shadowColor: colors.accentShadowStrong,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 1,
         shadowRadius: 12,
       },
       android: { elevation: 6 },
-      web: { boxShadow: '0 4px 20px rgba(0,230,118,0.2)' },
+      web: { boxShadow: `0 4px 20px ${colors.accentShadowLight}` },
     }),
   },
   proceedBtnText: {

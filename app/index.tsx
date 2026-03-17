@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   divider: {
     width: 48,
     height: 1,
-    backgroundColor: 'rgba(74,222,128,0.2)',
+    backgroundColor: colors.accentDivider,
     marginVertical: 28,
     borderRadius: 1,
   },
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   },
   flowDot: {
     fontSize: 16,
-    color: 'rgba(74,222,128,0.3)',
+    color: colors.accentDotMuted,
     fontWeight: '300',
   },
   infoLink: {
@@ -339,13 +339,13 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
     borderRadius: 20,
-    backgroundColor: 'rgba(74,222,128,0.08)',
+    backgroundColor: colors.accentGlow,
     borderWidth: 1,
-    borderColor: 'rgba(74,222,128,0.15)',
+    borderColor: colors.borderAccent,
   },
   quotaBadgePremium: {
-    backgroundColor: 'rgba(251,191,36,0.08)',
-    borderColor: 'rgba(251,191,36,0.2)',
+    backgroundColor: colors.accentWarmGlow,
+    borderColor: colors.accentWarmSubtle,
   },
   quotaText: {
     fontSize: 11,

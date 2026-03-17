@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {
   View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
@@ -176,12 +177,12 @@ const styles = StyleSheet.create({
   followUpText: { fontSize: 11, fontWeight: '600', color: colors.accent },
   deleteBtn: { padding: 8 },
   deleteText: { fontSize: 16, color: colors.textMuted },
-  bottomBar: { padding: 16, paddingBottom: 24 },
+  bottomBar: { padding: 16, paddingBottom: 32 },
   addBtn: {
     borderRadius: 12, paddingVertical: 16, alignItems: 'center',
     ...Platform.select({
-      web: { boxShadow: '0 4px 20px rgba(0,230,118,0.2)' },
-      ios: { shadowColor: 'rgba(0,230,118,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
+      web: { boxShadow: '0 4px 20px rgba(74,222,128,0.2)' },
+      ios: { shadowColor: 'rgba(74,222,128,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
       android: { elevation: 6 },
     }),
   },

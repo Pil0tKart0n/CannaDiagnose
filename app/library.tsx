@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import {
   View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import {
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
   list: {
     padding: 16,
     paddingTop: 4,
-    paddingBottom: 40,
+    paddingBottom: 80,
   },
 
   // Card

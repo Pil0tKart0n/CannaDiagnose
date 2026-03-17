@@ -18,7 +18,16 @@ export const colors = {
 
   // Warm secondary accent
   accentWarm: '#FBBF24',
+  accentWarmGlow: 'rgba(251,191,36,0.08)',
+  accentWarmSubtle: 'rgba(251,191,36,0.2)',
   accentTeal: '#2DD4BF',
+
+  // Accent with opacity
+  accentShadow: 'rgba(74,222,128,0.25)',
+  accentShadowStrong: 'rgba(74,222,128,0.4)',
+  accentShadowLight: 'rgba(74,222,128,0.2)',
+  accentDivider: 'rgba(74,222,128,0.2)',
+  accentDotMuted: 'rgba(74,222,128,0.3)',
 
   // Cards – solid colors
   cardDark: '#111916',

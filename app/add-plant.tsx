@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
   saveBtn: {
     borderRadius: 12, paddingVertical: 16, alignItems: 'center',
     ...Platform.select({
-      web: { boxShadow: '0 4px 20px rgba(0,230,118,0.2)' },
-      ios: { shadowColor: 'rgba(0,230,118,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
+      web: { boxShadow: '0 4px 20px rgba(74,222,128,0.2)' },
+      ios: { shadowColor: 'rgba(74,222,128,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
       android: { elevation: 6 },
     }),
   },
