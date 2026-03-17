@@ -194,7 +194,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       return res.status(400).json({ error: 'invalid_request', message: 'Message content must be string or array' });
     }
     // String content: limit length
-    if (typeof msg.content === 'string' && msg.content.length > 20000) {
+    if (typeof msg.content === 'string' && msg.content.length > 100000) {
       return res.status(400).json({ error: 'invalid_request', message: 'Message content too long' });
     }
     // Array content (multimodal): validate each block
@@ -215,7 +215,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
           if (typeof block.text !== 'string') {
             return res.status(400).json({ error: 'invalid_request', message: 'Text block must have string text' });
           }
-          if (block.text.length > 20000) {
+          if (block.text.length > 100000) {
             return res.status(400).json({ error: 'invalid_request', message: 'Text block content too long' });
           }
         }
