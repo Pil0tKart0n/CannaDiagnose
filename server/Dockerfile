@@ -5,8 +5,8 @@ RUN apk add --no-cache python3 make g++
 
 WORKDIR /app
 
-COPY package.json ./
-RUN npm install --production
+COPY package.json package-lock.json ./
+RUN npm ci --production
 
 # ── Runtime stage (no build tools) ──
 FROM node:20-alpine

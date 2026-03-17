@@ -2,6 +2,10 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
+# Build args for Expo (EXPO_PUBLIC_* vars needed at build time)
+ARG EXPO_PUBLIC_API_PROXY_URL=https://leafscan.de
+ENV EXPO_PUBLIC_API_PROXY_URL=$EXPO_PUBLIC_API_PROXY_URL
+
 # Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci

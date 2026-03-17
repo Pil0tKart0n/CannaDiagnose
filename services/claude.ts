@@ -9,6 +9,7 @@ import { readAsBase64 } from './fileSystemWeb';
 // Never expose the API key to the client — prevents paywall bypass via APK extraction.
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 const API_URL = Platform.OS === 'web' ? '/api/scan' : `${SERVER_URL}/api/scan`;
+const VALIDATE_URL = Platform.OS === 'web' ? '/api/validate' : `${SERVER_URL}/api/validate`;
 const MODEL = 'gpt-4o-mini';
 
 const MAX_RETRIES = 2;
@@ -305,7 +306,7 @@ async function validateImageIsCannabis(
   sessionToken?: string | null,
 ): Promise<boolean> {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(VALIDATE_URL, {
       method: 'POST',
       headers: apiHeaders(sessionToken),
       body: JSON.stringify({

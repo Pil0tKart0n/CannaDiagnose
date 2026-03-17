@@ -49,6 +49,11 @@ const stmtCountScans = db.prepare(`
   WHERE ip = ? AND scanned_at >= date('now')
 `);
 const stmtInsertScan = db.prepare(`INSERT INTO scan_log (ip) VALUES (?)`);
+const stmtAtomicScan = db.prepare(`
+  INSERT INTO scan_log (ip)
+  SELECT ? WHERE (SELECT COUNT(*) FROM scan_log WHERE ip = ? AND scanned_at >= date('now')) < ?
+`);
+const stmtUpdatePlan = db.prepare(`UPDATE premium_sessions SET plan = ? WHERE session_token = ?`);
 const stmtFindSession = db.prepare(`SELECT * FROM premium_sessions WHERE session_token = ? AND active = 1`);
 const stmtCreateSession = db.prepare(`
   INSERT INTO premium_sessions (session_token, stripe_customer_id, stripe_subscription_id, plan)
@@ -146,10 +151,11 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
   const premiumSession = checkPremium(token);
 
-  // 2. If not premium, check free quota
+  // 2. If not premium, atomically reserve a free scan slot (prevents TOCTOU race)
   if (!premiumSession) {
-    const { count } = stmtCountScans.get(ip);
-    if (count >= FREE_SCANS_PER_DAY) {
+    const result = stmtAtomicScan.run(ip, ip, FREE_SCANS_PER_DAY);
+    if (result.changes === 0) {
+      const { count } = stmtCountScans.get(ip);
       return res.status(403).json({
         error: 'quota_exceeded',
         message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Scans.',
@@ -254,19 +260,49 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
     const data = await openaiRes.text();
 
-    // 5. Record scan ONLY on success, ONLY for free users
-    // Always count — never trust client-side countScan flag (paywall bypass)
-    if (openaiRes.ok && !premiumSession) {
-      stmtInsertScan.run(ip);
-    }
+    // Scan already recorded atomically in step 2 (for free users)
 
-    // Forward response as-is
+    // Forward response as-is (preserve upstream content-type)
     res.status(openaiRes.status)
-      .set('Content-Type', 'application/json')
+      .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
       .send(data);
   } catch (err) {
     console.error('[LeafScan] OpenAI proxy error:', err.message);
     res.status(502).json({ error: 'upstream_error', message: 'KI-Service nicht erreichbar.' });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════
+// ██  /api/validate — LIGHTWEIGHT IMAGE CHECK (no scan counted) ██
+// ══════════════════════════════════════════════════════════════════
+app.post('/api/validate', rateLimit, async (req, res) => {
+  if (!OPENAI_API_KEY) {
+    return res.status(500).json({ error: 'server_error' });
+  }
+  const { messages, max_tokens } = req.body;
+  if (!messages || !Array.isArray(messages) || messages.length > 2) {
+    return res.status(400).json({ error: 'invalid_request' });
+  }
+  try {
+    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        messages,
+        model: ALLOWED_MODEL,
+        max_tokens: Math.min(Number(max_tokens) || 20, 50),
+      }),
+    });
+    const data = await openaiRes.text();
+    res.status(openaiRes.status)
+      .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
+      .send(data);
+  } catch (err) {
+    console.error('[LeafScan] Validate proxy error:', err.message);
+    res.status(502).json({ error: 'upstream_error' });
   }
 });
 
@@ -353,7 +389,13 @@ app.get('/api/verify-session', rateLimit, async (req, res) => {
 });
 
 // ── Create Stripe products on startup ──
+let ensureProductsPromise = null;
 async function ensureProducts() {
+  if (ensureProductsPromise) return ensureProductsPromise;
+  ensureProductsPromise = _ensureProducts().finally(() => { ensureProductsPromise = null; });
+  return ensureProductsPromise;
+}
+async function _ensureProducts() {
   try {
     const products = await stripe.products.list({ limit: 10 });
     let growerProduct = products.data.find(p => p.metadata.plan === 'grower');
@@ -407,7 +449,7 @@ app.get('/api/stripe/products', async (req, res) => {
 });
 
 // ── POST /api/stripe/checkout — NOW with session_id in success URL ──
-app.post('/api/stripe/checkout', async (req, res) => {
+app.post('/api/stripe/checkout', rateLimit, async (req, res) => {
   const { priceId } = req.body;
   if (!priceId) return res.status(400).json({ error: 'priceId required' });
   if (!growerPriceId || !proPriceId) await ensureProducts();
@@ -506,7 +548,7 @@ app.post('/api/stripe/webhook', async (req, res) => {
             if (lineItems.data.length > 0) {
               const priceId = lineItems.data[0].price?.id;
               if (priceId === growerPriceId) {
-                db.prepare(`UPDATE premium_sessions SET plan = ? WHERE session_token = ?`).run('grower', newToken);
+                stmtUpdatePlan.run('grower', newToken);
               }
             }
           } catch (e) {

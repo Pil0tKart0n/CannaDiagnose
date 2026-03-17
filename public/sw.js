@@ -22,7 +22,6 @@ self.addEventListener('fetch', (e) => {
 
   // Never cache API calls
   if (url.includes('/api/')) return;
-  if (url.includes('api.openai.com')) return;
   if (e.request.method !== 'GET') return;
 
   // HTML pages: network-first (always get latest)
