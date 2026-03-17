@@ -503,18 +503,8 @@ HERMAPHRODISMUS (Zwitter):
   D5: Kann vereinzelt oder massiv auftreten
   EXTRA: SOFORT handeln! Häufigste Ursache = Lichtleck in Dunkelphase. Auch Hitze >35°C, extremer Stress. Bananen = Stressreaktion in später Blüte. Pollensäcke = früher/genetischer Hermie. Bei Bananen: sofortige Ernte erwägen!
 
-SCHÄDLINGE:
-  Spinnmilben: D1=winzige helle Punkte/Stippen D2=lebendig D3=Punktmuster + feine Gespinste D4=Blattunterseiten D5=breitet sich schnell aus
-  Thripse: D1=silbrige Streifen/Kratzer D2=Oberfläche aufgeraspelt, silbriger Schimmer D3=Streifen + schwarze Kotpunkte (Miniatur-Kothäufchen!) D4=junge Blätter, UNTERSEITEN D5=wenige bis viele. EXTRA: Weiße Larven + graue Adulte, kaum sichtbar. Blaue Leimtafeln effektiver als gelbe! Können Krankheitserreger übertragen.
-  Blattläuse: D1=grün/schwarz/weiß D2=klebrig D3=Kolonien an Triebspitzen + klebriger Belag D4=neue Triebe D5=Kolonien wachsen schnell
-  Trauermücken: D1=kleine schwarze Fliegen D2=Larven im Substrat D3=Fliegen am Substrat D4=Wurzelzone D5=bei dauerhaft feuchtem Substrat
-  Weiße Fliegen: D1=kleine weiße "Motten" (1-2mm) D2=fliegen auf bei Berührung D3=Kolonien an Blattunterseiten + Honigtau + Rußtau D4=Blattunterseiten D5=vermehren sich schnell bei Wärme. EXTRA: Gelbtafeln sehr effektiv! Schlupfwespen (Encarsia formosa) als Nützlinge.
-
-KRANKHEITEN:
-  Mehltau: D1=weiß, pudrig D2=Belag auf Oberfläche D3=runde weiße Flecken auf Blattoberseite D4=mittlere Blätter, schlechte Luftzirkulation D5=breitet sich schnell aus
-  Botrytis: D1=grau, flauschig D2=matschig/faulig D3=an Buds, dichtem Blattwerk D4=große Buds D5=KRITISCH – sofort entfernen!
-  Wurzelfäule: D1=braun D2=matschig, schleimig, stinkend D3=Wurzeln D4=gesamtes Wurzelsystem D5=Pflanze welkt obwohl Substrat feucht
-  Septoria: D1=braun mit dunklem Rand D2=trocken D3=runde Flecken D4=untere Blätter D5=breitet sich nach oben aus
+HINWEIS: Diese App diagnostiziert NUR Nährstoffmängel, Nährstoffüberschüsse und Umweltprobleme.
+  Falls du Anzeichen von Schädlingen (Insekten, Gespinste, Kolonien) oder Krankheiten (Mehltau, Schimmel, Fäule) erkennst, weise den Nutzer darauf hin, dass dies kein Nährstoffproblem ist und empfehle eine spezialisierte Schädlings-/Krankheitsberatung.
 
 6. UMGEBUNGSPROBLEME & pH-BEREICHE (substratabhängig!):
 
@@ -588,8 +578,8 @@ WICHTIGE DIAGNOSE-REGELN:
 
 FOLLOW-UP EMPFEHLUNG:
 - Gib IMMER ein followUpDays Feld zurück
-- Kritisch (Budrot, schwerer Befall): 2-3 Tage
-- Hoch (aktiver Mangel, Schädlinge): 5-7 Tage
+- Kritisch (schwerer Mangel, akute Toxizität): 2-3 Tage
+- Hoch (aktiver Mangel, Lockout): 5-7 Tage
 - Mittel (leichter Mangel, Anpassung nötig): 7-10 Tage
 - Niedrig/Gesund: 14-21 Tage
 
