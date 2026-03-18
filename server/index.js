@@ -88,7 +88,6 @@ db.exec(`
     expires_at TEXT NOT NULL
   );
   CREATE INDEX IF NOT EXISTS idx_promo_ip ON promo_redemptions(ip);
-  CREATE INDEX IF NOT EXISTS idx_promo_device ON promo_redemptions(device_id);
 
   CREATE TABLE IF NOT EXISTS feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -102,6 +101,16 @@ db.exec(`
   );
   CREATE INDEX IF NOT EXISTS idx_feedback_date ON feedback(created_at);
 `);
+
+// Migration: add device_id column if missing (existing DBs won't have it)
+try {
+  db.exec(`ALTER TABLE promo_redemptions ADD COLUMN device_id TEXT NOT NULL DEFAULT ''`);
+} catch (e) {
+  // Column already exists — ignore
+}
+try {
+  db.exec(`CREATE INDEX IF NOT EXISTS idx_promo_device ON promo_redemptions(device_id)`);
+} catch (e) {}
 
 // Prepared statements for performance
 const stmtCountScans = db.prepare(`
