@@ -68,6 +68,26 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_premium_customer ON premium_sessions(stripe_customer_id);
   CREATE INDEX IF NOT EXISTS idx_premium_subscription ON premium_sessions(stripe_subscription_id);
 
+  CREATE TABLE IF NOT EXISTS promo_codes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT UNIQUE NOT NULL,
+    days INTEGER NOT NULL DEFAULT 10,
+    max_uses INTEGER NOT NULL DEFAULT 9999,
+    used INTEGER NOT NULL DEFAULT 0,
+    active INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+  CREATE INDEX IF NOT EXISTS idx_promo_code ON promo_codes(code);
+
+  CREATE TABLE IF NOT EXISTS promo_redemptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL,
+    ip TEXT NOT NULL,
+    redeemed_at TEXT NOT NULL DEFAULT (datetime('now')),
+    expires_at TEXT NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_promo_ip ON promo_redemptions(ip);
+
   CREATE TABLE IF NOT EXISTS feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     rating TEXT NOT NULL CHECK(rating IN ('positive', 'negative')),
@@ -115,6 +135,18 @@ const stmtFeedbackRecent = db.prepare(`
   SELECT * FROM feedback ORDER BY created_at DESC LIMIT ?
 `);
 const stmtDeactivateByCustomer = db.prepare(`UPDATE premium_sessions SET active = 0 WHERE stripe_customer_id = ?`);
+
+// ── Promo code statements ──
+const stmtFindPromo = db.prepare(`SELECT * FROM promo_codes WHERE code = ? AND active = 1`);
+const stmtIncrementPromo = db.prepare(`UPDATE promo_codes SET used = used + 1 WHERE code = ?`);
+const stmtCheckRedeemed = db.prepare(`SELECT * FROM promo_redemptions WHERE code = ? AND ip = ?`);
+const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, expires_at) VALUES (?, ?, datetime('now', '+' || ? || ' days'))`);
+const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE ip = ? AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
+
+// Seed default promo codes (only if they don't exist yet)
+const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`);
+seedPromo.run('HOMEGROW', 10, 9999);
+seedPromo.run('HGC2026', 10, 9999);
 
 // Cleanup old scan logs (keep 7 days)
 const stmtCleanupScans = db.prepare(`DELETE FROM scan_log WHERE scanned_at < date('now', '-7 days')`);
@@ -174,19 +206,29 @@ function getScanLimit(req) {
 
 /** Check if a session token is valid premium (with expiry safety-net) */
 const SESSION_MAX_AGE_DAYS = 35; // slightly over 1 month — forces re-verification
-function checkPremium(token) {
-  if (!token) return null;
-  const session = stmtFindSession.get(token);
-  if (!session) return null;
-  // Safety-net expiry: if webhook secret isn't configured, sessions could live forever.
-  // Expire after SESSION_MAX_AGE_DAYS to force re-verification via Stripe.
-  const createdAt = new Date(session.created_at + 'Z');
-  const ageMs = Date.now() - createdAt.getTime();
-  if (ageMs > SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
-    stmtDeactivateBySubscription.run(session.stripe_subscription_id);
-    return null;
+function checkPremium(token, req) {
+  // 1. Check Stripe premium session
+  if (token) {
+    const session = stmtFindSession.get(token);
+    if (session) {
+      const createdAt = new Date(session.created_at + 'Z');
+      const ageMs = Date.now() - createdAt.getTime();
+      if (ageMs > SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
+        stmtDeactivateBySubscription.run(session.stripe_subscription_id);
+      } else {
+        return session;
+      }
+    }
   }
-  return session;
+  // 2. Check active promo code redemption (by IP)
+  if (req) {
+    const ip = getClientIP(req);
+    const promo = stmtActivePromo.get(ip);
+    if (promo) {
+      return { plan: 'promo', promo_code: promo.code, expires_at: promo.expires_at };
+    }
+  }
+  return null;
 }
 
 // ── IP-based rate limiting (anti-abuse) ──
@@ -295,7 +337,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   // Check for premium session token
   const authHeader = req.headers['authorization'];
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const premiumSession = checkPremium(token);
+  const premiumSession = checkPremium(token, req);
 
   // If not premium, atomically reserve a free scan slot
   if (!premiumSession) {
@@ -403,7 +445,7 @@ app.get('/api/quota', (req, res) => {
   const ip = getClientIP(req);
   const authHeader = req.headers['authorization'];
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const premiumSession = checkPremium(token);
+  const premiumSession = checkPremium(token, req);
 
   if (premiumSession) {
     return res.json({
@@ -424,6 +466,55 @@ app.get('/api/quota', (req, res) => {
     scansToday: count,
     limit,
     allowed,
+  });
+});
+
+// ══════════════════════════════════════════════════
+// ██  /api/redeem-code — PROMO CODE REDEMPTION    ██
+// ══════════════════════════════════════════════════
+app.post('/api/redeem-code', rateLimit, (req, res) => {
+  const { code } = req.body || {};
+  if (!code || typeof code !== 'string') {
+    return res.status(400).json({ error: 'missing_code', message: 'Bitte gib einen Code ein.' });
+  }
+
+  const cleanCode = code.trim().toUpperCase();
+  const ip = getClientIP(req);
+
+  // Check if code exists
+  const promo = stmtFindPromo.get(cleanCode);
+  if (!promo) {
+    return res.status(404).json({ error: 'invalid_code', message: 'Ungültiger Code.' });
+  }
+
+  // Check max uses
+  if (promo.used >= promo.max_uses) {
+    return res.status(410).json({ error: 'code_exhausted', message: 'Dieser Code wurde bereits zu oft eingelöst.' });
+  }
+
+  // Check if already redeemed by this IP
+  const existing = stmtCheckRedeemed.get(cleanCode, ip);
+  if (existing) {
+    return res.status(409).json({ error: 'already_redeemed', message: 'Du hast diesen Code bereits eingelöst.', expires_at: existing.expires_at });
+  }
+
+  // Check if user already has an active promo
+  const activePromo = stmtActivePromo.get(ip);
+  if (activePromo) {
+    return res.status(409).json({ error: 'already_active', message: `Du hast bereits Premium bis ${new Date(activePromo.expires_at + 'Z').toLocaleDateString('de-DE')}.` });
+  }
+
+  // Redeem!
+  stmtRedeemPromo.run(cleanCode, ip, promo.days);
+  stmtIncrementPromo.run(cleanCode);
+
+  const redemption = stmtActivePromo.get(ip);
+
+  res.json({
+    success: true,
+    message: `Code eingelöst! Du hast ${promo.days} Tage Premium.`,
+    days: promo.days,
+    expires_at: redemption.expires_at,
   });
 });
 
@@ -574,7 +665,7 @@ app.post('/api/stripe/portal', rateLimit, async (req, res) => {
   // Authenticate via premium session token
   const authHeader = req.headers['authorization'];
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const premiumSession = checkPremium(token);
+  const premiumSession = checkPremium(token, req);
 
   if (!premiumSession || !premiumSession.stripe_customer_id) {
     return res.status(401).json({ error: 'Nicht autorisiert. Bitte melde dich als Premium-Nutzer an.' });

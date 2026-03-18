@@ -9,6 +9,7 @@ import {
   Platform,
   ScrollView,
   Linking,
+  TextInput,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -107,6 +108,10 @@ export default function PaywallScreen() {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [restoring, setRestoring] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [promoMessage, setPromoMessage] = useState('');
+  const [promoSuccess, setPromoSuccess] = useState(false);
 
   useEffect(() => {
     if (isWeb) {
@@ -182,6 +187,30 @@ export default function PaywallScreen() {
         Alert.alert('Hinweis', result.error);
       }
     }
+  };
+
+  const handleRedeem = async () => {
+    if (!promoCode.trim()) return;
+    setPromoLoading(true);
+    setPromoMessage('');
+    try {
+      const res = await fetch('/api/redeem-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: promoCode.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPromoSuccess(true);
+        setPromoMessage(data.message);
+        setPremium(true);
+      } else {
+        setPromoMessage(data.message || 'Code ungültig.');
+      }
+    } catch {
+      setPromoMessage('Fehler beim Einlösen. Bitte versuche es erneut.');
+    }
+    setPromoLoading(false);
   };
 
   const handleRestore = async () => {
@@ -319,6 +348,50 @@ export default function PaywallScreen() {
             </Text>
           )}
         </TouchableOpacity>
+
+        {/* Promo code */}
+        {isWeb && !promoSuccess && (
+          <View style={styles.promoCard}>
+            <Text style={styles.promoTitle}>Code einlösen</Text>
+            <View style={styles.promoRow}>
+              <TextInput
+                style={styles.promoInput}
+                placeholder="z.B. HOMEGROW"
+                placeholderTextColor={colors.textMuted}
+                value={promoCode}
+                onChangeText={setPromoCode}
+                autoCapitalize="characters"
+                autoCorrect={false}
+              />
+              <TouchableOpacity
+                style={styles.promoBtn}
+                onPress={handleRedeem}
+                disabled={promoLoading || !promoCode.trim()}
+                activeOpacity={0.7}
+              >
+                {promoLoading ? (
+                  <ActivityIndicator size="small" color={colors.textOnAccent} />
+                ) : (
+                  <Text style={styles.promoBtnText}>Einlösen</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+            {promoMessage ? (
+              <Text style={[styles.promoMessage, promoSuccess && styles.promoMessageSuccess]}>
+                {promoMessage}
+              </Text>
+            ) : null}
+          </View>
+        )}
+
+        {promoSuccess && (
+          <View style={styles.promoSuccessCard}>
+            <Text style={styles.promoSuccessText}>Premium aktiviert! Viel Spaß beim Diagnostizieren.</Text>
+            <TouchableOpacity style={styles.purchaseBtn} onPress={() => router.replace('/')}>
+              <Text style={styles.purchaseBtnText}>Zur Startseite</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* Restore + Terms */}
         <View style={styles.footer}>
@@ -555,5 +628,76 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 15,
     paddingHorizontal: 8,
+  },
+
+  // Promo code
+  promoCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: colors.accentWarmSubtle,
+  },
+  promoTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.accentWarm,
+    marginBottom: 10,
+    letterSpacing: 0.3,
+  },
+  promoRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  promoInput: {
+    flex: 1,
+    backgroundColor: colors.background,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: colors.text,
+    borderWidth: 1,
+    borderColor: colors.border,
+    letterSpacing: 1,
+    fontWeight: '600',
+  },
+  promoBtn: {
+    backgroundColor: colors.accentWarm,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    justifyContent: 'center',
+  },
+  promoBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#000',
+  },
+  promoMessage: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginTop: 8,
+  },
+  promoMessageSuccess: {
+    color: colors.accent,
+    fontWeight: '600',
+  },
+  promoSuccessCard: {
+    backgroundColor: colors.accentGlow,
+    borderRadius: 14,
+    padding: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.borderAccent,
+  },
+  promoSuccessText: {
+    fontSize: 15,
+    color: colors.accent,
+    fontWeight: '600',
+    marginBottom: 16,
+    textAlign: 'center',
   },
 });
