@@ -43,6 +43,18 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_premium_token ON premium_sessions(session_token);
   CREATE INDEX IF NOT EXISTS idx_premium_customer ON premium_sessions(stripe_customer_id);
   CREATE INDEX IF NOT EXISTS idx_premium_subscription ON premium_sessions(stripe_subscription_id);
+
+  CREATE TABLE IF NOT EXISTS feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rating TEXT NOT NULL CHECK(rating IN ('positive', 'negative')),
+    diagnosis TEXT,
+    severity TEXT,
+    confidence REAL,
+    substrate TEXT,
+    fertilizer TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+  CREATE INDEX IF NOT EXISTS idx_feedback_date ON feedback(created_at);
 `);
 
 // Prepared statements for performance
@@ -68,6 +80,16 @@ const stmtCreateSession = db.prepare(`
 `);
 const stmtFindByCustomer = db.prepare(`SELECT * FROM premium_sessions WHERE stripe_customer_id = ? AND active = 1`);
 const stmtDeactivateBySubscription = db.prepare(`UPDATE premium_sessions SET active = 0 WHERE stripe_subscription_id = ?`);
+const stmtInsertFeedback = db.prepare(`
+  INSERT INTO feedback (rating, diagnosis, severity, confidence, substrate, fertilizer)
+  VALUES (?, ?, ?, ?, ?, ?)
+`);
+const stmtFeedbackStats = db.prepare(`
+  SELECT rating, COUNT(*) as count FROM feedback GROUP BY rating
+`);
+const stmtFeedbackRecent = db.prepare(`
+  SELECT * FROM feedback ORDER BY created_at DESC LIMIT ?
+`);
 const stmtDeactivateByCustomer = db.prepare(`UPDATE premium_sessions SET active = 0 WHERE stripe_customer_id = ?`);
 
 // Cleanup old scan logs (keep 7 days)
@@ -694,6 +716,45 @@ app.post('/api/stripe/webhook', async (req, res) => {
   }
 
   res.json({ received: true });
+});
+
+// ── Feedback ──
+app.post('/api/feedback', (req, res) => {
+  try {
+    const { rating, diagnosis, severity, confidence, substrate, fertilizer } = req.body || {};
+    if (!rating || !['positive', 'negative'].includes(rating)) {
+      return res.status(400).json({ error: 'rating must be positive or negative' });
+    }
+    stmtInsertFeedback.run(
+      rating,
+      (diagnosis || '').substring(0, 500),
+      (severity || '').substring(0, 20),
+      typeof confidence === 'number' ? confidence : null,
+      (substrate || '').substring(0, 50),
+      (fertilizer || '').substring(0, 100)
+    );
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[LeafScan] Feedback error:', err.message);
+    res.status(500).json({ error: 'Failed to save feedback' });
+  }
+});
+
+app.get('/api/admin/feedback', (req, res) => {
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== TESTER_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  const limit = Math.min(parseInt(req.query.limit) || 50, 500);
+  const stats = stmtFeedbackStats.all();
+  const recent = stmtFeedbackRecent.all(limit);
+  const total = stats.reduce((sum, s) => sum + s.count, 0);
+  const positive = stats.find(s => s.rating === 'positive')?.count || 0;
+  const negative = stats.find(s => s.rating === 'negative')?.count || 0;
+  res.json({
+    summary: { total, positive, negative, satisfaction: total > 0 ? Math.round(positive / total * 100) : 0 },
+    recent,
+  });
 });
 
 // ── Health check ──

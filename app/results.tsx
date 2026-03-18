@@ -13,6 +13,22 @@ import { shareDiagnosis } from '../services/export';
 import { refineDiagnosis, validateDiagnosisResult } from '../services/claude';
 import { getFertilizerNames } from '../constants/fertilizers';
 import { updateEntry } from '../services/storage';
+
+const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
+
+function sendFeedbackToServer(rating: 'positive' | 'negative', result: DiagnosisResult | null) {
+  if (!result) return;
+  fetch(`${SERVER_URL}/api/feedback`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      rating,
+      diagnosis: result.primaryDiagnosis,
+      severity: result.severity,
+      confidence: result.confidence,
+    }),
+  }).catch(() => {}); // fire and forget
+}
 import { libraryEntries } from '../constants/library';
 
 // ── Color correction mapping (local, no API cost) ──────────────────
@@ -566,6 +582,7 @@ export default function ResultsScreen() {
               onPress={() => {
                 setFeedback('positive');
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'positive' });
+                sendFeedbackToServer('positive', displayResult);
               }}
               activeOpacity={0.7}
             >
@@ -576,6 +593,7 @@ export default function ResultsScreen() {
               onPress={() => {
                 setFeedback('negative');
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'negative' });
+                sendFeedbackToServer('negative', displayResult);
               }}
               activeOpacity={0.7}
             >
