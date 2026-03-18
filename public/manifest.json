@@ -1,20 +1,35 @@
 {
-  "name": "LeafScan",
+  "name": "LeafScan – KI-Pflanzendiagnose",
   "short_name": "LeafScan",
-  "description": "KI-gestützte Pflanzendiagnose – Foto machen, Probleme erkennen",
-  "start_url": "/",
+  "description": "Foto machen, Diagnose erhalten, Pflanze retten. KI-gestützte Pflanzenanalyse.",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0A0E0D",
   "theme_color": "#4ADE80",
   "lang": "de",
+  "categories": ["lifestyle", "utilities"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/assets/icon.png",
       "sizes": "1024x1024",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.leafscan.app"
     }
   ]
 }

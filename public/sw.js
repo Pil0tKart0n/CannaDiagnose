@@ -20,8 +20,10 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = e.request.url;
 
-  // Never cache API calls
+  // Never cache API calls or APK downloads
   if (url.includes('/api/')) return;
+  if (url.includes('/download/')) return;
+  if (url.endsWith('.apk')) return;
   if (e.request.method !== 'GET') return;
 
   // HTML pages: network-first (always get latest)

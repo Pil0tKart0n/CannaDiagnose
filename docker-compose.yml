@@ -6,6 +6,7 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /opt/leafscan/releases:/usr/share/nginx/html/download:ro
     depends_on:
       - api
     restart: unless-stopped

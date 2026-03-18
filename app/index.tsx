@@ -55,9 +55,33 @@ export default function HomeScreen() {
   const [showInfo, setShowInfo] = useState(false);
   const [quotaText, setQuotaText] = useState('');
   const [quotaIsPremium, setQuotaIsPremium] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
 
   useEffect(() => {
     injectCSS();
+
+    // PWA install prompt (Android Chrome)
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      const handler = (e: any) => {
+        e.preventDefault();
+        setInstallPrompt(e);
+        // Show banner if not already installed as PWA
+        if (!window.matchMedia('(display-mode: standalone)').matches) {
+          setShowInstallBanner(true);
+        }
+      };
+      window.addEventListener('beforeinstallprompt', handler);
+      // Check if running as APK-like (Android without install prompt = probably already native)
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      const isAndroid = /android/i.test(navigator.userAgent);
+      // Show APK download hint for Android users in browser (not standalone)
+      if (isAndroid && !isStandalone) {
+        setShowInstallBanner(true);
+      }
+      return () => window.removeEventListener('beforeinstallprompt', handler);
+    }
+
     // Check for Stripe payment success redirect — verify with server
     if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('session_id=')) {
       const params = new URLSearchParams(window.location.search);
@@ -223,6 +247,43 @@ export default function HomeScreen() {
             )}
           </View>
 
+          {/* Install banner — PWA or APK download for Android web users */}
+          {isWeb && showInstallBanner && (
+            <View style={styles.installBanner}>
+              {installPrompt ? (
+                <TouchableOpacity
+                  style={styles.installBtn}
+                  onPress={async () => {
+                    installPrompt.prompt();
+                    const result = await installPrompt.userChoice;
+                    if (result.outcome === 'accepted') {
+                      setShowInstallBanner(false);
+                    }
+                    setInstallPrompt(null);
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.installBtnText}>App installieren</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.installBtn}
+                  onPress={() => {
+                    if (typeof window !== 'undefined') {
+                      window.open('/download/leafscan.apk', '_blank');
+                    }
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.installBtnText}>Android App herunterladen</Text>
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity onPress={() => setShowInstallBanner(false)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                <Text style={styles.installDismiss}>Nicht jetzt</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
           {/* Legal footer */}
           <View style={styles.legalFooter}>
             <Text style={styles.legalText}>
@@ -378,6 +439,34 @@ const styles = StyleSheet.create({
   },
   quotaTextPremium: {
     color: colors.accentWarm,
+  },
+
+  // Install banner
+  installBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
+  installBtn: {
+    backgroundColor: colors.accentSubtle,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  installBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.accent,
+  },
+  installDismiss: {
+    fontSize: 12,
+    color: colors.textMuted,
   },
 
   // Legal footer
