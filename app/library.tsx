@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import {
@@ -15,9 +16,23 @@ const ALL_CATEGORIES: LibraryCategory[] = [
 ];
 
 export default function LibraryScreen() {
+  const params = useLocalSearchParams<{ highlight?: string }>();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<LibraryCategory | null>(null);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(params.highlight || null);
+  const flatListRef = useRef<FlatList>(null);
+
+  // Auto-scroll to highlighted entry
+  useEffect(() => {
+    if (params.highlight && flatListRef.current) {
+      const index = libraryEntries.findIndex(e => e.id === params.highlight);
+      if (index >= 0) {
+        setTimeout(() => {
+          flatListRef.current?.scrollToIndex({ index, animated: true, viewOffset: 20 });
+        }, 300);
+      }
+    }
+  }, [params.highlight]);
 
   const filteredEntries = useMemo(() => {
     let entries = libraryEntries;
@@ -137,10 +152,14 @@ export default function LibraryScreen() {
 
       {/* List */}
       <FlatList
+        ref={flatListRef}
         data={filteredEntries}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
+        onScrollToIndexFailed={(info) => {
+          setTimeout(() => flatListRef.current?.scrollToIndex({ index: info.index, animated: true }), 500);
+        }}
         ListEmptyComponent={
           <View style={styles.empty}>
             <Text style={styles.emptyText}>Keine Einträge gefunden.</Text>
