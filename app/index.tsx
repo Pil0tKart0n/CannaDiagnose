@@ -9,6 +9,7 @@ import {
   Animated,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
@@ -140,6 +141,16 @@ export default function HomeScreen() {
       setQuotaIsPremium(q.isPremium);
     }).catch(() => {});
   }, []);
+
+  // Re-check quota every time the screen gets focus (e.g. after paywall/promo)
+  useFocusEffect(
+    React.useCallback(() => {
+      getQuotaDisplay().then((q) => {
+        setQuotaText(q.text);
+        setQuotaIsPremium(q.isPremium);
+      }).catch(() => {});
+    }, [])
+  );
 
   const startDiagnosis = async () => {
     // Check quota before navigating — don't waste user's time if limit reached
