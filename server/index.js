@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
-const FREE_SCANS_PER_DAY = 1;
+const FREE_SCANS_PER_DAY = 5;
 const TESTER_SCANS_PER_DAY = 50;
 const TESTER_KEY = process.env.TESTER_KEY || 'ls-tester-2024-xK9mQ';
 
