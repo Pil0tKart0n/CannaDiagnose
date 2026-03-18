@@ -173,7 +173,7 @@ export default function RootLayout() {
       if (!document.querySelector('link[rel="apple-touch-icon"]')) {
         const apple = document.createElement('link');
         apple.rel = 'apple-touch-icon';
-        apple.href = '/assets/icon.png';
+        apple.href = '/icon-512.png';
         document.head.appendChild(apple);
       }
       // Apple web app meta
