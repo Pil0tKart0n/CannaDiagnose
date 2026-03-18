@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -7,9 +7,13 @@ import {
   StyleSheet,
   Platform,
   ScrollView,
+  Animated,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Question } from '../types';
 import { colors } from '../constants/colors';
+
+const PERLITE_TIP_KEY = 'perlite_tip_shown';
 
 interface QuestionCardProps {
   question: Question;
@@ -64,6 +68,26 @@ function SearchableSelect({ question, value, onChange }: { question: Question; v
 }
 
 export default function QuestionCard({ question, value, onChange, perliteAdded, perlitePercent, onPerliteToggle, onPerlitePercentChange }: QuestionCardProps) {
+  const [showPerliteTip, setShowPerliteTip] = useState(false);
+  const tipOpacity = useState(new Animated.Value(0))[0];
+
+  useEffect(() => {
+    if (question.id === 'substrateType' && value && onPerliteToggle && !perliteAdded) {
+      AsyncStorage.getItem(PERLITE_TIP_KEY).then((shown) => {
+        if (!shown) {
+          setShowPerliteTip(true);
+          Animated.timing(tipOpacity, { toValue: 1, duration: 400, useNativeDriver: true }).start();
+          AsyncStorage.setItem(PERLITE_TIP_KEY, 'true');
+        }
+      });
+    }
+  }, [value]);
+
+  const dismissPerliteTip = () => {
+    Animated.timing(tipOpacity, { toValue: 0, duration: 300, useNativeDriver: true }).start(() => {
+      setShowPerliteTip(false);
+    });
+  };
   const renderSelect = () => (
     <View style={styles.optionsGrid}>
       {question.options?.map((opt) => {
@@ -149,12 +173,23 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
             if (perliteAdded && onPerlitePercentChange) {
               onPerlitePercentChange(null);
             }
+            if (showPerliteTip) dismissPerliteTip();
           }}
         >
           <Text style={[styles.perliteToggleText, perliteAdded && styles.optionTextSelected]}>
             + Perlite
           </Text>
         </TouchableOpacity>
+        {showPerliteTip && (
+          <Animated.View style={[styles.perliteTip, { opacity: tipOpacity }]}>
+            <View style={styles.perliteTipArrow} />
+            <TouchableOpacity onPress={dismissPerliteTip} activeOpacity={0.8}>
+              <Text style={styles.perliteTipText}>
+                Wenn du Perlite in deinem Substrat hast, kannst du sie hier hinzufügen
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
+        )}
         {perliteAdded && onPerlitePercentChange && (
           <View style={styles.perlitePercentRow}>
             <Text style={styles.perliteLabel}>Anteil:</Text>
@@ -372,5 +407,33 @@ const styles = StyleSheet.create({
   perliteChipText: {
     fontSize: 13,
     color: colors.textSecondary,
+  },
+  perliteTip: {
+    marginTop: 10,
+    backgroundColor: colors.accent,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    alignSelf: 'flex-start',
+    maxWidth: '85%',
+  },
+  perliteTipArrow: {
+    position: 'absolute',
+    top: -6,
+    left: 20,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 6,
+    borderRightWidth: 6,
+    borderBottomWidth: 6,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: colors.accent,
+  },
+  perliteTipText: {
+    fontSize: 13,
+    color: '#0A0E0D',
+    fontWeight: '500',
+    lineHeight: 18,
   },
 });

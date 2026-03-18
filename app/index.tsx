@@ -117,8 +117,8 @@ export default function HomeScreen() {
 
           {/* Center: Title + Flow — takes all available space, centered */}
           <View style={styles.centerArea}>
-            {/* Subtle glow behind logo */}
-            <View style={styles.logoGlow} />
+            {/* Subtle glow behind logo (web only — native has no CSS blur) */}
+            {Platform.OS === 'web' && <View style={styles.logoGlow} />}
             <Text style={styles.title}>Leaf</Text>
             <Text style={styles.titleAccent}>Scan</Text>
 
