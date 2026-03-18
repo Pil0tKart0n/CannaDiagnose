@@ -5,7 +5,7 @@ const SESSION_TOKEN_KEY = 'leafscan_session_token';
 const PREMIUM_KEY = 'leafscan_premium';
 
 // Server URL for native API calls
-const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
+export const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
 /** Get stored session token for premium users */
 export async function getSessionToken(): Promise<string | null> {

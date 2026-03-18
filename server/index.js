@@ -83,10 +83,12 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL,
     ip TEXT NOT NULL,
+    device_id TEXT NOT NULL DEFAULT '',
     redeemed_at TEXT NOT NULL DEFAULT (datetime('now')),
     expires_at TEXT NOT NULL
   );
   CREATE INDEX IF NOT EXISTS idx_promo_ip ON promo_redemptions(ip);
+  CREATE INDEX IF NOT EXISTS idx_promo_device ON promo_redemptions(device_id);
 
   CREATE TABLE IF NOT EXISTS feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -139,9 +141,11 @@ const stmtDeactivateByCustomer = db.prepare(`UPDATE premium_sessions SET active 
 // ── Promo code statements ──
 const stmtFindPromo = db.prepare(`SELECT * FROM promo_codes WHERE code = ? AND active = 1`);
 const stmtIncrementPromo = db.prepare(`UPDATE promo_codes SET used = used + 1 WHERE code = ?`);
-const stmtCheckRedeemed = db.prepare(`SELECT * FROM promo_redemptions WHERE code = ? AND ip = ?`);
-const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, expires_at) VALUES (?, ?, datetime('now', '+' || ? || ' days'))`);
-const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE ip = ? AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
+// Check if this IP or device has EVER redeemed ANY promo code
+const stmtCheckRedeemedByIp = db.prepare(`SELECT * FROM promo_redemptions WHERE ip = ? LIMIT 1`);
+const stmtCheckRedeemedByDevice = db.prepare(`SELECT * FROM promo_redemptions WHERE device_id = ? AND device_id != '' LIMIT 1`);
+const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, device_id, expires_at) VALUES (?, ?, ?, datetime('now', '+' || ? || ' days'))`);
+const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE (ip = ? OR (device_id = ? AND device_id != '')) AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
 
 // Seed default promo codes (only if they don't exist yet)
 const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`);
@@ -223,7 +227,7 @@ function checkPremium(token, req) {
   // 2. Check active promo code redemption (by IP)
   if (req) {
     const ip = getClientIP(req);
-    const promo = stmtActivePromo.get(ip);
+    const promo = stmtActivePromo.get(ip, '');
     if (promo) {
       return { plan: 'promo', promo_code: promo.code, expires_at: promo.expires_at };
     }
@@ -479,6 +483,7 @@ app.post('/api/redeem-code', rateLimit, (req, res) => {
   }
 
   const cleanCode = code.trim().toUpperCase();
+  const deviceId = (req.body.deviceId || '').trim();
   const ip = getClientIP(req);
 
   // Check if code exists
@@ -492,23 +497,25 @@ app.post('/api/redeem-code', rateLimit, (req, res) => {
     return res.status(410).json({ error: 'code_exhausted', message: 'Dieser Code wurde bereits zu oft eingelöst.' });
   }
 
-  // Check if already redeemed by this IP
-  const existing = stmtCheckRedeemed.get(cleanCode, ip);
-  if (existing) {
-    return res.status(409).json({ error: 'already_redeemed', message: 'Du hast diesen Code bereits eingelöst.', expires_at: existing.expires_at });
+  // Check if this IP has EVER redeemed ANY promo code
+  const existingByIp = stmtCheckRedeemedByIp.get(ip);
+  if (existingByIp) {
+    return res.status(409).json({ error: 'already_redeemed', message: 'Du hast bereits einen Code eingelöst.' });
   }
 
-  // Check if user already has an active promo
-  const activePromo = stmtActivePromo.get(ip);
-  if (activePromo) {
-    return res.status(409).json({ error: 'already_active', message: `Du hast bereits Premium bis ${new Date(activePromo.expires_at + 'Z').toLocaleDateString('de-DE')}.` });
+  // Check if this device has EVER redeemed ANY promo code
+  if (deviceId) {
+    const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
+    if (existingByDevice) {
+      return res.status(409).json({ error: 'already_redeemed', message: 'Auf diesem Gerät wurde bereits ein Code eingelöst.' });
+    }
   }
 
   // Redeem!
-  stmtRedeemPromo.run(cleanCode, ip, promo.days);
+  stmtRedeemPromo.run(cleanCode, ip, deviceId, promo.days);
   stmtIncrementPromo.run(cleanCode);
 
-  const redemption = stmtActivePromo.get(ip);
+  const redemption = stmtActivePromo.get(ip, deviceId);
 
   res.json({
     success: true,

@@ -22,6 +22,7 @@ import {
   SubscriptionPackage,
 } from '../services/purchases';
 import { setPremium, setSessionToken } from '../services/quota';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Feature {
   icon: string;
@@ -189,15 +190,30 @@ export default function PaywallScreen() {
     }
   };
 
+  const getDeviceId = async (): Promise<string> => {
+    try {
+      let id = await AsyncStorage.getItem('leafscan_device_id');
+      if (!id) {
+        id = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        await AsyncStorage.setItem('leafscan_device_id', id);
+      }
+      return id;
+    } catch {
+      return '';
+    }
+  };
+
   const handleRedeem = async () => {
     if (!promoCode.trim()) return;
     setPromoLoading(true);
     setPromoMessage('');
     try {
-      const res = await fetch('/api/redeem-code', {
+      const deviceId = await getDeviceId();
+      const apiUrl = Platform.OS === 'web' ? '/api/redeem-code' : `${require('../services/quota').SERVER_URL}/api/redeem-code`;
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: promoCode.trim() }),
+        body: JSON.stringify({ code: promoCode.trim(), deviceId }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
