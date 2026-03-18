@@ -117,6 +117,8 @@ export default function HomeScreen() {
 
           {/* Center: Title + Flow — takes all available space, centered */}
           <View style={styles.centerArea}>
+            {/* Subtle glow behind logo */}
+            <View style={styles.logoGlow} />
             <Text style={styles.title}>Leaf</Text>
             <Text style={styles.titleAccent}>Scan</Text>
 
@@ -290,6 +292,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logoGlow: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(74,222,128,0.06)',
+    top: '30%',
+    ...Platform.select({
+      web: { filter: 'blur(60px)' },
+      default: {},
+    }),
   },
   title: {
     fontSize: 44,

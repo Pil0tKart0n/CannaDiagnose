@@ -26,9 +26,11 @@ export default function DiagnosisCard({ result }: DiagnosisCardProps) {
 
   return (
     <View style={styles.card}>
+      {/* Color accent line on left edge */}
+      <View style={[styles.severityStripe, { backgroundColor: sevColor }]} />
       <View style={[styles.severityBadge, { backgroundColor: sevColor }]}>
         <Text style={styles.severityText}>
-          Schweregrad: {severityLabels[result.severity]}
+          {severityLabels[result.severity]}
         </Text>
       </View>
 
@@ -62,9 +64,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cardDark,
     borderRadius: 16,
     padding: 20,
+    paddingLeft: 24,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
+    overflow: 'hidden',
     ...Platform.select({
       ios: {
         shadowColor: colors.shadowDark,
@@ -77,6 +81,15 @@ const styles = StyleSheet.create({
         boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
       },
     }),
+  },
+  severityStripe: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 4,
+    borderTopLeftRadius: 16,
+    borderBottomLeftRadius: 16,
   },
   severityBadge: {
     alignSelf: 'flex-start',

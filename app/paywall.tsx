@@ -430,6 +430,11 @@ const styles = StyleSheet.create({
   packageCardSelected: {
     borderColor: colors.accent,
     backgroundColor: colors.accentGlow,
+    ...Platform.select({
+      web: { boxShadow: '0 0 20px rgba(74,222,128,0.15)' },
+      ios: { shadowColor: colors.accent, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.2, shadowRadius: 12 },
+      android: { elevation: 4 },
+    }),
   },
   popularBadge: {
     position: 'absolute',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform, Animated, Easing } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,12 +12,12 @@ import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
 const loadingTexts = [
-  'Analysiere Bild...',
-  'Erkenne Symptome...',
-  'Prüfe Anbaubedingungen...',
-  'Kreuz-referenziere Faktoren...',
-  'Verifiziere mit Referenzbildern...',
-  'Erstelle Diagnose...',
+  'Analysiere Blattstruktur...',
+  'Erkenne Farbmuster...',
+  'Prüfe Nährstoff-Symptome...',
+  'Gleiche mit Referenzdaten ab...',
+  'Bewerte Umgebungsfaktoren...',
+  'Erstelle Aktionsplan...',
 ];
 
 type ScreenState = 'loading' | 'error';
@@ -34,10 +34,25 @@ export default function AnalyzingScreen() {
   const [error, setError] = useState<ApiError | null>(null);
   const hasStarted = useRef(false);
 
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const textOpacity = useRef(new Animated.Value(1)).current;
+
   useEffect(() => {
+    // Subtle pulse animation on the ring
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, { toValue: 1.08, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 1, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+      ])
+    ).start();
+
+    // Rotate loading texts with fade
     const interval = setInterval(() => {
-      setTextIndex((i) => (i + 1) % loadingTexts.length);
-    }, 2500);
+      Animated.timing(textOpacity, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => {
+        setTextIndex((i) => (i + 1) % loadingTexts.length);
+        Animated.timing(textOpacity, { toValue: 1, duration: 300, useNativeDriver: true }).start();
+      });
+    }, 2800);
     return () => clearInterval(interval);
   }, []);
 
@@ -270,16 +285,16 @@ export default function AnalyzingScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.pulseRing}>
+      <Animated.View style={[styles.pulseRing, { transform: [{ scale: pulseAnim }] }]}>
         <View style={styles.pulseInner}>
-          <ActivityIndicator size="large" color={colors.accent} />
+          <Ionicons name="leaf" size={28} color={colors.accent} />
         </View>
-      </View>
-      <Text style={styles.text}>{loadingTexts[textIndex]}</Text>
+      </Animated.View>
+      <Animated.Text style={[styles.text, { opacity: textOpacity }]}>{loadingTexts[textIndex]}</Animated.Text>
       {attemptText ? (
         <Text style={styles.attemptText}>{attemptText}</Text>
       ) : (
-        <Text style={styles.sub}>Dies kann einige Sekunden dauern...</Text>
+        <Text style={styles.sub}>Dies kann einige Sekunden dauern</Text>
       )}
     </View>
   );
