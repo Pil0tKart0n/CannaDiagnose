@@ -4,14 +4,14 @@ const FERTILIZER_PROFILES = {
     name: 'Athena Pro', brand: 'Athena', type: 'mineral',
     ecRanges: { seedling: '0.4–0.8', earlyVeg: '1.0–1.6', lateVeg: '1.6–2.2', earlyFlower: '2.0–2.6', midFlower: '2.2–2.8', lateFlower: '2.4–3.0', flush: '0.0–0.4' },
     calmagProduct: 'Athena CaMg',
-    calmagNote: 'Athena CaMg ist Teil des Pro-Line Feed Charts. In Kokos mitführen laut Athena-Schema (meist 1-3 ml/L). WICHTIG: Laut Athena Feed Chart wird CaMg nur bis ca. Woche 7 der Blüte dosiert. Ab Woche 8+ (Fade/Flush) wird CaMg NICHT mehr gegeben! In der Spätblüte (Woche 9-12) ist CaMg kontraproduktiv. KEIN fremdes CalMag verwenden.',
+    calmagNote: 'Athena CaMg ist Teil des Pro-Line Feed Charts. In Kokos mitführen laut Athena-Schema (meist 1-3 ml/L). Laut Athena Feed Chart wird CaMg nur bis ca. Woche 7 der Blüte dosiert — danach nicht mehr relevant. KEIN fremdes CalMag verwenden.',
     notes: 'Hochkonzentriertes Mineralsalz-System (Core + Bloom). EC bewusst höher. Nur Athena-eigene Produkte empfehlen!',
   },
   'Athena Blended': {
     name: 'Athena Blended', brand: 'Athena', type: 'mineral',
     ecRanges: { seedling: '0.4–0.8', earlyVeg: '1.2–1.8', lateVeg: '1.8–2.4', earlyFlower: '2.2–2.8', midFlower: '2.4–3.0', lateFlower: '2.6–3.2', flush: '0.0–0.4' },
     calmagProduct: 'Athena CaMg',
-    calmagNote: 'Athena Blended Feed Chart enthält CaMg-Dosierung. In Kokos mitführen laut Feed Chart. WICHTIG: CaMg wird nur bis ca. Woche 7 der Blüte dosiert. Ab Woche 8+ (Fade/Flush) wird CaMg NICHT mehr gegeben! In der Spätblüte ist CaMg kontraproduktiv. KEIN fremdes CalMag verwenden – Athena-System ist aufeinander abgestimmt.',
+    calmagNote: 'Athena Blended Feed Chart enthält CaMg-Dosierung. In Kokos mitführen laut Feed Chart. CaMg wird nur bis ca. Woche 7 der Blüte dosiert — danach nicht mehr relevant. KEIN fremdes CalMag verwenden – Athena-System ist aufeinander abgestimmt.',
     notes: 'Pulverform (Grow + Bloom). Höhere EC als Pro-Line. Nur Athena-eigene Zusätze empfehlen (CaMg, Stack, Fade)!',
   },
   'Front Row Ag': {
@@ -319,7 +319,7 @@ module.exports.getFertilizerContext = function getFertilizerContext(fertilizerNa
   context += '\n- ABSOLUTE REGEL: Empfehle NUR Produkte von ' + profile.brand + '! NIEMALS CalMag oder Zusätze von anderen Herstellern empfehlen!';
   context += '\n- Wenn der User ' + profile.name + ' nutzt, bleibe IMMER im ' + profile.brand + '-Ökosystem.';
   context += '\n- Wenn kein herstellereigenes CalMag existiert, sage das explizit und empfehle ein generisches/kompatibles CalMag – NIEMALS ein Produkt einer konkurrierenden Marke namentlich nennen.';
-  context += '\n- SPÄTBLÜTE/FLUSH-REGEL: Wenn die Pflanze in Woche 8+ der Blüte ist (Fade/Flush/Ernte), empfehle KEIN CalMag mehr! Die meisten Feed Charts beenden CalMag-Zugabe ab Woche 7-8. In der Spätblüte ist CalMag kontraproduktiv — es kann die Flush-Phase stören und den Geschmack beeinträchtigen. Empfehle stattdessen nur noch Wasser oder die vom Hersteller vorgesehene Flush-Lösung.';
+  context += '\n- SPÄTBLÜTE/FLUSH-REGEL (Woche 8+): CalMag ist in dieser Phase KEIN THEMA. Erwähne CalMag ÜBERHAUPT NICHT — weder als Empfehlung, noch als Warnung, noch als Präventionstipp. Das Wort CalMag/CaMg darf in der gesamten Antwort NICHT vorkommen wenn die Pflanze in Woche 8+ ist. Fokussiere dich ausschließlich auf Flush/Ernte-relevante Themen.';
   context += '\n- ERFINDE KEINE Dosierungen oder Zeitpläne die nicht im Feed Chart stehen! Wenn du dir nicht sicher bist ob ein Produkt in einer bestimmten Phase laut Feed Chart verwendet wird, sage "laut Feed Chart prüfen" statt eine konkrete Empfehlung zu erfinden.';
 
   return context;
