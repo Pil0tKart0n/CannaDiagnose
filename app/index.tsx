@@ -38,6 +38,29 @@ const webCSS = Platform.OS === 'web' ? `
   }
   .cd-btn-secondary:hover { background: rgba(255,255,255,0.03); }
   .cd-btn-secondary:active { transform: scale(0.97); }
+  @keyframes cd-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .cd-btn-premium {
+    position: relative; overflow: hidden; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(218,165,32,0.08) 0%, rgba(255,215,0,0.04) 50%, rgba(218,165,32,0.08) 100%);
+    border: 1px solid rgba(218,165,32,0.35);
+    box-shadow: 0 0 20px rgba(218,165,32,0.08), inset 0 1px 0 rgba(255,215,0,0.06);
+    transition: transform 0.15s ease, box-shadow 0.3s ease; cursor: pointer;
+  }
+  .cd-btn-premium:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 28px rgba(218,165,32,0.15), inset 0 1px 0 rgba(255,215,0,0.1);
+  }
+  .cd-btn-premium:active { transform: scale(0.97); }
+  .cd-btn-premium::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(105deg, transparent 30%, rgba(255,215,0,0.12) 50%, transparent 70%);
+    animation: cd-shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
 ` : '';
 
 function injectCSS() {
@@ -288,13 +311,14 @@ export default function HomeScreen() {
           {!quotaIsPremium && (
             isWeb ? (
               <div
-                className="cd-btn-secondary"
+                className="cd-btn-premium"
                 onClick={() => router.push('/paywall')}
-                style={{ padding: '10px 16px', textAlign: 'center', marginTop: 2 } as any}
+                style={{ padding: '12px 16px', textAlign: 'center', marginTop: 4 } as any}
               >
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
                   <Text style={styles.premiumBtnText}>Premium freischalten</Text>
+                  <Text style={styles.premiumArrow}>→</Text>
                 </View>
               </div>
             ) : (
@@ -537,14 +561,19 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   premiumIcon: {
-    fontSize: 12,
-    color: colors.accentWarm,
+    fontSize: 14,
+    color: '#DAA520',
   },
   premiumBtnText: {
-    color: colors.accentWarm,
-    fontSize: 13,
+    color: '#DAA520',
+    fontSize: 14,
     fontWeight: '600',
-    letterSpacing: 0.3,
+    letterSpacing: 0.5,
+  },
+  premiumArrow: {
+    fontSize: 14,
+    color: 'rgba(218,165,32,0.5)',
+    marginLeft: 4,
   },
 
   // Buttons
