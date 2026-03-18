@@ -12,6 +12,8 @@ import { DiagnosisResult } from '../types';
 import { shareDiagnosis } from '../services/export';
 import { refineDiagnosis, validateDiagnosisResult } from '../services/claude';
 import { getFertilizerNames } from '../constants/fertilizers';
+import { updateEntry } from '../services/storage';
+import { libraryEntries } from '../constants/library';
 
 // ── Color correction mapping (local, no API cost) ──────────────────
 const KNOWN_COLORS: { label: string; keywords: string[]; correction: { diagnosis: string; explanation: string; severity: 'niedrig' | 'mittel' | 'hoch' | 'kritisch' } }[] = [
@@ -102,7 +104,7 @@ function applyColorCorrection(color: typeof KNOWN_COLORS[number], currentResult:
 export default function ResultsScreen() {
   const router = useRouter();
   const { result, setResult, questionnaire, imageUri, imageUris, optimizedImageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
-  const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string; historyImages?: string }>();
+  const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string; historyImages?: string; entryId?: string }>();
   const [sharing, setSharing] = useState(false);
   const [refineOpen, setRefineOpen] = useState(false);
   const [refineLoading, setRefineLoading] = useState(false);
@@ -120,6 +122,7 @@ export default function ResultsScreen() {
   const refineYRef = useRef(0);
 
   const [refinedResult, setRefinedResult] = useState<DiagnosisResult | null>(null);
+  const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null);
 
   // Color suggestions based on input
   const colorSuggestions = colorInput.length >= 2
@@ -520,6 +523,68 @@ export default function ResultsScreen() {
         </View>
       )}
 
+      {/* Library link — match diagnosis to library entry */}
+      {(() => {
+        const diag = displayResult.primaryDiagnosis.toLowerCase();
+        const match = libraryEntries.find(e => {
+          const n = e.name.toLowerCase();
+          if (diag.includes('stickstoff') || diag.includes('(n)') || diag.includes('n-mangel')) return e.id === 'n-stickstoff';
+          if (diag.includes('phosphor') || diag.includes('(p)')) return e.id === 'n-phosphor';
+          if (diag.includes('kalium') || diag.includes('(k)')) return e.id === 'n-kalium';
+          if (diag.includes('kalzium') || diag.includes('calcium') || diag.includes('(ca)')) return e.id === 'n-kalzium';
+          if (diag.includes('magnesium') || diag.includes('(mg)')) return e.id === 'n-magnesium';
+          if (diag.includes('eisen') || diag.includes('(fe)')) return e.id === 'n-eisen';
+          if (diag.includes('mangan') || diag.includes('(mn)')) return e.id === 'n-mangan';
+          if (diag.includes('zink') || diag.includes('(zn)')) return e.id === 'n-zink';
+          if (diag.includes('schwefel') || diag.includes('(s)')) return e.id === 'n-schwefel';
+          if (diag.includes('bor') || diag.includes('(b)')) return e.id === 'n-bor';
+          if (diag.includes('kupfer') || diag.includes('(cu)')) return e.id === 'n-kupfer';
+          if (diag.includes('molybdän') || diag.includes('(mo)')) return e.id === 'n-molybdaen';
+          return false;
+        });
+        if (!match) return null;
+        return (
+          <TouchableOpacity
+            style={styles.libraryLink}
+            onPress={() => router.push({ pathname: '/library', params: { highlight: match.id } })}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="book-outline" size={16} color={colors.accent} />
+            <Text style={styles.libraryLinkText}>Mehr über {match.name} in der Bibliothek</Text>
+            <Ionicons name="chevron-forward" size={14} color={colors.textMuted} />
+          </TouchableOpacity>
+        );
+      })()}
+
+      {/* Feedback */}
+      {!isFromHistory && (
+        <View style={styles.feedbackRow}>
+          <Text style={styles.feedbackLabel}>War die Diagnose hilfreich?</Text>
+          <View style={styles.feedbackButtons}>
+            <TouchableOpacity
+              style={[styles.feedbackBtn, feedback === 'positive' && styles.feedbackBtnActive]}
+              onPress={() => {
+                setFeedback('positive');
+                if (params.entryId) updateEntry(params.entryId, { feedback: 'positive' });
+              }}
+              activeOpacity={0.7}
+            >
+              <Ionicons name={feedback === 'positive' ? 'thumbs-up' : 'thumbs-up-outline'} size={18} color={feedback === 'positive' ? colors.accent : colors.textMuted} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.feedbackBtn, feedback === 'negative' && styles.feedbackBtnNegative]}
+              onPress={() => {
+                setFeedback('negative');
+                if (params.entryId) updateEntry(params.entryId, { feedback: 'negative' });
+              }}
+              activeOpacity={0.7}
+            >
+              <Ionicons name={feedback === 'negative' ? 'thumbs-down' : 'thumbs-down-outline'} size={18} color={feedback === 'negative' ? colors.error : colors.textMuted} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
       {/* Disclaimer */}
       <View style={styles.disclaimer}>
         <Text style={styles.disclaimerText}>
@@ -618,6 +683,57 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     lineHeight: 16,
     textAlign: 'center',
+  },
+  libraryLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: colors.accentGlow,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: colors.borderAccent,
+  },
+  libraryLinkText: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: colors.accent,
+    flex: 1,
+  },
+  feedbackRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+  },
+  feedbackLabel: {
+    fontSize: 13,
+    color: colors.textSecondary,
+  },
+  feedbackButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  feedbackBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  feedbackBtnActive: {
+    backgroundColor: colors.accentGlow,
+    borderColor: colors.accent,
+  },
+  feedbackBtnNegative: {
+    backgroundColor: 'rgba(248,113,113,0.08)',
+    borderColor: 'rgba(248,113,113,0.3)',
   },
   newBtn: {
     marginTop: 8,

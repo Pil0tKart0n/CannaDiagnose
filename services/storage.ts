@@ -28,6 +28,15 @@ export async function getEntry(id: string): Promise<DiagnosisEntry | null> {
   return entries.find((e) => e.id === id) ?? null;
 }
 
+export async function updateEntry(id: string, updates: Partial<DiagnosisEntry>): Promise<void> {
+  const entries = await getEntries();
+  const idx = entries.findIndex((e) => e.id === id);
+  if (idx >= 0) {
+    entries[idx] = { ...entries[idx], ...updates };
+    await AsyncStorage.setItem(ENTRIES_KEY, JSON.stringify(entries));
+  }
+}
+
 export async function deleteEntry(id: string): Promise<void> {
   const entries = await getEntries();
   const filtered = entries.filter((e) => e.id !== id);

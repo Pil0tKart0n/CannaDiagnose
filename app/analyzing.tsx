@@ -169,7 +169,7 @@ export default function AnalyzingScreen() {
         }
         await scheduleFollowUpReminder(plantName, diagResult.followUpDays, entryId);
       }
-      router.replace('/results');
+      router.replace({ pathname: '/results', params: { entryId } });
     } catch (err: any) {
       const apiError: ApiError = err.apiError || {
         type: 'unknown',

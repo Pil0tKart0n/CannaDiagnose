@@ -51,6 +51,7 @@ export interface DiagnosisEntry {
   questionnaire: QuestionnaireData;
   result: DiagnosisResult;
   plantId?: string;
+  feedback?: 'positive' | 'negative'; // user feedback on diagnosis accuracy
 }
 
 /** Helper: get all image URIs from an entry (handles old entries without imageUris) */
