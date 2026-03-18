@@ -59,9 +59,13 @@ interface StripePlan {
   interval: string;
 }
 
+const STRIPE_API_BASE = Platform.OS === 'web'
+  ? ''  // relative URLs work on PWA
+  : (process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de');
+
 async function getStripePlans(): Promise<StripePlan[]> {
   try {
-    const res = await fetch('/api/stripe/products');
+    const res = await fetch(`${STRIPE_API_BASE}/api/stripe/products`);
     const data = await res.json();
     return data.plans || [];
   } catch {
@@ -71,7 +75,7 @@ async function getStripePlans(): Promise<StripePlan[]> {
 
 async function startStripeCheckout(priceId: string): Promise<string | null> {
   try {
-    const res = await fetch('/api/stripe/checkout', {
+    const res = await fetch(`${STRIPE_API_BASE}/api/stripe/checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ priceId }),
@@ -126,9 +130,9 @@ export default function PaywallScreen() {
         setLoading(false);
       }).catch(() => setLoading(false));
     } else {
-      // Load RevenueCat offerings
-      getOfferings().then((pkgs) => {
-        setPackages(pkgs);
+      // APK: also use Stripe plans (not RevenueCat)
+      getStripePlans().then((plans) => {
+        setStripePlans(plans);
         setLoading(false);
       }).catch(() => setLoading(false));
     }
@@ -137,23 +141,29 @@ export default function PaywallScreen() {
   const handlePurchase = async () => {
     setPurchasing(true);
 
-    if (isWeb) {
-      // Stripe Checkout
+    // Use Stripe Checkout on all platforms (PWA + APK)
+    {
       const plan = stripePlans[selectedIdx];
       if (!plan?.priceId) {
         setPurchasing(false);
-        alert('Produkt nicht verfügbar.');
+        Alert.alert('Fehler', 'Produkt nicht verfügbar.');
         return;
       }
       const url = await startStripeCheckout(plan.priceId);
       setPurchasing(false);
       if (url) {
-        window.location.href = url;
+        if (Platform.OS === 'web') {
+          window.location.href = url;
+        } else {
+          // Open Stripe Checkout in external browser
+          Linking.openURL(url);
+        }
       } else {
-        alert('Checkout konnte nicht gestartet werden. Bitte versuche es erneut.');
+        Alert.alert('Fehler', 'Checkout konnte nicht gestartet werden. Bitte versuche es erneut.');
       }
-    } else {
-      // RevenueCat purchase
+    }
+    if (false) {
+      // RevenueCat purchase (disabled — using Stripe for now)
       if (packages.length === 0) { setPurchasing(false); return; }
       const result = await purchasePackage(packages[selectedIdx]);
       setPurchasing(false);
@@ -184,10 +194,8 @@ export default function PaywallScreen() {
     }
   };
 
-  // Determine display data based on platform
-  const displayPlans = isWeb
-    ? stripePlans.map(p => ({ title: p.name, priceString: p.price }))
-    : packages.map(p => ({ title: p.title, priceString: p.priceString }));
+  // All platforms use Stripe plans now
+  const displayPlans = stripePlans.map(p => ({ title: p.name, priceString: p.price }));
 
   const selectedPlan = displayPlans[selectedIdx];
   const features = selectedIdx === 0 ? growerFeatures : proFeatures;
