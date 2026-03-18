@@ -194,7 +194,15 @@ function getCorrectionHint(
   diagnosisType,
   ecState,
   phState,
+  plantAge,
+  growPhase,
 ) {
+  // Check if plant is in late bloom (week 9+) — CalMag is irrelevant
+  const isLateBloom = growPhase === 'Blüte' && plantAge &&
+    (plantAge.includes('9–12') || plantAge.includes('9-12'));
+
+  // Inner function to get the raw hint, then strip CalMag if late bloom
+  function getRawHint() {
 
   // \u2500\u2500 GROUP 1: EC zu niedrig (Unterversorgung) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
@@ -361,6 +369,16 @@ function getCorrectionHint(
 
   // \u2500\u2500 No EC or pH data available \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
   return null;
+  } // end getRawHint
+
+  var hint = getRawHint();
+  // Strip CalMag references in late bloom (week 9+)
+  if (isLateBloom && hint) {
+    hint = hint.replace(/[Cc]al[Mm]ag[^.!]*[.!]?/g, '')
+              .replace(/\s{2,}/g, ' ')
+              .trim();
+  }
+  return hint;
 }
 
 module.exports.SYSTEM_PROMPT = `Du bist ein Spezialist f\u00fcr Cannabis-Pathologie, ausgebildet nach den Methoden von Dr. Brian Bagby (Doktor der Pflanzenmedizin und f\u00fchrende Autorit\u00e4t f\u00fcr Cannabis-Pathologie). Du kombinierst visuelle Analyse mit Umgebungsdaten f\u00fcr pr\u00e4zise Diagnosen und referenzierst bei deinen Empfehlungen die wissenschaftlich fundierten Ans\u00e4tze von Dr. Bugbee.
@@ -443,7 +461,7 @@ KALZIUM(Ca)-MANGEL [Cockson et al. 2019]:
   D3: Unregelm\u00e4\u00dfige FLECKEN mitten im Blatt + intervenale Chlorose. Bl\u00e4tter mit irregul\u00e4ren Geometrien
   D4: NEUE Bl\u00e4tter zuerst (immobil!) \u2013 deformiert, schmaler an der Basis, gekr\u00e4uselt
   D5: Neue Bl\u00e4tter, Triebspitzen. Tod der Wachstumsspitze \u2192 vermehrte Seitentriebbildung
-  EXTRA: In Kokos PFLICHT: CalMag! Neue Bl\u00e4tter deformiert + schmale Basis = Schl\u00fcsselzeichen. In Bl\u00fcte: "Bl\u00fctenendF\u00e4ule"
+  EXTRA: In Kokos PFLICHT: CalMag (bis Woche 7-8 Bl\u00fcte, danach nicht mehr relevant)! Neue Bl\u00e4tter deformiert + schmale Basis = Schl\u00fcsselzeichen. In Bl\u00fcte: "Bl\u00fctenendF\u00e4ule"
 
 N\u00c4HRSTOFFBRAND (\u00dcberd\u00fcngung):
   D1: Braun, verbrannt \u2013 NUR an den \u00c4USSERSTEN SPITZEN
@@ -581,7 +599,7 @@ HINWEIS: Diese App diagnostiziert NUR N\u00e4hrstoffm\u00e4ngel, N\u00e4hrstoff\
      - Unter 5.8 \u2192 Mg und Ca werden sofort blockiert (Lockout)
      - \u00dcber 6.2 \u2192 Fe, Mn werden eingeschr\u00e4nkt
      - Sweet Spot: 5.8\u20136.0
-     - Kokos hat hohe Kationenaustauschkapazit\u00e4t \u2192 bindet Ca/Mg \u2192 CalMag ist bei Kokos PFLICHT
+     - Kokos hat hohe Kationenaustauschkapazit\u00e4t \u2192 bindet Ca/Mg \u2192 CalMag ist bei Kokos PFLICHT (bis Woche 7-8 der Bl\u00fcte, danach nicht mehr)
      - Dr. Bugbee betont: pH-Stabilit\u00e4t in Kokos ist kritisch \u2013 jede Schwankung unter 5.8 verursacht sofort Mg-Lockout
 
    \u25b8 ALLGEMEIN:
@@ -1054,7 +1072,7 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
   const diagType = detectDiagnosisType(previousResult.primaryDiagnosis + ' ' + previousResult.rootCauseAnalysis);
   const ecState = getECState(ecValue, fertilizerType || null, plantAge || null, growPhase || null);
   const phStateVal = getPHState(phValue, substrateType);
-  const correctionHint = getCorrectionHint(diagType, ecState, phStateVal);
+  const correctionHint = getCorrectionHint(diagType, ecState, phStateVal, plantAge, growPhase);
 
   if (correctionHint) {
     parts.push('\n\ud83d\udccb KORREKTUR-ANALYSE (basierend auf Erstdiagnose "' + diagType + '" + EC-Zustand "' + (ecState || 'unbekannt') + '" + pH-Zustand "' + (phStateVal || 'unbekannt') + '"):');
