@@ -4,18 +4,18 @@ import { DiagnosisResult, Severity } from '../types';
 import { readAsBase64 } from './fileSystemWeb';
 
 // expo-print and expo-sharing are not available in Expo Go
-// Use dynamic imports so the app doesn't crash on startup
-async function getPrint() {
+// Use require() so the app doesn't crash on startup if unavailable
+function getPrint(): typeof import('expo-print') {
   try {
-    return await import('expo-print');
+    return require('expo-print');
   } catch {
     throw new Error('PDF-Export ist in Expo Go nicht verfügbar. Verwende einen Development Build.');
   }
 }
 
-async function getSharing() {
+function getSharing(): typeof import('expo-sharing') {
   try {
-    return await import('expo-sharing');
+    return require('expo-sharing');
   } catch {
     throw new Error('Teilen ist in Expo Go nicht verfügbar. Verwende einen Development Build.');
   }
@@ -393,7 +393,7 @@ export async function generateDiagnosisPDF(
   }
 
   const html = generateHTML(result, imageBase64);
-  const Print = await getPrint();
+  const Print = getPrint();
   const { uri } = await Print.printToFileAsync({ html });
   return uri;
 }
@@ -423,7 +423,7 @@ export async function shareDiagnosis(
 
   const fileUri = await generateDiagnosisPDF(result, imageUri);
 
-  const SharingModule = await getSharing();
+  const SharingModule = getSharing();
   const isAvailable = await SharingModule.isAvailableAsync();
   if (!isAvailable) {
     throw new Error('Teilen ist auf diesem Gerät nicht verfügbar.');
