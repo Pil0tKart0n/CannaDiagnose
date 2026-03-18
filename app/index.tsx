@@ -117,7 +117,8 @@ export default function HomeScreen() {
 
           {/* Center: Title + Flow — takes all available space, centered */}
           <View style={styles.centerArea}>
-            {/* Subtle glow behind logo */}
+            {/* Glow behind logo — outer soft + inner bright */}
+            <View style={styles.logoGlowOuter} />
             <View style={styles.logoGlow} />
             <Text style={styles.title}>Leaf</Text>
             <Text style={styles.titleAccent}>Scan</Text>
@@ -293,16 +294,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoGlowOuter: {
+    position: 'absolute',
+    width: 400,
+    height: 400,
+    borderRadius: 200,
+    backgroundColor: 'rgba(74,222,128,0.04)',
+    top: '20%',
+  },
   logoGlow: {
     position: 'absolute',
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: 'rgba(74,222,128,0.06)',
-    top: '30%',
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    backgroundColor: 'rgba(74,222,128,0.12)',
+    top: '25%',
     ...Platform.select({
-      web: { filter: 'blur(60px)' },
-      default: {},
+      web: { filter: 'blur(80px)' },
+      ios: {
+        shadowColor: '#4ADE80',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 60,
+      },
+      android: {},
     }),
   },
   title: {
