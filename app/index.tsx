@@ -350,8 +350,15 @@ export default function HomeScreen() {
                 activeOpacity={0.7}
               >
                 <Animated.View
-                  style={[styles.premiumShimmer, { transform: [{ translateX: shimmerTranslateX }] }]}
-                />
+                  style={[styles.premiumShimmer, { transform: [{ translateX: shimmerTranslateX }, { skewX: '-15deg' }] }]}
+                >
+                  <LinearGradient
+                    colors={['transparent', 'rgba(255,215,0,0.10)', 'transparent']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{ flex: 1 }}
+                  />
+                </Animated.View>
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
                   <Text style={styles.premiumBtnText}>Premium freischalten</Text>
@@ -585,9 +592,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    width: 80,
-    backgroundColor: 'rgba(255,215,0,0.12)',
-    transform: [{ skewX: '-20deg' }],
+    width: 120,
   },
   premiumRow: {
     flexDirection: 'row',
