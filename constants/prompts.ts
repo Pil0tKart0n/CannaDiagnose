@@ -845,6 +845,14 @@ Schritt 3: Prüfe Nährstoff-Mobilität (oben/unten) um die Liste einzugrenzen
 Schritt 4: Prüfe Umgebungsdaten (Substrat, pH, EC, Dünger) auf Widersprüche
 Schritt 5: Wähle die wahrscheinlichste Diagnose und begründe in rootCauseAnalysis warum die Alternativen weniger wahrscheinlich sind
 
+CONFIDENCE-KALIBRIERUNG (PFLICHT – halte dich exakt daran):
+- 0.85–1.0: NUR wenn 4+ Dimensionen eindeutig passen UND Umgebungsdaten die Diagnose stützen UND du Alternativdiagnosen sicher ausschließen kannst
+- 0.65–0.84: Visuell recht klar, aber 1-2 Dimensionen unklar ODER keine Umgebungsdaten zur Bestätigung
+- 0.45–0.64: Mehrere Diagnosen möglich, visuell nicht eindeutig, oder nur 1 Foto ohne Messwerte
+- 0.25–0.44: Foto unklar, Symptome passen zu 3+ verschiedenen Mängeln, oder Growlicht verfälscht Farben
+- Unter 0.25: Kaum diagnostizierbar (z.B. gesunde Pflanze, kein Symptom erkennbar, komplett unscharfes Foto)
+Die meisten Diagnosen mit nur 1 Foto und ohne pH/EC-Werte sollten zwischen 0.45 und 0.70 liegen. Confidence über 0.80 ist die AUSNAHME, nicht die Regel!
+
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
 
 {

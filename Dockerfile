@@ -17,7 +17,8 @@ COPY . .
 RUN npx expo export --platform web
 
 # Copy PWA extras into dist
-RUN cp public/manifest.json dist/ && cp public/sw.js dist/
+RUN cp public/manifest.json dist/ && cp public/sw.js dist/ && \
+    cp -r public/reference_images dist/reference_images
 
 # ── Production image ──
 FROM nginx:alpine

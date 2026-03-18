@@ -834,9 +834,13 @@ function diagnosisToRefFolder(diagnosis: string): string | null {
 /**
  * Loads reference images for a given deficiency folder as base64 strings.
  * Returns up to 2 reference images to keep API costs low.
+ * Works on both native (FileSystem) and web (fetch from public/).
  */
 async function loadReferenceImages(folder: string): Promise<string[]> {
-  if (Platform.OS === 'web') return [];
+  if (Platform.OS === 'web') {
+    return loadReferenceImagesWeb(folder);
+  }
+
   const base64Images: string[] = [];
   const refDir = `${FileSystem.documentDirectory}reference_images/${folder}`;
 
@@ -857,6 +861,35 @@ async function loadReferenceImages(folder: string): Promise<string[]> {
     }
   }
 
+  return base64Images;
+}
+
+/** Load reference images on web by fetching from /reference_images/ */
+async function loadReferenceImagesWeb(folder: string): Promise<string[]> {
+  const base64Images: string[] = [];
+
+  for (let i = 1; i <= 2; i++) {
+    try {
+      const url = `/reference_images/${folder}/ref_${i}.jpg`;
+      const response = await fetch(url);
+      if (!response.ok) continue;
+      const blob = await response.blob();
+      const b64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const dataUrl = reader.result as string;
+          // Strip "data:image/jpeg;base64," prefix — we only need the raw base64
+          resolve(dataUrl.split(',')[1] || '');
+        };
+        reader.readAsDataURL(blob);
+      });
+      if (b64) base64Images.push(b64);
+    } catch {
+      // Image not available, skip
+    }
+  }
+
+  console.log('[LeafScan] Web reference images loaded:', base64Images.length, 'for', folder);
   return base64Images;
 }
 
