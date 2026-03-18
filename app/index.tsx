@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Platform,
   TouchableOpacity,
   Modal,
+  Animated,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -155,6 +156,27 @@ export default function HomeScreen() {
   };
 
   const isWeb = Platform.OS === 'web';
+
+  // Shimmer animation for native premium button
+  const shimmerAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (!isWeb && !quotaIsPremium) {
+      const loop = Animated.loop(
+        Animated.timing(shimmerAnim, {
+          toValue: 1,
+          duration: 3000,
+          useNativeDriver: true,
+        })
+      );
+      loop.start();
+      return () => loop.stop();
+    }
+  }, [quotaIsPremium]);
+
+  const shimmerTranslateX = shimmerAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-200, 200],
+  });
 
   return (
     <View style={styles.screenBg}>
@@ -327,9 +349,13 @@ export default function HomeScreen() {
                 onPress={() => router.push('/paywall')}
                 activeOpacity={0.7}
               >
+                <Animated.View
+                  style={[styles.premiumShimmer, { transform: [{ translateX: shimmerTranslateX }] }]}
+                />
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
                   <Text style={styles.premiumBtnText}>Premium freischalten</Text>
+                  <Text style={styles.premiumArrow}>→</Text>
                 </View>
               </TouchableOpacity>
             )
@@ -547,12 +573,21 @@ const styles = StyleSheet.create({
   // Premium upgrade
   premiumBtn: {
     borderRadius: 12,
-    paddingVertical: 10,
+    paddingVertical: 12,
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(218,165,32,0.06)',
     borderWidth: 1,
-    borderColor: colors.accentWarmSubtle,
-    marginTop: 2,
+    borderColor: 'rgba(218,165,32,0.35)',
+    marginTop: 4,
+    overflow: 'hidden',
+  },
+  premiumShimmer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: 80,
+    backgroundColor: 'rgba(255,215,0,0.12)',
+    transform: [{ skewX: '-20deg' }],
   },
   premiumRow: {
     flexDirection: 'row',
