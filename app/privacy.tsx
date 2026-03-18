@@ -143,9 +143,9 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   tinyText: {
-    fontSize: 9,
+    fontSize: 12,
     color: colors.textMuted,
-    lineHeight: 14,
+    lineHeight: 17,
   },
   spacer: { height: 40 },
 });

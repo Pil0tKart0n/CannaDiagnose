@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl,
+  View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl, ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useFocusEffect } from 'expo-router';
@@ -20,6 +20,7 @@ export default function PlantsScreen() {
   const router = useRouter();
   const [plants, setPlants] = useState<PlantWithLatest[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -28,18 +29,24 @@ export default function PlantsScreen() {
   );
 
   const loadPlants = async () => {
-    const allPlants = await getPlants();
-    const withEntries: PlantWithLatest[] = await Promise.all(
-      allPlants.map(async (p) => {
-        const entries = await getEntriesForPlant(p.id);
-        return {
-          ...p,
-          latestEntry: entries[0],
-          entryCount: entries.length,
-        };
-      })
-    );
-    setPlants(withEntries);
+    try {
+      const allPlants = await getPlants();
+      const withEntries: PlantWithLatest[] = await Promise.all(
+        allPlants.map(async (p) => {
+          const entries = await getEntriesForPlant(p.id);
+          return {
+            ...p,
+            latestEntry: entries[0],
+            entryCount: entries.length,
+          };
+        })
+      );
+      setPlants(withEntries);
+    } catch (e) {
+      console.log('[LeafScan] Failed to load plants:', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onRefresh = async () => {
@@ -97,6 +104,14 @@ export default function PlantsScreen() {
       </TouchableOpacity>
     );
   };
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={colors.accent} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

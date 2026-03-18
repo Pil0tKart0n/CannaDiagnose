@@ -42,7 +42,7 @@ export const colors = {
   // Text – off-white
   text: '#E8EDE9',
   textSecondary: '#8B9C91',
-  textMuted: '#5A6B61',
+  textMuted: '#7A8B81',
   textDark: '#1A2E1A',
   textDarkSecondary: '#4A6A4A',
   textOnAccent: '#0A0E0D',

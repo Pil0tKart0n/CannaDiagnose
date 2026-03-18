@@ -93,7 +93,16 @@ export default function HomeScreen() {
     }).catch(() => {});
   }, []);
 
-  const startDiagnosis = () => {
+  const startDiagnosis = async () => {
+    // Check quota before navigating — don't waste user's time if limit reached
+    try {
+      const { canScan } = require('../services/quota');
+      const quota = await canScan();
+      if (!quota.allowed && !quota.isPremium) {
+        router.push('/paywall');
+        return;
+      }
+    } catch {}
     reset();
     router.push('/camera');
   };

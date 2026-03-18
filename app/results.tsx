@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ScrollView, View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import DiagnosisCard from '../components/DiagnosisCard';
@@ -257,8 +258,9 @@ export default function ResultsScreen() {
   };
 
   return (
+    <SafeAreaView style={styles.container} edges={['bottom']}>
     <KeyboardAvoidingView
-      style={styles.container}
+      style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
     >
@@ -544,6 +546,7 @@ export default function ResultsScreen() {
       )}
     </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

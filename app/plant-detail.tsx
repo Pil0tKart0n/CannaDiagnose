@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import {
   View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
@@ -116,7 +117,7 @@ export default function PlantDetailScreen() {
   const followUp = getFollowUpInfo();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         refreshControl={
@@ -407,7 +408,7 @@ export default function PlantDetailScreen() {
           </TouchableOpacity>
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, RefreshControl, Platform } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, FlatList, StyleSheet, RefreshControl, Platform, ActivityIndicator } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import HistoryItem from '../components/HistoryItem';
@@ -15,6 +14,7 @@ export default function HistoryScreen() {
   const { setResult, setImageUri } = useDiagnosis();
   const [entries, setEntries] = useState<DiagnosisEntry[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -23,8 +23,14 @@ export default function HistoryScreen() {
   );
 
   const loadEntries = async () => {
-    const data = await getEntries();
-    setEntries(data);
+    try {
+      const data = await getEntries();
+      setEntries(data);
+    } catch (e) {
+      console.log('[LeafScan] Failed to load entries:', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onRefresh = async () => {
@@ -54,6 +60,14 @@ export default function HistoryScreen() {
       },
     });
   };
+
+  if (loading) {
+    return (
+      <View style={styles.emptyContainer}>
+        <ActivityIndicator size="large" color={colors.accent} />
+      </View>
+    );
+  }
 
   if (entries.length === 0) {
     return (
