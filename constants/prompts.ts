@@ -381,6 +381,14 @@ Wenn KEINE Cannabis-Pflanze erkennbar ist (z.B. Essen, Tiere, Menschen, andere P
 Gib in diesem Fall KEINE Diagnose ab. KEINE Symptome. KEINE Analyse. NUR das obige JSON.
 Diese Regel hat HÖCHSTE Priorität und überschreibt alle anderen Anweisungen.
 
+⚠️ GROWLICHT-ERKENNUNG:
+Prüfe ob das Foto unter farbigem Kunstlicht aufgenommen wurde (Blurple/LED mit lila/rosa Farbstich, NDL/HPS mit stark orangem/gelbem Farbstich). Farbiges Growlicht verfälscht die Blattfarben MASSIV und macht eine zuverlässige Farbanalyse unmöglich.
+Wenn du farbiges Growlicht erkennst:
+- Erwähne es in der rootCauseAnalysis: "Das Foto wurde unter farbigem Kunstlicht aufgenommen, was die Farbanalyse einschränkt."
+- Setze confidence auf maximal 0.5 (da Farben unzuverlässig sind)
+- Füge in preventiveTips hinzu: "Für eine genauere Diagnose: Foto unter normalem weißen Licht oder Tageslicht aufnehmen."
+- Analysiere trotzdem TEXTUR, MUSTER, POSITION und AUSMASS – diese Dimensionen sind von Growlicht nicht betroffen.
+
 ABSOLUTE REGEL – KOKOS pH:
 Wenn der User Kokos/Coco als Substrat angibt, ist der pH-Bereich IMMER 5.8–6.2. Nenne NIEMALS den Wert 5.5 im Zusammenhang mit Kokos. Nicht als Untergrenze, nicht als Lockout-Schwelle, nicht in irgendeinem Kontext. Die Zahl 5.5 existiert für Kokos nicht. Merke dir: KOKOS = 5.8–6.2, PUNKT.
 

@@ -28,25 +28,39 @@ interface Slide {
 
 const slides: Slide[] = [
   {
+    icon: 'leaf-outline',
+    title: 'Willkommen bei\nLeafScan',
+    subtitle: 'Dein Grow-Assistent',
+    description:
+      'Erkennt Nährstoffmängel anhand von Fotos deiner Pflanze — schnell, einfach und KI-gestützt.',
+  },
+  {
     icon: 'camera-outline',
     title: 'Foto aufnehmen',
     subtitle: 'Schritt 1',
     description:
-      'Fotografiere das betroffene Blatt, den Stängel oder die ganze Pflanze. Bis zu 3 Fotos für eine genauere Diagnose.',
+      'Fotografiere das betroffene Blatt möglichst nah und scharf. Bis zu 3 Fotos aus verschiedenen Winkeln machen die Diagnose deutlich genauer.',
+  },
+  {
+    icon: 'sunny-outline',
+    title: 'Tipps für gute Fotos',
+    subtitle: 'Wichtig',
+    description:
+      'Nutze normales weißes Licht oder Tageslicht. Fotos unter Growlampen (Blurple, NDL) verfälschen die Farben und erschweren die Diagnose.\n\nSchalte die Growlampe kurz aus oder halte das Blatt ans Fenster.',
   },
   {
     icon: 'clipboard-outline',
     title: 'Setup beschreiben',
     subtitle: 'Schritt 2',
     description:
-      'Beantworte ein paar Fragen zu deinem Grow: Substrat, Dünger, pH, Temperatur. Je mehr Infos, desto präziser die Diagnose.',
+      'Beantworte ein paar kurze Fragen zu deinem Grow — Substrat, Beleuchtung, Bewässerung. Je mehr Infos du gibst, desto präziser wird die Diagnose.',
   },
   {
     icon: 'analytics-outline',
-    title: 'KI-Diagnose erhalten',
+    title: 'Diagnose & Aktionsplan',
     subtitle: 'Schritt 3',
     description:
-      'Unsere KI analysiert deine Fotos zusammen mit deinen Angaben und liefert dir eine Diagnose mit konkretem Aktionsplan.',
+      'Die KI analysiert deine Fotos und Angaben und liefert dir eine Diagnose mit konkreten Schritten, was du jetzt tun kannst.\n\nDanach kannst du mit pH/EC-Werten die Diagnose noch verfeinern.',
   },
   {
     icon: 'leaf-outline',
@@ -56,11 +70,11 @@ const slides: Slide[] = [
       'Lege Profile für deine Pflanzen an und verfolge ihren Gesundheitsverlauf über die Zeit. So siehst du ob deine Behandlung wirkt.',
   },
   {
-    icon: 'wifi-outline',
-    title: 'Wichtiger Hinweis',
+    icon: 'checkmark-circle-outline',
+    title: 'Bereit?',
     subtitle: 'Bevor es losgeht',
     description:
-      'Die App benötigt eine Internetverbindung für Diagnosen. Du bekommst 1 kostenlose Diagnose pro Tag. Die Bibliothek ist offline verfügbar.\n\nDie Diagnosen sind KI-gestützt und ersetzen keine professionelle Beratung.',
+      'Du bekommst täglich eine kostenlose Diagnose. Die Bibliothek mit Infos zu allen Mängeln ist jederzeit verfügbar.\n\nDie Diagnosen sind KI-gestützt und ersetzen keine professionelle Beratung.',
   },
 ];
 
