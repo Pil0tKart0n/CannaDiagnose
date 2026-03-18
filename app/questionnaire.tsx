@@ -62,6 +62,10 @@ export default function QuestionnaireScreen() {
 
   const handleChange = (newValue: any) => {
     const updated = { ...questionnaire, [question.id]: newValue };
+    // Reset age when phase changes (different options per phase)
+    if (question.id === 'growPhase') {
+      updated.plantAgeWeeks = null;
+    }
     setQuestionnaire(updated);
 
     // Don't auto-advance for substrate (user might want to add perlite)

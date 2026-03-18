@@ -9,12 +9,36 @@ export const questions: Question[] = [
     type: 'select',
     options: ['Vegetativ', 'Blüte', 'Mutterpflanze'],
   },
+  // Age: Vegetativ
   {
     id: 'plantAgeWeeks',
     section: 'Pflanze',
     question: 'Wie alt ist die Pflanze?',
     type: 'select',
-    options: ['0–2 Wochen', '3–4 Wochen', '5–8 Wochen', '9–12 Wochen'],
+    options: ['0–2 Wochen', '3–4 Wochen', '5–6 Wochen'],
+    conditional: { field: 'growPhase', values: ['Vegetativ'] },
+  },
+  // Age: Blüte — individual weeks for precision
+  {
+    id: 'plantAgeWeeks',
+    section: 'Pflanze',
+    question: 'In welcher Blütewoche?',
+    type: 'select',
+    options: [
+      'Woche 1', 'Woche 2', 'Woche 3', 'Woche 4',
+      'Woche 5', 'Woche 6', 'Woche 7', 'Woche 8',
+      'Woche 9', 'Woche 10', 'Woche 11', 'Woche 12+',
+    ],
+    conditional: { field: 'growPhase', values: ['Blüte'] },
+  },
+  // Age: Mutterpflanze
+  {
+    id: 'plantAgeWeeks',
+    section: 'Pflanze',
+    question: 'Wie alt ist die Mutterpflanze?',
+    type: 'select',
+    options: ['5–8 Wochen', '9–12 Wochen', '13–16 Wochen', 'Älter als 16 Wochen'],
+    conditional: { field: 'growPhase', values: ['Mutterpflanze'] },
   },
   {
     id: 'substrateType',
@@ -28,7 +52,7 @@ export const questions: Question[] = [
     section: 'Setup',
     question: 'Welchen Dünger verwendest du?',
     type: 'searchable-select',
-    options: getFertilizerNames(),
+    options: ['Kein Dünger / Nur Wasser', ...getFertilizerNames()],
     hint: 'Hilft bei der Einschätzung von EC-Werten',
   },
   {
