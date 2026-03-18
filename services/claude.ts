@@ -2,8 +2,8 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, ActionStep } from '../types';
-import { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT, buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } from '../constants/prompts';
 import { readAsBase64 } from './fileSystemWeb';
+// Prompts are now server-side only — client sends structured data
 
 // ALL platforms route through our Express /api/scan proxy (server holds the API key).
 // Never expose the API key to the client — prevents paywall bypass via APK extraction.
@@ -17,13 +17,10 @@ const MODEL = 'gpt-4o';
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
 
-/** Build fetch headers — include session token for premium check + tester key for APK */
+/** Build fetch headers — include session token for premium check */
 function apiHeaders(sessionToken?: string | null): Record<string, string> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  // APK builds send tester key for higher free scan limit
-  if (Platform.OS !== 'web') {
-    headers['X-LeafScan-Key'] = 'ls-tester-2024-xK9mQ';
-  }
+  // Native app detection is done server-side via missing Origin header
   if (sessionToken) {
     headers['Authorization'] = `Bearer ${sessionToken}`;
   } else if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -77,7 +74,7 @@ export async function optimizeImage(uri: string): Promise<string> {
     try {
       return await optimizeImageWeb(uri);
     } catch (err) {
-      console.log('[LeafScan] Web image optimize failed, using original:', err);
+      if (__DEV__) console.log('[LeafScan] Web image optimize failed, using original:', err);
       return uri;
     }
   }
@@ -111,7 +108,7 @@ export async function optimizeImage(uri: string): Promise<string> {
     console.log(`[LeafScan] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
     return result.uri;
   } catch (err) {
-    console.log('[LeafScan] Image optimize failed, using original:', err);
+    if (__DEV__) console.log('[LeafScan] Image optimize failed, using original:', err);
     return uri; // Fallback: use original
   }
 }
@@ -343,12 +340,8 @@ function classifyError(err: any, statusCode?: number): ApiError {
 // Image validation – quick pre-check before diagnosis
 // ---------------------------------------------------------------------------
 
-const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Blüte, Stängel, Sämling)?
-Antworte NUR mit einem JSON-Objekt: {"isCannabis": true} oder {"isCannabis": false}
-Keine weitere Erklärung. Nur JSON.`;
-
 async function validateImageIsCannabis(
-  imageBlocks: Array<{ type: 'image_url'; image_url: { url: string } }>,
+  imageDataUris: string[],
   sessionToken?: string | null,
 ): Promise<boolean> {
   try {
@@ -356,12 +349,7 @@ async function validateImageIsCannabis(
       method: 'POST',
       headers: apiHeaders(sessionToken),
       body: JSON.stringify({
-        model: 'gpt-4o-mini', // validation is lightweight, mini is sufficient
-        max_tokens: 20,
-        temperature: 0,
-        messages: [
-          { role: 'user', content: [...imageBlocks, { type: 'text', text: IMAGE_CHECK_PROMPT }] },
-        ],
+        images: imageDataUris,
       }),
     });
 
@@ -369,7 +357,7 @@ async function validateImageIsCannabis(
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || '';
-    console.log('[LeafScan] Image validation response:', content);
+    if (__DEV__) console.log('[LeafScan] Image validation response:', content);
 
     try {
       const parsed = JSON.parse(content.replace(/```json?\n?/g, '').replace(/```/g, '').trim());
@@ -379,7 +367,7 @@ async function validateImageIsCannabis(
       return !content.toLowerCase().includes('"iscannabis": false') && !content.toLowerCase().includes('"iscannabis":false');
     }
   } catch (err) {
-    console.log('[LeafScan] Image validation error (allowing):', err);
+    if (__DEV__) console.log('[LeafScan] Image validation error (allowing):', err);
     return true; // fail open
   }
 }
@@ -419,37 +407,14 @@ export async function analyzePlant(
     optimizedUris.map((uri) => cachedReadAsBase64(uri))
   );
 
-  // Build image content blocks for OpenAI format
-  const imageBlocks = base64Results.map((data) => ({
-    type: 'image_url' as const,
-    image_url: {
-      url: `data:image/jpeg;base64,${data}`,
-    },
-  }));
-
-  let userPrompt: string;
-  let systemPrompt: string;
-
-  if (options?.isFollowUp && options.previousResult && options.previousDate) {
-    const daysSince = Math.round(
-      (Date.now() - new Date(options.previousDate).getTime()) / 86400000
-    );
-    userPrompt = buildFollowUpPrompt(questionnaire, options.previousResult, daysSince);
-    systemPrompt = FOLLOWUP_SYSTEM_PROMPT;
-  } else {
-    userPrompt = buildUserPrompt(questionnaire);
-    // Multi-image cross-reference hint
-    if (uris.length > 1) {
-      userPrompt += '\n\n📸 MULTI-FOTO-ANALYSE (' + uris.length + ' Fotos): Vergleiche ALLE Fotos miteinander! Prüfe ob die Symptome auf allen Fotos KONSISTENT sind (= systematisches Problem) oder ob verschiedene Fotos UNTERSCHIEDLICHE Symptome zeigen. Wenn die Fotos verschiedene Pflanzenbereiche zeigen (oben vs. unten), nutze das für die Mobilitäts-Analyse (mobil vs. immobil). Nenne in der rootCauseAnalysis, was du auf den verschiedenen Fotos siehst.';
-    }
-    systemPrompt = SYSTEM_PROMPT;
-  }
+  // Build image data URIs for server
+  const imageDataUris = base64Results.map((data) => `data:image/jpeg;base64,${data}`);
 
   const maxAttempts = 1 + MAX_RETRIES; // 3 total
   let lastError: any = null;
 
   // Validate image BEFORE diagnosis to avoid burning a scan quota on non-plant images
-  const isCannabis = await validateImageIsCannabis(imageBlocks, sessionToken);
+  const isCannabis = await validateImageIsCannabis(imageDataUris, sessionToken);
   if (!isCannabis) {
     const err: any = new Error('Keine passende Pflanze erkannt.');
     err.apiError = {
@@ -465,31 +430,23 @@ export async function analyzePlant(
     onAttempt?.(attempt, maxAttempts);
 
     try {
+      const scanBody: any = {
+        mode: 'diagnose',
+        images: imageDataUris,
+        questionnaire,
+      };
+      if (options?.isFollowUp && options.previousResult && options.previousDate) {
+        scanBody.isFollowUp = true;
+        scanBody.previousResult = options.previousResult;
+        scanBody.daysSince = Math.round(
+          (Date.now() - new Date(options.previousDate).getTime()) / 86400000
+        );
+      }
+
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: apiHeaders(sessionToken),
-        body: JSON.stringify({
-          model: MODEL,
-          max_tokens: 2048,
-          temperature: 0,
-          response_format: { type: 'json_object' },
-          messages: [
-            {
-              role: 'system',
-              content: systemPrompt,
-            },
-            {
-              role: 'user',
-              content: [
-                ...imageBlocks,
-                {
-                  type: 'text',
-                  text: userPrompt,
-                },
-              ],
-            },
-          ],
-        }),
+        body: JSON.stringify(scanBody),
       });
 
       if (!response.ok) {
@@ -527,9 +484,9 @@ export async function analyzePlant(
       }
 
       // Parse & validate
-      console.log('[LeafScan] Raw API response:', content.substring(0, 500));
+      if (__DEV__) console.log('[LeafScan] Raw API response:', content.substring(0, 500));
       const parsed = extractJSON(content);
-      console.log('[LeafScan] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
+      if (__DEV__) console.log('[LeafScan] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
 
       // Check if the API detected no cannabis plant
       if (parsed.noPlant) {
@@ -539,7 +496,7 @@ export async function analyzePlant(
       }
 
       const validated = validateDiagnosisResult(parsed);
-      console.log('[LeafScan] Validated result:', JSON.stringify(validated).substring(0, 500));
+      if (__DEV__) console.log('[LeafScan] Validated result:', JSON.stringify(validated).substring(0, 500));
       return { result: validated, attempt };
 
     } catch (err: any) {
@@ -596,14 +553,7 @@ export async function refineDiagnosis(
     optimizedUris.map((uri) => cachedReadAsBase64(uri))
   );
 
-  const imageBlocks = base64Results.map((data) => ({
-    type: 'image_url' as const,
-    image_url: {
-      url: `data:image/jpeg;base64,${data}`,
-    },
-  }));
-
-  const userPrompt = buildRefinePrompt(previousResult, substrateType, phValue, ecValue, fertilizerType, plantAge, growPhase);
+  const imageDataUris = base64Results.map((data) => `data:image/jpeg;base64,${data}`);
 
   // Try up to 2 times
   for (let attempt = 1; attempt <= 2; attempt++) {
@@ -612,36 +562,28 @@ export async function refineDiagnosis(
         method: 'POST',
         headers: apiHeaders(sessionToken),
         body: JSON.stringify({
-          model: MODEL,
-          max_tokens: 2048,
-          temperature: 0,
-          response_format: { type: 'json_object' },
-          messages: [
-            {
-              role: 'system',
-              content: REFINE_SYSTEM_PROMPT,
-            },
-            {
-              role: 'user',
-              content: [
-                ...imageBlocks,
-                { type: 'text', text: userPrompt },
-              ],
-            },
-          ],
+          mode: 'refine',
+          images: imageDataUris,
+          currentDiagnosis: previousResult,
+          substrate: substrateType,
+          ph: phValue,
+          ec: ecValue,
+          fertilizer: fertilizerType,
+          plantAge,
+          growPhase,
         }),
       });
 
       if (!response.ok) {
         const errorBody = await response.text();
-        console.log('[LeafScan] Refine API error:', response.status, errorBody.substring(0, 300));
+        if (__DEV__) console.log('[LeafScan] Refine API error:', response.status, errorBody.substring(0, 300));
         if (attempt < 2) { await delay(2000); continue; }
         throw new Error('API Fehler: ' + response.status);
       }
 
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content;
-      console.log('[LeafScan] Refine raw response:', content?.substring(0, 500));
+      if (__DEV__) console.log('[LeafScan] Refine raw response:', content?.substring(0, 500));
 
       if (!content) {
         if (attempt < 2) { await delay(2000); continue; }
@@ -649,7 +591,7 @@ export async function refineDiagnosis(
       }
 
       const stopReason = data.choices?.[0]?.finish_reason;
-      console.log('[LeafScan] Refine finish_reason:', stopReason);
+      if (__DEV__) console.log('[LeafScan] Refine finish_reason:', stopReason);
 
       const parsed = extractJSON(content);
       let result = validateDiagnosisResult(parsed);
@@ -659,7 +601,7 @@ export async function refineDiagnosis(
 
       return result;
     } catch (err: any) {
-      console.log('[LeafScan] Refine attempt', attempt, 'failed:', err.message);
+      if (__DEV__) console.log('[LeafScan] Refine attempt', attempt, 'failed:', err.message);
       if (attempt < 2) { await delay(2000); continue; }
       throw err;
     }
@@ -777,7 +719,7 @@ function postProcessRefineResult(
     result.confidence = 0.3;
   }
 
-  console.log('[LeafScan] Post-processed: removed negative pH mentions (pH ' + phValue + ' is optimal)');
+  if (__DEV__) console.log('[LeafScan] Post-processed: removed negative pH mentions (pH ' + phValue + ' is optimal)');
 
   return result;
 }
@@ -807,11 +749,11 @@ export async function initReferenceImages(): Promise<void> {
   const markerInfo = await FileSystem.getInfoAsync(markerFile);
   if (markerInfo.exists) {
     _refImagesInitialized = true;
-    console.log('[LeafScan] Reference images already initialized');
+    if (__DEV__) console.log('[LeafScan] Reference images already initialized');
     return;
   }
 
-  console.log('[LeafScan] Initializing reference images...');
+  if (__DEV__) console.log('[LeafScan] Initializing reference images...');
 
   // Ensure base directory exists
   await FileSystem.makeDirectoryAsync(
@@ -844,7 +786,7 @@ export async function initReferenceImages(): Promise<void> {
   // Write marker so we don't re-copy next time
   await FileSystem.writeAsStringAsync(markerFile, new Date().toISOString());
   _refImagesInitialized = true;
-  console.log('[LeafScan] Reference images initialized:', referenceImageRegistry.length, 'files');
+  if (__DEV__) console.log('[LeafScan] Reference images initialized:', referenceImageRegistry.length, 'files');
 }
 
 /**
@@ -883,7 +825,7 @@ async function loadReferenceImages(folder: string): Promise<string[]> {
 
   const dirInfo = await FileSystem.getInfoAsync(refDir);
   if (!dirInfo.exists) {
-    console.log('[LeafScan] Reference folder not found:', folder);
+    if (__DEV__) console.log('[LeafScan] Reference folder not found:', folder);
     return [];
   }
 
@@ -926,24 +868,11 @@ async function loadReferenceImagesWeb(folder: string): Promise<string[]> {
     }
   }
 
-  console.log('[LeafScan] Web reference images loaded:', base64Images.length, 'for', folder);
+  if (__DEV__) console.log('[LeafScan] Web reference images loaded:', base64Images.length, 'for', folder);
   return base64Images;
 }
 
-const VERIFY_PROMPT = `Du bist ein Cannabis-Diagnose-Verifikator. Du bekommst:
-1. Das Foto des Users (erstes Bild)
-2. Bestätigte Referenzbilder einer bestimmten Mangelerscheinung (weitere Bilder)
-3. Die vorgeschlagene Diagnose
-
-Deine Aufgabe: Vergleiche das User-Foto mit den Referenzbildern.
-
-Antworte NUR mit JSON:
-{
-  "verified": true/false,
-  "confidence": 0.0-1.0,
-  "reasoning": "Kurze Begründung warum das User-Foto den Referenzbildern entspricht oder nicht",
-  "alternative": "Falls nicht verifiziert: welche Diagnose passt besser? Sonst null"
-}`;
+// VERIFY_PROMPT is now server-side only
 
 /**
  * Verifies a diagnosis by comparing the user's image with reference images.
@@ -955,29 +884,25 @@ export async function verifyDiagnosis(
 ): Promise<{ verified: boolean; confidence: number; alternative: string | null } | null> {
   const folder = diagnosisToRefFolder(diagnosis.primaryDiagnosis);
   if (!folder) {
-    console.log('[LeafScan] No reference folder for:', diagnosis.primaryDiagnosis);
+    if (__DEV__) console.log('[LeafScan] No reference folder for:', diagnosis.primaryDiagnosis);
     return null;
   }
 
   const refImages = await loadReferenceImages(folder);
   if (refImages.length === 0) {
-    console.log('[LeafScan] No reference images found for:', folder);
+    if (__DEV__) console.log('[LeafScan] No reference images found for:', folder);
     return null;
   }
 
   const { getSessionToken } = require('./quota');
   const sessionToken: string | null = await getSessionToken();
 
-  console.log('[LeafScan] Verifying diagnosis with', refImages.length, 'reference images for', folder);
+  if (__DEV__) console.log('[LeafScan] Verifying diagnosis with', refImages.length, 'reference images for', folder);
 
-  const imageBlocks = [
-    // User image first
-    { type: 'image_url' as const, image_url: { url: `data:image/jpeg;base64,${userImageBase64}` } },
-    // Reference images
-    ...refImages.map(b64 => ({
-      type: 'image_url' as const,
-      image_url: { url: `data:image/jpeg;base64,${b64}` },
-    })),
+  // Build image data URIs: user image first, then reference images
+  const allImages = [
+    `data:image/jpeg;base64,${userImageBase64}`,
+    ...refImages.map(b64 => `data:image/jpeg;base64,${b64}`),
   ];
 
   try {
@@ -985,25 +910,14 @@ export async function verifyDiagnosis(
       method: 'POST',
       headers: apiHeaders(sessionToken),
       body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 300,
-        temperature: 0,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: VERIFY_PROMPT },
-          {
-            role: 'user',
-            content: [
-              ...imageBlocks,
-              { type: 'text', text: `Vorgeschlagene Diagnose: "${diagnosis.primaryDiagnosis}". Bild 1 = User-Foto. Bilder 2-${refImages.length + 1} = bestätigte Referenzbilder. Stimmt die Diagnose?` },
-            ],
-          },
-        ],
+        mode: 'verify',
+        images: allImages,
+        diagnosis: diagnosis.primaryDiagnosis,
       }),
     });
 
     if (!response.ok) {
-      console.log('[LeafScan] Verify API error:', response.status);
+      if (__DEV__) console.log('[LeafScan] Verify API error:', response.status);
       return null;
     }
 
@@ -1011,7 +925,7 @@ export async function verifyDiagnosis(
     const content = data.choices?.[0]?.message?.content;
     if (!content) return null;
 
-    console.log('[LeafScan] Verify response:', content.substring(0, 300));
+    if (__DEV__) console.log('[LeafScan] Verify response:', content.substring(0, 300));
     const parsed = extractJSON(content);
 
     return {
@@ -1020,7 +934,7 @@ export async function verifyDiagnosis(
       alternative: parsed.alternative || null,
     };
   } catch (err: any) {
-    console.log('[LeafScan] Verify error:', err.message);
+    if (__DEV__) console.log('[LeafScan] Verify error:', err.message);
     return null;
   }
 }

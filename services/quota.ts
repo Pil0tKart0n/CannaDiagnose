@@ -40,12 +40,10 @@ export async function setSessionToken(token: string | null): Promise<void> {
   }
 }
 
-/** Build headers with tester key for APK builds */
+/** Build headers for API requests */
 function buildHeaders(token?: string | null): Record<string, string> {
   const headers: Record<string, string> = {};
-  if (Platform.OS !== 'web') {
-    headers['X-LeafScan-Key'] = 'ls-tester-2024-xK9mQ';
-  }
+  // Native app detection is done server-side via missing Origin header
   if (token) headers['Authorization'] = `Bearer ${token}`;
   return headers;
 }

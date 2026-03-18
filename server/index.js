@@ -5,6 +5,29 @@ const crypto = require('crypto');
 const Database = require('better-sqlite3');
 const path = require('path');
 
+// Server-side prompts (never sent to client)
+const { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT,
+        buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } = require('./prompts');
+
+const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Blüte, Stängel, Sämling)?
+Antworte NUR mit einem JSON-Objekt: {"isCannabis": true} oder {"isCannabis": false}
+Keine weitere Erklärung. Nur JSON.`;
+
+const VERIFY_PROMPT = `Du bist ein Cannabis-Diagnose-Verifikator. Du bekommst:
+1. Das Foto des Users (erstes Bild)
+2. Bestätigte Referenzbilder einer bestimmten Mangelerscheinung (weitere Bilder)
+3. Die vorgeschlagene Diagnose
+
+Deine Aufgabe: Vergleiche das User-Foto mit den Referenzbildern.
+
+Antworte NUR mit JSON:
+{
+  "verified": true/false,
+  "confidence": 0.0-1.0,
+  "reasoning": "Kurze Begründung warum das User-Foto den Referenzbildern entspricht oder nicht",
+  "alternative": "Falls nicht verifiziert: welche Diagnose passt besser? Sonst null"
+}`;
+
 const app = express();
 const PORT = 4000;
 
@@ -15,6 +38,7 @@ const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
 const FREE_SCANS_PER_DAY = 5;
 const TESTER_SCANS_PER_DAY = 50;
 const TESTER_KEY = process.env.TESTER_KEY || 'ls-tester-2024-xK9mQ';
+const ADMIN_KEY = process.env.ADMIN_KEY || 'ls-admin-2026-Rz7vP3kW';
 
 // ── SQLite setup ──
 const dbPath = path.join(__dirname, 'data', 'leafscan.db');
@@ -176,83 +200,100 @@ function rateLimit(req, res, next) {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// ██  /api/scan — THE SECURE OPENAI PROXY (replaces nginx proxy) ██
+// ██  /api/scan — SERVER-SIDE PROMPT BUILDING (prompts never leave server) ██
 // ══════════════════════════════════════════════════════════════════
+
+/** Validate that images are base64 data URIs */
+function validateImages(images) {
+  if (!Array.isArray(images) || images.length === 0 || images.length > 5) return false;
+  return images.every(img => typeof img === 'string' && img.startsWith('data:image/'));
+}
+
+/** Build OpenAI image blocks from base64 data URIs */
+function toImageBlocks(images) {
+  return images.map(url => ({ type: 'image_url', image_url: { url } }));
+}
+
 app.post('/api/scan', rateLimit, async (req, res) => {
   if (!OPENAI_API_KEY) {
     return res.status(500).json({ error: 'server_error', message: 'API nicht konfiguriert.' });
   }
 
   const ip = getClientIP(req);
+  const { mode, images } = req.body;
 
-  // 1. Validate request body FIRST (before burning a scan slot)
-  const { messages, max_tokens } = req.body;
-  if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: 'invalid_request', message: 'messages array required' });
+  // Require new structured format
+  if (!mode || !images) {
+    return res.status(400).json({ error: 'invalid_request', message: 'mode and images required' });
+  }
+  if (!['diagnose', 'refine', 'verify'].includes(mode)) {
+    return res.status(400).json({ error: 'invalid_request', message: 'Invalid mode' });
+  }
+  if (!validateImages(images)) {
+    return res.status(400).json({ error: 'invalid_request', message: 'Invalid images (1-5 base64 data URIs required)' });
   }
 
-  // 1b. Strict message validation — prevent abuse as free GPT proxy
-  if (messages.length > 5) {
-    return res.status(400).json({ error: 'invalid_request', message: 'Too many messages (max 5)' });
-  }
+  // Build messages server-side based on mode
+  let messages;
+  let maxTokens = 2048;
+  const imageBlocks = toImageBlocks(images);
 
-  const ALLOWED_ROLES = new Set(['system', 'user', 'assistant']);
-  for (const msg of messages) {
-    if (typeof msg !== 'object' || msg === null) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message format' });
+  if (mode === 'diagnose') {
+    const { questionnaire, isFollowUp, previousResult, daysSince } = req.body;
+    if (!questionnaire || typeof questionnaire !== 'object') {
+      return res.status(400).json({ error: 'invalid_request', message: 'questionnaire required for diagnose mode' });
     }
-    if (!ALLOWED_ROLES.has(msg.role)) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message role' });
-    }
-    // Validate content type: must be string or array (reject numbers, booleans, objects)
-    if (typeof msg.content !== 'string' && !Array.isArray(msg.content)) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Message content must be string or array' });
-    }
-    // String content: limit length
-    if (typeof msg.content === 'string' && msg.content.length > 100000) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Message content too long' });
-    }
-    // Array content (multimodal): validate each block
-    if (Array.isArray(msg.content)) {
-      if (msg.content.length > 10) {
-        return res.status(400).json({ error: 'invalid_request', message: 'Too many content blocks' });
+    let userPrompt, systemPrompt;
+    if (isFollowUp && previousResult && daysSince) {
+      userPrompt = buildFollowUpPrompt(questionnaire, previousResult, daysSince);
+      systemPrompt = FOLLOWUP_SYSTEM_PROMPT;
+    } else {
+      userPrompt = buildUserPrompt(questionnaire);
+      if (images.length > 1) {
+        userPrompt += '\n\n📸 MULTI-FOTO-ANALYSE (' + images.length + ' Fotos): Vergleiche ALLE Fotos miteinander! Prüfe ob die Symptome auf allen Fotos KONSISTENT sind (= systematisches Problem) oder ob verschiedene Fotos UNTERSCHIEDLICHE Symptome zeigen. Wenn die Fotos verschiedene Pflanzenbereiche zeigen (oben vs. unten), nutze das für die Mobilitäts-Analyse (mobil vs. immobil). Nenne in der rootCauseAnalysis, was du auf den verschiedenen Fotos siehst.';
       }
-      for (const block of msg.content) {
-        if (typeof block !== 'object' || block === null) {
-          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block' });
-        }
-        // Only allow 'text' and 'image_url' block types
-        if (block.type !== 'text' && block.type !== 'image_url') {
-          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block type' });
-        }
-        // Text blocks: text must be a string with length limit
-        if (block.type === 'text') {
-          if (typeof block.text !== 'string') {
-            return res.status(400).json({ error: 'invalid_request', message: 'Text block must have string text' });
-          }
-          if (block.text.length > 100000) {
-            return res.status(400).json({ error: 'invalid_request', message: 'Text block content too long' });
-          }
-        }
-        // Image URLs must be data URIs (base64), not arbitrary external URLs
-        if (block.type === 'image_url') {
-          if (!block.image_url || typeof block.image_url !== 'object' || typeof block.image_url.url !== 'string') {
-            return res.status(400).json({ error: 'invalid_request', message: 'Invalid image_url block' });
-          }
-          if (!block.image_url.url.startsWith('data:image/')) {
-            return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed for images' });
-          }
-        }
-      }
+      systemPrompt = SYSTEM_PROMPT;
     }
+    messages = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },
+    ];
+  } else if (mode === 'refine') {
+    const { currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase } = req.body;
+    if (!currentDiagnosis) {
+      return res.status(400).json({ error: 'invalid_request', message: 'currentDiagnosis required for refine mode' });
+    }
+    const userPrompt = buildRefinePrompt(currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase);
+    messages = [
+      { role: 'system', content: REFINE_SYSTEM_PROMPT },
+      { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },
+    ];
+  } else if (mode === 'verify') {
+    const { diagnosis } = req.body;
+    if (!diagnosis) {
+      return res.status(400).json({ error: 'invalid_request', message: 'diagnosis required for verify mode' });
+    }
+    // images[0] = user photo, images[1+] = reference images
+    const refCount = images.length - 1;
+    messages = [
+      { role: 'system', content: VERIFY_PROMPT },
+      {
+        role: 'user',
+        content: [
+          ...imageBlocks,
+          { type: 'text', text: `Vorgeschlagene Diagnose: "${diagnosis}". Bild 1 = User-Foto. Bilder 2-${refCount + 1} = bestätigte Referenzbilder. Stimmt die Diagnose?` },
+        ],
+      },
+    ];
+    maxTokens = 300;
   }
 
-  // 2. Check for premium session token
+  // Check for premium session token
   const authHeader = req.headers['authorization'];
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
   const premiumSession = checkPremium(token);
 
-  // 3. If not premium, atomically reserve a free scan slot AFTER validation
+  // If not premium, atomically reserve a free scan slot
   if (!premiumSession) {
     const limit = getScanLimit(req);
     const result = stmtAtomicScan.run(ip, ip, limit);
@@ -267,35 +308,15 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     }
   }
 
-  // 4. Sanitize messages — strip any extra properties (name, function_call, tool_calls etc.)
-  const sanitizedMessages = messages.map(msg => {
-    const clean = { role: msg.role, content: msg.content };
-    // For array content, also sanitize each block to only allowed keys
-    if (Array.isArray(clean.content)) {
-      clean.content = clean.content.map(block => {
-        if (block.type === 'text') return { type: 'text', text: block.text };
-        if (block.type === 'image_url') return { type: 'image_url', image_url: { url: block.image_url.url } };
-        return block;
-      });
-    }
-    return clean;
-  });
-
-  // 5. Forward to OpenAI (enforce model + cap tokens, whitelist fields only)
-  const { temperature, response_format } = req.body;
-  const requestedModel = req.body.model;
+  // Forward to OpenAI
   try {
     const openaiBody = {
-      messages: sanitizedMessages,
-      model: ALLOWED_MODELS.has(requestedModel) ? requestedModel : 'gpt-4o',
-      max_tokens: Math.min(Number.isFinite(max_tokens) && max_tokens > 0 ? max_tokens : 4000, 4000),
-      // temperature 0 = deterministic (more consistent diagnoses)
-      temperature: typeof temperature === 'number' ? Math.max(0, Math.min(temperature, 1)) : 0.2,
+      messages,
+      model: 'gpt-4o',
+      max_tokens: maxTokens,
+      temperature: 0,
+      response_format: { type: 'json_object' },
     };
-    // Enable JSON mode if requested (guarantees valid JSON output)
-    if (response_format && typeof response_format === 'object' && response_format.type === 'json_object') {
-      openaiBody.response_format = { type: 'json_object' };
-    }
 
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -308,21 +329,17 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
     const data = await openaiRes.text();
 
-    // Refund scan if OpenAI returned an error (free user paid quota but got no result)
+    // Refund scan if OpenAI returned an error
     if (!premiumSession && !openaiRes.ok) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
-      console.log('[LeafScan] Scan refunded (upstream status', openaiRes.status + ')');
     }
 
-    // Forward response as-is (preserve upstream content-type)
     res.status(openaiRes.status)
       .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
       .send(data);
   } catch (err) {
-    // Refund scan on network/fetch failure
     if (!premiumSession) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
-      console.log('[LeafScan] Scan refunded (fetch error)');
     }
     console.error('[LeafScan] OpenAI proxy error:', err.message);
     res.status(502).json({ error: 'upstream_error', message: 'KI-Service nicht erreichbar.' });
@@ -336,63 +353,20 @@ app.post('/api/validate', rateLimit, async (req, res) => {
   if (!OPENAI_API_KEY) {
     return res.status(500).json({ error: 'server_error' });
   }
-  const { messages, max_tokens } = req.body;
-  if (!messages || !Array.isArray(messages) || messages.length > 2) {
-    return res.status(400).json({ error: 'invalid_request' });
+
+  const { images } = req.body;
+  if (!images || !Array.isArray(images) || images.length === 0 || images.length > 5) {
+    return res.status(400).json({ error: 'invalid_request', message: 'images array required (1-5)' });
+  }
+  if (!images.every(img => typeof img === 'string' && img.startsWith('data:image/'))) {
+    return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed' });
   }
 
-  // Validate messages with same rigor as /api/scan to prevent abuse as free proxy
-  for (const msg of messages) {
-    if (typeof msg !== 'object' || msg === null) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message format' });
-    }
-    if (msg.role !== 'system' && msg.role !== 'user') {
-      return res.status(400).json({ error: 'invalid_request', message: 'Invalid message role' });
-    }
-    if (typeof msg.content !== 'string' && !Array.isArray(msg.content)) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Message content must be string or array' });
-    }
-    if (typeof msg.content === 'string' && msg.content.length > 2000) {
-      return res.status(400).json({ error: 'invalid_request', message: 'Message content too long' });
-    }
-    if (Array.isArray(msg.content)) {
-      if (msg.content.length > 5) {
-        return res.status(400).json({ error: 'invalid_request', message: 'Too many content blocks' });
-      }
-      for (const block of msg.content) {
-        if (typeof block !== 'object' || block === null) {
-          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block' });
-        }
-        if (block.type !== 'text' && block.type !== 'image_url') {
-          return res.status(400).json({ error: 'invalid_request', message: 'Invalid content block type' });
-        }
-        if (block.type === 'text' && (typeof block.text !== 'string' || block.text.length > 2000)) {
-          return res.status(400).json({ error: 'invalid_request', message: 'Invalid text block' });
-        }
-        if (block.type === 'image_url') {
-          if (!block.image_url || typeof block.image_url !== 'object' || typeof block.image_url.url !== 'string') {
-            return res.status(400).json({ error: 'invalid_request', message: 'Invalid image_url block' });
-          }
-          if (!block.image_url.url.startsWith('data:image/')) {
-            return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed' });
-          }
-        }
-      }
-    }
-  }
-
-  // Sanitize messages — strip extra properties
-  const sanitizedMessages = messages.map(msg => {
-    const clean = { role: msg.role, content: msg.content };
-    if (Array.isArray(clean.content)) {
-      clean.content = clean.content.map(block => {
-        if (block.type === 'text') return { type: 'text', text: block.text };
-        if (block.type === 'image_url') return { type: 'image_url', image_url: { url: block.image_url.url } };
-        return block;
-      });
-    }
-    return clean;
-  });
+  // Build messages server-side (IMAGE_CHECK_PROMPT never leaves server)
+  const imageBlocks = images.map(url => ({ type: 'image_url', image_url: { url } }));
+  const messages = [
+    { role: 'user', content: [...imageBlocks, { type: 'text', text: IMAGE_CHECK_PROMPT }] },
+  ];
 
   try {
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -402,9 +376,9 @@ app.post('/api/validate', rateLimit, async (req, res) => {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        messages: sanitizedMessages,
-        model: 'gpt-4o-mini', // validation is lightweight, mini is fine here
-        max_tokens: Math.min(Number(max_tokens) || 20, 50),
+        messages,
+        model: 'gpt-4o-mini',
+        max_tokens: 20,
         temperature: 0,
       }),
     });
@@ -742,7 +716,7 @@ app.post('/api/feedback', (req, res) => {
 
 app.get('/api/admin/feedback', (req, res) => {
   const key = req.headers['x-leafscan-key'] || req.query.key;
-  if (key !== TESTER_KEY) {
+  if (key !== ADMIN_KEY) {
     return res.status(403).json({ error: 'Unauthorized' });
   }
   const limit = Math.min(parseInt(req.query.limit) || 50, 500);
