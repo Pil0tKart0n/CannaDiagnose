@@ -1,4 +1,3 @@
-import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 import { DiagnosisResult, Severity } from '../types';
 import { readAsBase64 } from './fileSystemWeb';
@@ -398,35 +397,104 @@ export async function generateDiagnosisPDF(
   return uri;
 }
 
+function buildShareText(result: DiagnosisResult): string {
+  const sevLabel = severityLabels[result.severity] || result.severity;
+  const confidence = Math.round(result.confidence * 100);
+  const lines: string[] = [
+    `LeafScan - Ergebnis`,
+    ``,
+    `Diagnose: ${result.primaryDiagnosis}`,
+    `Schweregrad: ${sevLabel} | Konfidenz: ${confidence}%`,
+    ``,
+    `Ursache: ${result.rootCauseAnalysis}`,
+  ];
+
+  if (result.actionPlan?.length) {
+    lines.push(``, `Aktionsplan:`);
+    result.actionPlan.forEach((s) => {
+      lines.push(`${s.priority}. ${s.action} - ${s.details}`);
+    });
+  }
+
+  if (result.preventiveTips?.length) {
+    lines.push(``, `Tipps:`);
+    result.preventiveTips.forEach((t) => {
+      lines.push(`- ${t}`);
+    });
+  }
+
+  lines.push(``, `Erstellt mit LeafScan`);
+  return lines.join('\n');
+}
+
+async function shareOnWeb(result: DiagnosisResult, imageBase64?: string): Promise<void> {
+  const nav = navigator as any;
+
+  // Try file sharing first (HTML report + text)
+  if (nav.share && nav.canShare) {
+    try {
+      const html = generateHTML(result, imageBase64);
+      const blob = new Blob([html], { type: 'text/html' });
+      const file = new File([blob], 'LeafScan-Diagnose.html', { type: 'text/html' });
+
+      if (nav.canShare({ files: [file] })) {
+        await nav.share({
+          title: 'LeafScan Ergebnis',
+          text: buildShareText(result),
+          files: [file],
+        });
+        return;
+      }
+    } catch (e: any) {
+      if (e.name === 'AbortError') throw new Error('abgebrochen');
+    }
+  }
+
+  // Fallback: share text only (WhatsApp, Telegram, etc.)
+  if (nav.share) {
+    try {
+      await nav.share({
+        title: 'LeafScan Ergebnis',
+        text: buildShareText(result),
+      });
+      return;
+    } catch (e: any) {
+      if (e.name === 'AbortError') throw new Error('abgebrochen');
+    }
+  }
+
+  // Last resort: copy to clipboard
+  try {
+    await navigator.clipboard.writeText(buildShareText(result));
+    throw new Error('Share nicht verfügbar \u2013 Diagnose wurde in die Zwischenablage kopiert!');
+  } catch (e: any) {
+    if (e.message?.includes('Zwischenablage')) throw e;
+    throw new Error('Teilen ist auf diesem Ger\u00e4t nicht verf\u00fcgbar.');
+  }
+}
+
 export async function shareDiagnosis(
   result: DiagnosisResult,
   imageUri?: string
 ): Promise<void> {
-  // Web: download as HTML file (user can print to PDF from browser)
+  // Web/PWA: use Web Share API for native share sheet (WhatsApp, Telegram, etc.)
   if (Platform.OS === 'web') {
     let imageBase64: string | undefined;
     if (imageUri) {
-      imageBase64 = await imageToBase64(imageUri);
+      try {
+        imageBase64 = await imageToBase64(imageUri);
+      } catch {}
     }
-    const html = generateHTML(result, imageBase64);
-    const blob = new Blob([html], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `LeafScan_${new Date().toISOString().slice(0, 10)}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    return;
+    return shareOnWeb(result, imageBase64);
   }
 
+  // Native: use expo-print + expo-sharing
   const fileUri = await generateDiagnosisPDF(result, imageUri);
 
   const SharingModule = getSharing();
   const isAvailable = await SharingModule.isAvailableAsync();
   if (!isAvailable) {
-    throw new Error('Teilen ist auf diesem Gerät nicht verfügbar.');
+    throw new Error('Teilen ist auf diesem Ger\u00e4t nicht verf\u00fcgbar.');
   }
 
   await SharingModule.shareAsync(fileUri, {
