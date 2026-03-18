@@ -72,6 +72,16 @@ export function clearImageCache(): void {
  * Returns the URI of the resized image (JPEG, quality 0.95 for minimal loss).
  */
 export async function optimizeImage(uri: string): Promise<string> {
+  // On web, expo-image-manipulator can be unreliable — use Canvas API for resizing
+  if (Platform.OS === 'web') {
+    try {
+      return await optimizeImageWeb(uri);
+    } catch (err) {
+      console.log('[LeafScan] Web image optimize failed, using original:', err);
+      return uri;
+    }
+  }
+
   try {
     // Get original dimensions via manipulateAsync with no actions
     const probe = await manipulateAsync(uri, []);
@@ -104,6 +114,33 @@ export async function optimizeImage(uri: string): Promise<string> {
     console.log('[LeafScan] Image optimize failed, using original:', err);
     return uri; // Fallback: use original
   }
+}
+
+/** Web-native image optimization using Canvas API */
+async function optimizeImageWeb(uri: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
+        const scale = MAX_IMAGE_DIMENSION / Math.max(width, height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) { reject(new Error('No canvas context')); return; }
+      ctx.drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      console.log(`[LeafScan] Web image resized: ${img.naturalWidth}x${img.naturalHeight} → ${width}x${height}`);
+      resolve(dataUrl);
+    };
+    img.onerror = () => reject(new Error('Image load failed'));
+    img.src = uri;
+  });
 }
 
 // ---------------------------------------------------------------------------

@@ -105,7 +105,7 @@ app.set('trust proxy', 1);
 
 // Webhook needs raw body, everything else gets JSON parsed
 app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }));
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '30mb' }));
 
 /** Extract client IP — use req.ip which respects trust proxy setting safely */
 function getClientIP(req) {
