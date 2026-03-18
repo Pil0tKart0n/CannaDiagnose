@@ -158,9 +158,13 @@ function getClientIP(req) {
   return req.ip;
 }
 
-/** Check if request comes from APK with tester key */
+/** Check if request comes from native app (no Origin header) or has tester key */
 function isTester(req) {
-  return req.headers['x-leafscan-key'] === TESTER_KEY;
+  // Native apps (APK) don't send Origin header
+  if (!req.headers['origin']) return true;
+  // Legacy: tester key header
+  if (req.headers['x-leafscan-key'] === TESTER_KEY) return true;
+  return false;
 }
 
 /** Get the applicable scan limit for this request */
