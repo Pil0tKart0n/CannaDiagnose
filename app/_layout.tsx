@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, Linking, Alert } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
@@ -10,6 +10,7 @@ import { optimizeImage, initReferenceImages } from '../services/claude';
 import { cleanupStorage } from '../services/storage';
 import { initLanguage } from '../services/i18n';
 import { initPurchases } from '../services/purchases';
+import { setPremium, setSessionToken } from '../services/quota';
 import CookieConsent from '../components/CookieConsent';
 
 SplashScreen.preventAutoHideAsync();
@@ -117,6 +118,37 @@ export default function RootLayout() {
       initLanguage().catch(() => {}),
       initPurchases().catch(() => {}),
     ]).then(() => SplashScreen.hideAsync()).catch(() => SplashScreen.hideAsync());
+
+    // Deep-link handler for Stripe payment success (leafscan://payment-success?session_id=...)
+    if (Platform.OS !== 'web') {
+      const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
+      const handleDeepLink = (event: { url: string }) => {
+        const url = event.url;
+        if (url.startsWith('leafscan://payment-success')) {
+          const sessionId = url.split('session_id=')[1]?.split('&')[0];
+          if (sessionId) {
+            fetch(`${SERVER_URL}/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
+              .then(r => r.ok ? r.json() : Promise.reject())
+              .then(data => {
+                if (data.token) {
+                  setSessionToken(data.token);
+                  setPremium(true);
+                  Alert.alert('Premium aktiviert!', 'Dein Abo ist jetzt aktiv. Viel Spaß!');
+                }
+              })
+              .catch(() => {});
+          }
+        }
+      };
+      // Handle deep-link if app was opened from it
+      Linking.getInitialURL().then(url => { if (url) handleDeepLink({ url }); });
+      // Handle deep-link while app is running
+      const sub = Linking.addEventListener('url', handleDeepLink);
+      // Cleanup on unmount
+      const cleanupDeepLink = () => sub.remove();
+      // Store cleanup — we'll call it via return
+      (globalThis as any).__deepLinkCleanup = cleanupDeepLink;
+    }
 
     // Non-critical: run in background without blocking splash
     initReferenceImages().catch((err) =>

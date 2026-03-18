@@ -24,6 +24,16 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": false,
+          "data": [
+            { "scheme": "leafscan" }
+          ],
+          "category": ["DEFAULT", "BROWSABLE"]
+        }
+      ],
       "predictiveBackGestureEnabled": false,
       "backgroundColor": "#0A0E0D",
       "permissions": [

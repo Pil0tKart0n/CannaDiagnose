@@ -75,10 +75,16 @@ async function getStripePlans(): Promise<StripePlan[]> {
 
 async function startStripeCheckout(priceId: string): Promise<string | null> {
   try {
+    const body: any = { priceId };
+    // Tell server to use deep-link redirect for native apps
+    if (Platform.OS !== 'web') {
+      body.successUrl = 'leafscan://payment-success?session_id={CHECKOUT_SESSION_ID}';
+      body.cancelUrl = 'leafscan://payment-cancel';
+    }
     const res = await fetch(`${STRIPE_API_BASE}/api/stripe/checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ priceId }),
+      body: JSON.stringify(body),
     });
     const data = await res.json();
     return data.url || null;

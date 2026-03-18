@@ -541,18 +541,23 @@ app.get('/api/stripe/products', async (req, res) => {
 
 // ── POST /api/stripe/checkout — NOW with session_id in success URL ──
 app.post('/api/stripe/checkout', rateLimit, async (req, res) => {
-  const { priceId } = req.body;
+  const { priceId, successUrl, cancelUrl } = req.body;
   if (!priceId) return res.status(400).json({ error: 'priceId required' });
   if (!growerPriceId || !proPriceId) await ensureProducts();
   if (priceId !== growerPriceId && priceId !== proPriceId) return res.status(400).json({ error: 'Invalid priceId' });
+
+  // Allow custom redirect URLs for native app deep-links (leafscan:// scheme only)
+  const isValidDeepLink = (url) => url && url.startsWith('leafscan://');
+  const finalSuccessUrl = isValidDeepLink(successUrl) ? successUrl : `${DOMAIN}/?session_id={CHECKOUT_SESSION_ID}`;
+  const finalCancelUrl = isValidDeepLink(cancelUrl) ? cancelUrl : `${DOMAIN}/paywall`;
 
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${DOMAIN}/?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${DOMAIN}/paywall`,
+      success_url: finalSuccessUrl,
+      cancel_url: finalCancelUrl,
       locale: 'de',
     });
     res.json({ url: session.url });
