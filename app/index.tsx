@@ -284,6 +284,33 @@ export default function HomeScreen() {
             </View>
           )}
 
+          {/* Premium upgrade link — always visible for non-premium */}
+          {!quotaIsPremium && (
+            isWeb ? (
+              <div
+                className="cd-btn-secondary"
+                onClick={() => router.push('/paywall')}
+                style={{ padding: '10px 16px', textAlign: 'center', marginTop: 2 } as any}
+              >
+                <View style={styles.premiumRow}>
+                  <Text style={styles.premiumIcon}>◆</Text>
+                  <Text style={styles.premiumBtnText}>Premium freischalten</Text>
+                </View>
+              </div>
+            ) : (
+              <TouchableOpacity
+                style={styles.premiumBtn}
+                onPress={() => router.push('/paywall')}
+                activeOpacity={0.7}
+              >
+                <View style={styles.premiumRow}>
+                  <Text style={styles.premiumIcon}>◆</Text>
+                  <Text style={styles.premiumBtnText}>Premium freischalten</Text>
+                </View>
+              </TouchableOpacity>
+            )
+          )}
+
           {/* Legal footer */}
           <View style={styles.legalFooter}>
             <Text style={styles.legalText}>
@@ -491,6 +518,33 @@ const styles = StyleSheet.create({
   legalDot: {
     fontSize: 10,
     color: colors.textMuted,
+  },
+
+  // Premium upgrade
+  premiumBtn: {
+    borderRadius: 12,
+    paddingVertical: 10,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: colors.accentWarmSubtle,
+    marginTop: 2,
+  },
+  premiumRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  premiumIcon: {
+    fontSize: 12,
+    color: colors.accentWarm,
+  },
+  premiumBtnText: {
+    color: colors.accentWarm,
+    fontSize: 13,
+    fontWeight: '600',
+    letterSpacing: 0.3,
   },
 
   // Buttons
