@@ -152,6 +152,16 @@ const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max
 seedPromo.run('HOMEGROW', 10, 9999);
 seedPromo.run('HGC2026', 10, 9999);
 
+// Permanent VIP codes for mods (1 use each, 100 years = forever)
+const vipCodes = [
+  'VIP-K7X2', 'VIP-M3R9', 'VIP-Q5W1', 'VIP-T8N4', 'VIP-J6P3',
+  'VIP-H2L8', 'VIP-F9D5', 'VIP-B4G7', 'VIP-Y1C6', 'VIP-S7A2',
+  'VIP-W3E9', 'VIP-N5V1', 'VIP-R8X4', 'VIP-L2Z6', 'VIP-D4U8',
+];
+for (const code of vipCodes) {
+  seedPromo.run(code, 36500, 1);
+}
+
 // Cleanup old scan logs (keep 7 days)
 const stmtCleanupScans = db.prepare(`DELETE FROM scan_log WHERE scanned_at < date('now', '-7 days')`);
 function cleanupOldScans() {
@@ -492,22 +502,32 @@ app.post('/api/redeem-code', rateLimit, (req, res) => {
     return res.status(404).json({ error: 'invalid_code', message: 'Ungültiger Code.' });
   }
 
-  // Check max uses
+  // Check max uses (VIP codes = 1 use globally)
   if (promo.used >= promo.max_uses) {
-    return res.status(410).json({ error: 'code_exhausted', message: 'Dieser Code wurde bereits zu oft eingelöst.' });
+    return res.status(410).json({ error: 'code_exhausted', message: 'Dieser Code wurde bereits eingelöst.' });
   }
 
-  // Check if this IP has EVER redeemed ANY promo code
-  const existingByIp = stmtCheckRedeemedByIp.get(ip);
-  if (existingByIp) {
-    return res.status(409).json({ error: 'already_redeemed', message: 'Du hast bereits einen Code eingelöst.' });
-  }
+  const isVIP = cleanCode.startsWith('VIP-');
 
-  // Check if this device has EVER redeemed ANY promo code
-  if (deviceId) {
-    const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
-    if (existingByDevice) {
-      return res.status(409).json({ error: 'already_redeemed', message: 'Auf diesem Gerät wurde bereits ein Code eingelöst.' });
+  if (isVIP) {
+    // VIP codes: check if this specific device already has a VIP code
+    if (deviceId) {
+      const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
+      if (existingByDevice && existingByDevice.code.startsWith('VIP-')) {
+        return res.status(409).json({ error: 'already_redeemed', message: 'Auf diesem Gerät ist bereits ein VIP-Code aktiv.' });
+      }
+    }
+  } else {
+    // Regular promo codes: one per IP and one per device ever
+    const existingByIp = stmtCheckRedeemedByIp.get(ip);
+    if (existingByIp) {
+      return res.status(409).json({ error: 'already_redeemed', message: 'Du hast bereits einen Code eingelöst.' });
+    }
+    if (deviceId) {
+      const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
+      if (existingByDevice) {
+        return res.status(409).json({ error: 'already_redeemed', message: 'Auf diesem Gerät wurde bereits ein Code eingelöst.' });
+      }
     }
   }
 
