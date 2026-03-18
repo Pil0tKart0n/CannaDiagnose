@@ -350,7 +350,7 @@ export default function PaywallScreen() {
         </TouchableOpacity>
 
         {/* Promo code */}
-        {isWeb && !promoSuccess && (
+        {!promoSuccess && (
           <View style={styles.promoCard}>
             <Text style={styles.promoTitle}>Code einlösen</Text>
             <View style={styles.promoRow}>
