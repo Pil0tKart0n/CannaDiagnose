@@ -415,9 +415,83 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
     }
 
-    // Texture safety-net removed — main prompt already includes thorough texture analysis instructions.
-    // The separate GPT-4o call caused more issues than it solved (wrong field names, contradictory
-    // diagnoses, false "Hitzestress", and empty non-answers). Trusting the main diagnosis instead.
+    // ── Texture safety net: if main diagnosis says "healthy", double-check texture ──
+    if (mode === 'diagnose' && openaiRes.ok) {
+      try {
+        const parsed = JSON.parse(data);
+        const choices = parsed.choices;
+        if (choices && choices[0]) {
+          const content = JSON.parse(choices[0].message.content);
+          const diagText = (content.primaryDiagnosis || '').toLowerCase();
+          const isHealthy = content.severity === 'niedrig' &&
+            (content.confidence >= 0.7) &&
+            (diagText.includes('gesund') || diagText.includes('healthy') || diagText.includes('keine'));
+
+          if (isHealthy) {
+            console.log('[LeafScan] Healthy diagnosis detected — running texture safety check...');
+            const texturePrompt = `Du bist ein Cannabis-Grow-Experte. Ignoriere KOMPLETT alle Farben — das Foto ist unter Growlicht aufgenommen.
+
+Analysiere NUR die PHYSISCHE TEXTUR und FORM der Blätter:
+1. Sind die Blattoberflächen glatt und flach? Oder gibt es Wellen, Buckel, Blasen?
+2. Treten die Blattadern hervor? Sinkt das Gewebe zwischen den Adern ein?
+3. Sind die Blattränder glatt oder nach oben/unten gebogen?
+4. Gibt es Kräuselung oder "Taco"-Blätter?
+
+Antworte NUR mit JSON:
+{"hasTextureIssues": true/false, "description": "Beschreibe kurz und sachlich was du siehst, OHNE technische Analysebegriffe. Schreibe wie ein Grower."}`;
+
+            const textureRes = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+              },
+              body: JSON.stringify({
+                messages: [
+                  { role: 'system', content: texturePrompt },
+                  { role: 'user', content: [...imageBlocks, { type: 'text', text: 'Prüfe die Blattoberflächen auf diesen Fotos. NUR Textur und Form, keine Farben.' }] },
+                ],
+                model: 'gpt-4o',
+                max_tokens: 200,
+                temperature: 0,
+                response_format: { type: 'json_object' },
+              }),
+            });
+
+            if (textureRes.ok) {
+              const textureData = await textureRes.json();
+              const textureContent = JSON.parse(textureData.choices[0].message.content);
+
+              if (textureContent.hasTextureIssues) {
+                console.log('[LeafScan] Texture issues found:', textureContent.description);
+                content.severity = 'niedrig';
+                content.confidence = 0.60;
+                content.primaryDiagnosis = textureContent.description + ' Das könnten frühe Anzeichen für ein beginnendes Problem sein — beobachte die Pflanze in den nächsten Tagen genau.';
+                content.rootCauseAnalysis = '';
+                content.contributingFactors = [
+                  { factor: 'Frühe Anzeichen', impact: 'Noch kein akutes Problem, aber die Pflanze zeigt erste Auffälligkeiten.' },
+                ];
+                content.actionPlan = [
+                  { step: 'pH-Wert prüfen', detail: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
+                  { step: 'Pflanze beobachten', detail: 'Mach in 3–5 Tagen ein neues Foto und vergleiche ob sich die Symptome verstärkt haben.' },
+                  { step: 'Nährstoffversorgung checken', detail: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist.' },
+                ];
+                content.followUpDays = 5;
+                content.preventiveTips = [
+                  'Fotos unter weißem Licht ermöglichen eine genauere Diagnose.',
+                  'Regelmäßig pH und EC messen hilft, Probleme früh zu erkennen.',
+                ];
+
+                choices[0].message.content = JSON.stringify(content);
+                data = JSON.stringify(parsed);
+              }
+            }
+          }
+        }
+      } catch (textureErr) {
+        console.log('[LeafScan] Texture check skipped:', textureErr.message);
+      }
+    }
 
     res.status(openaiRes.status)
       .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
