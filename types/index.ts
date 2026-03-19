@@ -8,6 +8,9 @@ export interface QuestionnaireData {
   perliteAdded: boolean;
   perlitePercent: string | null;
   fertilizerType: string | null;
+  livingsoilAmendments: string[];
+  livingsoilTea: string | null;
+  livingsoilMulch: string | null;
   waterTempCelsius: string | null;
   substrateTempCelsius: string | null;
   phFeed: string | null;

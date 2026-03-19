@@ -81,6 +81,16 @@ export default function QuestionnaireScreen() {
     if (question.id === 'growPhase' || question.id === 'lightType') {
       updated.plantAgeWeeks = null;
     }
+    // Reset fertilizer/living soil fields when substrate changes
+    if (question.id === 'substrateType') {
+      if (newValue === 'Living Soil') {
+        updated.fertilizerType = null;
+      } else {
+        updated.livingsoilAmendments = [];
+        updated.livingsoilTea = null;
+        updated.livingsoilMulch = null;
+      }
+    }
     setQuestionnaire(updated);
 
     // Don't auto-advance for substrate (user might want to add perlite)

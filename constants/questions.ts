@@ -64,9 +64,9 @@ export const questions: Question[] = [
     section: 'Setup',
     question: 'In welchem Substrat wird angebaut?',
     type: 'select',
-    options: ['Erde', 'Kokos', 'DWC / Hydro', 'Aeroponik', 'Sonstige'],
+    options: ['Erde', 'Kokos', 'DWC / Hydro', 'Aeroponik', 'Living Soil', 'Sonstige'],
   },
-  // 5. Fertilizer
+  // 5. Fertilizer (hidden for Living Soil)
   {
     id: 'fertilizerType',
     section: 'Setup',
@@ -74,6 +74,49 @@ export const questions: Question[] = [
     type: 'searchable-select',
     options: ['Kein Dünger / Nur Wasser', ...getFertilizerNames()],
     hint: 'Hilft bei der Einschätzung von EC-Werten',
+    conditional: { field: 'substrateType', values: ['Erde', 'Kokos', 'DWC / Hydro', 'Aeroponik', 'Sonstige'] },
+  },
+  // 5b. Living Soil: Amendments
+  {
+    id: 'livingsoilAmendments',
+    section: 'Setup',
+    question: 'Welche Amendments verwendest du?',
+    type: 'multi-select',
+    options: [
+      'Wurmhumus',
+      'Kompost',
+      'Guano (Fledermaus/Seevogel)',
+      'Blutmehl / Knochenmehl',
+      'Fischmehl',
+      'Algenmehl / Kelp',
+      'Gesteinsmehl /Ite-Mehl',
+      'Dolomit-Kalk',
+      'Austernschalenmehl',
+      'Mykorrhiza',
+      'Neem-Kuchen',
+      'Bio-Fertigmix (z.B. Buildasoil, KIS)',
+      'Weiß nicht / Sonstige',
+    ],
+    hint: 'Was wurde dem Boden hinzugefügt?',
+    conditional: { field: 'substrateType', values: ['Living Soil'] },
+  },
+  // 5c. Living Soil: Compost Tea
+  {
+    id: 'livingsoilTea',
+    section: 'Setup',
+    question: 'Verwendest du Komposttee oder Pflanzenjauche?',
+    type: 'select',
+    options: ['Ja, regelmäßig', 'Ja, gelegentlich', 'Nein', 'Weiß nicht'],
+    conditional: { field: 'substrateType', values: ['Living Soil'] },
+  },
+  // 5d. Living Soil: Mulch
+  {
+    id: 'livingsoilMulch',
+    section: 'Setup',
+    question: 'Verwendest du Mulch als Abdeckung?',
+    type: 'select',
+    options: ['Ja (Stroh/Heu)', 'Ja (Blätter/Grasschnitt)', 'Ja (Cover Crop)', 'Nein', 'Weiß nicht'],
+    conditional: { field: 'substrateType', values: ['Living Soil'] },
   },
   // 6. Symptom duration
   {

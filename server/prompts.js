@@ -1107,6 +1107,69 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
   return parts.join('\n');
 };
 
+/**
+ * Generate Living Soil context for the AI prompt.
+ * Living Soil has fundamentally different rules than mineral/organic liquid feeds.
+ */
+function getLivingSoilContext(data) {
+  let ctx = '\nLIVING SOIL KONTEXT (WICHTIG — andere Regeln als mineralische/flüssige Düngung!):';
+  ctx += '\n- Anbaumethode: Living Soil — ein lebendiges Bodenökosystem das Nährstoffe über Mikroorganismen bereitstellt.';
+  ctx += '\n- EC-MESSUNG IST IRRELEVANT! In Living Soil steuern Bodenmikroben die Nährstofffreigabe. EC-Werte sagen NICHTS über die tatsächliche Nährstoffverfügbarkeit aus. Empfehle KEINE EC-Anpassungen.';
+  ctx += '\n- pH wird vom Boden natürlich gepuffert (meist 6.0–7.0). Aktive pH-Korrektur des Gießwassers ist normalerweise NICHT nötig. Empfehle nur bei extremen Werten (<5.5 oder >7.5) eine Anpassung.';
+  ctx += '\n- KEIN FLUSH! In Living Soil gibt es kein Spülen/Flushen. Das würde das Bodenleben zerstören.';
+
+  // Amendments info
+  if (data.livingsoilAmendments && data.livingsoilAmendments.length > 0) {
+    ctx += '\n- Verwendete Amendments: ' + data.livingsoilAmendments.join(', ');
+
+    // Check for calcium sources
+    const hasCaSource = data.livingsoilAmendments.some(a =>
+      a.includes('Dolomit') || a.includes('Austernschalen') || a.includes('Knochenmehl')
+    );
+    if (!hasCaSource) {
+      ctx += '\n- HINWEIS: Keine offensichtliche Kalzium-Quelle in den Amendments (kein Dolomit, Austernschalenmehl oder Knochenmehl). Ca-Mangel ist möglich.';
+    }
+
+    // Check for nitrogen sources
+    const hasNSource = data.livingsoilAmendments.some(a =>
+      a.includes('Blutmehl') || a.includes('Fischmehl') || a.includes('Guano') || a.includes('Wurmhumus') || a.includes('Kompost')
+    );
+    if (!hasNSource) {
+      ctx += '\n- HINWEIS: Keine offensichtliche Stickstoff-Quelle in den Amendments. N-Mangel ist möglich.';
+    }
+  }
+
+  // Compost tea
+  if (data.livingsoilTea) {
+    ctx += '\n- Komposttee/Pflanzenjauche: ' + data.livingsoilTea;
+    if (data.livingsoilTea === 'Nein') {
+      ctx += ' — Komposttee kann das Bodenleben aktivieren und Nährstoffverfügbarkeit verbessern.';
+    }
+  }
+
+  // Mulch
+  if (data.livingsoilMulch) {
+    ctx += '\n- Mulch: ' + data.livingsoilMulch;
+  }
+
+  ctx += '\n\nBEHANDLUNGS-REGELN FÜR LIVING SOIL:';
+  ctx += '\n- Empfehle KEINE mineralischen/flüssigen Dünger! Stattdessen organische Lösungen:';
+  ctx += '\n  • N-Mangel → Top-Dress mit Wurmhumus, Blutmehl, Fischmehl oder Komposttee brauen';
+  ctx += '\n  • P-Mangel → Top-Dress mit Knochenmehl, Fledermaus-Guano (P-reich) oder Fischgrätenmehl';
+  ctx += '\n  • K-Mangel → Top-Dress mit Kelp-Mehl, Holzasche (sparsam!) oder Bananenschalen-Ferment';
+  ctx += '\n  • Ca-Mangel → Top-Dress mit Austernschalenmehl, Dolomit-Kalk oder Gips';
+  ctx += '\n  • Mg-Mangel → Top-Dress mit Dolomit-Kalk (enthält Ca+Mg) oder Bittersalz als Blattspray';
+  ctx += '\n  • Fe-Mangel → Kelp-Extrakt, Komposttee, pH des Bodens prüfen (zu hoch = Fe-Lockout)';
+  ctx += '\n  • Allgemein schwach → Komposttee brauen (aktiviert Mikroben), Mykorrhiza nachimpfen';
+  ctx += '\n- Korrekturen wirken LANGSAMER als bei Mineral-Düngung (Tage bis Wochen, nicht Stunden)!';
+  ctx += '\n- Top-Dress = Amendment auf die Erdoberfläche streuen und leicht einarbeiten oder mit Mulch bedecken.';
+  ctx += '\n- Bei akutem Mangel: Blattspray (Foliar Feeding) als Sofortmaßnahme empfehlen (z.B. Bittersalz für Mg, Kelp für Mikronährstoffe).';
+  ctx += '\n- Erwähne dass Geduld nötig ist — Living Soil reagiert nicht sofort wie Hydro/Mineral.';
+  ctx += '\n- Empfehle KEINE spezifischen Dünger-Marken! Empfehle stattdessen die oben genannten organischen Amendments.';
+
+  return ctx;
+}
+
 module.exports.buildUserPrompt = function buildUserPrompt(data) {
   const parts = ['Anbaubedingungen des Growers:\n'];
 
@@ -1119,7 +1182,20 @@ module.exports.buildUserPrompt = function buildUserPrompt(data) {
     }
     parts.push(`- Substrat: ${substrate}`);
   }
-  if (data.fertilizerType) parts.push(`- D\u00fcnger: ${data.fertilizerType}`);
+  if (data.substrateType === 'Living Soil') {
+    parts.push('- Anbaumethode: LIVING SOIL (organisch, bodenbasiert)');
+    if (data.livingsoilAmendments && data.livingsoilAmendments.length > 0) {
+      parts.push('- Amendments: ' + data.livingsoilAmendments.join(', '));
+    }
+    if (data.livingsoilTea && data.livingsoilTea !== 'Weiß nicht') {
+      parts.push('- Komposttee/Pflanzenjauche: ' + data.livingsoilTea);
+    }
+    if (data.livingsoilMulch && data.livingsoilMulch !== 'Weiß nicht') {
+      parts.push('- Mulch-Abdeckung: ' + data.livingsoilMulch);
+    }
+  } else if (data.fertilizerType) {
+    parts.push(`- D\u00fcnger: ${data.fertilizerType}`);
+  }
   if (data.lightType) parts.push(`- Lichttyp/Anbauart: ${data.lightType}`);
   if (data.symptomDurationDays) parts.push(`- Symptome sichtbar seit: ${data.symptomDurationDays}`);
   if (data.recentChanges && data.recentChanges.length > 0) {
@@ -1143,10 +1219,14 @@ module.exports.buildUserPrompt = function buildUserPrompt(data) {
     parts.push(`- Luftfeuchtigkeit: ${data.humidityPercent}`);
   }
 
-  // Add fertilizer context if available
-  const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks, data.growPhase);
-  if (fertContext) {
-    parts.push(fertContext);
+  // Add fertilizer context or living soil context
+  if (data.substrateType === 'Living Soil') {
+    parts.push(getLivingSoilContext(data));
+  } else {
+    const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks, data.growPhase);
+    if (fertContext) {
+      parts.push(fertContext);
+    }
   }
 
   // Senescence hint for late bloom
