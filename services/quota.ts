@@ -40,11 +40,35 @@ export async function setSessionToken(token: string | null): Promise<void> {
   }
 }
 
+/** Get or create device ID for promo tracking */
+async function getDeviceId(): Promise<string> {
+  try {
+    const key = 'leafscan_device_id';
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      let id = window.localStorage.getItem(key);
+      if (!id) {
+        id = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        window.localStorage.setItem(key, id);
+      }
+      return id;
+    }
+    let id = await AsyncStorage.getItem(key);
+    if (!id) {
+      id = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      await AsyncStorage.setItem(key, id);
+    }
+    return id;
+  } catch {
+    return '';
+  }
+}
+
 /** Build headers for API requests */
-function buildHeaders(token?: string | null): Record<string, string> {
+export async function buildHeaders(token?: string | null): Promise<Record<string, string>> {
   const headers: Record<string, string> = {};
-  // Native app detection is done server-side via missing Origin header
   if (token) headers['Authorization'] = `Bearer ${token}`;
+  const deviceId = await getDeviceId();
+  if (deviceId) headers['X-Device-Id'] = deviceId;
   return headers;
 }
 
@@ -52,7 +76,7 @@ function buildHeaders(token?: string | null): Record<string, string> {
 export async function canScan(): Promise<{ allowed: boolean; remaining: number; isPremium: boolean }> {
   try {
     const token = await getSessionToken();
-    const headers = buildHeaders(token);
+    const headers = await buildHeaders(token);
 
     const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
     const res = await fetch(quotaUrl, { headers });
@@ -96,7 +120,7 @@ export async function getQuotaDisplay(): Promise<{
 }> {
   try {
     const token = await getSessionToken();
-    const headers = buildHeaders(token);
+    const headers = await buildHeaders(token);
 
     const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
     const res = await fetch(quotaUrl, { headers });

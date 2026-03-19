@@ -243,10 +243,11 @@ function checkPremium(token, req) {
       }
     }
   }
-  // 2. Check active promo code redemption (by IP)
+  // 2. Check active promo code redemption (by IP or device_id)
   if (req) {
     const ip = getClientIP(req);
-    const promo = stmtActivePromo.get(ip, '');
+    const deviceId = req.headers['x-device-id'] || '';
+    const promo = stmtActivePromo.get(ip, deviceId);
     if (promo) {
       return { plan: 'promo', promo_code: promo.code, expires_at: promo.expires_at };
     }

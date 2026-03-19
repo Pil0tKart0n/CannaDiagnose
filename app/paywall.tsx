@@ -21,7 +21,7 @@ import {
   restorePurchases,
   SubscriptionPackage,
 } from '../services/purchases';
-import { setPremium, setSessionToken } from '../services/quota';
+import { setPremium, setSessionToken, SERVER_URL } from '../services/quota';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Feature {
@@ -209,7 +209,7 @@ export default function PaywallScreen() {
     setPromoMessage('');
     try {
       const deviceId = await getDeviceId();
-      const apiUrl = Platform.OS === 'web' ? '/api/redeem-code' : `${require('../services/quota').SERVER_URL}/api/redeem-code`;
+      const apiUrl = Platform.OS === 'web' ? '/api/redeem-code' : `${SERVER_URL}/api/redeem-code`;
       const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
