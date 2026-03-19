@@ -409,7 +409,14 @@ Wenn du farbiges Growlicht erkennst:
 - Erw\u00e4hne es in der rootCauseAnalysis: "Das Foto wurde unter farbigem Kunstlicht aufgenommen, was die Farbanalyse einschr\u00e4nkt."
 - Setze confidence auf maximal 0.5 (da Farben unzuverl\u00e4ssig sind)
 - F\u00fcge in preventiveTips hinzu: "F\u00fcr eine genauere Diagnose: Foto unter normalem wei\u00dfen Licht oder Tageslicht aufnehmen."
-- Analysiere trotzdem TEXTUR, MUSTER, POSITION und AUSMASS \u2013 diese Dimensionen sind von Growlicht nicht betroffen.
+- WICHTIG bei Growlicht: Da Farbanalyse ausf\u00e4llt, wird TEXTUR zur PRIM\u00c4REN Diagnose-Dimension! Pr\u00fcfe EXTREM GENAU:
+  \u2022 Blattoberfl\u00e4che: Ist sie WIRKLICH glatt oder gibt es Wellen, Buckel, Knicke?
+  \u2022 Blattadern: Stehen sie hervor? Sinkt das Gewebe dazwischen ein?
+  \u2022 Blattr\u00e4nder: Glatt oder zackig/gewellt/nach oben/unten gebogen?
+  \u2022 Blattform: Normal oder verdreht/deformiert/asymmetrisch?
+  \u2022 Neue Bl\u00e4tter: Kr\u00e4useln sie sich? Sind sie kleiner als erwartet?
+- Bei Growlicht-Fotos darfst du NIEMALS "gesund" diagnostizieren wenn irgendeine Texturauff\u00e4lligkeit sichtbar ist! Gewellte Bl\u00e4tter + hervortretende Adern unter Growlicht = IMMER als fr\u00fches Warnsignal melden (z.B. beginnender Ca-Mangel, pH-Stress, Mikron\u00e4hrstoff-Problem).
+- Unter Growlicht ist eine "gesund"-Diagnose NUR erlaubt wenn: Bl\u00e4tter komplett glatt, Adern nicht hervortretend, keinerlei Wellung, gleichm\u00e4\u00dfiges Wachstum, keine Deformierungen.
 
 ABSOLUTE REGEL \u2013 KOKOS pH:
 Wenn der User Kokos/Coco als Substrat angibt, ist der pH-Bereich IMMER 5.8\u20136.2. Nenne NIEMALS den Wert 5.5 im Zusammenhang mit Kokos. Nicht als Untergrenze, nicht als Lockout-Schwelle, nicht in irgendeinem Kontext. Die Zahl 5.5 existiert f\u00fcr Kokos nicht. Merke dir: KOKOS = 5.8\u20136.2, PUNKT.
