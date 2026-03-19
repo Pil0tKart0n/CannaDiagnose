@@ -396,11 +396,86 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       body: JSON.stringify(openaiBody),
     });
 
-    const data = await openaiRes.text();
+    let data = await openaiRes.text();
 
     // Refund scan if OpenAI returned an error
     if (!premiumSession && !openaiRes.ok) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
+    }
+
+    // ── Texture safety net: if diagnosis says "healthy", run a focused texture check ──
+    if (mode === 'diagnose' && openaiRes.ok) {
+      try {
+        const parsed = JSON.parse(data);
+        const choices = parsed.choices;
+        if (choices && choices[0]) {
+          const content = JSON.parse(choices[0].message.content);
+          const isHealthy = content.severity === 'niedrig' &&
+            (content.confidence >= 0.7) &&
+            (!content.diagnosis || content.diagnosis.toLowerCase().includes('gesund') || content.diagnosis.toLowerCase().includes('healthy') || content.diagnosis.toLowerCase().includes('keine'));
+
+          if (isHealthy) {
+            console.log('[LeafScan] Healthy diagnosis detected — running texture safety check...');
+            const texturePrompt = `Du bist ein Experte für Blattoberflächen-Analyse. Ignoriere KOMPLETT alle Farben — das Foto ist unter Growlicht aufgenommen.
+
+Analysiere NUR die PHYSISCHE TEXTUR und FORM der Blätter:
+1. Sind die Blattoberflächen perfekt GLATT und FLACH? Oder gibt es Wellen, Buckel, Knicke, Blasen?
+2. Treten die Blattadern hervor? Sinkt das Gewebe zwischen den Adern ein?
+3. Sind die Blattränder glatt oder zackig/gewellt/nach oben oder unten gebogen?
+4. Sind neue Blätter (oben) deformiert, verdreht oder kleiner als erwartet?
+5. Gibt es Kräuselung oder "Taco"-Blätter (Ränder nach oben)?
+
+Antworte NUR mit JSON:
+{"hasTextureIssues": true/false, "issues": "Beschreibung der Auffälligkeiten oder 'keine'", "possibleCauses": "z.B. Ca-Mangel, pH-Stress, etc. oder 'keine'"}`;
+
+            const textureRes = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+              },
+              body: JSON.stringify({
+                messages: [
+                  { role: 'system', content: texturePrompt },
+                  { role: 'user', content: [...imageBlocks, { type: 'text', text: 'Analysiere die Blattoberflächen auf diesen Fotos. NUR Textur, keine Farben.' }] },
+                ],
+                model: 'gpt-4o',
+                max_tokens: 300,
+                temperature: 0,
+                response_format: { type: 'json_object' },
+              }),
+            });
+
+            if (textureRes.ok) {
+              const textureData = await textureRes.json();
+              const textureContent = JSON.parse(textureData.choices[0].message.content);
+
+              if (textureContent.hasTextureIssues) {
+                console.log('[LeafScan] Texture issues found! Overriding healthy diagnosis:', textureContent.issues);
+                // Override the healthy diagnosis
+                content.severity = 'niedrig';
+                content.confidence = 0.55;
+                content.diagnosis = 'Frühe Texturauffälligkeiten erkannt — ' + (textureContent.possibleCauses || 'weitere Beobachtung empfohlen');
+                content.rootCauseAnalysis = 'Die Farbanalyse zeigt keine offensichtlichen Verfärbungen, jedoch wurden bei der Texturanalyse Auffälligkeiten festgestellt: ' + textureContent.issues + '. Mögliche Ursachen: ' + (textureContent.possibleCauses || 'pH-Stress, beginnender Mikronährstoff-Mangel') + '. Diese Zeichen sind oft Frühwarnsignale bevor sichtbare Verfärbungen auftreten.';
+                content.actionPlan = [
+                  { step: 'pH-Wert prüfen', detail: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
+                  { step: 'Blätter beobachten', detail: 'Mach in 3-5 Tagen ein neues Foto unter weißem Licht für eine genauere Farbanalyse.' },
+                  { step: 'Nährlösung kontrollieren', detail: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist (besonders bei Kokos).' },
+                ];
+                content.followUpDays = 5;
+                content.preventiveTips = ['Fotos unter weißem Licht oder mit Blitz aufnehmen ermöglicht eine deutlich genauere Diagnose.'];
+
+                // Rebuild the response
+                choices[0].message.content = JSON.stringify(content);
+                data = JSON.stringify(parsed);
+              }
+            }
+          }
+        }
+      } catch (textureErr) {
+        console.log('[LeafScan] Texture check skipped:', textureErr.message);
+        // Non-critical — continue with original diagnosis
+      }
     }
 
     res.status(openaiRes.status)
