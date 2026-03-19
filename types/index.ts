@@ -75,6 +75,7 @@ export type QuestionType = 'select' | 'multi-select' | 'searchable-select' | 'nu
 export interface ConditionalRule {
   field: string;
   values: string[];
+  and?: { field: string; values: string[] };
 }
 
 export interface Question {

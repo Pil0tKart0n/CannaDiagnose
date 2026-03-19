@@ -2,6 +2,15 @@ import { Question } from '../types';
 import { getFertilizerNames } from './fertilizers';
 
 export const questions: Question[] = [
+  // 1. Indoor/Outdoor first
+  {
+    id: 'lightType',
+    section: 'Setup',
+    question: 'Indoor oder Outdoor?',
+    type: 'select',
+    options: ['Indoor', 'Outdoor'],
+  },
+  // 2. Grow phase
   {
     id: 'growPhase',
     section: 'Pflanze',
@@ -9,16 +18,25 @@ export const questions: Question[] = [
     type: 'select',
     options: ['Vegetativ', 'Blüte', 'Mutterpflanze'],
   },
-  // Age: Vegetativ
+  // 3a. Age: Indoor + Veg (max 8 weeks)
   {
     id: 'plantAgeWeeks',
     section: 'Pflanze',
     question: 'Wie alt ist die Pflanze?',
     type: 'select',
-    options: ['0–2 Wochen', '3–4 Wochen', '5–6 Wochen'],
-    conditional: { field: 'growPhase', values: ['Vegetativ'] },
+    options: ['0–2 Wochen', '3–4 Wochen', '5–6 Wochen', '7–8 Wochen'],
+    conditional: { field: 'growPhase', values: ['Vegetativ'], and: { field: 'lightType', values: ['Indoor'] } },
   },
-  // Age: Blüte — individual weeks for precision
+  // 3b. Age: Outdoor + Veg (max 14 weeks)
+  {
+    id: 'plantAgeWeeks',
+    section: 'Pflanze',
+    question: 'Wie alt ist die Pflanze?',
+    type: 'select',
+    options: ['0–2 Wochen', '3–4 Wochen', '5–6 Wochen', '7–8 Wochen', '9–10 Wochen', '11–12 Wochen', '13–14 Wochen'],
+    conditional: { field: 'growPhase', values: ['Vegetativ'], and: { field: 'lightType', values: ['Outdoor'] } },
+  },
+  // 3c. Age: Blüte — individual weeks (same for indoor/outdoor)
   {
     id: 'plantAgeWeeks',
     section: 'Pflanze',
@@ -31,7 +49,7 @@ export const questions: Question[] = [
     ],
     conditional: { field: 'growPhase', values: ['Blüte'] },
   },
-  // Age: Mutterpflanze
+  // 3d. Age: Mutterpflanze
   {
     id: 'plantAgeWeeks',
     section: 'Pflanze',
@@ -40,6 +58,7 @@ export const questions: Question[] = [
     options: ['5–8 Wochen', '9–12 Wochen', '13–16 Wochen', 'Älter als 16 Wochen'],
     conditional: { field: 'growPhase', values: ['Mutterpflanze'] },
   },
+  // 4. Substrate
   {
     id: 'substrateType',
     section: 'Setup',
@@ -47,6 +66,7 @@ export const questions: Question[] = [
     type: 'select',
     options: ['Erde', 'Kokos', 'DWC / Hydro', 'Aeroponik', 'Sonstige'],
   },
+  // 5. Fertilizer
   {
     id: 'fertilizerType',
     section: 'Setup',
@@ -55,13 +75,7 @@ export const questions: Question[] = [
     options: ['Kein Dünger / Nur Wasser', ...getFertilizerNames()],
     hint: 'Hilft bei der Einschätzung von EC-Werten',
   },
-  {
-    id: 'lightType',
-    section: 'Setup',
-    question: 'Indoor oder Outdoor?',
-    type: 'select',
-    options: ['Indoor', 'Outdoor'],
-  },
+  // 6. Symptom duration
   {
     id: 'symptomDurationDays',
     section: 'Kontext',
@@ -69,6 +83,7 @@ export const questions: Question[] = [
     type: 'select',
     options: ['Heute entdeckt', '1–2 Tage', '3–5 Tage', '1–2 Wochen', 'Länger als 2 Wochen'],
   },
+  // 7. Recent changes
   {
     id: 'recentChanges',
     section: 'Kontext',
@@ -79,4 +94,4 @@ export const questions: Question[] = [
   },
 ];
 
-export const sections = ['Pflanze', 'Setup', 'Kontext'];
+export const sections = ['Setup', 'Pflanze', 'Kontext'];

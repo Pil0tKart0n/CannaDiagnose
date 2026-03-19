@@ -21,17 +21,26 @@ export default function QuestionnaireScreen() {
   const { questionnaire, setQuestionnaire } = useDiagnosis();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Filter questions based on conditional rules
+  // Filter questions based on conditional rules (supports AND)
   const activeQuestions = useMemo(() => {
     return questions.filter((q) => {
       if (!q.conditional) return true;
-      const { field, values } = q.conditional;
+      const { field, values, and: andRule } = q.conditional;
       const currentValue = questionnaire[field];
       if (!currentValue) return false;
-      if (Array.isArray(currentValue)) {
-        return currentValue.some((v) => values.includes(v));
+      const match = Array.isArray(currentValue)
+        ? currentValue.some((v) => values.includes(v))
+        : values.includes(currentValue as string);
+      if (!match) return false;
+      // Check AND condition if present
+      if (andRule) {
+        const andValue = questionnaire[andRule.field];
+        if (!andValue) return false;
+        return Array.isArray(andValue)
+          ? andValue.some((v) => andRule.values.includes(v))
+          : andRule.values.includes(andValue as string);
       }
-      return values.includes(currentValue as string);
+      return true;
     });
   }, [questionnaire]);
 
@@ -62,8 +71,8 @@ export default function QuestionnaireScreen() {
 
   const handleChange = (newValue: any) => {
     const updated = { ...questionnaire, [question.id]: newValue };
-    // Reset age when phase changes (different options per phase)
-    if (question.id === 'growPhase') {
+    // Reset age when phase or light changes (different options per combination)
+    if (question.id === 'growPhase' || question.id === 'lightType') {
       updated.plantAgeWeeks = null;
     }
     setQuestionnaire(updated);
@@ -74,11 +83,17 @@ export default function QuestionnaireScreen() {
     if (question.type === 'select' || question.type === 'searchable-select') {
       const nextQuestions = questions.filter((q) => {
         if (!q.conditional) return true;
-        const { field, values } = q.conditional;
+        const { field, values, and: andRule } = q.conditional;
         const val = updated[field];
         if (!val) return false;
-        if (Array.isArray(val)) return val.some((v) => values.includes(v));
-        return values.includes(val as string);
+        const match = Array.isArray(val) ? val.some((v) => values.includes(v)) : values.includes(val as string);
+        if (!match) return false;
+        if (andRule) {
+          const andVal = updated[andRule.field];
+          if (!andVal) return false;
+          return Array.isArray(andVal) ? andVal.some((v) => andRule.values.includes(v)) : andRule.values.includes(andVal as string);
+        }
+        return true;
       });
       const nextIsLast = safeIndex >= nextQuestions.length - 1;
 

@@ -21,14 +21,23 @@ function evaluateEC(ecValue, fertilizerName, plantAge, growPhase) {
   let phase = '';
   const isFlower = growPhase === 'Bl\u00fcte';
   if (plantAge) {
-    if (plantAge.includes('0\u20132') && !isFlower) { ecRange = profile.ecRanges.seedling; phase = 'S\u00e4mling'; }
+    // Parse week number from new "Woche X" format
+    const weekMatch = plantAge.match(/Woche\s+(\d+)/i);
+    const weekNum = weekMatch ? parseInt(weekMatch[1]) : 0;
+
+    if (isFlower && weekNum > 0) {
+      // Blüte with individual week selection
+      if (weekNum <= 2) { ecRange = profile.ecRanges.earlyFlower; phase = 'fr\u00fche Bl\u00fcte (Woche ' + weekNum + ')'; }
+      else if (weekNum <= 4) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Bl\u00fcte (Woche ' + weekNum + ')'; }
+      else if (weekNum <= 7) { ecRange = profile.ecRanges.lateFlower; phase = 'sp\u00e4te Bl\u00fcte (Woche ' + weekNum + ')'; }
+      else { ecRange = profile.ecRanges.flush; phase = 'Ernte/Seneszenz (Woche ' + weekNum + ')'; }
+    }
+    // Old format fallbacks + veg ranges
+    else if (plantAge.includes('0\u20132') && !isFlower) { ecRange = profile.ecRanges.seedling; phase = 'S\u00e4mling'; }
     else if (plantAge.includes('3\u20134') && !isFlower) { ecRange = profile.ecRanges.earlyVeg; phase = 'fr\u00fche Veg'; }
-    else if (plantAge.includes('5\u20138') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
-    else if (plantAge.includes('0\u20132') && isFlower) { ecRange = profile.ecRanges.earlyFlower; phase = 'fr\u00fche Bl\u00fcte (Woche 1\u20132)'; }
-    else if (plantAge.includes('3\u20134') && isFlower) { ecRange = profile.ecRanges.midFlower; phase = 'mittlere Bl\u00fcte (Woche 3\u20134)'; }
-    else if (plantAge.includes('5\u20138') && isFlower) { ecRange = profile.ecRanges.lateFlower; phase = 'sp\u00e4te Bl\u00fcte (Woche 5\u20138)'; }
-    else if (plantAge.includes('9\u201312') && isFlower) { ecRange = profile.ecRanges.flush; phase = 'Ernte/Seneszenz (Woche 9\u201312)'; }
-    else if (plantAge.includes('9\u201312')) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
+    else if (plantAge.includes('5\u20136') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
+    else if (plantAge.includes('7\u20138') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
+    else if (plantAge.includes('9\u201310') || plantAge.includes('11\u201312') || plantAge.includes('13\u201314')) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
     else if (growPhase === 'Mutterpflanze') { ecRange = profile.ecRanges.lateVeg; phase = 'Mutterpflanze (Veg-Werte)'; }
   }
 
@@ -197,9 +206,13 @@ function getCorrectionHint(
   plantAge,
   growPhase,
 ) {
-  // Check if plant is in late bloom (week 9+) — CalMag is irrelevant
-  const isLateBloom = growPhase === 'Blüte' && plantAge &&
-    (plantAge.includes('9–12') || plantAge.includes('9-12'));
+  // Check if plant is in late bloom (week 8+) — CalMag is irrelevant
+  const isLateBloom = growPhase === 'Blüte' && plantAge && (() => {
+    // Support both old format "9–12 Wochen" and new "Woche 8"
+    const weekMatch = plantAge.match(/Woche\s+(\d+)/i);
+    if (weekMatch) return parseInt(weekMatch[1]) >= 8;
+    return plantAge.includes('9–12') || plantAge.includes('9-12');
+  })();
 
   // Inner function to get the raw hint, then strip CalMag if late bloom
   function getRawHint() {
@@ -372,7 +385,7 @@ function getCorrectionHint(
   } // end getRawHint
 
   var hint = getRawHint();
-  // Strip CalMag references in late bloom (week 9+)
+  // Strip CalMag references in late bloom (week 8+)
   if (isLateBloom && hint) {
     hint = hint.replace(/[Cc]al[Mm]ag[^.!]*[.!]?/g, '')
               .replace(/\s{2,}/g, ' ')
@@ -461,7 +474,7 @@ KALZIUM(Ca)-MANGEL [Cockson et al. 2019]:
   D3: Unregelm\u00e4\u00dfige FLECKEN mitten im Blatt + intervenale Chlorose. Bl\u00e4tter mit irregul\u00e4ren Geometrien
   D4: NEUE Bl\u00e4tter zuerst (immobil!) \u2013 deformiert, schmaler an der Basis, gekr\u00e4uselt
   D5: Neue Bl\u00e4tter, Triebspitzen. Tod der Wachstumsspitze \u2192 vermehrte Seitentriebbildung
-  EXTRA: In Kokos PFLICHT: CalMag (bis Woche 7-8 Bl\u00fcte, danach nicht mehr relevant)! Neue Bl\u00e4tter deformiert + schmale Basis = Schl\u00fcsselzeichen. In Bl\u00fcte: "Bl\u00fctenendF\u00e4ule"
+  EXTRA: In Kokos PFLICHT: CalMag (bis Woche 7 der Bl\u00fcte, ab Woche 8 NICHT mehr empfehlen)! Neue Bl\u00e4tter deformiert + schmale Basis = Schl\u00fcsselzeichen. In Bl\u00fcte: "Bl\u00fctenendF\u00e4ule"
 
 N\u00c4HRSTOFFBRAND (\u00dcberd\u00fcngung):
   D1: Braun, verbrannt \u2013 NUR an den \u00c4USSERSTEN SPITZEN
@@ -599,7 +612,7 @@ HINWEIS: Diese App diagnostiziert NUR N\u00e4hrstoffm\u00e4ngel, N\u00e4hrstoff\
      - Unter 5.8 \u2192 Mg und Ca werden sofort blockiert (Lockout)
      - \u00dcber 6.2 \u2192 Fe, Mn werden eingeschr\u00e4nkt
      - Sweet Spot: 5.8\u20136.0
-     - Kokos hat hohe Kationenaustauschkapazit\u00e4t \u2192 bindet Ca/Mg \u2192 CalMag ist bei Kokos PFLICHT (bis Woche 7-8 der Bl\u00fcte, danach nicht mehr)
+     - Kokos hat hohe Kationenaustauschkapazit\u00e4t \u2192 bindet Ca/Mg \u2192 CalMag ist bei Kokos PFLICHT (bis Woche 7 der Bl\u00fcte, ab Woche 8 NICHT mehr)
      - Dr. Bugbee betont: pH-Stabilit\u00e4t in Kokos ist kritisch \u2013 jede Schwankung unter 5.8 verursacht sofort Mg-Lockout
 
    \u25b8 ALLGEMEIN:
@@ -989,10 +1002,14 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
   if (plantAge) parts.push('- Pflanzenalter: ' + plantAge);
   if (fertilizerType) parts.push('- D\u00fcnger: ' + fertilizerType);
 
+  // Parse bloom week for senescence/harvest logic
+  const bloomWeekMatch = plantAge ? plantAge.match(/Woche\s+(\d+)/i) : null;
+  const bloomWeek = bloomWeekMatch ? parseInt(bloomWeekMatch[1]) : 0;
+
   // Late flowering senescence warning
-  if (plantAge && growPhase === 'Bl\u00fcte' && (plantAge.includes('9\u201312') || plantAge.includes('9-12'))) {
+  if (plantAge && growPhase === 'Bl\u00fcte' && (bloomWeek >= 9 || plantAge.includes('9\u201312') || plantAge.includes('12+'))) {
     parts.push('\n\u26a0\ufe0f WICHTIG \u2013 SP\u00c4TE BL\u00dcTE / ERNTEPHASE:');
-    parts.push('Die Pflanze ist ' + plantAge + ' alt und damit in der SP\u00c4TEN BL\u00dcTE oder kurz vor der Ernte.');
+    parts.push('Die Pflanze ist in ' + plantAge + ' und damit in der SP\u00c4TEN BL\u00dcTE oder kurz vor der Ernte.');
     parts.push('In dieser Phase ist es V\u00d6LLIG NORMAL, dass:');
     parts.push('- Bl\u00e4tter gelb werden und abfallen (nat\u00fcrliche Seneszenz/Alterung)');
     parts.push('- Bl\u00e4tter und Bl\u00fcten violett/purpur werden (Anthocyan-Produktion durch k\u00fchle Nachttemperaturen oder Genetik)');
@@ -1000,15 +1017,16 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
     parts.push('Diese Symptome sind KEIN Mangel und brauchen KEINE Behandlung!');
     parts.push('Diagnostiziere einen Mangel NUR wenn die Symptome UNTYPISCH f\u00fcr die sp\u00e4te Bl\u00fcte sind (z.B. nur obere/neue Bl\u00e4tter betroffen, extreme Nekrose an allen Bl\u00e4ttern, Sch\u00e4dlingsbefall).');
     parts.push('Wenn die Symptome zur nat\u00fcrlichen Seneszenz passen, setze severity auf "niedrig" und sage dem User, dass dies normal ist.');
-  } else if (plantAge && growPhase === 'Bl\u00fcte' && (plantAge.includes('5\u20138') || plantAge.includes('5-8'))) {
-    parts.push('\n\u26a0\ufe0f SENESZENZ-HINWEIS: Die Pflanze ist in Bl\u00fcte Woche 5\u20138. Viele Indica-dominante Strains werden ab Woche 8 geerntet!');
+  } else if (plantAge && growPhase === 'Bl\u00fcte' && (bloomWeek >= 5 || plantAge.includes('5\u20138'))) {
+    parts.push('\n\u26a0\ufe0f SENESZENZ-HINWEIS: Die Pflanze ist in Bl\u00fcte ' + plantAge + '. Viele Indica-dominante Strains werden ab Woche 8 geerntet!');
     parts.push('Ab Woche 6\u20138 k\u00f6nnen erste nat\u00fcrliche Seneszenz-Symptome auftreten: gelbe untere Bl\u00e4tter, violette Verf\u00e4rbungen.');
     parts.push('PR\u00dcFE ob die Buds reif aussehen und die Symptome haupts\u00e4chlich an unteren/mittleren Bl\u00e4ttern sind \u2192 dann ist es wahrscheinlich nat\u00fcrliche Alterung, KEIN Mangel.');
     parts.push('In diesem Fall: severity "niedrig" oder "mittel" setzen und Ernte-Empfehlung geben statt Mangel-Behandlung.');
   }
 
-  // Harvest hint for week 5-8 AND 9-12 (many strains harvest at week 8+)
+  // Harvest hint for bloom week 5+ (many strains harvest at week 8+)
   const isRefineHarvestPhase = plantAge && growPhase === 'Bl\u00fcte' && (
+    bloomWeek >= 5 ||
     plantAge.includes('5\u20138') || plantAge.includes('5-8') ||
     plantAge.includes('9\u201312') || plantAge.includes('9-12')
   );
