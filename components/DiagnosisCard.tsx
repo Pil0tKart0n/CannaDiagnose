@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { DiagnosisResult, Severity } from '../types';
 import { colors } from '../constants/colors';
 
 interface DiagnosisCardProps {
   result: DiagnosisResult;
+  isRefined?: boolean;
 }
 
 const severityColors: Record<Severity, string> = {
@@ -21,12 +22,23 @@ const severityLabels: Record<Severity, string> = {
   kritisch: 'Kritisch',
 };
 
-export default function DiagnosisCard({ result }: DiagnosisCardProps) {
+const TIPS = [
+  'Fotos unter weißem Licht oder mit Blitz ermöglichen eine deutlich genauere Diagnose.',
+  'Verfeinere die Diagnose mit deinen pH- und EC-Werten für ein präziseres Ergebnis.',
+  'Nahaufnahmen einzelner Blätter liefern bessere Ergebnisse als Fotos der ganzen Pflanze.',
+  'Regelmäßige Scans helfen dir, Probleme früh zu erkennen bevor sie ernst werden.',
+  'Achte darauf, dass das Blatt scharf und gut beleuchtet im Bild ist.',
+  'Scanne bei Unsicherheit mehrere Blätter von verschiedenen Stellen der Pflanze.',
+];
+
+export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps) {
   const sevColor = severityColors[result.severity] || colors.textMuted;
   const confPercent = Math.round(result.confidence * 100);
   const confColor = confPercent >= 70 ? colors.severityLow    // grün
                   : confPercent >= 40 ? colors.severityMedium  // gelb/orange
                   : colors.severityCritical;                    // rot
+
+  const randomTip = useMemo(() => TIPS[Math.floor(Math.random() * TIPS.length)], []);
 
   return (
     <View style={styles.card}>
@@ -55,12 +67,17 @@ export default function DiagnosisCard({ result }: DiagnosisCardProps) {
         </Text>
       </View>
 
-      {result.rootCauseAnalysis ? (
+      {isRefined && result.rootCauseAnalysis ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Ursachenanalyse</Text>
           <Text style={styles.sectionBody}>{result.rootCauseAnalysis}</Text>
         </View>
-      ) : null}
+      ) : (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Tipp</Text>
+          <Text style={styles.sectionBody}>{randomTip}</Text>
+        </View>
+      )}
     </View>
   );
 }

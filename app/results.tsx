@@ -340,7 +340,7 @@ export default function ResultsScreen() {
         <Text style={styles.shareText}>Diagnose teilen</Text>
       </TouchableOpacity>
 
-      <DiagnosisCard result={displayResult} />
+      <DiagnosisCard result={displayResult} isRefined={refined || colorCorrected} />
 
       {displayResult.contributingFactors?.length > 0 && (
         <FactorsList factors={displayResult.contributingFactors} />
