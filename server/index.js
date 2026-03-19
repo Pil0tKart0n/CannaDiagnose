@@ -415,82 +415,9 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
     }
 
-    // ── Texture safety net: if diagnosis says "healthy", run a focused texture check ──
-    if (mode === 'diagnose' && openaiRes.ok) {
-      try {
-        const parsed = JSON.parse(data);
-        const choices = parsed.choices;
-        if (choices && choices[0]) {
-          const content = JSON.parse(choices[0].message.content);
-          const isHealthy = content.severity === 'niedrig' &&
-            (content.confidence >= 0.7) &&
-            (!content.diagnosis || content.diagnosis.toLowerCase().includes('gesund') || content.diagnosis.toLowerCase().includes('healthy') || content.diagnosis.toLowerCase().includes('keine'));
-
-          if (isHealthy) {
-            console.log('[LeafScan] Healthy diagnosis detected — running texture safety check...');
-            const texturePrompt = `Du bist ein Experte für Blattoberflächen-Analyse. Ignoriere KOMPLETT alle Farben — das Foto ist unter Growlicht aufgenommen.
-
-Analysiere NUR die PHYSISCHE TEXTUR und FORM der Blätter:
-1. Sind die Blattoberflächen perfekt GLATT und FLACH? Oder gibt es Wellen, Buckel, Knicke, Blasen?
-2. Treten die Blattadern hervor? Sinkt das Gewebe zwischen den Adern ein?
-3. Sind die Blattränder glatt oder zackig/gewellt/nach oben oder unten gebogen?
-4. Sind neue Blätter (oben) deformiert, verdreht oder kleiner als erwartet?
-5. Gibt es Kräuselung oder "Taco"-Blätter (Ränder nach oben)?
-
-Antworte NUR mit JSON:
-{"hasTextureIssues": true/false, "issues": "Beschreibung der Auffälligkeiten oder 'keine'", "possibleCauses": "z.B. Ca-Mangel, pH-Stress, etc. oder 'keine'"}`;
-
-            const textureRes = await fetch('https://api.openai.com/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`,
-              },
-              body: JSON.stringify({
-                messages: [
-                  { role: 'system', content: texturePrompt },
-                  { role: 'user', content: [...imageBlocks, { type: 'text', text: 'Analysiere die Blattoberflächen auf diesen Fotos. NUR Textur, keine Farben.' }] },
-                ],
-                model: 'gpt-4o',
-                max_tokens: 300,
-                temperature: 0,
-                response_format: { type: 'json_object' },
-              }),
-            });
-
-            if (textureRes.ok) {
-              const textureData = await textureRes.json();
-              const textureContent = JSON.parse(textureData.choices[0].message.content);
-
-              if (textureContent.hasTextureIssues) {
-                console.log('[LeafScan] Texture issues found! Overriding healthy diagnosis:', textureContent.issues);
-                // Override with neutral hint — do NOT guess a specific diagnosis
-                content.severity = 'niedrig';
-                content.confidence = 0.50;
-                content.primaryDiagnosis = 'Leichte Auffälligkeiten an den Blättern erkannt. Verfeinere die Diagnose mit deinen pH- und EC-Werten für ein genaueres Ergebnis.';
-                content.rootCauseAnalysis = '';
-                content.contributingFactors = [
-                  { factor: 'Unbekannt', impact: 'Weitere Beobachtung nötig' },
-                ];
-                content.actionPlan = [
-                  { step: 'Diagnose verfeinern', detail: 'Gib deine pH- und EC-Werte ein — damit kann die Ursache deutlich genauer bestimmt werden.' },
-                  { step: 'Foto unter weißem Licht', detail: 'Ein Foto ohne Growlicht ermöglicht eine bessere Farbanalyse.' },
-                ];
-                content.followUpDays = 5;
-                content.preventiveTips = ['Regelmäßig pH und EC messen hilft, Probleme früh zu erkennen.'];
-
-                // Rebuild the response
-                choices[0].message.content = JSON.stringify(content);
-                data = JSON.stringify(parsed);
-              }
-            }
-          }
-        }
-      } catch (textureErr) {
-        console.log('[LeafScan] Texture check skipped:', textureErr.message);
-        // Non-critical — continue with original diagnosis
-      }
-    }
+    // Texture safety-net removed — main prompt already includes thorough texture analysis instructions.
+    // The separate GPT-4o call caused more issues than it solved (wrong field names, contradictory
+    // diagnoses, false "Hitzestress", and empty non-answers). Trusting the main diagnosis instead.
 
     res.status(openaiRes.status)
       .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
