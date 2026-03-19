@@ -9,9 +9,9 @@ const path = require('path');
 const { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT,
         buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } = require('./prompts');
 
-const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Blüte, Stängel, Sämling)?
-Antworte NUR mit einem JSON-Objekt: {"isCannabis": true} oder {"isCannabis": false}
-Keine weitere Erklärung. Nur JSON.`;
+const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto irgendeine Pflanze oder Pflanzenteile (Blätter, Blüten, Stängel, Sämlinge)? Das Foto kann unter farbigem Growlicht aufgenommen sein — ignoriere ungewöhnliche Farben.
+Im Zweifel antworte mit true. Antworte NUR false wenn das Foto EINDEUTIG keine Pflanze zeigt (z.B. ein Tier, ein Gegenstand, Text, ein Selfie).
+Antworte NUR mit JSON: {"isCannabis": true} oder {"isCannabis": false}`;
 
 const VERIFY_PROMPT = `Du bist ein Cannabis-Diagnose-Verifikator. Du bekommst:
 1. Das Foto des Users (erstes Bild)
