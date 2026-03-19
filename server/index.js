@@ -9,8 +9,8 @@ const path = require('path');
 const { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT,
         buildUserPrompt, buildFollowUpPrompt, buildRefinePrompt } = require('./prompts');
 
-const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto irgendeine Pflanze oder Pflanzenteile (Blätter, Blüten, Stängel, Sämlinge)? Das Foto kann unter farbigem Growlicht aufgenommen sein — ignoriere ungewöhnliche Farben.
-Im Zweifel antworte mit true. Antworte NUR false wenn das Foto EINDEUTIG keine Pflanze zeigt (z.B. ein Tier, ein Gegenstand, Text, ein Selfie).
+const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Blüte, Stängel, Sämling)? Das Foto kann unter farbigem Growlicht (rosa/lila/gelb) aufgenommen sein — ignoriere ungewöhnliche Farben komplett.
+Im Zweifel antworte mit true. Antworte NUR mit false wenn du dir SICHER bist, dass KEINE Pflanze auf dem Foto ist (z.B. Essen, Tiere, Gegenstände, Selfies, Text).
 Antworte NUR mit JSON: {"isCannabis": true} oder {"isCannabis": false}`;
 
 const VERIFY_PROMPT = `Du bist ein Cannabis-Diagnose-Verifikator. Du bekommst:
@@ -536,7 +536,7 @@ app.post('/api/validate', rateLimit, async (req, res) => {
       },
       body: JSON.stringify({
         messages,
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         max_tokens: 20,
         temperature: 0,
       }),

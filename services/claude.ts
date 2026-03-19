@@ -413,9 +413,17 @@ export async function analyzePlant(
   const maxAttempts = 1 + MAX_RETRIES; // 3 total
   let lastError: any = null;
 
-  // Image validation disabled — gpt-4o-mini was too aggressive under grow lights,
-  // rejecting real cannabis photos. The main gpt-4o diagnosis handles non-plant
-  // images gracefully on its own.
+  // Validate image BEFORE diagnosis to avoid wasting a scan on non-plant images
+  const isCannabis = await validateImageIsCannabis(imageDataUris, sessionToken);
+  if (!isCannabis) {
+    const err: any = new Error('Keine passende Pflanze erkannt.');
+    err.apiError = {
+      type: 'no_plant' as ApiErrorType,
+      message: 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
+      retryable: false,
+    };
+    throw err;
+  }
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     // Notify caller about which attempt we're on
