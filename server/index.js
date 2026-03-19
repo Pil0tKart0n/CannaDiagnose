@@ -465,10 +465,10 @@ Antworte NUR mit JSON:
               if (textureContent.hasTextureIssues) {
                 console.log('[LeafScan] Texture issues found! Overriding healthy diagnosis:', textureContent.issues);
                 // Override the healthy diagnosis
-                content.severity = 'niedrig';
+                content.severity = 'mittel';
                 content.confidence = 0.55;
-                content.diagnosis = 'Frühe Texturauffälligkeiten erkannt — ' + (textureContent.possibleCauses || 'weitere Beobachtung empfohlen');
-                content.rootCauseAnalysis = 'Die Farbanalyse zeigt keine offensichtlichen Verfärbungen, jedoch wurden bei der Texturanalyse Auffälligkeiten festgestellt: ' + textureContent.issues + '. Mögliche Ursachen: ' + (textureContent.possibleCauses || 'pH-Stress, beginnender Mikronährstoff-Mangel') + '. Diese Zeichen sind oft Frühwarnsignale bevor sichtbare Verfärbungen auftreten.';
+                content.primaryDiagnosis = 'Frühe Auffälligkeiten erkannt: ' + (textureContent.issues || 'Blattoberfläche zeigt Unregelmäßigkeiten') + '. Mögliche Ursache: ' + (textureContent.possibleCauses || 'pH-Stress oder beginnender Nährstoffmangel') + '.';
+                content.rootCauseAnalysis = 'Die Texturanalyse zeigt: ' + textureContent.issues + '. ' + (textureContent.possibleCauses ? 'Das deutet auf ' + textureContent.possibleCauses + ' hin.' : 'Weitere Beobachtung empfohlen.') + ' Tipp: Fotos unter weißem Licht ermöglichen eine genauere Farbanalyse.';
                 content.actionPlan = [
                   { step: 'pH-Wert prüfen', detail: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
                   { step: 'Blätter beobachten', detail: 'Mach in 3-5 Tagen ein neues Foto unter weißem Licht für eine genauere Farbanalyse.' },
