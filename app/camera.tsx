@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 
-const MAX_PHOTOS = 3;
+const MAX_PHOTOS = 1;
 
 export default function CameraScreen() {
   const router = useRouter();
@@ -111,12 +111,9 @@ export default function CameraScreen() {
                 style={{ opacity: 0.7 }}
               />
               <Text style={styles.viewfinderText}>
-                {canAddMore
-                  ? 'Weiteres Foto hinzufügen'
-                  : 'Maximale Anzahl erreicht'}
+                Foto aufgenommen
               </Text>
               <Text style={styles.viewfinderHint}>
-                {canAddMore ? '(optional)' : ''}
               </Text>
             </>
           ) : (
