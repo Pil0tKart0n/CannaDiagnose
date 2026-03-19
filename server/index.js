@@ -464,18 +464,20 @@ Antworte NUR mit JSON:
 
               if (textureContent.hasTextureIssues) {
                 console.log('[LeafScan] Texture issues found! Overriding healthy diagnosis:', textureContent.issues);
-                // Override the healthy diagnosis
-                content.severity = 'mittel';
-                content.confidence = 0.55;
-                content.primaryDiagnosis = 'Frühe Auffälligkeiten erkannt: ' + (textureContent.issues || 'Blattoberfläche zeigt Unregelmäßigkeiten') + '. Mögliche Ursache: ' + (textureContent.possibleCauses || 'pH-Stress oder beginnender Nährstoffmangel') + '.';
-                content.rootCauseAnalysis = textureContent.issues + '. ' + (textureContent.possibleCauses ? 'Das deutet auf ' + textureContent.possibleCauses + ' hin.' : 'Weitere Beobachtung empfohlen.') + ' Tipp: Fotos unter weißem Licht ermöglichen eine genauere Diagnose.';
+                // Override with neutral hint — do NOT guess a specific diagnosis
+                content.severity = 'niedrig';
+                content.confidence = 0.50;
+                content.primaryDiagnosis = 'Leichte Auffälligkeiten an den Blättern erkannt. Verfeinere die Diagnose mit deinen pH- und EC-Werten für ein genaueres Ergebnis.';
+                content.rootCauseAnalysis = '';
+                content.contributingFactors = [
+                  { factor: 'Unbekannt', impact: 'Weitere Beobachtung nötig' },
+                ];
                 content.actionPlan = [
-                  { step: 'pH-Wert prüfen', detail: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
-                  { step: 'Blätter beobachten', detail: 'Mach in 3-5 Tagen ein neues Foto unter weißem Licht für eine genauere Farbanalyse.' },
-                  { step: 'Nährlösung kontrollieren', detail: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist (besonders bei Kokos).' },
+                  { step: 'Diagnose verfeinern', detail: 'Gib deine pH- und EC-Werte ein — damit kann die Ursache deutlich genauer bestimmt werden.' },
+                  { step: 'Foto unter weißem Licht', detail: 'Ein Foto ohne Growlicht ermöglicht eine bessere Farbanalyse.' },
                 ];
                 content.followUpDays = 5;
-                content.preventiveTips = ['Fotos unter weißem Licht oder mit Blitz aufnehmen ermöglicht eine deutlich genauere Diagnose.'];
+                content.preventiveTips = ['Regelmäßig pH und EC messen hilft, Probleme früh zu erkennen.'];
 
                 // Rebuild the response
                 choices[0].message.content = JSON.stringify(content);
