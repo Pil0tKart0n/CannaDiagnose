@@ -36,8 +36,6 @@ const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
 const FREE_SCANS_PER_DAY = 1;
-const TESTER_SCANS_PER_DAY = 50;
-const TESTER_KEY = process.env.TESTER_KEY || 'ls-tester-2024-xK9mQ';
 const ADMIN_KEY = process.env.ADMIN_KEY || 'ls-admin-2026-Rz7vP3kW';
 
 // ── SQLite setup ──
@@ -219,7 +217,7 @@ app.use(cors({
     }
   },
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-LeafScan-Key'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Trust only the first proxy hop (nginx). Using `true` would trust ALL proxies,
@@ -235,15 +233,9 @@ function getClientIP(req) {
   return req.ip;
 }
 
-/** Check if request has explicit tester key */
-function isTester(req) {
-  if (req.headers['x-leafscan-key'] === TESTER_KEY) return true;
-  return false;
-}
-
 /** Get the applicable scan limit for this request */
-function getScanLimit(req) {
-  return isTester(req) ? TESTER_SCANS_PER_DAY : FREE_SCANS_PER_DAY;
+function getScanLimit() {
+  return FREE_SCANS_PER_DAY;
 }
 
 /** Check if a session token is valid premium (with expiry safety-net) */
@@ -384,7 +376,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
   // If not premium, atomically reserve a free scan slot
   if (!premiumSession) {
-    const limit = getScanLimit(req);
+    const limit = getScanLimit();
     const result = stmtAtomicScan.run(ip, ip, limit);
     if (result.changes === 0) {
       const { count } = stmtCountScans.get(ip);
@@ -575,7 +567,7 @@ app.get('/api/quota', (req, res) => {
     });
   }
 
-  const limit = getScanLimit(req);
+  const limit = getScanLimit();
   const { count } = stmtCountScans.get(ip);
   const allowed = count < limit;
   res.json({
