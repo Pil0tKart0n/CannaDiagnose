@@ -916,7 +916,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
     paddingVertical: 10,
     paddingHorizontal: 14,
-    fontSize: 14,
+    fontSize: 16,
     color: colors.text,
   },
   fertilizerList: {

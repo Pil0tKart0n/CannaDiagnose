@@ -59,4 +59,7 @@ cp /tmp/index-seo.html "$FILE"
 # Fix noscript text
 sed -i 's/You need to enable JavaScript to run this app./Du brauchst JavaScript um LeafScan zu nutzen. Bitte aktiviere JavaScript in deinem Browser./' "$FILE"
 
+# Fix viewport to prevent auto-zoom on input focus (PWA scaling bug)
+sed -i 's/width=device-width, initial-scale=1, shrink-to-fit=no/width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no/' "$FILE"
+
 echo "SEO meta tags injected into $FILE"
