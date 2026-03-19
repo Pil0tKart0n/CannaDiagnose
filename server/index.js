@@ -544,49 +544,14 @@ Antworte NUR mit JSON:
 });
 
 // ══════════════════════════════════════════════════════════════════
-// ██  /api/validate — LIGHTWEIGHT IMAGE CHECK (no scan counted) ██
+// ██  /api/validate — ALWAYS RETURNS TRUE (validation moved to /api/scan) ██
 // ══════════════════════════════════════════════════════════════════
-app.post('/api/validate', rateLimit, async (req, res) => {
-  if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: 'server_error' });
-  }
-
-  const { images } = req.body;
-  if (!images || !Array.isArray(images) || images.length === 0 || images.length > 5) {
-    return res.status(400).json({ error: 'invalid_request', message: 'images array required (1-5)' });
-  }
-  if (!images.every(img => typeof img === 'string' && img.startsWith('data:image/'))) {
-    return res.status(400).json({ error: 'invalid_request', message: 'Only base64 data URIs allowed' });
-  }
-
-  // Build messages server-side (IMAGE_CHECK_PROMPT never leaves server)
-  const imageBlocks = images.map(url => ({ type: 'image_url', image_url: { url } }));
-  const messages = [
-    { role: 'user', content: [...imageBlocks, { type: 'text', text: IMAGE_CHECK_PROMPT }] },
-  ];
-
-  try {
-    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        messages,
-        model: 'gpt-4o',
-        max_tokens: 20,
-        temperature: 0,
-      }),
-    });
-    const data = await openaiRes.text();
-    res.status(openaiRes.status)
-      .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
-      .send(data);
-  } catch (err) {
-    console.error('[LeafScan] Validate proxy error:', err.message);
-    res.status(502).json({ error: 'upstream_error' });
-  }
+app.post('/api/validate', (req, res) => {
+  // Always return true — real validation happens server-side in /api/scan now.
+  // This endpoint exists only for backward compatibility with cached PWA clients.
+  res.json({
+    choices: [{ message: { content: '{"isCannabis": true}' } }],
+  });
 });
 
 // ══════════════════════════════════════════════════
