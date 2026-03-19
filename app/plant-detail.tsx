@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl,
+  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl, TextInput, Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import { getPlant, getEntriesForPlant, deleteEntry } from '../services/storage';
+import * as ImagePicker from 'expo-image-picker';
+import { Ionicons } from '@expo/vector-icons';
+import { getPlant, getEntriesForPlant, deleteEntry, savePlant } from '../services/storage';
 import { cancelReminder } from '../services/notifications';
 import { Plant, DiagnosisEntry, Severity, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
@@ -35,6 +37,12 @@ export default function PlantDetailScreen() {
   const [entries, setEntries] = useState<DiagnosisEntry[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
+  // Edit mode state
+  const [editing, setEditing] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editStrain, setEditStrain] = useState('');
+  const [editImageUri, setEditImageUri] = useState<string | undefined>(undefined);
+
   useFocusEffect(
     useCallback(() => {
       loadData();
@@ -56,6 +64,49 @@ export default function PlantDetailScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     await loadData();
     setRefreshing(false);
+  };
+
+  const startEditing = () => {
+    if (!plant) return;
+    setEditName(plant.name);
+    setEditStrain(plant.strain || '');
+    setEditImageUri(plant.imageUri);
+    setEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setEditing(false);
+  };
+
+  const pickEditImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      quality: 0.7,
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
+    if (!result.canceled && result.assets[0]) {
+      setEditImageUri(result.assets[0].uri);
+    }
+  };
+
+  const handleSaveEdit = async () => {
+    if (!plant) return;
+    const trimmed = editName.trim();
+    if (!trimmed) {
+      Alert.alert('Name fehlt', 'Gib deiner Pflanze einen Namen.');
+      return;
+    }
+    const updated: Plant = {
+      ...plant,
+      name: trimmed,
+      strain: editStrain.trim() || undefined,
+      imageUri: editImageUri,
+    };
+    await savePlant(updated);
+    setPlant(updated);
+    setEditing(false);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
   const startFollowUp = async () => {
@@ -132,21 +183,82 @@ export default function PlantDetailScreen() {
       >
         {/* Plant Header */}
         <View style={styles.header}>
-          {plant.imageUri ? (
-            <Image source={{ uri: plant.imageUri }} style={styles.plantImage} />
+          {editing ? (
+            <TouchableOpacity onPress={pickEditImage} activeOpacity={0.7}>
+              {editImageUri ? (
+                <Image source={{ uri: editImageUri }} style={styles.plantImage} />
+              ) : (
+                <View style={[styles.plantImage, styles.plantImageEmpty]}>
+                  <Ionicons name="camera-outline" size={28} color={colors.textMuted} />
+                </View>
+              )}
+              <View style={styles.editImageOverlay}>
+                <Ionicons name="camera-outline" size={16} color="#fff" />
+              </View>
+            </TouchableOpacity>
           ) : (
-            <View style={[styles.plantImage, styles.plantImageEmpty]}>
-              <Text style={styles.plantImageText}>🌱</Text>
-            </View>
+            plant.imageUri ? (
+              <Image source={{ uri: plant.imageUri }} style={styles.plantImage} />
+            ) : (
+              <View style={[styles.plantImage, styles.plantImageEmpty]}>
+                <Text style={styles.plantImageText}>🌱</Text>
+              </View>
+            )
           )}
           <View style={styles.headerInfo}>
-            <Text style={styles.plantName}>{plant.name}</Text>
-            {plant.strain && <Text style={styles.plantStrain}>{plant.strain}</Text>}
+            {editing ? (
+              <>
+                <TextInput
+                  style={styles.editInput}
+                  value={editName}
+                  onChangeText={setEditName}
+                  placeholder="Pflanzenname"
+                  placeholderTextColor={colors.textMuted}
+                  autoFocus
+                />
+                <TextInput
+                  style={[styles.editInput, styles.editInputSmall]}
+                  value={editStrain}
+                  onChangeText={setEditStrain}
+                  placeholder="Sorte / Notiz (optional)"
+                  placeholderTextColor={colors.textMuted}
+                />
+              </>
+            ) : (
+              <>
+                <View style={styles.nameRow}>
+                  <Text style={styles.plantName}>{plant.name}</Text>
+                  <TouchableOpacity onPress={startEditing} style={styles.editBtn} activeOpacity={0.7}>
+                    <Ionicons name="create-outline" size={20} color={colors.textSecondary} />
+                  </TouchableOpacity>
+                </View>
+                {plant.strain && <Text style={styles.plantStrain}>{plant.strain}</Text>}
+              </>
+            )}
             <Text style={styles.plantDate}>
               Angelegt am {formatDate(plant.createdAt)}
             </Text>
           </View>
         </View>
+
+        {/* Edit mode save/cancel buttons */}
+        {editing && (
+          <View style={styles.editActions}>
+            <TouchableOpacity onPress={cancelEditing} style={styles.editCancelBtn} activeOpacity={0.7}>
+              <Text style={styles.editCancelBtnText}>Abbrechen</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleSaveEdit} activeOpacity={0.85}>
+              <LinearGradient
+                colors={['#5AEF90', '#4ADE80', '#3CC870']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.editSaveBtn}
+              >
+                <Text style={styles.editSaveBtnText}>Speichern</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* Follow-Up Banner */}
         {followUp && (
@@ -599,4 +711,72 @@ const styles = StyleSheet.create({
     }),
   },
   actionBtnText: { color: colors.textOnAccent, fontSize: 15, fontWeight: '600', letterSpacing: 0.3 },
+
+  // Edit mode
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  editBtn: {
+    marginLeft: 8,
+    padding: 4,
+  },
+  editImageOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editInput: {
+    backgroundColor: colors.cardDark,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.text,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    marginBottom: 6,
+  },
+  editInputSmall: {
+    fontSize: 14,
+    fontWeight: '400',
+    paddingVertical: 6,
+  },
+  editActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
+    marginBottom: 20,
+    marginTop: -8,
+  },
+  editCancelBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.cardDark,
+  },
+  editCancelBtnText: {
+    color: colors.textSecondary,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  editSaveBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+  },
+  editSaveBtnText: {
+    color: colors.textOnAccent,
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });

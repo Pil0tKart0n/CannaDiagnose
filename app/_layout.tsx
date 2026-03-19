@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { QuestionnaireData, DiagnosisResult } from '../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../constants/colors';
 import { setupNotificationHandler } from '../services/notifications';
 import { optimizeImage, initReferenceImages } from '../services/claude';
@@ -15,6 +16,8 @@ import CookieConsent from '../components/CookieConsent';
 
 SplashScreen.preventAutoHideAsync();
 setupNotificationHandler();
+
+const LAST_QUESTIONNAIRE_KEY = 'leafscan_last_questionnaire';
 
 interface DiagnosisContextType {
   imageUri: string | null;
@@ -104,12 +107,34 @@ export default function RootLayout() {
   const reset = () => {
     setImageUris([]);
     setOptimizedImageUris([]);
-    setQuestionnaire({ ...emptyQuestionnaire });
     setResult(null);
     setSelectedPlantId(null);
     setIsFollowUp(false);
     setPreviousResult(null);
     setPreviousDate(null);
+    // Load last questionnaire answers as defaults
+    AsyncStorage.getItem(LAST_QUESTIONNAIRE_KEY)
+      .then((json) => {
+        if (json) {
+          try {
+            const saved = JSON.parse(json) as QuestionnaireData;
+            // Clear plantAgeWeeks since its options depend on growPhase + lightType
+            // and user may change those — safer to let them re-select
+            saved.plantAgeWeeks = null;
+            // Clear context fields that change per diagnosis
+            saved.symptomDurationDays = null;
+            saved.recentChanges = [];
+            setQuestionnaire({ ...emptyQuestionnaire, ...saved });
+          } catch {
+            setQuestionnaire({ ...emptyQuestionnaire });
+          }
+        } else {
+          setQuestionnaire({ ...emptyQuestionnaire });
+        }
+      })
+      .catch(() => {
+        setQuestionnaire({ ...emptyQuestionnaire });
+      });
   };
 
   useEffect(() => {

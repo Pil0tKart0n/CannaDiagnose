@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { ScrollView, View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { ScrollView, View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert, TextInput, KeyboardAvoidingView, Platform, BackHandler } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -119,7 +119,7 @@ function applyColorCorrection(color: typeof KNOWN_COLORS[number], currentResult:
 
 export default function ResultsScreen() {
   const router = useRouter();
-  const { result, setResult, questionnaire, imageUri, imageUris, optimizedImageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
+  const { result, setResult, questionnaire, imageUri, imageUris, setImageUris, optimizedImageUris, reset, selectedPlantId, isFollowUp } = useDiagnosis();
   const params = useLocalSearchParams<{ historyResult?: string; historyImage?: string; historyImages?: string; entryId?: string }>();
   const [sharing, setSharing] = useState(false);
   const [refineOpen, setRefineOpen] = useState(false);
@@ -165,6 +165,19 @@ export default function ResultsScreen() {
       : (displayImage ? [displayImage] : []);
   const isFromHistory = !!params.historyResult;
 
+  // Override back navigation for fresh results: go home instead of back to analyzing
+  useEffect(() => {
+    if (isFromHistory) return;
+
+    const onBackPress = () => {
+      router.replace('/');
+      return true;
+    };
+
+    const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    return () => subscription.remove();
+  }, [isFromHistory, router]);
+
   console.log('[LeafScan] Results - displayResult:', JSON.stringify(displayResult)?.substring(0, 300));
   console.log('[LeafScan] Results - context result:', JSON.stringify(result)?.substring(0, 300));
 
@@ -180,6 +193,11 @@ export default function ResultsScreen() {
   const startNew = () => {
     reset();
     router.replace('/');
+  };
+
+  const scanAnother = () => {
+    setImageUris([]);
+    router.push('/camera');
   };
 
   const handleColorSelect = (color: typeof KNOWN_COLORS[number]) => {
@@ -622,10 +640,24 @@ export default function ResultsScreen() {
             }}
             style={styles.newBtn}
           />
+          {!isFromHistory && (
+            <TouchableOpacity onPress={scanAnother} style={styles.scanAnotherBtn} activeOpacity={0.7}>
+              <Ionicons name="camera-outline" size={18} color={colors.accent} />
+              <Text style={styles.scanAnotherText}>Weiteres Blatt scannen</Text>
+            </TouchableOpacity>
+          )}
           <Button title="Neue Diagnose" onPress={startNew} variant="secondary" style={styles.newBtn} />
         </View>
       ) : (
-        <Button title="Neue Diagnose" onPress={startNew} style={styles.newBtn} />
+        <View style={styles.btnRow}>
+          {!isFromHistory && (
+            <TouchableOpacity onPress={scanAnother} style={styles.scanAnotherBtn} activeOpacity={0.7}>
+              <Ionicons name="camera-outline" size={18} color={colors.accent} />
+              <Text style={styles.scanAnotherText}>Weiteres Blatt scannen</Text>
+            </TouchableOpacity>
+          )}
+          <Button title="Neue Diagnose" onPress={startNew} style={styles.newBtn} />
+        </View>
       )}
     </ScrollView>
     </KeyboardAvoidingView>
@@ -965,5 +997,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: colors.accent,
     flex: 1,
+  },
+  scanAnotherBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderWidth: 1.5,
+    borderColor: colors.accent,
+    borderRadius: 14,
+    paddingVertical: 14,
+    marginTop: 8,
+    backgroundColor: 'transparent',
+  },
+  scanAnotherText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.accent,
   },
 });

@@ -29,50 +29,22 @@ interface Slide {
 const slides: Slide[] = [
   {
     icon: 'leaf-outline',
-    title: 'Willkommen bei\nLeafScan',
-    subtitle: 'Dein Grow-Assistent',
+    title: 'LeafScan',
+    subtitle: 'Deine KI-Pflanzendiagnose',
     description:
-      'Erkennt Nährstoffmängel anhand von Fotos deiner Pflanze — schnell, einfach und KI-gestützt.',
+      'Fotografiere deine Pflanze und erhalte in Sekunden eine KI-gestützte Diagnose mit konkretem Aktionsplan.',
   },
   {
     icon: 'camera-outline',
-    title: 'Foto aufnehmen',
-    subtitle: 'Schritt 1',
-    description:
-      'Fotografiere das betroffene Blatt möglichst nah und scharf. Bis zu 3 Fotos aus verschiedenen Winkeln machen die Diagnose deutlich genauer.',
-  },
-  {
-    icon: 'sunny-outline',
-    title: 'Tipps für gute Fotos',
+    title: 'Foto-Tipps',
     subtitle: 'Wichtig',
     description:
-      'Nutze normales weißes Licht oder Tageslicht. Fotos unter Growlampen (Blurple, NDL) verfälschen die Farben und erschweren die Diagnose.\n\nSchalte die Growlampe kurz aus oder halte das Blatt ans Fenster.',
-  },
-  {
-    icon: 'clipboard-outline',
-    title: 'Setup beschreiben',
-    subtitle: 'Schritt 2',
-    description:
-      'Beantworte ein paar kurze Fragen zu deinem Grow — Substrat, Beleuchtung, Bewässerung. Je mehr Infos du gibst, desto präziser wird die Diagnose.',
-  },
-  {
-    icon: 'analytics-outline',
-    title: 'Diagnose & Aktionsplan',
-    subtitle: 'Schritt 3',
-    description:
-      'Die KI analysiert deine Fotos und Angaben und liefert dir eine Diagnose mit konkreten Schritten, was du jetzt tun kannst.\n\nDanach kannst du mit pH/EC-Werten die Diagnose noch verfeinern.',
-  },
-  {
-    icon: 'leaf-outline',
-    title: 'Pflanzen verwalten',
-    subtitle: 'Extra',
-    description:
-      'Lege Profile für deine Pflanzen an und verfolge ihren Gesundheitsverlauf über die Zeit. So siehst du ob deine Behandlung wirkt.',
+      'Nutze Tageslicht oder weißes Licht — Growlampen verfälschen die Farben.\n\nFotografiere das betroffene Blatt möglichst nah und scharf. Mehrere Winkel machen die Diagnose deutlich genauer.',
   },
   {
     icon: 'checkmark-circle-outline',
     title: 'Bereit?',
-    subtitle: 'Bevor es losgeht',
+    subtitle: 'Los geht\'s',
     description:
       'Du bekommst täglich eine kostenlose Diagnose. Die Bibliothek mit Infos zu allen Mängeln ist jederzeit verfügbar.\n\nDie Diagnosen sind KI-gestützt und ersetzen keine professionelle Beratung.',
   },

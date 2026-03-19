@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import QuestionCard from '../components/QuestionCard';
 import ProgressBar from '../components/ProgressBar';
@@ -53,13 +54,18 @@ export default function QuestionnaireScreen() {
   const value = questionnaire[question.id];
   const isLast = safeIndex === activeQuestions.length - 1;
 
+  const saveAnswers = useCallback((data: typeof questionnaire) => {
+    AsyncStorage.setItem('leafscan_last_questionnaire', JSON.stringify(data)).catch(() => {});
+  }, []);
+
   const goNext = useCallback(() => {
     if (isLast) {
+      saveAnswers(questionnaire);
       router.push('/analyzing');
     } else {
       setCurrentIndex(safeIndex + 1);
     }
-  }, [safeIndex, isLast]);
+  }, [safeIndex, isLast, questionnaire]);
 
   const goBack = () => {
     if (safeIndex > 0) {
@@ -99,6 +105,7 @@ export default function QuestionnaireScreen() {
 
       setTimeout(() => {
         if (nextIsLast) {
+          saveAnswers(updated);
           router.push('/analyzing');
         } else {
           setCurrentIndex(safeIndex + 1);
