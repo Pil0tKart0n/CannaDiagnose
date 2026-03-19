@@ -48,7 +48,7 @@
       "name": "LeafScan",
       "shortName": "LeafScan",
       "lang": "de",
-      "description": "KI-gestützte Pflanzendiagnose – Foto machen, Probleme erkennen",
+      "description": "Scanne dein Blatt per Foto und erhalte in Sekunden eine KI-Diagnose: Naehrstoffmangel, Schaedlinge, Schimmel und mehr. Kostenlos im Browser.",
       "backgroundColor": "#0A0E0D",
       "themeColor": "#4ADE80",
       "orientation": "portrait",

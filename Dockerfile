@@ -16,6 +16,10 @@ COPY . .
 # Build PWA
 RUN npx expo export --platform web
 
+# Inject SEO meta tags
+COPY inject-seo.sh ./
+RUN chmod +x inject-seo.sh && sh inject-seo.sh
+
 # Copy PWA extras into dist
 RUN cp public/manifest.json dist/ && cp public/sw.js dist/ && \
     cp -r public/reference_images dist/reference_images && \
