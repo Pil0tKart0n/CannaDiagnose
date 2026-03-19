@@ -464,9 +464,9 @@ Antworte NUR mit JSON:
 
               if (textureContent.hasTextureIssues) {
                 console.log('[LeafScan] Texture issues found:', textureContent.description);
-                content.severity = 'niedrig';
+                content.severity = 'mittel';
                 content.confidence = 0.60;
-                content.primaryDiagnosis = textureContent.description + ' Das könnten frühe Anzeichen für ein beginnendes Problem sein — beobachte die Pflanze in den nächsten Tagen genau.';
+                content.primaryDiagnosis = textureContent.description + ' Für eine genauere Diagnose verfeinere das Ergebnis mit deinen pH- und EC-Werten.';
                 content.rootCauseAnalysis = '';
                 content.contributingFactors = [
                   { factor: 'Frühe Anzeichen', impact: 'Noch kein akutes Problem, aber die Pflanze zeigt erste Auffälligkeiten.' },
