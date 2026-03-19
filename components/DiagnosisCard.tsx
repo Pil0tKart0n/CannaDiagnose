@@ -23,6 +23,10 @@ const severityLabels: Record<Severity, string> = {
 
 export default function DiagnosisCard({ result }: DiagnosisCardProps) {
   const sevColor = severityColors[result.severity] || colors.textMuted;
+  const confPercent = Math.round(result.confidence * 100);
+  const confColor = confPercent >= 70 ? colors.severityLow    // grün
+                  : confPercent >= 40 ? colors.severityMedium  // gelb/orange
+                  : colors.severityCritical;                    // rot
 
   return (
     <View style={styles.card}>
@@ -42,12 +46,12 @@ export default function DiagnosisCard({ result }: DiagnosisCardProps) {
           <View
             style={[
               styles.confidenceFill,
-              { width: `${result.confidence * 100}%`, backgroundColor: sevColor },
+              { width: `${confPercent}%`, backgroundColor: confColor },
             ]}
           />
         </View>
-        <Text style={[styles.confidenceValue, { color: sevColor }]}>
-          {Math.round(result.confidence * 100)}%
+        <Text style={[styles.confidenceValue, { color: confColor }]}>
+          {confPercent}%
         </Text>
       </View>
 
