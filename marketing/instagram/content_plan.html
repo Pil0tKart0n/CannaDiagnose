@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeafScan — Instagram Content Plan (Persönlich)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #0a0f0a; color: #e0e8e0; line-height: 1.7; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { color: #4ade80; font-size: 2em; margin-bottom: 5px; }
+  .subtitle { color: #6b8f6b; margin-bottom: 20px; border-bottom: 2px solid #1a3a1a; padding-bottom: 15px; }
+  h2 { color: #22c55e; font-size: 1.5em; margin-top: 50px; margin-bottom: 15px; padding: 10px 15px; background: #0f1f0f; border-left: 4px solid #4ade80; border-radius: 4px; }
+  h3 { color: #86efac; font-size: 1.15em; margin-top: 30px; margin-bottom: 10px; }
+  p { margin-bottom: 12px; color: #c0ccc0; }
+  strong { color: #e0f0e0; }
+  ul, ol { margin-left: 20px; margin-bottom: 15px; }
+  li { margin-bottom: 6px; color: #b0c0b0; }
+  li strong { color: #e0f0e0; }
+
+  .info-banner {
+    background: linear-gradient(135deg, #1a2a0a, #0a1a0a);
+    border: 1px solid #2a4a1a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .info-banner h3 { margin-top: 0; color: #4ade80; }
+  .info-banner p { color: #a0c8a0; margin-bottom: 0; }
+
+  .post-card {
+    background: #111a11;
+    border: 1px solid #1a3a1a;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+  }
+  .post-card h3 {
+    color: #4ade80;
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: #22c55e;
+    color: #000;
+    font-size: 0.6em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge.story { background: #a855f7; color: #fff; }
+  .badge.carousel { background: #3b82f6; color: #fff; }
+  .badge.meme { background: #f59e0b; color: #000; }
+  .section-label {
+    color: #6b8f6b;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    margin-top: 15px;
+    font-weight: 600;
+  }
+  .caption-box {
+    background: #0a150a;
+    border: 1px solid #1a2a1a;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 8px 0;
+    color: #b0c8b0;
+    white-space: pre-line;
+    position: relative;
+  }
+  .hashtags {
+    background: #0a120a;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 0.85em;
+    color: #4a9a6a;
+    word-break: break-all;
+  }
+  .overlay-list {
+    list-style: none;
+    margin-left: 0;
+  }
+  .overlay-list li {
+    padding: 6px 12px;
+    background: #0f180f;
+    border-left: 3px solid #22c55e;
+    margin-bottom: 4px;
+    border-radius: 0 6px 6px 0;
+    font-family: monospace;
+    font-size: 0.95em;
+  }
+  .setup-box {
+    background: #111a11;
+    border: 1px solid #1a3a1a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+  }
+  .format-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 15px 0;
+  }
+  .format-card {
+    background: #0f180f;
+    border: 1px solid #1a2a1a;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .format-card h4 { color: #4ade80; margin-bottom: 6px; font-size: 0.95em; }
+  .format-card p { font-size: 0.85em; margin-bottom: 0; color: #8aa88a; }
+  .week-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  .week-item {
+    background: #0f180f;
+    border: 1px solid #1a2a1a;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9em;
+    color: #a0b8a0;
+  }
+  .hashtag-set {
+    background: #111a11;
+    border: 1px solid #1a3a1a;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+  }
+  .hashtag-set h4 { color: #4ade80; margin-bottom: 8px; font-size: 0.95em; }
+  .copy-btn {
+    background: #22c55e;
+    color: #000;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: #4ade80; }
+  .copy-all-btn {
+    background: transparent;
+    color: #22c55e;
+    border: 1px solid #22c55e;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75em;
+    margin-left: 8px;
+    transition: all 0.2s;
+  }
+  .copy-all-btn:hover { background: #22c55e; color: #000; }
+  .tip-box {
+    background: #1a1a0a;
+    border: 1px solid #3a3a1a;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+  }
+  .tip-box h4 { color: #fbbf24; margin-bottom: 8px; }
+  .timeline {
+    border-left: 3px solid #1a3a1a;
+    margin-left: 15px;
+    padding-left: 20px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 15px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
+    border-radius: 50%;
+  }
+  .timeline-item strong { color: #4ade80; }
+
+  @media (max-width: 600px) {
+    .format-grid, .week-grid { grid-template-columns: 1fr; }
+    body { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>LeafScan — Instagram Content Plan</h1>
+<p class="subtitle">Für deinen bestehenden Grow-Account (173 Follower) — persönlich, authentisch, kein Corporate-Gelaber</p>
+
+<!-- STRATEGIE -->
+<h2>Strategie: Dein Vorteil</h2>
+<div class="info-banner">
+  <h3>Warum dein Account perfekt ist</h3>
+  <p>
+    Deine 173 Follower wissen dass du growst und gut growst. Sie vertrauen dir. Die Story ist einfach:<br><br>
+    <strong>"Ich hatte beim Growen immer das Problem, dass ich nicht wusste was meinen Pflanzen fehlt. Also hab ich mir eine KI gebaut die das per Foto erkennt."</strong><br><br>
+    Das ist authentisch, glaubwürdig und genau die Art Content die Leute teilen. Kein Marketing-Sprech — du zeigst einfach was du gebaut hast.
+  </p>
+</div>
+
+<div class="setup-box">
+  <h3 style="margin-top:0">Account anpassen</h3>
+  <ul>
+    <li><strong>Bio ergänzen:</strong> Deine aktuelle Bio + eine Zeile: "Entwickler von leafscan.de — KI-Pflanzendiagnose"</li>
+    <li><strong>Link in Bio:</strong> leafscan.de hinzufügen (oder Linktree wenn du mehrere Links hast)</li>
+    <li><strong>Story-Highlight:</strong> "LeafScan" Highlight erstellen für alle LeafScan-Stories</li>
+  </ul>
+</div>
+
+<!-- FORMATE -->
+<h2>Content-Formate (alle ohne Gesicht)</h2>
+<div class="format-grid">
+  <div class="format-card">
+    <h4>POV Screen-Recording</h4>
+    <p>Reels, 15-30 Sek. Du filmst deinen Handybildschirm wie du LeafScan an deinen eigenen Pflanzen benutzt.</p>
+  </div>
+  <div class="format-card">
+    <h4>Eigene Pflanzen + Diagnose</h4>
+    <p>Foto von deiner Pflanze → LeafScan Ergebnis daneben. Echt, nicht gestellt.</p>
+  </div>
+  <div class="format-card">
+    <h4>Carousel: Grow-Wissen</h4>
+    <p>Edukative Slides aus deiner Erfahrung. Letzter Slide: LeafScan als Tool-Tipp.</p>
+  </div>
+  <div class="format-card">
+    <h4>Behind-the-Scenes</h4>
+    <p>Wie du die App entwickelt hast. Leute lieben Maker-Stories.</p>
+  </div>
+</div>
+
+<!-- WOCHE 1 -->
+<h2>Woche 1: "Ich hab was gebaut"</h2>
+
+<!-- POST 1: ANKÜNDIGUNG -->
+<div class="post-card">
+  <h3>Post 1 — Die Ankündigung <span class="badge">Reel</span></h3>
+
+  <div class="section-label">Video-Idee</div>
+  <p>Schnelle Cuts deiner Pflanzen (Fotos/Clips die du eh schon hast) → dann Screen-Recording: du öffnest leafscan.de, lädst ein Foto hoch, Diagnose kommt. Chill Beat drunter.</p>
+
+  <div class="section-label">Text-Overlays</div>
+  <ul class="overlay-list">
+    <li>"Kennt ihr das? Pflanze zeigt Symptome..."</li>
+    <li>"Google: 50 verschiedene Antworten"</li>
+    <li>"Also hab ich mir was eigenes gebaut"</li>
+    <li>[Screen-Recording startet]</li>
+    <li>"KI-Diagnose in 30 Sekunden"</li>
+    <li>"leafscan.de — Link in Bio"</li>
+  </ul>
+
+  <div class="section-label">Caption <button class="copy-all-btn" onclick="copyCaption('cap1','tags1')">Caption + Tags kopieren</button></div>
+  <div class="caption-box" id="cap1">Kleines Side-Project das ich euch schon länger zeigen wollte.
+
+Jeder der growt kennt das Problem: Pflanze zeigt Symptome, man googelt, kriegt 10 verschiedene Antworten und ist danach verwirrter als vorher.
+
+Also hab ich LeafScan gebaut — eine KI die dein Blatt per Foto analysiert und dir sagt was los ist. Nährstoffmangel, Schädlinge, Schimmel, Lichtbrand... alles.
+
+Foto machen, kurzen Fragebogen ausfüllen, fertig. Diagnose in unter einer Minute.
+
+Könnt ihr kostenlos testen: leafscan.de (Link in Bio)
+
+Sagt mir was ihr davon haltet!</div>
+
+  <div class="section-label">Hashtags</div>
+  <div class="hashtags" id="tags1">#cannabis #grow #homegrow #cannabisanbau #indoorgrow #growlife #420 #hanf #cannabisgrow #cannabiscommunity #cannabisdeutschland #growprobleme #naehrstoffmangel #pflanzenkrankheit #growtips #leafscan</div>
+  <button class="copy-btn" onclick="copy('tags1')">Tags kopieren</button>
+</div>
+
+<!-- POST 2: EIGENE PFLANZE -->
+<div class="post-card">
+  <h3>Post 2 — "Hab's an meiner eigenen Pflanze getestet" <span class="badge">Reel</span></h3>
+
+  <div class="section-label">Video-Idee</div>
+  <p>Deine eigene Pflanze filmen (eine die irgendein Problem hat/hatte). Screen-Recording wie du sie mit LeafScan scannst. Zeig das Ergebnis.</p>
+
+  <div class="section-label">Text-Overlays</div>
+  <ul class="overlay-list">
+    <li>"Die hier macht mir gerade Sorgen"</li>
+    <li>[Nahaufnahme Blatt]</li>
+    <li>"Also lass ich die KI mal draufschauen"</li>
+    <li>[Diagnose: z.B. Kalziummangel, 82%]</li>
+    <li>"Hab dann CalMag angepasst — 5 Tage später:"</li>
+    <li>[Pflanze sieht besser aus / oder "Update kommt"]</li>
+  </ul>
+
+  <div class="section-label">Caption <button class="copy-all-btn" onclick="copyCaption('cap2','tags2')">Caption + Tags kopieren</button></div>
+  <div class="caption-box" id="cap2">Hatte bei der [Strain-Name] letzte Woche komische Flecken an den unteren Blättern. Statt ewig zu googeln hab ich einfach mein eigenes Tool angeworfen.
+
+LeafScan sagt: Kalziummangel, 82% sicher. Empfehlung: CalMag erhöhen, pH checken.
+
+Hab ich gemacht — Ergebnis seht ihr in den nächsten Tagen.
+
+Das geile ist: Die KI erkennt über 15 verschiedene Probleme und sagt dir direkt was du tun musst. Spart einfach extrem viel Zeit.
+
+Testet es selber: leafscan.de (Link in Bio) — 1 Diagnose pro Tag ist kostenlos.</div>
+
+  <div class="section-label">Hashtags</div>
+  <div class="hashtags" id="tags2">#cannabis #grow #homegrow #cannabisanbau #kalziummangel #naehrstoffmangel #indoorgrow #growlife #cannabisgrow #420 #pflanzenpflege #calmag #growprobleme #cannabistips #leafscan</div>
+  <button class="copy-btn" onclick="copy('tags2')">Tags kopieren</button>
+</div>
+
+<!-- POST 3: CAROUSEL WISSEN -->
+<div class="post-card">
+  <h3>Post 3 — "5 Mängel die ich schon hatte" <span class="badge carousel">Carousel</span></h3>
+
+  <div class="section-label">Slides</div>
+  <ul>
+    <li><strong>Slide 1:</strong> "5 Nährstoffmängel die ich in meinen Grows hatte" (Foto von deinem Grow als Hintergrund)</li>
+    <li><strong>Slide 2:</strong> Stickstoff (N) — "Run 3, Woche 6 Veg. Untere Blätter wurden komplett gelb." + was du gemacht hast</li>
+    <li><strong>Slide 3:</strong> Kalzium (Ca) — "Braune Flecken aus dem Nichts. Hatte den pH nicht im Griff."</li>
+    <li><strong>Slide 4:</strong> Magnesium (Mg) — "Classic: gelbe Flecken zwischen den Adern. Epsom-Salz hat's gerichtet."</li>
+    <li><strong>Slide 5:</strong> Kalium (K) — "Blüte Woche 5, braune Ränder. Zu spät erkannt."</li>
+    <li><strong>Slide 6:</strong> Eisen (Fe) — "Neue Blätter komplett bleich. pH war viel zu hoch."</li>
+    <li><strong>Slide 7:</strong> "Genau dafür hab ich LeafScan gebaut. Foto machen → KI sagt dir in Sekunden was es ist + was du tun musst. leafscan.de — Link in Bio"</li>
+  </ul>
+
+  <div class="section-label">Caption <button class="copy-all-btn" onclick="copyCaption('cap3','tags3')">Caption + Tags kopieren</button></div>
+  <div class="caption-box" id="cap3">In über einem Jahr Growen hatte ich so ziemlich jeden Mangel einmal. Jedes Mal das gleiche Spiel: Foto machen, Foren durchsuchen, 3 Leute fragen, trotzdem unsicher sein.
+
+Irgendwann hab ich mir gedacht: Das muss doch einfacher gehen. Also hab ich eine KI trainiert die genau das kann — Blatt scannen und sofort sagen was los ist.
+
+Speichert euch den Post — beim nächsten Mangel wisst ihr direkt Bescheid.
+
+Und wenn ihr's schneller wollt: leafscan.de</div>
+
+  <div class="section-label">Hashtags</div>
+  <div class="hashtags" id="tags3">#cannabis #grow #homegrow #naehrstoffmangel #stickstoffmangel #kalziummangel #magnesiummangel #kaliummangel #eisenmangel #cannabisanbau #indoorgrow #growprobleme #growtips #420 #leafscan</div>
+  <button class="copy-btn" onclick="copy('tags3')">Tags kopieren</button>
+</div>
+
+<!-- POST 4: GOOGLE VS LEAFSCAN -->
+<div class="post-card">
+  <h3>Post 4 — "Warum ich aufgehört hab zu googeln" <span class="badge">Reel</span></h3>
+
+  <div class="section-label">Video-Idee</div>
+  <p>Split-Screen oder schnelle Cuts: Erst Google-Suche "gelbe Blätter Cannabis" → endlose Ergebnisse, Foren, widersprüchliche Antworten. Dann LeafScan → klare Antwort in 10 Sekunden.</p>
+
+  <div class="section-label">Text-Overlays</div>
+  <ul class="overlay-list">
+    <li>"Früher: 'gelbe Blätter Cannabis' googeln"</li>
+    <li>[Scroll durch endlose Foreneinträge]</li>
+    <li>"Ergebnis nach 30 Minuten: Könnte alles sein"</li>
+    <li>"Jetzt:"</li>
+    <li>[LeafScan öffnen, Foto hochladen]</li>
+    <li>"30 Sekunden. Fertig."</li>
+  </ul>
+
+  <div class="section-label">Caption <button class="copy-all-btn" onclick="copyCaption('cap4','tags4')">Caption + Tags kopieren</button></div>
+  <div class="caption-box" id="cap4">Der Grund warum ich LeafScan gebaut hab in einem Video.
+
+Vorher: 30 Minuten googeln, 4 Foren lesen, am Ende immer noch unsicher.
+Nachher: 30 Sekunden, klare Diagnose, direkte Behandlungsvorschläge.
+
+War selber genervt von dem Prozess und hab mir gedacht: Eine KI kann das besser. Und honestly? Kann sie.
+
+leafscan.de — Link in Bio. Kostenloser Scan jeden Tag.</div>
+
+  <div class="section-label">Hashtags</div>
+  <div class="hashtags" id="tags4">#cannabis #grow #cannabisgrow #growprobleme #homegrow #indoorgrow #420 #cannabistips #growlife #cannabiscommunity #pflanzendoktor #growtips #leafscan</div>
+  <button class="copy-btn" onclick="copy('tags4')">Tags kopieren</button>
+</div>
+
+<!-- POST 5: STORY-SERIE -->
+<div class="post-card">
+  <h3>Post 5 — "Rate den Mangel" <span class="badge story">Story-Serie</span></h3>
+
+  <div class="section-label">Story-Aufbau (3-4 Stories hintereinander)</div>
+  <ul>
+    <li><strong>Story 1:</strong> Foto von einem kranken Blatt + Quiz-Sticker: "Was hat die Pflanze?" → A) Stickstoff B) Kalzium C) Magnesium D) Kalium</li>
+    <li><strong>Story 2:</strong> Auflösung + LeafScan Screenshot der Diagnose: "Die KI sagt: Magnesium. 91% sicher."</li>
+    <li><strong>Story 3:</strong> "Wollt ihr das Tool testen? leafscan.de — Link in Bio" + Link-Sticker</li>
+    <li><strong>Story 4:</strong> Slider-Sticker: "Wie oft hattet ihr schon einen Mangel und wusstet nicht welchen?"</li>
+  </ul>
+
+  <div class="section-label">Tipp</div>
+  <p>Das Quiz-Format bringt extrem viel Engagement. Leute tippen auf eine Antwort → du zeigst die KI-Lösung. Kannst du jede Woche einmal machen mit einem anderen Mangel.</p>
+</div>
+
+<!-- POST 6: MEME -->
+<div class="post-card">
+  <h3>Post 6 — Relatable Meme <span class="badge meme">Meme/Reel</span></h3>
+
+  <div class="section-label">Video-Idee</div>
+  <p>Trending Meme-Format:<br>
+  "Ich um 2 Uhr nachts nachdem ich 'gelbe Blätter Blütephase' gegoogelt hab" → [verwirrtes Meme]<br>
+  "Ich nachdem LeafScan mir in 10 Sekunden gesagt hat was los ist" → [entspannt/erleichtert]</p>
+
+  <div class="section-label">Caption <button class="copy-all-btn" onclick="copyCaption('cap6','tags6')">Caption + Tags kopieren</button></div>
+  <div class="caption-box" id="cap6">Wer kennt's? Nachts im Bett noch schnell googeln warum die Blätter komisch aussehen. 45 Minuten später: noch verwirrter.
+
+Genau deswegen hab ich mir was Eigenes gebaut. leafscan.de — Link in Bio</div>
+
+  <div class="section-label">Hashtags</div>
+  <div class="hashtags" id="tags6">#cannabismeme #growmeme #420meme #cannabis #homegrow #growlife #relatable #cannabiscommunity #growerproblems #nachts #leafscan</div>
+  <button class="copy-btn" onclick="copy('tags6')">Tags kopieren</button>
+</div>
+
+<!-- POST 7: BEHIND THE SCENES -->
+<div class="post-card">
+  <h3>Post 7 — "Wie ich das gebaut hab" <span class="badge carousel">Carousel</span></h3>
+
+  <div class="section-label">Slides</div>
+  <ul>
+    <li><strong>Slide 1:</strong> "Wie ich eine KI für Pflanzendiagnose gebaut hab" (dark, clean design)</li>
+    <li><strong>Slide 2:</strong> "Das Problem: Pflanze krank, Google hilft nicht, Foren widersprechen sich"</li>
+    <li><strong>Slide 3:</strong> "Die Idee: Was wenn eine KI das per Foto erkennen kann?"</li>
+    <li><strong>Slide 4:</strong> "Die KI: GPT-4o analysiert Farbe, Textur, Muster + dein Grow-Setup"</li>
+    <li><strong>Slide 5:</strong> "Das Ergebnis: Diagnose in 30 Sek. Über 15 Probleme erkennbar."</li>
+    <li><strong>Slide 6:</strong> Screenshot der App mit einer echten Diagnose</li>
+    <li><strong>Slide 7:</strong> "Teste es selbst: leafscan.de — 1 kostenloser Scan pro Tag. Link in Bio."</li>
+  </ul>
+
+  <div class="section-label">Caption <button class="copy-all-btn" onclick="copyCaption('cap7','tags7')">Caption + Tags kopieren</button></div>
+  <div class="caption-box" id="cap7">Hab die letzten Monate an einem Side-Project gearbeitet und will euch mal zeigen was daraus geworden ist.
+
+LeafScan: Eine KI die Cannabis-Blätter per Foto analysiert und dir sagt was deiner Pflanze fehlt. Nährstoffmängel, Schädlinge, Schimmel — alles.
+
+Funktioniert direkt im Browser, kein Download nötig. 1 kostenloser Scan pro Tag.
+
+leafscan.de — würde mich über Feedback freuen!</div>
+
+  <div class="section-label">Hashtags</div>
+  <div class="hashtags" id="tags7">#cannabis #grow #sideproject #buildinpublic #ki #ai #indoorgrow #homegrow #cannabisanbau #420 #techproject #maker #cannabiscommunity #growtech #leafscan</div>
+  <button class="copy-btn" onclick="copy('tags7')">Tags kopieren</button>
+</div>
+
+<!-- WOCHE 2 -->
+<h2>Woche 2: Updates + Community</h2>
+<div class="week-grid">
+  <div class="week-item"><strong>Post 8</strong> — Reel: Update zu der Pflanze aus Post 2 ("CalMag wirkt — vorher/nachher")</div>
+  <div class="week-item"><strong>Post 9</strong> — Story: "Welche Features wollt ihr?" (Umfrage-Sticker)</div>
+  <div class="week-item"><strong>Post 10</strong> — Reel: "Diagnose an einer Pflanze von einem Follower" (DM fragen!)</div>
+  <div class="week-item"><strong>Post 11</strong> — Carousel: "So liest du deine Pflanze richtig" (Grow-Wissen)</div>
+  <div class="week-item"><strong>Post 12</strong> — Story: Neues "Rate den Mangel" Quiz</div>
+</div>
+
+<div class="tip-box">
+  <h4>Pro-Tipp: Follower einbinden</h4>
+  <p>Frag in deiner Story: "Schickt mir Fotos von euren Blättern — ich lass die KI drüberlaufen und zeig euch das Ergebnis." Das bringt DMs, Engagement und Content gleichzeitig. Und die Leute sehen live wie gut es funktioniert.</p>
+</div>
+
+<!-- WOCHE 3-4 -->
+<h2>Woche 3-4: Routine</h2>
+<div class="setup-box">
+  <h3 style="margin-top:0">Posting-Rhythmus</h3>
+  <ul>
+    <li><strong>2-3x pro Woche:</strong> Reel oder Carousel (abwechselnd Grow-Content und LeafScan)</li>
+    <li><strong>Täglich:</strong> 1-2 Stories (normaler Grow-Content + ab und zu LeafScan)</li>
+    <li><strong>1x pro Woche:</strong> "Rate den Mangel" Quiz in Stories</li>
+  </ul>
+  <h3>Wichtig: Nicht nur LeafScan posten!</h3>
+  <p>Dein Account bleibt primär ein Grow-Account. LeafScan ist ein Teil davon — nicht alles. Verhältnis ca. 60% normaler Grow-Content, 40% LeafScan-bezogen. Sonst verlierst du Follower.</p>
+  <h3>Engagement</h3>
+  <ul>
+    <li>Kommentiere unter Posts von anderen Growern — hilfreiche Tipps, kein Spam</li>
+    <li>Wenn jemand ein Problem postet: "Sieht nach [Mangel] aus, check mal leafscan.de — die KI kann dir das genauer sagen"</li>
+    <li>Auf neue Follower reagieren, DMs beantworten</li>
+    <li>Grow-Hashtags durchstöbern und Leuten helfen</li>
+  </ul>
+</div>
+
+<!-- POSTING TIMELINE -->
+<h2>Posting-Reihenfolge</h2>
+<div class="setup-box">
+  <div class="timeline">
+    <div class="timeline-item"><strong>Tag 1:</strong> Post 1 — Die Ankündigung (Reel)</div>
+    <div class="timeline-item"><strong>Tag 2:</strong> Story: Reaktionen auf Post 1 reposten, "Danke für das Feedback!"</div>
+    <div class="timeline-item"><strong>Tag 3:</strong> Post 2 — Eigene Pflanze testen (Reel)</div>
+    <div class="timeline-item"><strong>Tag 5:</strong> Post 3 — "5 Mängel die ich hatte" (Carousel)</div>
+    <div class="timeline-item"><strong>Tag 6:</strong> Post 5 — "Rate den Mangel" (Story-Serie)</div>
+    <div class="timeline-item"><strong>Tag 7:</strong> Post 4 — "Warum ich aufgehört hab zu googeln" (Reel)</div>
+    <div class="timeline-item"><strong>Tag 9:</strong> Post 6 — Meme (Reel)</div>
+    <div class="timeline-item"><strong>Tag 11:</strong> Post 7 — "Wie ich das gebaut hab" (Carousel)</div>
+    <div class="timeline-item"><strong>Tag 12+:</strong> Story: "Schickt mir eure Blätter" → Follower-Diagnosen</div>
+  </div>
+</div>
+
+<!-- HASHTAG SETS -->
+<h2>Hashtag-Sets (rotieren!)</h2>
+
+<div class="hashtag-set">
+  <h4>Set A — Allgemein Grow</h4>
+  <div class="hashtags" id="setA">#cannabis #grow #homegrow #indoorgrow #cannabisanbau #420 #hanf #growlife #cannabiscommunity #cannabisdeutschland #growyourown #cannabisgrow #weed #pflanze</div>
+  <button class="copy-btn" onclick="copy('setA')">Kopieren</button>
+</div>
+
+<div class="hashtag-set">
+  <h4>Set B — Probleme & Diagnose</h4>
+  <div class="hashtags" id="setB">#naehrstoffmangel #cannabisprobleme #growprobleme #pflanzenkrankheit #blattdiagnose #pflanzendoktor #schaedlinge #schimmel #cannabistips #growtips</div>
+  <button class="copy-btn" onclick="copy('setB')">Kopieren</button>
+</div>
+
+<div class="hashtag-set">
+  <h4>Set C — Tech & Maker</h4>
+  <div class="hashtags" id="setC">#ki #ai #sideproject #buildinpublic #maker #growtech #plantapp #leafscan #pflanzenapp #techproject</div>
+  <button class="copy-btn" onclick="copy('setC')">Kopieren</button>
+</div>
+
+<!-- TOOLS -->
+<h2>Tools & Tipps</h2>
+
+<div class="tip-box">
+  <h4>Screen-Recordings machen</h4>
+  <ol>
+    <li><strong>iPhone:</strong> Einstellungen → Kontrollzentrum → Bildschirmaufnahme. Von oben wischen → Aufnahme starten</li>
+    <li><strong>Android:</strong> Von oben wischen → "Bildschirm aufnehmen"</li>
+    <li>leafscan.de im Browser öffnen, Blatt-Foto hochladen, Diagnose zeigen</li>
+    <li>Video in CapCut schneiden, Text-Overlays + Musik drauf</li>
+  </ol>
+</div>
+
+<div class="setup-box">
+  <h3 style="margin-top:0">Kostenlose Tools</h3>
+  <ul>
+    <li><strong>CapCut</strong> — Video schneiden, Text-Overlays, Trending Templates</li>
+    <li><strong>Canva</strong> — Carousel-Slides designen (kostenlos, hat fertige Instagram-Templates)</li>
+    <li><strong>InShot</strong> — Alternative zu CapCut, simpler</li>
+  </ul>
+</div>
+
+<div class="tip-box">
+  <h4>Beste Posting-Zeiten</h4>
+  <p>Deutsche Grow-Community ist am aktivsten:<br>
+  <strong>Abends 19-22 Uhr</strong> und <strong>Sonntags</strong>. Reels am besten zwischen 20-21 Uhr posten.</p>
+</div>
+
+</div>
+
+<script>
+function copy(id) {
+  const text = document.getElementById(id).textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Kopiert!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+function copyCaption(capId, tagsId) {
+  const caption = document.getElementById(capId).textContent.trim();
+  const tags = document.getElementById(tagsId).textContent.trim();
+  const full = caption + '\n\n' + tags;
+  navigator.clipboard.writeText(full).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Kopiert!';
+    setTimeout(() => btn.textContent = 'Caption + Tags kopieren', 1500);
+  });
+}
+</script>
+</body>
+</html>
