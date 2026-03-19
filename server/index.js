@@ -319,43 +319,8 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   let maxTokens = 2048;
   const imageBlocks = toImageBlocks(images);
 
-  // ── Server-side image validation for diagnose mode ──
-  if (mode === 'diagnose') {
-    try {
-      const valMessages = [
-        { role: 'user', content: [...imageBlocks, { type: 'text', text: IMAGE_CHECK_PROMPT }] },
-      ];
-      const valRes = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_API_KEY}` },
-        body: JSON.stringify({ messages: valMessages, model: 'gpt-4o', max_tokens: 20, temperature: 0 }),
-      });
-      if (valRes.ok) {
-        const valData = await valRes.json();
-        const valContent = valData.choices?.[0]?.message?.content || '';
-        const isPlant = !valContent.toLowerCase().includes('"iscannabis": false') && !valContent.toLowerCase().includes('"iscannabis":false');
-        if (!isPlant) {
-          // Refund the scan slot since we're rejecting
-          try { stmtRefundScan.run(ip); } catch (e) {}
-          return res.status(200).json({
-            choices: [{ message: { content: JSON.stringify({
-              severity: 'niedrig',
-              primaryDiagnosis: 'Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
-              confidence: 0.99,
-              rootCauseAnalysis: '',
-              contributingFactors: [],
-              actionPlan: [{ step: 'Neues Foto', detail: 'Mache ein Foto von deiner Cannabis-Pflanze — am besten eine Nahaufnahme eines einzelnen Blattes.' }],
-              preventiveTips: [],
-              followUpDays: 0,
-            }) }}],
-          });
-        }
-      }
-    } catch (valErr) {
-      console.log('[LeafScan] Server-side validation skipped:', valErr.message);
-      // fail open — continue with diagnosis
-    }
-  }
+  // Image validation removed — gpt-4o rejects cannabis under grow lights too aggressively.
+  // The main diagnosis prompt handles non-plant images gracefully on its own.
 
   if (mode === 'diagnose') {
     const { questionnaire, isFollowUp, previousResult, daysSince } = req.body;
