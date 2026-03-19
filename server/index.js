@@ -102,6 +102,28 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_feedback_date ON feedback(created_at);
 `);
 
+// Migration: feedback_detailed table for full diagnosis data + images
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS feedback_detailed (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      rating TEXT NOT NULL CHECK(rating IN ('positive', 'negative')),
+      diagnosis_json TEXT,
+      questionnaire_json TEXT,
+      image_paths TEXT,
+      ip TEXT,
+      device_id TEXT DEFAULT '',
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_feedback_detailed_date ON feedback_detailed(created_at);
+    CREATE INDEX IF NOT EXISTS idx_feedback_detailed_rating ON feedback_detailed(rating);
+  `);
+} catch (e) {}
+
+// Ensure feedback_images directory exists
+const feedbackImagesDir = path.join(__dirname, 'data', 'feedback_images');
+fs.mkdirSync(feedbackImagesDir, { recursive: true });
+
 // Migration: add device_id column if missing (existing DBs won't have it)
 try {
   db.exec(`ALTER TABLE promo_redemptions ADD COLUMN device_id TEXT NOT NULL DEFAULT ''`);
@@ -904,13 +926,21 @@ app.post('/api/stripe/webhook', async (req, res) => {
   res.json({ received: true });
 });
 
-// ── Feedback ──
-app.post('/api/feedback', (req, res) => {
+// ── Feedback (enhanced: saves full diagnosis + images for negative feedback) ──
+const stmtInsertDetailedFeedback = db.prepare(`
+  INSERT INTO feedback_detailed (rating, diagnosis_json, questionnaire_json, image_paths, ip, device_id)
+  VALUES (?, ?, ?, ?, ?, ?)
+`);
+
+app.post('/api/feedback', express.json({ limit: '30mb' }), (req, res) => {
   try {
-    const { rating, diagnosis, severity, confidence, substrate, fertilizer } = req.body || {};
+    const { rating, diagnosis, severity, confidence, substrate, fertilizer,
+            fullDiagnosis, questionnaire, images } = req.body || {};
     if (!rating || !['positive', 'negative'].includes(rating)) {
       return res.status(400).json({ error: 'rating must be positive or negative' });
     }
+
+    // Legacy feedback table (always)
     stmtInsertFeedback.run(
       rating,
       (diagnosis || '').substring(0, 500),
@@ -919,6 +949,43 @@ app.post('/api/feedback', (req, res) => {
       (substrate || '').substring(0, 50),
       (fertilizer || '').substring(0, 100)
     );
+
+    // Detailed feedback with images (for learning)
+    if (fullDiagnosis || images) {
+      const ip = getClientIP(req);
+      const deviceId = req.headers['x-device-id'] || '';
+      const ts = Date.now();
+      let savedPaths = [];
+
+      // Save images to disk
+      if (Array.isArray(images) && images.length > 0) {
+        for (let i = 0; i < Math.min(images.length, 5); i++) {
+          const img = images[i];
+          if (typeof img === 'string' && img.startsWith('data:image/')) {
+            const match = img.match(/^data:image\/(\w+);base64,(.+)$/);
+            if (match) {
+              const ext = match[1] === 'jpeg' ? 'jpg' : match[1];
+              const filename = `fb_${ts}_${i}.${ext}`;
+              const filepath = path.join(feedbackImagesDir, filename);
+              fs.writeFileSync(filepath, Buffer.from(match[2], 'base64'));
+              savedPaths.push(filename);
+            }
+          }
+        }
+      }
+
+      stmtInsertDetailedFeedback.run(
+        rating,
+        fullDiagnosis ? JSON.stringify(fullDiagnosis).substring(0, 10000) : null,
+        questionnaire ? JSON.stringify(questionnaire).substring(0, 2000) : null,
+        savedPaths.length > 0 ? JSON.stringify(savedPaths) : null,
+        ip,
+        deviceId
+      );
+
+      console.log(`[LeafScan] Detailed ${rating} feedback saved: ${savedPaths.length} images, diagnosis: ${(diagnosis || '').substring(0, 50)}`);
+    }
+
     res.json({ ok: true });
   } catch (err) {
     console.error('[LeafScan] Feedback error:', err.message);
@@ -941,6 +1008,47 @@ app.get('/api/admin/feedback', (req, res) => {
     summary: { total, positive, negative, satisfaction: total > 0 ? Math.round(positive / total * 100) : 0 },
     recent,
   });
+});
+
+// ── Detailed feedback for learning (admin only) ──
+const stmtDetailedFeedbackAll = db.prepare(`SELECT * FROM feedback_detailed ORDER BY created_at DESC LIMIT ?`);
+const stmtDetailedFeedbackNegative = db.prepare(`SELECT * FROM feedback_detailed WHERE rating = 'negative' ORDER BY created_at DESC LIMIT ?`);
+
+app.get('/api/admin/feedback-detailed', (req, res) => {
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  const limit = Math.min(parseInt(req.query.limit) || 50, 500);
+  const onlyNegative = req.query.negative === 'true';
+  const rows = onlyNegative ? stmtDetailedFeedbackNegative.all(limit) : stmtDetailedFeedbackAll.all(limit);
+
+  // Parse JSON fields
+  const entries = rows.map(row => ({
+    id: row.id,
+    rating: row.rating,
+    diagnosis: row.diagnosis_json ? JSON.parse(row.diagnosis_json) : null,
+    questionnaire: row.questionnaire_json ? JSON.parse(row.questionnaire_json) : null,
+    images: row.image_paths ? JSON.parse(row.image_paths) : [],
+    created_at: row.created_at,
+  }));
+
+  res.json({ count: entries.length, entries });
+});
+
+// Serve feedback images (admin only)
+app.get('/api/admin/feedback-image/:filename', (req, res) => {
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  const filename = req.params.filename.replace(/[^a-zA-Z0-9._-]/g, '');
+  const filepath = path.join(feedbackImagesDir, filename);
+  if (fs.existsSync(filepath)) {
+    res.sendFile(filepath);
+  } else {
+    res.status(404).json({ error: 'Image not found' });
+  }
 });
 
 // ── Health check ──

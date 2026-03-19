@@ -16,17 +16,29 @@ import { updateEntry } from '../services/storage';
 
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
-function sendFeedbackToServer(rating: 'positive' | 'negative', result: DiagnosisResult | null) {
+function sendFeedbackToServer(
+  rating: 'positive' | 'negative',
+  result: DiagnosisResult | null,
+  questionnaire?: any,
+  images?: string[],
+) {
   if (!result) return;
+  const body: any = {
+    rating,
+    diagnosis: result.primaryDiagnosis,
+    severity: result.severity,
+    confidence: result.confidence,
+    fullDiagnosis: result,
+    questionnaire: questionnaire || null,
+  };
+  // Only send images on negative feedback (saves bandwidth + storage)
+  if (rating === 'negative' && images && images.length > 0) {
+    body.images = images;
+  }
   fetch(`${SERVER_URL}/api/feedback`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      rating,
-      diagnosis: result.primaryDiagnosis,
-      severity: result.severity,
-      confidence: result.confidence,
-    }),
+    body: JSON.stringify(body),
   }).catch(() => {}); // fire and forget
 }
 import { libraryEntries } from '../constants/library';
@@ -600,7 +612,7 @@ export default function ResultsScreen() {
               onPress={() => {
                 setFeedback('positive');
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'positive' });
-                sendFeedbackToServer('positive', displayResult);
+                sendFeedbackToServer('positive', displayResult, questionnaire);
               }}
               activeOpacity={0.7}
             >
@@ -611,7 +623,7 @@ export default function ResultsScreen() {
               onPress={() => {
                 setFeedback('negative');
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'negative' });
-                sendFeedbackToServer('negative', displayResult);
+                sendFeedbackToServer('negative', displayResult, questionnaire, imageUris);
               }}
               activeOpacity={0.7}
             >
