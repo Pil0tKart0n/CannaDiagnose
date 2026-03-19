@@ -857,15 +857,12 @@ Wenn der User angibt, dass die Pflanze 9\u201312 Wochen oder \u00e4lter ist, PR\
 - Die Pflanze leitet N\u00e4hrstoffe bewusst in die Bl\u00fcten um, daher werden Bl\u00e4tter gelb und fallen ab
 Wenn Seneszenz wahrscheinlich ist: Setze severity auf "niedrig", erkl\u00e4re dass es nat\u00fcrlich ist, und empfehle KEINE Behandlung sondern normales Weiterarbeiten bis zur Ernte. Diagnostiziere Mangel NUR bei untypischen Symptomen (z.B. nur neue Bl\u00e4tter betroffen, extreme Nekrose, Sch\u00e4dlinge).
 
-ERNTE-HINWEIS BEI BL\u00dcTE (ab Woche 5\u20138):
-Wenn die Pflanze in Woche 5\u20138 oder 9\u201312 der Bl\u00fcte ist (also potenziell im Erntefenster), f\u00fcge IMMER einen Ernte-Hinweis in den actionPlan ein:
-- Viele Indica-dominante Strains werden schon ab Woche 8 geerntet, Sativas brauchen oft 10\u201314 Wochen
-- Pr\u00fcfe auf dem Foto ob Trichome sichtbar sind (bei Nahaufnahmen/Makros):
-  - Falls JA: Sch\u00e4tze den Reifegrad anhand der Trichom-Regeln oben ein und gib eine Ernte-Empfehlung
-  - Falls NEIN (normales Foto ohne sichtbare Trichome): Empfehle dem User als Ma\u00dfnahme, Makroaufnahmen/Lupenbilder der Trichome hochzuladen, damit du den optimalen Erntezeitpunkt bestimmen kannst
-- Erw\u00e4hne in den preventiveTips, dass die meisten Anf\u00e4nger ZU FR\u00dcH ernten
-- Wenn Pistillen auf dem Foto sichtbar sind, sch\u00e4tze grob den Reifegrad ein (% braune Pistillen)
-- Erkl\u00e4re kurz was der User je nach Erntezeitpunkt erwarten kann (mehr THC/High vs. mehr CBN/K\u00f6rper)
+ERNTE-HINWEIS BEI BL\u00dcTE (ERST ab Woche 8!):
+WICHTIG: Ernte-Empfehlungen oder Erntevorbereitung d\u00fcrfen NUR ab Bl\u00fctewoche 8 oder sp\u00e4ter gegeben werden! In Woche 1\u20137 ist Ernte KEIN Thema \u2014 erw\u00e4hne es dort NIEMALS im actionPlan.
+Wenn die Pflanze in Woche 8+ der Bl\u00fcte ist:
+- Viele Indica-dominante Strains werden ab Woche 8 geerntet, Sativas brauchen oft 10\u201314 Wochen
+- Empfehle dem User, Makroaufnahmen/Lupenbilder der Trichome hochzuladen
+- Wenn Pistillen auf dem Foto sichtbar sind, sch\u00e4tze grob den Reifegrad ein
 
 LETZTE PR\u00dcFUNG VOR DER ANTWORT: Lies deine komplette Antwort nochmal durch. Steht irgendwo "5.5" im Zusammenhang mit Kokos? Dann L\u00d6SCHE es und ersetze es durch 5.8. pH-Bereiche f\u00fcr Kokos: 5.8\u20136.2, IMMER.
 
@@ -955,7 +952,7 @@ ABSOLUTE REGELN:
 - KORREKTUR-ANALYSE IST GESETZ: Im User-Prompt steht eine \ud83d\udccb KORREKTUR-ANALYSE vom Expertensystem. Du MUSST sie befolgen. KORREKTUR \u2192 Diagnose \u00e4ndern. BEST\u00c4TIGT \u2192 best\u00e4tigen. WIDERSPRUCH \u2192 korrigieren.
 - pH/EC-BEWERTUNGEN SIND FAKTEN: Die \u26a0\ufe0f pH-BEWERTUNG und \ud83d\udea8 EC-BEWERTUNG im User-Prompt sind vorberechnete Fakten. \u00dcbernimm sie W\u00d6RTLICH. Widerspreche NICHT. Relativiere NICHT. Erfinde KEINE eigenen Interpretationen.
 - SENESZENZ IN SP\u00c4TER BL\u00dcTE: Wenn das Pflanzenalter 9\u201312 Wochen betr\u00e4gt UND eine \u26a0\ufe0f SP\u00c4TE BL\u00dcTE Warnung im Prompt steht, BEACHTE diese! Gelbe Bl\u00e4tter und violette F\u00e4rbung in dieser Phase sind NORMAL (nat\u00fcrliche Seneszenz). Setze severity "niedrig" und erkl\u00e4re, dass es nat\u00fcrlich ist. Diagnostiziere Mangel NUR bei untypischen Symptomen.
-- ERNTE-EMPFEHLUNG: Wenn die Pflanze in Bl\u00fcte Woche 5\u20138 oder 9\u201312 ist, oder ein \ud83c\udf3e ERNTE-HINWEIS im User-Prompt steht, f\u00fcge im actionPlan IMMER eine Empfehlung ein, Makro-/Trichombilder hochzuladen um den Erntezeitpunkt zu bestimmen. Viele Strains werden ab Woche 8 geerntet! Falls Trichome/Pistillen auf dem Foto sichtbar sind, sch\u00e4tze den Reifegrad ein.
+- ERNTE-EMPFEHLUNG: NUR wenn die Pflanze in Bl\u00fcte Woche 8 oder sp\u00e4ter ist, oder ein \ud83c\udf3e ERNTE-HINWEIS im User-Prompt steht. In Woche 1\u20137 NIEMALS Ernte erw\u00e4hnen! Ab Woche 8: Empfehle Makro-/Trichombilder hochzuladen. Falls Trichome/Pistillen auf dem Foto sichtbar sind, sch\u00e4tze den Reifegrad ein.
 
 TONALIT\u00c4T:
 - DUZEN: Verwende IMMER "du/dein/dir" \u2013 NIEMALS "Sie/Ihr/Ihnen". Du bist ein Kumpel, kein Arzt.
@@ -1033,10 +1030,9 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
     parts.push('In diesem Fall: severity "niedrig" oder "mittel" setzen und Ernte-Empfehlung geben statt Mangel-Behandlung.');
   }
 
-  // Harvest hint for bloom week 5+ (many strains harvest at week 8+)
+  // Harvest hint for bloom week 8+ only
   const isRefineHarvestPhase = plantAge && growPhase === 'Bl\u00fcte' && (
-    bloomWeek >= 5 ||
-    plantAge.includes('5\u20138') || plantAge.includes('5-8') ||
+    bloomWeek >= 8 ||
     plantAge.includes('9\u201312') || plantAge.includes('9-12')
   );
   if (isRefineHarvestPhase) {
@@ -1161,10 +1157,10 @@ module.exports.buildUserPrompt = function buildUserPrompt(data) {
       parts.push('\n\u26a0\ufe0f SENESZENZ-HINWEIS: Die Pflanze ist in Bl\u00fcte Woche 5\u20138. Viele Indica-dominante Strains werden ab Woche 8 geerntet! Ab Woche 6\u20138 k\u00f6nnen erste nat\u00fcrliche Seneszenz-Symptome auftreten: gelbe untere Bl\u00e4tter, violette Verf\u00e4rbungen, "verbrauchtes" Aussehen. PR\u00dcFE ob die Symptome zur nat\u00fcrlichen Alterung passen k\u00f6nnten, BEVOR du einen Mangel diagnostizierst. Wenn die Buds reif aussehen und die Symptome haupts\u00e4chlich an unteren/mittleren Bl\u00e4ttern sind \u2192 wahrscheinlich Seneszenz, severity "niedrig" setzen.');
     }
   }
-  // Harvest hint for week 5-8 AND 9-12 (many strains harvest at week 8+)
+  // Harvest hint for week 8+ only (NEVER before week 8)
   const isLateFlower = data.plantAgeWeeks && data.growPhase === 'Bl\u00fcte' && (
-    data.plantAgeWeeks.includes('5\u20138') || data.plantAgeWeeks.includes('5-8') ||
-    data.plantAgeWeeks.includes('9\u201312') || data.plantAgeWeeks.includes('9-12')
+    data.plantAgeWeeks.includes('9\u201312') || data.plantAgeWeeks.includes('9-12') ||
+    data.plantAgeWeeks.includes('8')
   );
   if (isLateFlower) {
     parts.push('\n\ud83c\udf3e ERNTE-HINWEIS: Die Pflanze ist in Bl\u00fcte ' + data.plantAgeWeeks + '. Viele Strains (besonders Indica-dominante) werden ab Woche 8 geerntet. F\u00fcge im actionPlan IMMER eine Empfehlung ein, Makroaufnahmen/Lupenbilder der Trichome hochzuladen, damit der optimale Erntezeitpunkt bestimmt werden kann. Falls auf dem Foto bereits Trichome oder Pistillen erkennbar sind, sch\u00e4tze den Reifegrad ein und gib eine Ernte-Einsch\u00e4tzung. Erkl\u00e4re kurz, was der User je nach Erntezeitpunkt erwarten kann (klar = zu fr\u00fch, milchig = Peak THC, bernstein = mehr K\u00f6rper/Sedierung).');
