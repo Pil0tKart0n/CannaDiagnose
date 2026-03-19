@@ -54,6 +54,13 @@ export default function DiagnosisCard({ result }: DiagnosisCardProps) {
           {confPercent}%
         </Text>
       </View>
+
+      {result.rootCauseAnalysis ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Ursachenanalyse</Text>
+          <Text style={styles.sectionBody}>{result.rootCauseAnalysis}</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -136,5 +143,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     width: 40,
     textAlign: 'right',
+  },
+  section: {
+    marginTop: 4,
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
+    marginBottom: 8,
+  },
+  sectionBody: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    lineHeight: 24,
   },
 });

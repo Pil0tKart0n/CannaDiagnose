@@ -468,7 +468,7 @@ Antworte NUR mit JSON:
                 content.severity = 'mittel';
                 content.confidence = 0.55;
                 content.primaryDiagnosis = 'Frühe Auffälligkeiten erkannt: ' + (textureContent.issues || 'Blattoberfläche zeigt Unregelmäßigkeiten') + '. Mögliche Ursache: ' + (textureContent.possibleCauses || 'pH-Stress oder beginnender Nährstoffmangel') + '.';
-                content.rootCauseAnalysis = 'Die Texturanalyse zeigt: ' + textureContent.issues + '. ' + (textureContent.possibleCauses ? 'Das deutet auf ' + textureContent.possibleCauses + ' hin.' : 'Weitere Beobachtung empfohlen.') + ' Tipp: Fotos unter weißem Licht ermöglichen eine genauere Farbanalyse.';
+                content.rootCauseAnalysis = textureContent.issues + '. ' + (textureContent.possibleCauses ? 'Das deutet auf ' + textureContent.possibleCauses + ' hin.' : 'Weitere Beobachtung empfohlen.') + ' Tipp: Fotos unter weißem Licht ermöglichen eine genauere Diagnose.';
                 content.actionPlan = [
                   { step: 'pH-Wert prüfen', detail: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
                   { step: 'Blätter beobachten', detail: 'Mach in 3-5 Tagen ein neues Foto unter weißem Licht für eine genauere Farbanalyse.' },
