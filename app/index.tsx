@@ -314,9 +314,7 @@ export default function HomeScreen() {
                 </LinearGradient>
               </TouchableOpacity>
             )}
-            <Text style={styles.ctaSubtext}>Kostenlos — kein Account noetig</Text>
-
-            {/* Secondary nav — compact, less visual weight */}
+            {/* Secondary nav */}
             <View style={styles.navRow}>
               {isWeb ? (
                 <>
@@ -389,7 +387,7 @@ export default function HomeScreen() {
               <div
                 className="cd-btn-premium"
                 onClick={() => router.push('/paywall')}
-                style={{ padding: '12px 16px', textAlign: 'center', marginTop: 4 } as any}
+                style={{ padding: '12px 16px', textAlign: 'center', marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' } as any}
               >
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
@@ -530,7 +528,7 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    fontSize: 52,
+    fontSize: 56,
     fontWeight: '300',
     color: 'rgba(228,235,230,0.6)',
     letterSpacing: 12,
@@ -538,7 +536,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleAccent: {
-    fontSize: 52,
+    fontSize: 56,
     fontWeight: '700',
     color: colors.accent,
     letterSpacing: 12,
@@ -551,10 +549,10 @@ const styles = StyleSheet.create({
     }),
   },
   tagline: {
-    fontSize: 11,
-    fontWeight: '500',
+    fontSize: 13,
+    fontWeight: '600',
     color: colors.textMuted,
-    letterSpacing: 4,
+    letterSpacing: 5,
     textTransform: 'uppercase',
     marginBottom: 28,
   },
