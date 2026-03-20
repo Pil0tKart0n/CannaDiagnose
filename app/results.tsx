@@ -10,13 +10,13 @@ import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { DiagnosisResult } from '../types';
 import { shareDiagnosis } from '../services/export';
-import { refineDiagnosis, validateDiagnosisResult } from '../services/claude';
+import { refineDiagnosis, validateDiagnosisResult, cachedReadAsBase64 } from '../services/claude';
 import { getFertilizerNames } from '../constants/fertilizers';
 import { updateEntry } from '../services/storage';
 
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
-function sendFeedbackToServer(
+async function sendFeedbackToServer(
   rating: 'positive' | 'negative',
   result: DiagnosisResult | null,
   questionnaire?: any,
@@ -33,7 +33,18 @@ function sendFeedbackToServer(
   };
   // Only send images on negative feedback (saves bandwidth + storage)
   if (rating === 'negative' && images && images.length > 0) {
-    body.images = images;
+    try {
+      const base64Images = await Promise.all(
+        images.slice(0, 5).map(async (uri) => {
+          if (uri.startsWith('data:image/')) return uri;
+          const base64 = await cachedReadAsBase64(uri);
+          return `data:image/jpeg;base64,${base64}`;
+        })
+      );
+      body.images = base64Images;
+    } catch (e) {
+      // If conversion fails, skip images
+    }
   }
   fetch(`${SERVER_URL}/api/feedback`, {
     method: 'POST',
