@@ -19,6 +19,7 @@ COPY package.json ./
 COPY index.js ./
 COPY prompts.js ./
 COPY fertilizers.js ./
+COPY admin.html ./
 
 RUN mkdir -p /app/data && \
     addgroup -S leafscan && \

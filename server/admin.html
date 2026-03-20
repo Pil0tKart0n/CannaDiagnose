@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeafScan Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#121212;--card:#1e1e1e;--card-hover:#252525;--border:#333;
+  --text:#e0e0e0;--text-muted:#999;--text-dim:#666;
+  --green:#4CAF50;--green-dark:#2E7D32;--green-darker:#1B5E20;
+  --red:#ef5350;--orange:#FFA726;--blue:#42A5F5;--purple:#AB47BC;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.4);
+}
+html{font-size:14px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:var(--green);text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+input,select{font-family:inherit}
+
+/* ---- Header ---- */
+.header{background:linear-gradient(135deg,#1a1a1a 0%,#1B5E20 100%);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--green-dark);box-shadow:0 2px 20px rgba(0,0,0,.5)}
+.header .brand{display:flex;align-items:center;gap:10px;font-size:1.4rem;font-weight:700;letter-spacing:.5px}
+.header .brand span.leaf{font-size:1.6rem}
+.header .meta{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:16px}
+.header .dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ---- Navigation ---- */
+.nav{background:#181818;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 16px;gap:4px;-webkit-overflow-scrolling:touch}
+.nav button{background:none;border:none;color:var(--text-muted);padding:12px 18px;font-size:.9rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.nav button:hover{color:var(--text)}
+.nav button.active{color:var(--green);border-bottom-color:var(--green)}
+
+/* ---- Main ---- */
+.main{max-width:1400px;margin:0 auto;padding:20px}
+.tab{display:none}
+.tab.active{display:block}
+
+/* ---- Cards ---- */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:transform .15s,border-color .15s}
+.kpi:hover{transform:translateY(-2px);border-color:var(--green-dark)}
+.kpi .label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi .value{font-size:1.6rem;font-weight:700;color:#fff}
+.kpi .value.green{color:var(--green)}
+.kpi .value.orange{color:var(--orange)}
+.kpi .value.blue{color:var(--blue)}
+
+/* ---- Section ---- */
+.section-title{font-size:1.1rem;font-weight:600;margin:24px 0 14px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:4px;height:20px;background:var(--green);border-radius:2px}
+
+/* ---- Chart containers ---- */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.chart-box h3{font-size:.9rem;color:var(--text-muted);margin-bottom:12px;font-weight:500}
+.chart-box canvas{max-height:300px}
+.chart-full{grid-column:1/-1}
+
+/* ---- Tables ---- */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;box-shadow:var(--shadow);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#252525;padding:10px 14px;text-align:left;color:var(--text-muted);font-weight:600;text-transform:uppercase;font-size:.72rem;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0}
+td{padding:10px 14px;border-top:1px solid var(--border);vertical-align:top}
+tr:hover td{background:rgba(76,175,80,.04)}
+
+/* ---- Badges ---- */
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
+.badge-green{background:rgba(76,175,80,.15);color:var(--green)}
+.badge-red{background:rgba(239,83,80,.15);color:var(--red)}
+.badge-blue{background:rgba(66,165,245,.15);color:var(--blue)}
+.badge-orange{background:rgba(255,167,38,.15);color:var(--orange)}
+.badge-gray{background:rgba(150,150,150,.15);color:#999}
+
+/* ---- Buttons ---- */
+.btn{padding:8px 18px;border:none;border-radius:6px;font-size:.85rem;font-weight:600;transition:all .15s}
+.btn-green{background:var(--green-dark);color:#fff}
+.btn-green:hover{background:var(--green)}
+.btn-red{background:rgba(239,83,80,.2);color:var(--red);border:1px solid rgba(239,83,80,.3)}
+.btn-red:hover{background:rgba(239,83,80,.3)}
+.btn-sm{padding:4px 12px;font-size:.78rem}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text-muted)}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+.btn-outline.active{border-color:var(--green);color:var(--green);background:rgba(76,175,80,.08)}
+
+/* ---- Forms ---- */
+.form-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select{background:#2a2a2a;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-size:.85rem;min-width:120px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--green)}
+
+/* ---- Feedback Cards ---- */
+.fb-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:border-color .15s}
+.fb-card:hover{border-color:var(--green-dark)}
+.fb-header{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.fb-header:hover{background:var(--card-hover)}
+.fb-header .arrow{color:var(--text-dim);transition:transform .2s;font-size:.8rem}
+.fb-card.open .fb-header .arrow{transform:rotate(90deg)}
+.fb-body{display:none;padding:0 18px 16px;border-top:1px solid var(--border)}
+.fb-card.open .fb-body{display:block}
+.fb-meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 0;font-size:.82rem;color:var(--text-muted)}
+.fb-meta span{display:flex;align-items:center;gap:4px}
+.fb-images{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fb-images img{width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .15s}
+.fb-images img:hover{transform:scale(1.05)}
+
+/* ---- Lightbox ---- */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1000;display:none;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;border-radius:8px}
+
+/* ---- Loading / Error ---- */
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--text-muted)}
+.spinner{width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-msg{background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.3);color:var(--red);padding:12px 18px;border-radius:var(--radius);margin:12px 0;font-size:.85rem}
+.success-msg{background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);color:var(--green);padding:12px 18px;border-radius:var(--radius);margin:12px 0;font-size:.85rem}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--green-dark);border-radius:var(--radius);padding:12px 20px;font-size:.85rem;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.5);transform:translateY(100px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ---- Responsive ---- */
+@media(max-width:900px){
+  .chart-row{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+@media(max-width:600px){
+  .header{padding:12px 16px;flex-direction:column;gap:8px;align-items:flex-start}
+  .main{padding:12px}
+  .nav button{padding:10px 14px;font-size:.82rem}
+  .form-row{flex-direction:column}
+  .form-group input{min-width:100%}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .kpi .value{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand"><span class="leaf">🌿</span> LeafScan Admin</div>
+  <div class="meta"><span class="dot"></span> Auto-Refresh 60s &nbsp;|&nbsp; <span id="clock"></span></div>
+</div>
+
+<nav class="nav" id="nav">
+  <button class="active" data-tab="dashboard">Übersicht</button>
+  <button data-tab="feedback">Feedback Center</button>
+  <button data-tab="stats">Statistiken</button>
+  <button data-tab="promos">Promo Codes</button>
+  <button data-tab="premium">Premium</button>
+  <button data-tab="system">System</button>
+</nav>
+
+<main class="main">
+
+<!-- ==================== DASHBOARD ==================== -->
+<div class="tab active" id="tab-dashboard">
+  <div class="kpi-grid" id="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>Scans & Unique Users — letzte 30 Tage</h3><canvas id="chartScans"></canvas></div>
+    <div class="chart-box"><h3>Token-Verbrauch — letzte 30 Tage</h3><canvas id="chartTokens"></canvas></div>
+  </div>
+</div>
+
+<!-- ==================== FEEDBACK ==================== -->
+<div class="tab" id="tab-feedback">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+    <button class="btn btn-outline active" id="fbAll" onclick="loadFeedback(false)">Alle</button>
+    <button class="btn btn-outline" id="fbNeg" onclick="loadFeedback(true)">Nur negativ</button>
+    <span id="fbCount" style="color:var(--text-muted);font-size:.85rem;margin-left:8px"></span>
+  </div>
+  <div id="feedbackList"></div>
+</div>
+
+<!-- ==================== STATISTIKEN ==================== -->
+<div class="tab" id="tab-stats">
+  <div class="chart-row">
+    <div class="chart-box"><h3>Top-Diagnosen</h3><canvas id="chartDiagnoses"></canvas></div>
+    <div class="chart-box"><h3>Substrat-Verteilung</h3><canvas id="chartSubstrates"></canvas></div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>Top 10 Dünger</h3><canvas id="chartFertilizers"></canvas></div>
+    <div class="chart-box"><h3>Plattform-Split</h3><canvas id="chartPlatforms"></canvas></div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-box chart-full"><h3>Scan-Uhrzeiten (UTC)</h3><canvas id="chartHours"></canvas></div>
+  </div>
+</div>
+
+<!-- ==================== PROMOS ==================== -->
+<div class="tab" id="tab-promos">
+  <div class="section-title">Neuen Code erstellen</div>
+  <div class="form-row">
+    <div class="form-group"><label>Code</label><input id="promoCode" placeholder="z.B. GROW2025"></div>
+    <div class="form-group"><label>Tage</label><input id="promoDays" type="number" value="30" min="1"></div>
+    <div class="form-group"><label>Max. Nutzungen</label><input id="promoMax" type="number" value="100" min="1"></div>
+    <button class="btn btn-green" onclick="createPromo()">Erstellen</button>
+  </div>
+  <div id="promoMsg"></div>
+
+  <div class="section-title">Aktive Codes</div>
+  <div class="table-wrap"><table id="promoTable"><thead><tr><th>Code</th><th>Tage</th><th>Genutzt</th><th>Max</th><th>Status</th><th>Erstellt</th><th>Aktion</th></tr></thead><tbody></tbody></table></div>
+
+  <div class="section-title">Letzte Einlösungen</div>
+  <div class="table-wrap"><table id="redemptionTable"><thead><tr><th>Code</th><th>IP</th><th>Gerät</th><th>Eingelöst</th><th>Läuft ab</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<!-- ==================== PREMIUM ==================== -->
+<div class="tab" id="tab-premium">
+  <div class="section-title">Premium vergeben</div>
+  <div class="form-row">
+    <div class="form-group"><label>Tage</label><input id="grantDays" type="number" value="30" min="1"></div>
+    <button class="btn btn-green" onclick="grantPremium()">Code generieren</button>
+  </div>
+  <div id="premiumMsg"></div>
+
+  <div class="section-title">Aktive Abonnements</div>
+  <div class="table-wrap"><table id="premiumActiveTable"><thead><tr><th>ID</th><th>Plan</th><th>Stripe Customer</th><th>Erstellt</th></tr></thead><tbody></tbody></table></div>
+
+  <div class="section-title">Gekündigte Abonnements</div>
+  <div class="table-wrap"><table id="premiumCancelledTable"><thead><tr><th>ID</th><th>Plan</th><th>Stripe Customer</th><th>Erstellt</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<!-- ==================== SYSTEM ==================== -->
+<div class="tab" id="tab-system">
+  <div class="section-title">Speicher</div>
+  <div class="kpi-grid" id="diskGrid"></div>
+
+  <div class="section-title">Rate-Limit Treffer (aktiv)</div>
+  <div class="table-wrap"><table id="ratelimitTable"><thead><tr><th>IP</th><th>Requests</th></tr></thead><tbody></tbody></table></div>
+
+  <div class="section-title">IP Blacklist</div>
+  <div class="form-row">
+    <div class="form-group"><label>IP-Adresse</label><input id="blacklistIp" placeholder="1.2.3.4"></div>
+    <div class="form-group"><label>Grund</label><input id="blacklistReason" placeholder="Spam etc."></div>
+    <button class="btn btn-red" onclick="addBlacklist()">Sperren</button>
+  </div>
+  <div id="blacklistMsg"></div>
+  <div class="table-wrap"><table id="blacklistTable"><thead><tr><th>IP</th><th>Grund</th><th>Gesperrt am</th><th>Aktion</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lbImg" src=""></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ---- Globals ----
+const KEY = new URLSearchParams(window.location.search).get('key') || '';
+let charts = {};
+let refreshTimer;
+
+// ---- Helpers ----
+function api(path, opts = {}) {
+  const sep = path.includes('?') ? '&' : '?';
+  const url = path + sep + 'key=' + encodeURIComponent(KEY);
+  return fetch(url, opts).then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  });
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function fmtNum(n) {
+  if (n == null) return '—';
+  return Number(n).toLocaleString('de-DE');
+}
+
+function fmtCost(n) {
+  if (n == null) return '—';
+  return '$' + Number(n).toFixed(2);
+}
+
+function toast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = isError ? 'var(--red)' : 'var(--green-dark)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function showLoading(el) {
+  el.innerHTML = '<div class="loading"><div class="spinner"></div>Laden…</div>';
+}
+
+function showError(el, msg) {
+  el.innerHTML = '<div class="error-msg">' + msg + '</div>';
+}
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+const chartColors = {
+  green: '#4CAF50', greenBg: 'rgba(76,175,80,.15)',
+  blue: '#42A5F5', blueBg: 'rgba(66,165,245,.15)',
+  orange: '#FFA726', orangeBg: 'rgba(255,167,38,.15)',
+  red: '#ef5350', redBg: 'rgba(239,83,80,.15)',
+  purple: '#AB47BC', purpleBg: 'rgba(171,71,188,.15)',
+};
+
+const defaultChartOpts = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#999', font: { size: 11 } } } },
+  scales: {
+    x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
+    y: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.06)' } }
+  }
+};
+
+function pieOpts() {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: '#999', font: { size: 11 }, padding: 14 } } }
+  };
+}
+
+const palette = ['#4CAF50','#42A5F5','#FFA726','#AB47BC','#ef5350','#26C6DA','#FFEE58','#8D6E63','#78909C','#EC407A','#66BB6A','#5C6BC0','#FF7043','#29B6F6','#D4E157'];
+
+// ---- Clock ----
+function updateClock() {
+  const d = new Date();
+  document.getElementById('clock').textContent = d.toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ---- Navigation ----
+document.getElementById('nav').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  const tab = e.target.dataset.tab;
+  document.getElementById('tab-' + tab).classList.add('active');
+  loadTab(tab);
+});
+
+function loadTab(tab) {
+  switch(tab) {
+    case 'dashboard': loadDashboard(); break;
+    case 'feedback': loadFeedback(false); break;
+    case 'stats': loadStats(); break;
+    case 'promos': loadPromos(); break;
+    case 'premium': loadPremium(); break;
+    case 'system': loadSystem(); break;
+  }
+}
+
+// ==================== DASHBOARD ====================
+async function loadDashboard() {
+  try {
+    const [dash, scanData, tokenData] = await Promise.all([
+      api('/api/admin/dashboard'),
+      api('/api/admin/stats/scans?days=30'),
+      api('/api/admin/stats/tokens?days=30')
+    ]);
+
+    // KPIs
+    const kpis = [
+      { label: 'Scans heute', value: fmtNum(dash.scans?.today), cls: 'green' },
+      { label: 'Scans Woche', value: fmtNum(dash.scans?.week), cls: '' },
+      { label: 'Scans gesamt', value: fmtNum(dash.scans?.total), cls: '' },
+      { label: 'User heute', value: fmtNum(dash.users?.today), cls: 'blue' },
+      { label: 'User gesamt', value: fmtNum(dash.users?.total), cls: '' },
+      { label: 'Zufriedenheit', value: (dash.feedback?.satisfaction ?? 0) + '%', cls: (dash.feedback?.satisfaction ?? 0) >= 70 ? 'green' : 'orange' },
+      { label: 'Premium aktiv', value: fmtNum(dash.premium?.active), cls: 'green' },
+      { label: 'Promo aktiv', value: fmtNum(dash.premium?.promos), cls: '' },
+      { label: 'Token heute', value: fmtNum(dash.tokens?.today), cls: '' },
+      { label: 'Kosten heute', value: fmtCost(dash.tokens?.costToday), cls: 'orange' },
+      { label: 'Kosten Monat', value: fmtCost(dash.tokens?.costMonth), cls: 'orange' },
+    ];
+    document.getElementById('kpi-grid').innerHTML = kpis.map(k =>
+      `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
+    ).join('');
+
+    // Scan chart
+    const scanLabels = (scanData.data || []).map(d => d.day?.slice(5));
+    destroyChart('chartScans');
+    charts.chartScans = new Chart(document.getElementById('chartScans'), {
+      type: 'line',
+      data: {
+        labels: scanLabels,
+        datasets: [
+          { label: 'Scans', data: scanData.data.map(d => d.scans), borderColor: chartColors.green, backgroundColor: chartColors.greenBg, fill: true, tension: .3, pointRadius: 2 },
+          { label: 'Unique Users', data: scanData.data.map(d => d.users), borderColor: chartColors.blue, backgroundColor: chartColors.blueBg, fill: true, tension: .3, pointRadius: 2 }
+        ]
+      },
+      options: { ...defaultChartOpts, interaction: { mode: 'index', intersect: false } }
+    });
+
+    // Token chart
+    destroyChart('chartTokens');
+    charts.chartTokens = new Chart(document.getElementById('chartTokens'), {
+      type: 'bar',
+      data: {
+        labels: (tokenData.data || []).map(d => d.day?.slice(5)),
+        datasets: [
+          { label: 'Prompt', data: tokenData.data.map(d => d.prompt_tokens), backgroundColor: chartColors.green, borderRadius: 3 },
+          { label: 'Completion', data: tokenData.data.map(d => d.completion_tokens), backgroundColor: chartColors.blue, borderRadius: 3 }
+        ]
+      },
+      options: { ...defaultChartOpts, scales: { ...defaultChartOpts.scales, x: { ...defaultChartOpts.scales.x, stacked: true }, y: { ...defaultChartOpts.scales.y, stacked: true } } }
+    });
+  } catch (e) {
+    showError(document.getElementById('kpi-grid'), 'Dashboard konnte nicht geladen werden: ' + e.message);
+  }
+}
+
+// ==================== FEEDBACK ====================
+let fbNegativeOnly = false;
+async function loadFeedback(negative) {
+  fbNegativeOnly = negative;
+  document.getElementById('fbAll').classList.toggle('active', !negative);
+  document.getElementById('fbNeg').classList.toggle('active', negative);
+  const list = document.getElementById('feedbackList');
+  showLoading(list);
+  try {
+    const data = await api('/api/admin/feedback-detailed?limit=50' + (negative ? '&negative=true' : ''));
+    document.getElementById('fbCount').textContent = (data.count || 0) + ' Einträge';
+    if (!data.entries || data.entries.length === 0) {
+      list.innerHTML = '<div style="color:var(--text-muted);padding:40px;text-align:center">Keine Einträge vorhanden</div>';
+      return;
+    }
+    list.innerHTML = data.entries.map((e, i) => {
+      const isPositive = e.rating === 'positive' || e.rating === 1 || e.rating === true;
+      const diag = e.diagnosis;
+      const primary = typeof diag === 'object' ? (diag.primaryDiagnosis || diag.diagnosis || JSON.stringify(diag)) : (diag || '—');
+      const severity = typeof diag === 'object' ? diag.severity : null;
+      const confidence = typeof diag === 'object' ? diag.confidence : null;
+      const q = e.questionnaire || {};
+      const imgs = e.images || [];
+      return `<div class="fb-card" id="fb${i}">
+        <div class="fb-header" onclick="document.getElementById('fb${i}').classList.toggle('open')">
+          <span class="arrow">&#9654;</span>
+          <span class="badge ${isPositive ? 'badge-green' : 'badge-red'}">${isPositive ? 'Positiv' : 'Negativ'}</span>
+          <span style="flex:1;font-weight:500;font-size:.88rem">${esc(primary)}</span>
+          <span style="color:var(--text-dim);font-size:.78rem">${fmtDate(e.created_at)}</span>
+        </div>
+        <div class="fb-body">
+          <div class="fb-meta">
+            ${severity ? `<span><strong>Schwere:</strong> ${esc(severity)}</span>` : ''}
+            ${confidence ? `<span><strong>Konfidenz:</strong> ${Math.round(confidence * 100)}%</span>` : ''}
+            ${q.substrate ? `<span><strong>Substrat:</strong> ${esc(q.substrate)}</span>` : ''}
+            ${q.fertilizer ? `<span><strong>Dünger:</strong> ${esc(q.fertilizer)}</span>` : ''}
+            ${q.growPhase ? `<span><strong>Phase:</strong> ${esc(q.growPhase)}</span>` : ''}
+            ${q.ph ? `<span><strong>pH:</strong> ${esc(q.ph)}</span>` : ''}
+            ${q.ec ? `<span><strong>EC:</strong> ${esc(q.ec)}</span>` : ''}
+            ${q.light ? `<span><strong>Licht:</strong> ${esc(q.light)}</span>` : ''}
+            ${q.watering ? `<span><strong>Bewässerung:</strong> ${esc(q.watering)}</span>` : ''}
+          </div>
+          ${imgs.length ? `<div class="fb-images">${imgs.map(f => `<img src="/api/admin/feedback-image/${encodeURIComponent(f)}?key=${encodeURIComponent(KEY)}" loading="lazy" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`).join('')}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    showError(list, 'Feedback konnte nicht geladen werden: ' + e.message);
+  }
+}
+
+function esc(s) {
+  if (s == null) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lbImg').src = src;
+  lb.classList.add('open');
+}
+
+// ==================== STATISTIKEN ====================
+async function loadStats() {
+  try {
+    const [diag, sub, plat, hours] = await Promise.all([
+      api('/api/admin/stats/diagnoses'),
+      api('/api/admin/stats/substrates'),
+      api('/api/admin/stats/platforms'),
+      api('/api/admin/stats/hours')
+    ]);
+
+    // Diagnoses
+    const diagData = (Array.isArray(diag) ? diag : []).slice(0, 15);
+    destroyChart('chartDiagnoses');
+    charts.chartDiagnoses = new Chart(document.getElementById('chartDiagnoses'), {
+      type: 'bar',
+      data: {
+        labels: diagData.map(d => d.diagnosis?.substring(0, 30) || '?'),
+        datasets: [{ label: 'Anzahl', data: diagData.map(d => d.count), backgroundColor: chartColors.green, borderRadius: 4 }]
+      },
+      options: { ...defaultChartOpts, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+
+    // Substrates
+    const subs = (sub.substrates || []).slice(0, 10);
+    destroyChart('chartSubstrates');
+    charts.chartSubstrates = new Chart(document.getElementById('chartSubstrates'), {
+      type: 'doughnut',
+      data: {
+        labels: subs.map(s => s.substrate || '?'),
+        datasets: [{ data: subs.map(s => s.count), backgroundColor: palette.slice(0, subs.length), borderWidth: 0 }]
+      },
+      options: pieOpts()
+    });
+
+    // Fertilizers
+    const ferts = (sub.fertilizers || []).slice(0, 10);
+    destroyChart('chartFertilizers');
+    charts.chartFertilizers = new Chart(document.getElementById('chartFertilizers'), {
+      type: 'bar',
+      data: {
+        labels: ferts.map(f => f.fertilizer?.substring(0, 25) || '?'),
+        datasets: [{ label: 'Anzahl', data: ferts.map(f => f.count), backgroundColor: chartColors.orange, borderRadius: 4 }]
+      },
+      options: { ...defaultChartOpts, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+
+    // Platforms
+    const platData = Array.isArray(plat) ? plat : [];
+    destroyChart('chartPlatforms');
+    charts.chartPlatforms = new Chart(document.getElementById('chartPlatforms'), {
+      type: 'doughnut',
+      data: {
+        labels: platData.map(p => p.platform || '?'),
+        datasets: [{ data: platData.map(p => p.count), backgroundColor: [chartColors.green, chartColors.blue, chartColors.purple, chartColors.orange], borderWidth: 0 }]
+      },
+      options: pieOpts()
+    });
+
+    // Hours
+    const hourData = Array.isArray(hours) ? hours : [];
+    const hourArr = Array.from({ length: 24 }, (_, i) => {
+      const h = hourData.find(x => x.hour === i);
+      return h ? h.count : 0;
+    });
+    destroyChart('chartHours');
+    charts.chartHours = new Chart(document.getElementById('chartHours'), {
+      type: 'bar',
+      data: {
+        labels: Array.from({ length: 24 }, (_, i) => i + ':00'),
+        datasets: [{ label: 'Scans', data: hourArr, backgroundColor: chartColors.green, borderRadius: 3 }]
+      },
+      options: { ...defaultChartOpts, plugins: { legend: { display: false } } }
+    });
+  } catch (e) {
+    toast('Statistiken Fehler: ' + e.message, true);
+  }
+}
+
+// ==================== PROMOS ====================
+async function loadPromos() {
+  try {
+    const data = await api('/api/admin/promos');
+    const codes = data.codes || [];
+    const reds = data.redemptions || [];
+
+    document.querySelector('#promoTable tbody').innerHTML = codes.map(c => `
+      <tr>
+        <td><code style="color:var(--green)">${esc(c.code)}</code></td>
+        <td>${c.days}</td>
+        <td>${c.used}</td>
+        <td>${c.max_uses}</td>
+        <td>${c.active ? '<span class="badge badge-green">Aktiv</span>' : '<span class="badge badge-gray">Inaktiv</span>'}</td>
+        <td>${fmtDate(c.created_at)}</td>
+        <td><button class="btn btn-sm ${c.active ? 'btn-red' : 'btn-green'}" onclick="togglePromo('${esc(c.code)}',${!c.active})">${c.active ? 'Deaktivieren' : 'Aktivieren'}</button></td>
+      </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">Keine Codes</td></tr>';
+
+    document.querySelector('#redemptionTable tbody').innerHTML = reds.map(r => `
+      <tr>
+        <td><code style="color:var(--green)">${esc(r.code)}</code></td>
+        <td>${esc(r.ip)}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.device_id)}</td>
+        <td>${fmtDate(r.redeemed_at)}</td>
+        <td>${fmtDate(r.expires_at)}</td>
+      </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">Keine Einlösungen</td></tr>';
+  } catch (e) {
+    toast('Promos Fehler: ' + e.message, true);
+  }
+}
+
+async function createPromo() {
+  const code = document.getElementById('promoCode').value.trim();
+  const days = parseInt(document.getElementById('promoDays').value);
+  const maxUses = parseInt(document.getElementById('promoMax').value);
+  if (!code) { toast('Code eingeben!', true); return; }
+  try {
+    await api('/api/admin/promos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, days, maxUses })
+    });
+    document.getElementById('promoCode').value = '';
+    toast('Code "' + code + '" erstellt!');
+    loadPromos();
+  } catch (e) {
+    toast('Fehler: ' + e.message, true);
+  }
+}
+
+async function togglePromo(code, active) {
+  try {
+    await api('/api/admin/promos/toggle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, active })
+    });
+    toast('Code "' + code + '" ' + (active ? 'aktiviert' : 'deaktiviert'));
+    loadPromos();
+  } catch (e) {
+    toast('Fehler: ' + e.message, true);
+  }
+}
+
+// ==================== PREMIUM ====================
+async function loadPremium() {
+  try {
+    const data = await api('/api/admin/premium');
+    const active = data.active || [];
+    const cancelled = data.cancelled || [];
+
+    document.querySelector('#premiumActiveTable tbody').innerHTML = active.map(p => `
+      <tr><td>${p.id}</td><td>${esc(p.plan)}</td><td>${esc(p.stripe_customer_id || '—')}</td><td>${fmtDate(p.created_at)}</td></tr>`
+    ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Keine aktiven Abos</td></tr>';
+
+    document.querySelector('#premiumCancelledTable tbody').innerHTML = cancelled.map(p => `
+      <tr><td>${p.id}</td><td>${esc(p.plan)}</td><td>${esc(p.stripe_customer_id || '—')}</td><td>${fmtDate(p.created_at)}</td></tr>`
+    ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Keine gekündigten Abos</td></tr>';
+  } catch (e) {
+    toast('Premium Fehler: ' + e.message, true);
+  }
+}
+
+async function grantPremium() {
+  const days = parseInt(document.getElementById('grantDays').value);
+  if (!days || days < 1) { toast('Tage eingeben!', true); return; }
+  try {
+    const data = await api('/api/admin/premium/grant', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ days })
+    });
+    document.getElementById('premiumMsg').innerHTML =
+      `<div class="success-msg">Premium-Code erstellt: <strong style="font-size:1.1rem;letter-spacing:1px">${esc(data.code)}</strong> (${data.days} Tage)</div>`;
+    toast('Premium-Code generiert!');
+  } catch (e) {
+    toast('Fehler: ' + e.message, true);
+  }
+}
+
+// ==================== SYSTEM ====================
+async function loadSystem() {
+  try {
+    const [disk, rl, bl] = await Promise.all([
+      api('/api/admin/stats/disk'),
+      api('/api/admin/stats/ratelimits'),
+      api('/api/admin/blacklist')
+    ]);
+
+    // Disk
+    document.getElementById('diskGrid').innerHTML = [
+      { label: 'Feedback-Bilder', value: fmtNum(disk.feedbackImages?.count), cls: '' },
+      { label: 'Bilder (MB)', value: (disk.feedbackImages?.sizeMB ?? 0).toFixed(1) + ' MB', cls: 'blue' },
+      { label: 'Datenbank', value: (disk.database?.sizeMB ?? 0).toFixed(1) + ' MB', cls: 'orange' },
+    ].map(k =>
+      `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
+    ).join('');
+
+    // Rate limits
+    const rlData = Array.isArray(rl) ? rl : [];
+    document.querySelector('#ratelimitTable tbody').innerHTML = rlData.map(r => `
+      <tr><td>${esc(r.ip)}</td><td>${r.requests}</td></tr>`
+    ).join('') || '<tr><td colspan="2" style="text-align:center;color:var(--text-muted)">Keine Rate-Limit Treffer</td></tr>';
+
+    // Blacklist
+    const blData = Array.isArray(bl) ? bl : [];
+    document.querySelector('#blacklistTable tbody').innerHTML = blData.map(b => `
+      <tr>
+        <td><code>${esc(b.ip)}</code></td>
+        <td>${esc(b.reason)}</td>
+        <td>${fmtDate(b.created_at)}</td>
+        <td><button class="btn btn-sm btn-red" onclick="removeBlacklist('${esc(b.ip)}')">Entsperren</button></td>
+      </tr>`
+    ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Keine gesperrten IPs</td></tr>';
+  } catch (e) {
+    toast('System Fehler: ' + e.message, true);
+  }
+}
+
+async function addBlacklist() {
+  const ip = document.getElementById('blacklistIp').value.trim();
+  const reason = document.getElementById('blacklistReason').value.trim();
+  if (!ip) { toast('IP eingeben!', true); return; }
+  try {
+    await api('/api/admin/blacklist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ip, reason })
+    });
+    document.getElementById('blacklistIp').value = '';
+    document.getElementById('blacklistReason').value = '';
+    toast(ip + ' gesperrt');
+    loadSystem();
+  } catch (e) {
+    toast('Fehler: ' + e.message, true);
+  }
+}
+
+async function removeBlacklist(ip) {
+  if (!confirm('IP ' + ip + ' wirklich entsperren?')) return;
+  try {
+    await api('/api/admin/blacklist', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ip })
+    });
+    toast(ip + ' entsperrt');
+    loadSystem();
+  } catch (e) {
+    toast('Fehler: ' + e.message, true);
+  }
+}
+
+// ---- Init & Auto-refresh ----
+function init() {
+  if (!KEY) {
+    document.querySelector('.main').innerHTML = '<div class="error-msg" style="margin-top:40px;text-align:center;font-size:1rem">Kein Admin-Key angegeben. Bitte <code>?key=DEIN_KEY</code> an die URL anhängen.</div>';
+    return;
+  }
+  loadDashboard();
+  refreshTimer = setInterval(() => {
+    const activeTab = document.querySelector('.nav button.active')?.dataset.tab;
+    if (activeTab) loadTab(activeTab);
+  }, 60000);
+}
+
+init();
+</script>
+</body>
+</html>

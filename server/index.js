@@ -118,6 +118,38 @@ try {
   `);
 } catch (e) {}
 
+// Migration: api_usage table for OpenAI token/cost tracking
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS api_usage (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ip TEXT,
+      mode TEXT NOT NULL,
+      model TEXT NOT NULL DEFAULT 'gpt-4o',
+      prompt_tokens INTEGER NOT NULL DEFAULT 0,
+      completion_tokens INTEGER NOT NULL DEFAULT 0,
+      total_tokens INTEGER NOT NULL DEFAULT 0,
+      is_premium INTEGER NOT NULL DEFAULT 0,
+      platform TEXT DEFAULT 'unknown',
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_api_usage_date ON api_usage(created_at);
+    CREATE INDEX IF NOT EXISTS idx_api_usage_mode ON api_usage(mode);
+  `);
+} catch (e) {}
+
+// Migration: ip_blacklist table
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS ip_blacklist (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ip TEXT UNIQUE NOT NULL,
+      reason TEXT DEFAULT '',
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+  `);
+} catch (e) {}
+
 // Ensure feedback_images directory exists
 const feedbackImagesDir = path.join(__dirname, 'data', 'feedback_images');
 fs.mkdirSync(feedbackImagesDir, { recursive: true });
@@ -175,6 +207,12 @@ const stmtCheckRedeemedByIp = db.prepare(`SELECT * FROM promo_redemptions WHERE 
 const stmtCheckRedeemedByDevice = db.prepare(`SELECT * FROM promo_redemptions WHERE device_id = ? AND device_id != '' LIMIT 1`);
 const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, device_id, expires_at) VALUES (?, ?, ?, datetime('now', '+' || ? || ' days'))`);
 const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE (ip = ? OR (device_id = ? AND device_id != '')) AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
+
+// ── API usage tracking statements ──
+const stmtInsertUsage = db.prepare(`
+  INSERT INTO api_usage (ip, mode, model, prompt_tokens, completion_tokens, total_tokens, is_premium, platform)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+`);
 
 // Seed default promo codes (only if they don't exist yet)
 const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`);
@@ -270,11 +308,20 @@ function checkPremium(token, req) {
 const ipRequestCounts = new Map();
 setInterval(() => ipRequestCounts.clear(), 60 * 1000); // reset every minute
 
+// Prepared statement for blacklist check
+const stmtCheckBlacklist = db.prepare(`SELECT 1 FROM ip_blacklist WHERE ip = ?`);
+
 function rateLimit(req, res, next) {
   const ip = getClientIP(req);
+
+  // Check blacklist
+  if (stmtCheckBlacklist.get(ip)) {
+    return res.status(403).json({ error: 'blocked', message: 'Zugriff gesperrt.' });
+  }
+
   const count = (ipRequestCounts.get(ip) || 0) + 1;
   ipRequestCounts.set(ip, count);
-  if (count > 10) { // max 10 requests per minute per IP
+  if (count > 10) {
     return res.status(429).json({ error: 'rate_limited', message: 'Zu viele Anfragen. Bitte warte eine Minute.' });
   }
   next();
@@ -413,6 +460,23 @@ app.post('/api/scan', rateLimit, async (req, res) => {
 
     let data = await openaiRes.text();
 
+    // Track API usage
+    if (openaiRes.ok) {
+      try {
+        const parsed_ = JSON.parse(data);
+        const usage = parsed_.usage || {};
+        const platform = req.headers['origin'] ? 'pwa' : 'apk';
+        stmtInsertUsage.run(
+          ip, mode, 'gpt-4o',
+          usage.prompt_tokens || 0,
+          usage.completion_tokens || 0,
+          usage.total_tokens || 0,
+          premiumSession ? 1 : 0,
+          platform
+        );
+      } catch (e) {}
+    }
+
     // Refund scan if OpenAI returned an error
     if (!premiumSession && !openaiRes.ok) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
@@ -463,6 +527,11 @@ Antworte NUR mit JSON:
 
             if (textureRes.ok) {
               const textureData = await textureRes.json();
+              // Track texture check usage
+              try {
+                const tUsage = textureData.usage || {};
+                stmtInsertUsage.run(ip, 'texture_check', 'gpt-4o', tUsage.prompt_tokens || 0, tUsage.completion_tokens || 0, tUsage.total_tokens || 0, premiumSession ? 1 : 0, req.headers['origin'] ? 'pwa' : 'apk');
+              } catch (e) {}
               const textureContent = JSON.parse(textureData.choices[0].message.content);
 
               if (textureContent.hasTextureIssues) {
@@ -1009,6 +1078,269 @@ app.get('/api/admin/feedback-image/:filename', (req, res) => {
   } else {
     res.status(404).json({ error: 'Image not found' });
   }
+});
+
+// ══════════════════════════════════════════════════════════════════
+// ██  ADMIN DASHBOARD API                                        ██
+// ══════════════════════════════════════════════════════════════════
+
+function adminAuth(req, res) {
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    res.status(403).json({ error: 'Unauthorized' });
+    return false;
+  }
+  return true;
+}
+
+// ── Dashboard overview ──
+app.get('/api/admin/dashboard', (req, res) => {
+  if (!adminAuth(req, res)) return;
+
+  const scansToday = db.prepare(`SELECT COUNT(*) as c FROM scan_log WHERE scanned_at >= date('now')`).get().c;
+  const scansWeek = db.prepare(`SELECT COUNT(*) as c FROM scan_log WHERE scanned_at >= date('now', '-7 days')`).get().c;
+  const scansTotal = db.prepare(`SELECT COUNT(*) as c FROM scan_log`).get().c;
+
+  const uniqueToday = db.prepare(`SELECT COUNT(DISTINCT ip) as c FROM scan_log WHERE scanned_at >= date('now')`).get().c;
+  const uniqueTotal = db.prepare(`SELECT COUNT(DISTINCT ip) as c FROM scan_log`).get().c;
+
+  const feedbackStats = stmtFeedbackStats.all();
+  const totalFeedback = feedbackStats.reduce((sum, s) => sum + s.count, 0);
+  const positiveFeedback = feedbackStats.find(s => s.rating === 'positive')?.count || 0;
+  const negativeFeedback = feedbackStats.find(s => s.rating === 'negative')?.count || 0;
+
+  const activePremium = db.prepare(`SELECT COUNT(*) as c FROM premium_sessions WHERE active = 1`).get().c;
+  const activePromos = db.prepare(`SELECT COUNT(*) as c FROM promo_redemptions WHERE expires_at > datetime('now')`).get().c;
+
+  // Token usage today
+  const tokensToday = db.prepare(`SELECT COALESCE(SUM(total_tokens), 0) as t FROM api_usage WHERE created_at >= date('now')`).get().t;
+  const tokensMonth = db.prepare(`SELECT COALESCE(SUM(total_tokens), 0) as t FROM api_usage WHERE created_at >= date('now', '-30 days')`).get().t;
+
+  // Estimated cost (GPT-4o: ~$2.50/1M input, ~$10/1M output — simplified ~$5/1M avg)
+  const costToday = (tokensToday / 1000000 * 5).toFixed(2);
+  const costMonth = (tokensMonth / 1000000 * 5).toFixed(2);
+
+  res.json({
+    scans: { today: scansToday, week: scansWeek, total: scansTotal },
+    users: { today: uniqueToday, total: uniqueTotal },
+    feedback: { total: totalFeedback, positive: positiveFeedback, negative: negativeFeedback, satisfaction: totalFeedback > 0 ? Math.round(positiveFeedback / totalFeedback * 100) : 0 },
+    premium: { active: activePremium, promos: activePromos },
+    tokens: { today: tokensToday, month: tokensMonth, costToday, costMonth },
+  });
+});
+
+// ── Scan statistics over time ──
+app.get('/api/admin/stats/scans', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const days = Math.min(parseInt(req.query.days) || 30, 90);
+  const rows = db.prepare(`
+    SELECT date(scanned_at) as day, COUNT(*) as scans, COUNT(DISTINCT ip) as users
+    FROM scan_log
+    WHERE scanned_at >= date('now', '-' || ? || ' days')
+    GROUP BY date(scanned_at)
+    ORDER BY day
+  `).all(days);
+  res.json({ days, data: rows });
+});
+
+// ── Top diagnoses ──
+app.get('/api/admin/stats/diagnoses', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const rows = db.prepare(`
+    SELECT diagnosis, COUNT(*) as count,
+           ROUND(AVG(confidence), 2) as avg_confidence,
+           SUM(CASE WHEN rating = 'positive' THEN 1 ELSE 0 END) as positive,
+           SUM(CASE WHEN rating = 'negative' THEN 1 ELSE 0 END) as negative
+    FROM feedback
+    WHERE diagnosis IS NOT NULL AND diagnosis != ''
+    GROUP BY diagnosis
+    ORDER BY count DESC
+    LIMIT 20
+  `).all();
+  res.json(rows);
+});
+
+// ── Substrate & fertilizer distribution ──
+app.get('/api/admin/stats/substrates', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const substrates = db.prepare(`
+    SELECT substrate, COUNT(*) as count FROM feedback
+    WHERE substrate IS NOT NULL AND substrate != ''
+    GROUP BY substrate ORDER BY count DESC
+  `).all();
+  const fertilizers = db.prepare(`
+    SELECT fertilizer, COUNT(*) as count FROM feedback
+    WHERE fertilizer IS NOT NULL AND fertilizer != ''
+    GROUP BY fertilizer ORDER BY count DESC LIMIT 20
+  `).all();
+  res.json({ substrates, fertilizers });
+});
+
+// ── Platform split (PWA vs APK) ──
+app.get('/api/admin/stats/platforms', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const rows = db.prepare(`
+    SELECT platform, COUNT(*) as count, SUM(total_tokens) as tokens
+    FROM api_usage
+    WHERE created_at >= date('now', '-30 days')
+    GROUP BY platform
+  `).all();
+  res.json(rows);
+});
+
+// ── Hourly distribution (when do users scan?) ──
+app.get('/api/admin/stats/hours', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const rows = db.prepare(`
+    SELECT CAST(strftime('%H', created_at) AS INTEGER) as hour, COUNT(*) as count
+    FROM api_usage
+    WHERE created_at >= date('now', '-30 days')
+    GROUP BY hour ORDER BY hour
+  `).all();
+  res.json(rows);
+});
+
+// ── Token usage over time ──
+app.get('/api/admin/stats/tokens', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const days = Math.min(parseInt(req.query.days) || 30, 90);
+  const rows = db.prepare(`
+    SELECT date(created_at) as day,
+           SUM(prompt_tokens) as prompt_tokens,
+           SUM(completion_tokens) as completion_tokens,
+           SUM(total_tokens) as total_tokens,
+           COUNT(*) as requests
+    FROM api_usage
+    WHERE created_at >= date('now', '-' || ? || ' days')
+    GROUP BY date(created_at)
+    ORDER BY day
+  `).all(days);
+  res.json({ days, data: rows });
+});
+
+// ── Promo code management ──
+app.get('/api/admin/promos', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const codes = db.prepare(`SELECT * FROM promo_codes ORDER BY created_at DESC`).all();
+  const redemptions = db.prepare(`
+    SELECT pr.*, pc.days as code_days
+    FROM promo_redemptions pr
+    LEFT JOIN promo_codes pc ON pr.code = pc.code
+    ORDER BY pr.redeemed_at DESC LIMIT 100
+  `).all();
+  res.json({ codes, redemptions });
+});
+
+app.post('/api/admin/promos', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { code, days, maxUses, description } = req.body || {};
+  if (!code || !days) {
+    return res.status(400).json({ error: 'code and days required' });
+  }
+  const cleanCode = code.trim().toUpperCase();
+  try {
+    db.prepare(`INSERT INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`).run(cleanCode, days, maxUses || 9999);
+    res.json({ success: true, code: cleanCode });
+  } catch (err) {
+    res.status(409).json({ error: 'Code already exists' });
+  }
+});
+
+app.post('/api/admin/promos/toggle', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { code, active } = req.body || {};
+  if (!code) return res.status(400).json({ error: 'code required' });
+  db.prepare(`UPDATE promo_codes SET active = ? WHERE code = ?`).run(active ? 1 : 0, code);
+  res.json({ success: true });
+});
+
+// ── Premium sessions overview ──
+app.get('/api/admin/premium', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const active = db.prepare(`SELECT id, plan, stripe_customer_id, created_at FROM premium_sessions WHERE active = 1 ORDER BY created_at DESC`).all();
+  const cancelled = db.prepare(`SELECT id, plan, stripe_customer_id, created_at FROM premium_sessions WHERE active = 0 ORDER BY created_at DESC LIMIT 50`).all();
+  res.json({ active, cancelled });
+});
+
+// ── Manually grant premium (for testers/influencers) ──
+app.post('/api/admin/premium/grant', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { days, note } = req.body || {};
+  if (!days) return res.status(400).json({ error: 'days required' });
+
+  // Create a promo code for manual grant
+  const code = 'ADMIN-' + crypto.randomBytes(4).toString('hex').toUpperCase();
+  db.prepare(`INSERT INTO promo_codes (code, days, max_uses) VALUES (?, ?, 1)`).run(code, days);
+  res.json({ success: true, code, days, note: `Give this code to the user: ${code}` });
+});
+
+// ── IP Blacklist management ──
+app.get('/api/admin/blacklist', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const list = db.prepare(`SELECT * FROM ip_blacklist ORDER BY created_at DESC`).all();
+  res.json(list);
+});
+
+app.post('/api/admin/blacklist', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { ip, reason } = req.body || {};
+  if (!ip) return res.status(400).json({ error: 'ip required' });
+  try {
+    db.prepare(`INSERT OR IGNORE INTO ip_blacklist (ip, reason) VALUES (?, ?)`).run(ip, reason || '');
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/blacklist', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { ip } = req.body || {};
+  if (!ip) return res.status(400).json({ error: 'ip required' });
+  db.prepare(`DELETE FROM ip_blacklist WHERE ip = ?`).run(ip);
+  res.json({ success: true });
+});
+
+// ── Rate limit hits tracking ──
+app.get('/api/admin/stats/ratelimits', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  // Return current in-memory rate limit state
+  const entries = [];
+  for (const [ip, count] of ipRequestCounts.entries()) {
+    if (count > 5) entries.push({ ip, requests: count });
+  }
+  entries.sort((a, b) => b.requests - a.requests);
+  res.json(entries);
+});
+
+// ── Disk usage (feedback images) ──
+app.get('/api/admin/stats/disk', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  try {
+    const files = fs.readdirSync(feedbackImagesDir);
+    let totalSize = 0;
+    for (const f of files) {
+      try {
+        totalSize += fs.statSync(path.join(feedbackImagesDir, f)).size;
+      } catch (e) {}
+    }
+    const dbSize = fs.statSync(dbPath).size;
+    res.json({
+      feedbackImages: { count: files.length, sizeBytes: totalSize, sizeMB: (totalSize / 1048576).toFixed(2) },
+      database: { sizeBytes: dbSize, sizeMB: (dbSize / 1048576).toFixed(2) },
+    });
+  } catch (err) {
+    res.json({ feedbackImages: { count: 0, sizeBytes: 0, sizeMB: '0' }, database: { sizeBytes: 0, sizeMB: '0' } });
+  }
+});
+
+// ── Serve admin dashboard ──
+app.get('/api/admin/board', (req, res) => {
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    return res.status(403).send('Unauthorized');
+  }
+  res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
 // ── Health check ──
