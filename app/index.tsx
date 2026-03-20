@@ -251,9 +251,8 @@ export default function HomeScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
 
-          {/* Center: Title + Flow — takes all available space, centered */}
+          {/* Hero: Brand + Value Prop */}
           <View style={styles.centerArea}>
-            {/* Orbiting glow particles (web only) */}
             {Platform.OS === 'web' && <View style={styles.logoGlow} />}
             {Platform.OS === 'web' && <View style={styles.logoGlowWarm} />}
             {Platform.OS === 'web' && <View style={styles.orbitDot} />}
@@ -278,26 +277,9 @@ export default function HomeScreen() {
 
             <Text style={styles.tagline}>Scan it. Fix it.</Text>
 
-            <View style={styles.flowRow}>
-              <View style={styles.flowChip}>
-                <Text style={styles.flowIcon}>📸</Text>
-                <Text style={styles.flowStep}>Foto</Text>
-              </View>
-              <Text style={styles.flowArrow}>→</Text>
-              <View style={styles.flowChip}>
-                <Text style={styles.flowIcon}>🔬</Text>
-                <Text style={styles.flowStep}>Analyse</Text>
-              </View>
-              <Text style={styles.flowArrow}>→</Text>
-              <View style={styles.flowChip}>
-                <Text style={styles.flowIcon}>✅</Text>
-                <Text style={styles.flowStep}>Aktion</Text>
-              </View>
-            </View>
-
-            <TouchableOpacity onPress={() => setShowInfo(true)} style={styles.infoLink}>
-              <Text style={styles.infoLinkText}>Wie funktioniert's?</Text>
-            </TouchableOpacity>
+            <Text style={styles.valueProp}>
+              Foto machen — sofort wissen was fehlt.
+            </Text>
 
             {quotaText ? (
               <TouchableOpacity
@@ -312,78 +294,58 @@ export default function HomeScreen() {
             ) : null}
           </View>
 
-          {/* Buttons */}
+          {/* CTA Area — Primary action dominates */}
           <View style={styles.buttons}>
             {isWeb ? (
-              <>
-                <div
-                  className="cd-btn-primary"
-                  onClick={startDiagnosis}
-                  style={{ padding: '14px 24px', textAlign: 'center' } as any}
-                >
-                  <Text style={styles.primaryBtnText}>Diagnose starten</Text>
-                </div>
-                <View style={styles.secondaryRow}>
-                  <div
-                    className="cd-btn-secondary"
-                    onClick={() => router.push('/plants')}
-                    style={{ padding: '12px 16px', textAlign: 'center', flex: 1 } as any}
-                  >
-                    <Text style={styles.secondaryBtnText}>Meine Pflanzen</Text>
-                  </div>
-                  <div
-                    className="cd-btn-secondary"
-                    onClick={() => router.push('/history')}
-                    style={{ padding: '12px 16px', textAlign: 'center', flex: 1 } as any}
-                  >
-                    <Text style={styles.secondaryBtnText}>Verlauf</Text>
-                  </div>
-                </View>
-                <div
-                  className="cd-btn-secondary"
-                  onClick={() => router.push('/library')}
-                  style={{ padding: '12px 16px', textAlign: 'center' } as any}
-                >
-                  <Text style={styles.secondaryBtnText}>Bibliothek</Text>
-                </div>
-              </>
+              <div
+                className="cd-btn-primary"
+                onClick={startDiagnosis}
+                style={{ padding: '18px 24px', textAlign: 'center' } as any}
+              >
+                <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+              </div>
             ) : (
-              <>
-                <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
-                  <LinearGradient
-                    colors={['#5AEF90', '#4ADE80', '#3CC870']}
-                    start={{ x: 0.5, y: 0 }}
-                    end={{ x: 0.5, y: 1 }}
-                    style={styles.nativePrimaryBtn}
-                  >
-                    <Text style={styles.primaryBtnText}>Diagnose starten</Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-                <View style={styles.secondaryRow}>
-                  <TouchableOpacity
-                    style={[styles.nativeSecondaryBtn, { flex: 1 }]}
-                    onPress={() => router.push('/plants')}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.secondaryBtnText}>Meine Pflanzen</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.nativeSecondaryBtn, { flex: 1 }]}
-                    onPress={() => router.push('/history')}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.secondaryBtnText}>Verlauf</Text>
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                  style={styles.nativeSecondaryBtn}
-                  onPress={() => router.push('/library')}
-                  activeOpacity={0.7}
+              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
+                <LinearGradient
+                  colors={['#6AF09E', '#5CE892', '#44C878']}
+                  start={{ x: 0.5, y: 0 }}
+                  end={{ x: 0.5, y: 1 }}
+                  style={styles.nativePrimaryBtn}
                 >
-                  <Text style={styles.secondaryBtnText}>Bibliothek</Text>
-                </TouchableOpacity>
-              </>
+                  <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             )}
+            <Text style={styles.ctaSubtext}>Kostenlos — kein Account noetig</Text>
+
+            {/* Secondary nav — compact, less visual weight */}
+            <View style={styles.navRow}>
+              {isWeb ? (
+                <>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/plants')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Pflanzen</Text>
+                  </div>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/history')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Verlauf</Text>
+                  </div>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/library')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Bibliothek</Text>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/plants')} activeOpacity={0.7}>
+                    <Text style={styles.navBtnText}>Pflanzen</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/history')} activeOpacity={0.7}>
+                    <Text style={styles.navBtnText}>Verlauf</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/library')} activeOpacity={0.7}>
+                    <Text style={styles.navBtnText}>Bibliothek</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
           </View>
 
           {/* Install banner — PWA or APK download for Android web users */}
@@ -616,51 +578,39 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '45deg' }],
     opacity: 0.4,
   },
-  flowRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  flowChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: 'rgba(92,232,146,0.04)',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.08)',
-  },
-  flowIcon: {
-    fontSize: 12,
-  },
-  flowStep: {
-    fontSize: 10,
-    fontWeight: '600',
-    color: colors.textSecondary,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
-  flowArrow: {
-    fontSize: 11,
-    color: colors.accentDotMuted,
-    fontWeight: '400',
-  },
-  infoLink: {
-    marginTop: 24,
-    paddingVertical: 8,
-    paddingHorizontal: 22,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.08)',
-    backgroundColor: 'rgba(92,232,146,0.03)',
-  },
-  infoLinkText: {
+  ctaSubtext: {
     fontSize: 12,
     color: colors.textMuted,
+    textAlign: 'center',
+    marginTop: 10,
+    letterSpacing: 0.3,
+  },
+  navRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 12,
+  },
+  navBtn: {
+    borderRadius: 12,
+    paddingVertical: 11,
+    alignItems: 'center',
+    backgroundColor: 'rgba(15,23,19,0.5)',
+    borderWidth: 1,
+    borderColor: 'rgba(92,232,146,0.06)',
+  },
+  navBtnText: {
+    color: colors.textMuted,
+    fontSize: 13,
     fontWeight: '500',
-    letterSpacing: 0.8,
+    letterSpacing: 0.3,
+  },
+  valueProp: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 22,
+    marginTop: 4,
+    letterSpacing: 0.3,
   },
 
   // Quota badge
@@ -795,12 +745,12 @@ const styles = StyleSheet.create({
     }),
   },
   nativeSecondaryBtn: {
-    borderRadius: 14,
-    paddingVertical: 13,
+    borderRadius: 12,
+    paddingVertical: 11,
     alignItems: 'center',
     backgroundColor: 'rgba(15,23,19,0.5)',
     borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.08)',
+    borderColor: 'rgba(92,232,146,0.06)',
   },
   primaryBtnText: {
     color: colors.textOnAccent,
@@ -809,10 +759,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   secondaryBtnText: {
-    color: colors.textSecondary,
-    fontSize: 14,
+    color: colors.textMuted,
+    fontSize: 13,
     fontWeight: '500',
-    letterSpacing: 0.4,
+    letterSpacing: 0.3,
   },
 
   // Modal
