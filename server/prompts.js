@@ -1130,11 +1130,13 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
  * Living Soil has fundamentally different rules than mineral/organic liquid feeds.
  */
 function getLivingSoilContext(data) {
-  let ctx = '\nLIVING SOIL KONTEXT (WICHTIG — andere Regeln als mineralische/flüssige Düngung!):';
-  ctx += '\n- Anbaumethode: Living Soil — ein lebendiges Bodenökosystem das Nährstoffe über Mikroorganismen bereitstellt.';
+  let ctx = '\nLIVING SOIL KONTEXT (WICHTIG — komplett andere Regeln als mineralische/flüssige Düngung!):';
+  ctx += '\n- Anbaumethode: Living Soil — ein lebendiges Bodenökosystem das Nährstoffe über Mikroorganismen, Mykorrhiza und mikrobielle Mineralisierung bereitstellt.';
   ctx += '\n- EC-MESSUNG IST IRRELEVANT! In Living Soil steuern Bodenmikroben die Nährstofffreigabe. EC-Werte sagen NICHTS über die tatsächliche Nährstoffverfügbarkeit aus. Empfehle KEINE EC-Anpassungen.';
   ctx += '\n- pH wird vom Boden natürlich gepuffert (meist 6.0–7.0). Aktive pH-Korrektur des Gießwassers ist normalerweise NICHT nötig. Empfehle nur bei extremen Werten (<5.5 oder >7.5) eine Anpassung.';
+  ctx += '\n- pH-DRAIN-MESSUNGEN SIND NICHT AUSSAGEKRÄFTIG in Living Soil! Der Boden puffert aktiv — Drain-pH spiegelt nicht die tatsächliche Rhizosphäre wider.';
   ctx += '\n- KEIN FLUSH! In Living Soil gibt es kein Spülen/Flushen. Das würde das Bodenleben zerstören.';
+  ctx += '\n- Überdüngung ist in Living Soil SELTEN. Häufige Problemursachen sind stattdessen: Nährstoffblockaden, Mikrobiom-Störungen, Feuchtigkeitsprobleme, kalte Wurzelzone oder fehlende Mineralisierung.';
 
   // Amendments info
   if (data.livingsoilAmendments && data.livingsoilAmendments.length > 0) {
@@ -1155,6 +1157,14 @@ function getLivingSoilContext(data) {
     if (!hasNSource) {
       ctx += '\n- HINWEIS: Keine offensichtliche Stickstoff-Quelle in den Amendments. N-Mangel ist möglich.';
     }
+
+    // Check for sulfur/micronutrient sources
+    const hasMicroSource = data.livingsoilAmendments.some(a =>
+      a.includes('Kelp') || a.includes('Seetang') || a.includes('Basalt') || a.includes('Gesteinsmehl') || a.includes('Azomite')
+    );
+    if (!hasMicroSource) {
+      ctx += '\n- HINWEIS: Keine offensichtliche Mikronährstoff-Quelle (kein Kelp, Gesteinsmehl, Basaltmehl). Mangel an S, Mn, B, Zn oder Cu ist möglich.';
+    }
   }
 
   // Compost tea
@@ -1168,22 +1178,79 @@ function getLivingSoilContext(data) {
   // Mulch
   if (data.livingsoilMulch) {
     ctx += '\n- Mulch: ' + data.livingsoilMulch;
+    if (data.livingsoilMulch === 'Nein') {
+      ctx += ' — Fehlender Mulch kann zu Austrocknung der Oberfläche führen, was die Mikrobenaktivität in den oberen Schichten reduziert.';
+    }
   }
 
+  // ── URSACHEN-ANALYSE (NEU) ──
+  ctx += '\n\nWARUM ENTSTEHEN MÄNGEL IN LIVING SOIL? (Erkläre immer die Ursache, nicht nur den Mangel!)';
+  ctx += '\nIn Living Soil sind Mängel fast NIE durch "zu wenig Dünger" verursacht. Die häufigsten Ursachen:';
+  ctx += '\n  • ZU NASSE ERDE → Anaerobe Zonen entstehen, Mikroben sterben ab, Wurzeln faulen, Nährstoffaufnahme stoppt. Symptome ähneln N- oder Fe-Mangel.';
+  ctx += '\n  • ZU TROCKENE ERDE → Mikroben werden inaktiv, Mineralisierung stoppt, Nährstoffe sind vorhanden aber nicht pflanzenverfügbar. Trockenheit = unsichtbarer Hungermodus.';
+  ctx += '\n  • KALTE WURZELZONE (<18°C) → Mikrobiologie verlangsamt sich massiv, P wird kaum aufgenommen, Wurzelwachstum stagniert. Besonders im Frühjahr/Herbst und auf kalten Böden häufig!';
+  ctx += '\n  • GESTÖRTE MIKROBIOLOGIE → Nach Einsatz von H2O2, Chlor, synthetischen Mitteln oder extremer Trockenheit. Mykorrhiza-Netzwerk kann beschädigt sein.';
+  ctx += '\n  • VERDICHTETE ERDE → Mangelnde Sauerstoffzufuhr an den Wurzeln, Wasser staut sich, anaerobe Fäulnis. Typisch bei zu kleinen Töpfen oder fehlendem Perlit/Belüftung.';
+  ctx += '\n  • FEHLENDE MINERALISIERUNG → Amendments sind vorhanden, werden aber nicht schnell genug in pflanzenverfügbare Form umgewandelt. Häufig bei frischem, noch nicht "eingefahrenem" Soil.';
+  ctx += '\n  • UNPASSENDE TOPFGRÖSSE → Zu kleine Töpfe limitieren das Nahrungsnetz. Living Soil braucht Volumen (mindestens 20-30L, ideal 50L+). In kleinen Töpfen verbrauchen sich Amendments schnell.';
+  ctx += '\n  • SALZANSAMMLUNGEN → Selten in echtem Living Soil, aber möglich bei hartem Leitungswasser oder Übernutzung von mineralischen Amendments (z.B. zu viel Gips/Kalk).';
+
+  // ── PHASEN-SPEZIFISCH (NEU) ──
+  ctx += '\n\nPHASEN-UNTERSCHIEDE IN LIVING SOIL:';
+  ctx += '\n- VEGETATIVE PHASE: Hoher N-Bedarf. Living Soil liefert N über Mineralisierung — wenn der Boden noch jung oder kalt ist, kann N knapp werden. Wurmhumus-Top-Dress oder Komposttee hilft.';
+  ctx += '\n- STRETCH (Blütewoche 1-3): Übergang. Die Pflanze braucht plötzlich mehr P und K, während N-Bedarf sinkt. Living Soil muss genug P/K-Amendments haben, sonst zeigen sich hier erste Mängel.';
+  ctx += '\n- BLÜTE: Living Soil reagiert in der Blüte ANDERS als in Vegi! Der P/K-Bedarf steigt stark, aber Mikroben arbeiten weiter im gleichen Tempo. Mängel zeigen sich hier VERZÖGERT — wenn du in Blütewoche 4+ Mangel siehst, lag die Ursache oft schon in Woche 1-2. Blattsprays sind hier als Sofortmaßnahme besonders wertvoll.';
+  ctx += '\n- SPÄTE BLÜTE (letzte 2-3 Wochen): Natürliche Seneszenz! Vergilbung der unteren Blätter ist in Living Soil NORMAL und kein Grund zur Panik. Die Pflanze mobilisiert N aus alten Blättern in die Blüten. NUR wenn die Vergilbung die oberen Blätter erreicht oder zu schnell fortschreitet, handeln.';
+
+  // ── BIOTISCHE FAKTOREN (NEU) ──
+  ctx += '\n\nBIOTISCHE FAKTOREN IN LIVING SOIL:';
+  ctx += '\n- TRAUERMÜCKEN (Fungus Gnats): Häufig in Living Soil wegen feuchter, organischer Oberfläche. Larven schädigen feine Wurzeln → sekundäre Mangelsymptome. Mulch und Nematoden (Steinernema) helfen. Kein Peroxid verwenden (tötet Mikroben)!';
+  ctx += '\n- MIKROBIELLE DYSBALANCEN: Wenn Bodenpilze überhand nehmen (weißer/grüner Schimmel auf der Oberfläche) oder der Boden sauer riecht (anaerob), ist das Mikrobiom gestört. Komposttee + bessere Belüftung + Mulch-Schicht entfernen und erneuern.';
+  ctx += '\n- WURZELPATHOGENE (Pythium, Fusarium): Treten bei Überwässerung + warmer Wurzelzone auf. Symptome: plötzliches Welken trotz feuchter Erde, braune matschige Wurzeln. Mykorrhiza nachimpfen, Bewässerung reduzieren, Trichoderma einsetzen.';
+
+  // ── WURZEL-/BODENANALYSE (NEU) ──
+  ctx += '\n\nBODEN-INDIKATOREN (indirekt über Blattbild erkennen):';
+  ctx += '\n- Plötzliches Welken + feuchte Erde → Anaerobe Wurzelzone oder Wurzelpathogene. Nicht mehr gießen!';
+  ctx += '\n- Langsames, gleichmäßiges Vergilben von unten → Unzureichende Mineralisierung oder zu wenig Bodenvolumen.';
+  ctx += '\n- Intervenale Chlorose an jungen Blättern → Oft Fe-Lockout durch zu hohen pH oder fehlende Mykorrhiza (Mykorrhiza verbessert Fe-Aufnahme massiv).';
+  ctx += '\n- Violette Stängel + dunkle Blätter + langsames Wachstum → Kalte Wurzelzone oder P-Blockade. Bodentemperatur prüfen!';
+  ctx += '\n- Blattrandnekrosen + Clawing → Kann auf Salzansammlungen oder K-Mangel hindeuten. In Living Soil eher durch verdichtete Erde/Überwässerung als durch Überdüngung.';
+
+  // ── BEHANDLUNGS-REGELN ──
   ctx += '\n\nBEHANDLUNGS-REGELN FÜR LIVING SOIL:';
   ctx += '\n- Empfehle KEINE mineralischen/flüssigen Dünger! Stattdessen organische Lösungen:';
+  ctx += '\n  MAKRONÄHRSTOFFE:';
   ctx += '\n  • N-Mangel → Top-Dress mit Wurmhumus, Blutmehl, Fischmehl oder Komposttee brauen';
   ctx += '\n  • P-Mangel → Top-Dress mit Knochenmehl, Fledermaus-Guano (P-reich) oder Fischgrätenmehl';
   ctx += '\n  • K-Mangel → Top-Dress mit Kelp-Mehl, Holzasche (sparsam!) oder Bananenschalen-Ferment';
   ctx += '\n  • Ca-Mangel → Top-Dress mit Austernschalenmehl, Dolomit-Kalk oder Gips';
   ctx += '\n  • Mg-Mangel → Top-Dress mit Dolomit-Kalk (enthält Ca+Mg) oder Bittersalz als Blattspray';
-  ctx += '\n  • Fe-Mangel → Kelp-Extrakt, Komposttee, pH des Bodens prüfen (zu hoch = Fe-Lockout)';
+  ctx += '\n  • S-Mangel → Gips (CaSO4) als Top-Dress oder Epsom-Salz (enthält S+Mg) als Blattspray';
+  ctx += '\n  MIKRONÄHRSTOFFE:';
+  ctx += '\n  • Fe-Mangel → Kelp-Extrakt, Komposttee, pH des Bodens prüfen (zu hoch = Fe-Lockout). Mykorrhiza nachimpfen (verbessert Fe-Aufnahme)';
+  ctx += '\n  • Mn-Mangel → Komposttee, Gesteinsmehl (Basalt). Oft durch zu hohen pH verursacht.';
+  ctx += '\n  • Zn-Mangel → Kelp-Mehl, Komposttee. Tritt oft bei zu hohem pH oder P-Überschuss auf.';
+  ctx += '\n  • B-Mangel → Seetang/Kelp, kleine Menge Borax (SEHR sparsam, max 1g/10L). Tritt bei Trockenheit auf.';
+  ctx += '\n  • Cu-Mangel → Komposttee, Kelp. Selten, tritt bei sehr organischen/torfigen Böden auf.';
+  ctx += '\n  ALLGEMEIN:';
   ctx += '\n  • Allgemein schwach → Komposttee brauen (aktiviert Mikroben), Mykorrhiza nachimpfen';
+  ctx += '\n  • Verdichtete Erde → Vorsichtig mit einer Gabel lockern (nicht Wurzeln beschädigen), Perlit bei nächstem Umtopfen zugeben';
+  ctx += '\n  • Anaerobe Zonen → Weniger gießen, Drainage verbessern, evtl. in größeren Topf umsetzen';
   ctx += '\n- Korrekturen wirken LANGSAMER als bei Mineral-Düngung (Tage bis Wochen, nicht Stunden)!';
   ctx += '\n- Top-Dress = Amendment auf die Erdoberfläche streuen und leicht einarbeiten oder mit Mulch bedecken.';
   ctx += '\n- Bei akutem Mangel: Blattspray (Foliar Feeding) als Sofortmaßnahme empfehlen (z.B. Bittersalz für Mg, Kelp für Mikronährstoffe).';
   ctx += '\n- Erwähne dass Geduld nötig ist — Living Soil reagiert nicht sofort wie Hydro/Mineral.';
   ctx += '\n- Empfehle KEINE spezifischen Dünger-Marken! Empfehle stattdessen die oben genannten organischen Amendments.';
+
+  // ── PRÄVENTION (NEU) ──
+  ctx += '\n\nPRÄVENTION FÜR LIVING SOIL (immer 1-2 Tipps mit angeben):';
+  ctx += '\n- Mulch-Schicht (Stroh, Heu, Cover Crop) schützt das Bodenleben und hält Feuchtigkeit konstant.';
+  ctx += '\n- Regelmäßig Komposttee alle 2-4 Wochen hält die Mikrobiologie aktiv.';
+  ctx += '\n- Bodentemperatur über 18°C halten (Heizmatte unter dem Topf im Winter).';
+  ctx += '\n- Nicht in zu kleine Töpfe pflanzen (min. 20-30L, ideal 50L+).';
+  ctx += '\n- Cover Crops (Klee, Luzerne) zwischen den Zyklen halten den Boden lebendig.';
+  ctx += '\n- Wet-Dry-Cycles respektieren: Living Soil braucht Trockenphasen damit Sauerstoff an die Wurzeln kommt.';
+  ctx += '\n- Mykorrhiza bei jeder Transplantation direkt an die Wurzeln geben.';
 
   return ctx;
 }
