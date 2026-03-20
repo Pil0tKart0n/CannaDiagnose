@@ -31,17 +31,21 @@ const webCSS = Platform.OS === 'web' ? `
     content: '';
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(92,232,146,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 15% 15%, rgba(56,217,176,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse 35% 35% at 85% 30%, rgba(212,168,83,0.04) 0%, transparent 50%);
+      radial-gradient(ellipse 60% 45% at 50% 50%, rgba(92,232,146,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(92,232,146,0.07) 0%, transparent 55%),
+      radial-gradient(ellipse 45% 35% at 10% 20%, rgba(56,217,176,0.035) 0%, transparent 50%),
+      radial-gradient(ellipse 30% 30% at 90% 25%, rgba(212,168,83,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.4) 100%);
     animation: cd-bg-breathe 8s ease-in-out infinite;
   }
   .cd-screen::after {
     content: '';
     position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2340E880' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.4;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+    opacity: 1;
     pointer-events: none;
+    mix-blend-mode: overlay;
   }
   @keyframes cd-bg-breathe {
     0%, 100% { opacity: 1; }
