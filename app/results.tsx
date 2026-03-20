@@ -13,6 +13,7 @@ import { shareDiagnosis } from '../services/export';
 import { refineDiagnosis, validateDiagnosisResult, cachedReadAsBase64 } from '../services/claude';
 import { getFertilizerNames } from '../constants/fertilizers';
 import { updateEntry } from '../services/storage';
+import { trackEvent } from '../services/analytics';
 
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
@@ -657,6 +658,7 @@ export default function ResultsScreen() {
               style={[styles.feedbackBtn, feedback === 'positive' && styles.feedbackBtnActive]}
               onPress={() => {
                 setFeedback('positive');
+                trackEvent('feedback_given', { rating: 'positive' });
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'positive' });
                 sendFeedbackToServer('positive', displayResult, questionnaire);
               }}
@@ -668,6 +670,7 @@ export default function ResultsScreen() {
               style={[styles.feedbackBtn, feedback === 'negative' && styles.feedbackBtnNegative]}
               onPress={() => {
                 setFeedback('negative');
+                trackEvent('feedback_given', { rating: 'negative' });
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'negative' });
                 sendFeedbackToServer('negative', displayResult, questionnaire, displayImages);
               }}

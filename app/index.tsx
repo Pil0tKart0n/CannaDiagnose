@@ -16,6 +16,7 @@ import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota';
 import { hasCompletedOnboarding } from './onboarding';
+import { trackEvent } from '../services/analytics';
 
 const webCSS = Platform.OS === 'web' ? `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
@@ -141,6 +142,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     injectCSS();
+    trackEvent('page_home');
 
     // PWA install prompt (Android Chrome)
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -276,10 +278,6 @@ export default function HomeScreen() {
             </View>
 
             <Text style={styles.tagline}>Scan it. Fix it.</Text>
-
-            <Text style={styles.valueProp}>
-              Foto machen — sofort wissen was fehlt.
-            </Text>
 
             {quotaText ? (
               <TouchableOpacity

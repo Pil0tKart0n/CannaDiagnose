@@ -10,6 +10,7 @@ import { getPlant } from '../services/storage';
 import { canScan } from '../services/quota';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
+import { trackEvent } from '../services/analytics';
 
 const loadingTexts = [
   'Analysiere Blattstruktur...',
@@ -91,6 +92,7 @@ export default function AnalyzingScreen() {
     }
 
     try {
+      trackEvent('scan_start');
       const allUris = imageUris.length > 0 ? imageUris : (imageUri ? [imageUri] : []);
       // Use pre-optimized images if available (optimized in background during questionnaire)
       const preOptimized = optimizedImageUris.length === allUris.length ? optimizedImageUris : [];
@@ -145,6 +147,7 @@ export default function AnalyzingScreen() {
       // Free cached base64 data from memory
       clearImageCache();
 
+      trackEvent('scan_complete', { diagnosis: diagResult.primaryDiagnosis?.substring(0, 50), severity: diagResult.severity });
       setResult(diagResult);
       const entryId = Date.now().toString();
       await saveEntry({

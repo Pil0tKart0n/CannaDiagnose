@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
-import { View, StyleSheet, Platform, Linking, Alert } from 'react-native';
+import { View, Text, StyleSheet, Platform, Linking, Alert, TouchableOpacity } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
@@ -71,6 +71,7 @@ export function useDiagnosis() {
 }
 
 export default function RootLayout() {
+  const [announcement, setAnnouncement] = useState<{ message: string; type: string } | null>(null);
   const [imageUris, setImageUrisState] = useState<string[]>([]);
   const [optimizedImageUris, setOptimizedImageUris] = useState<string[]>([]);
   const [questionnaire, setQuestionnaire] = useState<QuestionnaireData>({ ...emptyQuestionnaire });
@@ -178,6 +179,12 @@ export default function RootLayout() {
       (globalThis as any).__deepLinkCleanup = cleanupDeepLink;
     }
 
+    // Check for active announcement
+    const announcementUrl = Platform.OS === 'web' ? '/api/announcement' : `${process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de'}/api/announcement`;
+    fetch(announcementUrl).then(r => r.ok ? r.json() : null).then(data => {
+      if (data?.message) setAnnouncement(data);
+    }).catch(() => {});
+
     // Non-critical: run in background without blocking splash
     initReferenceImages().catch((err) =>
       console.log('[LeafScan] initReferenceImages error:', err)
@@ -253,6 +260,14 @@ export default function RootLayout() {
       }}
     >
       <StatusBar style="light" />
+      {announcement && (
+        <View style={[rootStyles.banner, announcement.type === 'warning' ? rootStyles.bannerWarning : announcement.type === 'success' ? rootStyles.bannerSuccess : rootStyles.bannerInfo]}>
+          <Text style={rootStyles.bannerText}>{announcement.message}</Text>
+          <TouchableOpacity onPress={() => setAnnouncement(null)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+            <Text style={rootStyles.bannerClose}>✕</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: colors.background },
@@ -292,4 +307,16 @@ const rootStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
+  banner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    gap: 10,
+  },
+  bannerInfo: { backgroundColor: '#1565C0' },
+  bannerWarning: { backgroundColor: '#E65100' },
+  bannerSuccess: { backgroundColor: '#2E7D32' },
+  bannerText: { flex: 1, color: '#fff', fontSize: 13, fontWeight: '500' },
+  bannerClose: { color: 'rgba(255,255,255,0.7)', fontSize: 16, fontWeight: '700' },
 });

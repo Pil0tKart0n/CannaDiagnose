@@ -9,10 +9,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
+import { trackEvent } from '../services/analytics';
 
 const MAX_PHOTOS = 1;
 
 export default function CameraScreen() {
+  trackEvent('camera_open');
   const router = useRouter();
   const { setImageUris } = useDiagnosis();
   const [photos, setPhotos] = useState<string[]>([]);

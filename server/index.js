@@ -150,6 +150,37 @@ try {
   `);
 } catch (e) {}
 
+// Migration: events table for funnel tracking
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      event TEXT NOT NULL,
+      ip TEXT,
+      device_id TEXT DEFAULT '',
+      platform TEXT DEFAULT 'unknown',
+      meta TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_events_event ON events(event);
+    CREATE INDEX IF NOT EXISTS idx_events_date ON events(created_at);
+    CREATE INDEX IF NOT EXISTS idx_events_ip ON events(ip);
+  `);
+} catch (e) {}
+
+// Migration: announcements table
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS announcements (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      message TEXT NOT NULL,
+      type TEXT NOT NULL DEFAULT 'info',
+      active INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+  `);
+} catch (e) {}
+
 // Ensure feedback_images directory exists
 const feedbackImagesDir = path.join(__dirname, 'data', 'feedback_images');
 fs.mkdirSync(feedbackImagesDir, { recursive: true });
@@ -213,6 +244,8 @@ const stmtInsertUsage = db.prepare(`
   INSERT INTO api_usage (ip, mode, model, prompt_tokens, completion_tokens, total_tokens, is_premium, platform)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 `);
+
+const stmtInsertEvent = db.prepare(`INSERT INTO events (event, ip, device_id, platform, meta) VALUES (?, ?, ?, ?, ?)`);
 
 // Seed default promo codes (only if they don't exist yet)
 const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`);
@@ -1080,6 +1113,27 @@ app.get('/api/admin/feedback-image/:filename', (req, res) => {
   }
 });
 
+// ── Event tracking (for funnel analytics) ──
+app.post('/api/event', rateLimit, (req, res) => {
+  const { event, meta } = req.body || {};
+  if (!event || typeof event !== 'string' || event.length > 50) {
+    return res.status(400).json({ error: 'invalid event' });
+  }
+  const ip = getClientIP(req);
+  const deviceId = req.headers['x-device-id'] || '';
+  const platform = req.headers['origin'] ? 'pwa' : 'apk';
+  try {
+    stmtInsertEvent.run(event, ip, deviceId, platform, meta ? JSON.stringify(meta).substring(0, 500) : null);
+  } catch (e) {}
+  res.json({ ok: true });
+});
+
+// ── Active announcement (public) ──
+app.get('/api/announcement', (req, res) => {
+  const row = db.prepare(`SELECT id, message, type FROM announcements WHERE active = 1 ORDER BY id DESC LIMIT 1`).get();
+  res.json(row || null);
+});
+
 // ══════════════════════════════════════════════════════════════════
 // ██  ADMIN DASHBOARD API                                        ██
 // ══════════════════════════════════════════════════════════════════
@@ -1341,6 +1395,270 @@ app.get('/api/admin/board', (req, res) => {
     return res.status(403).send('Unauthorized');
   }
   res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// ── Funnel tracking ──
+app.get('/api/admin/stats/funnel', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const days = Math.min(parseInt(req.query.days) || 7, 90);
+
+  const events = db.prepare(`
+    SELECT event, COUNT(*) as count, COUNT(DISTINCT ip) as unique_users
+    FROM events
+    WHERE created_at >= date('now', '-' || ? || ' days')
+    GROUP BY event
+    ORDER BY count DESC
+  `).all(days);
+
+  // Build funnel: page_home -> camera_open -> scan_start -> scan_complete -> feedback -> paywall_view -> purchase
+  const funnelOrder = ['page_home', 'camera_open', 'scan_start', 'scan_complete', 'feedback_given', 'paywall_view', 'purchase_complete'];
+  const funnel = funnelOrder.map(step => {
+    const found = events.find(e => e.event === step);
+    return { step, count: found?.count || 0, unique: found?.unique_users || 0 };
+  });
+
+  res.json({ days, funnel, allEvents: events });
+});
+
+// ── Retention (returning users) ──
+app.get('/api/admin/stats/retention', (req, res) => {
+  if (!adminAuth(req, res)) return;
+
+  // Users who scanned on more than one distinct day
+  const returning = db.prepare(`
+    SELECT ip, COUNT(DISTINCT date(scanned_at)) as days_active,
+           MIN(scanned_at) as first_scan, MAX(scanned_at) as last_scan
+    FROM scan_log
+    GROUP BY ip
+    HAVING days_active > 1
+    ORDER BY days_active DESC
+    LIMIT 50
+  `).all();
+
+  // Weekly cohorts: for each week, how many unique users scanned
+  const weekly = db.prepare(`
+    SELECT strftime('%Y-W%W', scanned_at) as week,
+           COUNT(DISTINCT ip) as users, COUNT(*) as scans
+    FROM scan_log
+    WHERE scanned_at >= date('now', '-90 days')
+    GROUP BY week ORDER BY week
+  `).all();
+
+  // Total unique users and returning ratio
+  const totalUnique = db.prepare(`SELECT COUNT(DISTINCT ip) as c FROM scan_log`).get()?.c || 0;
+  const returningCount = returning.length;
+
+  res.json({ totalUnique, returningCount, returningRate: totalUnique > 0 ? Math.round(returningCount / totalUnique * 100) : 0, returning, weekly });
+});
+
+// ── Diagnosis trends (seasonal/monthly) ──
+app.get('/api/admin/stats/diagnosis-trends', (req, res) => {
+  if (!adminAuth(req, res)) return;
+
+  const rows = db.prepare(`
+    SELECT strftime('%Y-%m', created_at) as month, diagnosis, COUNT(*) as count
+    FROM feedback
+    WHERE diagnosis IS NOT NULL AND diagnosis != '' AND created_at >= date('now', '-12 months')
+    GROUP BY month, diagnosis
+    ORDER BY month, count DESC
+  `).all();
+
+  res.json(rows);
+});
+
+// ── Confidence tracking ──
+app.get('/api/admin/stats/confidence', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const days = Math.min(parseInt(req.query.days) || 30, 90);
+
+  const rows = db.prepare(`
+    SELECT date(created_at) as day,
+           ROUND(AVG(confidence), 3) as avg_confidence,
+           MIN(confidence) as min_confidence,
+           MAX(confidence) as max_confidence,
+           COUNT(*) as count
+    FROM feedback
+    WHERE confidence IS NOT NULL AND created_at >= date('now', '-' || ? || ' days')
+    GROUP BY day ORDER BY day
+  `).all(days);
+
+  res.json({ days, data: rows });
+});
+
+// ── Live feed (recent scans) ──
+app.get('/api/admin/stats/livefeed', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const limit = Math.min(parseInt(req.query.limit) || 20, 100);
+
+  // Combine scan_log with feedback for recent activity
+  const scans = db.prepare(`
+    SELECT sl.ip, sl.scanned_at,
+           f.diagnosis, f.severity, f.confidence, f.substrate, f.rating,
+           au.mode, au.total_tokens, au.platform
+    FROM scan_log sl
+    LEFT JOIN feedback f ON f.created_at BETWEEN datetime(sl.scanned_at, '-2 minutes') AND datetime(sl.scanned_at, '+2 minutes')
+    LEFT JOIN api_usage au ON au.created_at BETWEEN datetime(sl.scanned_at, '-1 minutes') AND datetime(sl.scanned_at, '+1 minutes') AND au.ip = sl.ip
+    ORDER BY sl.scanned_at DESC
+    LIMIT ?
+  `).all(limit);
+
+  res.json(scans);
+});
+
+// ── Recheck diagnosis (re-run with current prompt) ──
+app.post('/api/admin/recheck', express.json({ limit: '30mb' }), async (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { feedbackId } = req.body || {};
+  if (!feedbackId) return res.status(400).json({ error: 'feedbackId required' });
+
+  // Get the original feedback entry
+  const entry = db.prepare(`SELECT * FROM feedback_detailed WHERE id = ?`).get(feedbackId);
+  if (!entry) return res.status(404).json({ error: 'Feedback entry not found' });
+
+  const diagnosis = entry.diagnosis_json ? JSON.parse(entry.diagnosis_json) : null;
+  const questionnaire = entry.questionnaire_json ? JSON.parse(entry.questionnaire_json) : null;
+  const imagePaths = entry.image_paths ? JSON.parse(entry.image_paths) : [];
+
+  if (imagePaths.length === 0) {
+    return res.status(400).json({ error: 'No images stored for this feedback entry' });
+  }
+
+  // Read images from disk and convert to base64 data URIs
+  const images = [];
+  for (const filename of imagePaths) {
+    const cleanName = filename.replace(/[^a-zA-Z0-9._-]/g, '');
+    const filepath = path.join(feedbackImagesDir, cleanName);
+    if (fs.existsSync(filepath)) {
+      const data = fs.readFileSync(filepath);
+      const ext = cleanName.split('.').pop() || 'jpg';
+      const mimeType = ext === 'png' ? 'image/png' : 'image/jpeg';
+      images.push(`data:${mimeType};base64,${data.toString('base64')}`);
+    }
+  }
+
+  if (images.length === 0) {
+    return res.status(400).json({ error: 'Could not read stored images' });
+  }
+
+  // Re-run diagnosis with current prompt
+  const imageBlocks = images.map(url => ({ type: 'image_url', image_url: { url } }));
+  const userPrompt = questionnaire ? buildUserPrompt(questionnaire) : 'Analysiere diese Cannabis-Pflanze auf Mangelerscheinungen.';
+
+  try {
+    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },
+        ],
+        model: 'gpt-4o',
+        max_tokens: 2048,
+        temperature: 0,
+        response_format: { type: 'json_object' },
+      }),
+    });
+
+    const data = await openaiRes.json();
+    const newDiagnosis = data.choices?.[0]?.message?.content ? JSON.parse(data.choices[0].message.content) : null;
+
+    res.json({
+      feedbackId,
+      originalDiagnosis: diagnosis,
+      newDiagnosis,
+      originalRating: entry.rating,
+      questionnaire,
+      images: imagePaths,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Recheck failed: ' + err.message });
+  }
+});
+
+// ── Announcements management ──
+app.get('/api/admin/announcements', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const rows = db.prepare(`SELECT * FROM announcements ORDER BY id DESC LIMIT 50`).all();
+  res.json(rows);
+});
+
+app.post('/api/admin/announcements', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { message, type } = req.body || {};
+  if (!message) return res.status(400).json({ error: 'message required' });
+  const result = db.prepare(`INSERT INTO announcements (message, type) VALUES (?, ?)`).run(message, type || 'info');
+  res.json({ success: true, id: result.lastInsertRowid });
+});
+
+app.post('/api/admin/announcements/toggle', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { id, active } = req.body || {};
+  if (!id) return res.status(400).json({ error: 'id required' });
+  db.prepare(`UPDATE announcements SET active = ? WHERE id = ?`).run(active ? 1 : 0, id);
+  res.json({ success: true });
+});
+
+app.delete('/api/admin/announcements', express.json(), (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { id } = req.body || {};
+  if (!id) return res.status(400).json({ error: 'id required' });
+  db.prepare(`DELETE FROM announcements WHERE id = ?`).run(id);
+  res.json({ success: true });
+});
+
+// ── Stripe Revenue stats ──
+app.get('/api/admin/stats/revenue', async (req, res) => {
+  if (!adminAuth(req, res)) return;
+
+  try {
+    // Get recent charges from Stripe
+    const now = Math.floor(Date.now() / 1000);
+    const thirtyDaysAgo = now - 30 * 24 * 60 * 60;
+    const sevenDaysAgo = now - 7 * 24 * 60 * 60;
+    const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+    const todayTimestamp = Math.floor(todayStart.getTime() / 1000);
+
+    // Active subscriptions
+    const subs = await stripe.subscriptions.list({ status: 'active', limit: 100 });
+    const mrr = subs.data.reduce((sum, s) => sum + (s.items.data[0]?.price?.unit_amount || 0), 0);
+
+    // Recent charges
+    const charges = await stripe.charges.list({ created: { gte: thirtyDaysAgo }, limit: 100 });
+    const revenueMonth = charges.data.filter(c => c.paid && !c.refunded).reduce((sum, c) => sum + c.amount, 0);
+    const revenueWeek = charges.data.filter(c => c.paid && !c.refunded && c.created >= sevenDaysAgo).reduce((sum, c) => sum + c.amount, 0);
+    const revenueToday = charges.data.filter(c => c.paid && !c.refunded && c.created >= todayTimestamp).reduce((sum, c) => sum + c.amount, 0);
+
+    // Cancelled recently
+    const cancelledSubs = await stripe.subscriptions.list({ status: 'canceled', limit: 20 });
+    const recentCancellations = cancelledSubs.data.filter(s => s.canceled_at >= thirtyDaysAgo).length;
+
+    // Conversion: paywall views vs purchases (from events table)
+    const paywallViews = db.prepare(`SELECT COUNT(*) as c FROM events WHERE event = 'paywall_view' AND created_at >= date('now', '-30 days')`).get()?.c || 0;
+    const purchases = db.prepare(`SELECT COUNT(*) as c FROM events WHERE event = 'purchase_complete' AND created_at >= date('now', '-30 days')`).get()?.c || 0;
+
+    res.json({
+      mrr: mrr, // in cents
+      revenueToday, // in cents
+      revenueWeek,
+      revenueMonth,
+      activeSubscriptions: subs.data.length,
+      recentCancellations,
+      churnRate: subs.data.length > 0 ? Math.round(recentCancellations / (subs.data.length + recentCancellations) * 100) : 0,
+      conversion: { paywallViews, purchases, rate: paywallViews > 0 ? Math.round(purchases / paywallViews * 100) : 0 },
+    });
+  } catch (err) {
+    // If Stripe fails, return partial data
+    res.json({
+      mrr: 0, revenueToday: 0, revenueWeek: 0, revenueMonth: 0,
+      activeSubscriptions: 0, recentCancellations: 0, churnRate: 0,
+      conversion: { paywallViews: 0, purchases: 0, rate: 0 },
+      error: 'Stripe data unavailable: ' + err.message,
+    });
+  }
 });
 
 // ── Health check ──

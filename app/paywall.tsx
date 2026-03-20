@@ -23,6 +23,7 @@ import {
 } from '../services/purchases';
 import { setPremium, setSessionToken, SERVER_URL } from '../services/quota';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { trackEvent } from '../services/analytics';
 
 interface Feature {
   icon: string;
@@ -98,6 +99,7 @@ async function startStripeCheckout(priceId: string): Promise<string | null> {
 export default function PaywallScreen() {
   const router = useRouter();
   const isWeb = Platform.OS === 'web';
+  trackEvent('paywall_view');
 
   // Native state
   const [packages, setPackages] = useState<SubscriptionPackage[]>([]);
@@ -128,6 +130,7 @@ export default function PaywallScreen() {
                 setSessionToken(data.token);
                 setPremium(true);
                 setPaymentSuccess(true);
+                trackEvent('purchase_complete', { source: 'stripe' });
               }
             })
             .catch(() => {})
@@ -181,6 +184,7 @@ export default function PaywallScreen() {
       setPurchasing(false);
 
       if (result.success) {
+        trackEvent('purchase_complete', { source: 'native' });
         Alert.alert('Willkommen!', 'Premium wurde aktiviert. Viel Spaß mit unbegrenzten Diagnosen!', [
           { text: 'Super!', onPress: () => router.back() },
         ]);
