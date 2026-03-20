@@ -995,6 +995,7 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
   fertilizerType,
   plantAge,
   growPhase,
+  soilTemp,
 ) {
   const parts = ['NACHTR\u00c4GLICH GEMESSENE WERTE:\n'];
 
@@ -1007,6 +1008,23 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
   if (substrateType) parts.push('- Substrat: ' + substrateType);
   if (plantAge) parts.push('- Pflanzenalter: ' + plantAge);
   if (fertilizerType) parts.push('- D\u00fcnger: ' + fertilizerType);
+
+  // Living Soil: soil temperature is critical
+  if (soilTemp) {
+    const tempNum = parseFloat(soilTemp.replace(',', '.'));
+    parts.push('- Bodentemperatur: ' + soilTemp + '°C');
+    if (!isNaN(tempNum)) {
+      if (tempNum < 15) {
+        parts.push('\n⚠️ KRITISCH: Bodentemperatur unter 15°C! Bei dieser Temperatur ist die Mikrobenaktivität im Boden STARK eingeschränkt. Die Nährstofffreisetzung durch das Bodenleben ist minimal. Dies ist sehr wahrscheinlich die HAUPTURSACHE für Mangelerscheinungen! Empfehle DRINGEND die Bodentemperatur auf mindestens 20–25°C zu erhöhen (Heizmatte, wärmerer Raum). Ohne ausreichende Bodentemperatur nützen alle anderen Maßnahmen wenig.');
+      } else if (tempNum < 18) {
+        parts.push('\n⚠️ WARNUNG: Bodentemperatur unter 18°C ist suboptimal für Living Soil. Die Mikrobenaktivität ist reduziert, was zu langsamerer Nährstofffreisetzung führt. Optimale Bodentemperatur für Living Soil: 20–25°C. Empfehle Bodentemperatur zu erhöhen.');
+      } else if (tempNum < 20) {
+        parts.push('\nHINWEIS: Bodentemperatur ist grenzwertig (18–20°C). Optimal wären 20–25°C für maximale Mikrobenaktivität.');
+      } else if (tempNum > 30) {
+        parts.push('\n⚠️ WARNUNG: Bodentemperatur über 30°C! Dies kann Wurzeln schädigen und nützliche Mikroben abtöten. Bodentemperatur senken (Mulch, Beschattung des Topfes).');
+      }
+    }
+  }
 
   // Parse bloom week for senescence/harvest logic
   const bloomWeekMatch = plantAge ? plantAge.match(/Woche\s+(\d+)/i) : null;

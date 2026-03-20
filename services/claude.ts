@@ -529,6 +529,7 @@ export async function refineDiagnosis(
   plantAge?: string | null,
   growPhase?: string | null,
   preOptimizedImages?: string[],
+  soilTemp?: string | null,
 ): Promise<DiagnosisResult> {
   const { getSessionToken } = require('./quota');
   const sessionToken: string | null = await getSessionToken();
@@ -561,6 +562,7 @@ export async function refineDiagnosis(
           fertilizer: fertilizerType,
           plantAge,
           growPhase,
+          soilTemp: soilTemp || undefined,
         }),
       });
 

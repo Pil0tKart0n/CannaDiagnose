@@ -423,11 +423,11 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },
     ];
   } else if (mode === 'refine') {
-    const { currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase } = req.body;
+    const { currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase, soilTemp } = req.body;
     if (!currentDiagnosis) {
       return res.status(400).json({ error: 'invalid_request', message: 'currentDiagnosis required for refine mode' });
     }
-    const userPrompt = buildRefinePrompt(currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase);
+    const userPrompt = buildRefinePrompt(currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase, soilTemp);
     messages = [
       { role: 'system', content: REFINE_SYSTEM_PROMPT },
       { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },

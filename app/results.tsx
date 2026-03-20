@@ -175,6 +175,7 @@ export default function ResultsScreen() {
   const [apiRefinedResult, setApiRefinedResult] = useState<DiagnosisResult | null>(null);
   const [phInput, setPhInput] = useState('');
   const [ecInput, setEcInput] = useState('');
+  const [soilTempInput, setSoilTempInput] = useState('');
   const [fertilizerInput, setFertilizerInput] = useState<string | null>(questionnaire.fertilizerType || null);
   const [fertilizerPickerOpen, setFertilizerPickerOpen] = useState(false);
   const [fertilizerSearch, setFertilizerSearch] = useState('');
@@ -270,9 +271,12 @@ export default function ResultsScreen() {
   const isLivingSoil = questionnaire.substrateType === 'Living Soil';
 
   const handleRefine = async () => {
-    if (!phInput && !ecInput) {
+    const hasData = isLivingSoil
+      ? (phInput || soilTempInput)
+      : (phInput || ecInput);
+    if (!hasData) {
       const msg = isLivingSoil
-        ? 'Bitte gib einen pH-Wert ein.'
+        ? 'Bitte gib einen pH-Wert oder eine Bodentemperatur ein.'
         : 'Bitte gib mindestens einen pH- oder EC-Wert ein.';
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
         window.alert(msg);
@@ -312,6 +316,7 @@ export default function ResultsScreen() {
         questionnaire.plantAgeWeeks,
         questionnaire.growPhase,
         preOptimized,
+        soilTempInput || null,
       );
       setApiRefinedResult(refined);
       setRefinedResult(refined);
@@ -420,7 +425,7 @@ export default function ResultsScreen() {
             <View style={styles.refineBody}>
               <Text style={styles.refineHint}>
                 {questionnaire.substrateType === 'Living Soil'
-                  ? 'Farbe korrigieren oder pH-Wert nachtragen für eine präzisere Diagnose.'
+                  ? 'Farbe, pH-Wert oder Bodentemperatur nachtragen für eine präzisere Diagnose.'
                   : 'Farbe korrigieren oder pH/EC nachtragen für eine präzisere Diagnose.'}
               </Text>
 
@@ -469,7 +474,7 @@ export default function ResultsScreen() {
                 )}
               </View>
 
-              {/* pH + EC row — EC and fertilizer hidden for Living Soil */}
+              {/* pH + EC/Soil temp row */}
               <View style={[styles.refineInputRow, { zIndex: 1 }]}>
                 <View style={styles.refineInputGroup}>
                   <Text style={styles.refineLabel}>pH-Wert</Text>
@@ -487,7 +492,24 @@ export default function ResultsScreen() {
                     }}
                   />
                 </View>
-                {questionnaire.substrateType !== 'Living Soil' && (
+                {questionnaire.substrateType === 'Living Soil' ? (
+                  <View style={styles.refineInputGroup}>
+                    <Text style={styles.refineLabel}>Bodentemp. °C</Text>
+                    <TextInput
+                      style={styles.refineInput}
+                      placeholder="z.B. 22"
+                      placeholderTextColor={colors.textMuted}
+                      keyboardType="decimal-pad"
+                      value={soilTempInput}
+                      onChangeText={setSoilTempInput}
+                      onFocus={() => {
+                        setTimeout(() => {
+                          scrollRef.current?.scrollTo({ y: refineYRef.current, animated: true });
+                        }, 300);
+                      }}
+                    />
+                  </View>
+                ) : (
                   <View style={styles.refineInputGroup}>
                     <Text style={styles.refineLabel}>EC / PPM</Text>
                     <TextInput
