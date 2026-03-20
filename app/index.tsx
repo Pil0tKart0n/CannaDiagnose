@@ -276,7 +276,7 @@ export default function HomeScreen() {
               <View style={styles.dividerLine} />
             </View>
 
-            <Text style={styles.tagline}>Dein Grow-Begleiter</Text>
+            <Text style={styles.tagline}>Scan it. Fix it.</Text>
 
             <View style={styles.flowRow}>
               <View style={styles.flowChip}>
