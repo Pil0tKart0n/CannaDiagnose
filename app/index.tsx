@@ -18,51 +18,60 @@ import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota'
 import { hasCompletedOnboarding } from './onboarding';
 
 const webCSS = Platform.OS === 'web' ? `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
   .cd-screen {
     background:
-      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(74,222,128,0.04) 0%, transparent 60%),
-      linear-gradient(175deg, #0E1510 0%, #0A0E0D 100%);
+      radial-gradient(ellipse 60% 45% at 50% 95%, rgba(92,232,146,0.05) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 20% 20%, rgba(212,168,83,0.03) 0%, transparent 60%),
+      linear-gradient(175deg, #0D1210 0%, #080C0A 100%);
     min-height: 100%;
   }
   .cd-btn-primary {
-    position: relative; overflow: hidden; border-radius: 12px;
-    background: linear-gradient(180deg, #5AEF90 0%, #4ADE80 50%, #3CC870 100%);
-    box-shadow: 0 2px 8px rgba(74,222,128,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
-    transition: transform 0.15s ease; cursor: pointer;
+    position: relative; overflow: hidden; border-radius: 14px;
+    background: linear-gradient(170deg, #6AF09E 0%, #5CE892 40%, #44C878 100%);
+    box-shadow: 0 4px 20px rgba(92,232,146,0.25), 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease; cursor: pointer;
   }
-  .cd-btn-primary:hover { transform: scale(1.01); }
-  .cd-btn-primary:active { transform: scale(0.97); }
+  .cd-btn-primary:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 6px 28px rgba(92,232,146,0.3), 0 2px 6px rgba(0,0,0,0.2); }
+  .cd-btn-primary:active { transform: translateY(1px) scale(0.98); }
   .cd-btn-secondary {
-    position: relative; overflow: hidden; border-radius: 12px;
-    border: 1px solid #1E2A24;
-    background: transparent;
-    transition: transform 0.15s ease, background 0.15s ease; cursor: pointer;
+    position: relative; overflow: hidden; border-radius: 14px;
+    border: 1px solid rgba(92,232,146,0.08);
+    background: rgba(15,23,19,0.6);
+    backdrop-filter: blur(8px);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease; cursor: pointer;
   }
-  .cd-btn-secondary:hover { background: rgba(255,255,255,0.03); }
+  .cd-btn-secondary:hover { background: rgba(92,232,146,0.04); border-color: rgba(92,232,146,0.15); }
   .cd-btn-secondary:active { transform: scale(0.97); }
   @keyframes cd-shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
+  @keyframes cd-glow-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
   .cd-btn-premium {
-    position: relative; overflow: hidden; border-radius: 12px;
-    background: linear-gradient(135deg, rgba(218,165,32,0.08) 0%, rgba(255,215,0,0.04) 50%, rgba(218,165,32,0.08) 100%);
-    border: 1px solid rgba(218,165,32,0.35);
-    box-shadow: 0 0 20px rgba(218,165,32,0.08), inset 0 1px 0 rgba(255,215,0,0.06);
-    transition: transform 0.15s ease, box-shadow 0.3s ease; cursor: pointer;
+    position: relative; overflow: hidden; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(212,168,83,0.08) 0%, rgba(212,168,83,0.03) 50%, rgba(212,168,83,0.08) 100%);
+    border: 1px solid rgba(212,168,83,0.25);
+    box-shadow: 0 0 24px rgba(212,168,83,0.06), inset 0 1px 0 rgba(255,215,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.3s ease; cursor: pointer;
   }
   .cd-btn-premium:hover {
-    transform: scale(1.01);
-    box-shadow: 0 0 28px rgba(218,165,32,0.15), inset 0 1px 0 rgba(255,215,0,0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 0 32px rgba(212,168,83,0.12), inset 0 1px 0 rgba(255,215,0,0.08);
   }
   .cd-btn-premium:active { transform: scale(0.97); }
   .cd-btn-premium::after {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(105deg, transparent 30%, rgba(255,215,0,0.12) 50%, transparent 70%);
-    animation: cd-shimmer 3s ease-in-out infinite;
+    background: linear-gradient(105deg, transparent 30%, rgba(255,215,0,0.10) 50%, transparent 70%);
+    animation: cd-shimmer 3.5s ease-in-out infinite;
     pointer-events: none;
   }
+  .cd-title-display { font-family: 'Cormorant Garamond', serif; }
+  .cd-body-text { font-family: 'DM Sans', sans-serif; }
 ` : '';
 
 function injectCSS() {
@@ -197,18 +206,30 @@ export default function HomeScreen() {
 
           {/* Center: Title + Flow — takes all available space, centered */}
           <View style={styles.centerArea}>
-            {/* Subtle glow behind logo (web only — native has no CSS blur) */}
+            {/* Layered glow behind logo (web only) */}
             {Platform.OS === 'web' && <View style={styles.logoGlow} />}
-            <Text style={styles.title}>Leaf</Text>
-            <Text style={styles.titleAccent}>Scan</Text>
+            {Platform.OS === 'web' && <View style={styles.logoGlowWarm} />}
+            {Platform.OS === 'web' ? (
+              <div className="cd-title-display" style={{}} >
+                <Text style={styles.title}>Leaf</Text>
+                <Text style={styles.titleAccent}>Scan</Text>
+              </div>
+            ) : (
+              <>
+                <Text style={styles.title}>Leaf</Text>
+                <Text style={styles.titleAccent}>Scan</Text>
+              </>
+            )}
 
             <View style={styles.divider} />
 
+            <Text style={styles.tagline}>KI-Pflanzendiagnose</Text>
+
             <View style={styles.flowRow}>
               <Text style={styles.flowStep}>Foto</Text>
-              <Text style={styles.flowDot}>·</Text>
+              <Text style={styles.flowDot}>›</Text>
               <Text style={styles.flowStep}>Analyse</Text>
-              <Text style={styles.flowDot}>·</Text>
+              <Text style={styles.flowDot}>›</Text>
               <Text style={styles.flowStep}>Aktionsplan</Text>
             </View>
 
@@ -451,65 +472,89 @@ const styles = StyleSheet.create({
   },
   logoGlow: {
     position: 'absolute',
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: 'rgba(74,222,128,0.06)',
-    top: '30%',
+    width: 260,
+    height: 260,
+    borderRadius: 130,
+    backgroundColor: 'rgba(92,232,146,0.05)',
+    top: '25%',
     ...Platform.select({
-      web: { filter: 'blur(60px)' },
+      web: { filter: 'blur(80px)', animation: 'cd-glow-pulse 6s ease-in-out infinite' },
+      default: {},
+    }),
+  },
+  logoGlowWarm: {
+    position: 'absolute',
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: 'rgba(212,168,83,0.03)',
+    top: '35%',
+    left: '30%',
+    ...Platform.select({
+      web: { filter: 'blur(60px)', animation: 'cd-glow-pulse 8s ease-in-out infinite 2s' },
       default: {},
     }),
   },
   title: {
-    fontSize: 44,
+    fontSize: 48,
     fontWeight: '300',
     color: colors.text,
-    letterSpacing: 6,
+    letterSpacing: 8,
     textTransform: 'uppercase',
   },
   titleAccent: {
-    fontSize: 44,
+    fontSize: 48,
     fontWeight: '600',
     color: colors.accent,
-    letterSpacing: 6,
+    letterSpacing: 8,
     textTransform: 'uppercase',
-    marginTop: -4,
+    marginTop: -6,
+  },
+  tagline: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: colors.textMuted,
+    letterSpacing: 3,
+    textTransform: 'uppercase',
+    marginBottom: 24,
   },
   divider: {
-    width: 48,
+    width: 40,
     height: 1,
     backgroundColor: colors.accentDivider,
-    marginVertical: 28,
+    marginVertical: 20,
     borderRadius: 1,
   },
   flowRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   flowStep: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     color: colors.textMuted,
-    letterSpacing: 1.5,
+    letterSpacing: 1.8,
     textTransform: 'uppercase',
   },
   flowDot: {
-    fontSize: 16,
+    fontSize: 13,
     color: colors.accentDotMuted,
-    fontWeight: '300',
+    fontWeight: '400',
   },
   infoLink: {
-    marginTop: 20,
+    marginTop: 24,
     paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(100,112,105,0.2)',
   },
   infoLinkText: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.textMuted,
     fontWeight: '500',
-    letterSpacing: 0.3,
+    letterSpacing: 0.5,
   },
 
   // Quota badge
@@ -634,34 +679,34 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   nativePrimaryBtn: {
-    borderRadius: 12,
+    borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
     overflow: 'hidden',
     ...Platform.select({
-      ios: { shadowColor: '#4ADE80', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 12 },
-      android: { elevation: 6 },
+      ios: { shadowColor: '#5CE892', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.3, shadowRadius: 16 },
+      android: { elevation: 8 },
     }),
   },
   nativeSecondaryBtn: {
-    borderRadius: 12,
-    paddingVertical: 12,
+    borderRadius: 14,
+    paddingVertical: 13,
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(15,23,19,0.5)',
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: 'rgba(92,232,146,0.08)',
   },
   primaryBtnText: {
     color: colors.textOnAccent,
     fontSize: 15,
-    fontWeight: '600',
-    letterSpacing: 0.3,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
   secondaryBtnText: {
     color: colors.textSecondary,
     fontSize: 14,
     fontWeight: '500',
-    letterSpacing: 0.3,
+    letterSpacing: 0.4,
   },
 
   // Modal

@@ -40,8 +40,8 @@ export default function Button({
         <LinearGradient
           colors={
             disabled
-              ? ['#2A2E2C', '#1E2220']
-              : ['#5AEF90', '#4ADE80', '#3CC870']
+              ? ['#1E2420', '#181E1B']
+              : ['#6AF09E', '#5CE892', '#44C878']
           }
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   base: {
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 12,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 52,
@@ -99,14 +99,14 @@ const styles = StyleSheet.create({
   primaryGradient: {
     ...Platform.select({
       ios: {
-        shadowColor: '#4ADE80',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 12,
+        shadowColor: '#5CE892',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.25,
+        shadowRadius: 16,
       },
-      android: { elevation: 6 },
+      android: { elevation: 8 },
       web: {
-        boxShadow: '0 2px 8px rgba(74,222,128,0.25)',
+        boxShadow: '0 4px 20px rgba(92,232,146,0.2), inset 0 1px 0 rgba(255,255,255,0.15)',
       },
     }),
   },
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
   },
   disabled: {
-    opacity: 0.5,
+    opacity: 0.4,
   },
   text: {
     fontSize: 15,
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   textPrimary: {
     color: colors.textOnAccent,
     fontSize: 15,
-    fontWeight: '600',
-    letterSpacing: 0.3,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
   textSecondary: {
     color: colors.textSecondary,

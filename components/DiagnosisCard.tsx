@@ -23,27 +23,29 @@ const severityLabels: Record<Severity, string> = {
 };
 
 const TIPS = [
-  'Fotos unter weißem Licht oder mit Blitz ermöglichen eine deutlich genauere Diagnose.',
-  'Verfeinere die Diagnose mit deinen pH- und EC-Werten für ein präziseres Ergebnis.',
-  'Nahaufnahmen einzelner Blätter liefern bessere Ergebnisse als Fotos der ganzen Pflanze.',
-  'Regelmäßige Scans helfen dir, Probleme früh zu erkennen bevor sie ernst werden.',
+  'Fotos unter weissem Licht oder mit Blitz ermoeglichen eine deutlich genauere Diagnose.',
+  'Verfeinere die Diagnose mit deinen pH- und EC-Werten fuer ein praeziseres Ergebnis.',
+  'Nahaufnahmen einzelner Blaetter liefern bessere Ergebnisse als Fotos der ganzen Pflanze.',
+  'Regelmaessige Scans helfen dir, Probleme frueh zu erkennen bevor sie ernst werden.',
   'Achte darauf, dass das Blatt scharf und gut beleuchtet im Bild ist.',
-  'Scanne bei Unsicherheit mehrere Blätter von verschiedenen Stellen der Pflanze.',
+  'Scanne bei Unsicherheit mehrere Blaetter von verschiedenen Stellen der Pflanze.',
 ];
 
 export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps) {
   const sevColor = severityColors[result.severity] || colors.textMuted;
   const confPercent = Math.round(result.confidence * 100);
-  const confColor = confPercent >= 70 ? colors.severityLow    // grün
-                  : confPercent >= 40 ? colors.severityMedium  // gelb/orange
-                  : colors.severityCritical;                    // rot
+  const confColor = confPercent >= 70 ? colors.severityLow
+                  : confPercent >= 40 ? colors.severityMedium
+                  : colors.severityCritical;
 
   const randomTip = useMemo(() => TIPS[Math.floor(Math.random() * TIPS.length)], []);
 
   return (
     <View style={styles.card}>
-      {/* Color accent line on left edge */}
+      {/* Accent stripe */}
       <View style={[styles.severityStripe, { backgroundColor: sevColor }]} />
+
+      {/* Top row: badge */}
       <View style={[styles.severityBadge, { backgroundColor: sevColor }]}>
         <Text style={styles.severityText}>
           {severityLabels[result.severity]}
@@ -52,6 +54,7 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
 
       <Text style={styles.diagnosis}>{result.primaryDiagnosis}</Text>
 
+      {/* Confidence */}
       <View style={styles.confidenceRow}>
         <Text style={styles.confidenceLabel}>Konfidenz</Text>
         <View style={styles.confidenceBar}>
@@ -66,6 +69,9 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
           {confPercent}%
         </Text>
       </View>
+
+      {/* Divider */}
+      <View style={styles.cardDivider} />
 
       {isRefined && result.rootCauseAnalysis ? (
         <View style={styles.section}>
@@ -85,23 +91,23 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.cardDark,
-    borderRadius: 16,
-    padding: 20,
-    paddingLeft: 24,
+    borderRadius: 18,
+    padding: 22,
+    paddingLeft: 26,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
     overflow: 'hidden',
     ...Platform.select({
       ios: {
-        shadowColor: colors.shadowDark,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 1,
-        shadowRadius: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 20,
       },
-      android: { elevation: 6 },
+      android: { elevation: 8 },
       web: {
-        boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
       },
     }),
   },
@@ -111,28 +117,29 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: 4,
-    borderTopLeftRadius: 16,
-    borderBottomLeftRadius: 16,
+    borderTopLeftRadius: 18,
+    borderBottomLeftRadius: 18,
   },
   severityBadge: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 5,
     borderRadius: 8,
     marginBottom: 14,
   },
   severityText: {
     color: colors.white,
-    fontSize: 12,
-    fontWeight: '600',
-    letterSpacing: 0.5,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
   diagnosis: {
     fontSize: 17,
     fontWeight: '600',
     color: colors.text,
-    marginBottom: 16,
-    lineHeight: 24,
+    marginBottom: 18,
+    lineHeight: 25,
   },
   confidenceRow: {
     flexDirection: 'row',
@@ -141,40 +148,46 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   confidenceLabel: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.textMuted,
+    letterSpacing: 0.3,
   },
   confidenceBar: {
     flex: 1,
-    height: 8,
+    height: 6,
     backgroundColor: colors.cardMid,
-    borderRadius: 4,
+    borderRadius: 3,
     overflow: 'hidden',
   },
   confidenceFill: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: 3,
   },
   confidenceValue: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     width: 40,
     textAlign: 'right',
   },
+  cardDivider: {
+    height: 1,
+    backgroundColor: colors.border,
+    marginBottom: 16,
+  },
   section: {
-    marginTop: 4,
+    marginTop: 0,
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
-    color: colors.textSecondary,
-    letterSpacing: 1.5,
+    color: colors.textMuted,
+    letterSpacing: 2,
     textTransform: 'uppercase',
     marginBottom: 8,
   },
   sectionBody: {
-    fontSize: 15,
+    fontSize: 14,
     color: colors.textSecondary,
-    lineHeight: 24,
+    lineHeight: 22,
   },
 });

@@ -42,7 +42,7 @@ export function ActionPlan({ steps }: { steps: ActionStep[] }) {
 export function PreventiveTips({ tips }: { tips: string[] }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Präventionstipps</Text>
+      <Text style={styles.title}>Praeventionstipps</Text>
       {tips.map((tip, i) => (
         <View key={i} style={styles.tipRow}>
           <View style={styles.tipDot} />
@@ -56,31 +56,31 @@ export function PreventiveTips({ tips }: { tips: string[] }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.cardDark,
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: 18,
+    padding: 22,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
     ...Platform.select({
       ios: {
-        shadowColor: colors.shadowDark,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 1,
-        shadowRadius: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.35,
+        shadowRadius: 20,
       },
-      android: { elevation: 6 },
+      android: { elevation: 8 },
       web: {
-        boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
       },
     }),
   },
   title: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
-    color: colors.textSecondary,
-    letterSpacing: 1.5,
+    color: colors.textMuted,
+    letterSpacing: 2,
     textTransform: 'uppercase',
-    marginBottom: 16,
+    marginBottom: 18,
   },
   // Factors
   factorRow: {
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   dot: {
-    width: 8,
-    height: 8,
+    width: 7,
+    height: 7,
     borderRadius: 4,
     backgroundColor: colors.warning,
     marginTop: 6,
@@ -112,22 +112,22 @@ const styles = StyleSheet.create({
   // Action Plan
   stepRow: {
     flexDirection: 'row',
-    marginBottom: 16,
-    gap: 12,
+    marginBottom: 18,
+    gap: 14,
   },
   stepNumber: {
-    width: 30,
-    height: 30,
+    width: 32,
+    height: 32,
     borderRadius: 10,
     backgroundColor: colors.primaryAccent,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderAccent,
   },
   stepNumberText: {
     color: colors.accent,
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 14,
   },
   stepContent: {
@@ -152,8 +152,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   tipDot: {
-    width: 6,
-    height: 6,
+    width: 5,
+    height: 5,
     borderRadius: 3,
     backgroundColor: colors.accent,
     marginTop: 7,

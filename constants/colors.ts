@@ -1,72 +1,72 @@
 export const colors = {
-  // Backgrounds – warmer dark
-  background: '#0A0E0D',
-  backgroundElevated: '#111916',
-  surface: '#141C18',
-  surfaceElevated: '#1A241F',
+  // Backgrounds — deep forest with warmth
+  background: '#080C0A',
+  backgroundElevated: '#0E1512',
+  surface: '#121A16',
+  surfaceElevated: '#182019',
 
-  // Primary accent – muted sage-green instead of neon
-  primary: '#111916',
-  primaryMid: '#151F1A',
-  primaryLight: '#1A241F',
-  primaryAccent: '#202C26',
-  accent: '#4ADE80',
-  accentSoft: '#34D399',
-  accentDim: '#3CC870',
-  accentSubtle: 'rgba(74,222,128,0.12)',
-  accentGlow: 'rgba(74,222,128,0.08)',
+  // Primary layers
+  primary: '#0E1512',
+  primaryMid: '#131C17',
+  primaryLight: '#182019',
+  primaryAccent: '#1E2B24',
+  accent: '#5CE892',
+  accentSoft: '#3ED88A',
+  accentDim: '#44C878',
+  accentSubtle: 'rgba(92,232,146,0.10)',
+  accentGlow: 'rgba(92,232,146,0.06)',
 
-  // Warm secondary accent
-  accentWarm: '#FBBF24',
-  accentWarmGlow: 'rgba(251,191,36,0.08)',
-  accentWarmSubtle: 'rgba(251,191,36,0.2)',
-  accentTeal: '#2DD4BF',
+  // Warm gold accent — luxury touch
+  accentWarm: '#D4A853',
+  accentWarmGlow: 'rgba(212,168,83,0.08)',
+  accentWarmSubtle: 'rgba(212,168,83,0.20)',
+  accentTeal: '#38D9B0',
 
-  // Accent with opacity
-  accentShadow: 'rgba(74,222,128,0.25)',
-  accentShadowStrong: 'rgba(74,222,128,0.4)',
-  accentShadowLight: 'rgba(74,222,128,0.2)',
-  accentDivider: 'rgba(74,222,128,0.2)',
-  accentDotMuted: 'rgba(74,222,128,0.3)',
+  // Accent opacities
+  accentShadow: 'rgba(92,232,146,0.20)',
+  accentShadowStrong: 'rgba(92,232,146,0.35)',
+  accentShadowLight: 'rgba(92,232,146,0.15)',
+  accentDivider: 'rgba(92,232,146,0.15)',
+  accentDotMuted: 'rgba(92,232,146,0.25)',
 
-  // Cards – solid colors
-  cardDark: '#111916',
-  cardMid: '#151F1A',
-  cardLight: '#1A241F',
-  cardGlass: 'rgba(20,28,24,0.85)',
+  // Cards — layered depth
+  cardDark: '#0F1713',
+  cardMid: '#141D18',
+  cardLight: '#19231D',
+  cardGlass: 'rgba(18,26,22,0.88)',
 
-  // Backgrounds (legacy compat)
+  // Legacy
   backgroundLight: '#F2F5F3',
   surfaceLight: '#FFFFFF',
 
-  // Text – off-white
-  text: '#E8EDE9',
-  textSecondary: '#8B9C91',
-  textMuted: '#7A8B81',
+  // Text — warm ivory tones
+  text: '#E4EBE6',
+  textSecondary: '#8A9B90',
+  textMuted: '#647069',
   textDark: '#1A2E1A',
   textDarkSecondary: '#4A6A4A',
-  textOnAccent: '#0A0E0D',
+  textOnAccent: '#071209',
 
-  // Borders – solid, visible
-  border: '#1E2A24',
-  borderLight: '#171F1B',
-  borderAccent: 'rgba(74,222,128,0.15)',
+  // Borders — subtle depth
+  border: '#1A2620',
+  borderLight: '#151E19',
+  borderAccent: 'rgba(92,232,146,0.12)',
 
-  // Status
-  error: '#F87171',
-  warning: '#FBBF24',
-  success: '#4ADE80',
-  severityLow: '#4ADE80',
-  severityMedium: '#FBBF24',
-  severityHigh: '#FB923C',
-  severityCritical: '#F87171',
+  // Status — refined tones
+  error: '#E86B6B',
+  warning: '#D4A853',
+  success: '#5CE892',
+  severityLow: '#5CE892',
+  severityMedium: '#D4A853',
+  severityHigh: '#E8944A',
+  severityCritical: '#E86B6B',
 
   // Base
   white: '#FFFFFF',
   black: '#000000',
-  overlay: 'rgba(0,0,0,0.6)',
+  overlay: 'rgba(0,0,0,0.65)',
 
   // Shadows
-  shadowGreen: 'rgba(74,222,128,0.10)',
-  shadowDark: 'rgba(0,0,0,0.5)',
+  shadowGreen: 'rgba(92,232,146,0.08)',
+  shadowDark: 'rgba(0,0,0,0.55)',
 };

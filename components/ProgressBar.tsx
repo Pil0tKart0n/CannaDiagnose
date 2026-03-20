@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { colors } from '../constants/colors';
 
 interface ProgressBarProps {
@@ -37,23 +37,32 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   section: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: colors.accent,
+    letterSpacing: 0.5,
   },
   count: {
-    fontSize: 14,
+    fontSize: 13,
     color: colors.textMuted,
+    fontWeight: '500',
   },
   track: {
-    height: 6,
-    backgroundColor: colors.cardDark,
-    borderRadius: 3,
+    height: 4,
+    backgroundColor: colors.cardMid,
+    borderRadius: 2,
     overflow: 'hidden',
   },
   fill: {
     height: '100%',
     backgroundColor: colors.accent,
-    borderRadius: 3,
+    borderRadius: 2,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 0 8px rgba(92,232,146,0.3)',
+        transition: 'width 0.3s ease',
+      },
+      default: {},
+    }),
   },
 });
