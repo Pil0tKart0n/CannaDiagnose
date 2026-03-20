@@ -21,6 +21,36 @@ import { trackEvent } from '../services/analytics';
 const webCSS = Platform.OS === 'web' ? `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
+  html, body, #root {
+    background: #040806 !important;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(92,232,146,0.03) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(92,232,146,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 0% 0%, rgba(56,217,176,0.02) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 100% 0%, rgba(212,168,83,0.015) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, transparent 30%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  #root {
+    position: relative;
+    z-index: 1;
+  }
   .cd-screen {
     background: #060A08;
     min-height: 100%;
