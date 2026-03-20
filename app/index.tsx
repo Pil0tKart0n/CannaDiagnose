@@ -12,7 +12,6 @@ import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota';
@@ -256,62 +255,31 @@ export default function HomeScreen() {
           <View style={styles.centerArea}>
             {Platform.OS === 'web' && <View style={styles.logoGlow} />}
             {Platform.OS === 'web' && <View style={styles.logoGlowWarm} />}
+            {Platform.OS === 'web' && <View style={styles.orbitDot} />}
 
             {Platform.OS === 'web' ? (
               <div className="cd-title-wrap">
-                <Text style={styles.title}>Leaf<Text style={styles.titleAccent}>Scan</Text></Text>
+                <Text style={styles.title}>Leaf</Text>
+                <Text style={styles.titleAccent}>Scan</Text>
               </div>
             ) : (
-              <Text style={styles.title}>Leaf<Text style={styles.titleAccent}>Scan</Text></Text>
+              <>
+                <Text style={styles.title}>Leaf</Text>
+                <Text style={styles.titleAccent}>Scan</Text>
+              </>
             )}
+
+            <View style={styles.dividerWrap}>
+              <View style={styles.dividerLine} />
+              <View style={styles.dividerDiamond} />
+              <View style={styles.dividerLine} />
+            </View>
 
             <Text style={styles.tagline}>Scan it. Fix it.</Text>
 
             <Text style={styles.valueProp}>
-              Pflanze fotografieren, Problem erkennen,{'\n'}sofort wissen was zu tun ist.
+              Foto machen — sofort wissen was fehlt.
             </Text>
-
-            {/* Trust indicators */}
-            <View style={styles.trustRow}>
-              <View style={styles.trustChip}>
-                <Ionicons name="checkmark-circle" size={14} color={colors.accent} />
-                <Text style={styles.trustText}>20+ Probleme erkennbar</Text>
-              </View>
-              <View style={styles.trustChip}>
-                <Ionicons name="flash" size={14} color={colors.accentWarm} />
-                <Text style={styles.trustText}>Ergebnis in Sekunden</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* CTA Area — Primary action dominates */}
-          <View style={styles.buttons}>
-            {isWeb ? (
-              <div
-                className="cd-btn-primary"
-                onClick={startDiagnosis}
-                style={{ padding: '18px 24px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' } as any}
-              >
-                <View style={styles.ctaInner}>
-                  <Ionicons name="scan-outline" size={20} color={colors.textOnAccent} />
-                  <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
-                </View>
-              </div>
-            ) : (
-              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
-                <LinearGradient
-                  colors={['#6AF09E', '#5CE892', '#44C878']}
-                  start={{ x: 0.5, y: 0 }}
-                  end={{ x: 0.5, y: 1 }}
-                  style={styles.nativePrimaryBtn}
-                >
-                  <View style={styles.ctaInner}>
-                    <Ionicons name="scan-outline" size={20} color={colors.textOnAccent} />
-                    <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            )}
 
             {quotaText ? (
               <TouchableOpacity
@@ -324,60 +292,55 @@ export default function HomeScreen() {
                 </Text>
               </TouchableOpacity>
             ) : null}
+          </View>
 
-            {/* Visual flow — compact */}
-            <View style={styles.flowRow}>
-              <View style={styles.flowItem}>
-                <Ionicons name="camera-outline" size={16} color={colors.textMuted} />
-                <Text style={styles.flowLabel}>Foto</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={12} color={colors.textMuted} style={{ opacity: 0.4 }} />
-              <View style={styles.flowItem}>
-                <Ionicons name="search-outline" size={16} color={colors.textMuted} />
-                <Text style={styles.flowLabel}>Analyse</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={12} color={colors.textMuted} style={{ opacity: 0.4 }} />
-              <View style={styles.flowItem}>
-                <Ionicons name="checkmark-done-outline" size={16} color={colors.textMuted} />
-                <Text style={styles.flowLabel}>Loesung</Text>
-              </View>
-            </View>
+          {/* CTA Area — Primary action dominates */}
+          <View style={styles.buttons}>
+            {isWeb ? (
+              <div
+                className="cd-btn-primary"
+                onClick={startDiagnosis}
+                style={{ padding: '18px 24px', textAlign: 'center' } as any}
+              >
+                <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+              </div>
+            ) : (
+              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
+                <LinearGradient
+                  colors={['#6AF09E', '#5CE892', '#44C878']}
+                  start={{ x: 0.5, y: 0 }}
+                  end={{ x: 0.5, y: 1 }}
+                  style={styles.nativePrimaryBtn}
+                >
+                  <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+            <Text style={styles.ctaSubtext}>Kostenlos — kein Account noetig</Text>
 
-            {/* Secondary nav — compact row */}
+            {/* Secondary nav — compact, less visual weight */}
             <View style={styles.navRow}>
               {isWeb ? (
                 <>
-                  <div className="cd-btn-secondary" onClick={() => router.push('/plants')} style={{ padding: '11px 12px', textAlign: 'center', flex: 1 } as any}>
-                    <View style={styles.navInner}>
-                      <Ionicons name="leaf-outline" size={15} color={colors.textMuted} />
-                      <Text style={styles.navBtnText}>Pflanzen</Text>
-                    </View>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/plants')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Pflanzen</Text>
                   </div>
-                  <div className="cd-btn-secondary" onClick={() => router.push('/history')} style={{ padding: '11px 12px', textAlign: 'center', flex: 1 } as any}>
-                    <View style={styles.navInner}>
-                      <Ionicons name="time-outline" size={15} color={colors.textMuted} />
-                      <Text style={styles.navBtnText}>Verlauf</Text>
-                    </View>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/history')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Verlauf</Text>
                   </div>
-                  <div className="cd-btn-secondary" onClick={() => router.push('/library')} style={{ padding: '11px 12px', textAlign: 'center', flex: 1 } as any}>
-                    <View style={styles.navInner}>
-                      <Ionicons name="book-outline" size={15} color={colors.textMuted} />
-                      <Text style={styles.navBtnText}>Bibliothek</Text>
-                    </View>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/library')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Bibliothek</Text>
                   </div>
                 </>
               ) : (
                 <>
                   <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/plants')} activeOpacity={0.7}>
-                    <Ionicons name="leaf-outline" size={15} color={colors.textMuted} />
                     <Text style={styles.navBtnText}>Pflanzen</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/history')} activeOpacity={0.7}>
-                    <Ionicons name="time-outline" size={15} color={colors.textMuted} />
                     <Text style={styles.navBtnText}>Verlauf</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/library')} activeOpacity={0.7}>
-                    <Ionicons name="book-outline" size={15} color={colors.textMuted} />
                     <Text style={styles.navBtnText}>Bibliothek</Text>
                   </TouchableOpacity>
                 </>
@@ -569,114 +532,85 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    fontSize: 38,
+    fontSize: 52,
     fontWeight: '300',
-    color: colors.text,
-    letterSpacing: 4,
+    color: 'rgba(228,235,230,0.6)',
+    letterSpacing: 12,
+    textTransform: 'uppercase',
     textAlign: 'center',
   },
   titleAccent: {
+    fontSize: 52,
     fontWeight: '700',
     color: colors.accent,
+    letterSpacing: 12,
+    textTransform: 'uppercase',
+    marginTop: -8,
+    textAlign: 'center',
     ...Platform.select({
-      web: { textShadow: '0 0 30px rgba(92,232,146,0.25)' },
+      web: { textShadow: '0 0 40px rgba(92,232,146,0.3), 0 0 80px rgba(92,232,146,0.1)' },
       default: {},
     }),
   },
   tagline: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: 11,
+    fontWeight: '500',
     color: colors.textMuted,
-    letterSpacing: 3,
+    letterSpacing: 4,
     textTransform: 'uppercase',
-    marginTop: 8,
-    marginBottom: 20,
+    marginBottom: 28,
+  },
+  dividerWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginVertical: 18,
+  },
+  dividerLine: {
+    width: 28,
+    height: 1,
+    backgroundColor: colors.accentDivider,
+  },
+  dividerDiamond: {
+    width: 6,
+    height: 6,
+    backgroundColor: colors.accent,
+    transform: [{ rotate: '45deg' }],
+    opacity: 0.4,
+  },
+  ctaSubtext: {
+    fontSize: 12,
+    color: colors.textMuted,
+    textAlign: 'center',
+    marginTop: 10,
+    letterSpacing: 0.3,
   },
   navRow: {
     flexDirection: 'row',
     gap: 8,
-    marginTop: 6,
+    marginTop: 12,
   },
   navBtn: {
-    flexDirection: 'row',
     borderRadius: 12,
     paddingVertical: 11,
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
     backgroundColor: 'rgba(15,23,19,0.5)',
     borderWidth: 1,
     borderColor: 'rgba(92,232,146,0.06)',
   },
   navBtnText: {
     color: colors.textMuted,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '500',
-    letterSpacing: 0.2,
+    letterSpacing: 0.3,
   },
   valueProp: {
     fontSize: 15,
     color: colors.textSecondary,
     textAlign: 'center',
-    lineHeight: 23,
-    letterSpacing: 0.2,
-  },
-  trustRow: {
-    flexDirection: 'row',
-    gap: 10,
-    marginTop: 20,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  trustChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: 'rgba(92,232,146,0.05)',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.10)',
-  },
-  trustText: {
-    fontSize: 11,
-    color: colors.textSecondary,
-    fontWeight: '500',
+    lineHeight: 22,
+    marginTop: 4,
     letterSpacing: 0.3,
-  },
-  ctaInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  flowRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    marginTop: 16,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(92,232,146,0.05)',
-  },
-  flowItem: {
-    alignItems: 'center',
-    gap: 4,
-  },
-  flowLabel: {
-    fontSize: 10,
-    color: colors.textMuted,
-    fontWeight: '500',
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
-  },
-  navInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
   },
 
   // Quota badge
