@@ -96,9 +96,12 @@ async function startStripeCheckout(priceId: string): Promise<string | null> {
   }
 }
 
+const IS_GOOGLE_PLAY = process.env.EXPO_PUBLIC_STORE === 'google-play';
+
 export default function PaywallScreen() {
   const router = useRouter();
   const isWeb = Platform.OS === 'web';
+  const useRevenueCat = !isWeb && IS_GOOGLE_PLAY;
   trackEvent('paywall_view');
 
   // Native state
@@ -139,13 +142,19 @@ export default function PaywallScreen() {
             });
         }
       }
-      // Load Stripe plans
+      // Load Stripe plans for web
       getStripePlans().then((plans) => {
         setStripePlans(plans);
         setLoading(false);
       }).catch(() => setLoading(false));
+    } else if (useRevenueCat) {
+      // AAB (Google Play): use RevenueCat
+      getOfferings().then((pkgs) => {
+        setPackages(pkgs);
+        setLoading(false);
+      }).catch(() => setLoading(false));
     } else {
-      // APK: also use Stripe plans (not RevenueCat)
+      // APK (direct download): use Stripe
       getStripePlans().then((plans) => {
         setStripePlans(plans);
         setLoading(false);
@@ -156,8 +165,22 @@ export default function PaywallScreen() {
   const handlePurchase = async () => {
     setPurchasing(true);
 
-    // Use Stripe Checkout on all platforms (PWA + APK)
-    {
+    if (useRevenueCat) {
+      // AAB (Google Play): RevenueCat
+      if (packages.length === 0) { setPurchasing(false); return; }
+      const result = await purchasePackage(packages[selectedIdx]);
+      setPurchasing(false);
+
+      if (result.success) {
+        trackEvent('purchase_complete', { source: 'google_play' });
+        Alert.alert('Willkommen!', 'Premium wurde aktiviert. Viel Spaß mit unbegrenzten Diagnosen!', [
+          { text: 'Super!', onPress: () => router.back() },
+        ]);
+      } else if (result.error) {
+        Alert.alert('Hinweis', result.error);
+      }
+    } else {
+      // Web/PWA + APK (direct download): Stripe Checkout
       const plan = stripePlans[selectedIdx];
       if (!plan?.priceId) {
         setPurchasing(false);
@@ -167,29 +190,13 @@ export default function PaywallScreen() {
       const url = await startStripeCheckout(plan.priceId);
       setPurchasing(false);
       if (url) {
-        if (Platform.OS === 'web') {
+        if (isWeb) {
           window.location.href = url;
         } else {
-          // Open Stripe Checkout in external browser
           Linking.openURL(url);
         }
       } else {
         Alert.alert('Fehler', 'Checkout konnte nicht gestartet werden. Bitte versuche es erneut.');
-      }
-    }
-    if (false) {
-      // RevenueCat purchase (disabled — using Stripe for now)
-      if (packages.length === 0) { setPurchasing(false); return; }
-      const result = await purchasePackage(packages[selectedIdx]);
-      setPurchasing(false);
-
-      if (result.success) {
-        trackEvent('purchase_complete', { source: 'native' });
-        Alert.alert('Willkommen!', 'Premium wurde aktiviert. Viel Spaß mit unbegrenzten Diagnosen!', [
-          { text: 'Super!', onPress: () => router.back() },
-        ]);
-      } else if (result.error) {
-        Alert.alert('Hinweis', result.error);
       }
     }
   };
@@ -249,8 +256,10 @@ export default function PaywallScreen() {
     }
   };
 
-  // All platforms use Stripe plans now
-  const displayPlans = stripePlans.map(p => ({ title: p.name, priceString: p.price }));
+  // Google Play AAB uses RevenueCat packages, everything else uses Stripe plans
+  const displayPlans = useRevenueCat
+    ? packages.map(p => ({ title: p.title, priceString: p.priceString }))
+    : stripePlans.map(p => ({ title: p.name, priceString: p.price }));
 
   const selectedPlan = displayPlans[selectedIdx];
   const features = selectedIdx === 0 ? growerFeatures : proFeatures;

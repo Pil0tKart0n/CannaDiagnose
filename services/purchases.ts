@@ -9,8 +9,8 @@ import { setPremium } from './quota';
  * 1. Gehe zu https://app.revenuecat.com und erstelle einen Account
  * 2. Erstelle ein neues Projekt "LeafScan"
  * 3. Füge die Plattformen hinzu:
- *    - Google Play: Package Name = "com.cannadiagnose.app"
- *    - Apple (später): Bundle ID = "com.cannadiagnose.app"
+ *    - Google Play: Package Name = "com.leafscan.app"
+ *    - Apple (später): Bundle ID = "com.leafscan.app"
  * 4. In Google Play Console:
  *    - Erstelle Abo-Produkte:
  *      - "grower_monthly" = 4,99€/Monat

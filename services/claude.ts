@@ -340,7 +340,7 @@ function classifyError(err: any, statusCode?: number): ApiError {
 // Image validation – quick pre-check before diagnosis
 // ---------------------------------------------------------------------------
 
-async function validateImageIsCannabis(
+async function validateImageIsPlant(
   imageDataUris: string[],
   sessionToken?: string | null,
 ): Promise<boolean> {
@@ -361,10 +361,10 @@ async function validateImageIsCannabis(
 
     try {
       const parsed = JSON.parse(content.replace(/```json?\n?/g, '').replace(/```/g, '').trim());
-      return !!parsed.isCannabis;
+      return !!parsed.isPlant;
     } catch {
       // If response contains "true" or "false" as text
-      return !content.toLowerCase().includes('"iscannabis": false') && !content.toLowerCase().includes('"iscannabis":false');
+      return !content.toLowerCase().includes('"isplant": false') && !content.toLowerCase().includes('"isplant":false');
     }
   } catch (err) {
     if (__DEV__) console.log('[LeafScan] Image validation error (allowing):', err);
@@ -478,7 +478,7 @@ export async function analyzePlant(
       const parsed = extractJSON(content);
       if (__DEV__) console.log('[LeafScan] Parsed JSON:', JSON.stringify(parsed).substring(0, 500));
 
-      // Check if the API detected no cannabis plant
+      // Check if the API detected no plant
       if (parsed.noPlant) {
         const err: any = new Error(parsed.message || 'Keine passende Pflanze erkannt.');
         err.apiError = { type: 'no_plant' as ApiErrorType, message: parsed.message || 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.', retryable: false };
