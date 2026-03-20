@@ -81,6 +81,15 @@ import { libraryEntries } from '../constants/library';
 // ── Color correction mapping (local, no API cost) ──────────────────
 const KNOWN_COLORS: { label: string; keywords: string[]; correction: { diagnosis: string; explanation: string; severity: 'niedrig' | 'mittel' | 'hoch' | 'kritisch' } }[] = [
   {
+    label: 'Hellgrün',
+    keywords: ['hellgrün', 'hellgruen', 'hellgr', 'blass grün', 'blassgrün', 'blassgruen', 'lime', 'lindgrün', 'lindgruen'],
+    correction: {
+      diagnosis: 'Stickstoff(N)-Mangel im Frühstadium – Blätter werden blass/hellgrün bevor sie vergilben.',
+      explanation: 'Der Grower bestätigt eine hellgrüne Blattfarbe. Hellgrüne Blätter (statt satt dunkelgrün) sind oft das erste Anzeichen eines beginnenden Stickstoff-Mangels – die Pflanze beginnt Chlorophyll abzubauen. Wenn es die unteren/älteren Blätter betrifft: N-Mangel wahrscheinlich. Wenn es neue Blätter betrifft: könnte auch Schwefel(S)-Mangel oder Eisen(Fe)-Mangel sein.',
+      severity: 'mittel',
+    },
+  },
+  {
     label: 'Gelb (gleichmäßig)',
     keywords: ['gelb', 'gelblich', 'hellgelb', 'vergilbt', 'vergilbung'],
     correction: {

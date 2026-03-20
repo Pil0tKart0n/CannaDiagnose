@@ -188,9 +188,9 @@ function getPHState(phValue, substrateType) {
     if (phNum > 6.2) return 'high';
     return 'ok';
   } else {
-    // Erde
-    if (phNum < 6.0) return 'low';
-    if (phNum > 7.0) return 'high';
+    // Erde — größerer Puffer als Kokos! 5.8–5.99 ist leicht unter optimal aber kein Lockout.
+    if (phNum < 5.8) return 'low';
+    if (phNum > 7.2) return 'high';
     return 'ok';
   }
 }
@@ -1104,13 +1104,17 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
           parts.push('\n\u26a0\ufe0f pH-PROBLEM: pH ' + phValue + ' ist ZU HOCH f\u00fcr ' + substrateType + ' (Maximum 6.2). Fe/Mn werden blockiert.');
         }
       } else {
-        // Erde
+        // Erde — hat natürlichen Puffer, toleriert breitere pH-Range als Kokos
         if (phNum >= 6.0 && phNum <= 7.0) {
-          parts.push('\n\u2705 pH ' + phValue + ': optimal. Kein pH-Problem. Erw\u00e4hne pH NICHT als Problemfaktor in deiner Antwort.');
-        } else if (phNum < 6.0) {
-          parts.push('\n\u26a0\ufe0f pH-PROBLEM: pH ' + phValue + ' ist ZU NIEDRIG f\u00fcr Erde (Minimum 6.0). Ca/Mg/P werden blockiert.');
+          parts.push('\n\u2705 pH ' + phValue + ': optimal f\u00fcr Erde. Kein pH-Problem. Erw\u00e4hne pH NICHT als Problemfaktor in deiner Antwort.');
+        } else if (phNum >= 5.8 && phNum < 6.0) {
+          parts.push('\n\u2705 pH ' + phValue + ': leicht unter dem Optimum (6.0\u20137.0) aber Erde hat einen nat\u00fcrlichen Puffer. Bei 5.8\u20136.0 ist KEIN akuter Lockout zu erwarten. Erw\u00e4hne den pH nur als kleinen Hinweis ("pH k\u00f6nnte langfristig etwas h\u00f6her sein"), aber \u00c4NDERE die Erstdiagnose NICHT wegen 0.1\u20130.2 pH-Punkten! Erde puffert das ab.');
+        } else if (phNum > 7.0 && phNum <= 7.2) {
+          parts.push('\n\u2705 pH ' + phValue + ': leicht \u00fcber dem Optimum (6.0\u20137.0) aber Erde puffert das noch ab. Erw\u00e4hne den pH nur als kleinen Hinweis, \u00c4NDERE die Erstdiagnose NICHT.');
+        } else if (phNum < 5.8) {
+          parts.push('\n\u26a0\ufe0f pH-PROBLEM: pH ' + phValue + ' ist ZU NIEDRIG f\u00fcr Erde (unter 5.8 wird es auch mit Erd-Puffer kritisch). Ca/Mg/P k\u00f6nnen blockiert werden.');
         } else {
-          parts.push('\n\u26a0\ufe0f pH-PROBLEM: pH ' + phValue + ' ist ZU HOCH f\u00fcr Erde (Maximum 7.0). Fe/Mn/Zn werden blockiert.');
+          parts.push('\n\u26a0\ufe0f pH-PROBLEM: pH ' + phValue + ' ist ZU HOCH f\u00fcr Erde (\u00fcber 7.2). Fe/Mn/Zn werden blockiert.');
         }
       }
     }
