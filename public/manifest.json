@@ -1,7 +1,7 @@
 {
-  "name": "LeafScan – KI-Pflanzendiagnose",
+  "name": "LeafScan – Pflanzendiagnose",
   "short_name": "LeafScan",
-  "description": "Scanne dein Blatt per Foto und erhalte in Sekunden eine KI-Diagnose: Naehrstoffmangel, Schaedlinge, Schimmel und mehr. Kostenlos im Browser.",
+  "description": "Scanne dein Blatt per Foto und erhalte in Sekunden eine Diagnose: Naehrstoffmangel, Schaedlinge, Schimmel und mehr. Kostenlos im Browser.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",

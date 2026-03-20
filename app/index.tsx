@@ -276,7 +276,7 @@ export default function HomeScreen() {
               <View style={styles.dividerLine} />
             </View>
 
-            <Text style={styles.tagline}>KI-Pflanzendiagnose</Text>
+            <Text style={styles.tagline}>Dein Grow-Begleiter</Text>
 
             <View style={styles.flowRow}>
               <View style={styles.flowChip}>

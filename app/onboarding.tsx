@@ -30,9 +30,9 @@ const slides: Slide[] = [
   {
     icon: 'leaf-outline',
     title: 'LeafScan',
-    subtitle: 'Deine KI-Pflanzendiagnose',
+    subtitle: 'Dein Grow-Begleiter',
     description:
-      'Fotografiere deine Pflanze und erhalte in Sekunden eine KI-gestützte Diagnose mit konkretem Aktionsplan.',
+      'Fotografiere deine Pflanze und erhalte in Sekunden eine Diagnose mit konkretem Aktionsplan.',
   },
   {
     icon: 'camera-outline',
@@ -46,7 +46,7 @@ const slides: Slide[] = [
     title: 'Bereit?',
     subtitle: 'Los geht\'s',
     description:
-      'Du bekommst täglich eine kostenlose Diagnose. Die Bibliothek mit Infos zu allen Mängeln ist jederzeit verfügbar.\n\nDie Diagnosen sind KI-gestützt und ersetzen keine professionelle Beratung.',
+      'Du bekommst täglich eine kostenlose Diagnose. Die Bibliothek mit Infos zu allen Mängeln ist jederzeit verfügbar.\n\nDie Diagnosen ersetzen keine professionelle Beratung.',
   },
 ];
 

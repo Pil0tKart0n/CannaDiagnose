@@ -648,7 +648,7 @@ export default function ResultsScreen() {
       {/* Disclaimer */}
       <View style={styles.disclaimer}>
         <Text style={styles.disclaimerText}>
-          Diese Diagnose wurde durch KI erstellt und kann fehlerhaft sein.
+          Diese Diagnose kann fehlerhaft sein.
           Kein Ersatz für professionelle Beratung. Nutzung auf eigene Verantwortung.
         </Text>
       </View>

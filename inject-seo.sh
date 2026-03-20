@@ -7,10 +7,10 @@ cat > /tmp/seo-head.html << 'SEOEOF'
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>LeafScan — KI-Pflanzendiagnose fuer Cannabis</title>
-    <meta name="title" content="LeafScan — KI-Pflanzendiagnose fuer Cannabis" />
-    <meta name="description" content="Scanne dein Blatt per Foto und erhalte in Sekunden eine KI-Diagnose: Naehrstoffmangel, Schaedlinge, Schimmel und mehr. Kostenlos im Browser." />
-    <meta name="keywords" content="Cannabis Diagnose, Pflanzendiagnose, KI Pflanzenanalyse, Naehrstoffmangel erkennen, Cannabis Blaetter, Grow Hilfe, LeafScan, Pflanzenkrankheit, Cannabis Schaedlinge, Homegrow Tool" />
+    <title>LeafScan — Pflanzendiagnose fuer Cannabis</title>
+    <meta name="title" content="LeafScan — Pflanzendiagnose fuer Cannabis" />
+    <meta name="description" content="Scanne dein Blatt per Foto und erhalte in Sekunden eine Diagnose: Naehrstoffmangel, Schaedlinge, Schimmel und mehr. Kostenlos, direkt im Browser." />
+    <meta name="keywords" content="Cannabis Diagnose, Pflanzendiagnose, Naehrstoffmangel erkennen, Cannabis Blaetter, Grow Hilfe, LeafScan, Pflanzenkrankheit, Cannabis Schaedlinge, Homegrow Tool" />
     <meta name="author" content="LeafScan" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="de" />
@@ -20,8 +20,8 @@ cat > /tmp/seo-head.html << 'SEOEOF'
     <link rel="canonical" href="https://leafscan.de/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://leafscan.de/" />
-    <meta property="og:title" content="LeafScan — KI-Pflanzendiagnose fuer Cannabis" />
-    <meta property="og:description" content="Foto machen, Diagnose erhalten, Pflanze retten. KI-gestuetzte Analyse erkennt Naehrstoffmangel, Schaedlinge und Krankheiten in Sekunden." />
+    <meta property="og:title" content="LeafScan — Pflanzendiagnose fuer Cannabis" />
+    <meta property="og:description" content="Foto machen, Diagnose erhalten, Pflanze retten. Erkennt Naehrstoffmangel, Schaedlinge und Krankheiten in Sekunden." />
     <meta property="og:image" content="https://leafscan.de/icon-512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
@@ -30,7 +30,7 @@ cat > /tmp/seo-head.html << 'SEOEOF'
     <meta property="og:site_name" content="LeafScan" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://leafscan.de/" />
-    <meta name="twitter:title" content="LeafScan — KI-Pflanzendiagnose fuer Cannabis" />
+    <meta name="twitter:title" content="LeafScan — Pflanzendiagnose fuer Cannabis" />
     <meta name="twitter:description" content="Scanne dein Blatt per Foto und erhalte in Sekunden eine KI-Diagnose. Kostenlos, direkt im Browser." />
     <meta name="twitter:image" content="https://leafscan.de/icon-512.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -41,7 +41,7 @@ cat > /tmp/seo-head.html << 'SEOEOF'
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebApplication","name":"LeafScan","url":"https://leafscan.de","description":"KI-gestuetzte Pflanzendiagnose fuer Cannabis. Foto hochladen und in Sekunden erfahren was deiner Pflanze fehlt.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"creator":{"@type":"Organization","name":"LeafScan","url":"https://leafscan.de"},"featureList":["KI-Blattanalyse per Foto","Naehrstoffmangel-Erkennung","Schaedlings-Erkennung","Schimmel-Erkennung","Behandlungsempfehlungen"],"inLanguage":"de"}
+    {"@context":"https://schema.org","@type":"WebApplication","name":"LeafScan","url":"https://leafscan.de","description":"Pflanzendiagnose fuer Cannabis. Foto hochladen und in Sekunden erfahren was deiner Pflanze fehlt.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"creator":{"@type":"Organization","name":"LeafScan","url":"https://leafscan.de"},"featureList":["KI-Blattanalyse per Foto","Naehrstoffmangel-Erkennung","Schaedlings-Erkennung","Schimmel-Erkennung","Behandlungsempfehlungen"],"inLanguage":"de"}
     </script>
 SEOEOF
 
