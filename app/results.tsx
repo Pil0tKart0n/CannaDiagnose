@@ -16,6 +16,33 @@ import { updateEntry } from '../services/storage';
 
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
+/** Convert any image URI (blob:, file://, data:, http) to base64 data URI */
+async function imageToDataUri(uri: string): Promise<string> {
+  if (uri.startsWith('data:image/')) return uri;
+  // Try cachedReadAsBase64 first (works on native + web blob/file URIs)
+  try {
+    const base64 = await cachedReadAsBase64(uri);
+    return `data:image/jpeg;base64,${base64}`;
+  } catch (_) {}
+  // Web fallback: load into canvas and export
+  if (Platform.OS === 'web') {
+    return new Promise((resolve, reject) => {
+      const img = new (window as any).Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        canvas.getContext('2d')!.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = reject;
+      img.src = uri;
+    });
+  }
+  throw new Error('Cannot convert image');
+}
+
 async function sendFeedbackToServer(
   rating: 'positive' | 'negative',
   result: DiagnosisResult | null,
@@ -35,11 +62,7 @@ async function sendFeedbackToServer(
   if (rating === 'negative' && images && images.length > 0) {
     try {
       const base64Images = await Promise.all(
-        images.slice(0, 5).map(async (uri) => {
-          if (uri.startsWith('data:image/')) return uri;
-          const base64 = await cachedReadAsBase64(uri);
-          return `data:image/jpeg;base64,${base64}`;
-        })
+        images.slice(0, 5).map(imageToDataUri)
       );
       body.images = base64Images;
     } catch (e) {
@@ -646,7 +669,7 @@ export default function ResultsScreen() {
               onPress={() => {
                 setFeedback('negative');
                 if (params.entryId) updateEntry(params.entryId, { feedback: 'negative' });
-                sendFeedbackToServer('negative', displayResult, questionnaire, imageUris);
+                sendFeedbackToServer('negative', displayResult, questionnaire, displayImages);
               }}
               activeOpacity={0.7}
             >
