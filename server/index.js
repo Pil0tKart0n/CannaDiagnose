@@ -1166,13 +1166,15 @@ app.get('/api/admin/dashboard', (req, res) => {
   const activePremium = db.prepare(`SELECT COUNT(*) as c FROM premium_sessions WHERE active = 1`).get().c;
   const activePromos = db.prepare(`SELECT COUNT(*) as c FROM promo_redemptions WHERE expires_at > datetime('now')`).get().c;
 
-  // Token usage today
-  const tokensToday = db.prepare(`SELECT COALESCE(SUM(total_tokens), 0) as t FROM api_usage WHERE created_at >= date('now')`).get().t;
-  const tokensMonth = db.prepare(`SELECT COALESCE(SUM(total_tokens), 0) as t FROM api_usage WHERE created_at >= date('now', '-30 days')`).get().t;
+  // Token usage today (split by input/output for accurate cost calculation)
+  const usageToday = db.prepare(`SELECT COALESCE(SUM(total_tokens), 0) as t, COALESCE(SUM(prompt_tokens), 0) as inp, COALESCE(SUM(completion_tokens), 0) as out FROM api_usage WHERE created_at >= date('now')`).get();
+  const usageMonth = db.prepare(`SELECT COALESCE(SUM(total_tokens), 0) as t, COALESCE(SUM(prompt_tokens), 0) as inp, COALESCE(SUM(completion_tokens), 0) as out FROM api_usage WHERE created_at >= date('now', '-30 days')`).get();
+  const tokensToday = usageToday.t;
+  const tokensMonth = usageMonth.t;
 
-  // Estimated cost (GPT-4o: ~$2.50/1M input, ~$10/1M output — simplified ~$5/1M avg)
-  const costToday = (tokensToday / 1000000 * 5).toFixed(2);
-  const costMonth = (tokensMonth / 1000000 * 5).toFixed(2);
+  // Accurate cost calculation: GPT-4o pricing $2.50/1M input, $10.00/1M output
+  const costToday = (usageToday.inp / 1000000 * 2.50 + usageToday.out / 1000000 * 10.00).toFixed(2);
+  const costMonth = (usageMonth.inp / 1000000 * 2.50 + usageMonth.out / 1000000 * 10.00).toFixed(2);
 
   res.json({
     scans: { today: scansToday, week: scansWeek, total: scansTotal },
