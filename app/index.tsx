@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    fontSize: 56,
+    fontSize: 48,
     fontWeight: '300',
     color: 'rgba(228,235,230,0.6)',
     letterSpacing: 12,
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleAccent: {
-    fontSize: 56,
+    fontSize: 48,
     fontWeight: '700',
     color: colors.accent,
     letterSpacing: 12,
