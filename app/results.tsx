@@ -232,12 +232,17 @@ export default function ResultsScreen() {
     }
   };
 
+  const isLivingSoil = questionnaire.substrateType === 'Living Soil';
+
   const handleRefine = async () => {
     if (!phInput && !ecInput) {
+      const msg = isLivingSoil
+        ? 'Bitte gib einen pH-Wert ein.'
+        : 'Bitte gib mindestens einen pH- oder EC-Wert ein.';
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
-        window.alert('Bitte gib mindestens einen pH- oder EC-Wert ein.');
+        window.alert(msg);
       } else {
-        Alert.alert('Fehlende Daten', 'Bitte gib mindestens einen pH- oder EC-Wert ein.');
+        Alert.alert('Fehlende Daten', msg);
       }
       return;
     }
@@ -379,7 +384,9 @@ export default function ResultsScreen() {
           {refineOpen && (
             <View style={styles.refineBody}>
               <Text style={styles.refineHint}>
-                Farbe korrigieren oder pH/EC nachtragen für eine präzisere Diagnose.
+                {questionnaire.substrateType === 'Living Soil'
+                  ? 'Farbe korrigieren oder pH-Wert nachtragen für eine präzisere Diagnose.'
+                  : 'Farbe korrigieren oder pH/EC nachtragen für eine präzisere Diagnose.'}
               </Text>
 
               {/* Color correction field */}
@@ -427,12 +434,13 @@ export default function ResultsScreen() {
                 )}
               </View>
 
+              {/* pH + EC row — EC and fertilizer hidden for Living Soil */}
               <View style={[styles.refineInputRow, { zIndex: 1 }]}>
                 <View style={styles.refineInputGroup}>
                   <Text style={styles.refineLabel}>pH-Wert</Text>
                   <TextInput
                     style={styles.refineInput}
-                    placeholder="z.B. 5.9"
+                    placeholder="z.B. 6.5"
                     placeholderTextColor={colors.textMuted}
                     keyboardType="decimal-pad"
                     value={phInput}
@@ -444,25 +452,28 @@ export default function ResultsScreen() {
                     }}
                   />
                 </View>
-                <View style={styles.refineInputGroup}>
-                  <Text style={styles.refineLabel}>EC / PPM</Text>
-                  <TextInput
-                    style={styles.refineInput}
-                    placeholder="z.B. 1.2"
-                    placeholderTextColor={colors.textMuted}
-                    keyboardType="decimal-pad"
-                    value={ecInput}
-                    onChangeText={setEcInput}
-                    onFocus={() => {
-                      setTimeout(() => {
-                        scrollRef.current?.scrollTo({ y: refineYRef.current, animated: true });
-                      }, 300);
-                    }}
-                  />
-                </View>
+                {questionnaire.substrateType !== 'Living Soil' && (
+                  <View style={styles.refineInputGroup}>
+                    <Text style={styles.refineLabel}>EC / PPM</Text>
+                    <TextInput
+                      style={styles.refineInput}
+                      placeholder="z.B. 1.2"
+                      placeholderTextColor={colors.textMuted}
+                      keyboardType="decimal-pad"
+                      value={ecInput}
+                      onChangeText={setEcInput}
+                      onFocus={() => {
+                        setTimeout(() => {
+                          scrollRef.current?.scrollTo({ y: refineYRef.current, animated: true });
+                        }, 300);
+                      }}
+                    />
+                  </View>
+                )}
               </View>
 
-              {/* Fertilizer selector */}
+              {/* Fertilizer selector — hidden for Living Soil */}
+              {questionnaire.substrateType !== 'Living Soil' && (
               <View style={styles.refineInputGroup}>
                 <Text style={styles.refineLabel}>Dünger{questionnaire.fertilizerType ? ' (aus Fragebogen)' : ' (optional)'}</Text>
                 <TouchableOpacity
@@ -526,6 +537,7 @@ export default function ResultsScreen() {
                   </View>
                 )}
               </View>
+              )}
 
               <TouchableOpacity
                 onPress={handleRefine}
