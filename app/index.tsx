@@ -12,7 +12,6 @@ import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota';
@@ -76,17 +75,19 @@ const webCSS = Platform.OS === 'web' ? `
   }
   .cd-btn-primary {
     position: relative; overflow: hidden; border-radius: 16px;
-    background: linear-gradient(165deg, #6AF09E 0%, #5CE892 40%, #3BBF6E 100%);
-    box-shadow: 0 8px 40px rgba(92,232,146,0.3), 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    background: linear-gradient(165deg, #72F5A8 0%, #5CE892 35%, #3BBF6E 100%);
+    box-shadow: 0 6px 30px rgba(92,232,146,0.3), 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
     transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease; cursor: pointer;
-    animation: cd-cta-breathe 3s ease-in-out infinite;
   }
-  @keyframes cd-cta-breathe {
-    0%, 100% { box-shadow: 0 8px 40px rgba(92,232,146,0.25), 0 2px 4px rgba(0,0,0,0.4); }
-    50% { box-shadow: 0 8px 50px rgba(92,232,146,0.4), 0 2px 4px rgba(0,0,0,0.4); }
+  .cd-btn-primary::after {
+    content: '';
+    position: absolute; top: 0; width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: cd-shine 4s ease-in-out infinite;
+    pointer-events: none;
   }
-  .cd-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 50px rgba(92,232,146,0.4), 0 4px 8px rgba(0,0,0,0.2); animation: none; }
-  .cd-btn-primary:active { transform: translateY(1px) scale(0.98); animation: none; }
+  .cd-btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 40px rgba(92,232,146,0.35), 0 4px 8px rgba(0,0,0,0.2); }
+  .cd-btn-primary:active { transform: translateY(1px) scale(0.98); }
   .cd-btn-secondary {
     position: relative; overflow: hidden; border-radius: 14px;
     border: 1px solid rgba(92,232,146,0.06);
@@ -250,48 +251,35 @@ export default function HomeScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
 
-          {/* Brand — compact, confident */}
-          <View style={styles.topSpacer} />
-
-          {/* Hero — single focus */}
+          {/* Hero: Brand + Value Prop */}
           <View style={styles.centerArea}>
             {Platform.OS === 'web' && <View style={styles.logoGlow} />}
+            {Platform.OS === 'web' && <View style={styles.logoGlowWarm} />}
+            {Platform.OS === 'web' && <View style={styles.orbitDot} />}
 
             {Platform.OS === 'web' ? (
               <div className="cd-title-wrap">
-                <Text style={styles.title}>Leaf<Text style={styles.titleAccent}>Scan</Text></Text>
+                <Text style={styles.title}>Leaf</Text>
+                <Text style={styles.titleAccent}>Scan</Text>
               </div>
             ) : (
-              <Text style={styles.title}>Leaf<Text style={styles.titleAccent}>Scan</Text></Text>
+              <>
+                <Text style={styles.title}>Leaf</Text>
+                <Text style={styles.titleAccent}>Scan</Text>
+              </>
             )}
 
-            <Text style={styles.headline}>
-              Foto machen.{'\n'}Problem geloest.
+            <View style={styles.dividerWrap}>
+              <View style={styles.dividerLine} />
+              <View style={styles.dividerDiamond} />
+              <View style={styles.dividerLine} />
+            </View>
+
+            <Text style={styles.tagline}>Scan it. Fix it.</Text>
+
+            <Text style={styles.valueProp}>
+              Foto machen — sofort wissen was fehlt.
             </Text>
-
-            {/* THE button — everything leads here */}
-            {isWeb ? (
-              <div
-                className="cd-btn-primary"
-                onClick={startDiagnosis}
-                style={{ padding: '20px 32px', textAlign: 'center', width: '100%', maxWidth: 320, marginTop: 32 } as any}
-              >
-                <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
-              </div>
-            ) : (
-              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85} style={{ width: '100%', maxWidth: 320, marginTop: 32 }}>
-                <LinearGradient
-                  colors={['#6AF09E', '#5CE892', '#44C878']}
-                  start={{ x: 0.5, y: 0 }}
-                  end={{ x: 0.5, y: 1 }}
-                  style={styles.nativePrimaryBtn}
-                >
-                  <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            )}
-
-            <Text style={styles.ctaMicro}>Kostenlos · Kein Account</Text>
 
             {quotaText ? (
               <TouchableOpacity
@@ -306,19 +294,58 @@ export default function HomeScreen() {
             ) : null}
           </View>
 
-          {/* Bottom nav — whisper quiet */}
-          <View style={styles.bottomNav}>
-            <TouchableOpacity onPress={() => router.push('/plants')} style={styles.navLink} activeOpacity={0.6}>
-              <Text style={styles.navLinkText}>Pflanzen</Text>
-            </TouchableOpacity>
-            <Text style={styles.navDot}>·</Text>
-            <TouchableOpacity onPress={() => router.push('/history')} style={styles.navLink} activeOpacity={0.6}>
-              <Text style={styles.navLinkText}>Verlauf</Text>
-            </TouchableOpacity>
-            <Text style={styles.navDot}>·</Text>
-            <TouchableOpacity onPress={() => router.push('/library')} style={styles.navLink} activeOpacity={0.6}>
-              <Text style={styles.navLinkText}>Bibliothek</Text>
-            </TouchableOpacity>
+          {/* CTA Area — Primary action dominates */}
+          <View style={styles.buttons}>
+            {isWeb ? (
+              <div
+                className="cd-btn-primary"
+                onClick={startDiagnosis}
+                style={{ padding: '18px 24px', textAlign: 'center' } as any}
+              >
+                <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+              </div>
+            ) : (
+              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
+                <LinearGradient
+                  colors={['#6AF09E', '#5CE892', '#44C878']}
+                  start={{ x: 0.5, y: 0 }}
+                  end={{ x: 0.5, y: 1 }}
+                  style={styles.nativePrimaryBtn}
+                >
+                  <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+            <Text style={styles.ctaSubtext}>Kostenlos — kein Account noetig</Text>
+
+            {/* Secondary nav — compact, less visual weight */}
+            <View style={styles.navRow}>
+              {isWeb ? (
+                <>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/plants')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Pflanzen</Text>
+                  </div>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/history')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Verlauf</Text>
+                  </div>
+                  <div className="cd-btn-secondary" onClick={() => router.push('/library')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                    <Text style={styles.navBtnText}>Bibliothek</Text>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/plants')} activeOpacity={0.7}>
+                    <Text style={styles.navBtnText}>Pflanzen</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/history')} activeOpacity={0.7}>
+                    <Text style={styles.navBtnText}>Verlauf</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/library')} activeOpacity={0.7}>
+                    <Text style={styles.navBtnText}>Bibliothek</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
           </View>
 
           {/* Install banner — PWA or APK download for Android web users */}
@@ -479,66 +506,111 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  // removed: logoGlowWarm, orbitDot — less noise
-  topSpacer: {
-    flex: 0.15,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '300',
-    color: colors.text,
-    letterSpacing: 3,
-    textAlign: 'center',
-  },
-  titleAccent: {
-    fontWeight: '700',
-    color: colors.accent,
+  logoGlowWarm: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(212,168,83,0.05)',
+    top: '30%',
+    left: '60%',
     ...Platform.select({
-      web: { textShadow: '0 0 40px rgba(92,232,146,0.2)' },
+      web: { filter: 'blur(80px)', animation: 'cd-bg-breathe 8s ease-in-out infinite 3s' },
       default: {},
     }),
   },
-  // kept for compat
-  secondaryRow: {
-    flexDirection: 'row',
-    gap: 10,
+  orbitDot: {
+    position: 'absolute',
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'rgba(92,232,146,0.4)',
+    top: '40%',
+    ...Platform.select({
+      web: { animation: 'cd-glow-orbit 12s linear infinite', boxShadow: '0 0 12px rgba(92,232,146,0.4)' },
+      default: {},
+    }),
   },
-  headline: {
-    fontSize: 28,
-    fontWeight: '600',
-    color: colors.text,
+  title: {
+    fontSize: 52,
+    fontWeight: '300',
+    color: 'rgba(228,235,230,0.6)',
+    letterSpacing: 12,
+    textTransform: 'uppercase',
     textAlign: 'center',
-    lineHeight: 38,
-    marginTop: 20,
-    letterSpacing: -0.5,
   },
-  ctaMicro: {
+  titleAccent: {
+    fontSize: 52,
+    fontWeight: '700',
+    color: colors.accent,
+    letterSpacing: 12,
+    textTransform: 'uppercase',
+    marginTop: -8,
+    textAlign: 'center',
+    ...Platform.select({
+      web: { textShadow: '0 0 40px rgba(92,232,146,0.3), 0 0 80px rgba(92,232,146,0.1)' },
+      default: {},
+    }),
+  },
+  tagline: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: colors.textMuted,
+    letterSpacing: 4,
+    textTransform: 'uppercase',
+    marginBottom: 28,
+  },
+  dividerWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginVertical: 18,
+  },
+  dividerLine: {
+    width: 28,
+    height: 1,
+    backgroundColor: colors.accentDivider,
+  },
+  dividerDiamond: {
+    width: 6,
+    height: 6,
+    backgroundColor: colors.accent,
+    transform: [{ rotate: '45deg' }],
+    opacity: 0.4,
+  },
+  ctaSubtext: {
     fontSize: 12,
     color: colors.textMuted,
     textAlign: 'center',
-    marginTop: 12,
+    marginTop: 10,
     letterSpacing: 0.3,
   },
-  bottomNav: {
+  navRow: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    gap: 8,
+    marginTop: 12,
+  },
+  navBtn: {
+    borderRadius: 12,
+    paddingVertical: 11,
     alignItems: 'center',
-    gap: 16,
-    paddingBottom: 8,
+    backgroundColor: 'rgba(15,23,19,0.5)',
+    borderWidth: 1,
+    borderColor: 'rgba(92,232,146,0.06)',
   },
-  navLink: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  navLinkText: {
-    fontSize: 13,
+  navBtnText: {
     color: colors.textMuted,
+    fontSize: 13,
     fontWeight: '500',
     letterSpacing: 0.3,
   },
-  navDot: {
-    fontSize: 13,
-    color: 'rgba(100,112,105,0.3)',
+  valueProp: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 22,
+    marginTop: 4,
+    letterSpacing: 0.3,
   },
 
   // Quota badge
@@ -663,13 +735,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   nativePrimaryBtn: {
-    borderRadius: 16,
-    paddingVertical: 20,
+    borderRadius: 14,
+    paddingVertical: 16,
     alignItems: 'center',
     overflow: 'hidden',
     ...Platform.select({
-      ios: { shadowColor: '#5CE892', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.35, shadowRadius: 24 },
-      android: { elevation: 12 },
+      ios: { shadowColor: '#5CE892', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.3, shadowRadius: 16 },
+      android: { elevation: 8 },
     }),
   },
   nativeSecondaryBtn: {
@@ -682,7 +754,7 @@ const styles = StyleSheet.create({
   },
   primaryBtnText: {
     color: colors.textOnAccent,
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '700',
     letterSpacing: 0.5,
   },
