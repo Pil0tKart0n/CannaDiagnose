@@ -35,6 +35,8 @@ export interface ActionStep {
   details: string;
 }
 
+export type DiagnosisCategory = 'nutrient_deficiency' | 'abiotic_stress' | 'pest' | 'disease' | 'physiological';
+
 export interface DiagnosisResult {
   severity: Severity;
   primaryDiagnosis: string;
@@ -44,6 +46,8 @@ export interface DiagnosisResult {
   actionPlan: ActionStep[];
   preventiveTips: string[];
   followUpDays?: number;
+  category?: DiagnosisCategory;
+  requiresHumanReview?: boolean;
 }
 
 export interface DiagnosisEntry {

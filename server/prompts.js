@@ -457,7 +457,7 @@ EISEN(Fe)-MANGEL [Cockson et al. 2019]:
   D3: Interveinal (wie Mg), aber viel st\u00e4rker gebleicht
   D4: NEUE/OBERE Bl\u00e4tter zuerst! (immobil \u2013 DAS unterscheidet von Mg!)
   D5: Neue Bl\u00e4tter, Triebspitzen
-  EXTRA: Echter Fe-Mangel ist SELTEN! Meist pH-Lockout (pH >6.5), niedrige Temp (<18\u00b0C) oder \u00dcberschuss von Zn/P. Pr\u00fcfe pH ZUERST!
+  EXTRA: Echter Fe-Mangel ist SELTEN! Meist pH-Lockout (pH >6.5), niedrige Temp (<18\u00b0C) oder \u00dcberschuss von Zn/P. Pr\u00fcfe pH ZUERST! BEST\u00c4TIGUNGSMERKMAL: Fe-Mangel-Bl\u00e4tter k\u00f6nnen sich ERHOLEN \u2013 gelbe Bereiche werden von den Spitzen her wieder gr\u00fcn. Das ist einzigartig \u2013 bei anderen M\u00e4ngeln erholen sich alte Bl\u00e4tter NICHT. \u00dcberw\u00e4sserung versch\u00e4rft Fe-Mangel (Wurzelstress reduziert Fe-Aufnahme).
 
 PHOSPHOR(P)-MANGEL [Cockson et al. 2019 \u2013 WICHTIGE KORREKTUR]:
   D1: Dunkelgr\u00fcn bis blau-gr\u00fcn, MATT/stumpf (Glanz geht verloren!). Dann olive-gr\u00fcne Flecken. Violett/purpur kommt SP\u00c4TER
@@ -489,7 +489,7 @@ N\u00c4HRSTOFFBRAND (\u00dcberd\u00fcngung):
   D3: NUR die \u00e4u\u00dfersten BLATTSPITZEN (1-3mm), wie mit Feuerzeug angesengt. NICHT die R\u00e4nder entlang!
   D4: Kann alle Bl\u00e4tter betreffen, oft zuerst mittlere/obere
   D5: Viele Bl\u00e4tter gleichzeitig, ALLE Spitzen gleichm\u00e4\u00dfig betroffen
-  EXTRA: KRITISCHER UNTERSCHIED zu K-Mangel: N\u00e4hrstoffbrand = nur Spitze, sofort braun, gleichm\u00e4\u00dfig alle Bl\u00e4tter. K-Mangel = ganzer Rand, erst gelb dann braun, untere Bl\u00e4tter zuerst. EC zu hoch = N\u00e4hrstoffbrand
+  EXTRA: KRITISCHER UNTERSCHIED zu K-Mangel: N\u00e4hrstoffbrand = nur Spitze, sofort braun, gleichm\u00e4\u00dfig alle Bl\u00e4tter. K-Mangel = ganzer Rand, erst gelb dann braun, untere Bl\u00e4tter zuerst. EC zu hoch = N\u00e4hrstoffbrand. WICHTIG: Lichtintensit\u00e4t beeinflusst die Burn-Schwelle! Pflanzen unter schwachem Licht zeigen Burn bei NIEDRIGEREN EC-Werten als Pflanzen unter starkem Licht. In der Bl\u00fcte sind Pflanzen anf\u00e4lliger (keine neuen Bl\u00e4tter zum Kompensieren). N\u00e4hrstoffbrand tritt oft ZUSAMMEN mit N-Toxizit\u00e4t auf (Krallen + braune Spitzen gleichzeitig).
 
 STICKSTOFF(N)-\u00dcBERSCHUSS (Toxizit\u00e4t) [Dinafem]:
   D1: DUNKELGR\u00dcN, unnat\u00fcrlich satt, fast schwarz-gr\u00fcn, GL\u00c4NZEND (auff\u00e4llig glossy!)
@@ -505,7 +505,7 @@ LICHTBRAND:
   D3: OBERE Blattfl\u00e4chen, lampen-zugewandte Seite
   D4: NUR obere/lampennahe Bl\u00e4tter! Untere Bl\u00e4tter nicht betroffen
   D5: Obere Etage der Pflanze
-  EXTRA: Untere Bl\u00e4tter gesund = Lichtbrand, NICHT Fe-Mangel. Lampe h\u00f6her/dimmen
+  EXTRA: Untere Bl\u00e4tter gesund = Lichtbrand, NICHT Fe-Mangel. Lampe h\u00f6her/dimmen. LED-Burn erzeugt oft zus\u00e4tzlich rot/violette Verf\u00e4rbungen neben Vergilbung (anders als HPS-Burn). Lichtbrand-Bl\u00e4tter fallen NICHT leicht ab (N-Mangel-Bl\u00e4tter dagegen schon \u2013 einfacher Handtest!).
 
 HITZESTRESS:
   D1: R\u00e4nder k\u00f6nnen gelb/braun werden
@@ -513,7 +513,7 @@ HITZESTRESS:
   D3: Bl\u00e4tter rollen sich nach OBEN ("Taco-Form"), R\u00e4nder kr\u00e4useln sich
   D4: Obere/lampennahe Bl\u00e4tter zuerst
   D5: Obere Etage
-  EXTRA: Temp >30\u00b0C? "Taco"-Bl\u00e4tter = Hitzestress. NICHT mit Mg-Mangel verwechseln (kein Adernmuster!)
+  EXTRA: Temp >30\u00b0C? "Taco"-Bl\u00e4tter = Hitzestress. NICHT mit Mg-Mangel verwechseln (kein Adernmuster!). WICHTIG: Niedrige Luftfeuchtigkeit (<35% RH) kann Hitzestress-Symptome erzeugen AUCH bei normalen Temperaturen (25\u00b0C + 30% RH = Taco-Bl\u00e4tter durch VPD-Stress!). FR\u00dcHWARNZEICHEN: "Praying Leaves" (Bl\u00e4tter zeigen nach oben Richtung Lampe) \u2013 das passiert BEVOR sichtbarer Schaden entsteht. Hitze in der Bl\u00fcte erzeugt "Foxtailing" \u2013 abnormale neue Bl\u00fctenspitzen wachsen aus bestehenden Bl\u00fcten, Ergebnis sind luftige, substanzlose Bl\u00fcten.
 
 \u00dcBERW\u00c4SSERUNG:
   D1: Dunkelgr\u00fcn bis gelblich-gr\u00fcn. Bl\u00e4tter sehen "zu voll" aus
@@ -521,7 +521,7 @@ HITZESTRESS:
   D3: Gesamte Pflanze h\u00e4ngt NACH UNTEN, Bl\u00e4tter droop trotz feuchter Erde
   D4: Alle Bl\u00e4tter gleichzeitig \u2013 gesamte Pflanze sackt zusammen
   D5: Gesamte Pflanze
-  EXTRA: SCHL\u00dcSSEL: Substrat ist NASS/FEUCHT + Pflanze h\u00e4ngt = \u00dcberw\u00e4sserung. Bl\u00e4tter f\u00fchlen sich dick und schwer an. NICHT mit Unterw\u00e4sserung verwechseln (dort sind Bl\u00e4tter D\u00dcNN/papierartig und Substrat ist TROCKEN). Auch eine dunkelgr\u00fcne h\u00e4ngende Pflanze bei nassem Substrat = \u00dcberw\u00e4sserung!
+  EXTRA: SCHL\u00dcSSEL: Substrat ist NASS/FEUCHT + Pflanze h\u00e4ngt = \u00dcberw\u00e4sserung. Bl\u00e4tter f\u00fchlen sich dick und schwer an. NICHT mit Unterw\u00e4sserung verwechseln (dort sind Bl\u00e4tter D\u00dcNN/papierartig und Substrat ist TROCKEN). Auch eine dunkelgr\u00fcne h\u00e4ngende Pflanze bei nassem Substrat = \u00dcberw\u00e4sserung! TIMING-TRICK: Pflanze h\u00e4ngt NACH dem Gie\u00dfen = \u00dcberw\u00e4sserung (Wurzeln ersticken). Pflanze h\u00e4ngt VOR dem Gie\u00dfen = Unterw\u00e4sserung. Erde 2-3cm tief trocknen lassen bevor wieder gegossen wird. Lieber seltener aber durchdringend gie\u00dfen (20% Runoff).
 
 SCHWEFEL(S)-MANGEL:
   D1: Gleichm\u00e4\u00dfig hellgr\u00fcn/gelb \u2013 \u00e4hnlich wie N, aber an NEUEN Bl\u00e4ttern!
@@ -529,7 +529,7 @@ SCHWEFEL(S)-MANGEL:
   D3: Gleichm\u00e4\u00dfig \u00fcber gesamtes Blatt, KEIN Adernmuster
   D4: NEUE/OBERE Bl\u00e4tter zuerst (semi-mobil) \u2013 DAS unterscheidet von N-Mangel!
   D5: Obere Blattetage, neues Wachstum
-  EXTRA: Selten, aber verwechselbar mit N-Mangel. Schl\u00fcssel: N=unten zuerst, S=oben zuerst. Bl\u00e4tter bleiben fest bei S.
+  EXTRA: Selten, aber verwechselbar mit N-Mangel. Schl\u00fcssel: N=unten zuerst, S=oben zuerst. Bl\u00e4tter bleiben fest bei S. ZUSATZ: Vergilbung beginnt an der Blatt-R\u00dcCKSEITE und wandert nach vorne. Blattunterseite kann pink/rosa/orange werden \u2013 ein einzigartiges Merkmal! S bewegt sich LANGSAM durch die Pflanze, daher dauert es nach Korrektur mehrere Tage bis Besserung sichtbar wird.
 
 MANGAN(Mn)-MANGEL:
   D1: Hellgelb/tan zwischen Adern, tan-braune Flecken
@@ -603,8 +603,97 @@ HERMAPHRODISMUS (Zwitter):
   D5: Kann vereinzelt oder massiv auftreten
   EXTRA: SOFORT handeln! H\u00e4ufigste Ursache = Lichtleck in Dunkelphase. Auch Hitze >35\u00b0C, extremer Stress. Bananen = Stressreaktion in sp\u00e4ter Bl\u00fcte. Pollens\u00e4cke = fr\u00fcher/genetischer Hermie. Bei Bananen: sofortige Ernte erw\u00e4gen!
 
-HINWEIS: Diese App diagnostiziert NUR N\u00e4hrstoffm\u00e4ngel, N\u00e4hrstoff\u00fcbersch\u00fcsse und Umweltprobleme.
-  Falls du Anzeichen von Sch\u00e4dlingen (Insekten, Gespinste, Kolonien) oder Krankheiten (Mehltau, Schimmel, F\u00e4ule) erkennst, weise den Nutzer darauf hin, dass dies kein N\u00e4hrstoffproblem ist und empfehle eine spezialisierte Sch\u00e4dlings-/Krankheitsberatung.
+\u2500\u2500 SCH\u00c4DLINGE & KRANKHEITEN (WICHTIG \u2013 oft als N\u00e4hrstoffmangel fehldiagnostiziert!) \u2500\u2500
+
+SPINNMILBEN (Spider Mites):
+  D1: Winzige gelbe/wei\u00dfe Punkte (Einstiche) auf Blattoberseite
+  D2: Sp\u00e4ter bronzefarben/rostfarbene Fl\u00e4chen, feines Gespinst zwischen Bl\u00e4ttern
+  D3: Punkte sind ZUF\u00c4LLIG verteilt (NICHT nach Adernmuster wie bei N\u00e4hrstoffmangel!)
+  D4: Kann alle Bl\u00e4tter betreffen, oft unten beginnend
+  D5: Von wenigen Bl\u00e4ttern bis gesamte Pflanze
+  SCHL\u00dcSSEL: Blattunterseite pr\u00fcfen! Winzige bewegliche Punkte + Gespinst = Spinnmilben. N\u00e4hrstoffmangel folgt MUSTERN, Milben NICHT.
+  AKTION: Befallene Bl\u00e4tter entfernen. Neemöl oder Kaliseife auf Blattunterseiten. In Bl\u00fcte: Raubmilben (Phytoseiulus) statt Sprays.
+
+THRIPS:
+  D1: Silbrige/bronzene Flecken, "wie getrocknete Spucke"
+  D2: Unregelm\u00e4\u00dfige silbrige Bereiche, gr\u00f6\u00dfer als Spinnmilben-Punkte
+  D3: Kratzer-/Schab-Muster auf Blattoberfl\u00e4chen, schwarze Kotpunkte
+  D4: Bevorzugt junge/weiche Bl\u00e4tter und Bl\u00fcten
+  D5: Kann sich schnell ausbreiten
+  SCHL\u00dcSSEL: Silbrige Kratzer + blasse wurmartige Nymphen + schwarze Kotpunkte = Thrips. Gr\u00f6\u00dfere, unregelm\u00e4\u00dfigere Flecken als Spinnmilben.
+  AKTION: Blaue/gelbe Klebefallen. Spinosad-basierte Mittel (NICHT in Bl\u00fcte!). Raubmilben (Amblyseius).
+
+HEMP RUSSET MITES (EXTREM schwer zu erkennen!):
+  D1: Bl\u00e4tter kr\u00e4useln nach innen, gelblich/beige, schlapp
+  D2: Bl\u00e4tter wirken "plastisch"/glasig, Oberfl\u00e4che sieht fettig aus
+  D3: Knospen deformiert, Pflanzentop welkt, braune/gelbe Flecken
+  D4: Beginnt oben an den Triebspitzen, wandert nach unten
+  D5: Kann gesamte Pflanze befallen
+  SCHL\u00dcSSEL: NUR mit 60x+ Lupe/Mikroskop sichtbar! Wenn Symptome wie Hitze + Mangel + TMV gleichzeitig aussehen aber NICHTS hilft \u2192 Russet Mites pr\u00fcfen. Beige Masse bei Massenbefall.
+  AKTION: Schwefel-basierte Mittel (NUR in Veg!). 5 Wochen Nachbehandlung n\u00f6tig (Eier IN der Pflanze). Stark befallene Pflanzen entfernen.
+
+TRAUERM\u00dcCKEN (Fungus Gnats) \u2013 DER "PHANTOM-VERURSACHER":
+  D1: Pflanze zeigt wechselnde, unerklärliche Mangelsymptome die auf keine Behandlung ansprechen
+  D2: Langsames Wachstum, S\u00e4mlinge sterben pl\u00f6tzlich ("Damping off")
+  D3: Kein klares Symptom-Muster \u2013 mal N-Mangel, mal Ca, mal Fe
+  D4: Kann alle Bl\u00e4tter betreffen
+  D5: Progressiv schlimmer
+  SCHL\u00dcSSEL: Kleine schwarze M\u00fccken um den Topf/Substrat + nasses Substrat = Fungus Gnats. Larven fressen Wurzeln \u2192 erzeugen JEDES beliebige Mangelsymptom! Zus\u00e4tzlich verbreiten sie Pythium (\u2192 Wurzelf\u00e4ule).
+  AKTION: Substrat-Oberfl\u00e4che trockener halten. Gelbsticker als Falle. Nematoden (Steinernema feltiae) gegen Larven. KEIN H2O2 (t\u00f6tet auch n\u00fctzliche Mikroben).
+
+BLATTL\u00c4USE (Aphids):
+  D1: Bl\u00e4tter vergilben, welken, klebrige Tropfen auf Blattoberfl\u00e4chen
+  D2: Klebrige Substanz (Honigtau) + schwarzer Ru\u00dftaupilz darauf
+  D3: Kleine gr\u00fcne/wei\u00dfe/schwarze Insekten an Blattunterseiten, oft in Kolonien
+  D4: Bevorzugt Triebspitzen und junge Bl\u00e4tter
+  D5: Vermehrt sich explosionsartig
+  SCHL\u00dcSSEL: Klebrige Bl\u00e4tter + Ameisen auf der Pflanze = Blattl\u00e4use suchen. Ameisen "melken" den Honigtau.
+  AKTION: Kaliseife-Spray. Marienk\u00e4fer/Florfliegen als N\u00fctzlinge. Befallene Triebe abschneiden.
+
+ECHTER MEHLTAU (WPM \u2013 White Powdery Mildew):
+  D1: Wei\u00dfe runde Flecken auf Blattoberfl\u00e4che, "wie Mehl"
+  D2: Pudriger/mehliger Belag, breitet sich schnell aus
+  D3: Runde wei\u00dfe Puder-Flecken die zusammenwachsen
+  D4: Kann alle Bl\u00e4tter und Bl\u00fcten befallen
+  D5: Gesamte Pflanze bei Massenbefall
+  SCHL\u00dcSSEL: NICHT mit Trichomen verwechseln! Trichome sind gl\u00e4nzend/kristallin und NUR auf Bl\u00fcten/Zuckerbl\u00e4ttern. Mehltau ist flauschig/mehlig und auf ALLEN Bl\u00e4ttern. Entsteht bei >55% RH + schlechter Luftzirkulation + 20\u201325\u00b0C.
+  AKTION: Befallene Bl\u00e4tter entfernen. Kaliumbicarbonat oder Milch-Wasser-Spray (1:9). Luftzirkulation erh\u00f6hen. RH unter 50% halten.
+
+GRAUSCHIMMEL / BUD ROT (Botrytis):
+  D1: Pl\u00f6tzlich gelbe/braune Bl\u00e4tter an einer EINZELNEN Cola
+  D2: Grauer/brauner Staub im Bl\u00fcteninneren, wei\u00dfer Flaum, Cola fault von innen
+  D3: LOKALISIERT auf einzelne Colas (NICHT pflanzenweit!)
+  D4: Meist die gr\u00f6\u00dften/dichtesten Bl\u00fcten
+  D5: Kann sich auf Nachbar-Colas ausbreiten
+  SCHL\u00dcSSEL: Gelbes Blatt das aus einer Cola ragt und sich LEICHT abl\u00f6st + F\u00e4ule/Schimmel darunter = Botrytis. Nat\u00fcrliche Reife ist pflanzenweit, Botrytis ist LOKAL. >55% RH + schlechte Luftzirkulation + dichte Bl\u00fcten = Risikofaktoren.
+  AKTION: Befallene Cola SOFORT gro\u00dfz\u00fcgig rausschneiden (5cm \u00fcber Befall). Werkzeug desinfizieren. RH senken. Luftzirkulation erh\u00f6hen. NICHT rauchen/verwenden!
+
+WURZELF\u00c4ULE (Root Rot / Pythium):
+  D1: Unerkl\u00e4rliches H\u00e4ngen trotz feuchter Erde, zuf\u00e4llige Mangelsymptome
+  D2: Bl\u00e4tter gelb/bronzefarben mit braunen R\u00e4ndern, reduzierter Wasserverbrauch
+  D3: Kein klares N\u00e4hrstoff-Muster \u2013 Pflanze sieht "generell krank" aus
+  D4: Gesamte Pflanze betroffen
+  D5: Progressiv schlimmer trotz korrekter N\u00e4hrstoffe
+  SCHL\u00dcSSEL: WURZELN PR\u00dcFEN! Braun + schleimig + stinkend = Wurzelf\u00e4ule. Gesunde Wurzeln sind wei\u00df/creme. N\u00e4hrstoff-verf\u00e4rbte Wurzeln riechen NICHT und sind nicht schleimig. Tritt bei \u00dcberw\u00e4sserung + warmer Wurzelzone (>27\u00b0C) auf. In Hydro/DWC besonders h\u00e4ufig.
+  AKTION: Gie\u00dffrequenz reduzieren. In Hydro: Wassertemperatur unter 22\u00b0C. Beneficial Bacteria (Bacillus, Trichoderma) einsetzen. H2O2 wirkt nur 24h \u2013 keine Dauerlösung.
+
+SEPTORIA / BLATTFLECKENKRANKHEIT:
+  D1: Runde braune Flecken mit DEFINIERTEM RAND auf unteren Bl\u00e4ttern
+  D2: Flecken trocknen aus, manchmal mit hellem Zentrum
+  D3: Kreisrunde, scharf abgegrenzte Flecken (vs. unregelm\u00e4\u00dfige N\u00e4hrstoff-Flecken)
+  D4: Untere Bl\u00e4tter zuerst (Sporen spritzen vom Boden hoch)
+  D5: Breitet sich nach oben aus wenn unbehandelt
+  SCHL\u00dcSSEL: Perfekt RUNDE Flecken mit klarem Rand = Pilz (Septoria). N\u00e4hrstoff-Flecken sind unregelm\u00e4\u00dfig.
+  AKTION: Befallene Bl\u00e4tter entfernen. Mulch-Schicht verhindert Sporen-Spritzer. Kupfer-basiertes Fungizid (nur Veg). Luftzirkulation verbessern.
+
+WICHTIG: Sch\u00e4dlinge/Krankheiten werden oft als N\u00e4hrstoffmangel fehldiagnostiziert! Pr\u00fcfe IMMER:
+  \u2192 Sind Punkte/Flecken ZUF\u00c4LLIG verteilt (nicht nach Adernmuster)? \u2192 Sch\u00e4dlinge wahrscheinlich
+  \u2192 Sind Insekten, Gespinste oder Kolonien auf Blattunterseiten sichtbar? \u2192 Sch\u00e4dlinge
+  \u2192 Klebrige Substanz auf Bl\u00e4ttern? \u2192 Blattl\u00e4use/Wei\u00dfe Fliegen
+  \u2192 Wei\u00dfer pudriger Belag auf Fan-Bl\u00e4ttern? \u2192 Mehltau (nicht Trichome)
+  \u2192 Einzelne Cola pl\u00f6tzlich gelb/braun w\u00e4hrend Rest gesund? \u2192 Botrytis
+  \u2192 Wechselnde, unerklärliche Symptome + schwarze M\u00fccken? \u2192 Fungus Gnats
+  \u2192 Symptome wie 5 Probleme gleichzeitig + nichts hilft? \u2192 Russet Mites (Lupe!)
 
 6. UMGEBUNGSPROBLEME & pH-BEREICHE (substratabh\u00e4ngig!):
 
@@ -641,7 +730,14 @@ N\u00c4HRSTOFF-ANTAGONISMUS (\u00dcberschuss eines N\u00e4hrstoffs blockiert and
   - \u00dcberschuss Ca \u2192 blockiert K, Mg, Mn, Fe
   - \u00dcberschuss Zn \u2192 verursacht akuten Fe-Mangel (kann Pflanze t\u00f6ten!)
   - \u00dcberschuss Mo \u2192 blockiert Fe und Cu
+  - \u00dcberschuss Fe \u2192 blockiert Mn (Fe-Mn-Antagonismus)
+  - \u00dcberschuss Cu \u2192 konkurriert mit Fe-Aufnahme
   \u2192 Bei Mangel-Diagnose IMMER pr\u00fcfen ob ein \u00dcBERSCHUSS eines anderen N\u00e4hrstoffs die Ursache sein k\u00f6nnte!
+
+RECOVERY-REGEL (WICHTIG f\u00fcr Follow-Up-Scans):
+  - Alte gesch\u00e4digte Bl\u00e4tter erholen sich FAST NIE. Nur NEUES Wachstum zeigt ob die Korrektur funktioniert!
+  - Sage dem User: "Beobachte die NEUEN Triebspitzen, nicht die alten Bl\u00e4tter."
+  - AUSNAHME: Fe-Mangel-Bl\u00e4tter k\u00f6nnen sich erholen (gelb \u2192 gr\u00fcn von Spitzen her). Das ist ein Bestätigungsmerkmal.
 
 DIAGNOSTIK-GRUPPEN [Cannabis Business Times / NC State]:
   Gruppe 1 \u2013 Deformiertes Wachstum + Nekrose: Ca und B (immobil, neue Bl\u00e4tter)

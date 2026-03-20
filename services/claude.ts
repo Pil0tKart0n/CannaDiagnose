@@ -226,6 +226,15 @@ export function validateDiagnosisResult(data: any): DiagnosisResult {
       typeof data.followUpDays === 'number' && data.followUpDays > 0
         ? data.followUpDays
         : 7,
+    category:
+      typeof data.category === 'string' &&
+      ['nutrient_deficiency', 'abiotic_stress', 'pest', 'disease', 'physiological'].includes(data.category)
+        ? data.category as DiagnosisResult['category']
+        : undefined,
+    requiresHumanReview:
+      typeof data.requiresHumanReview === 'boolean'
+        ? data.requiresHumanReview
+        : undefined,
   };
 
   // Ensure at least one contributing factor if empty
