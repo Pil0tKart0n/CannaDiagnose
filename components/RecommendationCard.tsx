@@ -56,21 +56,22 @@ export function PreventiveTips({ tips }: { tips: string[] }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.cardDark,
-    borderRadius: 18,
-    padding: 22,
-    marginBottom: 12,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 14,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: 'rgba(92,232,146,0.06)',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.35,
-        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.45,
+        shadowRadius: 24,
       },
-      android: { elevation: 8 },
+      android: { elevation: 10 },
       web: {
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(92,232,146,0.04)',
+        backdropFilter: 'blur(8px)',
       },
     }),
   },
