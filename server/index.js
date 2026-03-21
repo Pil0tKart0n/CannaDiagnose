@@ -428,9 +428,10 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       return res.status(400).json({ error: 'invalid_request', message: 'currentDiagnosis required for refine mode' });
     }
     const userPrompt = buildRefinePrompt(currentDiagnosis, substrate, ph, ec, fertilizer, plantAge, growPhase, soilTemp);
+    // Refine uses text-only (no image) with gpt-4o-mini for cost savings
     messages = [
       { role: 'system', content: REFINE_SYSTEM_PROMPT },
-      { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },
+      { role: 'user', content: userPrompt },
     ];
   } else if (mode === 'verify') {
     const { diagnosis } = req.body;
@@ -476,7 +477,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   try {
     const openaiBody = {
       messages,
-      model: 'gpt-4o',
+      model: mode === 'refine' ? 'gpt-4o-mini' : 'gpt-4o',
       max_tokens: maxTokens,
       temperature: 0,
       response_format: { type: 'json_object' },
@@ -500,7 +501,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
         const usage = parsed_.usage || {};
         const platform = req.headers['origin'] ? 'pwa' : 'apk';
         stmtInsertUsage.run(
-          ip, mode, 'gpt-4o',
+          ip, mode, openaiBody.model,
           usage.prompt_tokens || 0,
           usage.completion_tokens || 0,
           usage.total_tokens || 0,
