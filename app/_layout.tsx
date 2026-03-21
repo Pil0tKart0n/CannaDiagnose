@@ -232,19 +232,21 @@ export default function RootLayout() {
           html, body, #root { background: #0A0E0D; }
           @media (min-width: 768px) {
             body {
-              background: #020504;
-              background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(92,232,146,0.03) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(92,232,146,0.02) 0%, transparent 60%);
+              background: #000000;
             }
             #root {
               max-width: 480px !important;
-              margin: 20px auto !important;
-              min-height: calc(100vh - 40px);
-              border-radius: 16px;
-              box-shadow: 0 0 80px rgba(0,0,0,0.6), 0 0 120px rgba(92,232,146,0.04);
-              border: 1px solid rgba(74,222,128,0.12) !important;
+              margin: 0 auto !important;
+              min-height: 100vh;
+              border-radius: 24px;
+              box-shadow:
+                0 0 40px rgba(92,232,146,0.06),
+                0 0 80px rgba(92,232,146,0.03),
+                0 0 160px rgba(92,232,146,0.015),
+                0 4px 60px rgba(0,0,0,0.8);
+              border: none !important;
               overflow: hidden;
+              position: relative;
             }
           }
           ::-webkit-scrollbar { width: 0; height: 0; }
