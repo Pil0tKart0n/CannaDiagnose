@@ -1176,12 +1176,16 @@ app.get('/api/admin/dashboard', (req, res) => {
   const costToday = (usageToday.inp / 1000000 * 2.50 + usageToday.out / 1000000 * 10.00).toFixed(2);
   const costMonth = (usageMonth.inp / 1000000 * 2.50 + usageMonth.out / 1000000 * 10.00).toFixed(2);
 
+  // Average cost per scan (diagnose calls only, last 30 days)
+  const avgScan = db.prepare(`SELECT COALESCE(AVG(prompt_tokens), 0) as inp, COALESCE(AVG(completion_tokens), 0) as out FROM api_usage WHERE mode = 'diagnose' AND created_at >= date('now', '-30 days')`).get();
+  const avgCostPerScan = (avgScan.inp / 1000000 * 2.50 + avgScan.out / 1000000 * 10.00).toFixed(4);
+
   res.json({
     scans: { today: scansToday, week: scansWeek, total: scansTotal },
     users: { today: uniqueToday, total: uniqueTotal },
     feedback: { total: totalFeedback, positive: positiveFeedback, negative: negativeFeedback, satisfaction: totalFeedback > 0 ? Math.round(positiveFeedback / totalFeedback * 100) : 0 },
     premium: { active: activePremium, promos: activePromos },
-    tokens: { today: tokensToday, month: tokensMonth, costToday, costMonth },
+    tokens: { today: tokensToday, month: tokensMonth, costToday, costMonth, avgCostPerScan },
   });
 });
 

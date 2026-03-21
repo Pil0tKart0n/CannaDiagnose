@@ -550,6 +550,7 @@ async function loadDashboard() {
       { label: 'Token heute', value: fmtNum(dash.tokens?.today), cls: '' },
       { label: 'Kosten heute', value: fmtCost(dash.tokens?.costToday), cls: 'orange' },
       { label: 'Kosten Monat', value: fmtCost(dash.tokens?.costMonth), cls: 'orange' },
+      { label: '⌀ pro Scan', value: dash.tokens?.avgCostPerScan ? '$' + parseFloat(dash.tokens.avgCostPerScan).toFixed(3) : '—', cls: '' },
     ];
     // Add revenue KPIs if available
     if (revenueData) {
