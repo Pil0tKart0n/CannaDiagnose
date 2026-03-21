@@ -238,15 +238,14 @@ export default function RootLayout() {
               max-width: 480px !important;
               margin: 0 auto !important;
               min-height: 100vh;
-              border-radius: 24px;
+              border-radius: 0;
               box-shadow:
                 0 0 40px rgba(92,232,146,0.06),
                 0 0 80px rgba(92,232,146,0.03),
-                0 0 160px rgba(92,232,146,0.015),
-                0 4px 60px rgba(0,0,0,0.8);
+                0 0 160px rgba(92,232,146,0.015);
               border: none !important;
+              outline: none;
               overflow: hidden;
-              position: relative;
             }
           }
           ::-webkit-scrollbar { width: 0; height: 0; }
