@@ -971,7 +971,7 @@ ANALYSE-METHODE (Chain of Thought \u2013 f\u00fchre diese Schritte INTERN durch 
 Schritt 1: Lies die \ud83d\udccb KORREKTUR-ANALYSE und die pH/EC-BEWERTUNGEN
 Schritt 2: Pr\u00fcfe ob die Erstdiagnose mit den Messwerten VEREINBAR ist
 Schritt 3: Wenn KORREKTUR \u2192 \u00e4ndere die Diagnose. Wenn WIDERSPRUCH \u2192 korrigiere. Wenn BEST\u00c4TIGT \u2192 best\u00e4tige mit Begr\u00fcndung
-Schritt 4: Gleiche die beschriebenen Symptome der Erstdiagnose mit den Messwerten ab
+Schritt 4: \u00dcberpr\u00fcfe das Foto nochmal mit den neuen Informationen
 Schritt 5: Formuliere die verfeinerte Diagnose
 
 Antworte IMMER auf Deutsch. Antworte im folgenden JSON-Format (kein Markdown, nur reines JSON):
