@@ -1,189 +1,267 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="business">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeafScan Admin Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5/full.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-  @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.3}}
-  @keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.8);opacity:0}}
-  .live-dot{width:8px;height:8px;border-radius:50%;background:oklch(var(--su));display:inline-block;animation:dotPulse 2s infinite;position:relative}
-  .live-dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:oklch(var(--su) / .25);animation:pulse 2s ease-in-out infinite}
-  .header-dot{width:8px;height:8px;border-radius:50%;background:oklch(var(--su));display:inline-block;animation:dotPulse 2s infinite;position:relative}
-  .header-dot::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:oklch(var(--su) / .3);animation:pulse 2s ease-in-out infinite}
-  .live-paused .live-dot{background:oklch(var(--wa));animation:none}
-  .live-paused .live-dot::before{background:oklch(var(--wa) / .2);animation:none}
-  .severity-niedrig{color:oklch(var(--su))}
-  .severity-mittel{color:oklch(var(--wa))}
-  .severity-hoch{color:oklch(var(--er))}
-  .severity-kritisch{color:oklch(var(--er));font-weight:700}
-  .tab-section{display:none}
-  .tab-section.active{display:block;animation:fadeIn .25s ease}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  .chart-box canvas{max-height:280px}
-  html{font-size:14px}
-  body{font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:'cv11','ss01'}
-  .fb-card .fb-body{display:none}
-  .fb-card.open .fb-body{display:block;animation:fadeIn .2s ease}
-  .fb-card .arrow{transition:transform .2s ease}
-  .fb-card.open .arrow{transform:rotate(90deg)}
-  /* stat value override for smaller text */
-  .stat .stat-value{font-size:1.25rem}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#121212;--card:#1e1e1e;--card-hover:#252525;--border:#333;
+  --text:#e0e0e0;--text-muted:#999;--text-dim:#666;
+  --green:#4CAF50;--green-dark:#2E7D32;--green-darker:#1B5E20;
+  --red:#ef5350;--orange:#FFA726;--blue:#42A5F5;--purple:#AB47BC;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.4);
+}
+html{font-size:14px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:var(--green);text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+
+/* ---- Header ---- */
+.header{background:linear-gradient(135deg,#1a1a1a 0%,#1B5E20 100%);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--green-dark);box-shadow:0 2px 20px rgba(0,0,0,.5)}
+.header .brand{display:flex;align-items:center;gap:10px;font-size:1.4rem;font-weight:700;letter-spacing:.5px}
+.header .brand span.leaf{font-size:1.6rem}
+.header .meta{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:16px}
+.header .dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ---- Navigation ---- */
+.nav{background:#181818;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 16px;gap:4px;-webkit-overflow-scrolling:touch}
+.nav button{background:none;border:none;color:var(--text-muted);padding:12px 18px;font-size:.9rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.nav button:hover{color:var(--text)}
+.nav button.active{color:var(--green);border-bottom-color:var(--green)}
+
+/* ---- Main ---- */
+.main{max-width:1400px;margin:0 auto;padding:20px}
+.tab{display:none}
+.tab.active{display:block}
+
+/* ---- Cards ---- */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:transform .15s,border-color .15s}
+.kpi:hover{transform:translateY(-2px);border-color:var(--green-dark)}
+.kpi .label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi .value{font-size:1.6rem;font-weight:700;color:#fff}
+.kpi .value.green{color:var(--green)}
+.kpi .value.orange{color:var(--orange)}
+.kpi .value.blue{color:var(--blue)}
+.kpi .value.red{color:var(--red)}
+.kpi .value.purple{color:var(--purple)}
+
+/* ---- Section ---- */
+.section-title{font-size:1.1rem;font-weight:600;margin:24px 0 14px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:4px;height:20px;background:var(--green);border-radius:2px}
+
+/* ---- Chart containers ---- */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.chart-box h3{font-size:.9rem;color:var(--text-muted);margin-bottom:12px;font-weight:500}
+.chart-box canvas{max-height:300px}
+.chart-full{grid-column:1/-1}
+
+/* ---- Tables ---- */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;box-shadow:var(--shadow);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{background:#252525;padding:10px 14px;text-align:left;color:var(--text-muted);font-weight:600;text-transform:uppercase;font-size:.72rem;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0}
+td{padding:10px 14px;border-top:1px solid var(--border);vertical-align:top}
+tr:hover td{background:rgba(76,175,80,.04)}
+
+/* ---- Badges ---- */
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
+.badge-green{background:rgba(76,175,80,.15);color:var(--green)}
+.badge-red{background:rgba(239,83,80,.15);color:var(--red)}
+.badge-blue{background:rgba(66,165,245,.15);color:var(--blue)}
+.badge-orange{background:rgba(255,167,38,.15);color:var(--orange)}
+.badge-gray{background:rgba(150,150,150,.15);color:#999}
+
+/* ---- Buttons ---- */
+.btn{padding:8px 18px;border:none;border-radius:6px;font-size:.85rem;font-weight:600;transition:all .15s}
+.btn-green{background:var(--green-dark);color:#fff}
+.btn-green:hover{background:var(--green)}
+.btn-red{background:rgba(239,83,80,.2);color:var(--red);border:1px solid rgba(239,83,80,.3)}
+.btn-red:hover{background:rgba(239,83,80,.3)}
+.btn-sm{padding:4px 12px;font-size:.78rem}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text-muted)}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+.btn-outline.active{border-color:var(--green);color:var(--green);background:rgba(76,175,80,.08)}
+.btn-blue{background:rgba(66,165,245,.2);color:var(--blue);border:1px solid rgba(66,165,245,.3)}
+.btn-blue:hover{background:rgba(66,165,245,.3)}
+
+/* ---- Forms ---- */
+.form-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select,.form-group textarea{background:#2a2a2a;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-size:.85rem;min-width:120px}
+.form-group textarea{resize:vertical;min-height:60px;min-width:300px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--green)}
+
+/* ---- Feedback Cards ---- */
+.fb-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:border-color .15s}
+.fb-card:hover{border-color:var(--green-dark)}
+.fb-header{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.fb-header:hover{background:var(--card-hover)}
+.fb-header .arrow{color:var(--text-dim);transition:transform .2s;font-size:.8rem}
+.fb-card.open .fb-header .arrow{transform:rotate(90deg)}
+.fb-body{display:none;padding:0 18px 16px;border-top:1px solid var(--border)}
+.fb-card.open .fb-body{display:block}
+.fb-meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 0;font-size:.82rem;color:var(--text-muted)}
+.fb-meta span{display:flex;align-items:center;gap:4px}
+.fb-images{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fb-images img{width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:transform .15s}
+.fb-images img:hover{transform:scale(1.05)}
+
+/* ---- Lightbox ---- */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1000;display:none;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;border-radius:8px}
+
+/* ---- Loading / Error ---- */
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--text-muted)}
+.spinner{width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin-right:10px}
+.spinner-inline{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-msg{background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.3);color:var(--red);padding:12px 18px;border-radius:var(--radius);margin:12px 0;font-size:.85rem}
+.success-msg{background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);color:var(--green);padding:12px 18px;border-radius:var(--radius);margin:12px 0;font-size:.85rem}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--green-dark);border-radius:var(--radius);padding:12px 20px;font-size:.85rem;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.5);transform:translateY(100px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ---- Funnel ---- */
+.funnel-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:24px}
+.funnel-step{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.funnel-label{width:140px;font-size:.82rem;color:var(--text-muted);text-align:right;flex-shrink:0}
+.funnel-bar-wrap{flex:1;background:#252525;border-radius:6px;height:32px;position:relative;overflow:hidden}
+.funnel-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green-dark),var(--green));transition:width .6s ease;display:flex;align-items:center;padding:0 10px;min-width:fit-content}
+.funnel-bar-text{font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap}
+.funnel-pct{width:60px;font-size:.78rem;color:var(--text-muted);text-align:left}
+
+/* ---- Live Feed ---- */
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 1.5s infinite;margin-right:6px}
+.live-paused .live-dot{background:var(--orange);animation:none}
+.severity-niedrig{color:var(--green)}
+.severity-mittel{color:var(--orange)}
+.severity-hoch{color:var(--red)}
+.severity-kritisch{color:var(--red);font-weight:700}
+
+/* ---- Recheck Modal ---- */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-content{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);max-width:800px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:1rem;font-weight:600}
+.modal-close{background:none;border:none;color:var(--text-muted);font-size:1.3rem;padding:4px 8px;border-radius:4px}
+.modal-close:hover{color:var(--text);background:var(--card-hover)}
+.modal-body{padding:20px}
+.recheck-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.recheck-side{background:#252525;border-radius:8px;padding:16px}
+.recheck-side h4{font-size:.85rem;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.recheck-field{margin-bottom:10px}
+.recheck-field .rf-label{font-size:.75rem;color:var(--text-dim);margin-bottom:2px}
+.recheck-field .rf-value{font-size:.95rem;font-weight:500}
+.recheck-field .rf-value.diff-add{color:var(--green)}
+.recheck-field .rf-value.diff-remove{color:var(--red)}
+
+/* ---- Responsive ---- */
+@media(max-width:900px){
+  .chart-row{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .recheck-compare{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .header{padding:12px 16px;flex-direction:column;gap:8px;align-items:flex-start}
+  .main{padding:12px}
+  .nav button{padding:10px 14px;font-size:.82rem}
+  .form-row{flex-direction:column}
+  .form-group input,.form-group textarea{min-width:100%}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .kpi .value{font-size:1.3rem}
+  .funnel-label{width:80px;font-size:.72rem}
+}
 </style>
 </head>
-<body class="bg-base-100 min-h-screen">
+<body>
 
-<!-- ===== NAVBAR ===== -->
-<div class="navbar bg-base-300/80 backdrop-blur-xl sticky top-0 z-50 border-b border-base-content/5">
-  <div class="flex-1 gap-2">
-    <i data-lucide="leaf" class="w-6 h-6 text-success"></i>
-    <span class="text-lg font-bold tracking-tight">LeafScan</span>
-    <span class="text-base-content/50 font-medium text-sm ml-1">Admin</span>
-  </div>
-  <div class="flex-none gap-3 text-sm text-base-content/60 font-medium flex items-center">
-    <span class="header-dot"></span>
-    <span>Live</span>
-    <span class="opacity-40">|</span>
-    <span id="clock"></span>
-  </div>
+<div class="header">
+  <div class="brand"><span class="leaf">🌿</span> LeafScan Admin</div>
+  <div class="meta"><span class="dot"></span> Auto-Refresh 60s &nbsp;|&nbsp; <span id="clock"></span></div>
 </div>
 
-<!-- ===== TABS NAV ===== -->
-<div class="bg-base-200 border-b border-base-content/5 overflow-x-auto" id="nav">
-  <div class="tabs tabs-bordered px-4">
-    <button class="tab tab-active" data-tab="dashboard"><i data-lucide="layout-dashboard" class="w-4 h-4 mr-1"></i> Übersicht</button>
-    <button class="tab" data-tab="feedback"><i data-lucide="message-square" class="w-4 h-4 mr-1"></i> Feedback</button>
-    <button class="tab" data-tab="stats"><i data-lucide="bar-chart-3" class="w-4 h-4 mr-1"></i> Statistiken</button>
-    <button class="tab" data-tab="livefeed"><i data-lucide="zap" class="w-4 h-4 mr-1"></i> Live Feed</button>
-    <button class="tab" data-tab="revenue"><i data-lucide="wallet" class="w-4 h-4 mr-1"></i> Revenue</button>
-    <button class="tab" data-tab="announcements"><i data-lucide="megaphone" class="w-4 h-4 mr-1"></i> News</button>
-    <button class="tab" data-tab="promos"><i data-lucide="ticket" class="w-4 h-4 mr-1"></i> Promos</button>
-    <button class="tab" data-tab="premium"><i data-lucide="crown" class="w-4 h-4 mr-1"></i> Premium</button>
-    <button class="tab" data-tab="system"><i data-lucide="settings" class="w-4 h-4 mr-1"></i> System</button>
-  </div>
-</div>
+<nav class="nav" id="nav">
+  <button class="active" data-tab="dashboard">Übersicht</button>
+  <button data-tab="feedback">Feedback Center</button>
+  <button data-tab="stats">Statistiken</button>
+  <button data-tab="livefeed">Live Feed</button>
+  <button data-tab="revenue">Revenue</button>
+  <button data-tab="announcements">Announcements</button>
+  <button data-tab="promos">Promo Codes</button>
+  <button data-tab="premium">Premium</button>
+  <button data-tab="system">System</button>
+</nav>
 
-<!-- ===== MAIN CONTENT ===== -->
-<main class="max-w-7xl mx-auto p-6">
+<main class="main">
 
 <!-- ==================== DASHBOARD ==================== -->
-<div class="tab-section active" id="tab-dashboard">
-  <!-- Greeting Card -->
-  <div class="card bg-base-200 shadow-lg mb-6" id="greeting">
-    <div class="card-body flex-row items-center justify-between flex-wrap gap-4">
-      <div>
-        <h1 class="text-2xl font-bold tracking-tight" id="greetingMsg">Guten Tag</h1>
-        <p class="text-base-content/40 text-sm mt-1" id="greetingSub">Hier ist dein Dashboard-Überblick</p>
-      </div>
-      <div class="flex gap-8">
-        <div class="text-center">
-          <div class="text-3xl font-bold tabular-nums" id="greetScansToday">—</div>
-          <div class="text-xs text-base-content/40 uppercase tracking-wider font-medium">Scans heute</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold tabular-nums" id="greetUsersToday">—</div>
-          <div class="text-xs text-base-content/40 uppercase tracking-wider font-medium">User heute</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold tabular-nums" id="greetCostToday">—</div>
-          <div class="text-xs text-base-content/40 uppercase tracking-wider font-medium">Kosten heute</div>
-        </div>
-      </div>
-    </div>
+<div class="tab active" id="tab-dashboard">
+  <div class="kpi-grid" id="kpi-grid"></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>Scans & Unique Users — letzte 30 Tage</h3><canvas id="chartScans"></canvas></div>
+    <div class="chart-box"><h3>Token-Verbrauch — letzte 30 Tage</h3><canvas id="chartTokens"></canvas></div>
   </div>
-
-  <!-- KPI Grid -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mb-8" id="kpi-grid"></div>
-
-  <!-- Charts Row -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-    <div class="card bg-base-200 shadow">
-      <div class="card-body">
-        <h3 class="text-xs text-base-content/40 font-medium tracking-wide flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4"></i> Scans & Users — 30 Tage</h3>
-        <canvas id="chartScans"></canvas>
-      </div>
-    </div>
-    <div class="card bg-base-200 shadow">
-      <div class="card-body">
-        <h3 class="text-xs text-base-content/40 font-medium tracking-wide flex items-center gap-2"><i data-lucide="flame" class="w-4 h-4"></i> Token-Verbrauch — 30 Tage</h3>
-        <canvas id="chartTokens"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- Funnel -->
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Conversion Funnel (7 Tage)</h2>
-  </div>
-  <div class="card bg-base-200 shadow" id="funnelWrap">
-    <div class="card-body">
-      <div class="flex items-center justify-center py-10 text-base-content/40"><span class="loading loading-spinner loading-sm mr-2"></span>Laden...</div>
-    </div>
+  <div class="section-title">Conversion Funnel (letzte 7 Tage)</div>
+  <div class="funnel-wrap" id="funnelWrap">
+    <div class="loading"><div class="spinner"></div>Laden…</div>
   </div>
 </div>
 
 <!-- ==================== FEEDBACK ==================== -->
-<div class="tab-section" id="tab-feedback">
-  <div class="flex items-center gap-3 mb-5 flex-wrap">
-    <button class="btn btn-sm btn-outline btn-success" id="fbAll" onclick="loadFeedback(false)">Alle</button>
-    <button class="btn btn-sm btn-outline" id="fbNeg" onclick="loadFeedback(true)">Nur negativ</button>
-    <span id="fbCount" class="text-base-content/50 text-sm ml-2"></span>
+<div class="tab" id="tab-feedback">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+    <button class="btn btn-outline active" id="fbAll" onclick="loadFeedback(false)">Alle</button>
+    <button class="btn btn-outline" id="fbNeg" onclick="loadFeedback(true)">Nur negativ</button>
+    <span id="fbCount" style="color:var(--text-muted);font-size:.85rem;margin-left:8px"></span>
   </div>
   <div id="feedbackList"></div>
 </div>
 
 <!-- ==================== STATISTIKEN ==================== -->
-<div class="tab-section" id="tab-stats">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Top-Diagnosen</h3><canvas id="chartDiagnoses"></canvas></div></div>
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Substrat-Verteilung</h3><canvas id="chartSubstrates"></canvas></div></div>
+<div class="tab" id="tab-stats">
+  <div class="chart-row">
+    <div class="chart-box"><h3>Top-Diagnosen</h3><canvas id="chartDiagnoses"></canvas></div>
+    <div class="chart-box"><h3>Substrat-Verteilung</h3><canvas id="chartSubstrates"></canvas></div>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Top 10 Dünger</h3><canvas id="chartFertilizers"></canvas></div></div>
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Plattform-Split</h3><canvas id="chartPlatforms"></canvas></div></div>
+  <div class="chart-row">
+    <div class="chart-box"><h3>Top 10 Dünger</h3><canvas id="chartFertilizers"></canvas></div>
+    <div class="chart-box"><h3>Plattform-Split</h3><canvas id="chartPlatforms"></canvas></div>
   </div>
-  <div class="grid grid-cols-1 gap-4 mb-6">
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Scan-Uhrzeiten (UTC)</h3><canvas id="chartHours"></canvas></div></div>
-  </div>
-
-  <div class="flex items-center gap-2 mb-3 mt-6">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Konfidenz-Verlauf (letzte 30 Tage)</h2>
-  </div>
-  <div class="grid grid-cols-1 gap-4 mb-6">
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Durchschnittliche Konfidenz mit Min/Max</h3><canvas id="chartConfidence"></canvas></div></div>
+  <div class="chart-row">
+    <div class="chart-box chart-full"><h3>Scan-Uhrzeiten (UTC)</h3><canvas id="chartHours"></canvas></div>
   </div>
 
-  <div class="flex items-center gap-2 mb-3 mt-6">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Retention</h2>
+  <div class="section-title">Konfidenz-Verlauf (letzte 30 Tage)</div>
+  <div class="chart-row">
+    <div class="chart-box chart-full"><h3>Durchschnittliche Konfidenz mit Min/Max</h3><canvas id="chartConfidence"></canvas></div>
   </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4" id="retentionKpis"></div>
-  <div class="grid grid-cols-1 gap-4 mb-6">
-    <div class="card bg-base-200 shadow"><div class="card-body"><h3 class="text-xs text-base-content/40 font-medium mb-3">Wöchentliche Nutzer</h3><canvas id="chartRetention"></canvas></div></div>
+
+  <div class="section-title">Retention</div>
+  <div class="kpi-grid" id="retentionKpis"></div>
+  <div class="chart-row">
+    <div class="chart-box chart-full"><h3>Wöchentliche Nutzer</h3><canvas id="chartRetention"></canvas></div>
   </div>
 </div>
 
 <!-- ==================== LIVE FEED ==================== -->
-<div class="tab-section" id="tab-livefeed">
-  <div class="flex items-center gap-4 mb-5 flex-wrap">
-    <div id="liveFeedTitle" class="flex items-center text-lg font-semibold">
-      <span class="live-dot mr-2"></span> Live Feed
+<div class="tab" id="tab-livefeed">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap">
+    <div id="liveFeedTitle" style="display:flex;align-items:center;font-size:1.1rem;font-weight:600">
+      <span class="live-dot"></span> Live Feed
     </div>
     <button class="btn btn-sm btn-outline" id="livePauseBtn" onclick="toggleLiveFeed()">Pause</button>
-    <span id="liveFeedStatus" class="text-base-content/50 text-sm">Aktualisiert alle 10s</span>
+    <span id="liveFeedStatus" style="color:var(--text-muted);font-size:.8rem">Aktualisiert alle 10s</span>
   </div>
-  <div class="card bg-base-200 shadow overflow-x-auto">
-    <table class="table table-zebra table-sm" id="liveFeedTable">
+  <div class="table-wrap">
+    <table id="liveFeedTable">
       <thead><tr><th>Zeit</th><th>IP</th><th>Plattform</th><th>Diagnose</th><th>Schwere</th><th>Konfidenz</th><th>Rating</th><th>Tokens</th></tr></thead>
       <tbody></tbody>
     </table>
@@ -191,45 +269,33 @@
 </div>
 
 <!-- ==================== REVENUE ==================== -->
-<div class="tab-section" id="tab-revenue">
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6" id="revenueKpis"></div>
-  <div class="card bg-base-200 shadow">
-    <div class="card-body">
-      <h3 class="text-sm text-base-content/50 font-medium mb-3">Conversion Details</h3>
-      <div id="revenueConversionDetail" class="text-sm"></div>
-    </div>
+<div class="tab" id="tab-revenue">
+  <div class="kpi-grid" id="revenueKpis"></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-top:10px">
+    <h3 style="font-size:.9rem;color:var(--text-muted);margin-bottom:12px;font-weight:500">Conversion Details</h3>
+    <div id="revenueConversionDetail" style="font-size:.9rem;color:var(--text)"></div>
   </div>
 </div>
 
 <!-- ==================== ANNOUNCEMENTS ==================== -->
-<div class="tab-section" id="tab-announcements">
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Neue Ankündigung erstellen</h2>
-  </div>
-  <div class="flex gap-3 items-end flex-wrap mb-5">
-    <div class="form-control flex-1">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Nachricht</span></label>
-      <textarea id="annMessage" class="textarea textarea-bordered w-full" placeholder="Ankündigung eingeben..."></textarea>
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Typ</span></label>
-      <select id="annType" class="select select-bordered select-sm">
+<div class="tab" id="tab-announcements">
+  <div class="section-title">Neue Ankündigung erstellen</div>
+  <div class="form-row">
+    <div class="form-group" style="flex:1"><label>Nachricht</label><textarea id="annMessage" placeholder="Ankündigung eingeben…"></textarea></div>
+    <div class="form-group"><label>Typ</label>
+      <select id="annType">
         <option value="info">Info</option>
         <option value="warning">Warning</option>
         <option value="success">Success</option>
       </select>
     </div>
-    <button class="btn btn-success btn-sm" onclick="createAnnouncement()"><i data-lucide="plus" class="w-4 h-4 mr-1"></i>Erstellen</button>
+    <button class="btn btn-green" onclick="createAnnouncement()">Erstellen</button>
   </div>
   <div id="annMsg"></div>
 
-  <div class="flex items-center gap-2 mb-3 mt-6">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Alle Ankündigungen</h2>
-  </div>
-  <div class="card bg-base-200 shadow overflow-x-auto">
-    <table class="table table-zebra table-sm" id="annTable">
+  <div class="section-title">Alle Ankündigungen</div>
+  <div class="table-wrap">
+    <table id="annTable">
       <thead><tr><th>ID</th><th>Nachricht</th><th>Typ</th><th>Status</th><th>Erstellt</th><th>Aktionen</th></tr></thead>
       <tbody></tbody>
     </table>
@@ -237,159 +303,77 @@
 </div>
 
 <!-- ==================== PROMOS ==================== -->
-<div class="tab-section" id="tab-promos">
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Neuen Code erstellen</h2>
-  </div>
-  <div class="flex gap-3 items-end flex-wrap mb-5">
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Code</span></label>
-      <input id="promoCode" class="input input-bordered input-sm" placeholder="z.B. GROW2025">
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Tage</span></label>
-      <input id="promoDays" type="number" value="30" min="1" class="input input-bordered input-sm w-20">
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Max. Nutzungen</span></label>
-      <input id="promoMax" type="number" value="100" min="1" class="input input-bordered input-sm w-24">
-    </div>
-    <button class="btn btn-success btn-sm" onclick="createPromo()"><i data-lucide="plus" class="w-4 h-4 mr-1"></i>Erstellen</button>
+<div class="tab" id="tab-promos">
+  <div class="section-title">Neuen Code erstellen</div>
+  <div class="form-row">
+    <div class="form-group"><label>Code</label><input id="promoCode" placeholder="z.B. GROW2025"></div>
+    <div class="form-group"><label>Tage</label><input id="promoDays" type="number" value="30" min="1"></div>
+    <div class="form-group"><label>Max. Nutzungen</label><input id="promoMax" type="number" value="100" min="1"></div>
+    <button class="btn btn-green" onclick="createPromo()">Erstellen</button>
   </div>
   <div id="promoMsg"></div>
 
-  <div class="flex items-center gap-2 mb-3 mt-6">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Aktive Codes</h2>
-  </div>
-  <div class="card bg-base-200 shadow overflow-x-auto mb-6">
-    <table class="table table-zebra table-sm" id="promoTable">
-      <thead><tr><th>Code</th><th>Tage</th><th>Genutzt</th><th>Max</th><th>Status</th><th>Erstellt</th><th>Aktion</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="section-title">Aktive Codes</div>
+  <div class="table-wrap"><table id="promoTable"><thead><tr><th>Code</th><th>Tage</th><th>Genutzt</th><th>Max</th><th>Status</th><th>Erstellt</th><th>Aktion</th></tr></thead><tbody></tbody></table></div>
 
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Letzte Einlösungen</h2>
-  </div>
-  <div class="card bg-base-200 shadow overflow-x-auto">
-    <table class="table table-zebra table-sm" id="redemptionTable">
-      <thead><tr><th>Code</th><th>IP</th><th>Gerät</th><th>Eingelöst</th><th>Läuft ab</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="section-title">Letzte Einlösungen</div>
+  <div class="table-wrap"><table id="redemptionTable"><thead><tr><th>Code</th><th>IP</th><th>Gerät</th><th>Eingelöst</th><th>Läuft ab</th></tr></thead><tbody></tbody></table></div>
 </div>
 
 <!-- ==================== PREMIUM ==================== -->
-<div class="tab-section" id="tab-premium">
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Premium vergeben</h2>
-  </div>
-  <div class="flex gap-3 items-end flex-wrap mb-5">
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Tage</span></label>
-      <input id="grantDays" type="number" value="30" min="1" class="input input-bordered input-sm w-24">
-    </div>
-    <button class="btn btn-success btn-sm" onclick="grantPremium()"><i data-lucide="key" class="w-4 h-4 mr-1"></i>Code generieren</button>
+<div class="tab" id="tab-premium">
+  <div class="section-title">Premium vergeben</div>
+  <div class="form-row">
+    <div class="form-group"><label>Tage</label><input id="grantDays" type="number" value="30" min="1"></div>
+    <button class="btn btn-green" onclick="grantPremium()">Code generieren</button>
   </div>
   <div id="premiumMsg"></div>
 
-  <div class="flex items-center gap-2 mb-3 mt-6">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Aktive Abonnements</h2>
-  </div>
-  <div class="card bg-base-200 shadow overflow-x-auto mb-6">
-    <table class="table table-zebra table-sm" id="premiumActiveTable">
-      <thead><tr><th>ID</th><th>Plan</th><th>Stripe Customer</th><th>Erstellt</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="section-title">Aktive Abonnements</div>
+  <div class="table-wrap"><table id="premiumActiveTable"><thead><tr><th>ID</th><th>Plan</th><th>Stripe Customer</th><th>Erstellt</th></tr></thead><tbody></tbody></table></div>
 
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Gekündigte Abonnements</h2>
-  </div>
-  <div class="card bg-base-200 shadow overflow-x-auto">
-    <table class="table table-zebra table-sm" id="premiumCancelledTable">
-      <thead><tr><th>ID</th><th>Plan</th><th>Stripe Customer</th><th>Erstellt</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="section-title">Gekündigte Abonnements</div>
+  <div class="table-wrap"><table id="premiumCancelledTable"><thead><tr><th>ID</th><th>Plan</th><th>Stripe Customer</th><th>Erstellt</th></tr></thead><tbody></tbody></table></div>
 </div>
 
 <!-- ==================== SYSTEM ==================== -->
-<div class="tab-section" id="tab-system">
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Speicher</h2>
-  </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6" id="diskGrid"></div>
+<div class="tab" id="tab-system">
+  <div class="section-title">Speicher</div>
+  <div class="kpi-grid" id="diskGrid"></div>
 
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">Rate-Limit Treffer (aktiv)</h2>
-  </div>
-  <div class="card bg-base-200 shadow overflow-x-auto mb-6">
-    <table class="table table-zebra table-sm" id="ratelimitTable">
-      <thead><tr><th>IP</th><th>Requests</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="section-title">Rate-Limit Treffer (aktiv)</div>
+  <div class="table-wrap"><table id="ratelimitTable"><thead><tr><th>IP</th><th>Requests</th></tr></thead><tbody></tbody></table></div>
 
-  <div class="flex items-center gap-2 mb-3">
-    <div class="w-1 h-4 bg-success rounded"></div>
-    <h2 class="text-xs font-semibold text-base-content/50 uppercase tracking-wider">IP Blacklist</h2>
-  </div>
-  <div class="flex gap-3 items-end flex-wrap mb-5">
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">IP-Adresse</span></label>
-      <input id="blacklistIp" class="input input-bordered input-sm" placeholder="1.2.3.4">
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text text-xs uppercase tracking-wider">Grund</span></label>
-      <input id="blacklistReason" class="input input-bordered input-sm" placeholder="Spam etc.">
-    </div>
-    <button class="btn btn-error btn-sm" onclick="addBlacklist()"><i data-lucide="shield-ban" class="w-4 h-4 mr-1"></i>Sperren</button>
+  <div class="section-title">IP Blacklist</div>
+  <div class="form-row">
+    <div class="form-group"><label>IP-Adresse</label><input id="blacklistIp" placeholder="1.2.3.4"></div>
+    <div class="form-group"><label>Grund</label><input id="blacklistReason" placeholder="Spam etc."></div>
+    <button class="btn btn-red" onclick="addBlacklist()">Sperren</button>
   </div>
   <div id="blacklistMsg"></div>
-  <div class="card bg-base-200 shadow overflow-x-auto">
-    <table class="table table-zebra table-sm" id="blacklistTable">
-      <thead><tr><th>IP</th><th>Grund</th><th>Gesperrt am</th><th>Aktion</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <div class="table-wrap"><table id="blacklistTable"><thead><tr><th>IP</th><th>Grund</th><th>Gesperrt am</th><th>Aktion</th></tr></thead><tbody></tbody></table></div>
 </div>
 
 </main>
 
 <!-- Lightbox -->
-<div class="fixed inset-0 bg-black/90 z-[1000] hidden items-center justify-center cursor-pointer backdrop-blur-sm" id="lightbox" onclick="this.classList.add('hidden');this.classList.remove('flex')">
-  <img id="lbImg" src="" class="max-w-[90vw] max-h-[90vh] rounded-xl">
-</div>
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lbImg" src=""></div>
 
-<!-- Recheck Modal (DaisyUI modal) -->
-<dialog class="modal" id="recheckModal">
-  <div class="modal-box max-w-3xl bg-base-200">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="font-semibold text-base">Diagnose-Vergleich (Recheck)</h3>
-      <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost">X</button></form>
+<!-- Recheck Modal -->
+<div class="modal-overlay" id="recheckModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Diagnose-Vergleich (Recheck)</h3>
+      <button class="modal-close" onclick="document.getElementById('recheckModal').classList.remove('open')">&times;</button>
     </div>
-    <div id="recheckBody">
-      <div class="flex items-center justify-center py-10 text-base-content/40"><span class="loading loading-spinner loading-sm mr-2"></span>Laden...</div>
+    <div class="modal-body" id="recheckBody">
+      <div class="loading"><div class="spinner"></div>Laden…</div>
     </div>
   </div>
-  <form method="dialog" class="modal-backdrop"><button>close</button></form>
-</dialog>
-
-<!-- Toast (DaisyUI toast) -->
-<div class="toast toast-end toast-bottom z-[999]" id="toastContainer" style="display:none">
-  <div class="alert shadow-lg" id="toast">
-    <span id="toastMsg"></span>
-  </div>
 </div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
 // ---- Globals ----
@@ -398,12 +382,6 @@ let charts = {};
 let refreshTimer;
 let liveFeedTimer = null;
 let liveFeedPaused = false;
-
-// ---- Theme-aware chart color helper ----
-function themeColor(cssVar, alpha = 1) {
-  const val = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
-  return alpha < 1 ? `oklch(${val} / ${alpha})` : `oklch(${val})`;
-}
 
 // ---- Helpers ----
 function api(path, opts = {}) {
@@ -465,22 +443,19 @@ function ratingEmoji(r) {
 }
 
 function toast(msg, isError) {
-  const container = document.getElementById('toastContainer');
-  const alertEl = document.getElementById('toast');
-  const msgEl = document.getElementById('toastMsg');
-  msgEl.textContent = msg;
-  alertEl.className = 'alert shadow-lg ' + (isError ? 'alert-error' : 'alert-success');
-  container.style.display = '';
-  clearTimeout(container._timer);
-  container._timer = setTimeout(() => { container.style.display = 'none'; }, 3000);
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = isError ? 'var(--red)' : 'var(--green-dark)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 function showLoading(el) {
-  el.innerHTML = '<div class="flex items-center justify-center py-10 text-base-content/40"><span class="loading loading-spinner loading-sm mr-2"></span>Laden...</div>';
+  el.innerHTML = '<div class="loading"><div class="spinner"></div>Laden…</div>';
 }
 
 function showError(el, msg) {
-  el.innerHTML = '<div class="alert alert-error text-sm">' + msg + '</div>';
+  el.innerHTML = '<div class="error-msg">' + msg + '</div>';
 }
 
 function destroyChart(id) {
@@ -488,20 +463,19 @@ function destroyChart(id) {
 }
 
 const chartColors = {
-  green: '#22c55e', greenBg: 'rgba(34,197,94,.1)',
-  blue: '#60a5fa', blueBg: 'rgba(96,165,250,.1)',
-  orange: '#fbbf24', orangeBg: 'rgba(251,191,36,.1)',
-  red: '#f87171', redBg: 'rgba(248,113,113,.1)',
-  purple: '#a78bfa', purpleBg: 'rgba(167,139,250,.1)',
+  green: '#4CAF50', greenBg: 'rgba(76,175,80,.15)',
+  blue: '#42A5F5', blueBg: 'rgba(66,165,245,.15)',
+  orange: '#FFA726', orangeBg: 'rgba(255,167,38,.15)',
+  red: '#ef5350', redBg: 'rgba(239,83,80,.15)',
+  purple: '#AB47BC', purpleBg: 'rgba(171,71,188,.15)',
 };
 
 const defaultChartOpts = {
   responsive: true, maintainAspectRatio: false,
-  animation: { duration: 1000, easing: 'easeOutQuart' },
-  plugins: { legend: { labels: { color: '#8b8b9e', font: { size: 11, family: 'Inter', weight: 500 }, boxWidth: 12, padding: 16 } } },
+  plugins: { legend: { labels: { color: '#999', font: { size: 11 } } } },
   scales: {
-    x: { ticks: { color: '#5a5a72', font: { size: 10, family: 'Inter' } }, grid: { color: 'rgba(255,255,255,.03)', drawBorder: false } },
-    y: { ticks: { color: '#5a5a72', font: { size: 10, family: 'Inter' } }, grid: { color: 'rgba(255,255,255,.04)', drawBorder: false } }
+    x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
+    y: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.06)' } }
   }
 };
 
@@ -512,37 +486,7 @@ function pieOpts() {
   };
 }
 
-const palette = ['#22c55e','#60a5fa','#fbbf24','#a78bfa','#f87171','#2dd4bf','#facc15','#a1887f','#94a3b8','#f472b6','#4ade80','#818cf8','#fb923c','#38bdf8','#bef264'];
-
-// ---- Animated Counter ----
-function animateValue(el, end, duration = 800, prefix = '', suffix = '') {
-  if (el._animFrame) cancelAnimationFrame(el._animFrame);
-  const start = 0;
-  const startTime = performance.now();
-  const endNum = parseFloat(String(end).replace(/[^0-9.\-]/g, '')) || 0;
-  function update(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const current = Math.round(start + (endNum - start) * eased);
-    el.textContent = prefix + current.toLocaleString('de-DE') + suffix;
-    if (progress < 1) el._animFrame = requestAnimationFrame(update);
-    else el.textContent = prefix + end + suffix;
-  }
-  requestAnimationFrame(update);
-}
-
-// ---- Greeting ----
-function updateGreeting() {
-  const h = new Date().getHours();
-  const el = document.getElementById('greetingMsg');
-  if (h < 6) el.textContent = 'Nachtschicht?';
-  else if (h < 12) el.textContent = 'Guten Morgen';
-  else if (h < 17) el.textContent = 'Guten Tag';
-  else if (h < 22) el.textContent = 'Guten Abend';
-  else el.textContent = 'Noch wach?';
-}
-updateGreeting();
+const palette = ['#4CAF50','#42A5F5','#FFA726','#AB47BC','#ef5350','#26C6DA','#FFEE58','#8D6E63','#78909C','#EC407A','#66BB6A','#5C6BC0','#FF7043','#29B6F6','#D4E157'];
 
 // ---- Clock ----
 function updateClock() {
@@ -554,17 +498,17 @@ updateClock();
 
 // ---- Navigation ----
 document.getElementById('nav').addEventListener('click', e => {
-  const btn = e.target.closest('.tab');
-  if (!btn) return;
-  document.querySelectorAll('#nav .tab').forEach(b => b.classList.remove('tab-active'));
-  document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
-  btn.classList.add('tab-active');
-  const tab = btn.dataset.tab;
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  const tab = e.target.dataset.tab;
   document.getElementById('tab-' + tab).classList.add('active');
   loadTab(tab);
 });
 
 function loadTab(tab) {
+  // Stop live feed when leaving that tab
   if (tab !== 'livefeed' && liveFeedTimer) {
     clearInterval(liveFeedTimer);
     liveFeedTimer = null;
@@ -593,42 +537,31 @@ async function loadDashboard() {
       api('/api/admin/stats/funnel?days=7').catch(() => null)
     ]);
 
-    // Greeting stats
-    const gs = document.getElementById('greetScansToday');
-    const gu = document.getElementById('greetUsersToday');
-    const gc = document.getElementById('greetCostToday');
-    if (gs) animateValue(gs, dash.scans?.today ?? 0, 1200);
-    if (gu) animateValue(gu, dash.users?.today ?? 0, 1000);
-    if (gc) gc.textContent = fmtCost(dash.tokens?.costToday);
-    const sub = document.getElementById('greetingSub');
-    if (sub) sub.textContent = `${fmtNum(dash.scans?.total)} Scans insgesamt \u00b7 ${fmtNum(dash.users?.total)} User`;
-    updateGreeting();
-
-    // KPIs - using Lucide icon names
+    // KPIs
     const kpis = [
-      { label: 'Scans Woche', value: fmtNum(dash.scans?.week), cls: '', icon: 'bar-chart-3' },
-      { label: 'Scans gesamt', value: fmtNum(dash.scans?.total), cls: '', icon: 'hash' },
-      { label: 'Zufriedenheit', value: (dash.feedback?.satisfaction ?? 0) + '%', cls: (dash.feedback?.satisfaction ?? 0) >= 70 ? 'text-success' : 'text-warning', icon: 'smile' },
-      { label: 'Premium aktiv', value: fmtNum(dash.premium?.active), cls: 'text-success', icon: 'crown' },
-      { label: 'Promo aktiv', value: fmtNum(dash.premium?.promos), cls: '', icon: 'ticket' },
-      { label: 'Token heute', value: fmtNum(dash.tokens?.today), cls: '', icon: 'coins' },
-      { label: 'Kosten Monat', value: fmtCost(dash.tokens?.costMonth), cls: 'text-warning', icon: 'credit-card' },
-      { label: '\u2300 pro Scan', value: dash.tokens?.avgCostPerScan ? '$' + parseFloat(dash.tokens.avgCostPerScan).toFixed(3) : '—', cls: '', icon: 'target' },
+      { label: 'Scans heute', value: fmtNum(dash.scans?.today), cls: 'green' },
+      { label: 'Scans Woche', value: fmtNum(dash.scans?.week), cls: '' },
+      { label: 'Scans gesamt', value: fmtNum(dash.scans?.total), cls: '' },
+      { label: 'User heute', value: fmtNum(dash.users?.today), cls: 'blue' },
+      { label: 'User gesamt', value: fmtNum(dash.users?.total), cls: '' },
+      { label: 'Zufriedenheit', value: (dash.feedback?.satisfaction ?? 0) + '%', cls: (dash.feedback?.satisfaction ?? 0) >= 70 ? 'green' : 'orange' },
+      { label: 'Premium aktiv', value: fmtNum(dash.premium?.active), cls: 'green' },
+      { label: 'Promo aktiv', value: fmtNum(dash.premium?.promos), cls: '' },
+      { label: 'Token heute', value: fmtNum(dash.tokens?.today), cls: '' },
+      { label: 'Kosten heute', value: fmtCost(dash.tokens?.costToday), cls: 'orange' },
+      { label: 'Kosten Monat', value: fmtCost(dash.tokens?.costMonth), cls: 'orange' },
+      { label: '⌀ pro Scan', value: dash.tokens?.avgCostPerScan ? '$' + parseFloat(dash.tokens.avgCostPerScan).toFixed(3) : '—', cls: '' },
     ];
+    // Add revenue KPIs if available
     if (revenueData) {
       kpis.push(
-        { label: 'MRR', value: fmtEur(revenueData.mrr), cls: 'text-success', icon: 'wallet' },
-        { label: 'Umsatz Monat', value: fmtEur(revenueData.revenueMonth), cls: 'text-success', icon: 'trending-up' }
+        { label: 'MRR', value: fmtEur(revenueData.mrr), cls: 'green' },
+        { label: 'Umsatz Monat', value: fmtEur(revenueData.revenueMonth), cls: 'green' }
       );
     }
     document.getElementById('kpi-grid').innerHTML = kpis.map(k =>
-      `<div class="stat bg-base-200 rounded-box shadow">
-        <div class="stat-figure text-primary"><i data-lucide="${k.icon}" class="w-6 h-6"></i></div>
-        <div class="stat-title">${k.label}</div>
-        <div class="stat-value text-sm ${k.cls}">${k.value}</div>
-      </div>`
+      `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
     ).join('');
-    lucide.createIcons();
 
     // Scan chart
     const scanLabels = (scanData.data || []).map(d => d.day?.slice(5));
@@ -669,7 +602,7 @@ async function loadDashboard() {
 function renderFunnel(funnelData) {
   const wrap = document.getElementById('funnelWrap');
   if (!funnelData || !funnelData.funnel || funnelData.funnel.length === 0) {
-    wrap.innerHTML = '<div class="card-body"><div class="text-base-content/40 text-center py-5">Keine Funnel-Daten verfügbar</div></div>';
+    wrap.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px">Keine Funnel-Daten verfügbar</div>';
     return;
   }
   const steps = funnelData.funnel;
@@ -683,23 +616,22 @@ function renderFunnel(funnelData) {
     'purchase_complete': 'Kauf'
   };
   const maxCount = Math.max(...steps.map(s => s.count), 1);
-  let html = '<div class="card-body gap-2">';
+  let html = '';
   steps.forEach((step, i) => {
     const label = stepLabels[step.step] || step.step;
     const pct = (step.count / maxCount) * 100;
     const prevCount = i > 0 ? steps[i - 1].count : step.count;
     const convPct = prevCount > 0 ? ((step.count / prevCount) * 100).toFixed(1) : '100.0';
-    html += `<div class="flex items-center gap-3">
-      <div class="w-28 text-right text-xs text-base-content/50 font-medium flex-shrink-0">${esc(label)}</div>
-      <div class="flex-1 bg-base-300 rounded-lg h-7 relative overflow-hidden">
-        <div class="h-full rounded-lg bg-gradient-to-r from-success/80 to-success flex items-center px-3 transition-all duration-700" style="width:${Math.max(pct, 3)}%">
-          <span class="text-xs font-semibold text-white whitespace-nowrap">${fmtNum(step.count)}</span>
+    html += `<div class="funnel-step">
+      <div class="funnel-label">${esc(label)}</div>
+      <div class="funnel-bar-wrap">
+        <div class="funnel-bar" style="width:${Math.max(pct, 3)}%">
+          <span class="funnel-bar-text">${fmtNum(step.count)}</span>
         </div>
       </div>
-      <div class="w-14 text-xs text-base-content/40 font-medium tabular-nums">${i === 0 ? '100%' : convPct + '%'}</div>
+      <div class="funnel-pct">${i === 0 ? '100%' : convPct + '%'}</div>
     </div>`;
   });
-  html += '</div>';
   wrap.innerHTML = html;
 }
 
@@ -707,22 +639,15 @@ function renderFunnel(funnelData) {
 let fbNegativeOnly = false;
 async function loadFeedback(negative) {
   fbNegativeOnly = negative;
-  const fbAllBtn = document.getElementById('fbAll');
-  const fbNegBtn = document.getElementById('fbNeg');
-  if (!negative) {
-    fbAllBtn.classList.add('btn-success');
-    fbNegBtn.classList.remove('btn-error');
-  } else {
-    fbAllBtn.classList.remove('btn-success');
-    fbNegBtn.classList.add('btn-error');
-  }
+  document.getElementById('fbAll').classList.toggle('active', !negative);
+  document.getElementById('fbNeg').classList.toggle('active', negative);
   const list = document.getElementById('feedbackList');
   showLoading(list);
   try {
     const data = await api('/api/admin/feedback-detailed?limit=50' + (negative ? '&negative=true' : ''));
     document.getElementById('fbCount').textContent = (data.count || 0) + ' Einträge';
     if (!data.entries || data.entries.length === 0) {
-      list.innerHTML = '<div class="text-base-content/40 py-10 text-center">Keine Einträge vorhanden</div>';
+      list.innerHTML = '<div style="color:var(--text-muted);padding:40px;text-align:center">Keine Einträge vorhanden</div>';
       return;
     }
     list.innerHTML = data.entries.map((e, i) => {
@@ -734,34 +659,31 @@ async function loadFeedback(negative) {
       const q = e.questionnaire || {};
       const imgs = e.images || [];
       const hasImages = imgs.length > 0;
-      const recheckBtn = hasImages ? `<button class="btn btn-sm btn-info mt-3" onclick="event.stopPropagation();recheckFeedback(${e.id || i})"><i data-lucide="refresh-cw" class="w-3 h-3 mr-1"></i> Recheck</button>` : '';
-      return `<div class="card bg-base-200 shadow mb-3 fb-card" id="fb${i}">
-        <div class="card-body p-0">
-          <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-base-300/50 transition-colors rounded-t-2xl" onclick="document.getElementById('fb${i}').classList.toggle('open');lucide.createIcons()">
-            <span class="arrow text-base-content/40 text-xs">&#9654;</span>
-            <span class="badge ${isPositive ? 'badge-success' : 'badge-error'} badge-sm">${isPositive ? 'Positiv' : 'Negativ'}</span>
-            <span class="flex-1 font-medium text-sm">${esc(primary)}</span>
-            <span class="text-base-content/30 text-xs">${fmtDate(e.created_at)}</span>
+      const recheckBtn = hasImages ? `<button class="btn btn-sm btn-blue" style="margin-top:10px" onclick="event.stopPropagation();recheckFeedback(${e.id || i})">&#128260; Recheck</button>` : '';
+      return `<div class="fb-card" id="fb${i}">
+        <div class="fb-header" onclick="document.getElementById('fb${i}').classList.toggle('open')">
+          <span class="arrow">&#9654;</span>
+          <span class="badge ${isPositive ? 'badge-green' : 'badge-red'}">${isPositive ? 'Positiv' : 'Negativ'}</span>
+          <span style="flex:1;font-weight:500;font-size:.88rem">${esc(primary)}</span>
+          <span style="color:var(--text-dim);font-size:.78rem">${fmtDate(e.created_at)}</span>
+        </div>
+        <div class="fb-body">
+          <div class="fb-meta">
+            ${severity ? `<span><strong>Schwere:</strong> ${esc(severity)}</span>` : ''}
+            ${confidence ? `<span><strong>Konfidenz:</strong> ${Math.round(confidence * 100)}%</span>` : ''}
+            ${q.substrate ? `<span><strong>Substrat:</strong> ${esc(q.substrate)}</span>` : ''}
+            ${q.fertilizer ? `<span><strong>Dünger:</strong> ${esc(q.fertilizer)}</span>` : ''}
+            ${q.growPhase ? `<span><strong>Phase:</strong> ${esc(q.growPhase)}</span>` : ''}
+            ${q.ph ? `<span><strong>pH:</strong> ${esc(q.ph)}</span>` : ''}
+            ${q.ec ? `<span><strong>EC:</strong> ${esc(q.ec)}</span>` : ''}
+            ${q.light ? `<span><strong>Licht:</strong> ${esc(q.light)}</span>` : ''}
+            ${q.watering ? `<span><strong>Bewässerung:</strong> ${esc(q.watering)}</span>` : ''}
           </div>
-          <div class="fb-body border-t border-base-content/5 px-4 pb-4">
-            <div class="flex flex-wrap gap-x-5 gap-y-2 mt-3 text-sm text-base-content/60">
-              ${severity ? `<span><strong>Schwere:</strong> ${esc(severity)}</span>` : ''}
-              ${confidence ? `<span><strong>Konfidenz:</strong> ${Math.round(confidence * 100)}%</span>` : ''}
-              ${q.substrate ? `<span><strong>Substrat:</strong> ${esc(q.substrate)}</span>` : ''}
-              ${q.fertilizer ? `<span><strong>Dünger:</strong> ${esc(q.fertilizer)}</span>` : ''}
-              ${q.growPhase ? `<span><strong>Phase:</strong> ${esc(q.growPhase)}</span>` : ''}
-              ${q.ph ? `<span><strong>pH:</strong> ${esc(q.ph)}</span>` : ''}
-              ${q.ec ? `<span><strong>EC:</strong> ${esc(q.ec)}</span>` : ''}
-              ${q.light ? `<span><strong>Licht:</strong> ${esc(q.light)}</span>` : ''}
-              ${q.watering ? `<span><strong>Bewässerung:</strong> ${esc(q.watering)}</span>` : ''}
-            </div>
-            ${imgs.length ? `<div class="flex gap-3 flex-wrap mt-4">${imgs.map(f => `<img src="/api/admin/feedback-image/${encodeURIComponent(f)}?key=${encodeURIComponent(KEY)}" loading="lazy" onclick="openLightbox(this.src)" onerror="this.style.display='none'" class="w-24 h-24 object-cover rounded-lg border border-base-content/10 cursor-pointer hover:scale-105 transition-transform">`).join('')}</div>` : ''}
-            ${recheckBtn}
-          </div>
+          ${imgs.length ? `<div class="fb-images">${imgs.map(f => `<img src="/api/admin/feedback-image/${encodeURIComponent(f)}?key=${encodeURIComponent(KEY)}" loading="lazy" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`).join('')}</div>` : ''}
+          ${recheckBtn}
         </div>
       </div>`;
     }).join('');
-    lucide.createIcons();
   } catch (e) {
     showError(list, 'Feedback konnte nicht geladen werden: ' + e.message);
   }
@@ -777,16 +699,15 @@ function esc(s) {
 function openLightbox(src) {
   const lb = document.getElementById('lightbox');
   document.getElementById('lbImg').src = src;
-  lb.classList.remove('hidden');
-  lb.classList.add('flex');
+  lb.classList.add('open');
 }
 
 // ---- Recheck ----
 async function recheckFeedback(feedbackId) {
   const modal = document.getElementById('recheckModal');
   const body = document.getElementById('recheckBody');
-  modal.showModal();
-  body.innerHTML = '<div class="flex items-center justify-center py-10 text-base-content/40"><span class="loading loading-spinner loading-sm mr-2"></span>Diagnose wird neu berechnet...</div>';
+  modal.classList.add('open');
+  body.innerHTML = '<div class="loading"><div class="spinner"></div>Diagnose wird neu berechnet…</div>';
   try {
     const result = await api('/api/admin/recheck', {
       method: 'POST',
@@ -806,41 +727,41 @@ async function recheckFeedback(feedbackId) {
     const sevDiff = origSeverity !== newSeverity;
     const confDiff = origConf !== newConf;
 
-    body.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-base-300 rounded-xl p-4 border border-base-content/5">
-        <h4 class="text-xs text-base-content/40 mb-3 uppercase tracking-wider font-medium">Original</h4>
-        <div class="mb-3">
-          <div class="text-xs text-base-content/40 mb-1 uppercase tracking-wide font-medium">Diagnose</div>
-          <div class="text-sm font-medium ${diagDiff ? 'text-error' : ''}">${esc(origPrimary)}</div>
+    body.innerHTML = `<div class="recheck-compare">
+      <div class="recheck-side">
+        <h4>Original</h4>
+        <div class="recheck-field">
+          <div class="rf-label">Diagnose</div>
+          <div class="rf-value ${diagDiff ? 'diff-remove' : ''}">${esc(origPrimary)}</div>
         </div>
-        <div class="mb-3">
-          <div class="text-xs text-base-content/40 mb-1 uppercase tracking-wide font-medium">Schwere</div>
-          <div class="text-sm font-medium ${sevDiff ? 'text-error' : ''}">${esc(origSeverity)}</div>
+        <div class="recheck-field">
+          <div class="rf-label">Schwere</div>
+          <div class="rf-value ${sevDiff ? 'diff-remove' : ''}">${esc(origSeverity)}</div>
         </div>
-        <div>
-          <div class="text-xs text-base-content/40 mb-1 uppercase tracking-wide font-medium">Konfidenz</div>
-          <div class="text-sm font-medium ${confDiff ? 'text-error' : ''}">${origConf != null ? Math.round(origConf * 100) + '%' : '—'}</div>
+        <div class="recheck-field">
+          <div class="rf-label">Konfidenz</div>
+          <div class="rf-value ${confDiff ? 'diff-remove' : ''}">${origConf != null ? Math.round(origConf * 100) + '%' : '—'}</div>
         </div>
       </div>
-      <div class="bg-base-300 rounded-xl p-4 border border-base-content/5">
-        <h4 class="text-xs text-base-content/40 mb-3 uppercase tracking-wider font-medium">Neu (Recheck)</h4>
-        <div class="mb-3">
-          <div class="text-xs text-base-content/40 mb-1 uppercase tracking-wide font-medium">Diagnose</div>
-          <div class="text-sm font-medium ${diagDiff ? 'text-success' : ''}">${esc(newPrimary)}</div>
+      <div class="recheck-side">
+        <h4>Neu (Recheck)</h4>
+        <div class="recheck-field">
+          <div class="rf-label">Diagnose</div>
+          <div class="rf-value ${diagDiff ? 'diff-add' : ''}">${esc(newPrimary)}</div>
         </div>
-        <div class="mb-3">
-          <div class="text-xs text-base-content/40 mb-1 uppercase tracking-wide font-medium">Schwere</div>
-          <div class="text-sm font-medium ${sevDiff ? 'text-success' : ''}">${esc(newSeverity)}</div>
+        <div class="recheck-field">
+          <div class="rf-label">Schwere</div>
+          <div class="rf-value ${sevDiff ? 'diff-add' : ''}">${esc(newSeverity)}</div>
         </div>
-        <div>
-          <div class="text-xs text-base-content/40 mb-1 uppercase tracking-wide font-medium">Konfidenz</div>
-          <div class="text-sm font-medium ${confDiff ? 'text-success' : ''}">${newConf != null ? Math.round(newConf * 100) + '%' : '—'}</div>
+        <div class="recheck-field">
+          <div class="rf-label">Konfidenz</div>
+          <div class="rf-value ${confDiff ? 'diff-add' : ''}">${newConf != null ? Math.round(newConf * 100) + '%' : '—'}</div>
         </div>
       </div>
     </div>
-    ${diagDiff || sevDiff || confDiff ? '<div class="alert alert-warning mt-4 text-sm">Unterschiede erkannt — markierte Felder haben sich geändert.</div>' : '<div class="alert alert-success mt-4 text-sm">Keine Unterschiede — Diagnose ist konsistent.</div>'}`;
+    ${diagDiff || sevDiff || confDiff ? '<div style="margin-top:14px;padding:10px 14px;background:rgba(255,167,38,.1);border:1px solid rgba(255,167,38,.3);border-radius:8px;font-size:.85rem;color:var(--orange)">Unterschiede erkannt — markierte Felder haben sich geändert.</div>' : '<div style="margin-top:14px;padding:10px 14px;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);border-radius:8px;font-size:.85rem;color:var(--green)">Keine Unterschiede — Diagnose ist konsistent.</div>'}`;
   } catch (e) {
-    body.innerHTML = '<div class="alert alert-error text-sm">Recheck fehlgeschlagen: ' + esc(e.message) + '</div>';
+    body.innerHTML = '<div class="error-msg">Recheck fehlgeschlagen: ' + esc(e.message) + '</div>';
   }
 }
 
@@ -977,17 +898,12 @@ async function loadStats() {
     // Retention
     if (retData) {
       document.getElementById('retentionKpis').innerHTML = [
-        { label: 'Unique User', value: fmtNum(retData.totalUnique), cls: 'text-info', icon: 'users' },
-        { label: 'Wiederkehrende User', value: fmtNum(retData.returningCount), cls: 'text-success', icon: 'user-check' },
-        { label: 'Retention Rate', value: fmtPct(retData.returningRate), cls: retData.returningRate >= 20 ? 'text-success' : 'text-warning', icon: 'repeat' },
+        { label: 'Unique User', value: fmtNum(retData.totalUnique), cls: 'blue' },
+        { label: 'Wiederkehrende User', value: fmtNum(retData.returningCount), cls: 'green' },
+        { label: 'Retention Rate', value: fmtPct(retData.returningRate), cls: retData.returningRate >= 20 ? 'green' : 'orange' },
       ].map(k =>
-        `<div class="stat bg-base-200 rounded-box shadow">
-          <div class="stat-figure text-primary"><i data-lucide="${k.icon}" class="w-5 h-5"></i></div>
-          <div class="stat-title">${k.label}</div>
-          <div class="stat-value text-sm ${k.cls}">${k.value}</div>
-        </div>`
+        `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
       ).join('');
-      lucide.createIcons();
 
       // Weekly cohort chart
       const weekly = retData.weekly || [];
@@ -1022,15 +938,15 @@ async function loadLiveFeed() {
       const time = r.scanned_at ? new Date(r.scanned_at).toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) : '—';
       return `<tr>
         <td>${time}</td>
-        <td class="font-mono text-xs">${maskIp(r.ip)}</td>
+        <td style="font-family:monospace;font-size:.8rem">${maskIp(r.ip)}</td>
         <td>${esc(r.platform || '—')}</td>
-        <td class="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">${esc(r.diagnosis || '—')}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.diagnosis || '—')}</td>
         <td><span class="${sevCls}">${esc(r.severity || '—')}</span></td>
         <td>${r.confidence != null ? Math.round(r.confidence * 100) + '%' : '—'}</td>
         <td>${ratingEmoji(r.rating)}</td>
         <td>${fmtNum(r.total_tokens)}</td>
       </tr>`;
-    }).join('') || '<tr><td colspan="8" class="text-center text-base-content/40">Keine Daten</td></tr>';
+    }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted)">Keine Daten</td></tr>';
   } catch (e) {
     toast('Live Feed Fehler: ' + e.message, true);
   }
@@ -1073,29 +989,24 @@ async function loadRevenue() {
     const data = await api('/api/admin/stats/revenue');
     const conv = data.conversion || {};
     const kpis = [
-      { label: 'MRR', value: fmtEur(data.mrr), cls: 'text-success', icon: 'wallet' },
-      { label: 'Umsatz heute', value: fmtEur(data.revenueToday), cls: 'text-success', icon: 'calendar' },
-      { label: 'Umsatz Woche', value: fmtEur(data.revenueWeek), cls: 'text-success', icon: 'calendar-range' },
-      { label: 'Umsatz Monat', value: fmtEur(data.revenueMonth), cls: 'text-success', icon: 'banknote' },
-      { label: 'Aktive Abos', value: fmtNum(data.activeSubscriptions), cls: 'text-info', icon: 'users' },
-      { label: 'Kündigungen (30d)', value: fmtNum(data.recentCancellations), cls: 'text-error', icon: 'user-x' },
-      { label: 'Churn-Rate', value: fmtPct(data.churnRate), cls: data.churnRate > 5 ? 'text-error' : 'text-warning', icon: 'trending-down' },
-      { label: 'Conversion Rate', value: fmtPct(conv.rate), cls: conv.rate >= 5 ? 'text-success' : 'text-warning', icon: 'percent' },
+      { label: 'MRR', value: fmtEur(data.mrr), cls: 'green' },
+      { label: 'Umsatz heute', value: fmtEur(data.revenueToday), cls: 'green' },
+      { label: 'Umsatz Woche', value: fmtEur(data.revenueWeek), cls: 'green' },
+      { label: 'Umsatz Monat', value: fmtEur(data.revenueMonth), cls: 'green' },
+      { label: 'Aktive Abos', value: fmtNum(data.activeSubscriptions), cls: 'blue' },
+      { label: 'Kündigungen (30d)', value: fmtNum(data.recentCancellations), cls: 'red' },
+      { label: 'Churn-Rate', value: fmtPct(data.churnRate), cls: data.churnRate > 5 ? 'red' : 'orange' },
+      { label: 'Conversion Rate', value: fmtPct(conv.rate), cls: conv.rate >= 5 ? 'green' : 'orange' },
     ];
     kpiEl.innerHTML = kpis.map(k =>
-      `<div class="stat bg-base-200 rounded-box shadow">
-        <div class="stat-figure text-primary"><i data-lucide="${k.icon}" class="w-5 h-5"></i></div>
-        <div class="stat-title">${k.label}</div>
-        <div class="stat-value text-sm ${k.cls}">${k.value}</div>
-      </div>`
+      `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
     ).join('');
-    lucide.createIcons();
 
     detailEl.innerHTML = `
-      <div class="flex gap-8 flex-wrap text-sm">
-        <div><strong class="text-base-content/50">Paywall-Aufrufe:</strong> ${fmtNum(conv.paywallViews)}</div>
-        <div><strong class="text-base-content/50">Käufe:</strong> ${fmtNum(conv.purchases)}</div>
-        <div><strong class="text-base-content/50">Conversion:</strong> ${fmtPct(conv.rate)}</div>
+      <div style="display:flex;gap:30px;flex-wrap:wrap">
+        <div><strong style="color:var(--text-muted)">Paywall-Aufrufe:</strong> ${fmtNum(conv.paywallViews)}</div>
+        <div><strong style="color:var(--text-muted)">Käufe:</strong> ${fmtNum(conv.purchases)}</div>
+        <div><strong style="color:var(--text-muted)">Conversion:</strong> ${fmtPct(conv.rate)}</div>
       </div>`;
   } catch (e) {
     showError(kpiEl, 'Revenue konnte nicht geladen werden: ' + e.message);
@@ -1108,23 +1019,23 @@ async function loadAnnouncements() {
     const data = await api('/api/admin/announcements');
     const rows = Array.isArray(data) ? data : [];
     const typeBadge = (t) => {
-      if (t === 'info') return '<span class="badge badge-info badge-sm">Info</span>';
-      if (t === 'warning') return '<span class="badge badge-warning badge-sm">Warning</span>';
-      if (t === 'success') return '<span class="badge badge-success badge-sm">Success</span>';
-      return '<span class="badge badge-ghost badge-sm">' + esc(t) + '</span>';
+      if (t === 'info') return '<span class="badge badge-blue">Info</span>';
+      if (t === 'warning') return '<span class="badge badge-orange">Warning</span>';
+      if (t === 'success') return '<span class="badge badge-green">Success</span>';
+      return '<span class="badge badge-gray">' + esc(t) + '</span>';
     };
     document.querySelector('#annTable tbody').innerHTML = rows.map(a => `
       <tr>
         <td>${a.id}</td>
-        <td class="max-w-[300px] overflow-hidden text-ellipsis">${esc(a.message)}</td>
+        <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis">${esc(a.message)}</td>
         <td>${typeBadge(a.type)}</td>
-        <td>${a.active ? '<span class="badge badge-success badge-sm">Aktiv</span>' : '<span class="badge badge-ghost badge-sm">Inaktiv</span>'}</td>
+        <td>${a.active ? '<span class="badge badge-green">Aktiv</span>' : '<span class="badge badge-gray">Inaktiv</span>'}</td>
         <td>${fmtDate(a.created_at)}</td>
-        <td class="whitespace-nowrap">
-          <button class="btn btn-xs ${a.active ? 'btn-outline' : 'btn-success'}" onclick="toggleAnnouncement(${a.id},${!a.active})">${a.active ? 'Deaktivieren' : 'Aktivieren'}</button>
-          <button class="btn btn-xs btn-error ml-1" onclick="deleteAnnouncement(${a.id})">Löschen</button>
+        <td style="white-space:nowrap">
+          <button class="btn btn-sm ${a.active ? 'btn-outline' : 'btn-green'}" onclick="toggleAnnouncement(${a.id},${!a.active})">${a.active ? 'Deaktivieren' : 'Aktivieren'}</button>
+          <button class="btn btn-sm btn-red" onclick="deleteAnnouncement(${a.id})" style="margin-left:4px">Löschen</button>
         </td>
-      </tr>`).join('') || '<tr><td colspan="6" class="text-center text-base-content/40">Keine Ankündigungen</td></tr>';
+      </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">Keine Ankündigungen</td></tr>';
   } catch (e) {
     toast('Announcements Fehler: ' + e.message, true);
   }
@@ -1186,23 +1097,23 @@ async function loadPromos() {
 
     document.querySelector('#promoTable tbody').innerHTML = codes.map(c => `
       <tr>
-        <td><code class="text-success">${esc(c.code)}</code></td>
+        <td><code style="color:var(--green)">${esc(c.code)}</code></td>
         <td>${c.days}</td>
         <td>${c.used}</td>
         <td>${c.max_uses}</td>
-        <td>${c.active ? '<span class="badge badge-success badge-sm">Aktiv</span>' : '<span class="badge badge-ghost badge-sm">Inaktiv</span>'}</td>
+        <td>${c.active ? '<span class="badge badge-green">Aktiv</span>' : '<span class="badge badge-gray">Inaktiv</span>'}</td>
         <td>${fmtDate(c.created_at)}</td>
-        <td><button class="btn btn-xs ${c.active ? 'btn-error' : 'btn-success'}" onclick="togglePromo('${esc(c.code)}',${!c.active})">${c.active ? 'Deaktivieren' : 'Aktivieren'}</button></td>
-      </tr>`).join('') || '<tr><td colspan="7" class="text-center text-base-content/40">Keine Codes</td></tr>';
+        <td><button class="btn btn-sm ${c.active ? 'btn-red' : 'btn-green'}" onclick="togglePromo('${esc(c.code)}',${!c.active})">${c.active ? 'Deaktivieren' : 'Aktivieren'}</button></td>
+      </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">Keine Codes</td></tr>';
 
     document.querySelector('#redemptionTable tbody').innerHTML = reds.map(r => `
       <tr>
-        <td><code class="text-success">${esc(r.code)}</code></td>
+        <td><code style="color:var(--green)">${esc(r.code)}</code></td>
         <td>${esc(r.ip)}</td>
-        <td class="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">${esc(r.device_id)}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.device_id)}</td>
         <td>${fmtDate(r.redeemed_at)}</td>
         <td>${fmtDate(r.expires_at)}</td>
-      </tr>`).join('') || '<tr><td colspan="5" class="text-center text-base-content/40">Keine Einlösungen</td></tr>';
+      </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">Keine Einlösungen</td></tr>';
   } catch (e) {
     toast('Promos Fehler: ' + e.message, true);
   }
@@ -1250,11 +1161,11 @@ async function loadPremium() {
 
     document.querySelector('#premiumActiveTable tbody').innerHTML = active.map(p => `
       <tr><td>${p.id}</td><td>${esc(p.plan)}</td><td>${esc(p.stripe_customer_id || '—')}</td><td>${fmtDate(p.created_at)}</td></tr>`
-    ).join('') || '<tr><td colspan="4" class="text-center text-base-content/40">Keine aktiven Abos</td></tr>';
+    ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Keine aktiven Abos</td></tr>';
 
     document.querySelector('#premiumCancelledTable tbody').innerHTML = cancelled.map(p => `
       <tr><td>${p.id}</td><td>${esc(p.plan)}</td><td>${esc(p.stripe_customer_id || '—')}</td><td>${fmtDate(p.created_at)}</td></tr>`
-    ).join('') || '<tr><td colspan="4" class="text-center text-base-content/40">Keine gekündigten Abos</td></tr>';
+    ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Keine gekündigten Abos</td></tr>';
   } catch (e) {
     toast('Premium Fehler: ' + e.message, true);
   }
@@ -1270,7 +1181,7 @@ async function grantPremium() {
       body: JSON.stringify({ days })
     });
     document.getElementById('premiumMsg').innerHTML =
-      `<div class="alert alert-success text-sm my-3">Premium-Code erstellt: <strong class="text-lg tracking-widest">${esc(data.code)}</strong> (${data.days} Tage)</div>`;
+      `<div class="success-msg">Premium-Code erstellt: <strong style="font-size:1.1rem;letter-spacing:1px">${esc(data.code)}</strong> (${data.days} Tage)</div>`;
     toast('Premium-Code generiert!');
   } catch (e) {
     toast('Fehler: ' + e.message, true);
@@ -1288,23 +1199,18 @@ async function loadSystem() {
 
     // Disk
     document.getElementById('diskGrid').innerHTML = [
-      { label: 'Feedback-Bilder', value: fmtNum(disk.feedbackImages?.count), cls: '', icon: 'image' },
-      { label: 'Bilder (MB)', value: (disk.feedbackImages?.sizeMB ?? 0).toFixed(1) + ' MB', cls: 'text-info', icon: 'hard-drive' },
-      { label: 'Datenbank', value: (disk.database?.sizeMB ?? 0).toFixed(1) + ' MB', cls: 'text-warning', icon: 'database' },
+      { label: 'Feedback-Bilder', value: fmtNum(disk.feedbackImages?.count), cls: '' },
+      { label: 'Bilder (MB)', value: (disk.feedbackImages?.sizeMB ?? 0).toFixed(1) + ' MB', cls: 'blue' },
+      { label: 'Datenbank', value: (disk.database?.sizeMB ?? 0).toFixed(1) + ' MB', cls: 'orange' },
     ].map(k =>
-      `<div class="stat bg-base-200 rounded-box shadow">
-        <div class="stat-figure text-primary"><i data-lucide="${k.icon}" class="w-5 h-5"></i></div>
-        <div class="stat-title">${k.label}</div>
-        <div class="stat-value text-sm ${k.cls}">${k.value}</div>
-      </div>`
+      `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
     ).join('');
-    lucide.createIcons();
 
     // Rate limits
     const rlData = Array.isArray(rl) ? rl : [];
     document.querySelector('#ratelimitTable tbody').innerHTML = rlData.map(r => `
       <tr><td>${esc(r.ip)}</td><td>${r.requests}</td></tr>`
-    ).join('') || '<tr><td colspan="2" class="text-center text-base-content/40">Keine Rate-Limit Treffer</td></tr>';
+    ).join('') || '<tr><td colspan="2" style="text-align:center;color:var(--text-muted)">Keine Rate-Limit Treffer</td></tr>';
 
     // Blacklist
     const blData = Array.isArray(bl) ? bl : [];
@@ -1313,9 +1219,9 @@ async function loadSystem() {
         <td><code>${esc(b.ip)}</code></td>
         <td>${esc(b.reason)}</td>
         <td>${fmtDate(b.created_at)}</td>
-        <td><button class="btn btn-xs btn-error" onclick="removeBlacklist('${esc(b.ip)}')">Entsperren</button></td>
+        <td><button class="btn btn-sm btn-red" onclick="removeBlacklist('${esc(b.ip)}')">Entsperren</button></td>
       </tr>`
-    ).join('') || '<tr><td colspan="4" class="text-center text-base-content/40">Keine gesperrten IPs</td></tr>';
+    ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Keine gesperrten IPs</td></tr>';
   } catch (e) {
     toast('System Fehler: ' + e.message, true);
   }
@@ -1358,14 +1264,12 @@ async function removeBlacklist(ip) {
 // ---- Init & Auto-refresh ----
 function init() {
   if (!KEY) {
-    document.querySelector('main').innerHTML = '<div class="alert alert-error mt-10 text-center text-base">Kein Admin-Key angegeben. Bitte <code>?key=DEIN_KEY</code> an die URL anhängen.</div>';
+    document.querySelector('.main').innerHTML = '<div class="error-msg" style="margin-top:40px;text-align:center;font-size:1rem">Kein Admin-Key angegeben. Bitte <code>?key=DEIN_KEY</code> an die URL anhängen.</div>';
     return;
   }
-  // Initialize Lucide icons
-  lucide.createIcons();
   loadDashboard();
   refreshTimer = setInterval(() => {
-    const activeTab = document.querySelector('#nav .tab-active')?.dataset.tab;
+    const activeTab = document.querySelector('.nav button.active')?.dataset.tab;
     if (activeTab && activeTab !== 'livefeed') loadTab(activeTab);
   }, 60000);
 }
