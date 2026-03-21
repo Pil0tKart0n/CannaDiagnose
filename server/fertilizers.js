@@ -262,6 +262,43 @@ const FERTILIZER_PROFILES = {
     calmagNote: 'House & Garden CalMag auch für die Bio-Linie. Im H&G-System bleiben.',
     notes: 'Organische Bio 1-Component Linie. Einfach: ein Produkt für alles. Niedrigere EC als Mineral-Linie.',
   },
+  'Hesi Organic': {
+    name: 'Hesi Organic', brand: 'Hesi', type: 'hybrid',
+    ecRanges: { seedling: '0.4–0.6', earlyVeg: '0.6–1.0', lateVeg: '1.0–1.4', earlyFlower: '1.2–1.6', midFlower: '1.4–1.8', lateFlower: '1.6–2.0', flush: '0.4–0.6' },
+    calmagProduct: 'Kein eigenes CalMag',
+    calmagNote: 'Hesi hat kein eigenes CalMag. Bei Bedarf generisches organisches CalMag oder Dolomit-Kalk.',
+    notes: 'Deutsch-niederländisch. TNT Complex + Bloom Complex. Hybrid (organisch-mineralisch).',
+  },
+  'Advanced Nutrients OG Organics': {
+    name: 'Advanced Nutrients OG Organics', brand: 'Advanced Nutrients', type: 'organic',
+    ecRanges: { seedling: '0.4–0.6', earlyVeg: '0.6–1.0', lateVeg: '0.8–1.4', earlyFlower: '1.0–1.6', midFlower: '1.2–1.8', lateFlower: '1.4–2.0', flush: '0.4–0.6' },
+    calmagProduct: 'OG Organics CalMag',
+    calmagNote: 'Advanced Nutrients OG Organics hat ein eigenes CalMag (OG Organics CaMg). Im AN-System bleiben.',
+    notes: 'Organische Linie von Advanced Nutrients. Iguana Juice Grow + Bloom als Basis. pH-Perfect Technologie (pH puffert sich selbst).',
+  },
+  'BioNova': {
+    name: 'BioNova', brand: 'BioNova', type: 'hybrid',
+    ecRanges: { seedling: '0.4–0.6', earlyVeg: '0.6–1.0', lateVeg: '1.0–1.4', earlyFlower: '1.2–1.6', midFlower: '1.4–1.8', lateFlower: '1.6–2.0', flush: '0.4–0.6' },
+    calmagProduct: 'BioNova CalMag',
+    calmagNote: 'BioNova CalMag für die Soil Supermix Linie verfügbar. Im BioNova-System bleiben.',
+    notes: 'Niederländisch. Soil Supermix als Bio-Komplett-Lösung. Hybrid-Konzept.',
+  },
+  'Roots Organics': {
+    name: 'Roots Organics', brand: 'Aurora Innovations', type: 'organic',
+    ecRanges: { seedling: '0.4–0.6', earlyVeg: '0.6–1.0', lateVeg: '0.8–1.2', earlyFlower: '1.0–1.4', midFlower: '1.2–1.6', lateFlower: '1.4–1.8', flush: '0.4–0.6' },
+    calmagProduct: 'Roots Organics CalMag',
+    calmagNote: 'Roots Organics CaMg verfügbar. Im Aurora-System bleiben.',
+    notes: 'US-Hersteller. Buddha Grow + Buddha Bloom als Basis. In EU begrenzt verfügbar.',
+  },
+
+  // ── DIY / EIGENER DÜNGER ─────────────────────────────────────────
+  'Eigener Bio-Dünger / DIY': {
+    name: 'Eigener Bio-Dünger / DIY', brand: 'DIY', type: 'organic',
+    ecRanges: { seedling: '0.2–0.6', earlyVeg: '0.4–1.0', lateVeg: '0.6–1.2', earlyFlower: '0.8–1.4', midFlower: '1.0–1.6', lateFlower: '1.2–1.8', flush: '0.2–0.6' },
+    calmagProduct: 'Eierschalen (Calcium) + Bittersalz/Epsom Salt (Magnesium)',
+    calmagNote: 'DIY CalMag: Eierschalenmehl für Ca, Bittersalz (Epsom Salt) für Mg. Dolomit-Kalk liefert beides. In Komposttee einarbeiten für bessere Verfügbarkeit.',
+    notes: 'Selbstgemischter organischer Dünger. Kann Komposttee, Wurmhumus, Brennnesseljauche, Bananenschalentee, Guano, Knochen-/Blut-/Fischmehl, Seetang etc. enthalten. EC-Messung ist hier komplett unbrauchbar.',
+  },
 };
 
 /** Get all fertilizer names for the dropdown */
@@ -326,3 +363,10 @@ module.exports.getFertilizerContext = function getFertilizerContext(fertilizerNa
 };
 
 module.exports.FERTILIZER_PROFILES = FERTILIZER_PROFILES;
+
+/** Check if a fertilizer is organic or hybrid (non-mineral) */
+module.exports.isOrganicFertilizer = function isOrganicFertilizer(fertilizerName) {
+  if (!fertilizerName) return false;
+  const profile = FERTILIZER_PROFILES[fertilizerName];
+  return profile ? (profile.type === 'organic' || profile.type === 'hybrid') : false;
+};

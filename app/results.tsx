@@ -278,13 +278,14 @@ export default function ResultsScreen() {
   };
 
   const isLivingSoil = questionnaire.substrateType === 'Living Soil';
+  const isOrganic = questionnaire.fertilizerCategory === 'organic' || questionnaire.fertilizerCategory === 'hybrid';
 
   const handleRefine = async () => {
-    const hasData = isLivingSoil
+    const hasData = (isLivingSoil || isOrganic)
       ? (phInput || soilTempInput)
       : (phInput || ecInput);
     if (!hasData) {
-      const msg = isLivingSoil
+      const msg = (isLivingSoil || isOrganic)
         ? 'Bitte gib einen pH-Wert oder eine Bodentemperatur ein.'
         : 'Bitte gib mindestens einen pH- oder EC-Wert ein.';
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -501,7 +502,7 @@ export default function ResultsScreen() {
                     }}
                   />
                 </View>
-                {questionnaire.substrateType === 'Living Soil' ? (
+                {(questionnaire.substrateType === 'Living Soil' || isOrganic) ? (
                   <View style={styles.refineInputGroup}>
                     <Text style={styles.refineLabel}>Bodentemp. °C</Text>
                     <TextInput

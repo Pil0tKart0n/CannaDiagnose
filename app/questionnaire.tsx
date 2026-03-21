@@ -85,10 +85,30 @@ export default function QuestionnaireScreen() {
     if (question.id === 'substrateType') {
       if (newValue === 'Living Soil') {
         updated.fertilizerType = null;
+        updated.fertilizerCategory = null;
+        updated.organicMethod = null;
+        updated.organicTea = null;
+        updated.organicMycorrhiza = null;
+        updated.organicPotSize = null;
+        updated.organicWaterType = null;
       } else {
         updated.livingsoilAmendments = [];
         updated.livingsoilTea = null;
         updated.livingsoilMulch = null;
+      }
+    }
+    // Auto-detect fertilizer category when fertilizer is selected
+    if (question.id === 'fertilizerType') {
+      const { FERTILIZER_PROFILES } = require('../constants/fertilizers');
+      const profile = FERTILIZER_PROFILES[newValue];
+      updated.fertilizerCategory = profile?.type || null;
+      // Reset organic fields when switching away from organic
+      if (profile?.type !== 'organic' && profile?.type !== 'hybrid') {
+        updated.organicMethod = null;
+        updated.organicTea = null;
+        updated.organicMycorrhiza = null;
+        updated.organicPotSize = null;
+        updated.organicWaterType = null;
       }
     }
     setQuestionnaire(updated);

@@ -8,6 +8,12 @@ export interface QuestionnaireData {
   perliteAdded: boolean;
   perlitePercent: string | null;
   fertilizerType: string | null;
+  fertilizerCategory: 'mineral' | 'organic' | 'hybrid' | null;
+  organicMethod: string | null;
+  organicTea: string | null;
+  organicMycorrhiza: string | null;
+  organicPotSize: string | null;
+  organicWaterType: string | null;
   livingsoilAmendments: string[];
   livingsoilTea: string | null;
   livingsoilMulch: string | null;

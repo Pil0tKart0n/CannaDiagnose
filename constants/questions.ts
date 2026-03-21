@@ -76,6 +76,55 @@ export const questions: Question[] = [
     hint: 'Hilft bei der Einschätzung von EC-Werten',
     conditional: { field: 'substrateType', values: ['Erde', 'Kokos', 'DWC / Hydro', 'Aeroponik', 'Sonstige'] },
   },
+  // 5a-org. Organic: Application method
+  {
+    id: 'organicMethod',
+    section: 'Setup',
+    question: 'Wie wendest du den Dünger an?',
+    type: 'select',
+    options: ['Flüssig ins Gießwasser', 'Top-Dress (auf die Erde)', 'Beides', 'Water Only (vorab eingemischt)'],
+    hint: 'Beeinflusst die Nährstoff-Verfügbarkeit',
+    conditional: { field: 'fertilizerCategory', values: ['organic', 'hybrid'] },
+  },
+  // 5b-org. Organic: Compost tea
+  {
+    id: 'organicTea',
+    section: 'Setup',
+    question: 'Verwendest du Komposttee oder Pflanzenjauche?',
+    type: 'select',
+    options: ['Ja, regelmäßig', 'Ja, gelegentlich', 'Nein'],
+    conditional: { field: 'fertilizerCategory', values: ['organic', 'hybrid'] },
+  },
+  // 5c-org. Organic: Mycorrhiza
+  {
+    id: 'organicMycorrhiza',
+    section: 'Setup',
+    question: 'Verwendest du Mykorrhiza?',
+    type: 'select',
+    options: ['Ja', 'Nein', 'Weiß nicht'],
+    hint: 'Mykorrhiza verbessert die Nährstoffaufnahme erheblich',
+    conditional: { field: 'fertilizerCategory', values: ['organic', 'hybrid'] },
+  },
+  // 5d-org. Organic: Pot size
+  {
+    id: 'organicPotSize',
+    section: 'Setup',
+    question: 'Wie groß ist der Topf?',
+    type: 'select',
+    options: ['1–5L', '5–10L', '10–20L', '20–30L', '30–50L', '50L+', 'Weiß nicht'],
+    hint: 'Kleinere Töpfe = schnellere Nährstoff-Erschöpfung',
+    conditional: { field: 'fertilizerCategory', values: ['organic', 'hybrid'] },
+  },
+  // 5e-org. Organic: Water type
+  {
+    id: 'organicWaterType',
+    section: 'Setup',
+    question: 'Welches Wasser verwendest du?',
+    type: 'select',
+    options: ['Leitungswasser', 'Regenwasser', 'Osmosewasser (RO)', 'Gefiltert', 'Weiß nicht'],
+    hint: 'RO-Wasser enthält kein Ca/Mg — wichtig für Bio',
+    conditional: { field: 'fertilizerCategory', values: ['organic', 'hybrid'] },
+  },
   // 5b. Living Soil: Amendments
   {
     id: 'livingsoilAmendments',

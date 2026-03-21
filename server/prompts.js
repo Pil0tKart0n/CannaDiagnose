@@ -1,4 +1,4 @@
-const { FERTILIZER_PROFILES, getFertilizerContext } = require('./fertilizers');
+const { FERTILIZER_PROFILES, getFertilizerContext, isOrganicFertilizer } = require('./fertilizers');
 
 /** Parse a number that may use comma as decimal separator (German format) */
 function parseNum(value) {
@@ -15,6 +15,11 @@ function evaluateEC(ecValue, fertilizerName, plantAge, growPhase) {
 
   const ecNum = parseNum(ecValue);
   if (isNaN(ecNum)) return '';
+
+  // Organic/hybrid bypass: EC is unreliable for organic fertilizers
+  if (profile.type === 'organic' || profile.type === 'hybrid') {
+    return '\nℹ️ EC-HINWEIS (ORGANISCH): EC ' + ecValue + ' – bei organischen Düngern ist der EC-Wert KEIN verlässliches Diagnosewerkzeug. Organische Nährstoffe (Aminosäuren, Huminsäuren, Chelate) werden vom EC-Meter nicht erfasst. Der tatsächliche Nährstoffgehalt ist HÖHER als der EC-Wert anzeigt. Bewerte den Pflanzenzustand VISUELL, nicht über EC. Der EC dient nur als grober Richtwert.';
+  }
 
   // Determine the recommended range for the plant's age + grow phase
   let ecRange = '';
@@ -130,6 +135,9 @@ function getECState(ecValue, fertilizerName, plantAge, growPhase) {
   if (!ecValue || !fertilizerName) return null;
   const profile = FERTILIZER_PROFILES[fertilizerName];
   if (!profile) return null;
+
+  // Organic/hybrid: EC is not diagnostic — return special state
+  if (profile.type === 'organic' || profile.type === 'hybrid') return 'organic-irrelevant';
   const ecNum = parseNum(ecValue);
   if (isNaN(ecNum)) return null;
 
@@ -196,6 +204,55 @@ function getPHState(phValue, substrateType) {
 }
 
 /**
+ * Organic correction hints: pH-only logic, no EC-based corrections.
+ * Completely independent from the mineral correction matrix.
+ */
+function getOrganicCorrectionHint(diagnosisType, phState, plantAge, growPhase) {
+  if (!diagnosisType) return null;
+  const dt = diagnosisType.toLowerCase().trim();
+
+  // pH is low — nutrient lockout possible even in organic
+  if (phState === 'low') {
+    const rules = {
+      'n': '⚠️ ORGANISCH + pH zu niedrig: N-Mangel kann durch sauren Boden verstärkt werden, da Mikroben bei niedrigem pH weniger aktiv sind. Empfehle pH mit Dolomit-Kalk oder Austernschalenmehl anheben (KEIN synthetischer pH-Up!). Zusätzlich Komposttee für Mikroben-Boost.',
+      'mg': '⚠️ ORGANISCH + pH zu niedrig: Mg-Lockout bei pH <5.8 ist auch in Bio-Grows möglich. Empfehle Dolomit-Kalk (liefert Ca+Mg UND hebt pH). Kein Bittersalz bei niedrigem pH — erst pH korrigieren.',
+      'ca': '⚠️ ORGANISCH + pH zu niedrig: Ca-Aufnahme ist bei niedrigem pH eingeschränkt. Empfehle Austernschalenmehl oder Dolomit-Kalk. Hebt pH und liefert Ca gleichzeitig.',
+      'fe': '✅ ORGANISCH + pH zu niedrig: Fe ist bei niedrigem pH gut verfügbar — Fe-Mangel bei niedrigem pH ist unwahrscheinlich. Prüfe ob es wirklich Fe-Mangel ist oder ob andere Ursachen vorliegen.',
+      'k': '⚠️ ORGANISCH + pH zu niedrig: K-Aufnahme kann bei saurem Boden reduziert sein. Holzasche liefert K und hebt pH. Alternativ Bananenschalentee als K-Quelle.',
+      'p': '⚠️ ORGANISCH + pH zu niedrig: P-Verfügbarkeit sinkt unter pH 6.0. Empfehle pH anheben mit Dolomit-Kalk. Knochenmehl als organische P-Quelle (wirkt aber nur bei pH >6.0).',
+    };
+    return rules[dt] || '⚠️ ORGANISCH + pH zu niedrig: Saurer Boden hemmt die Mikrobenaktivität und damit die organische Nährstofffreisetzung. Empfehle pH mit Dolomit-Kalk oder Austernschalenmehl anheben. KEINE synthetischen pH-Mittel — diese töten Bodenmikroben!';
+  }
+
+  // pH is high — micronutrient lockout
+  if (phState === 'high') {
+    const rules = {
+      'fe': '🔄 ORGANISCH + pH zu hoch: Fe-Lockout bei pH >7.0 ist die häufigste Ursache für Fe-Mangel in Bio-Grows. Empfehle pH senken mit Schwefel, Kiefernnadel-Mulch oder saurem Kompost. Chelat-Eisen als Blattdüngung für schnelle Linderung.',
+      'mn': '🔄 ORGANISCH + pH zu hoch: Mn wird bei hohem pH blockiert. Empfehle pH senken (Schwefel, saurer Kompost). Mangan ist bei pH >7.0 kaum pflanzenverfügbar.',
+      'n': '🤔 ORGANISCH + pH zu hoch: N-Mangel bei hohem pH ist möglich, da Nitrifikation (NH4→NO3) bei hohem pH schneller abläuft und N ausgewaschen werden kann. Empfehle Komposttee + leicht saure Mulchschicht.',
+      'mg': '🤔 ORGANISCH + pH zu hoch: Mg-Mangel bei hohem pH ist ungewöhnlich (Mg ist bei hohem pH gut verfügbar). Prüfe ob es wirklich Mg ist oder ob K-Überschuss Mg blockiert (Antagonismus).',
+    };
+    return rules[dt] || '⚠️ ORGANISCH + pH zu hoch: Bei pH >7.0 werden Mikronährstoffe (Fe, Mn, Zn, Cu) blockiert. Empfehle pH senken mit Schwefel, Kiefernnadel-Mulch oder saurem Kompost. KEINE synthetische pH-Down-Lösung — tötet Bodenmikroben!';
+  }
+
+  // pH is OK — trust visual diagnosis, organic-specific advice
+  if (phState === 'ok' || !phState) {
+    const rules = {
+      'n': '✅ ORGANISCH BESTÄTIGT: N-Mangel ist der häufigste Mangel in Bio-Grows. Organischer N muss erst von Mikroben mineralisiert werden — das dauert. Empfehle: Blutmehl oder Brennnesseljauche als schnelle N-Quelle, Komposttee für Mikroben-Boost. Bei kaltem Boden (<18°C) ist die Nährstofffreisetzung eingeschränkt — Bodentemperatur prüfen! Erwarte Besserung in 7–14 Tagen (nicht 2–3 Tage wie bei Mineral).',
+      'mg': '🤔 ORGANISCH PRÜFEN: Mg-Mangel bei optimalem pH in Bio-Grows deutet auf fehlende Mg-Quelle hin. Empfehle Bittersalz (Epsom Salt) als Blattdüngung (1g/L) für schnelle Linderung + Dolomit-Kalk als langfristige Mg-Quelle in die Erde einarbeiten.',
+      'ca': '🤔 ORGANISCH PRÜFEN: Ca-Mangel in Bio-Grows ist seltener als bei Mineral. Mögliche Ursachen: RO-Wasser ohne Ca-Quelle, sehr altes Substrat. Empfehle Austernschalenmehl, Eierschalenmehl oder Dolomit-Kalk.',
+      'fe': '🤔 ORGANISCH PRÜFEN: Fe-Mangel bei optimalem pH ist selten. Prüfe: Ist der Boden zu nass (Wurzelstress)? Wird Mykorrhiza verwendet (verbessert Fe-Aufnahme)? Komposttee kann Fe-Verfügbarkeit verbessern.',
+      'k': '✅ ORGANISCH BESTÄTIGT: K-Mangel tritt in Bio-Grows häufig in der Blüte auf, wenn der K-Bedarf steigt und die organische Freisetzung nicht mitkommt. Empfehle Bananenschalentee, Holzasche (vorsichtig — hebt pH) oder organischen Bloom-Booster.',
+      'p': '🤔 ORGANISCH PRÜFEN: P-Mangel ist in Bio-Grows mit Mykorrhiza selten (Mykorrhiza macht P 10x besser verfügbar). Wenn Mykorrhiza vorhanden: unwahrscheinlich — suche andere Ursachen. Ohne Mykorrhiza: Knochenmehl oder Fledermausguano als P-Quelle.',
+      'lockout': '🔄 KORREKTUR: Bei organischem Dünger und optimalem pH ist ein Nährstoff-Lockout unwahrscheinlich. Lockout wird primär durch falschen pH verursacht. Prüfe stattdessen: Ist der Boden ausgelaugt? Wie alt ist das Substrat? Wann wurde zuletzt gedüngt/amendiert?',
+    };
+    return rules[dt] || '✅ ORGANISCH: pH ist optimal. Die visuelle Diagnose ist bei organischem Anbau das wichtigste Werkzeug. Empfehle organische Lösungen: Komposttee, Top-Dress mit Amendments, Blattdüngung. Erwarte langsamere Reaktion als bei Mineral (7–14 Tage).';
+  }
+
+  return null;
+}
+
+/**
  * The correction matrix: given initial diagnosis type + EC state + pH state,
  * returns a correction hint for the AI, or null if no correction needed.
  */
@@ -216,6 +273,11 @@ function getCorrectionHint(
 
   // Inner function to get the raw hint, then strip CalMag if late bloom
   function getRawHint() {
+
+  // ── ORGANIC BYPASS: No EC-based corrections ──────────────────────
+  if (ecState === 'organic-irrelevant') {
+    return getOrganicCorrectionHint(diagnosisType, phState, plantAge, growPhase);
+  }
 
   // \u2500\u2500 GROUP 1: EC zu niedrig (Unterversorgung) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
@@ -1126,7 +1188,11 @@ module.exports.buildRefinePrompt = function buildRefinePrompt(
   const correctionHint = getCorrectionHint(diagType, ecState, phStateVal, plantAge, growPhase);
 
   if (correctionHint) {
-    parts.push('\n\ud83d\udccb KORREKTUR-ANALYSE (basierend auf Erstdiagnose "' + diagType + '" + EC-Zustand "' + (ecState || 'unbekannt') + '" + pH-Zustand "' + (phStateVal || 'unbekannt') + '"):');
+    const isOrg = ecState === 'organic-irrelevant';
+    const label = isOrg
+      ? '\n\ud83d\udccb KORREKTUR-ANALYSE (ORGANISCH — basierend auf Erstdiagnose "' + diagType + '" + pH-Zustand "' + (phStateVal || 'unbekannt') + '", EC ignoriert):'
+      : '\n\ud83d\udccb KORREKTUR-ANALYSE (basierend auf Erstdiagnose "' + diagType + '" + EC-Zustand "' + (ecState || 'unbekannt') + '" + pH-Zustand "' + (phStateVal || 'unbekannt') + '"):';
+    parts.push(label);
     parts.push(correctionHint);
   }
 
@@ -1290,6 +1356,16 @@ module.exports.buildUserPrompt = function buildUserPrompt(data) {
     }
   } else if (data.fertilizerType) {
     parts.push(`- D\u00fcnger: ${data.fertilizerType}`);
+    // Add organic-specific questionnaire data
+    const fertProfile = FERTILIZER_PROFILES[data.fertilizerType];
+    if (fertProfile && (fertProfile.type === 'organic' || fertProfile.type === 'hybrid')) {
+      parts.push('- Anbaumethode: ORGANISCH (' + fertProfile.type + ')');
+      if (data.organicMethod) parts.push('- Düngermethode: ' + data.organicMethod);
+      if (data.organicTea) parts.push('- Komposttee/Pflanzenjauche: ' + data.organicTea);
+      if (data.organicMycorrhiza && data.organicMycorrhiza !== 'Weiß nicht') parts.push('- Mykorrhiza: ' + data.organicMycorrhiza);
+      if (data.organicPotSize && data.organicPotSize !== 'Weiß nicht') parts.push('- Topfgröße: ' + data.organicPotSize);
+      if (data.organicWaterType && data.organicWaterType !== 'Weiß nicht') parts.push('- Wassertyp: ' + data.organicWaterType);
+    }
   }
   if (data.lightType) parts.push(`- Lichttyp/Anbauart: ${data.lightType}`);
   if (data.symptomDurationDays) parts.push(`- Symptome sichtbar seit: ${data.symptomDurationDays}`);
@@ -1321,6 +1397,25 @@ module.exports.buildUserPrompt = function buildUserPrompt(data) {
     const fertContext = getFertilizerContext(data.fertilizerType, data.plantAgeWeeks, data.growPhase);
     if (fertContext) {
       parts.push(fertContext);
+    }
+    // Add organic-specific AI context
+    const fertProf = FERTILIZER_PROFILES[data.fertilizerType];
+    if (fertProf && (fertProf.type === 'organic' || fertProf.type === 'hybrid')) {
+      parts.push('\nORGANISCHER ANBAU – SPEZIELLE REGELN:');
+      parts.push('- EC-Werte sind bei organischen Düngern NICHT diagnostisch. Organische Nährstoffe (Aminosäuren, Chelate) werden vom EC-Meter nicht erfasst. Erwähne EC NICHT als Problemursache.');
+      parts.push('- Nährstofffreisetzung hängt von Mikrobenaktivität ab → Bodentemperatur ist KRITISCH (optimal 20–25°C, unter 15°C kaum Freisetzung).');
+      parts.push('- Mangelerscheinungen treten LANGSAMER auf als bei Mineral (7–14 Tage statt 2–5 Tage). Korrekturen brauchen ebenfalls 7–14 Tage.');
+      parts.push('- Überdüngung/Nährstoffbrand ist bei organischem Dünger SELTENER als bei Mineral (Ausnahme: zu hohe Dosierung von Flüssig-Bio).');
+      parts.push('- Empfehle NUR organische Lösungen: Komposttee, Top-Dress, Blattdüngung, Amendments. KEIN mineralisches Düngen, KEIN chemisches pH-Up/Down (tötet Bodenmikroben).');
+      if (data.organicMycorrhiza === 'Ja') {
+        parts.push('- MYKORRHIZA AKTIV: P-Mangel ist deutlich unwahrscheinlicher (Mykorrhiza macht Phosphor 10x besser verfügbar). Empfehle KEINE Phosphor-Überdüngung – das unterdrückt Mykorrhiza-Kolonisierung!');
+      }
+      if (data.organicWaterType === 'Osmosewasser (RO)') {
+        parts.push('- ACHTUNG: Osmosewasser enthält KEIN Calcium und Magnesium! Bei Bio-Grows mit RO-Wasser ist Ca/Mg-Mangel sehr wahrscheinlich. Empfehle Dolomit-Kalk oder organisches CalMag.');
+      }
+      if (data.organicPotSize && (data.organicPotSize === '1–5L' || data.organicPotSize === '5–10L')) {
+        parts.push('- KLEINER TOPF (' + data.organicPotSize + '): Nährstoffe im Substrat erschöpfen sich schneller. Bei kleinen Töpfen muss häufiger nachamendiert oder flüssig gedüngt werden.');
+      }
     }
   }
 
