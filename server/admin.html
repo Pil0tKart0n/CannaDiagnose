@@ -14,6 +14,8 @@
   --red:#ef5350;--orange:#FFA726;--blue:#42A5F5;--purple:#AB47BC;
   --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.4);
 }
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 html{font-size:14px}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 a{color:var(--green);text-decoration:none}
@@ -37,12 +39,13 @@ input,select,textarea{font-family:inherit}
 /* ---- Main ---- */
 .main{max-width:1400px;margin:0 auto;padding:20px}
 .tab{display:none}
-.tab.active{display:block}
+.tab.active{display:block;animation:fadeIn .3s ease}
 
 /* ---- Cards ---- */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:transform .15s,border-color .15s}
-.kpi:hover{transform:translateY(-2px);border-color:var(--green-dark)}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all .25s ease;animation:fadeUp .4s ease both}
+.kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.1s}.kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.2s}.kpi:nth-child(5){animation-delay:.25s}.kpi:nth-child(6){animation-delay:.3s}.kpi:nth-child(7){animation-delay:.35s}.kpi:nth-child(8){animation-delay:.4s}.kpi:nth-child(9){animation-delay:.45s}.kpi:nth-child(10){animation-delay:.5s}.kpi:nth-child(11){animation-delay:.55s}.kpi:nth-child(12){animation-delay:.6s}
+.kpi:hover{transform:translateY(-3px);border-color:var(--green-dark);box-shadow:0 6px 20px rgba(0,0,0,.3)}
 .kpi .label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .kpi .value{font-size:1.6rem;font-weight:700;color:#fff}
 .kpi .value.green{color:var(--green)}
@@ -57,7 +60,8 @@ input,select,textarea{font-family:inherit}
 
 /* ---- Chart containers ---- */
 .chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
-.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:border-color .2s;animation:fadeUp .5s ease both}
+.chart-box:hover{border-color:var(--green-dark)}
 .chart-box h3{font-size:.9rem;color:var(--text-muted);margin-bottom:12px;font-weight:500}
 .chart-box canvas{max-height:300px}
 .chart-full{grid-column:1/-1}
@@ -106,7 +110,7 @@ tr:hover td{background:rgba(76,175,80,.04)}
 .fb-header .arrow{color:var(--text-dim);transition:transform .2s;font-size:.8rem}
 .fb-card.open .fb-header .arrow{transform:rotate(90deg)}
 .fb-body{display:none;padding:0 18px 16px;border-top:1px solid var(--border)}
-.fb-card.open .fb-body{display:block}
+.fb-card.open .fb-body{display:block;animation:fadeIn .25s ease}
 .fb-meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 0;font-size:.82rem;color:var(--text-muted)}
 .fb-meta span{display:flex;align-items:center;gap:4px}
 .fb-images{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -125,7 +129,7 @@ tr:hover td{background:rgba(76,175,80,.04)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-msg{background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.3);color:var(--red);padding:12px 18px;border-radius:var(--radius);margin:12px 0;font-size:.85rem}
 .success-msg{background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);color:var(--green);padding:12px 18px;border-radius:var(--radius);margin:12px 0;font-size:.85rem}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--green-dark);border-radius:var(--radius);padding:12px 20px;font-size:.85rem;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.5);transform:translateY(100px);opacity:0;transition:all .3s}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--green-dark);border-radius:var(--radius);padding:12px 20px;font-size:.85rem;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.5);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
 .toast.show{transform:translateY(0);opacity:1}
 
 /* ---- Funnel ---- */
@@ -133,7 +137,7 @@ tr:hover td{background:rgba(76,175,80,.04)}
 .funnel-step{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .funnel-label{width:140px;font-size:.82rem;color:var(--text-muted);text-align:right;flex-shrink:0}
 .funnel-bar-wrap{flex:1;background:#252525;border-radius:6px;height:32px;position:relative;overflow:hidden}
-.funnel-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green-dark),var(--green));transition:width .6s ease;display:flex;align-items:center;padding:0 10px;min-width:fit-content}
+.funnel-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green-dark),var(--green));transition:width .8s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;padding:0 10px;min-width:fit-content}
 .funnel-bar-text{font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap}
 .funnel-pct{width:60px;font-size:.78rem;color:var(--text-muted);text-align:left}
 
@@ -472,6 +476,7 @@ const chartColors = {
 
 const defaultChartOpts = {
   responsive: true, maintainAspectRatio: false,
+  animation: { duration: 1000, easing: 'easeOutQuart' },
   plugins: { legend: { labels: { color: '#999', font: { size: 11 } } } },
   scales: {
     x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
