@@ -178,6 +178,23 @@ tr:hover td{background:rgba(92,232,146,.03)}
 .recheck-field .rf-value.diff-add{color:var(--green)}
 .recheck-field .rf-value.diff-remove{color:var(--red)}
 
+/* ---- Greeting ---- */
+.greeting{background:linear-gradient(135deg,rgba(46,125,50,.15) 0%,rgba(92,232,146,.05) 50%,rgba(20,28,20,.6) 100%);border:1px solid rgba(92,232,146,.12);border-radius:18px;padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;animation:fadeInUp .6s ease;position:relative;overflow:hidden}
+.greeting::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(92,232,146,.06) 0%,transparent 70%);pointer-events:none}
+.greeting h1{font-size:1.6rem;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;background:linear-gradient(135deg,#fff,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.greeting p{color:var(--text-muted);font-size:.88rem;font-weight:500}
+.greeting-stats{display:flex;gap:32px}
+.greeting-stat{display:flex;flex-direction:column;align-items:center;gap:4px}
+.greeting-stat-value{font-size:1.8rem;font-weight:800;color:#fff;letter-spacing:-.5px}
+.greeting-stat-label{font-size:.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
+
+/* ---- KPI Icons ---- */
+.kpi{position:relative}
+.kpi .kpi-icon{position:absolute;top:14px;right:14px;font-size:1.4rem;opacity:.3;filter:grayscale(.3)}
+.kpi .kpi-trend{font-size:.72rem;color:var(--text-dim);margin-top:4px;font-weight:600}
+.kpi .kpi-trend.up{color:var(--green)}
+.kpi .kpi-trend.down{color:var(--red)}
+
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -199,38 +216,53 @@ tr:hover td{background:rgba(92,232,146,.03)}
   .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px}
   .kpi .value{font-size:1.3rem}
   .funnel-label{width:80px;font-size:.72rem}
+  .greeting{flex-direction:column;gap:16px;padding:20px;text-align:center}
+  .greeting h1{font-size:1.3rem}
+  .greeting-stats{gap:20px}
+  .greeting-stat-value{font-size:1.4rem}
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="brand"><span class="leaf">🌿</span> LeafScan Admin</div>
-  <div class="meta"><span class="dot"></span> Auto-Refresh 60s &nbsp;|&nbsp; <span id="clock"></span></div>
+  <div class="brand"><span class="leaf">🌿</span> LeafScan <span style="-webkit-text-fill-color:var(--text-muted);font-weight:500;font-size:1rem;margin-left:2px">Admin</span></div>
+  <div class="meta"><span class="dot"></span> Live &nbsp;·&nbsp; <span id="clock"></span></div>
 </div>
 
 <nav class="nav" id="nav">
-  <button class="active" data-tab="dashboard">Übersicht</button>
-  <button data-tab="feedback">Feedback Center</button>
-  <button data-tab="stats">Statistiken</button>
-  <button data-tab="livefeed">Live Feed</button>
-  <button data-tab="revenue">Revenue</button>
-  <button data-tab="announcements">Announcements</button>
-  <button data-tab="promos">Promo Codes</button>
-  <button data-tab="premium">Premium</button>
-  <button data-tab="system">System</button>
+  <button class="active" data-tab="dashboard">📊 Übersicht</button>
+  <button data-tab="feedback">💬 Feedback</button>
+  <button data-tab="stats">📈 Statistiken</button>
+  <button data-tab="livefeed">⚡ Live Feed</button>
+  <button data-tab="revenue">💰 Revenue</button>
+  <button data-tab="announcements">📢 News</button>
+  <button data-tab="promos">🎟 Promos</button>
+  <button data-tab="premium">👑 Premium</button>
+  <button data-tab="system">⚙️ System</button>
 </nav>
 
 <main class="main">
 
 <!-- ==================== DASHBOARD ==================== -->
 <div class="tab active" id="tab-dashboard">
+  <div class="greeting" id="greeting">
+    <div class="greeting-text">
+      <h1 id="greetingMsg">Guten Tag</h1>
+      <p id="greetingSub">Hier ist dein Dashboard-Überblick</p>
+    </div>
+    <div class="greeting-stats">
+      <div class="greeting-stat"><span class="greeting-stat-value" id="greetScansToday">—</span><span class="greeting-stat-label">Scans heute</span></div>
+      <div class="greeting-stat"><span class="greeting-stat-value" id="greetUsersToday">—</span><span class="greeting-stat-label">User heute</span></div>
+      <div class="greeting-stat"><span class="greeting-stat-value" id="greetCostToday">—</span><span class="greeting-stat-label">Kosten heute</span></div>
+    </div>
+  </div>
   <div class="kpi-grid" id="kpi-grid"></div>
   <div class="chart-row">
-    <div class="chart-box"><h3>Scans & Unique Users — letzte 30 Tage</h3><canvas id="chartScans"></canvas></div>
-    <div class="chart-box"><h3>Token-Verbrauch — letzte 30 Tage</h3><canvas id="chartTokens"></canvas></div>
+    <div class="chart-box"><h3>📈 Scans & Users — 30 Tage</h3><canvas id="chartScans"></canvas></div>
+    <div class="chart-box"><h3>🔥 Token-Verbrauch — 30 Tage</h3><canvas id="chartTokens"></canvas></div>
   </div>
-  <div class="section-title">Conversion Funnel (letzte 7 Tage)</div>
+  <div class="section-title">Conversion Funnel (7 Tage)</div>
   <div class="funnel-wrap" id="funnelWrap">
     <div class="loading"><div class="spinner"></div>Laden…</div>
   </div>
@@ -484,19 +516,20 @@ function destroyChart(id) {
 }
 
 const chartColors = {
-  green: '#4CAF50', greenBg: 'rgba(76,175,80,.15)',
-  blue: '#42A5F5', blueBg: 'rgba(66,165,245,.15)',
-  orange: '#FFA726', orangeBg: 'rgba(255,167,38,.15)',
-  red: '#ef5350', redBg: 'rgba(239,83,80,.15)',
-  purple: '#AB47BC', purpleBg: 'rgba(171,71,188,.15)',
+  green: '#5CE892', greenBg: 'rgba(92,232,146,.12)',
+  blue: '#74c0fc', blueBg: 'rgba(116,192,252,.12)',
+  orange: '#ffc078', orangeBg: 'rgba(255,192,120,.12)',
+  red: '#ff6b6b', redBg: 'rgba(255,107,107,.12)',
+  purple: '#cc5de8', purpleBg: 'rgba(204,93,232,.12)',
 };
 
 const defaultChartOpts = {
   responsive: true, maintainAspectRatio: false,
-  plugins: { legend: { labels: { color: '#999', font: { size: 11 } } } },
+  animation: { duration: 1200, easing: 'easeOutQuart' },
+  plugins: { legend: { labels: { color: '#8a9a8a', font: { size: 11, family: 'Inter' } } } },
   scales: {
-    x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
-    y: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.06)' } }
+    x: { ticks: { color: '#5a6a5a', font: { size: 10, family: 'Inter' } }, grid: { color: 'rgba(92,232,146,.04)' } },
+    y: { ticks: { color: '#5a6a5a', font: { size: 10, family: 'Inter' } }, grid: { color: 'rgba(92,232,146,.06)' } }
   }
 };
 
@@ -507,7 +540,37 @@ function pieOpts() {
   };
 }
 
-const palette = ['#4CAF50','#42A5F5','#FFA726','#AB47BC','#ef5350','#26C6DA','#FFEE58','#8D6E63','#78909C','#EC407A','#66BB6A','#5C6BC0','#FF7043','#29B6F6','#D4E157'];
+const palette = ['#5CE892','#74c0fc','#ffc078','#cc5de8','#ff6b6b','#38d9a9','#ffd43b','#a9845b','#adb5bd','#f06595','#69db7c','#748ffc','#ff8a65','#4dabf7','#c0eb75'];
+
+// ---- Animated Counter ----
+function animateValue(el, end, duration = 800, prefix = '', suffix = '') {
+  if (el._animFrame) cancelAnimationFrame(el._animFrame);
+  const start = 0;
+  const startTime = performance.now();
+  const endNum = parseFloat(String(end).replace(/[^0-9.\-]/g, '')) || 0;
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+    const current = Math.round(start + (endNum - start) * eased);
+    el.textContent = prefix + current.toLocaleString('de-DE') + suffix;
+    if (progress < 1) el._animFrame = requestAnimationFrame(update);
+    else el.textContent = prefix + end + suffix;
+  }
+  requestAnimationFrame(update);
+}
+
+// ---- Greeting ----
+function updateGreeting() {
+  const h = new Date().getHours();
+  const el = document.getElementById('greetingMsg');
+  if (h < 6) el.textContent = 'Nachtschicht? 🌙';
+  else if (h < 12) el.textContent = 'Guten Morgen ☀️';
+  else if (h < 17) el.textContent = 'Guten Tag 🌿';
+  else if (h < 22) el.textContent = 'Guten Abend 🌅';
+  else el.textContent = 'Noch wach? 🦉';
+}
+updateGreeting();
 
 // ---- Clock ----
 function updateClock() {
@@ -558,30 +621,37 @@ async function loadDashboard() {
       api('/api/admin/stats/funnel?days=7').catch(() => null)
     ]);
 
+    // Greeting stats
+    const gs = document.getElementById('greetScansToday');
+    const gu = document.getElementById('greetUsersToday');
+    const gc = document.getElementById('greetCostToday');
+    if (gs) animateValue(gs, dash.scans?.today ?? 0, 1200);
+    if (gu) animateValue(gu, dash.users?.today ?? 0, 1000);
+    if (gc) gc.textContent = fmtCost(dash.tokens?.costToday);
+    const sub = document.getElementById('greetingSub');
+    if (sub) sub.textContent = `${fmtNum(dash.scans?.total)} Scans insgesamt · ${fmtNum(dash.users?.total)} User`;
+    updateGreeting();
+
     // KPIs
     const kpis = [
-      { label: 'Scans heute', value: fmtNum(dash.scans?.today), cls: 'green' },
-      { label: 'Scans Woche', value: fmtNum(dash.scans?.week), cls: '' },
-      { label: 'Scans gesamt', value: fmtNum(dash.scans?.total), cls: '' },
-      { label: 'User heute', value: fmtNum(dash.users?.today), cls: 'blue' },
-      { label: 'User gesamt', value: fmtNum(dash.users?.total), cls: '' },
-      { label: 'Zufriedenheit', value: (dash.feedback?.satisfaction ?? 0) + '%', cls: (dash.feedback?.satisfaction ?? 0) >= 70 ? 'green' : 'orange' },
-      { label: 'Premium aktiv', value: fmtNum(dash.premium?.active), cls: 'green' },
-      { label: 'Promo aktiv', value: fmtNum(dash.premium?.promos), cls: '' },
-      { label: 'Token heute', value: fmtNum(dash.tokens?.today), cls: '' },
-      { label: 'Kosten heute', value: fmtCost(dash.tokens?.costToday), cls: 'orange' },
-      { label: 'Kosten Monat', value: fmtCost(dash.tokens?.costMonth), cls: 'orange' },
-      { label: '⌀ pro Scan', value: dash.tokens?.avgCostPerScan ? '$' + parseFloat(dash.tokens.avgCostPerScan).toFixed(3) : '—', cls: '' },
+      { label: 'Scans Woche', value: fmtNum(dash.scans?.week), cls: '', icon: '📊' },
+      { label: 'Scans gesamt', value: fmtNum(dash.scans?.total), cls: '', icon: '🔢' },
+      { label: 'Zufriedenheit', value: (dash.feedback?.satisfaction ?? 0) + '%', cls: (dash.feedback?.satisfaction ?? 0) >= 70 ? 'green' : 'orange', icon: '😊' },
+      { label: 'Premium aktiv', value: fmtNum(dash.premium?.active), cls: 'green', icon: '👑' },
+      { label: 'Promo aktiv', value: fmtNum(dash.premium?.promos), cls: '', icon: '🎟' },
+      { label: 'Token heute', value: fmtNum(dash.tokens?.today), cls: '', icon: '🪙' },
+      { label: 'Kosten Monat', value: fmtCost(dash.tokens?.costMonth), cls: 'orange', icon: '💸' },
+      { label: '⌀ pro Scan', value: dash.tokens?.avgCostPerScan ? '$' + parseFloat(dash.tokens.avgCostPerScan).toFixed(3) : '—', cls: '', icon: '🎯' },
     ];
     // Add revenue KPIs if available
     if (revenueData) {
       kpis.push(
-        { label: 'MRR', value: fmtEur(revenueData.mrr), cls: 'green' },
-        { label: 'Umsatz Monat', value: fmtEur(revenueData.revenueMonth), cls: 'green' }
+        { label: 'MRR', value: fmtEur(revenueData.mrr), cls: 'green', icon: '💰' },
+        { label: 'Umsatz Monat', value: fmtEur(revenueData.revenueMonth), cls: 'green', icon: '📈' }
       );
     }
     document.getElementById('kpi-grid').innerHTML = kpis.map(k =>
-      `<div class="kpi"><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
+      `<div class="kpi"><span class="kpi-icon">${k.icon || ''}</span><div class="label">${k.label}</div><div class="value ${k.cls}">${k.value}</div></div>`
     ).join('');
 
     // Scan chart
