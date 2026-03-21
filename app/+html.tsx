@@ -53,15 +53,15 @@ export default function Root({ children }: { children: React.ReactNode }) {
               @media (min-width: 768px) {
                 #root {
                   max-width: 480px;
-                  margin: 0 auto;
-                  min-height: 100vh;
-                  border-radius: 0;
+                  margin: 20px auto;
+                  min-height: calc(100vh - 40px);
+                  border-radius: 24px;
                   box-shadow:
                     0 0 40px rgba(92,232,146,0.06),
                     0 0 80px rgba(92,232,146,0.03),
-                    0 0 160px rgba(92,232,146,0.015);
+                    0 0 160px rgba(92,232,146,0.015),
+                    0 0 0 2px #0A0E0D;
                   border: none;
-                  outline: none;
                   overflow: hidden;
                   position: relative;
                 }
