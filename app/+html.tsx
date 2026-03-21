@@ -53,14 +53,18 @@ export default function Root({ children }: { children: React.ReactNode }) {
               @media (min-width: 768px) {
                 #root {
                   max-width: 480px;
-                  margin: 0 auto;
-                  min-height: 100vh;
-                  box-shadow: 0 0 60px rgba(0,0,0,0.5);
-                  border-left: 1px solid rgba(74,222,128,0.08);
-                  border-right: 1px solid rgba(74,222,128,0.08);
+                  margin: 20px auto;
+                  min-height: calc(100vh - 40px);
+                  border-radius: 16px;
+                  box-shadow: 0 0 80px rgba(0,0,0,0.6), 0 0 120px rgba(92,232,146,0.04);
+                  border: 1px solid rgba(74,222,128,0.12);
+                  overflow: hidden;
                 }
                 body {
-                  background: #050805;
+                  background: #020504;
+                  background-image:
+                    radial-gradient(ellipse at 20% 50%, rgba(92,232,146,0.03) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 50%, rgba(92,232,146,0.02) 0%, transparent 60%);
                 }
               }
               /* Hide scrollbar but keep scrolling */
