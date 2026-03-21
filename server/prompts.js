@@ -34,7 +34,7 @@ function evaluateEC(ecValue, fertilizerName, plantAge, growPhase) {
     }
     // Old format fallbacks + veg ranges
     else if (plantAge.includes('0\u20132') && !isFlower) { ecRange = profile.ecRanges.seedling; phase = 'S\u00e4mling'; }
-    else if (plantAge.includes('3\u20134') && !isFlower) { ecRange = profile.ecRanges.earlyVeg; phase = 'fr\u00fche Veg'; }
+    else if (plantAge.includes('3\u20134') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'Veg'; }
     else if (plantAge.includes('5\u20136') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
     else if (plantAge.includes('7\u20138') && !isFlower) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
     else if (plantAge.includes('9\u201310') || plantAge.includes('11\u201312') || plantAge.includes('13\u201314')) { ecRange = profile.ecRanges.lateVeg; phase = 'sp\u00e4te Veg'; }
@@ -138,7 +138,7 @@ function getECState(ecValue, fertilizerName, plantAge, growPhase) {
   const isFlower = growPhase === 'Bl\u00fcte';
   if (plantAge) {
     if (plantAge.includes('0\u20132') && !isFlower) ecRange = profile.ecRanges.seedling;
-    else if (plantAge.includes('3\u20134') && !isFlower) ecRange = profile.ecRanges.earlyVeg;
+    else if (plantAge.includes('3\u20134') && !isFlower) ecRange = profile.ecRanges.lateVeg;
     else if (plantAge.includes('5\u20138') && !isFlower) ecRange = profile.ecRanges.lateVeg;
     else if (plantAge.includes('0\u20132') && isFlower) ecRange = profile.ecRanges.earlyFlower;
     else if (plantAge.includes('3\u20134') && isFlower) ecRange = profile.ecRanges.midFlower;
