@@ -460,6 +460,22 @@ export default function HomeScreen() {
             )
           )}
 
+          {/* Language toggle */}
+          <View style={styles.langToggleWrap}>
+            <TouchableOpacity
+              style={styles.langToggle}
+              onPress={async () => {
+                const newLang = getLang() === 'de' ? 'en' : 'de';
+                await setLang(newLang);
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.langOption, getLang() === 'de' && styles.langOptionActive]}>DE</Text>
+              <Text style={styles.langDivider}>|</Text>
+              <Text style={[styles.langOption, getLang() === 'en' && styles.langOptionActive]}>EN</Text>
+            </TouchableOpacity>
+          </View>
+
           {/* Legal footer */}
           <View style={styles.legalFooter}>
             <Text style={styles.legalText}>
@@ -467,13 +483,6 @@ export default function HomeScreen() {
             </Text>
           </View>
           <View style={styles.legalFooter}>
-            <TouchableOpacity onPress={async () => {
-              const newLang = getLang() === 'de' ? 'en' : 'de';
-              await setLang(newLang);
-            }}>
-              <Text style={styles.legalLink}>{t('lang.switch')}</Text>
-            </TouchableOpacity>
-            <Text style={styles.legalDot}>·</Text>
             <TouchableOpacity onPress={() => router.push('/privacy')}>
               <Text style={styles.legalLink}>{t('home.privacy')}</Text>
             </TouchableOpacity>
@@ -701,6 +710,37 @@ const styles = StyleSheet.create({
   installDismiss: {
     fontSize: 12,
     color: colors.textMuted,
+  },
+
+  // Language toggle
+  langToggleWrap: {
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  langToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(92,232,146,0.06)',
+    borderWidth: 1,
+    borderColor: 'rgba(92,232,146,0.15)',
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    gap: 8,
+  },
+  langOption: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.textMuted,
+    letterSpacing: 0.5,
+  },
+  langOptionActive: {
+    color: colors.accent,
+  },
+  langDivider: {
+    fontSize: 13,
+    color: 'rgba(92,232,146,0.2)',
+    fontWeight: '300',
   },
 
   // Legal footer
