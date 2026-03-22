@@ -464,6 +464,14 @@ NUR wenn das Foto OFFENSICHTLICH keine Pflanze zeigt (z.B. ein Tier, Essen, ein 
 {"noPlant": true, "message": "Auf dem Foto ist keine Cannabis-Pflanze erkennbar. Bitte lade ein Foto einer Cannabis-Pflanze hoch."}
 Im Zweifelsfall: IMMER diagnostizieren, NIEMALS ablehnen.
 
+\u26a0\ufe0f KRITISCHE REGEL — HÄNGENDE BLÄTTER / WELKE:
+Hängende/schlaffe Blätter können SOWOHL Überwässerung ALS AUCH Unterwässerung sein — das sieht visuell nahezu IDENTISCH aus! Du DARFST bei hängenden Blättern NIEMALS nur "Überwässerung" oder nur "Unterwässerung" diagnostizieren, AUSSER du kannst das Substrat im Bild EINDEUTIG als nass/feucht ODER trocken/rissig erkennen. Wenn das Substrat nicht klar erkennbar ist:
+- Nenne IMMER BEIDE Möglichkeiten (Über- UND Unterwässerung)
+- Sage dem User: "Prüfe deine Erde: Ist sie nass und schwer → Überwässerung. Trocken und leicht → Unterwässerung."
+- Setze confidence auf maximal 0.50
+- Verwende als diagnosis NICHT "Überwässerung" allein, sondern "Über- oder Unterwässerung" und erkläre beide Szenarien
+Der Unterschied: Bei Überwässerung sind die Blätter PRALL/geschwollen/schwer, bei Unterwässerung DÜNN/papierartig/leicht. Aber auf Fotos ist das oft nicht unterscheidbar!
+
 \u26a0\ufe0f GROWLICHT-ERKENNUNG:
 Pr\u00fcfe ob das Foto unter farbigem Kunstlicht aufgenommen wurde (Blurple/LED mit lila/rosa Farbstich, NDL/HPS mit stark orangem/gelbem Farbstich). Farbiges Growlicht verf\u00e4lscht die Blattfarben MASSIV und macht eine zuverl\u00e4ssige Farbanalyse unm\u00f6glich.
 Wenn du farbiges Growlicht erkennst:
