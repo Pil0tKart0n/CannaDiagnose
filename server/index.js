@@ -577,9 +577,9 @@ Antworte NUR mit JSON:
                   { factor: 'Frühe Anzeichen', impact: 'Noch kein akutes Problem, aber die Pflanze zeigt erste Auffälligkeiten.' },
                 ];
                 content.actionPlan = [
-                  { priority: 'hoch', action: 'pH-Wert prüfen', details: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
-                  { priority: 'mittel', action: 'Pflanze beobachten', details: 'Mach in 3–5 Tagen ein neues Foto und vergleiche ob sich die Symptome verstärkt haben.' },
-                  { priority: 'mittel', action: 'Nährstoffversorgung checken', details: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist.' },
+                  { priority: 1, action: 'pH-Wert prüfen', details: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
+                  { priority: 2, action: 'Pflanze beobachten', details: 'Mach in 3–5 Tagen ein neues Foto und vergleiche ob sich die Symptome verstärkt haben.' },
+                  { priority: 2, action: 'Nährstoffversorgung checken', details: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist.' },
                 ];
                 content.followUpDays = 5;
                 content.preventiveTips = [
