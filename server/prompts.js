@@ -672,8 +672,123 @@ HERMAPHRODISMUS (Zwitter):
   D5: Kann vereinzelt oder massiv auftreten
   EXTRA: SOFORT handeln! H\u00e4ufigste Ursache = Lichtleck in Dunkelphase. Auch Hitze >35\u00b0C, extremer Stress. Bananen = Stressreaktion in sp\u00e4ter Bl\u00fcte. Pollens\u00e4cke = fr\u00fcher/genetischer Hermie. Bei Bananen: sofortige Ernte erw\u00e4gen!
 
-HINWEIS: Diese App diagnostiziert prim\u00e4r N\u00e4hrstoffm\u00e4ngel, N\u00e4hrstoff\u00fcbersch\u00fcsse und Umweltprobleme.
-  Falls du Anzeichen von Sch\u00e4dlingen (Insekten, Gespinste, Kolonien, silbrige Kratzer, klebrige Substanz) oder Krankheiten (Mehltau, Schimmel, F\u00e4ule, kreisrunde Flecken mit klarem Rand) erkennst, weise den Nutzer darauf hin, dass dies wahrscheinlich kein N\u00e4hrstoffproblem ist und empfehle, die Blattunterseiten mit einer Lupe zu pr\u00fcfen und sich in einem Grow-Forum oder bei einem Sch\u00e4dlings-Spezialisten beraten zu lassen.
+\u2500\u2500 SCH\u00c4DLINGE & KRANKHEITEN (DIAGNOSTIK) \u2500\u2500
+
+SPINNMILBEN (Two-Spotted Spider Mites):
+  D1: Winzige wei\u00dfe/gelbe Sprenkel (Stippling) auf Blattoberseiten
+  D2: Bei Befall feine Gespinste/Webbing zwischen \u00c4sten und Bl\u00e4ttern
+  D3: Stippling gleichm\u00e4\u00dfig auf Blattoberfl\u00e4che, folgt keinem Adernmuster
+  D4: Kann alle Bl\u00e4tter betreffen, bevorzugt untere/mittlere Etage
+  D5: Von wenigen Bl\u00e4ttern bis gesamte Pflanze
+  ERKENNUNG: Mit 30x Lupe Blattunterseiten pr\u00fcfen, besonders nahe Blattadern. Gespinste = schwerer Befall, SOFORT handeln!
+  BEHANDLUNG: Neemöl, insektizide Seife, Raubmilben (Phytoseiulus persimilis). Befallene Bl\u00e4tter entfernen.
+
+THRIPS:
+  D1: Silbrige/gl\u00e4nzende Streifen und Kratzer auf Blattoberfl\u00e4chen
+  D2: Unregelm\u00e4\u00dfige silberne Schrammen, NICHT runde Flecken
+  D3: Zuf\u00e4llige silbrige Streifen + winzige schwarze Punkte (Kot)
+  D4: Alle Bl\u00e4tter, bevorzugt junge Bl\u00e4tter und Bl\u00fcten
+  D5: Von wenigen Bl\u00e4ttern bis gesamte Pflanze
+  ERKENNUNG: Blatt \u00fcber wei\u00dfes Papier klopfen \u2013 Thrips fallen runter und krabbeln. Springen wenn gest\u00f6rt.
+  BEHANDLUNG: Blaukarten/Gelbkarten, Raubmilben (Amblyseius swirskii), Spinosad, Neemöl.
+
+TRAUERM\u00dcCKEN (Fungus Gnats):
+  D1: Kleine schwarze Fliegen um Erdoberfl\u00e4che und untere Pflanze
+  D2: Larvenfra\u00df an feinen Wurzeln \u2192 sekund\u00e4re Mangelsymptome (N, Fe)
+  D3: Unerklärliche Vergilbung/Welke trotz korrekter Bewässerung
+  D4: Gesamte Pflanze betroffen durch Wurzelsch\u00e4den
+  D5: Kann alle Pflanzen im Raum befallen
+  ERKENNUNG: Kleine Fliegen schwirren um Erde. Gelbe Klebefallen in Erdn\u00e4he.
+  BEHANDLUNG: Obere Erdschicht abtrocknen lassen, Gelbkarten, N\u00fctzlingsnematoden (Steinernema feltiae), Raubmilben (Hypoaspis miles). KEIN Peroxid bei Living Soil (t\u00f6tet Mikroben)!
+
+BROAD MITES (\u26a0\ufe0f H\u00c4UFIG FEHLDIAGNOSTIZIERT!):
+  D1: Neues Wachstum erscheint verdreht, nass/gl\u00e4nzend, fast plastik-artig
+  D2: Bl\u00e4tter kr\u00e4useln sich nach OBEN, Oberfl\u00e4che wirkt feucht/glossy
+  D3: Verdrehtes, deformiertes neues Wachstum, verdickte Bl\u00e4tter
+  D4: NUR neue/junge Bl\u00e4tter und Triebspitzen betroffen!
+  D5: Beginnt an Triebspitzen, breitet sich aus
+  ERKENNUNG: 60\u2013100x Vergr\u00f6\u00dferung ERFORDERLICH! Normale Lupe reicht NICHT. Milben <1mm.
+  VERWECHSLUNG: Wird extrem h\u00e4ufig als Hitzestress, N\u00e4hrstoffmangel, pH-Problem oder \u00dcberw\u00e4sserung fehldiagnostiziert! WENN neues Wachstum verdreht + nass/gl\u00e4nzend aussieht + Umgebungsdaten normal sind \u2192 UNBEDINGT auf Broad Mites hinweisen und 60x+ Lupe empfehlen!
+  BEHANDLUNG: Abamectin-haltige Mittel, Raubmilben (Amblyseius swirskii), Neemöl, Schwefelbasierte Mittel.
+
+HEMP RUSSET MITES (\u26a0\ufe0f UNSICHTBAR!):
+  D1: Bl\u00e4tter kr\u00e4useln sich nach UNTEN (Gegenteil von Broad Mites!), bräunlich/rostig
+  D2: Vergilbung und Bronzef\u00e4rbung, beginnt an UNTEREN Bl\u00e4ttern und wandert NACH OBEN
+  D3: Rustikale/bronzene Verf\u00e4rbung, Bl\u00e4tter werden spröde
+  D4: Beginnt UNTEN und wandert nach oben (sieht aus wie mobiler N\u00e4hrstoffmangel!)
+  D5: Progressive Ausbreitung von unten nach oben
+  ERKENNUNG: 60\u2013100x Vergr\u00f6\u00dferung ERFORDERLICH! Sind NOCH kleiner als Broad Mites.
+  VERWECHSLUNG: Wird als N-Mangel, Mg-Mangel, pH-Problem oder Hitzestress fehldiagnostiziert! Wenn Symptome von unten nach oben wandern aber EC/pH stimmen und die Symptome nicht zu klassischen N\u00e4hrstoffm\u00e4ngeln passen \u2192 auf Russet Mites hinweisen!
+  CURL-RICHTUNG MERKEN: OBEN = Broad Mites, UNTEN = Russet Mites
+  BEHANDLUNG: Wie Broad Mites. Schwefelverdampfer, Abamectin, Raubmilben.
+
+WURZELL\u00c4USE (Root Aphids):
+  D1: Unerklärlicher langsamer Verfall, gelbe Bl\u00e4tter, schwache Reaktion auf D\u00fcngung
+  D2: Pflanze wirkt generell gestresst und schw\u00e4chlich
+  D3: Keine klaren Blattmuster \u2013 allgemeiner Verfall
+  D4: Gesamte Pflanze betroffen
+  D5: Zunehmend schlechter werdend trotz aller Ma\u00dfnahmen
+  ERKENNUNG: Wei\u00dfe, wachsartige Substanz im Wurzelbereich. Lebende L\u00e4use an Topf-Abl\u00f6chern sichtbar. ERHTÖHTE Ameisenaktivit\u00e4t am Topf (Ameisen farmen den Honigtau der L\u00e4use). Begünstigt Pythium-Wurzelfäule durch Fra\u00dfstellen.
+  BEHANDLUNG: Hypoaspis-Raubmilben, Nematoden, Neem-Drench. Bei schwerem Befall: Umtopfen + Wurzeln waschen.
+
+BLATTL\u00c4USE (Aphids):
+  D1: Kleine gr\u00fcne/schwarze Insekten in Kolonien, klebrige Substanz (Honigtau)
+  D2: Bl\u00e4tter kr\u00e4useln sich, verformen sich
+  D3: Kolonien meist an Blattunterseiten und Triebspitzen
+  D4: Junge Triebe und Blattunterseiten bevorzugt
+  D5: Schnelle Ausbreitung bei warmem Klima
+  ERKENNUNG: Mit blo\u00dfem Auge sichtbar. Klebrige Bl\u00e4tter + Ru\u00dftaupilz (schwarzer Belag).
+  BEHANDLUNG: Florfliegenlarven (Chrysopa), Marienk\u00e4fer, insektizide Seife, Neemöl.
+
+MEHLTAU (Powdery Mildew / PM):
+  D1: Wei\u00dfe, pudrige/mehlige Bel\u00e4ge auf Blattoberfl\u00e4chen, St\u00e4ngeln, Bl\u00fcten
+  D2: Pulverartiger wei\u00dfer Belag, Bl\u00e4tter darunter werden gelb/nekrotisch
+  D3: Runde bis unregelm\u00e4\u00dfige wei\u00dfe Flecken, breiten sich aus
+  D4: Kann alle Pflanzenteile betreffen, bevorzugt dichte/schattige Bereiche
+  D5: Von einzelnen Flecken bis gesamte Pflanze bei schwerem Befall
+  BEDINGUNGEN: Hohe Luftfeuchtigkeit (>60%), schlechte Luftzirkulation, 20\u201325\u00b0C.
+  BEHANDLUNG: Kaliumbicarbonat-Spray, Bacillus-basierte Biokontrollen, Schwefel, Silizium (Wurzelapplikation reduziert PM nachweislich!). Luftfeuchtigkeit unter 50% in der Bl\u00fcte halten. Luftzirkulation verbessern.
+  VORBEUGUNG: Silizium-Supplementierung (Kalium-Silikat) st\u00e4rkt Zellw\u00e4nde UND aktiviert Pflanzenabwehr.
+
+BOTRYTIS (Knospenfäule / Bud Rot):
+  D1: Wei\u00dflich-grauer Schimmel im Inneren dichter Bl\u00fcten, wird braun/grau
+  D2: Bl\u00fcten werden weich, matschig, zersetzen sich von innen
+  D3: Beginnt IM INNEREN dichter Colas, von au\u00dfen oft erst sp\u00e4t sichtbar
+  D4: Dichte, kompakte Bl\u00fcten bevorzugt, besonders in der Mitte
+  D5: Einzelne Colas bis mehrere Bl\u00fctenst\u00e4nde
+  BEDINGUNGEN: Sp\u00e4te Bl\u00fcte, k\u00fchle Temperaturen, hohe Luftfeuchtigkeit, schlechte Bel\u00fcftung.
+  ERKENNUNG: Cola-St\u00e4ngel knicken unerwartet, Bl\u00e4tter an der Cola werden pl\u00f6tzlich gelb/braun. "Wenn du es au\u00dfen siehst, ist innen schon alles kaputt." 5cm UNTERHALB der sichtbaren Infektion schneiden!
+  BEHANDLUNG: Befallene Colas SOFORT gro\u00dfz\u00fcgig entfernen, Luftfeuchtigkeit senken, Luftzirkulation erh\u00f6hen. Trichoderma harzianum als Pr\u00e4ventiv (reduziert Bud Rot um 60\u201370%). RH unter 50% in Bl\u00fcte.
+
+SEPTORIA (Blattfleckenkrankheit):
+  D1: Braune/tan kreisrunde Flecken MIT gelbem Hof/Halo drumherum
+  D2: Flecken haben dunkleren Kern, werden trocken, Bl\u00e4tter bekommen schlie\u00dflich L\u00f6cher
+  D3: Kreisrunde, klar abgegrenzte Flecken (NICHT unregelm\u00e4\u00dfig wie Ca-Mangel!)
+  D4: Beginnt an den UNTERSTEN Bl\u00e4ttern, wandert nach oben
+  D5: Progressive Ausbreitung von unten nach oben
+  VERWECHSLUNG MIT CA-MANGEL: Septoria = kreisrunde Flecken mit gelbem Halo an ALTEN Bl\u00e4ttern. Ca-Mangel = unregelm\u00e4\u00dfige Flecken an NEUEN Bl\u00e4ttern. Die Form und Position der Flecken ist der Schl\u00fcssel!
+  BEHANDLUNG: Befallene Bl\u00e4tter entfernen, Luftzirkulation verbessern, Bl\u00e4tter nicht von oben gie\u00dfen. Pr\u00e4ventiv: Kupfer-basierte Sprays, Bacillus subtilis.
+
+WURZELF\u00c4ULE (Pythium / Fusarium):
+  D1: Wurzeln braun, schleimig, stinken nach F\u00e4ulnis; Pflanze wird chlorotisch
+  D2: Pflanze welkt pl\u00f6tzlich TROTZ feuchter Erde, stunted/verk\u00fcmmert
+  D3: Allgemeine Chlorose + Welke ohne klares N\u00e4hrstoffmuster
+  D4: Gesamte Pflanze betroffen
+  D5: Rapider Verfall
+  ERKENNUNG: Pythium \u2013 \u00e4u\u00dfere Wurzelschichten l\u00f6sen sich ab, nur zentraler Strang bleibt. Fusarium \u2013 St\u00e4ngel l\u00e4ngs aufschneiden: BRAUNER Gef\u00e4\u00dfring im Inneren = Fusarium (oft t\u00f6dlich!).
+  BEHANDLUNG: Pythium \u2013 Bew\u00e4sserung reduzieren, Drainage verbessern, Trichoderma + Mykorrhiza nachimpfen. Fusarium \u2013 meist t\u00f6dlich, keine effektive Behandlung, Pflanze entfernen, Werkzeuge desinfizieren!
+  VORBEUGUNG: Saubere Werkzeuge, steriles Medium, Trichoderma-Inokulation, keine \u00dcberw\u00e4sserung.
+
+HOP LATENT VIROID (HLVd \u2013 "Der stille Killer"):
+  D1: In Veg oft SYMPTOMLOS! In Bl\u00fcte: extreme Verkümmerung, reduzierte Bl\u00fctenentwicklung
+  D2: Br\u00fcchige St\u00e4ngel, reduzierte Trichom-Produktion, "Dudding Disease"
+  D3: Bis zu 50% weniger Cannabinoide, Pflanze wirkt generell "schwach"
+  D4: Gesamte Pflanze
+  D5: Progressive Verschlechterung besonders in der Bl\u00fcte
+  ERKENNUNG: Kann NICHT sicher visuell diagnostiziert werden! PCR-Test erforderlich. 90% der kalifornischen Facilities betroffen.
+  \u00dcBERTRAGUNG: Kontaminierte Werkzeuge (Scheren!), infizierte Stecklinge, Samen (58\u201384%!), sogar \u00fcber Hydro-Wasser.
+  WENN eine Pflanze verk\u00fcmmert + reduzierte Bl\u00fcten + br\u00fcchige St\u00e4ngel zeigt und KEINE andere Diagnose passt \u2192 HLVd-Test empfehlen! Sage: "Diese Symptome k\u00f6nnten auf Hop Latent Viroid (HLVd) hindeuten \u2013 ein Viroid das nur per PCR-Labortest nachgewiesen werden kann. Lass deine Pflanze testen, besonders wenn sie von Stecklingen stammt."
+  PR\u00c4VENTION: Werkzeuge in 10% Bleichl\u00f6sung (60 Sekunden Einweichzeit), nur getestete Stecklinge verwenden.
 
 6. UMGEBUNGSPROBLEME & pH-BEREICHE (substratabh\u00e4ngig!):
 
@@ -819,6 +934,24 @@ PATHOGNOMONISCHE ZEICHEN (fast eindeutige Erkennungsmerkmale):
 \u2192 Mittlere Bl\u00e4tter betroffen (nicht oben, nicht unten) = MOLYBD\u00c4N-MANGEL
 \u2192 "The Claw" + gl\u00e4nzend dunkelgr\u00fcn = N-\u00dcBERSCHUSS
 \u2192 Asymmetrisches Bild (nur eine Pflanzenseite) = WINDBURN
+\u2192 Verdrehtes neues Wachstum + nass/gl\u00e4nzende Blattoberfläche = BROAD MITES (60x+ Lupe!)
+\u2192 Bronzefärbung + Blattkräuselung nach UNTEN von unten nach oben wandernd = RUSSET MITES (60x+ Lupe!)
+\u2192 Kreisrunde braune Flecken mit gelbem Halo an unteren Blättern = SEPTORIA (Pilz, NICHT Ca-Mangel!)
+\u2192 Pflanze welkt plötzlich bei feuchter Erde + brauner Gefäßring im Stängel = FUSARIUM (oft tödlich!)
+\u2192 Verkümmerung + kaum Trichome + brüchige Stängel ohne andere Erklärung = HLVd-Test empfehlen!
+\u2192 Weiße Wachssubstanz an Wurzeln + erhöhte Ameisenaktivität = WURZELLÄUSE
+
+MILBEN-CURL-RICHTUNG (DIAGNOSTISCHER SCHLÜSSEL!):
+\u2192 Blattkräuselung nach OBEN + verdrehtes/glossy neues Wachstum = BROAD MITES
+\u2192 Blattkräuselung nach UNTEN + Bronze/Rost von unten nach oben = RUSSET MITES
+\u2192 Blattkräuselung nach OBEN + trockene Ränder OBEN = HITZESTRESS
+\u2192 Blattkräuselung nach UNTEN + dunkelgrün + ALLE Blätter = N-ÜBERSCHUSS
+
+BRAUNE FLECKEN DIFFERENZIERUNG (erweitert):
+\u2192 Kreisrunde Flecken MIT gelbem Halo, UNTERE Blätter, Löcher im Verlauf = SEPTORIA (Pilz)
+\u2192 Unregelmäßige Flecken, OBERE/NEUE Blätter, deformiertes Wachstum = Ca-MANGEL
+\u2192 Braune Ränder, UNTERE Blätter, trocken/knusprig = K-MANGEL
+\u2192 NUR Spitzen 1-3mm, ALLE Blätter gleich = NÄHRSTOFFBRAND
 
 MOBILIT\u00c4TS-SCHNELLREFERENZ:
 \u2192 MOBIL (Symptome UNTEN/ALT): N, P, K, Mg
