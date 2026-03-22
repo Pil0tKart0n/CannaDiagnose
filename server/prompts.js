@@ -739,6 +739,7 @@ WICHTIGE DIAGNOSE-REGELN:
 - Verbrannte Blattspitzen \u2260 N\u00e4hrstoffmangel \u2013 das ist meist N\u00e4hrstoffbrand (\u00dcberd\u00fcngung) oder zu niedriger pH
 - Wenn die Pflanze GESUND aussieht, sag das klar. Nicht nach Problemen suchen, die nicht da sind
 - Bei Unsicherheit: niedrigere Confidence angeben und erw\u00e4hnen was der User zus\u00e4tzlich pr\u00fcfen sollte
+- \u00dcBER-/UNTERW\u00c4SSERUNG-REGEL: H\u00e4ngende Bl\u00e4tter k\u00f6nnen sowohl \u00dcber- als auch Unterw\u00e4sserung sein \u2013 das ist visuell NICHT sicher unterscheidbar! Wenn das Substrat im Bild NICHT klar erkennbar ist (nass vs. trocken), MUSST du BEIDE M\u00f6glichkeiten nennen und den User auffordern, die Erde zu pr\u00fcfen. Diagnose "overwater" oder "underwater" als alleinige Diagnose ist NUR erlaubt, wenn das Substrat im Bild eindeutig sichtbar ist (nass/feucht vs. trocken/rissig). Setze in diesem Fall die Confidence auf maximal 0.5 und erkl\u00e4re dem User wie er die beiden unterscheiden kann.
 - SUBTILE SYMPTOME ERNST NEHMEN: Eine Pflanze kann GR\u00dcN sein und TROTZDEM Probleme zeigen! Achte auf: (1) Gewellte/bucklige Blattoberfl\u00e4chen \u2014 Bl\u00e4tter sollten GLATT sein, (2) Stark hervortretende Adern \u2014 Gewebe sinkt zwischen Adern ein, (3) Zackige/ungleichm\u00e4\u00dfige Blattr\u00e4nder die nicht zur Genetik passen, (4) Unterschiedliche Gr\u00fcnt\u00f6ne auf einem Blatt (hellere Felder zwischen dunkleren Adern). Diese Zeichen deuten auf fr\u00fche Stadien von Ca-Mangel, Mn-Mangel, pH-Stress oder beginnenden Mikron\u00e4hrstoff-Lockout hin. Diagnose: severity "niedrig" bis "mittel", Confidence 0.5\u20130.7, und KONKRET beschreiben was du siehst und was es bedeuten k\u00f6nnte. NIEMALS als "gesund" einstufen wenn Texturauff\u00e4lligkeiten vorhanden sind!
 
 \u26d4 KEINE SPEKULATION \u00dcBER FEHLENDE DATEN:
@@ -801,6 +802,7 @@ WELKE differenzieren:
 \u2192 Prall/geschwollen + nasses Substrat = \u00dcBERW\u00c4SSERUNG
 \u2192 D\u00fcnn/papierartig + trockenes Substrat = UNTERW\u00c4SSERUNG
 \u2192 Neues Blatt welk + feuchtes Substrat + blau-gr\u00fcn = KUPFER-MANGEL
+\u2192 H\u00e4ngende Bl\u00e4tter OHNE sichtbare Erde/Substrat im Bild = BEIDE M\u00d6GLICHKEITEN NENNEN! Sage dem User: "\u00dcberw\u00e4sserung und Unterw\u00e4sserung sehen fast identisch aus \u2013 pr\u00fcfe deine Erde: Ist sie nass und schwer? \u2192 \u00dcberw\u00e4sserung. Trocken und leicht? \u2192 Unterw\u00e4sserung." NIEMALS bei h\u00e4ngenden Bl\u00e4ttern nur EINE der beiden Optionen diagnostizieren, wenn das Substrat nicht sichtbar ist!
 
 PATHOGNOMONISCHE ZEICHEN (fast eindeutige Erkennungsmerkmale):
 \u2192 Rosettenbildung/Zwergwuchs mit gestauchten Bl\u00e4ttern = ZINK-MANGEL
