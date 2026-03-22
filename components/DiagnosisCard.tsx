@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { DiagnosisResult, Severity } from '../types';
 import { colors } from '../constants/colors';
+import { t, getLang } from '../services/i18n';
 
 interface DiagnosisCardProps {
   result: DiagnosisResult;
@@ -15,14 +16,17 @@ const severityColors: Record<Severity, string> = {
   kritisch: colors.severityCritical,
 };
 
-const severityLabels: Record<Severity, string> = {
-  niedrig: 'Niedrig',
-  mittel: 'Mittel',
-  hoch: 'Hoch',
-  kritisch: 'Kritisch',
-};
+function getSeverityLabel(sev: Severity): string {
+  const labels: Record<Language, Record<Severity, string>> = {
+    de: { niedrig: 'Niedrig', mittel: 'Mittel', hoch: 'Hoch', kritisch: 'Kritisch' },
+    en: { niedrig: 'Low', mittel: 'Medium', hoch: 'High', kritisch: 'Critical' },
+  };
+  return labels[getLang()]?.[sev] || sev;
+}
 
-const TIPS = [
+type Language = 'de' | 'en';
+
+const TIPS_DE = [
   'Fotos unter weissem Licht oder mit Blitz ermoeglichen eine deutlich genauere Diagnose.',
   'Verfeinere die Diagnose mit deinen pH- und EC-Werten fuer ein praeziseres Ergebnis.',
   'Nahaufnahmen einzelner Blaetter liefern bessere Ergebnisse als Fotos der ganzen Pflanze.',
@@ -31,6 +35,19 @@ const TIPS = [
   'Scanne bei Unsicherheit mehrere Blaetter von verschiedenen Stellen der Pflanze.',
 ];
 
+const TIPS_EN = [
+  'Photos under white light or with flash enable a much more accurate diagnosis.',
+  'Refine the diagnosis with your pH and EC values for a more precise result.',
+  'Close-up shots of individual leaves yield better results than photos of the whole plant.',
+  'Regular scans help you detect problems early before they become serious.',
+  'Make sure the leaf is sharp and well-lit in the image.',
+  'If unsure, scan multiple leaves from different spots on the plant.',
+];
+
+function getTips(): string[] {
+  return getLang() === 'en' ? TIPS_EN : TIPS_DE;
+}
+
 export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps) {
   const sevColor = severityColors[result.severity] || colors.textMuted;
   const confPercent = Math.round(result.confidence * 100);
@@ -38,7 +55,8 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
                   : confPercent >= 40 ? colors.severityMedium
                   : colors.severityCritical;
 
-  const randomTip = useMemo(() => TIPS[Math.floor(Math.random() * TIPS.length)], []);
+  const tips = getTips();
+  const randomTip = useMemo(() => tips[Math.floor(Math.random() * tips.length)], []);
 
   return (
     <View style={styles.card}>
@@ -48,7 +66,7 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
       {/* Top row: badge */}
       <View style={[styles.severityBadge, { backgroundColor: sevColor }]}>
         <Text style={styles.severityText}>
-          {severityLabels[result.severity]}
+          {getSeverityLabel(result.severity)}
         </Text>
       </View>
 

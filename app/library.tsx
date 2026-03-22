@@ -10,6 +10,27 @@ import {
   libraryEntries, categoryLabels, categoryColors, severityColors,
   LibraryCategory, LibraryEntry,
 } from '../constants/library';
+import { t, getLang } from '../services/i18n';
+import { categoryLabelsEn, severityLabelsEn, libraryEntriesEn } from '../constants/library-en';
+
+/** Get localized text for a library entry field */
+function le(entry: LibraryEntry, field: 'name' | 'categoryLabel'): string {
+  if (getLang() !== 'en') return entry[field];
+  const en = libraryEntriesEn[entry.id];
+  return en?.[field] || entry[field];
+}
+function leArr(entry: LibraryEntry, field: 'symptoms' | 'causes' | 'treatment' | 'prevention'): string[] {
+  if (getLang() !== 'en') return entry[field];
+  const en = libraryEntriesEn[entry.id];
+  return en?.[field] || entry[field];
+}
+function catLabel(cat: LibraryCategory): string {
+  return getLang() === 'en' ? categoryLabelsEn[cat] : categoryLabels[cat];
+}
+function sevLabel(sev: string): string {
+  if (getLang() !== 'en') return sev.charAt(0).toUpperCase() + sev.slice(1);
+  return (severityLabelsEn as any)[sev] || sev;
+}
 
 const ALL_CATEGORIES: LibraryCategory[] = [
   'naehrstoffmangel', 'naehrstoffueberschuss', 'schaedlinge', 'krankheiten', 'umweltprobleme',
@@ -43,9 +64,10 @@ export default function LibraryScreen() {
       const q = search.toLowerCase().trim();
       entries = entries.filter(
         (e) =>
+          le(e, 'name').toLowerCase().includes(q) ||
           e.name.toLowerCase().includes(q) ||
-          e.symptoms.some((s) => s.toLowerCase().includes(q)) ||
-          e.categoryLabel.toLowerCase().includes(q)
+          leArr(e, 'symptoms').some((s) => s.toLowerCase().includes(q)) ||
+          le(e, 'categoryLabel').toLowerCase().includes(q)
       );
     }
     return entries;
@@ -70,15 +92,15 @@ export default function LibraryScreen() {
         <View style={styles.cardHeader}>
           <Text style={styles.cardEmoji}>{item.emoji}</Text>
           <View style={styles.cardHeaderInfo}>
-            <Text style={styles.cardName}>{item.name}</Text>
+            <Text style={styles.cardName}>{le(item, 'name')}</Text>
             <View style={styles.cardBadges}>
               <View style={[styles.catBadge, { backgroundColor: `${catColor}18` }]}>
-                <Text style={[styles.catBadgeText, { color: catColor }]}>{item.categoryLabel}</Text>
+                <Text style={[styles.catBadgeText, { color: catColor }]}>{catLabel(item.category)}</Text>
               </View>
               <View style={[styles.sevBadge, { backgroundColor: `${sevColor}18` }]}>
                 <View style={[styles.sevDot, { backgroundColor: sevColor }]} />
                 <Text style={[styles.sevBadgeText, { color: sevColor }]}>
-                  {item.severity.charAt(0).toUpperCase() + item.severity.slice(1)}
+                  {sevLabel(item.severity)}
                 </Text>
               </View>
             </View>
@@ -93,10 +115,10 @@ export default function LibraryScreen() {
         {/* Expanded detail */}
         {isExpanded && (
           <View style={styles.detail}>
-            <DetailSection icon="medical-outline" title="Symptome" items={item.symptoms} color={colors.error} />
-            <DetailSection icon="help-circle-outline" title="Ursachen" items={item.causes} color={colors.warning} />
-            <DetailSection icon="medkit-outline" title="Behandlung" items={item.treatment} color={colors.accent} />
-            <DetailSection icon="shield-checkmark-outline" title="Prävention" items={item.prevention} color={colors.accentTeal} />
+            <DetailSection icon="medical-outline" title={t('library.symptoms')} items={leArr(item, 'symptoms')} color={colors.error} />
+            <DetailSection icon="help-circle-outline" title={t('library.causes')} items={leArr(item, 'causes')} color={colors.warning} />
+            <DetailSection icon="medkit-outline" title={t('library.treatment')} items={leArr(item, 'treatment')} color={colors.accent} />
+            <DetailSection icon="shield-checkmark-outline" title={t('library.prevention')} items={leArr(item, 'prevention')} color={colors.accentTeal} />
           </View>
         )}
       </TouchableOpacity>
@@ -110,7 +132,7 @@ export default function LibraryScreen() {
         <Ionicons name="search" size={18} color={colors.textMuted} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Suchen..."
+          placeholder={t('library.search')}
           placeholderTextColor={colors.textMuted}
           value={search}
           onChangeText={setSearch}
@@ -143,7 +165,7 @@ export default function LibraryScreen() {
               onPress={() => setSelectedCategory(active ? null : cat)}
             >
               <Text style={[styles.chipText, active && { color }]}>
-                {categoryLabels[cat]}
+                {catLabel(cat)}
               </Text>
             </TouchableOpacity>
           );

@@ -14,6 +14,7 @@ import { refineDiagnosis, validateDiagnosisResult, cachedReadAsBase64 } from '..
 import { getFertilizerNames } from '../constants/fertilizers';
 import { updateEntry } from '../services/storage';
 import { trackEvent } from '../services/analytics';
+import { t } from '../services/i18n';
 
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
@@ -241,8 +242,8 @@ export default function ResultsScreen() {
   if (!displayResult) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>Keine Diagnose vorhanden.</Text>
-        <Button title="Zurück" onPress={() => router.back()} />
+        <Text style={styles.emptyText}>{t('results.noDiagnosis')}</Text>
+        <Button title={t('results.back')} onPress={() => router.back()} />
       </View>
     );
   }
@@ -286,12 +287,12 @@ export default function ResultsScreen() {
       : (phInput || ecInput);
     if (!hasData) {
       const msg = (isLivingSoil || isOrganic)
-        ? 'Bitte gib einen pH-Wert oder eine Bodentemperatur ein.'
-        : 'Bitte gib mindestens einen pH- oder EC-Wert ein.';
+        ? t('results.missingDataOrganic')
+        : t('results.missingDataMineral');
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
         window.alert(msg);
       } else {
-        Alert.alert('Fehlende Daten', msg);
+        Alert.alert(t('results.missingDataTitle'), msg);
       }
       return;
     }
@@ -299,16 +300,16 @@ export default function ResultsScreen() {
     if (phInput) {
       const ph = parseFloat(phInput.replace(',', '.'));
       if (isNaN(ph) || ph < 0 || ph > 14) {
-        const msg = 'Bitte gib einen gültigen pH-Wert ein (0–14).';
-        if (Platform.OS === 'web' && typeof window !== 'undefined') { window.alert(msg); } else { Alert.alert('Ungültiger Wert', msg); }
+        const msg = t('results.invalidPh');
+        if (Platform.OS === 'web' && typeof window !== 'undefined') { window.alert(msg); } else { Alert.alert(t('results.invalidValue'), msg); }
         return;
       }
     }
     if (ecInput) {
       const ec = parseFloat(ecInput.replace(',', '.'));
       if (isNaN(ec) || ec < 0 || ec > 15) {
-        const msg = 'Bitte gib einen gültigen EC-Wert ein (0–15).';
-        if (Platform.OS === 'web' && typeof window !== 'undefined') { window.alert(msg); } else { Alert.alert('Ungültiger Wert', msg); }
+        const msg = t('results.invalidEc');
+        if (Platform.OS === 'web' && typeof window !== 'undefined') { window.alert(msg); } else { Alert.alert(t('results.invalidValue'), msg); }
         return;
       }
     }
@@ -334,9 +335,9 @@ export default function ResultsScreen() {
       setRefineOpen(false);
     } catch (err: any) {
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
-        window.alert(err.message || 'Verfeinerung fehlgeschlagen.');
+        window.alert(err.message || t('results.refineFailed'));
       } else {
-        Alert.alert('Fehler', err.message || 'Verfeinerung fehlgeschlagen.');
+        Alert.alert(t('results.error'), err.message || t('results.refineFailed'));
       }
     } finally {
       setRefineLoading(false);
@@ -351,9 +352,9 @@ export default function ResultsScreen() {
     } catch (err: any) {
       if (!err.message?.includes('abgebrochen') && !err.message?.includes('cancelled')) {
         if (Platform.OS === 'web' && typeof window !== 'undefined') {
-          window.alert(err.message || 'Teilen fehlgeschlagen.');
+          window.alert(err.message || t('results.shareFailed'));
         } else {
-          Alert.alert('Fehler', err.message || 'Teilen fehlgeschlagen.');
+          Alert.alert(t('results.error'), err.message || t('results.shareFailed'));
         }
       }
     } finally {
@@ -392,7 +393,7 @@ export default function ResultsScreen() {
         ) : (
           <Ionicons name="share-outline" size={18} color={colors.accent} />
         )}
-        <Text style={styles.shareText}>Diagnose teilen</Text>
+        <Text style={styles.shareText}>{t('results.share')}</Text>
       </TouchableOpacity>
 
       <DiagnosisCard result={displayResult} isRefined={refined || colorCorrected} />
@@ -422,7 +423,7 @@ export default function ResultsScreen() {
           >
             <View style={styles.refineHeaderLeft}>
               <Ionicons name="flask-outline" size={18} color={colors.accent} />
-              <Text style={styles.refineTitle}>Diagnose verfeinern</Text>
+              <Text style={styles.refineTitle}>{t('results.refineTitle')}</Text>
             </View>
             <Ionicons
               name={refineOpen ? 'chevron-up' : 'chevron-down'}
@@ -435,13 +436,13 @@ export default function ResultsScreen() {
             <View style={styles.refineBody}>
               <Text style={styles.refineHint}>
                 {questionnaire.substrateType === 'Living Soil'
-                  ? 'Farbe, pH-Wert oder Bodentemperatur nachtragen für eine präzisere Diagnose.'
-                  : 'Farbe korrigieren oder pH/EC nachtragen für eine präzisere Diagnose.'}
+                  ? t('results.refineHintLivingSoil')
+                  : t('results.refineHintDefault')}
               </Text>
 
               {/* Color correction field */}
               <View style={[styles.refineInputGroup, { zIndex: 10 }]}>
-                <Text style={styles.refineLabel}>Blattfarbe</Text>
+                <Text style={styles.refineLabel}>{t('results.leafColor')}</Text>
                 {selectedColor ? (
                   <View style={styles.colorChipRow}>
                     <View style={styles.colorChip}>
@@ -455,7 +456,7 @@ export default function ResultsScreen() {
                   <View style={{ position: 'relative' }}>
                     <TextInput
                       style={styles.refineInput}
-                      placeholder="z.B. violett, braun, gelb..."
+                      placeholder={t('results.colorPlaceholder')}
                       placeholderTextColor={colors.textMuted}
                       value={colorInput}
                       onChangeText={setColorInput}
@@ -487,7 +488,7 @@ export default function ResultsScreen() {
               {/* pH + EC/Soil temp row */}
               <View style={[styles.refineInputRow, { zIndex: 1 }]}>
                 <View style={styles.refineInputGroup}>
-                  <Text style={styles.refineLabel}>pH-Wert</Text>
+                  <Text style={styles.refineLabel}>{t('results.phValue')}</Text>
                   <TextInput
                     style={styles.refineInput}
                     placeholder="z.B. 6.5"
@@ -504,7 +505,7 @@ export default function ResultsScreen() {
                 </View>
                 {(questionnaire.substrateType === 'Living Soil' || isOrganic) ? (
                   <View style={styles.refineInputGroup}>
-                    <Text style={styles.refineLabel}>Bodentemp. °C</Text>
+                    <Text style={styles.refineLabel}>{t('results.soilTemp')}</Text>
                     <TextInput
                       style={styles.refineInput}
                       placeholder="z.B. 22"
@@ -521,7 +522,7 @@ export default function ResultsScreen() {
                   </View>
                 ) : (
                   <View style={styles.refineInputGroup}>
-                    <Text style={styles.refineLabel}>EC / PPM</Text>
+                    <Text style={styles.refineLabel}>{t('results.ecPpm')}</Text>
                     <TextInput
                       style={styles.refineInput}
                       placeholder="z.B. 1.2"
@@ -542,7 +543,7 @@ export default function ResultsScreen() {
               {/* Fertilizer selector — hidden for Living Soil */}
               {questionnaire.substrateType !== 'Living Soil' && (
               <View style={styles.refineInputGroup}>
-                <Text style={styles.refineLabel}>Dünger{questionnaire.fertilizerType ? ' (aus Fragebogen)' : ' (optional)'}</Text>
+                <Text style={styles.refineLabel}>{questionnaire.fertilizerType ? t('results.fertilizerFromQ') : t('results.fertilizerOptional')}</Text>
                 <TouchableOpacity
                   onPress={() => {
                     setFertilizerPickerOpen(!fertilizerPickerOpen);
@@ -552,7 +553,7 @@ export default function ResultsScreen() {
                   activeOpacity={0.7}
                 >
                   <Text style={[styles.refineSelectText, !fertilizerInput && { color: colors.textMuted }]}>
-                    {fertilizerInput || 'Dünger suchen & auswählen...'}
+                    {fertilizerInput || t('results.fertilizerSearch')}
                   </Text>
                   <Ionicons
                     name={fertilizerPickerOpen ? 'chevron-up' : 'chevron-down'}
@@ -564,7 +565,7 @@ export default function ResultsScreen() {
                   <View style={styles.fertilizerList}>
                     <TextInput
                       style={styles.fertilizerSearchInput}
-                      placeholder="Dünger suchen..."
+                      placeholder={t('results.fertilizerSearchPlaceholder')}
                       placeholderTextColor={colors.textMuted}
                       value={fertilizerSearch}
                       onChangeText={setFertilizerSearch}
@@ -617,7 +618,7 @@ export default function ResultsScreen() {
                 ) : (
                   <>
                     <Ionicons name="refresh-outline" size={16} color={colors.textOnAccent} />
-                    <Text style={styles.refineButtonText}>Analyse verfeinern</Text>
+                    <Text style={styles.refineButtonText}>{t('results.refineAnalysis')}</Text>
                   </>
                 )}
               </TouchableOpacity>
@@ -631,10 +632,10 @@ export default function ResultsScreen() {
           <Ionicons name="checkmark-circle" size={16} color={colors.accent} />
           <Text style={styles.refinedBadgeText}>
             {colorCorrected && !refined
-              ? 'Diagnose angepasst basierend auf Farbangabe'
+              ? t('results.refinedColor')
               : refined && colorCorrected
-                ? 'Diagnose verfeinert mit Farbangabe + pH/EC-Daten'
-                : 'Diagnose verfeinert mit pH/EC-Daten'}
+                ? t('results.refinedColorAndData')
+                : t('results.refinedData')}
           </Text>
         </View>
       )}
@@ -643,7 +644,7 @@ export default function ResultsScreen() {
         <View style={styles.followUpInfo}>
           <Ionicons name="notifications-outline" size={16} color={colors.accent} />
           <Text style={styles.followUpInfoText}>
-            Follow-up in {displayResult.followUpDays} Tagen – du wirst erinnert
+            {t('results.followUpReminder', { days: displayResult.followUpDays })}
           </Text>
         </View>
       )}
@@ -675,7 +676,7 @@ export default function ResultsScreen() {
             activeOpacity={0.7}
           >
             <Ionicons name="book-outline" size={16} color={colors.accent} />
-            <Text style={styles.libraryLinkText}>Mehr über {match.name} in der Bibliothek</Text>
+            <Text style={styles.libraryLinkText}>{t('results.libraryLink', { name: match.name })}</Text>
             <Ionicons name="chevron-forward" size={14} color={colors.textMuted} />
           </TouchableOpacity>
         );
@@ -684,7 +685,7 @@ export default function ResultsScreen() {
       {/* Feedback */}
       {!isFromHistory && (
         <View style={styles.feedbackRow}>
-          <Text style={styles.feedbackLabel}>War die Diagnose hilfreich?</Text>
+          <Text style={styles.feedbackLabel}>{t('results.feedbackQuestion')}</Text>
           <View style={styles.feedbackButtons}>
             <TouchableOpacity
               style={[styles.feedbackBtn, feedback === 'positive' && styles.feedbackBtnActive]}
@@ -717,15 +718,14 @@ export default function ResultsScreen() {
       {/* Disclaimer */}
       <View style={styles.disclaimer}>
         <Text style={styles.disclaimerText}>
-          Diese Diagnose kann fehlerhaft sein.
-          Kein Ersatz für professionelle Beratung. Nutzung auf eigene Verantwortung.
+          {t('results.disclaimer')}
         </Text>
       </View>
 
       {selectedPlantId && !isFromHistory ? (
         <View style={styles.btnRow}>
           <Button
-            title="Zur Pflanze"
+            title={t('results.toPlant')}
             onPress={() => {
               const pid = selectedPlantId;
               reset();
@@ -736,20 +736,20 @@ export default function ResultsScreen() {
           {!isFromHistory && (
             <TouchableOpacity onPress={scanAnother} style={styles.scanAnotherBtn} activeOpacity={0.7}>
               <Ionicons name="camera-outline" size={18} color={colors.accent} />
-              <Text style={styles.scanAnotherText}>Weiteres Blatt scannen</Text>
+              <Text style={styles.scanAnotherText}>{t('results.scanAnother')}</Text>
             </TouchableOpacity>
           )}
-          <Button title="Neue Diagnose" onPress={startNew} variant="secondary" style={styles.newBtn} />
+          <Button title={t('results.newDiagnosis')} onPress={startNew} variant="secondary" style={styles.newBtn} />
         </View>
       ) : (
         <View style={styles.btnRow}>
           {!isFromHistory && (
             <TouchableOpacity onPress={scanAnother} style={styles.scanAnotherBtn} activeOpacity={0.7}>
               <Ionicons name="camera-outline" size={18} color={colors.accent} />
-              <Text style={styles.scanAnotherText}>Weiteres Blatt scannen</Text>
+              <Text style={styles.scanAnotherText}>{t('results.scanAnother')}</Text>
             </TouchableOpacity>
           )}
-          <Button title="Neue Diagnose" onPress={startNew} style={styles.newBtn} />
+          <Button title={t('results.newDiagnosis')} onPress={startNew} style={styles.newBtn} />
         </View>
       )}
     </ScrollView>

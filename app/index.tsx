@@ -17,6 +17,7 @@ import { useDiagnosis } from './_layout';
 import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota';
 import { hasCompletedOnboarding } from './onboarding';
 import { trackEvent } from '../services/analytics';
+import { t, getLang, setLang, onLangChange } from '../services/i18n';
 
 const webCSS = Platform.OS === 'web' ? `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
@@ -168,6 +169,11 @@ function injectCSS() {
 export default function HomeScreen() {
   const router = useRouter();
   const { reset } = useDiagnosis();
+  const [lang, setLangState] = useState(getLang());
+  useEffect(() => {
+    const unsub = onLangChange((l) => setLangState(l));
+    return unsub;
+  }, []);
   const [showInfo, setShowInfo] = useState(false);
   const [quotaText, setQuotaText] = useState('');
   const [quotaIsPremium, setQuotaIsPremium] = useState(false);
@@ -334,7 +340,7 @@ export default function HomeScreen() {
                 onClick={startDiagnosis}
                 style={{ padding: '18px 24px', textAlign: 'center' } as any}
               >
-                <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+                <Text style={styles.primaryBtnText}>{t('home.scan')}</Text>
               </div>
             ) : (
               <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
@@ -344,7 +350,7 @@ export default function HomeScreen() {
                   end={{ x: 0.5, y: 1 }}
                   style={styles.nativePrimaryBtn}
                 >
-                  <Text style={styles.primaryBtnText}>Pflanze scannen</Text>
+                  <Text style={styles.primaryBtnText}>{t('home.scan')}</Text>
                 </LinearGradient>
               </TouchableOpacity>
             )}
@@ -353,25 +359,25 @@ export default function HomeScreen() {
               {isWeb ? (
                 <>
                   <div className="cd-btn-secondary" onClick={() => router.push('/plants')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
-                    <Text style={styles.navBtnText}>Pflanzen</Text>
+                    <Text style={styles.navBtnText}>{t('home.plants')}</Text>
                   </div>
                   <div className="cd-btn-secondary" onClick={() => router.push('/history')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
-                    <Text style={styles.navBtnText}>Verlauf</Text>
+                    <Text style={styles.navBtnText}>{t('home.history')}</Text>
                   </div>
                   <div className="cd-btn-secondary" onClick={() => router.push('/library')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
-                    <Text style={styles.navBtnText}>Bibliothek</Text>
+                    <Text style={styles.navBtnText}>{t('home.library')}</Text>
                   </div>
                 </>
               ) : (
                 <>
                   <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/plants')} activeOpacity={0.7}>
-                    <Text style={styles.navBtnText}>Pflanzen</Text>
+                    <Text style={styles.navBtnText}>{t('home.plants')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/history')} activeOpacity={0.7}>
-                    <Text style={styles.navBtnText}>Verlauf</Text>
+                    <Text style={styles.navBtnText}>{t('home.history')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/library')} activeOpacity={0.7}>
-                    <Text style={styles.navBtnText}>Bibliothek</Text>
+                    <Text style={styles.navBtnText}>{t('home.library')}</Text>
                   </TouchableOpacity>
                 </>
               )}
@@ -394,7 +400,7 @@ export default function HomeScreen() {
                   }}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.installBtnText}>App installieren</Text>
+                  <Text style={styles.installBtnText}>{t('home.install')}</Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
@@ -406,11 +412,11 @@ export default function HomeScreen() {
                   }}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.installBtnText}>Android App herunterladen</Text>
+                  <Text style={styles.installBtnText}>{t('home.downloadAndroid')}</Text>
                 </TouchableOpacity>
               )}
               <TouchableOpacity onPress={() => setShowInstallBanner(false)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                <Text style={styles.installDismiss}>Nicht jetzt</Text>
+                <Text style={styles.installDismiss}>{t('home.notNow')}</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -425,7 +431,7 @@ export default function HomeScreen() {
               >
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
-                  <Text style={styles.premiumBtnText}>Premium freischalten</Text>
+                  <Text style={styles.premiumBtnText}>{t('home.unlockPremium')}</Text>
                   <Text style={styles.premiumArrow}>→</Text>
                 </View>
               </div>
@@ -447,7 +453,7 @@ export default function HomeScreen() {
                 </Animated.View>
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
-                  <Text style={styles.premiumBtnText}>Premium freischalten</Text>
+                  <Text style={styles.premiumBtnText}>{t('home.unlockPremium')}</Text>
                   <Text style={styles.premiumArrow}>→</Text>
                 </View>
               </TouchableOpacity>
@@ -457,20 +463,27 @@ export default function HomeScreen() {
           {/* Legal footer */}
           <View style={styles.legalFooter}>
             <Text style={styles.legalText}>
-              Internetverbindung erforderlich
+              {t('home.internetRequired')}
             </Text>
           </View>
           <View style={styles.legalFooter}>
+            <TouchableOpacity onPress={async () => {
+              const newLang = getLang() === 'de' ? 'en' : 'de';
+              await setLang(newLang);
+            }}>
+              <Text style={styles.legalLink}>{t('lang.switch')}</Text>
+            </TouchableOpacity>
+            <Text style={styles.legalDot}>·</Text>
             <TouchableOpacity onPress={() => router.push('/privacy')}>
-              <Text style={styles.legalLink}>Datenschutz</Text>
+              <Text style={styles.legalLink}>{t('home.privacy')}</Text>
             </TouchableOpacity>
             <Text style={styles.legalDot}>·</Text>
             <TouchableOpacity onPress={() => router.push('/terms')}>
-              <Text style={styles.legalLink}>AGB</Text>
+              <Text style={styles.legalLink}>{t('home.terms')}</Text>
             </TouchableOpacity>
             <Text style={styles.legalDot}>·</Text>
             <TouchableOpacity onPress={() => router.push('/impressum')}>
-              <Text style={styles.legalLink}>Impressum</Text>
+              <Text style={styles.legalLink}>{t('home.impressum')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -484,17 +497,12 @@ export default function HomeScreen() {
           onPress={() => setShowInfo(false)}
         >
           <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>So funktioniert's</Text>
+            <Text style={styles.modalTitle}>{t('modal.howTitle')}</Text>
             <Text style={styles.modalText}>
-              Mach ein Foto von der betroffenen Stelle –{'\n'}
-              Blatt, Stängel oder die ganze Pflanze.{'\n\n'}
-              Beantworte ein paar kurze Fragen zu{'\n'}
-              deinem Setup.{'\n\n'}
-              Du bekommst eine Diagnose mit konkreten{'\n'}
-              Schritten, was du jetzt tun kannst.
+              {t('modal.howText')}
             </Text>
             <TouchableOpacity onPress={() => setShowInfo(false)} style={styles.modalClose}>
-              <Text style={styles.modalCloseText}>Verstanden</Text>
+              <Text style={styles.modalCloseText}>{t('modal.understood')}</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

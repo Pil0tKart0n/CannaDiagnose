@@ -14,6 +14,7 @@ import { Plant, DiagnosisEntry, Severity, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
 import { confirmAlert } from '../services/alert';
 import { useDiagnosis } from './_layout';
+import { t, getLang } from '../services/i18n';
 
 const severityColor: Record<Severity, string> = {
   niedrig: colors.severityLow,
@@ -22,12 +23,12 @@ const severityColor: Record<Severity, string> = {
   kritisch: colors.severityCritical,
 };
 
-const severityLabel: Record<Severity, string> = {
-  niedrig: 'Niedrig',
-  mittel: 'Mittel',
-  hoch: 'Hoch',
-  kritisch: 'Kritisch',
-};
+const getSeverityLabel = (): Record<Severity, string> => ({
+  niedrig: t('plantDetail.severityLow'),
+  mittel: t('plantDetail.severityMedium'),
+  hoch: t('plantDetail.severityHigh'),
+  kritisch: t('plantDetail.severityCritical'),
+});
 
 export default function PlantDetailScreen() {
   const router = useRouter();
@@ -94,7 +95,7 @@ export default function PlantDetailScreen() {
     if (!plant) return;
     const trimmed = editName.trim();
     if (!trimmed) {
-      Alert.alert('Name fehlt', 'Gib deiner Pflanze einen Namen.');
+      Alert.alert(t('plantDetail.nameMissing'), t('plantDetail.nameRequired'));
       return;
     }
     const updated: Plant = {
@@ -130,19 +131,21 @@ export default function PlantDetailScreen() {
   };
 
   const handleDeleteEntry = (entryId: string) => {
-    confirmAlert('Diagnose löschen?', 'Diese Diagnose wird unwiderruflich gelöscht.', async () => {
+    confirmAlert(t('plantDetail.deleteEntry'), t('plantDetail.deleteEntryMsg'), async () => {
       await deleteEntry(entryId); loadData();
     });
   };
 
   const formatDate = (iso: string) => {
     const d = new Date(iso);
-    return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const locale = getLang() === 'en' ? 'en-US' : 'de-DE';
+    return d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
 
   const formatTime = (iso: string) => {
     const d = new Date(iso);
-    return d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+    const locale = getLang() === 'en' ? 'en-US' : 'de-DE';
+    return d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
   };
 
   const getFollowUpInfo = () => {
@@ -160,7 +163,7 @@ export default function PlantDetailScreen() {
   if (!plant) {
     return (
       <View style={styles.container}>
-        <Text style={styles.emptyText}>Pflanze nicht gefunden.</Text>
+        <Text style={styles.emptyText}>{t('plantDetail.notFound')}</Text>
       </View>
     );
   }
@@ -212,7 +215,7 @@ export default function PlantDetailScreen() {
                   style={styles.editInput}
                   value={editName}
                   onChangeText={setEditName}
-                  placeholder="Pflanzenname"
+                  placeholder={t('plantDetail.plantName')}
                   placeholderTextColor={colors.textMuted}
                   autoFocus
                 />
@@ -220,7 +223,7 @@ export default function PlantDetailScreen() {
                   style={[styles.editInput, styles.editInputSmall]}
                   value={editStrain}
                   onChangeText={setEditStrain}
-                  placeholder="Sorte / Notiz (optional)"
+                  placeholder={t('plantDetail.strainNote')}
                   placeholderTextColor={colors.textMuted}
                 />
               </>
@@ -236,7 +239,7 @@ export default function PlantDetailScreen() {
               </>
             )}
             <Text style={styles.plantDate}>
-              Angelegt am {formatDate(plant.createdAt)}
+              {t('plantDetail.createdOn', { date: formatDate(plant.createdAt) })}
             </Text>
           </View>
         </View>
@@ -245,7 +248,7 @@ export default function PlantDetailScreen() {
         {editing && (
           <View style={styles.editActions}>
             <TouchableOpacity onPress={cancelEditing} style={styles.editCancelBtn} activeOpacity={0.7}>
-              <Text style={styles.editCancelBtnText}>Abbrechen</Text>
+              <Text style={styles.editCancelBtnText}>{t('plantDetail.cancel')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSaveEdit} activeOpacity={0.85}>
               <LinearGradient
@@ -254,7 +257,7 @@ export default function PlantDetailScreen() {
                 end={{ x: 1, y: 1 }}
                 style={styles.editSaveBtn}
               >
-                <Text style={styles.editSaveBtnText}>Speichern</Text>
+                <Text style={styles.editSaveBtnText}>{t('plantDetail.save')}</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
@@ -265,12 +268,12 @@ export default function PlantDetailScreen() {
           <View style={[styles.followUpBanner, followUp.isDue && styles.followUpBannerDue]}>
             <Text style={[styles.followUpBannerText, followUp.isDue && styles.followUpBannerTextDue]}>
               {followUp.isDue
-                ? 'Follow-up fällig – Zeit für ein neues Foto'
-                : `Nächstes Follow-up in ${followUp.daysLeft} ${followUp.daysLeft === 1 ? 'Tag' : 'Tagen'}`}
+                ? t('plantDetail.followUpDue')
+                : t('plantDetail.followUpIn', { days: followUp.daysLeft, unit: followUp.daysLeft === 1 ? t('plantDetail.day') : t('plantDetail.days') })}
             </Text>
             {followUp.isDue && (
               <TouchableOpacity onPress={startFollowUp} style={styles.followUpBannerBtn}>
-                <Text style={styles.followUpBannerBtnText}>Jetzt starten</Text>
+                <Text style={styles.followUpBannerBtnText}>{t('plantDetail.startNow')}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -292,14 +295,14 @@ export default function PlantDetailScreen() {
 
           return (
             <View style={styles.trendSection}>
-              <Text style={styles.sectionTitle}>GESUNDHEITSVERLAUF</Text>
+              <Text style={styles.sectionTitle}>{t('plantDetail.healthTrend')}</Text>
               <View style={styles.trendCard}>
                 {/* Y-axis labels */}
                 <View style={styles.trendYAxis}>
-                  <Text style={[styles.trendYLabel, { top: 0 }]}>Kritisch</Text>
-                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.34 - 6 }]}>Hoch</Text>
-                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.67 - 6 }]}>Mittel</Text>
-                  <Text style={[styles.trendYLabel, { bottom: 0 }]}>Niedrig</Text>
+                  <Text style={[styles.trendYLabel, { top: 0 }]}>{t('plantDetail.severityCritical')}</Text>
+                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.34 - 6 }]}>{t('plantDetail.severityHigh')}</Text>
+                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.67 - 6 }]}>{t('plantDetail.severityMedium')}</Text>
+                  <Text style={[styles.trendYLabel, { bottom: 0 }]}>{t('plantDetail.severityLow')}</Text>
                 </View>
 
                 {/* Chart area */}
@@ -421,13 +424,13 @@ export default function PlantDetailScreen() {
 
         {/* Timeline */}
         <Text style={styles.sectionTitle}>
-          Diagnose-Verlauf ({entries.length})
+          {t('plantDetail.diagnosisHistory', { count: entries.length })}
         </Text>
 
         {entries.length === 0 ? (
           <View style={styles.emptyTimeline}>
             <Text style={styles.emptyTimelineText}>
-              Noch keine Diagnosen. Starte die erste Analyse für diese Pflanze.
+              {t('plantDetail.emptyTimeline')}
             </Text>
           </View>
         ) : (
@@ -465,7 +468,7 @@ export default function PlantDetailScreen() {
                     <View style={[styles.severityBadge, { backgroundColor: `${color}18` }]}>
                       <View style={[styles.severityDot, { backgroundColor: color }]} />
                       <Text style={[styles.severityText, { color }]}>
-                        {severityLabel[sev]}
+                        {getSeverityLabel()[sev]}
                       </Text>
                     </View>
                   </View>
@@ -480,7 +483,7 @@ export default function PlantDetailScreen() {
                       </Text>
                       {entry.result.followUpDays && (
                         <Text style={styles.entryFollowUp}>
-                          Follow-up: {entry.result.followUpDays} Tage
+                          {t('plantDetail.followUpDays', { days: entry.result.followUpDays })}
                         </Text>
                       )}
                     </View>
@@ -502,7 +505,7 @@ export default function PlantDetailScreen() {
               end={{ x: 1, y: 1 }}
               style={styles.actionBtn}
             >
-              <Text style={styles.actionBtnText}>Follow-up Diagnose</Text>
+              <Text style={styles.actionBtnText}>{t('plantDetail.followUpDiagnosis')}</Text>
             </LinearGradient>
           </TouchableOpacity>
         ) : (
@@ -514,7 +517,7 @@ export default function PlantDetailScreen() {
               style={styles.actionBtn}
             >
               <Text style={styles.actionBtnText}>
-                {entries.length === 0 ? 'Erste Diagnose starten' : 'Neue Diagnose'}
+                {entries.length === 0 ? t('plantDetail.firstDiagnosis') : t('plantDetail.newDiagnosis')}
               </Text>
             </LinearGradient>
           </TouchableOpacity>

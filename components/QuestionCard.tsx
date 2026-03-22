@@ -12,6 +12,18 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Question } from '../types';
 import { colors } from '../constants/colors';
+import { t, getLang } from '../services/i18n';
+import { questionTextsEn, optionTextsEn, hintTextsEn } from '../constants/questions-en';
+
+/** Translate question text based on current language */
+function tq(text: string): string {
+  if (getLang() !== 'en') return text;
+  return questionTextsEn[text] || optionTextsEn[text] || text;
+}
+function th(text: string): string {
+  if (getLang() !== 'en') return text;
+  return hintTextsEn[text] || text;
+}
 
 const PERLITE_TIP_KEY = 'perlite_tip_shown';
 
@@ -32,14 +44,14 @@ function SearchableSelect({ question, value, onChange }: { question: Question; v
   const filtered = useMemo(() => {
     if (!search.trim()) return options;
     const q = search.toLowerCase();
-    return options.filter((opt) => opt.toLowerCase().includes(q));
+    return options.filter((opt) => opt.toLowerCase().includes(q) || tq(opt).toLowerCase().includes(q));
   }, [search, options]);
 
   return (
     <View style={styles.searchableContainer}>
       <TextInput
         style={styles.searchInput}
-        placeholder="Suchen..."
+        placeholder={t('questionCard.search')}
         placeholderTextColor={colors.textMuted}
         value={search}
         onChangeText={setSearch}
@@ -56,7 +68,7 @@ function SearchableSelect({ question, value, onChange }: { question: Question; v
               activeOpacity={0.7}
             >
               <Text style={[styles.searchableItemText, selected && styles.optionTextSelected]}>
-                {opt}
+                {tq(opt)}
               </Text>
               {selected && <Text style={styles.checkmark}>✓</Text>}
             </TouchableOpacity>
@@ -99,7 +111,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
             onPress={() => onChange(opt)}
           >
             <Text style={[styles.optionText, selected && styles.optionTextSelected]}>
-              {opt}
+              {tq(opt)}
             </Text>
           </TouchableOpacity>
         );
@@ -126,7 +138,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
               }}
             >
               <Text style={[styles.optionText, selected && styles.optionTextSelected]}>
-                {opt}
+                {tq(opt)}
               </Text>
             </TouchableOpacity>
           );
@@ -185,14 +197,14 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
             <View style={styles.perliteTipArrow} />
             <TouchableOpacity onPress={dismissPerliteTip} activeOpacity={0.8}>
               <Text style={styles.perliteTipText}>
-                Wenn du Perlite in deinem Substrat hast, kannst du sie hier hinzufügen
+                {t('questionCard.perliteTip')}
               </Text>
             </TouchableOpacity>
           </Animated.View>
         )}
         {perliteAdded && onPerlitePercentChange && (
           <View style={styles.perlitePercentRow}>
-            <Text style={styles.perliteLabel}>Anteil:</Text>
+            <Text style={styles.perliteLabel}>{t('questionCard.share')}</Text>
             {['10%', '20%', '30%', '40%', '50%'].map((pct) => (
               <TouchableOpacity
                 key={pct}
@@ -212,8 +224,8 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
 
   return (
     <View style={styles.card}>
-      <Text style={styles.question}>{question.question}</Text>
-      {question.hint && <Text style={styles.hint}>{question.hint}</Text>}
+      <Text style={styles.question}>{tq(question.question)}</Text>
+      {question.hint && <Text style={styles.hint}>{th(question.hint)}</Text>}
       {question.type === 'select' && renderSelect()}
       {renderPerliteAddon()}
       {question.type === 'multi-select' && renderMultiSelect()}

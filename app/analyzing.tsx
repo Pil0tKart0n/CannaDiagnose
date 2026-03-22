@@ -11,14 +11,15 @@ import { canScan } from '../services/quota';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { trackEvent } from '../services/analytics';
+import { t } from '../services/i18n';
 
-const loadingTexts = [
-  'Analysiere Blattstruktur...',
-  'Erkenne Farbmuster...',
-  'Prüfe Nährstoff-Symptome...',
-  'Gleiche mit Referenzdaten ab...',
-  'Bewerte Umgebungsfaktoren...',
-  'Erstelle Aktionsplan...',
+const loadingKeys = [
+  'analyzing.leafStructure',
+  'analyzing.colorPatterns',
+  'analyzing.nutrientSymptoms',
+  'analyzing.crossRef',
+  'analyzing.envFactors',
+  'analyzing.actionPlan',
 ];
 
 type ScreenState = 'loading' | 'error';
@@ -50,7 +51,7 @@ export default function AnalyzingScreen() {
     // Rotate loading texts with fade
     const interval = setInterval(() => {
       Animated.timing(textOpacity, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => {
-        setTextIndex((i) => (i + 1) % loadingTexts.length);
+        setTextIndex((i) => (i + 1) % loadingKeys.length);
         Animated.timing(textOpacity, { toValue: 1, duration: 300, useNativeDriver: true }).start();
       });
     }, 2800);
@@ -60,7 +61,7 @@ export default function AnalyzingScreen() {
   const runAnalysis = useCallback(async () => {
     const primaryImage = imageUris.length > 0 ? imageUris[0] : imageUri;
     if (!primaryImage) {
-      setError({ type: 'unknown', message: 'Kein Bild vorhanden.', retryable: false });
+      setError({ type: 'unknown', message: t('analyzing.noImage'), retryable: false });
       setScreenState('error');
       return;
     }
@@ -106,7 +107,7 @@ export default function AnalyzingScreen() {
         },
         (attempt, maxAttempts) => {
           if (attempt > 1) {
-            setAttemptText(`Versuch ${attempt} von ${maxAttempts}...`);
+            setAttemptText(t('analyzing.attempt', { attempt, max: maxAttempts }));
           }
         },
         preOptimized,
@@ -165,10 +166,10 @@ export default function AnalyzingScreen() {
 
       // Schedule follow-up notification (with or without plant)
       if (diagResult.followUpDays) {
-        let plantName = 'deine Pflanze';
+        let plantName = t('analyzing.yourPlant');
         if (selectedPlantId) {
           const plant = await getPlant(selectedPlantId);
-          plantName = plant?.name || 'Pflanze';
+          plantName = plant?.name || t('analyzing.plant');
         }
         await scheduleFollowUpReminder(plantName, diagResult.followUpDays, entryId);
       }
@@ -176,7 +177,7 @@ export default function AnalyzingScreen() {
     } catch (err: any) {
       const apiError: ApiError = err.apiError || {
         type: 'unknown',
-        message: err.message || 'Ein unbekannter Fehler ist aufgetreten.',
+        message: err.message || t('analyzing.unknownError'),
         retryable: true,
       };
       setError(apiError);
@@ -214,18 +215,18 @@ export default function AnalyzingScreen() {
         </View>
         <Text style={styles.errorTitle}>
           {isQuotaExceeded
-            ? 'Tageslimit erreicht'
+            ? t('analyzing.dailyLimit')
             : isNoPlant
-              ? 'Keine Pflanze erkannt'
+              ? t('analyzing.noPlant')
               : error.type === 'network'
-                ? 'Keine Verbindung'
-                : 'Fehler bei der Analyse'}
+                ? t('analyzing.noConnection')
+                : t('analyzing.analysisError')}
         </Text>
         <Text style={styles.errorMessage}>
           {isQuotaExceeded
-            ? 'Du hast deine kostenlose Diagnose für heute bereits verwendet.'
+            ? t('analyzing.quotaUsed')
             : isNoPlant
-              ? 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte mache ein neues Foto von deiner Pflanze.'
+              ? t('analyzing.noPlantDesc')
               : error.message}
         </Text>
 
@@ -242,7 +243,7 @@ export default function AnalyzingScreen() {
               style={styles.retryBtn}
             >
               <Ionicons name="diamond-outline" size={18} color="#000" />
-              <Text style={[styles.retryBtnText, { color: '#000' }]}>Premium freischalten</Text>
+              <Text style={[styles.retryBtnText, { color: '#000' }]}>{t('analyzing.unlockPremium')}</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -260,7 +261,7 @@ export default function AnalyzingScreen() {
               style={styles.retryBtn}
             >
               <Ionicons name="camera-outline" size={18} color={colors.textOnAccent} />
-              <Text style={styles.retryBtnText}>Neues Foto aufnehmen</Text>
+              <Text style={styles.retryBtnText}>{t('analyzing.newPhoto')}</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -274,13 +275,13 @@ export default function AnalyzingScreen() {
               style={styles.retryBtn}
             >
               <Ionicons name="refresh" size={18} color={colors.textOnAccent} />
-              <Text style={styles.retryBtnText}>Erneut versuchen</Text>
+              <Text style={styles.retryBtnText}>{t('analyzing.retry')}</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
 
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>Zurück zum Fragebogen</Text>
+          <Text style={styles.backBtnText}>{t('analyzing.backToQuestionnaire')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -293,11 +294,11 @@ export default function AnalyzingScreen() {
           <Ionicons name="leaf" size={28} color={colors.accent} />
         </View>
       </Animated.View>
-      <Animated.Text style={[styles.text, { opacity: textOpacity }]}>{loadingTexts[textIndex]}</Animated.Text>
+      <Animated.Text style={[styles.text, { opacity: textOpacity }]}>{t(loadingKeys[textIndex])}</Animated.Text>
       {attemptText ? (
         <Text style={styles.attemptText}>{attemptText}</Text>
       ) : (
-        <Text style={styles.sub}>Dies kann einige Sekunden dauern</Text>
+        <Text style={styles.sub}>{t('analyzing.wait')}</Text>
       )}
     </View>
   );

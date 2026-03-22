@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { trackEvent } from '../services/analytics';
+import { t } from '../services/i18n';
 
 const MAX_PHOTOS = 1;
 
@@ -23,7 +24,7 @@ export default function CameraScreen() {
     if (photos.length >= MAX_PHOTOS) return;
     const perm = await ImagePicker.requestCameraPermissionsAsync();
     if (!perm.granted) {
-      Alert.alert('Berechtigung benötigt', 'Bitte erlaube den Kamerazugriff in den Einstellungen.');
+      Alert.alert(t('camera.permissionTitle'), t('camera.permissionCamera'));
       return;
     }
     const result = await ImagePicker.launchCameraAsync({
@@ -38,7 +39,7 @@ export default function CameraScreen() {
     if (photos.length >= MAX_PHOTOS) return;
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!perm.granted) {
-      Alert.alert('Berechtigung benötigt', 'Bitte erlaube den Zugriff auf die Galerie.');
+      Alert.alert(t('camera.permissionTitle'), t('camera.permissionGallery'));
       return;
     }
     const remaining = MAX_PHOTOS - photos.length;
@@ -89,7 +90,7 @@ export default function CameraScreen() {
             ))}
           </ScrollView>
           <View style={styles.counterContainer}>
-            <Text style={styles.counterText}>{photos.length}/{MAX_PHOTOS} Fotos</Text>
+            <Text style={styles.counterText}>{`${photos.length}/${MAX_PHOTOS} ${t('camera.photos')}`}</Text>
           </View>
         </View>
       )}
@@ -113,7 +114,7 @@ export default function CameraScreen() {
                 style={{ opacity: 0.7 }}
               />
               <Text style={styles.viewfinderText}>
-                Foto aufgenommen
+                {t('camera.photoTaken')}
               </Text>
               <Text style={styles.viewfinderHint}>
               </Text>
@@ -121,7 +122,7 @@ export default function CameraScreen() {
           ) : (
             <>
               <Ionicons name="leaf-outline" size={40} color={colors.textMuted} style={{ opacity: 0.4 }} />
-              <Text style={styles.viewfinderText}>Blatt, Stängel oder Pflanze</Text>
+              <Text style={styles.viewfinderText}>{t('camera.leafStemPlant')}</Text>
             </>
           )}
         </View>
@@ -141,7 +142,7 @@ export default function CameraScreen() {
             </LinearGradient>
           </TouchableOpacity>
           <Text style={styles.shutterLabel}>
-            {hasPhotos ? 'Weiteres Foto aufnehmen' : 'Foto aufnehmen'}
+            {hasPhotos ? t('camera.takeAnother') : t('camera.takePhoto')}
           </Text>
         </View>
       )}
@@ -150,7 +151,7 @@ export default function CameraScreen() {
       {canAddMore && Platform.OS !== 'web' && (
         <View style={styles.divider}>
           <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>oder</Text>
+          <Text style={styles.dividerText}>{t('camera.or')}</Text>
           <View style={styles.dividerLine} />
         </View>
       )}
@@ -169,7 +170,7 @@ export default function CameraScreen() {
             </LinearGradient>
           </TouchableOpacity>
           <Text style={styles.shutterLabel}>
-            {hasPhotos ? 'Weiteres Foto hochladen' : 'Foto hochladen'}
+            {hasPhotos ? t('camera.uploadAnother') : t('camera.upload')}
           </Text>
         </View>
       )}
@@ -180,7 +181,7 @@ export default function CameraScreen() {
           <View style={styles.galleryIcon}>
             <Ionicons name="images-outline" size={20} color={colors.accent} />
           </View>
-          <Text style={styles.galleryText}>Aus Galerie wählen</Text>
+          <Text style={styles.galleryText}>{t('camera.gallery')}</Text>
           <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
         </TouchableOpacity>
       )}
@@ -195,7 +196,7 @@ export default function CameraScreen() {
               end={{ x: 1, y: 1 }}
               style={styles.proceedBtn}
             >
-              <Text style={styles.proceedBtnText}>Weiter</Text>
+              <Text style={styles.proceedBtnText}>{t('camera.next')}</Text>
               <Ionicons name="arrow-forward" size={18} color={colors.textOnAccent} />
             </LinearGradient>
           </TouchableOpacity>

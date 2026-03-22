@@ -16,6 +16,8 @@ import Button from '../components/Button';
 import { questions } from '../constants/questions';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
+import { t, getLang } from '../services/i18n';
+import { sectionTextsEn } from '../constants/questions-en';
 
 export default function QuestionnaireScreen() {
   const router = useRouter();
@@ -50,7 +52,7 @@ export default function QuestionnaireScreen() {
 
   if (!question) return null;
 
-  const currentSection = question.section;
+  const currentSection = getLang() === 'en' ? (sectionTextsEn[question.section] || question.section) : question.section;
   const value = questionnaire[question.id];
   const isLast = safeIndex === activeQuestions.length - 1;
 
@@ -181,7 +183,7 @@ export default function QuestionnaireScreen() {
         {(question.type !== 'select' && question.type !== 'searchable-select') || question.id === 'substrateType' ? (
           <View style={styles.bottomBar}>
             <Button
-              title={isLast ? 'Analyse starten' : 'Weiter'}
+              title={isLast ? t('questionnaire.startAnalysis') : t('questionnaire.next')}
               onPress={goNext}
               disabled={question.id === 'substrateType' && !value}
             />

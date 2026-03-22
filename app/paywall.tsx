@@ -24,6 +24,7 @@ import {
 import { setPremium, setSessionToken, SERVER_URL } from '../services/quota';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { trackEvent } from '../services/analytics';
+import { t } from '../services/i18n';
 
 interface Feature {
   icon: string;
@@ -32,23 +33,23 @@ interface Feature {
 }
 
 const freeFeatures: Feature[] = [
-  { icon: 'camera-outline', text: '1 Diagnose pro Tag' },
-  { icon: 'leaf-outline', text: '3 Pflanzenprofile' },
-  { icon: 'book-outline', text: 'Bibliothek & Nachschlagewerk' },
+  { icon: 'camera-outline', text: t('paywall.free1') },
+  { icon: 'leaf-outline', text: t('paywall.free2') },
+  { icon: 'book-outline', text: t('paywall.free3') },
 ];
 
 const growerFeatures: Feature[] = [
-  { icon: 'camera-outline', text: '10 Diagnosen pro Tag' },
-  { icon: 'leaf-outline', text: 'Unbegrenzte Pflanzen' },
-  { icon: 'document-text-outline', text: 'PDF-Export' },
+  { icon: 'camera-outline', text: t('paywall.grower1') },
+  { icon: 'leaf-outline', text: t('paywall.grower2') },
+  { icon: 'document-text-outline', text: t('paywall.grower3') },
 ];
 
 const proFeatures: Feature[] = [
-  { icon: 'infinite-outline', text: 'Unbegrenzte Diagnosen' },
-  { icon: 'leaf-outline', text: 'Unbegrenzte Pflanzen' },
-  { icon: 'document-text-outline', text: 'PDF-Export' },
-  { icon: 'flash-outline', text: 'Prioritäts-Analyse', pro: true },
-  { icon: 'trending-up-outline', text: 'Detaillierte Berichte', pro: true },
+  { icon: 'infinite-outline', text: t('paywall.pro1') },
+  { icon: 'leaf-outline', text: t('paywall.pro2') },
+  { icon: 'document-text-outline', text: t('paywall.pro3') },
+  { icon: 'flash-outline', text: t('paywall.pro4'), pro: true },
+  { icon: 'trending-up-outline', text: t('paywall.pro5'), pro: true },
 ];
 
 // ── Stripe Web Checkout ──
@@ -173,18 +174,18 @@ export default function PaywallScreen() {
 
       if (result.success) {
         trackEvent('purchase_complete', { source: 'google_play' });
-        Alert.alert('Willkommen!', 'Premium wurde aktiviert. Viel Spaß mit unbegrenzten Diagnosen!', [
-          { text: 'Super!', onPress: () => router.back() },
+        Alert.alert(t('paywall.welcome'), t('paywall.welcomeMsg'), [
+          { text: t('paywall.great'), onPress: () => router.back() },
         ]);
       } else if (result.error) {
-        Alert.alert('Hinweis', result.error);
+        Alert.alert(t('paywall.note'), result.error);
       }
     } else {
       // Web/PWA + APK (direct download): Stripe Checkout
       const plan = stripePlans[selectedIdx];
       if (!plan?.priceId) {
         setPurchasing(false);
-        Alert.alert('Fehler', 'Produkt nicht verfügbar.');
+        Alert.alert(t('results.error'), t('paywall.productUnavailable'));
         return;
       }
       const url = await startStripeCheckout(plan.priceId);
@@ -196,7 +197,7 @@ export default function PaywallScreen() {
           Linking.openURL(url);
         }
       } else {
-        Alert.alert('Fehler', 'Checkout konnte nicht gestartet werden. Bitte versuche es erneut.');
+        Alert.alert(t('results.error'), t('paywall.checkoutFailed'));
       }
     }
   };
@@ -232,10 +233,10 @@ export default function PaywallScreen() {
         setPromoMessage(data.message);
         setPremium(true);
       } else {
-        setPromoMessage(data.message || 'Code ungültig.');
+        setPromoMessage(data.message || t('paywall.codeInvalid'));
       }
     } catch {
-      setPromoMessage('Fehler beim Einlösen. Bitte versuche es erneut.');
+      setPromoMessage(t('paywall.redeemError'));
     }
     setPromoLoading(false);
   };
@@ -246,13 +247,13 @@ export default function PaywallScreen() {
     setRestoring(false);
 
     if (result.isPremium) {
-      Alert.alert('Wiederhergestellt!', 'Dein Premium-Abo wurde wiederhergestellt.', [
-        { text: 'Super!', onPress: () => router.back() },
+      Alert.alert(t('paywall.restored'), t('paywall.restoredMsg'), [
+        { text: t('paywall.great'), onPress: () => router.back() },
       ]);
     } else if (result.success) {
-      Alert.alert('Kein Abo gefunden', 'Es wurde kein aktives Abonnement gefunden.');
+      Alert.alert(t('paywall.noSubscription'), t('paywall.noSubscriptionMsg'));
     } else {
-      Alert.alert('Fehler', 'Käufe konnten nicht wiederhergestellt werden. Bitte versuche es erneut.');
+      Alert.alert(t('results.error'), t('paywall.restoreError'));
     }
   };
 
@@ -271,15 +272,15 @@ export default function PaywallScreen() {
           <View style={styles.successIcon}>
             <Ionicons name="checkmark-circle" size={64} color={colors.accent} />
           </View>
-          <Text style={styles.successTitle}>Premium aktiviert!</Text>
+          <Text style={styles.successTitle}>{t('paywall.premiumActivated')}</Text>
           <Text style={styles.successText}>
-            Viel Spaß mit unbegrenzten Diagnosen.
+            {t('paywall.enjoyDiagnoses')}
           </Text>
           <TouchableOpacity
             style={styles.purchaseBtn}
             onPress={() => router.replace('/')}
           >
-            <Text style={styles.purchaseBtnText}>Zur Startseite</Text>
+            <Text style={styles.purchaseBtnText}>{t('paywall.toHome')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -303,15 +304,15 @@ export default function PaywallScreen() {
           <View style={styles.crownCircle}>
             <Ionicons name="diamond-outline" size={36} color={colors.accentWarm} />
           </View>
-          <Text style={styles.title}>Premium freischalten</Text>
+          <Text style={styles.title}>{t('paywall.unlockPremium')}</Text>
           <Text style={styles.subtitle}>
-            Mehr Diagnosen, mehr Möglichkeiten
+            {t('paywall.subtitle')}
           </Text>
         </View>
 
         {/* Free tier info */}
         <View style={styles.freeCard}>
-          <Text style={styles.freeTitle}>Kostenlos enthalten:</Text>
+          <Text style={styles.freeTitle}>{t('paywall.freeIncluded')}</Text>
           {freeFeatures.map((f, i) => (
             <View key={i} style={styles.featureRow}>
               <Ionicons name={f.icon as any} size={16} color={colors.accent} />
@@ -332,14 +333,14 @@ export default function PaywallScreen() {
                 onPress={() => setSelectedIdx(i)}
                 activeOpacity={0.8}
               >
-                {i === 1 && <View style={styles.popularBadge}><Text style={styles.popularText}>Beliebt</Text></View>}
+                {i === 1 && <View style={styles.popularBadge}><Text style={styles.popularText}>{t('paywall.popular')}</Text></View>}
                 <Text style={[styles.packageTitle, i === selectedIdx && styles.packageTitleSelected]}>
                   {plan.title}
                 </Text>
                 <Text style={[styles.packagePrice, i === selectedIdx && styles.packagePriceSelected]}>
                   {plan.priceString}
                 </Text>
-                <Text style={styles.packagePeriod}>/ Monat</Text>
+                <Text style={styles.packagePeriod}>{t('paywall.perMonth')}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -348,7 +349,7 @@ export default function PaywallScreen() {
         {/* Features for selected package */}
         {selectedPlan && (
           <View style={styles.featuresCard}>
-            <Text style={styles.featuresTitle}>{selectedPlan.title} enthält:</Text>
+            <Text style={styles.featuresTitle}>{t('paywall.includes', { plan: selectedPlan.title })}</Text>
             {features.map((f, i) => (
               <View key={i} style={styles.featureRow}>
                 <Ionicons
@@ -373,7 +374,7 @@ export default function PaywallScreen() {
             <ActivityIndicator color={colors.textOnAccent} />
           ) : (
             <Text style={styles.purchaseBtnText}>
-              {selectedPlan ? `${selectedPlan.title} für ${selectedPlan.priceString}/Monat` : 'Laden...'}
+              {selectedPlan ? t('paywall.purchaseBtn', { plan: selectedPlan.title, price: selectedPlan.priceString }) : t('paywall.loading')}
             </Text>
           )}
         </TouchableOpacity>
@@ -381,7 +382,7 @@ export default function PaywallScreen() {
         {/* Promo code */}
         {!promoSuccess && (
           <View style={styles.promoCard}>
-            <Text style={styles.promoTitle}>Code einlösen</Text>
+            <Text style={styles.promoTitle}>{t('paywall.redeemCode')}</Text>
             <View style={styles.promoRow}>
               <TextInput
                 style={styles.promoInput}
@@ -401,7 +402,7 @@ export default function PaywallScreen() {
                 {promoLoading ? (
                   <ActivityIndicator size="small" color={colors.textOnAccent} />
                 ) : (
-                  <Text style={styles.promoBtnText}>Einlösen</Text>
+                  <Text style={styles.promoBtnText}>{t('paywall.redeem')}</Text>
                 )}
               </TouchableOpacity>
             </View>
@@ -415,9 +416,9 @@ export default function PaywallScreen() {
 
         {promoSuccess && (
           <View style={styles.promoSuccessCard}>
-            <Text style={styles.promoSuccessText}>Premium aktiviert! Viel Spaß beim Diagnostizieren.</Text>
+            <Text style={styles.promoSuccessText}>{t('paywall.premiumSuccess')}</Text>
             <TouchableOpacity style={styles.purchaseBtn} onPress={() => router.replace('/')}>
-              <Text style={styles.purchaseBtnText}>Zur Startseite</Text>
+              <Text style={styles.purchaseBtnText}>{t('paywall.toHome')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -428,25 +429,25 @@ export default function PaywallScreen() {
             <>
               <TouchableOpacity onPress={handleRestore} disabled={restoring}>
                 <Text style={styles.footerLink}>
-                  {restoring ? 'Wird wiederhergestellt...' : 'Käufe wiederherstellen'}
+                  {restoring ? t('paywall.restoring') : t('paywall.restore')}
                 </Text>
               </TouchableOpacity>
               <Text style={styles.footerDot}>·</Text>
             </>
           )}
           <TouchableOpacity onPress={() => router.push('/privacy')}>
-            <Text style={styles.footerLink}>Datenschutz</Text>
+            <Text style={styles.footerLink}>{t('home.privacy')}</Text>
           </TouchableOpacity>
           <Text style={styles.footerDot}>·</Text>
           <TouchableOpacity onPress={() => router.push('/terms')}>
-            <Text style={styles.footerLink}>AGB</Text>
+            <Text style={styles.footerLink}>{t('home.terms')}</Text>
           </TouchableOpacity>
         </View>
 
         <Text style={styles.legalNote}>
           {isWeb
-            ? 'Das Abo verlängert sich automatisch. Du kannst es jederzeit über dein Stripe-Kundenkonto kündigen. Die Bezahlung erfolgt sicher über Stripe.'
-            : 'Das Abo verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo jederzeit in den Einstellungen deines Google Play / App Store Kontos verwalten.'
+            ? t('paywall.legalWeb')
+            : t('paywall.legalNative')
           }
         </Text>
       </ScrollView>

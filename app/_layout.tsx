@@ -9,7 +9,7 @@ import { colors } from '../constants/colors';
 import { setupNotificationHandler } from '../services/notifications';
 import { optimizeImage, initReferenceImages } from '../services/claude';
 import { cleanupStorage } from '../services/storage';
-import { initLanguage } from '../services/i18n';
+import { initLanguage, t, getLang, onLangChange } from '../services/i18n';
 import { initPurchases } from '../services/purchases';
 import { setPremium, setSessionToken } from '../services/quota';
 import CookieConsent from '../components/CookieConsent';
@@ -77,6 +77,12 @@ export function useDiagnosis() {
 }
 
 export default function RootLayout() {
+  const [lang, setLangState] = useState(getLang());
+  useEffect(() => {
+    const unsub = onLangChange((l) => setLangState(l));
+    return unsub;
+  }, []);
+
   const [announcement, setAnnouncement] = useState<{ message: string; type: string } | null>(null);
   const [imageUris, setImageUrisState] = useState<string[]>([]);
   const [optimizedImageUris, setOptimizedImageUris] = useState<string[]>([]);
@@ -168,7 +174,7 @@ export default function RootLayout() {
                 if (data.token) {
                   setSessionToken(data.token);
                   setPremium(true);
-                  Alert.alert('Premium aktiviert!', 'Dein Abo ist jetzt aktiv. Viel Spaß!');
+                  Alert.alert(t('paywall.premiumActivated'), t('paywall.welcomeMsg'));
                 }
               })
               .catch(() => {});
@@ -295,19 +301,19 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
-        <Stack.Screen name="camera" options={{ title: 'Foto aufnehmen' }} />
-        <Stack.Screen name="questionnaire" options={{ title: 'Fragebogen', headerShown: false }} />
-        <Stack.Screen name="analyzing" options={{ title: 'Analyse', headerBackVisible: false }} />
-        <Stack.Screen name="results" options={{ title: 'Ergebnisse' }} />
-        <Stack.Screen name="history" options={{ title: 'Verlauf' }} />
-        <Stack.Screen name="plants" options={{ title: 'Meine Pflanzen' }} />
-        <Stack.Screen name="plant-detail" options={{ title: 'Pflanze' }} />
-        <Stack.Screen name="add-plant" options={{ title: 'Neue Pflanze' }} />
-        <Stack.Screen name="library" options={{ title: 'Bibliothek' }} />
-        <Stack.Screen name="privacy" options={{ title: 'Datenschutz' }} />
-        <Stack.Screen name="paywall" options={{ title: 'Premium', presentation: 'modal', headerShown: false }} />
-        <Stack.Screen name="impressum" options={{ title: 'Impressum' }} />
-        <Stack.Screen name="terms" options={{ title: 'Nutzungsbedingungen' }} />
+        <Stack.Screen name="camera" options={{ title: t('nav.camera') }} />
+        <Stack.Screen name="questionnaire" options={{ title: t('nav.questionnaire'), headerShown: false }} />
+        <Stack.Screen name="analyzing" options={{ title: t('nav.analysis'), headerBackVisible: false }} />
+        <Stack.Screen name="results" options={{ title: t('nav.results') }} />
+        <Stack.Screen name="history" options={{ title: t('nav.history') }} />
+        <Stack.Screen name="plants" options={{ title: t('nav.plants') }} />
+        <Stack.Screen name="plant-detail" options={{ title: t('nav.plant') }} />
+        <Stack.Screen name="add-plant" options={{ title: t('nav.addPlant') }} />
+        <Stack.Screen name="library" options={{ title: t('nav.library') }} />
+        <Stack.Screen name="privacy" options={{ title: t('nav.privacy') }} />
+        <Stack.Screen name="paywall" options={{ title: t('nav.premium'), presentation: 'modal', headerShown: false }} />
+        <Stack.Screen name="impressum" options={{ title: t('nav.impressum') }} />
+        <Stack.Screen name="terms" options={{ title: t('nav.terms') }} />
       </Stack>
       {Platform.OS === 'web' && <CookieConsent />}
     </DiagnosisContext.Provider>

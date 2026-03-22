@@ -2,11 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { ActionStep, ContributingFactor } from '../types';
 import { colors } from '../constants/colors';
+import { getLang } from '../services/i18n';
 
 export function FactorsList({ factors }: { factors: ContributingFactor[] }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Beitragende Faktoren</Text>
+      <Text style={styles.title}>{getLang() === 'en' ? 'Contributing Factors' : 'Beitragende Faktoren'}</Text>
       {factors.map((f, i) => (
         <View key={i} style={styles.factorRow}>
           <View style={styles.dot} />
@@ -23,7 +24,7 @@ export function FactorsList({ factors }: { factors: ContributingFactor[] }) {
 export function ActionPlan({ steps }: { steps: ActionStep[] }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Aktionsplan</Text>
+      <Text style={styles.title}>{getLang() === 'en' ? 'Action Plan' : 'Aktionsplan'}</Text>
       {steps.map((step, i) => (
         <View key={i} style={styles.stepRow}>
           <View style={styles.stepNumber}>
@@ -42,7 +43,7 @@ export function ActionPlan({ steps }: { steps: ActionStep[] }) {
 export function PreventiveTips({ tips }: { tips: string[] }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Praeventionstipps</Text>
+      <Text style={styles.title}>{getLang() === 'en' ? 'Prevention Tips' : 'Präventionstipps'}</Text>
       {tips.map((tip, i) => (
         <View key={i} style={styles.tipRow}>
           <View style={styles.tipDot} />

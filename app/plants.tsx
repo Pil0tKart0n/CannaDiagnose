@@ -10,6 +10,7 @@ import { getPlants, deletePlant, getEntriesForPlant } from '../services/storage'
 import { Plant, DiagnosisEntry } from '../types';
 import { colors } from '../constants/colors';
 import { confirmAlert } from '../services/alert';
+import { t } from '../services/i18n';
 
 interface PlantWithLatest extends Plant {
   latestEntry?: DiagnosisEntry;
@@ -58,8 +59,8 @@ export default function PlantsScreen() {
 
   const handleDelete = (id: string, name: string) => {
     confirmAlert(
-      `"${name}" löschen?`,
-      'Alle Diagnosen dieser Pflanze werden gelöscht.',
+      t('plants.deleteTitle', { name }),
+      t('plants.deleteMessage'),
       async () => { await deletePlant(id); loadPlants(); },
     );
   };
@@ -87,11 +88,11 @@ export default function PlantsScreen() {
         <View style={styles.plantInfo}>
           <Text style={styles.plantName}>{item.name}</Text>
           <Text style={styles.plantMeta}>
-            {item.entryCount} {item.entryCount === 1 ? 'Diagnose' : 'Diagnosen'}
+            {item.entryCount} {item.entryCount === 1 ? t('plants.diagnosis') : t('plants.diagnoses')}
           </Text>
           {isFollowUpDue && (
             <View style={styles.followUpBadge}>
-              <Text style={styles.followUpText}>Follow-up fällig</Text>
+              <Text style={styles.followUpText}>{t('plants.followUpDue')}</Text>
             </View>
           )}
         </View>
@@ -131,10 +132,10 @@ export default function PlantsScreen() {
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyTitle}>Noch keine Pflanzen</Text>
+            <Text style={styles.emptyTitle}>{t('plants.emptyTitle')}</Text>
             <Text style={styles.emptyText}>
-              Füge deine erste Pflanze hinzu, um ihre Gesundheit zu tracken.
-            </Text>
+              {t('plants.emptyText')}
+</Text>
           </View>
         }
       />
@@ -146,7 +147,7 @@ export default function PlantsScreen() {
             end={{ x: 1, y: 1 }}
             style={styles.addBtn}
           >
-            <Text style={styles.addBtnText}>+ Pflanze hinzufügen</Text>
+            <Text style={styles.addBtnText}>{t('plants.addPlant')}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

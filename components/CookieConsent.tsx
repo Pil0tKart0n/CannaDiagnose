@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../constants/colors';
+import { t } from '../services/i18n';
 
 const CONSENT_KEY = 'leafscan_cookie_consent';
 
@@ -46,15 +47,14 @@ export default function CookieConsent() {
     <View style={styles.overlay}>
       <View style={styles.banner}>
         <Text style={styles.text}>
-          Diese App nutzt lokalen Speicher (LocalStorage) und einen Service Worker für Offline-Funktionalität.
-          Es werden keine Tracking-Cookies oder Analysedienste verwendet.
+          {t('cookie.text')}
         </Text>
         <View style={styles.buttons}>
           <TouchableOpacity onPress={handleDecline} style={styles.declineBtn}>
-            <Text style={styles.declineBtnText}>Ablehnen</Text>
+            <Text style={styles.declineBtnText}>{t('cookie.decline')}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleAccept} style={styles.acceptBtn}>
-            <Text style={styles.acceptBtnText}>Akzeptieren</Text>
+            <Text style={styles.acceptBtnText}>{t('cookie.accept')}</Text>
           </TouchableOpacity>
         </View>
       </View>

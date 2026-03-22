@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { savePlant } from '../services/storage';
 import { colors } from '../constants/colors';
+import { t } from '../services/i18n';
 
 export default function AddPlantScreen() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function AddPlantScreen() {
   const handleSave = async () => {
     const trimmed = name.trim();
     if (!trimmed) {
-      Alert.alert('Name fehlt', 'Gib deiner Pflanze einen Namen.');
+      Alert.alert(t('plantDetail.nameMissing'), t('plantDetail.nameRequired'));
       return;
     }
     await savePlant({
@@ -57,18 +58,18 @@ export default function AddPlantScreen() {
           ) : (
             <View style={styles.imagePlaceholder}>
               <Text style={styles.imagePlaceholderIcon}>+</Text>
-              <Text style={styles.imagePlaceholderText}>Foto hinzufügen</Text>
+              <Text style={styles.imagePlaceholderText}>{t('addPlant.addPhoto')}</Text>
             </View>
           )}
         </TouchableOpacity>
 
         {/* Name / Sorte */}
-        <Text style={styles.label}>Sorte / Name</Text>
+        <Text style={styles.label}>{t('addPlant.nameLabel')}</Text>
         <TextInput
           style={styles.input}
           value={name}
           onChangeText={setName}
-          placeholder="z.B. Northern Lights, Pflanze #1..."
+          placeholder={t('addPlant.namePlaceholder')}
           placeholderTextColor={colors.textMuted}
           autoFocus
         />
@@ -76,18 +77,18 @@ export default function AddPlantScreen() {
         {/* Optional extras toggle */}
         {!showExtras && (
           <TouchableOpacity style={styles.extrasToggle} onPress={() => setShowExtras(true)} activeOpacity={0.7}>
-            <Text style={styles.extrasToggleText}>+ Weitere Infos hinzufügen</Text>
+            <Text style={styles.extrasToggleText}>{t('addPlant.addMore')}</Text>
           </TouchableOpacity>
         )}
 
         {showExtras && (
           <>
-            <Text style={styles.label}>Notiz (optional)</Text>
+            <Text style={styles.label}>{t('addPlant.noteLabel')}</Text>
             <TextInput
               style={styles.input}
               value={strain}
               onChangeText={setStrain}
-              placeholder="z.B. Zelt 2, Fensterbank, Autoflower..."
+              placeholder={t('addPlant.notePlaceholder')}
               placeholderTextColor={colors.textMuted}
             />
           </>
@@ -102,7 +103,7 @@ export default function AddPlantScreen() {
             end={{ x: 1, y: 1 }}
             style={styles.saveBtn}
           >
-            <Text style={styles.saveBtnText}>Pflanze speichern</Text>
+            <Text style={styles.saveBtnText}>{t('addPlant.save')}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

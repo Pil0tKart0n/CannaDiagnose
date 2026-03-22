@@ -8,6 +8,7 @@ import { DiagnosisEntry, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
 import { confirmAlert } from '../services/alert';
 import { useDiagnosis } from './_layout';
+import { t } from '../services/i18n';
 
 export default function HistoryScreen() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function HistoryScreen() {
   };
 
   const handleDelete = (id: string) => {
-    confirmAlert('Diagnose löschen?', 'Diese Aktion kann nicht rückgängig gemacht werden.', async () => {
+    confirmAlert(t('history.deleteTitle'), t('history.deleteMessage'), async () => {
       await deleteEntry(id);
       loadEntries();
     });
@@ -75,9 +76,9 @@ export default function HistoryScreen() {
         <View style={styles.emptyIcon}>
           <Text style={styles.emptyIconText}>📋</Text>
         </View>
-        <Text style={styles.emptyTitle}>Noch keine Diagnosen</Text>
+        <Text style={styles.emptyTitle}>{t('history.emptyTitle')}</Text>
         <Text style={styles.emptyText}>
-          Starte deine erste Diagnose, um sie hier zu sehen.
+          {t('history.emptyText')}
         </Text>
       </View>
     );
