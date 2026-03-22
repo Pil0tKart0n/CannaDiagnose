@@ -354,7 +354,7 @@ function rateLimit(req, res, next) {
 
   const count = (ipRequestCounts.get(ip) || 0) + 1;
   ipRequestCounts.set(ip, count);
-  if (count > 10) {
+  if (count > 30) {
     return res.status(429).json({ error: 'rate_limited', message: 'Zu viele Anfragen. Bitte warte eine Minute.' });
   }
   next();
