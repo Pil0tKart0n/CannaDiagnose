@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, Alert, Platform, Image, ScrollView,
 } from 'react-native';
@@ -15,7 +15,7 @@ import { t } from '../services/i18n';
 const MAX_PHOTOS = 1;
 
 export default function CameraScreen() {
-  trackEvent('camera_open');
+  useEffect(() => { trackEvent('camera_open'); }, []);
   const router = useRouter();
   const { setImageUris } = useDiagnosis();
   const [photos, setPhotos] = useState<string[]>([]);

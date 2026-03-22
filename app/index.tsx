@@ -184,6 +184,8 @@ export default function HomeScreen() {
     injectCSS();
     trackEvent('page_home');
 
+    let cleanupInstallPrompt: (() => void) | undefined;
+
     // PWA install prompt (Android Chrome)
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
       const handler = (e: any) => {
@@ -195,6 +197,7 @@ export default function HomeScreen() {
         }
       };
       window.addEventListener('beforeinstallprompt', handler);
+      cleanupInstallPrompt = () => window.removeEventListener('beforeinstallprompt', handler);
       // Check if running as APK-like (Android without install prompt = probably already native)
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
       const isAndroid = /android/i.test(navigator.userAgent);
@@ -202,7 +205,6 @@ export default function HomeScreen() {
       if (isAndroid && !isStandalone) {
         setShowInstallBanner(true);
       }
-      return () => window.removeEventListener('beforeinstallprompt', handler);
     }
 
     // Check for Stripe payment success redirect — verify with server
@@ -238,6 +240,10 @@ export default function HomeScreen() {
       setQuotaText(q.text);
       setQuotaIsPremium(q.isPremium);
     }).catch(() => {});
+
+    return () => {
+      if (cleanupInstallPrompt) cleanupInstallPrompt();
+    };
   }, []);
 
   // Re-check quota every time the screen gets focus (e.g. after paywall/promo)

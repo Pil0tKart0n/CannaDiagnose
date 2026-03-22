@@ -577,9 +577,9 @@ Antworte NUR mit JSON:
                   { factor: 'Frühe Anzeichen', impact: 'Noch kein akutes Problem, aber die Pflanze zeigt erste Auffälligkeiten.' },
                 ];
                 content.actionPlan = [
-                  { step: 'pH-Wert prüfen', detail: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
-                  { step: 'Pflanze beobachten', detail: 'Mach in 3–5 Tagen ein neues Foto und vergleiche ob sich die Symptome verstärkt haben.' },
-                  { step: 'Nährstoffversorgung checken', detail: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist.' },
+                  { priority: 'hoch', action: 'pH-Wert prüfen', details: 'Miss den pH deiner Nährlösung und des Ablaufwassers. Für Kokos: 5.8–6.2, für Erde: 6.0–6.5.' },
+                  { priority: 'mittel', action: 'Pflanze beobachten', details: 'Mach in 3–5 Tagen ein neues Foto und vergleiche ob sich die Symptome verstärkt haben.' },
+                  { priority: 'mittel', action: 'Nährstoffversorgung checken', details: 'Stelle sicher, dass dein Dünger korrekt dosiert ist und CalMag enthalten ist.' },
                 ];
                 content.followUpDays = 5;
                 content.preventiveTips = [
@@ -994,7 +994,7 @@ const stmtInsertDetailedFeedback = db.prepare(`
   VALUES (?, ?, ?, ?, ?, ?)
 `);
 
-app.post('/api/feedback', express.json({ limit: '30mb' }), (req, res) => {
+app.post('/api/feedback', rateLimit, express.json({ limit: '30mb' }), (req, res) => {
   try {
     const { rating, diagnosis, severity, confidence, substrate, fertilizer,
             fullDiagnosis, questionnaire, images } = req.body || {};
