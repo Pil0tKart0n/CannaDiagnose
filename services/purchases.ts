@@ -24,7 +24,7 @@ import { setPremium } from './quota';
  * Dann funktioniert alles automatisch!
  */
 
-// TODO: Ersetze mit deinem echten RevenueCat API Key
+// RevenueCat API Keys from .env (see .env.example)
 const REVENUECAT_API_KEY_GOOGLE = process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_KEY || '';
 const REVENUECAT_API_KEY_APPLE = process.env.EXPO_PUBLIC_REVENUECAT_APPLE_KEY || '';
 const ENTITLEMENT_ID = 'premium';
