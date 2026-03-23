@@ -23,6 +23,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 - Import-Order Violations in results.tsx und claude.ts
 - Array<T> Notation in i18n.ts zu T[] korrigiert
 - .gitignore: .aab Build-Artifacts ausgeschlossen
+- server/Dockerfile: db.js + routes/ fehlten nach Modularisierung
 
 ## [1.3.0] — 2026-03-23
 
