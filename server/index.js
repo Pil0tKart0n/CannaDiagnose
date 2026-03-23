@@ -282,6 +282,53 @@ const stmtInsertUsage = db.prepare(`
 
 const stmtInsertEvent = db.prepare(`INSERT INTO events (event, ip, device_id, platform, meta) VALUES (?, ?, ?, ?, ?)`);
 
+// ── Automatic data cleanup (GDPR retention) ──
+function cleanupOldData() {
+  try {
+    // IPs in scan_log: 7 days
+    db.prepare(`DELETE FROM scan_log WHERE scanned_at < datetime('now', '-7 days')`).run();
+    // Scan results: 90 days
+    db.prepare(`DELETE FROM scan_results WHERE created_at < datetime('now', '-90 days')`).run();
+    // Feedback: 90 days
+    db.prepare(`DELETE FROM feedback WHERE created_at < datetime('now', '-90 days')`).run();
+    // Detailed feedback: 90 days (+ delete images)
+    const oldFeedback = db.prepare(`SELECT image_paths FROM feedback_detailed WHERE created_at < datetime('now', '-90 days')`).all();
+    for (const row of oldFeedback) {
+      if (row.image_paths) {
+        try {
+          const paths = JSON.parse(row.image_paths);
+          for (const p of paths) {
+            const fp = path.join(feedbackImagesDir, p.replace(/[^a-zA-Z0-9._-]/g, ''));
+            if (fs.existsSync(fp)) fs.unlinkSync(fp);
+          }
+        } catch (e) {}
+      }
+    }
+    db.prepare(`DELETE FROM feedback_detailed WHERE created_at < datetime('now', '-90 days')`).run();
+    // Scan images: 90 days
+    const oldScans = db.prepare(`SELECT image_paths FROM scan_results WHERE created_at < datetime('now', '-90 days') AND image_paths IS NOT NULL`).all();
+    for (const row of oldScans) {
+      try {
+        const paths = JSON.parse(row.image_paths);
+        for (const p of paths) {
+          const fp = path.join(scanImagesDir, p.replace(/[^a-zA-Z0-9._-]/g, ''));
+          if (fs.existsSync(fp)) fs.unlinkSync(fp);
+        }
+      } catch (e) {}
+    }
+    // API usage: 90 days
+    db.prepare(`DELETE FROM api_usage WHERE created_at < datetime('now', '-90 days')`).run();
+    // Events: 90 days
+    db.prepare(`DELETE FROM events WHERE created_at < datetime('now', '-90 days')`).run();
+    console.log('[LeafScan] Data cleanup completed');
+  } catch (e) {
+    console.error('[LeafScan] Data cleanup error:', e.message);
+  }
+}
+// Run cleanup on startup and then daily
+cleanupOldData();
+setInterval(cleanupOldData, 24 * 60 * 60 * 1000);
+
 // Seed default promo codes (only if they don't exist yet)
 const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`);
 seedPromo.run('HOMEGROW', 10, 9999);
