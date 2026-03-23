@@ -638,7 +638,7 @@ Antworte NUR mit JSON:
           (content.primaryDiagnosis || '').substring(0, 500),
           content.severity || null,
           typeof content.confidence === 'number' ? content.confidence : null,
-          (questionnaire?.substrate || '').substring(0, 50),
+          ((req.body.questionnaire && req.body.questionnaire.substrate) || '').substring(0, 50),
           premiumSession ? 1 : 0,
           platform,
           JSON.stringify(content).substring(0, 10000)
