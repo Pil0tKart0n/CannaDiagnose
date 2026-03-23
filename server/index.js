@@ -195,6 +195,28 @@ try {
   db.exec(`CREATE INDEX IF NOT EXISTS idx_promo_device ON promo_redemptions(device_id)`);
 } catch (e) {}
 
+// Migration: scan_results table — stores every diagnosis result server-side
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS scan_results (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scan_log_id INTEGER,
+      ip TEXT,
+      mode TEXT NOT NULL DEFAULT 'diagnose',
+      diagnosis TEXT,
+      severity TEXT,
+      confidence REAL,
+      substrate TEXT,
+      is_premium INTEGER NOT NULL DEFAULT 0,
+      platform TEXT DEFAULT 'unknown',
+      result_json TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_scan_results_date ON scan_results(created_at);
+    CREATE INDEX IF NOT EXISTS idx_scan_results_scan ON scan_results(scan_log_id);
+  `);
+} catch (e) {}
+
 // Prepared statements for performance
 const stmtCountScans = db.prepare(`
   SELECT COUNT(*) as count FROM scan_log
@@ -238,6 +260,10 @@ const stmtCheckRedeemedByIp = db.prepare(`SELECT * FROM promo_redemptions WHERE 
 const stmtCheckRedeemedByDevice = db.prepare(`SELECT * FROM promo_redemptions WHERE device_id = ? AND device_id != '' LIMIT 1`);
 const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, device_id, expires_at) VALUES (?, ?, ?, datetime('now', '+' || ? || ' days'))`);
 const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE (ip = ? OR (device_id = ? AND device_id != '')) AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
+const stmtInsertScanResult = db.prepare(`
+  INSERT INTO scan_results (scan_log_id, ip, mode, diagnosis, severity, confidence, substrate, is_premium, platform, result_json)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
 
 // ── API usage tracking statements ──
 const stmtInsertUsage = db.prepare(`
@@ -595,6 +621,30 @@ Antworte NUR mit JSON:
         }
       } catch (textureErr) {
         console.log('[LeafScan] Texture check skipped:', textureErr.message);
+      }
+    }
+
+    // Save scan result to database for dashboard
+    if (openaiRes.ok && mode === 'diagnose') {
+      try {
+        const parsed = JSON.parse(data);
+        const content = JSON.parse(parsed.choices[0].message.content);
+        const lastScan = db.prepare(`SELECT id FROM scan_log WHERE ip = ? ORDER BY id DESC LIMIT 1`).get(ip);
+        const platform = req.headers['origin'] ? 'pwa' : 'apk';
+        stmtInsertScanResult.run(
+          lastScan ? lastScan.id : null,
+          ip,
+          mode,
+          (content.primaryDiagnosis || '').substring(0, 500),
+          content.severity || null,
+          typeof content.confidence === 'number' ? content.confidence : null,
+          (questionnaire?.substrate || '').substring(0, 50),
+          premiumSession ? 1 : 0,
+          platform,
+          JSON.stringify(content).substring(0, 10000)
+        );
+      } catch (e) {
+        console.log('[LeafScan] Scan result save skipped:', e.message);
       }
     }
 
@@ -1203,17 +1253,19 @@ app.get('/api/admin/stats/scans', (req, res) => {
   res.json({ days, data: rows });
 });
 
-// ── Top diagnoses ──
+// ── Top diagnoses (from scan_results, with optional feedback rating) ──
 app.get('/api/admin/stats/diagnoses', (req, res) => {
   if (!adminAuth(req, res)) return;
   const rows = db.prepare(`
-    SELECT diagnosis, COUNT(*) as count,
-           ROUND(AVG(confidence), 2) as avg_confidence,
-           SUM(CASE WHEN rating = 'positive' THEN 1 ELSE 0 END) as positive,
-           SUM(CASE WHEN rating = 'negative' THEN 1 ELSE 0 END) as negative
-    FROM feedback
-    WHERE diagnosis IS NOT NULL AND diagnosis != ''
-    GROUP BY diagnosis
+    SELECT sr.diagnosis, COUNT(*) as count,
+           ROUND(AVG(sr.confidence), 2) as avg_confidence,
+           SUM(CASE WHEN f.rating = 'positive' THEN 1 ELSE 0 END) as positive,
+           SUM(CASE WHEN f.rating = 'negative' THEN 1 ELSE 0 END) as negative
+    FROM scan_results sr
+    LEFT JOIN scan_log sl ON sl.id = sr.scan_log_id
+    LEFT JOIN feedback f ON f.created_at BETWEEN datetime(sl.scanned_at, '-5 minutes') AND datetime(sl.scanned_at, '+5 minutes')
+    WHERE sr.diagnosis IS NOT NULL AND sr.diagnosis != ''
+    GROUP BY sr.diagnosis
     ORDER BY count DESC
     LIMIT 20
   `).all();
@@ -1224,7 +1276,7 @@ app.get('/api/admin/stats/diagnoses', (req, res) => {
 app.get('/api/admin/stats/substrates', (req, res) => {
   if (!adminAuth(req, res)) return;
   const substrates = db.prepare(`
-    SELECT substrate, COUNT(*) as count FROM feedback
+    SELECT substrate, COUNT(*) as count FROM scan_results
     WHERE substrate IS NOT NULL AND substrate != ''
     GROUP BY substrate ORDER BY count DESC
   `).all();
@@ -1496,13 +1548,16 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
   if (!adminAuth(req, res)) return;
   const limit = Math.min(parseInt(req.query.limit) || 20, 100);
 
-  // Combine scan_log with feedback for recent activity
+  // Combine scan_log with scan_results and feedback for recent activity
   const scans = db.prepare(`
     SELECT sl.ip, sl.scanned_at,
-           f.diagnosis, f.severity, f.confidence, f.substrate, f.rating,
-           au.mode, au.total_tokens, au.platform
+           sr.diagnosis, sr.severity, sr.confidence, sr.substrate,
+           sr.mode, sr.platform,
+           f.rating,
+           au.total_tokens
     FROM scan_log sl
-    LEFT JOIN feedback f ON f.created_at BETWEEN datetime(sl.scanned_at, '-2 minutes') AND datetime(sl.scanned_at, '+2 minutes')
+    LEFT JOIN scan_results sr ON sr.scan_log_id = sl.id
+    LEFT JOIN feedback f ON f.created_at BETWEEN datetime(sl.scanned_at, '-5 minutes') AND datetime(sl.scanned_at, '+5 minutes')
     LEFT JOIN api_usage au ON au.created_at BETWEEN datetime(sl.scanned_at, '-1 minutes') AND datetime(sl.scanned_at, '+1 minutes') AND au.ip = sl.ip
     ORDER BY sl.scanned_at DESC
     LIMIT ?
