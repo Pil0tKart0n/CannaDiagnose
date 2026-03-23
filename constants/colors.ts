@@ -69,4 +69,9 @@ export const colors = {
   // Shadows
   shadowGreen: 'rgba(92,232,146,0.08)',
   shadowDark: 'rgba(0,0,0,0.55)',
+
+  // Landing page — premium tones
+  textHero: '#F0F5F1',
+  accentMoss: '#8BA88F',
+  accentForest: '#2D5A3E',
 };

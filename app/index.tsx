@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity, Modal, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
@@ -15,6 +23,9 @@ import { injectCSS } from '../constants/webStyles';
 import LegalFooter from '../components/LegalFooter';
 import InstallBanner from '../components/InstallBanner';
 
+const isWeb = Platform.OS === 'web';
+const sectionSpacing = isWeb ? 48 : 32;
+
 export default function HomeScreen() {
   const router = useRouter();
   const { reset } = useDiagnosis();
@@ -23,11 +34,11 @@ export default function HomeScreen() {
     const unsub = onLangChange((l) => setLangState(l));
     return unsub;
   }, []);
-  const [showInfo, setShowInfo] = useState(false);
   const [quotaText, setQuotaText] = useState('');
   const [quotaIsPremium, setQuotaIsPremium] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     injectCSS();
@@ -40,24 +51,25 @@ export default function HomeScreen() {
       const handler = (e: any) => {
         e.preventDefault();
         setInstallPrompt(e);
-        // Show banner if not already installed as PWA
         if (!window.matchMedia('(display-mode: standalone)').matches) {
           setShowInstallBanner(true);
         }
       };
       window.addEventListener('beforeinstallprompt', handler);
       cleanupInstallPrompt = () => window.removeEventListener('beforeinstallprompt', handler);
-      // Check if running as APK-like (Android without install prompt = probably already native)
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
       const isAndroid = /android/i.test(navigator.userAgent);
-      // Show APK download hint for Android users in browser (not standalone)
       if (isAndroid && !isStandalone) {
         setShowInstallBanner(true);
       }
     }
 
     // Check for Stripe payment success redirect — verify with server
-    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('session_id=')) {
+    if (
+      Platform.OS === 'web' &&
+      typeof window !== 'undefined' &&
+      window.location.search.includes('session_id=')
+    ) {
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get('session_id');
       if (sessionId) {
@@ -65,7 +77,6 @@ export default function HomeScreen() {
           .then((r) => (r.ok ? r.json() : Promise.reject()))
           .then((data) => {
             if (data.token) {
-              // Store server-issued token + mark premium locally
               setSessionToken(data.token);
               setPremium(true);
             }
@@ -99,7 +110,7 @@ export default function HomeScreen() {
     };
   }, []);
 
-  // Re-check quota every time the screen gets focus (e.g. after paywall/promo)
+  // Re-check quota every time the screen gets focus
   useFocusEffect(
     React.useCallback(() => {
       getQuotaDisplay()
@@ -112,7 +123,6 @@ export default function HomeScreen() {
   );
 
   const startDiagnosis = async () => {
-    // Check quota before navigating — don't waste user's time if limit reached
     try {
       const { canScan } = require('../services/quota');
       const quota = await canScan();
@@ -124,8 +134,6 @@ export default function HomeScreen() {
     reset();
     router.push('/camera');
   };
-
-  const isWeb = Platform.OS === 'web';
 
   // Shimmer animation for native premium button
   const shimmerAnim = useRef(new Animated.Value(0)).current;
@@ -148,17 +156,34 @@ export default function HomeScreen() {
     outputRange: [-200, 200],
   });
 
+  const faqItems = [
+    { q: t('landing.faq1Q'), a: t('landing.faq1A') },
+    { q: t('landing.faq2Q'), a: t('landing.faq2A') },
+    { q: t('landing.faq3Q'), a: t('landing.faq3A') },
+    { q: t('landing.faq4Q'), a: t('landing.faq4A') },
+  ];
+
   return (
     <View style={styles.screenBg}>
       {isWeb && <div className="cd-screen" style={{ position: 'absolute', inset: 0 } as any} />}
-      <SafeAreaView style={styles.container}>
-        <View style={styles.content}>
-          {/* Hero: Brand + Value Prop */}
-          <View style={styles.centerArea}>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* ===== SECTION 1: Hero ===== */}
+          <View style={styles.heroSection}>
             {Platform.OS === 'web' && <View style={styles.logoGlow} />}
             {Platform.OS === 'web' && <View style={styles.logoGlowWarm} />}
             {Platform.OS === 'web' && <View style={styles.orbitDot} />}
 
+            {/* Web-only headline above logo */}
+            {Platform.OS === 'web' && (
+              <Text style={styles.heroHeadline}>{t('landing.heroHeadline')}</Text>
+            )}
+
+            {/* Logo */}
             {Platform.OS === 'web' ? (
               <div className="cd-title-wrap">
                 <Text style={styles.title}>Leaf</Text>
@@ -179,64 +204,277 @@ export default function HomeScreen() {
 
             <Text style={styles.tagline}>Scan it. Fix it.</Text>
 
-            {quotaText ? (
-              <TouchableOpacity
-                style={[styles.quotaBadge, quotaIsPremium && styles.quotaBadgePremium]}
-                onPress={() => !quotaIsPremium && router.push('/paywall')}
-                activeOpacity={quotaIsPremium ? 1 : 0.7}
-              >
-                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>{quotaText}</Text>
-              </TouchableOpacity>
-            ) : null}
-
-            {/* How it works — 3-step flow */}
-            <View style={styles.stepsRow}>
-              <View style={styles.step}>
-                <View style={styles.stepIcon}>
-                  <Ionicons name="camera-outline" size={18} color={colors.accent} />
-                </View>
-                <Text style={styles.stepLabel}>{t('home.stepPhoto') || 'Foto'}</Text>
-              </View>
-              <View style={styles.stepLine} />
-              <View style={styles.step}>
-                <View style={styles.stepIcon}>
-                  <Ionicons name="leaf-outline" size={18} color={colors.accent} />
-                </View>
-                <Text style={styles.stepLabel}>{t('home.stepAnalysis') || 'Analyse'}</Text>
-              </View>
-              <View style={styles.stepLine} />
-              <View style={styles.step}>
-                <View style={styles.stepIcon}>
-                  <Ionicons name="checkmark-done-outline" size={18} color={colors.accent} />
-                </View>
-                <Text style={styles.stepLabel}>{t('home.stepPlan') || 'Aktionsplan'}</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* CTA Area — Primary action dominates */}
-          <View style={styles.buttons}>
+            {/* Primary CTA */}
             {isWeb ? (
               <div
                 className="cd-btn-primary"
                 onClick={startDiagnosis}
-                style={{ padding: '18px 24px', textAlign: 'center' } as any}
+                style={{ padding: '18px 24px', textAlign: 'center', width: '100%', maxWidth: 400 } as any}
               >
-                <Text style={styles.primaryBtnText}>{t('home.scan')}</Text>
+                <Text style={styles.primaryBtnText}>{t('landing.heroCta')}</Text>
               </div>
             ) : (
-              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85}>
+              <TouchableOpacity onPress={startDiagnosis} activeOpacity={0.85} style={styles.ctaFullWidth}>
                 <LinearGradient
                   colors={['#6AF09E', '#5CE892', '#44C878']}
                   start={{ x: 0.5, y: 0 }}
                   end={{ x: 0.5, y: 1 }}
                   style={styles.nativePrimaryBtn}
                 >
-                  <Text style={styles.primaryBtnText}>{t('home.scan')}</Text>
+                  <Text style={styles.primaryBtnText}>{t('landing.heroCta')}</Text>
                 </LinearGradient>
               </TouchableOpacity>
             )}
-            {/* Secondary nav */}
+
+            {/* Quota badge */}
+            {quotaText ? (
+              <TouchableOpacity
+                style={[styles.quotaBadge, quotaIsPremium && styles.quotaBadgePremium]}
+                onPress={() => !quotaIsPremium && router.push('/paywall')}
+                activeOpacity={quotaIsPremium ? 1 : 0.7}
+              >
+                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>
+                  {quotaText}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+
+          {/* ===== SECTION 2: Trust Bar ===== */}
+          <View style={[styles.trustBar, { marginTop: sectionSpacing }]}>
+            <View style={styles.trustItem}>
+              <Ionicons name="leaf" size={14} color={colors.accentMoss} />
+              <Text style={styles.trustText}>{t('landing.trustDiagnoses')}</Text>
+            </View>
+            <View style={styles.trustDivider} />
+            <View style={styles.trustItem}>
+              <Ionicons name="checkmark-circle" size={14} color={colors.accentMoss} />
+              <Text style={styles.trustText}>{t('landing.trustPlan')}</Text>
+            </View>
+            <View style={styles.trustDivider} />
+            <View style={styles.trustItem}>
+              <Ionicons name="book" size={14} color={colors.accentMoss} />
+              <Text style={styles.trustText}>{t('landing.trustLibrary')}</Text>
+            </View>
+          </View>
+
+          {/* ===== SECTION 3: How It Works ===== */}
+          <View style={[styles.section, { marginTop: sectionSpacing }]}>
+            <View style={styles.sectionHeadingRow}>
+              <View style={styles.sectionAccentBar} />
+              <Text style={styles.sectionHeading}>{t('landing.howTitle')}</Text>
+            </View>
+            <View style={styles.stepsContainer}>
+              {/* Step 1 */}
+              <View style={styles.stepItem}>
+                <View style={styles.stepIconCircle}>
+                  <Ionicons name="camera-outline" size={22} color={colors.accent} />
+                </View>
+                <Text style={styles.stepTitle}>{t('landing.step1Title')}</Text>
+                <Text style={styles.stepDesc}>{t('landing.step1Desc')}</Text>
+              </View>
+              <View style={styles.stepConnector} />
+              {/* Step 2 */}
+              <View style={styles.stepItem}>
+                <View style={styles.stepIconCircle}>
+                  <Ionicons name="chatbubble-outline" size={22} color={colors.accent} />
+                </View>
+                <Text style={styles.stepTitle}>{t('landing.step2Title')}</Text>
+                <Text style={styles.stepDesc}>{t('landing.step2Desc')}</Text>
+              </View>
+              <View style={styles.stepConnector} />
+              {/* Step 3 */}
+              <View style={styles.stepItem}>
+                <View style={styles.stepIconCircle}>
+                  <Ionicons name="checkmark-done-outline" size={22} color={colors.accent} />
+                </View>
+                <Text style={styles.stepTitle}>{t('landing.step3Title')}</Text>
+                <Text style={styles.stepDesc}>{t('landing.step3Desc')}</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* ===== SECTION 4: Sample Result Preview (web only) ===== */}
+          {Platform.OS === 'web' && (
+            <View style={[styles.section, { marginTop: sectionSpacing }]}>
+              <View style={styles.sectionHeadingRow}>
+                <View style={styles.sectionAccentBar} />
+                <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
+              </View>
+              <View style={styles.sampleCard}>
+                <View style={styles.sampleHeader}>
+                  <View style={styles.sampleIconWrap}>
+                    <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
+                  </View>
+                  <View style={styles.sampleHeaderText}>
+                    <Text style={styles.sampleDiagName}>Stickstoff(N)-Mangel</Text>
+                    <Text style={styles.sampleDiagType}>Nutrient Deficiency</Text>
+                  </View>
+                </View>
+                <View style={styles.sampleMetaRow}>
+                  <View style={styles.sampleMetaItem}>
+                    <Text style={styles.sampleMetaLabel}>Severity</Text>
+                    <View style={styles.sampleSeverityBadge}>
+                      <Text style={styles.sampleSeverityText}>Mittel</Text>
+                    </View>
+                  </View>
+                  <View style={styles.sampleMetaItem}>
+                    <Text style={styles.sampleMetaLabel}>Confidence</Text>
+                    <Text style={styles.sampleConfidence}>78%</Text>
+                  </View>
+                </View>
+                <View style={styles.sampleActions}>
+                  <View style={styles.sampleActionItem}>
+                    <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                    <Text style={styles.sampleActionText}>pH-Wert auf 6.0-6.5 korrigieren</Text>
+                  </View>
+                  <View style={styles.sampleActionItem}>
+                    <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                    <Text style={styles.sampleActionText}>Stickstoffreichen Dunger verwenden</Text>
+                  </View>
+                </View>
+                {/* Bottom fade overlay */}
+                <View style={styles.sampleFade}>
+                  <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* ===== SECTION 5: Why LeafScan (web only) ===== */}
+          {Platform.OS === 'web' && (
+            <View style={[styles.section, { marginTop: sectionSpacing }]}>
+              <View style={styles.sectionHeadingRow}>
+                <View style={styles.sectionAccentBar} />
+                <Text style={styles.sectionHeading}>{t('landing.whyTitle')}</Text>
+              </View>
+              <View style={styles.benefitsRow}>
+                <View style={styles.benefitCard}>
+                  <View style={styles.benefitIconWrap}>
+                    <Ionicons name="flash-outline" size={24} color={colors.accent} />
+                  </View>
+                  <Text style={styles.benefitTitle}>{t('landing.benefit1Title')}</Text>
+                  <Text style={styles.benefitDesc}>{t('landing.benefit1Desc')}</Text>
+                </View>
+                <View style={styles.benefitCard}>
+                  <View style={styles.benefitIconWrap}>
+                    <Ionicons name="list-outline" size={24} color={colors.accent} />
+                  </View>
+                  <Text style={styles.benefitTitle}>{t('landing.benefit2Title')}</Text>
+                  <Text style={styles.benefitDesc}>{t('landing.benefit2Desc')}</Text>
+                </View>
+                <View style={styles.benefitCard}>
+                  <View style={styles.benefitIconWrap}>
+                    <Ionicons name="trending-up-outline" size={24} color={colors.accent} />
+                  </View>
+                  <Text style={styles.benefitTitle}>{t('landing.benefit3Title')}</Text>
+                  <Text style={styles.benefitDesc}>{t('landing.benefit3Desc')}</Text>
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* ===== SECTION 6: Premium Teaser ===== */}
+          {!quotaIsPremium && (
+            <View style={[styles.section, { marginTop: sectionSpacing }]}>
+              {isWeb ? (
+                <View style={styles.premiumCard}>
+                  <Text style={styles.premiumCardTitle}>{t('landing.premiumTitle')}</Text>
+                  <View style={styles.premiumFeatures}>
+                    <View style={styles.premiumFeatureRow}>
+                      <Text style={styles.premiumFeatureIcon}>◆</Text>
+                      <Text style={styles.premiumFeatureText}>{t('landing.premiumFeature1')}</Text>
+                    </View>
+                    <View style={styles.premiumFeatureRow}>
+                      <Text style={styles.premiumFeatureIcon}>◆</Text>
+                      <Text style={styles.premiumFeatureText}>{t('landing.premiumFeature2')}</Text>
+                    </View>
+                    <View style={styles.premiumFeatureRow}>
+                      <Text style={styles.premiumFeatureIcon}>◆</Text>
+                      <Text style={styles.premiumFeatureText}>{t('landing.premiumFeature3')}</Text>
+                    </View>
+                  </View>
+                  <div
+                    className="cd-btn-premium"
+                    onClick={() => router.push('/paywall')}
+                    style={
+                      {
+                        padding: '14px 20px',
+                        textAlign: 'center',
+                        marginTop: 16,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      } as any
+                    }
+                  >
+                    <View style={styles.premiumCtaRow}>
+                      <Text style={styles.premiumIcon}>◆</Text>
+                      <Text style={styles.premiumBtnText}>{t('landing.premiumCta')}</Text>
+                      <Text style={styles.premiumArrow}>→</Text>
+                    </View>
+                  </div>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.premiumBtn}
+                  onPress={() => router.push('/paywall')}
+                  activeOpacity={0.7}
+                >
+                  <Animated.View
+                    style={[
+                      styles.premiumShimmer,
+                      { transform: [{ translateX: shimmerTranslateX }, { skewX: '-15deg' }] },
+                    ]}
+                  >
+                    <LinearGradient
+                      colors={['transparent', 'rgba(255,215,0,0.10)', 'transparent']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={{ flex: 1 }}
+                    />
+                  </Animated.View>
+                  <View style={styles.premiumCtaRow}>
+                    <Text style={styles.premiumIcon}>◆</Text>
+                    <Text style={styles.premiumBtnText}>{t('home.unlockPremium')}</Text>
+                    <Text style={styles.premiumArrow}>→</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+          )}
+
+          {/* ===== SECTION 7: FAQ (web only) ===== */}
+          {Platform.OS === 'web' && (
+            <View style={[styles.section, { marginTop: sectionSpacing }]}>
+              <View style={styles.sectionHeadingRow}>
+                <View style={styles.sectionAccentBar} />
+                <Text style={styles.sectionHeading}>{t('landing.faqTitle')}</Text>
+              </View>
+              {faqItems.map((item, idx) => (
+                <TouchableOpacity
+                  key={idx}
+                  style={styles.faqItem}
+                  onPress={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.faqQuestionRow}>
+                    <Text style={styles.faqQuestion}>{item.q}</Text>
+                    <Ionicons
+                      name={openFaq === idx ? 'chevron-up' : 'chevron-down'}
+                      size={18}
+                      color={colors.textSecondary}
+                    />
+                  </View>
+                  {openFaq === idx && <Text style={styles.faqAnswer}>{item.a}</Text>}
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          {/* ===== SECTION 8: Final Section ===== */}
+          <View style={[styles.section, { marginTop: sectionSpacing }]}>
+            {/* Nav buttons row */}
             <View style={styles.navRow}>
               {isWeb ? (
                 <>
@@ -288,97 +526,42 @@ export default function HomeScreen() {
                 </>
               )}
             </View>
-          </View>
 
-          {/* Install banner -- PWA or APK download for Android web users */}
-          {isWeb && showInstallBanner && (
-            <InstallBanner
-              installPrompt={installPrompt}
-              onInstallComplete={() => setShowInstallBanner(false)}
-              onClearPrompt={() => setInstallPrompt(null)}
-              onDismiss={() => setShowInstallBanner(false)}
-            />
-          )}
+            {/* Install banner */}
+            {isWeb && showInstallBanner && (
+              <InstallBanner
+                installPrompt={installPrompt}
+                onInstallComplete={() => setShowInstallBanner(false)}
+                onClearPrompt={() => setInstallPrompt(null)}
+                onDismiss={() => setShowInstallBanner(false)}
+              />
+            )}
 
-          {/* Premium upgrade link — always visible for non-premium */}
-          {!quotaIsPremium &&
-            (isWeb ? (
-              <div
-                className="cd-btn-premium"
-                onClick={() => router.push('/paywall')}
-                style={
-                  {
-                    padding: '12px 16px',
-                    textAlign: 'center',
-                    marginTop: 8,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  } as any
-                }
+            {/* Language toggle */}
+            <View style={styles.langToggleWrap}>
+              <TouchableOpacity
+                style={styles.langToggle}
+                onPress={async () => {
+                  const newLang = getLang() === 'de' ? 'en' : 'de';
+                  await setLang(newLang);
+                }}
+                activeOpacity={0.7}
               >
-                <View style={styles.premiumRow}>
-                  <Text style={styles.premiumIcon}>◆</Text>
-                  <Text style={styles.premiumBtnText}>{t('home.unlockPremium')}</Text>
-                  <Text style={styles.premiumArrow}>→</Text>
-                </View>
-              </div>
-            ) : (
-              <TouchableOpacity style={styles.premiumBtn} onPress={() => router.push('/paywall')} activeOpacity={0.7}>
-                <Animated.View
-                  style={[
-                    styles.premiumShimmer,
-                    { transform: [{ translateX: shimmerTranslateX }, { skewX: '-15deg' }] },
-                  ]}
-                >
-                  <LinearGradient
-                    colors={['transparent', 'rgba(255,215,0,0.10)', 'transparent']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={{ flex: 1 }}
-                  />
-                </Animated.View>
-                <View style={styles.premiumRow}>
-                  <Text style={styles.premiumIcon}>◆</Text>
-                  <Text style={styles.premiumBtnText}>{t('home.unlockPremium')}</Text>
-                  <Text style={styles.premiumArrow}>→</Text>
-                </View>
+                <Text style={[styles.langOption, getLang() === 'de' && styles.langOptionActive]}>
+                  DE
+                </Text>
+                <Text style={styles.langDividerText}>|</Text>
+                <Text style={[styles.langOption, getLang() === 'en' && styles.langOptionActive]}>
+                  EN
+                </Text>
               </TouchableOpacity>
-            ))}
+            </View>
 
-          {/* Language toggle */}
-          <View style={styles.langToggleWrap}>
-            <TouchableOpacity
-              style={styles.langToggle}
-              onPress={async () => {
-                const newLang = getLang() === 'de' ? 'en' : 'de';
-                await setLang(newLang);
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.langOption, getLang() === 'de' && styles.langOptionActive]}>DE</Text>
-              <Text style={styles.langDivider}>|</Text>
-              <Text style={[styles.langOption, getLang() === 'en' && styles.langOptionActive]}>EN</Text>
-            </TouchableOpacity>
+            {/* Legal footer */}
+            <LegalFooter onNavigate={(path) => router.push(path as any)} />
           </View>
-
-          {/* Legal footer */}
-          <LegalFooter onNavigate={(path) => router.push(path as any)} />
-        </View>
+        </ScrollView>
       </SafeAreaView>
-
-      {/* Info Modal */}
-      <Modal visible={showInfo} transparent animationType="fade">
-        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={() => setShowInfo(false)}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>{t('modal.howTitle')}</Text>
-            <Text style={styles.modalText}>{t('modal.howText')}</Text>
-            <TouchableOpacity onPress={() => setShowInfo(false)} style={styles.modalClose}>
-              <Text style={styles.modalCloseText}>{t('modal.understood')}</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
     </View>
   );
 }
@@ -388,22 +571,35 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  container: { flex: 1 },
-  content: {
+  safeArea: {
     flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
     paddingHorizontal: 24,
-    paddingBottom: 20,
+    paddingBottom: 40,
     ...Platform.select({
-      web: { minHeight: '100%' },
+      web: { maxWidth: 640, alignSelf: 'center' as const, width: '100%' as any },
+      default: {},
     }),
   },
 
-  // Center
-  centerArea: {
-    flex: 1,
+  // ── Hero ──────────────────────────────────────────────
+  heroSection: {
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: isWeb ? 60 : 32,
+    paddingBottom: 8,
+  },
+  heroHeadline: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: colors.textHero,
+    textAlign: 'center',
+    letterSpacing: 0.3,
+    lineHeight: 32,
+    marginBottom: 32,
   },
   logoGlow: {
     position: 'absolute',
@@ -411,9 +607,12 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 150,
     backgroundColor: 'rgba(92,232,146,0.07)',
-    top: '20%',
+    top: '15%',
     ...Platform.select({
-      web: { filter: 'blur(100px)', animation: 'cd-bg-breathe 6s ease-in-out infinite' },
+      web: {
+        filter: 'blur(100px)',
+        animation: 'cd-bg-breathe 6s ease-in-out infinite',
+      },
       default: {},
     }),
   },
@@ -423,10 +622,13 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     backgroundColor: 'rgba(212,168,83,0.05)',
-    top: '30%',
+    top: '25%',
     left: '60%',
     ...Platform.select({
-      web: { filter: 'blur(80px)', animation: 'cd-bg-breathe 8s ease-in-out infinite 3s' },
+      web: {
+        filter: 'blur(80px)',
+        animation: 'cd-bg-breathe 8s ease-in-out infinite 3s',
+      },
       default: {},
     }),
   },
@@ -436,9 +638,12 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
     backgroundColor: 'rgba(92,232,146,0.4)',
-    top: '40%',
+    top: '35%',
     ...Platform.select({
-      web: { animation: 'cd-glow-orbit 12s linear infinite', boxShadow: '0 0 12px rgba(92,232,146,0.4)' },
+      web: {
+        animation: 'cd-glow-orbit 12s linear infinite',
+        boxShadow: '0 0 12px rgba(92,232,146,0.4)',
+      },
       default: {},
     }),
   },
@@ -459,55 +664,11 @@ const styles = StyleSheet.create({
     marginTop: -8,
     textAlign: 'center',
     ...Platform.select({
-      web: { textShadow: '0 0 40px rgba(92,232,146,0.3), 0 0 80px rgba(92,232,146,0.1)' },
+      web: {
+        textShadow: '0 0 40px rgba(92,232,146,0.3), 0 0 80px rgba(92,232,146,0.1)',
+      },
       default: {},
     }),
-  },
-  tagline: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.textMuted,
-    letterSpacing: 6,
-    textTransform: 'uppercase',
-    marginBottom: 16,
-  },
-  // Steps row
-  stepsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 0,
-    marginTop: 24,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  step: {
-    alignItems: 'center',
-    gap: 8,
-    width: 72,
-  },
-  stepIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(92,232,146,0.08)',
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  stepLabel: {
-    fontSize: 10,
-    color: 'rgba(228,235,230,0.45)',
-    fontWeight: '500',
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
-  stepLine: {
-    width: 32,
-    height: 1,
-    backgroundColor: 'rgba(92,232,146,0.15)',
-    marginBottom: 22,
   },
   dividerWrap: {
     flexDirection: 'row',
@@ -527,44 +688,40 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '45deg' }],
     opacity: 0.4,
   },
-  ctaSubtext: {
-    fontSize: 12,
-    color: colors.textMuted,
-    textAlign: 'center',
-    marginTop: 10,
-    letterSpacing: 0.3,
-  },
-  navRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 12,
-  },
-  navBtn: {
-    borderRadius: 12,
-    paddingVertical: 12,
-    alignItems: 'center',
-    backgroundColor: 'rgba(92,232,146,0.06)',
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.15)',
-  },
-  navBtnText: {
-    color: 'rgba(228,235,230,0.7)',
-    fontSize: 13,
+  tagline: {
+    fontSize: 14,
     fontWeight: '600',
+    color: colors.textMuted,
+    letterSpacing: 6,
+    textTransform: 'uppercase',
+    marginBottom: 28,
+  },
+  ctaFullWidth: {
+    width: '100%',
+  },
+  nativePrimaryBtn: {
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: 'center',
+    overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#5CE892',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 16,
+      },
+      android: { elevation: 8 },
+    }),
+  },
+  primaryBtnText: {
+    color: colors.textOnAccent,
+    fontSize: 15,
+    fontWeight: '700',
     letterSpacing: 0.5,
   },
-  valueProp: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginTop: 4,
-    letterSpacing: 0.3,
-  },
-
-  // Quota badge
   quotaBadge: {
-    marginTop: 12,
+    marginTop: 16,
     paddingVertical: 4,
     paddingHorizontal: 12,
     borderRadius: 20,
@@ -586,38 +743,270 @@ const styles = StyleSheet.create({
     color: colors.accentWarm,
   },
 
-  // Language toggle
-  langToggleWrap: {
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  langToggle: {
+  // ── Trust Bar ─────────────────────────────────────────
+  trustBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(92,232,146,0.06)',
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.15)',
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    gap: 8,
+    justifyContent: 'center',
+    paddingVertical: 12,
+    gap: 0,
   },
-  langOption: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: colors.textMuted,
-    letterSpacing: 0.5,
+  trustItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 10,
   },
-  langOptionActive: {
-    color: colors.accent,
+  trustText: {
+    fontSize: 11,
+    color: colors.accentMoss,
+    fontWeight: '500',
+    letterSpacing: 0.3,
   },
-  langDivider: {
-    fontSize: 13,
-    color: 'rgba(92,232,146,0.2)',
-    fontWeight: '300',
+  trustDivider: {
+    width: 1,
+    height: 14,
+    backgroundColor: 'rgba(139,168,143,0.25)',
   },
 
-  // Premium upgrade
+  // ── Section Shared ────────────────────────────────────
+  section: {
+    width: '100%',
+  },
+  sectionHeadingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 20,
+  },
+  sectionAccentBar: {
+    width: 3,
+    height: 20,
+    backgroundColor: colors.accentForest,
+    borderRadius: 2,
+  },
+  sectionHeading: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: colors.textHero,
+    letterSpacing: 0.5,
+  },
+
+  // ── How It Works Steps ────────────────────────────────
+  stepsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  stepItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  stepIconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.accentForest,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  stepTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.textHero,
+    letterSpacing: 0.3,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  stepDesc: {
+    fontSize: 11,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 16,
+    paddingHorizontal: 4,
+  },
+  stepConnector: {
+    width: 24,
+    height: 1,
+    backgroundColor: 'rgba(92,232,146,0.15)',
+    marginTop: 24,
+  },
+
+  // ── Sample Result (web only) ──────────────────────────
+  sampleCard: {
+    backgroundColor: colors.cardDark,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 16,
+    padding: 20,
+    overflow: 'hidden',
+  },
+  sampleHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 16,
+  },
+  sampleIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: 'rgba(212,168,83,0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sampleHeaderText: {
+    flex: 1,
+  },
+  sampleDiagName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.textHero,
+    letterSpacing: 0.3,
+  },
+  sampleDiagType: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginTop: 2,
+  },
+  sampleMetaRow: {
+    flexDirection: 'row',
+    gap: 20,
+    marginBottom: 16,
+  },
+  sampleMetaItem: {
+    gap: 4,
+  },
+  sampleMetaLabel: {
+    fontSize: 10,
+    color: colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    fontWeight: '500',
+  },
+  sampleSeverityBadge: {
+    backgroundColor: 'rgba(212,168,83,0.12)',
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+  },
+  sampleSeverityText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.severityMedium,
+  },
+  sampleConfidence: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textHero,
+  },
+  sampleActions: {
+    gap: 8,
+    marginBottom: 24,
+  },
+  sampleActionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  sampleActionText: {
+    fontSize: 13,
+    color: colors.textSecondary,
+  },
+  sampleFade: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 12,
+    ...Platform.select({
+      web: {
+        background: `linear-gradient(transparent, ${colors.cardDark})`,
+      },
+      default: {
+        backgroundColor: colors.cardDark,
+      },
+    }),
+  },
+  sampleFadeText: {
+    fontSize: 12,
+    color: colors.accent,
+    fontWeight: '600',
+    letterSpacing: 0.3,
+  },
+
+  // ── Why LeafScan Benefits (web only) ──────────────────
+  benefitsRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  benefitCard: {
+    flex: 1,
+    backgroundColor: colors.cardDark,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
+  },
+  benefitIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(92,232,146,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  benefitTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textHero,
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+  benefitDesc: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+
+  // ── Premium Teaser ────────────────────────────────────
+  premiumCard: {
+    backgroundColor: colors.cardDark,
+    borderWidth: 1,
+    borderColor: 'rgba(218,165,32,0.35)',
+    borderRadius: 16,
+    padding: 24,
+  },
+  premiumCardTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.textHero,
+    marginBottom: 16,
+  },
+  premiumFeatures: {
+    gap: 10,
+  },
+  premiumFeatureRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  premiumFeatureIcon: {
+    fontSize: 10,
+    color: '#DAA520',
+  },
+  premiumFeatureText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+  },
   premiumBtn: {
     borderRadius: 12,
     paddingVertical: 12,
@@ -625,7 +1014,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(218,165,32,0.06)',
     borderWidth: 1,
     borderColor: 'rgba(218,165,32,0.35)',
-    marginTop: 4,
     overflow: 'hidden',
   },
   premiumShimmer: {
@@ -634,7 +1022,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: 120,
   },
-  premiumRow: {
+  premiumCtaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -656,92 +1044,85 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
 
-  // Buttons
-  buttons: { gap: 10 },
-  secondaryRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  nativePrimaryBtn: {
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-    overflow: 'hidden',
-    ...Platform.select({
-      ios: { shadowColor: '#5CE892', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.3, shadowRadius: 16 },
-      android: { elevation: 8 },
-    }),
-  },
-  nativeSecondaryBtn: {
-    borderRadius: 12,
-    paddingVertical: 11,
-    alignItems: 'center',
-    backgroundColor: 'rgba(15,23,19,0.5)',
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.06)',
-  },
-  primaryBtnText: {
-    color: colors.textOnAccent,
-    fontSize: 15,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  secondaryBtnText: {
-    color: colors.textMuted,
-    fontSize: 13,
-    fontWeight: '500',
-    letterSpacing: 0.3,
-  },
-
-  // Modal
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 32,
-  },
-  modalCard: {
-    backgroundColor: colors.surfaceElevated,
-    borderRadius: 20,
-    padding: 24,
-    width: '100%',
-    maxWidth: 340,
+  // ── FAQ (web only) ────────────────────────────────────
+  faqItem: {
+    backgroundColor: colors.cardDark,
     borderWidth: 1,
     borderColor: colors.border,
-    ...Platform.select({
-      web: {
-        backdropFilter: 'blur(40px)',
-        backgroundColor: 'rgba(26,36,31,0.92)',
-        boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
-      },
-      ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 16 }, shadowOpacity: 0.5, shadowRadius: 30 },
-      android: { elevation: 20 },
-    }),
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 8,
   },
-  modalTitle: {
-    fontSize: 20,
+  faqQuestionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  faqQuestion: {
+    fontSize: 14,
     fontWeight: '600',
-    color: colors.text,
+    color: colors.textHero,
+    flex: 1,
+    marginRight: 12,
+  },
+  faqAnswer: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    lineHeight: 20,
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+
+  // ── Final Section: Nav / Footer ───────────────────────
+  navRow: {
+    flexDirection: 'row',
+    gap: 8,
     marginBottom: 16,
   },
-  modalText: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    lineHeight: 24,
-    marginBottom: 24,
-  },
-  modalClose: {
-    backgroundColor: colors.accentSubtle,
+  navBtn: {
     borderRadius: 12,
-    paddingVertical: 14,
+    paddingVertical: 12,
     alignItems: 'center',
+    backgroundColor: 'rgba(92,232,146,0.06)',
     borderWidth: 1,
-    borderColor: colors.borderAccent,
+    borderColor: 'rgba(92,232,146,0.15)',
   },
-  modalCloseText: {
-    color: colors.accent,
-    fontSize: 15,
+  navBtnText: {
+    color: 'rgba(228,235,230,0.7)',
+    fontSize: 13,
     fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  langToggleWrap: {
+    alignItems: 'center',
+    marginBottom: 12,
+    marginTop: 8,
+  },
+  langToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(92,232,146,0.06)',
+    borderWidth: 1,
+    borderColor: 'rgba(92,232,146,0.15)',
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    gap: 8,
+  },
+  langOption: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.textMuted,
+    letterSpacing: 0.5,
+  },
+  langOptionActive: {
+    color: colors.accent,
+  },
+  langDividerText: {
+    fontSize: 13,
+    color: 'rgba(92,232,146,0.2)',
+    fontWeight: '300',
   },
 });
