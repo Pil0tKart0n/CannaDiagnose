@@ -1551,17 +1551,22 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
   if (!adminAuth(req, res)) return;
   const limit = Math.min(parseInt(req.query.limit) || 20, 100);
 
-  // Combine scan_log with scan_results and feedback for recent activity
+  // Combine scan_log with scan_results for recent activity
+  // Feedback rating is matched separately via subquery (same IP + closest match)
   const scans = db.prepare(`
     SELECT sl.ip, sl.scanned_at,
            sr.diagnosis, sr.severity, sr.confidence, sr.substrate,
            sr.mode, sr.platform, sr.is_premium,
-           f.rating,
+           (SELECT f.rating FROM feedback f
+            WHERE f.created_at BETWEEN datetime(sl.scanned_at, '-2 minutes') AND datetime(sl.scanned_at, '+5 minutes')
+            AND f.diagnosis = sr.diagnosis
+            ORDER BY ABS(julianday(f.created_at) - julianday(sl.scanned_at))
+            LIMIT 1
+           ) as rating,
            au.total_tokens
     FROM scan_log sl
     LEFT JOIN scan_results sr ON sr.scan_log_id = sl.id
        OR (sr.scan_log_id IS NULL AND sr.ip = sl.ip AND sr.created_at BETWEEN datetime(sl.scanned_at, '-1 minutes') AND datetime(sl.scanned_at, '+1 minutes'))
-    LEFT JOIN feedback f ON f.created_at BETWEEN datetime(sl.scanned_at, '-5 minutes') AND datetime(sl.scanned_at, '+5 minutes')
     LEFT JOIN api_usage au ON au.created_at BETWEEN datetime(sl.scanned_at, '-1 minutes') AND datetime(sl.scanned_at, '+1 minutes') AND au.ip = sl.ip
     ORDER BY sl.scanned_at DESC
     LIMIT ?
