@@ -19,6 +19,8 @@ import { hasCompletedOnboarding } from './onboarding';
 import { trackEvent } from '../services/analytics';
 import { t, getLang, setLang, onLangChange } from '../services/i18n';
 import { injectCSS } from '../constants/webStyles';
+import LegalFooter from '../components/LegalFooter';
+import InstallBanner from '../components/InstallBanner';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -244,41 +246,14 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Install banner — PWA or APK download for Android web users */}
+          {/* Install banner -- PWA or APK download for Android web users */}
           {isWeb && showInstallBanner && (
-            <View style={styles.installBanner}>
-              {installPrompt ? (
-                <TouchableOpacity
-                  style={styles.installBtn}
-                  onPress={async () => {
-                    installPrompt.prompt();
-                    const result = await installPrompt.userChoice;
-                    if (result.outcome === 'accepted') {
-                      setShowInstallBanner(false);
-                    }
-                    setInstallPrompt(null);
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <Text style={styles.installBtnText}>{t('home.install')}</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.installBtn}
-                  onPress={() => {
-                    if (typeof window !== 'undefined') {
-                      window.open('/download/leafscan.apk', '_blank');
-                    }
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <Text style={styles.installBtnText}>{t('home.downloadAndroid')}</Text>
-                </TouchableOpacity>
-              )}
-              <TouchableOpacity onPress={() => setShowInstallBanner(false)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                <Text style={styles.installDismiss}>{t('home.notNow')}</Text>
-              </TouchableOpacity>
-            </View>
+            <InstallBanner
+              installPrompt={installPrompt}
+              onInstallComplete={() => setShowInstallBanner(false)}
+              onClearPrompt={() => setInstallPrompt(null)}
+              onDismiss={() => setShowInstallBanner(false)}
+            />
           )}
 
           {/* Premium upgrade link — always visible for non-premium */}
@@ -337,24 +312,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Legal footer */}
-          <View style={styles.legalFooter}>
-            <Text style={styles.legalText}>
-              {t('home.internetRequired')}
-            </Text>
-          </View>
-          <View style={styles.legalFooter}>
-            <TouchableOpacity onPress={() => router.push('/privacy')}>
-              <Text style={styles.legalLink}>{t('home.privacy')}</Text>
-            </TouchableOpacity>
-            <Text style={styles.legalDot}>·</Text>
-            <TouchableOpacity onPress={() => router.push('/terms')}>
-              <Text style={styles.legalLink}>{t('home.terms')}</Text>
-            </TouchableOpacity>
-            <Text style={styles.legalDot}>·</Text>
-            <TouchableOpacity onPress={() => router.push('/impressum')}>
-              <Text style={styles.legalLink}>{t('home.impressum')}</Text>
-            </TouchableOpacity>
-          </View>
+          <LegalFooter onNavigate={(path) => router.push(path as any)} />
         </View>
       </SafeAreaView>
 
@@ -544,33 +502,6 @@ const styles = StyleSheet.create({
     color: colors.accentWarm,
   },
 
-  // Install banner
-  installBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    marginBottom: 8,
-  },
-  installBtn: {
-    backgroundColor: colors.accentSubtle,
-    borderWidth: 1,
-    borderColor: colors.accent,
-    borderRadius: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  installBtnText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: colors.accent,
-  },
-  installDismiss: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
 
   // Language toggle
   langToggleWrap: {
@@ -603,29 +534,6 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
 
-  // Legal footer
-  legalFooter: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 8,
-  },
-  legalText: {
-    fontSize: 10,
-    color: colors.textMuted,
-    letterSpacing: 0.2,
-  },
-  legalLink: {
-    fontSize: 10,
-    color: colors.textMuted,
-    letterSpacing: 0.2,
-    textDecorationLine: 'underline',
-  },
-  legalDot: {
-    fontSize: 10,
-    color: colors.textMuted,
-  },
 
   // Premium upgrade
   premiumBtn: {
