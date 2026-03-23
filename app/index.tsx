@@ -373,6 +373,19 @@ export default function HomeScreen() {
                       pointerEvents: 'none',
                     } as any}
                   />
+                  {/* Hint: light sweep inviting downward drag */}
+                  {leafSlider < 0.02 && (
+                    <div className="cd-leaf-hint" style={{
+                      position: 'absolute',
+                      top: '-10%',
+                      left: 0,
+                      right: 0,
+                      height: 80,
+                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.03) 20%, rgba(150,255,190,0.12) 45%, rgba(255,255,255,0.18) 50%, rgba(150,255,190,0.12) 55%, rgba(92,232,146,0.03) 80%, transparent 100%)',
+                      pointerEvents: 'none',
+                      filter: 'blur(2px)',
+                    } as any} />
+                  )}
                   {/* Scan beam — convex pipe with animated shimmer */}
                   <div className="cd-scan-beam" style={{
                     position: 'absolute',
@@ -387,47 +400,51 @@ export default function HomeScreen() {
                     {/* Outer glow */}
                     <div style={{
                       position: 'absolute',
-                      inset: '-20px 0',
-                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(92,232,146,0.10) 40%, rgba(92,232,146,0.10) 60%, rgba(92,232,146,0.04) 80%, transparent 100%)',
+                      inset: '-24px 0',
+                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.03) 25%, rgba(92,232,146,0.08) 45%, rgba(92,232,146,0.08) 55%, rgba(92,232,146,0.03) 75%, transparent 100%)',
+                      filter: 'blur(4px)',
                       pointerEvents: 'none',
                     } as any} />
                     {/* Convex pipe body */}
                     <div style={{
                       position: 'absolute',
-                      inset: '10px 0',
-                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.05) 0%, rgba(92,232,146,0.2) 20%, rgba(150,255,190,0.4) 40%, rgba(255,255,255,0.6) 50%, rgba(150,255,190,0.4) 60%, rgba(92,232,146,0.2) 80%, rgba(92,232,146,0.05) 100%)',
-                      boxShadow: '0 0 30px rgba(92,232,146,0.2), 0 0 80px rgba(92,232,146,0.08)',
+                      inset: '12px 0',
+                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.03) 0%, rgba(92,232,146,0.15) 20%, rgba(150,255,190,0.3) 38%, rgba(220,255,235,0.5) 48%, rgba(255,255,255,0.55) 50%, rgba(220,255,235,0.5) 52%, rgba(150,255,190,0.3) 62%, rgba(92,232,146,0.15) 80%, rgba(92,232,146,0.03) 100%)',
+                      boxShadow: '0 0 40px rgba(92,232,146,0.15), 0 0 100px rgba(92,232,146,0.06)',
+                      filter: 'blur(0.5px)',
                       pointerEvents: 'none',
                     } as any} />
                     {/* Animated shimmer streak */}
                     <div className="cd-beam-shimmer" style={{
                       position: 'absolute',
+                      top: '30%',
+                      height: '40%',
+                      width: '25%',
+                      background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, rgba(150,255,190,0.15) 50%, transparent 80%)',
+                      filter: 'blur(3px)',
+                      pointerEvents: 'none',
+                    } as any} />
+                    {/* Soft glow particles */}
+                    <div className="cd-beam-glow-1" style={{
+                      position: 'absolute',
                       top: '35%',
-                      height: '30%',
-                      width: '30%',
-                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
-                      borderRadius: 4,
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(150,255,190,0.4) 40%, transparent 70%)',
+                      boxShadow: '0 0 12px 4px rgba(92,232,146,0.3)',
+                      filter: 'blur(1px)',
                       pointerEvents: 'none',
                     } as any} />
-                    {/* Animated spark particles */}
-                    <div className="cd-beam-spark cd-beam-spark-1" style={{
+                    <div className="cd-beam-glow-2" style={{
                       position: 'absolute',
-                      top: '40%',
-                      width: 3,
-                      height: 3,
+                      top: '50%',
+                      width: 6,
+                      height: 6,
                       borderRadius: '50%',
-                      background: '#fff',
-                      boxShadow: '0 0 6px 2px rgba(92,232,146,0.8)',
-                      pointerEvents: 'none',
-                    } as any} />
-                    <div className="cd-beam-spark cd-beam-spark-2" style={{
-                      position: 'absolute',
-                      top: '55%',
-                      width: 2,
-                      height: 2,
-                      borderRadius: '50%',
-                      background: '#fff',
-                      boxShadow: '0 0 4px 1px rgba(92,232,146,0.6)',
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(92,232,146,0.3) 50%, transparent 70%)',
+                      boxShadow: '0 0 10px 3px rgba(92,232,146,0.25)',
+                      filter: 'blur(1px)',
                       pointerEvents: 'none',
                     } as any} />
                   </div>

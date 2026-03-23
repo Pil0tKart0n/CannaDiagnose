@@ -93,42 +93,54 @@ export const webCSS =
     100% { left: 200%; }
   }
   @keyframes cd-beam-sweep {
-    0% { left: -30%; }
-    100% { left: 100%; }
-  }
-  @keyframes cd-beam-spark-1 {
-    0%, 100% { left: 15%; opacity: 0; }
+    0% { left: -40%; opacity: 0; }
     10% { opacity: 1; }
-    20% { left: 25%; opacity: 0; }
-    50% { left: 55%; opacity: 1; }
-    60% { left: 65%; opacity: 0; }
-    80% { left: 85%; opacity: 0.8; }
-    90% { left: 90%; opacity: 0; }
+    90% { opacity: 1; }
+    100% { left: 110%; opacity: 0; }
   }
-  @keyframes cd-beam-spark-2 {
-    0%, 100% { left: 70%; opacity: 0; }
-    15% { left: 60%; opacity: 0.9; }
-    25% { left: 50%; opacity: 0; }
-    45% { left: 35%; opacity: 1; }
-    55% { left: 25%; opacity: 0; }
-    75% { left: 10%; opacity: 0.7; }
-    85% { left: 5%; opacity: 0; }
+  @keyframes cd-beam-glow-1 {
+    0%, 100% { left: 12%; opacity: 0; transform: scale(0.8); }
+    8%, 12% { opacity: 0.7; transform: scale(1); }
+    20% { left: 28%; opacity: 0; transform: scale(0.8); }
+    48%, 52% { left: 52%; opacity: 0.9; transform: scale(1.1); }
+    60% { left: 62%; opacity: 0; transform: scale(0.8); }
+    78%, 82% { left: 82%; opacity: 0.6; transform: scale(1); }
+    90% { left: 88%; opacity: 0; transform: scale(0.8); }
+  }
+  @keyframes cd-beam-glow-2 {
+    0%, 100% { left: 75%; opacity: 0; transform: scale(0.8); }
+    12%, 16% { left: 65%; opacity: 0.8; transform: scale(1); }
+    24% { left: 55%; opacity: 0; transform: scale(0.8); }
+    42%, 46% { left: 38%; opacity: 0.7; transform: scale(1.1); }
+    54% { left: 28%; opacity: 0; transform: scale(0.8); }
+    72%, 76% { left: 12%; opacity: 0.6; transform: scale(1); }
+    84% { left: 5%; opacity: 0; transform: scale(0.8); }
   }
   @keyframes cd-beam-pulse {
-    0%, 100% { opacity: 0.85; }
+    0%, 100% { opacity: 0.9; }
     50% { opacity: 1; }
   }
+  @keyframes cd-leaf-hint {
+    0%, 60%, 100% { top: -10%; opacity: 0; }
+    65% { opacity: 0.5; }
+    75% { opacity: 0.7; }
+    85% { opacity: 0.5; }
+    95% { top: 100%; opacity: 0; }
+  }
   .cd-scan-beam {
-    animation: cd-beam-pulse 2s ease-in-out infinite;
+    animation: cd-beam-pulse 2.5s ease-in-out infinite;
   }
   .cd-beam-shimmer {
-    animation: cd-beam-sweep 2.5s ease-in-out infinite;
+    animation: cd-beam-sweep 3s ease-in-out infinite;
   }
-  .cd-beam-spark-1 {
-    animation: cd-beam-spark-1 3s ease-in-out infinite;
+  .cd-beam-glow-1 {
+    animation: cd-beam-glow-1 4s ease-in-out infinite;
   }
-  .cd-beam-spark-2 {
-    animation: cd-beam-spark-2 2.8s ease-in-out infinite;
+  .cd-beam-glow-2 {
+    animation: cd-beam-glow-2 3.5s ease-in-out infinite;
+  }
+  .cd-leaf-hint {
+    animation: cd-leaf-hint 5s ease-in-out infinite;
   }
   .cd-title-wrap {
     font-family: 'Playfair Display', serif;
