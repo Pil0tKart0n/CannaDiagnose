@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity, Modal, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -192,21 +193,21 @@ export default function HomeScreen() {
             <View style={styles.stepsRow}>
               <View style={styles.step}>
                 <View style={styles.stepIcon}>
-                  <Text style={styles.stepEmoji}>📸</Text>
+                  <Ionicons name="camera-outline" size={18} color={colors.accent} />
                 </View>
                 <Text style={styles.stepLabel}>{t('home.stepPhoto') || 'Foto'}</Text>
               </View>
-              <View style={styles.stepArrow}><Text style={styles.stepArrowText}>›</Text></View>
+              <View style={styles.stepLine} />
               <View style={styles.step}>
                 <View style={styles.stepIcon}>
-                  <Text style={styles.stepEmoji}>🔬</Text>
+                  <Ionicons name="leaf-outline" size={18} color={colors.accent} />
                 </View>
                 <Text style={styles.stepLabel}>{t('home.stepAnalysis') || 'Analyse'}</Text>
               </View>
-              <View style={styles.stepArrow}><Text style={styles.stepArrowText}>›</Text></View>
+              <View style={styles.stepLine} />
               <View style={styles.step}>
                 <View style={styles.stepIcon}>
-                  <Text style={styles.stepEmoji}>✅</Text>
+                  <Ionicons name="checkmark-done-outline" size={18} color={colors.accent} />
                 </View>
                 <Text style={styles.stepLabel}>{t('home.stepPlan') || 'Aktionsplan'}</Text>
               </View>
@@ -475,44 +476,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
-    marginTop: 20,
-    paddingHorizontal: 8,
-    paddingVertical: 14,
-    borderRadius: 16,
-    backgroundColor: 'rgba(92,232,146,0.04)',
-    borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.08)',
+    gap: 0,
+    marginTop: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
   step: {
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
+    width: 72,
   },
   stepIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: 'rgba(92,232,146,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(92,232,146,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  stepEmoji: {
-    fontSize: 18,
-  },
   stepLabel: {
-    fontSize: 11,
-    color: colors.textMuted,
+    fontSize: 10,
+    color: 'rgba(228,235,230,0.45)',
     fontWeight: '500',
-    letterSpacing: 0.3,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
-  stepArrow: {
-    paddingHorizontal: 4,
-    marginBottom: 18,
-  },
-  stepArrowText: {
-    fontSize: 20,
-    color: 'rgba(92,232,146,0.3)',
-    fontWeight: '300',
+  stepLine: {
+    width: 32,
+    height: 1,
+    backgroundColor: 'rgba(92,232,146,0.15)',
+    marginBottom: 22,
   },
   dividerWrap: {
     flexDirection: 'row',
