@@ -298,27 +298,55 @@ export default function HomeScreen() {
                 <View style={styles.sectionAccentBar} />
                 <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
               </View>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 28,
-                alignItems: 'stretch',
-                minHeight: 420,
-              } as any}>
-                {/* Diagnosis card with integrated leaf */}
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 28, alignItems: 'stretch' } as any}>
+                {/* Leaf photo */}
                 <div style={{
                   flex: 1,
-                  position: 'relative',
-                  backgroundColor: colors.cardDark,
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                  borderColor: colors.border,
                   borderRadius: 20,
-                  padding: 28,
-                  paddingBottom: 52,
                   overflow: 'hidden',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(92,232,146,0.08)',
+                  position: 'relative',
+                  background: 'linear-gradient(135deg, rgba(92,232,146,0.08) 0%, rgba(45,90,62,0.15) 50%, rgba(92,232,146,0.05) 100%)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(92,232,146,0.06), inset 0 0 0 1px rgba(92,232,146,0.15)',
                 } as any}>
+                  <img
+                    src="/images/sample-nitrogen.webp"
+                    alt="Stickstoffmangel - gelbes Cannabis-Blatt"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      mixBlendMode: 'luminosity',
+                      opacity: 0.85,
+                    } as any}
+                  />
+                  <img
+                    src="/images/sample-nitrogen.webp"
+                    alt="Gesundes Cannabis-Blatt"
+                    className="cd-leaf-healthy"
+                  />
+                  {/* Gradient overlay to blend into page */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: '40%',
+                    background: 'linear-gradient(to top, rgba(8,12,10,0.8) 0%, transparent 100%)',
+                    pointerEvents: 'none',
+                  } as any} />
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'radial-gradient(ellipse at center, transparent 40%, rgba(8,12,10,0.5) 100%)',
+                    pointerEvents: 'none',
+                  } as any} />
+                </div>
+                {/* Diagnosis card */}
+                <View style={[styles.sampleCard, { flex: 1 } as any]}>
                   <View style={styles.sampleHeader}>
                     <View style={styles.sampleIconWrap}>
                       <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
@@ -354,43 +382,10 @@ export default function HomeScreen() {
                       <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
                     </View>
                   </View>
-                  {/* Leaf image bottom-right with crossfade */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: -20,
-                    right: -20,
-                    width: 340,
-                    height: 340,
-                    pointerEvents: 'none',
-                  } as any}>
-                    <img
-                      src="/images/sample-nitrogen.webp"
-                      alt="Stickstoffmangel - gelbes Cannabis-Blatt"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        opacity: 0.25,
-                      } as any}
-                    />
-                    <img
-                      src="/images/sample-nitrogen.webp"
-                      alt=""
-                      className="cd-leaf-healthy"
-                      style={{ opacity: 0 } as any}
-                    />
-                    {/* Fade edges into card */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: `radial-gradient(ellipse at 100% 100%, transparent 30%, ${colors.cardDark} 75%)`,
-                      pointerEvents: 'none',
-                    } as any} />
-                  </div>
                   <View style={styles.sampleFade}>
                     <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
                   </View>
-                </div>
+                </View>
               </div>
             </View>
           )}
