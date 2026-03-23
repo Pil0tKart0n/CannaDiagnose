@@ -2,8 +2,20 @@ const express = require('express');
 const Stripe = require('stripe');
 const cors = require('cors');
 const crypto = require('crypto');
-const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
+
+// Database module (schema, migrations, prepared statements)
+const {
+  db, feedbackImagesDir, scanImagesDir,
+  stmtCountScans, stmtInsertScan, stmtAtomicScan, stmtRefundScan,
+  stmtFindSession, stmtCreateSession, stmtFindByCustomer,
+  stmtDeactivateBySubscription, stmtDeactivateByCustomer, stmtUpdatePlan,
+  stmtInsertFeedback, stmtFeedbackStats, stmtFeedbackRecent, stmtInsertDetailedFeedback,
+  stmtFindPromo, stmtIncrementPromo, stmtCheckRedeemedByIp,
+  stmtCheckRedeemedByDevice, stmtRedeemPromo, stmtActivePromo,
+  stmtInsertScanResult, stmtInsertUsage, stmtInsertEvent, stmtCheckBlacklist,
+} = require('./db');
 
 // Server-side prompts (never sent to client)
 const { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT,
@@ -38,319 +50,9 @@ const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
 const FREE_SCANS_PER_DAY = 1;
 const ADMIN_KEY = process.env.ADMIN_KEY || 'ls-admin-2026-Rz7vP3kW';
 
-// ── SQLite setup ──
-const dbPath = path.join(__dirname, 'data', 'leafscan.db');
-const fs = require('fs');
-fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
-const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
+// ── Database is initialized in ./db.js ──
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS scan_log (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ip TEXT NOT NULL,
-    scanned_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
-  CREATE INDEX IF NOT EXISTS idx_scan_ip_date ON scan_log(ip, scanned_at);
-
-  CREATE TABLE IF NOT EXISTS premium_sessions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    session_token TEXT UNIQUE NOT NULL,
-    stripe_customer_id TEXT,
-    stripe_subscription_id TEXT,
-    plan TEXT NOT NULL DEFAULT 'pro',
-    created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    active INTEGER NOT NULL DEFAULT 1
-  );
-  CREATE INDEX IF NOT EXISTS idx_premium_token ON premium_sessions(session_token);
-  CREATE INDEX IF NOT EXISTS idx_premium_customer ON premium_sessions(stripe_customer_id);
-  CREATE INDEX IF NOT EXISTS idx_premium_subscription ON premium_sessions(stripe_subscription_id);
-
-  CREATE TABLE IF NOT EXISTS promo_codes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT UNIQUE NOT NULL,
-    days INTEGER NOT NULL DEFAULT 10,
-    max_uses INTEGER NOT NULL DEFAULT 9999,
-    used INTEGER NOT NULL DEFAULT 0,
-    active INTEGER NOT NULL DEFAULT 1,
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
-  CREATE INDEX IF NOT EXISTS idx_promo_code ON promo_codes(code);
-
-  CREATE TABLE IF NOT EXISTS promo_redemptions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT NOT NULL,
-    ip TEXT NOT NULL,
-    device_id TEXT NOT NULL DEFAULT '',
-    redeemed_at TEXT NOT NULL DEFAULT (datetime('now')),
-    expires_at TEXT NOT NULL
-  );
-  CREATE INDEX IF NOT EXISTS idx_promo_ip ON promo_redemptions(ip);
-
-  CREATE TABLE IF NOT EXISTS feedback (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    rating TEXT NOT NULL CHECK(rating IN ('positive', 'negative')),
-    diagnosis TEXT,
-    severity TEXT,
-    confidence REAL,
-    substrate TEXT,
-    fertilizer TEXT,
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
-  CREATE INDEX IF NOT EXISTS idx_feedback_date ON feedback(created_at);
-`);
-
-// Migration: feedback_detailed table for full diagnosis data + images
-try {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS feedback_detailed (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      rating TEXT NOT NULL CHECK(rating IN ('positive', 'negative')),
-      diagnosis_json TEXT,
-      questionnaire_json TEXT,
-      image_paths TEXT,
-      ip TEXT,
-      device_id TEXT DEFAULT '',
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-    CREATE INDEX IF NOT EXISTS idx_feedback_detailed_date ON feedback_detailed(created_at);
-    CREATE INDEX IF NOT EXISTS idx_feedback_detailed_rating ON feedback_detailed(rating);
-  `);
-} catch (e) {}
-
-// Migration: api_usage table for OpenAI token/cost tracking
-try {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS api_usage (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      ip TEXT,
-      mode TEXT NOT NULL,
-      model TEXT NOT NULL DEFAULT 'gpt-4o',
-      prompt_tokens INTEGER NOT NULL DEFAULT 0,
-      completion_tokens INTEGER NOT NULL DEFAULT 0,
-      total_tokens INTEGER NOT NULL DEFAULT 0,
-      is_premium INTEGER NOT NULL DEFAULT 0,
-      platform TEXT DEFAULT 'unknown',
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-    CREATE INDEX IF NOT EXISTS idx_api_usage_date ON api_usage(created_at);
-    CREATE INDEX IF NOT EXISTS idx_api_usage_mode ON api_usage(mode);
-  `);
-} catch (e) {}
-
-// Migration: ip_blacklist table
-try {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS ip_blacklist (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      ip TEXT UNIQUE NOT NULL,
-      reason TEXT DEFAULT '',
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-  `);
-} catch (e) {}
-
-// Migration: events table for funnel tracking
-try {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS events (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      event TEXT NOT NULL,
-      ip TEXT,
-      device_id TEXT DEFAULT '',
-      platform TEXT DEFAULT 'unknown',
-      meta TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-    CREATE INDEX IF NOT EXISTS idx_events_event ON events(event);
-    CREATE INDEX IF NOT EXISTS idx_events_date ON events(created_at);
-    CREATE INDEX IF NOT EXISTS idx_events_ip ON events(ip);
-  `);
-} catch (e) {}
-
-// Migration: announcements table
-try {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS announcements (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      message TEXT NOT NULL,
-      type TEXT NOT NULL DEFAULT 'info',
-      active INTEGER NOT NULL DEFAULT 1,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-  `);
-} catch (e) {}
-
-// Ensure feedback_images directory exists
-const feedbackImagesDir = path.join(__dirname, 'data', 'feedback_images');
-fs.mkdirSync(feedbackImagesDir, { recursive: true });
-
-// Migration: add device_id column if missing (existing DBs won't have it)
-try {
-  db.exec(`ALTER TABLE promo_redemptions ADD COLUMN device_id TEXT NOT NULL DEFAULT ''`);
-} catch (e) {
-  // Column already exists — ignore
-}
-try {
-  db.exec(`CREATE INDEX IF NOT EXISTS idx_promo_device ON promo_redemptions(device_id)`);
-} catch (e) {}
-
-// Migration: scan_results table — stores every diagnosis result server-side
-try {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS scan_results (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      scan_log_id INTEGER,
-      ip TEXT,
-      mode TEXT NOT NULL DEFAULT 'diagnose',
-      diagnosis TEXT,
-      severity TEXT,
-      confidence REAL,
-      substrate TEXT,
-      is_premium INTEGER NOT NULL DEFAULT 0,
-      platform TEXT DEFAULT 'unknown',
-      result_json TEXT,
-      image_paths TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-    CREATE INDEX IF NOT EXISTS idx_scan_results_date ON scan_results(created_at);
-    CREATE INDEX IF NOT EXISTS idx_scan_results_scan ON scan_results(scan_log_id);
-  `);
-} catch (e) {}
-// Migration: add image_paths column to scan_results if missing
-try {
-  db.exec(`ALTER TABLE scan_results ADD COLUMN image_paths TEXT`);
-} catch (e) {}
-
-// Prepared statements for performance
-const stmtCountScans = db.prepare(`
-  SELECT COUNT(*) as count FROM scan_log
-  WHERE ip = ? AND scanned_at >= date('now')
-`);
-const stmtInsertScan = db.prepare(`INSERT INTO scan_log (ip) VALUES (?)`);
-const stmtAtomicScan = db.prepare(`
-  INSERT INTO scan_log (ip)
-  SELECT ? WHERE (SELECT COUNT(*) FROM scan_log WHERE ip = ? AND scanned_at >= date('now')) < ?
-`);
-const stmtRefundScan = db.prepare(`
-  DELETE FROM scan_log WHERE id = (
-    SELECT id FROM scan_log WHERE ip = ? ORDER BY id DESC LIMIT 1
-  )
-`);
-const stmtUpdatePlan = db.prepare(`UPDATE premium_sessions SET plan = ? WHERE session_token = ?`);
-const stmtFindSession = db.prepare(`SELECT * FROM premium_sessions WHERE session_token = ? AND active = 1`);
-const stmtCreateSession = db.prepare(`
-  INSERT INTO premium_sessions (session_token, stripe_customer_id, stripe_subscription_id, plan)
-  VALUES (?, ?, ?, ?)
-`);
-const stmtFindByCustomer = db.prepare(`SELECT * FROM premium_sessions WHERE stripe_customer_id = ? AND active = 1`);
-const stmtDeactivateBySubscription = db.prepare(`UPDATE premium_sessions SET active = 0 WHERE stripe_subscription_id = ?`);
-const stmtInsertFeedback = db.prepare(`
-  INSERT INTO feedback (rating, diagnosis, severity, confidence, substrate, fertilizer)
-  VALUES (?, ?, ?, ?, ?, ?)
-`);
-const stmtFeedbackStats = db.prepare(`
-  SELECT rating, COUNT(*) as count FROM feedback GROUP BY rating
-`);
-const stmtFeedbackRecent = db.prepare(`
-  SELECT * FROM feedback ORDER BY created_at DESC LIMIT ?
-`);
-const stmtDeactivateByCustomer = db.prepare(`UPDATE premium_sessions SET active = 0 WHERE stripe_customer_id = ?`);
-
-// ── Promo code statements ──
-const stmtFindPromo = db.prepare(`SELECT * FROM promo_codes WHERE code = ? AND active = 1`);
-const stmtIncrementPromo = db.prepare(`UPDATE promo_codes SET used = used + 1 WHERE code = ?`);
-// Check if this IP or device has EVER redeemed ANY promo code
-const stmtCheckRedeemedByIp = db.prepare(`SELECT * FROM promo_redemptions WHERE ip = ? LIMIT 1`);
-const stmtCheckRedeemedByDevice = db.prepare(`SELECT * FROM promo_redemptions WHERE device_id = ? AND device_id != '' LIMIT 1`);
-const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, device_id, expires_at) VALUES (?, ?, ?, datetime('now', '+' || ? || ' days'))`);
-const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE (ip = ? OR (device_id = ? AND device_id != '')) AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
-const stmtInsertScanResult = db.prepare(`
-  INSERT INTO scan_results (scan_log_id, ip, mode, diagnosis, severity, confidence, substrate, is_premium, platform, result_json, image_paths)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-`);
-
-// Ensure scan_images directory exists
-const scanImagesDir = path.join(__dirname, 'data', 'scan_images');
-fs.mkdirSync(scanImagesDir, { recursive: true });
-
-// ── API usage tracking statements ──
-const stmtInsertUsage = db.prepare(`
-  INSERT INTO api_usage (ip, mode, model, prompt_tokens, completion_tokens, total_tokens, is_premium, platform)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-`);
-
-const stmtInsertEvent = db.prepare(`INSERT INTO events (event, ip, device_id, platform, meta) VALUES (?, ?, ?, ?, ?)`);
-
-// ── Automatic data cleanup (GDPR retention) ──
-function cleanupOldData() {
-  try {
-    // IPs in scan_log: 7 days
-    db.prepare(`DELETE FROM scan_log WHERE scanned_at < datetime('now', '-7 days')`).run();
-    // Scan results: 90 days
-    db.prepare(`DELETE FROM scan_results WHERE created_at < datetime('now', '-90 days')`).run();
-    // Feedback: 90 days
-    db.prepare(`DELETE FROM feedback WHERE created_at < datetime('now', '-90 days')`).run();
-    // Detailed feedback: 90 days (+ delete images)
-    const oldFeedback = db.prepare(`SELECT image_paths FROM feedback_detailed WHERE created_at < datetime('now', '-90 days')`).all();
-    for (const row of oldFeedback) {
-      if (row.image_paths) {
-        try {
-          const paths = JSON.parse(row.image_paths);
-          for (const p of paths) {
-            const fp = path.join(feedbackImagesDir, p.replace(/[^a-zA-Z0-9._-]/g, ''));
-            if (fs.existsSync(fp)) fs.unlinkSync(fp);
-          }
-        } catch (e) {}
-      }
-    }
-    db.prepare(`DELETE FROM feedback_detailed WHERE created_at < datetime('now', '-90 days')`).run();
-    // Scan images: 90 days
-    const oldScans = db.prepare(`SELECT image_paths FROM scan_results WHERE created_at < datetime('now', '-90 days') AND image_paths IS NOT NULL`).all();
-    for (const row of oldScans) {
-      try {
-        const paths = JSON.parse(row.image_paths);
-        for (const p of paths) {
-          const fp = path.join(scanImagesDir, p.replace(/[^a-zA-Z0-9._-]/g, ''));
-          if (fs.existsSync(fp)) fs.unlinkSync(fp);
-        }
-      } catch (e) {}
-    }
-    // API usage: 90 days
-    db.prepare(`DELETE FROM api_usage WHERE created_at < datetime('now', '-90 days')`).run();
-    // Events: 90 days
-    db.prepare(`DELETE FROM events WHERE created_at < datetime('now', '-90 days')`).run();
-    console.log('[LeafScan] Data cleanup completed');
-  } catch (e) {
-    console.error('[LeafScan] Data cleanup error:', e.message);
-  }
-}
-// Run cleanup on startup and then daily
-cleanupOldData();
-setInterval(cleanupOldData, 24 * 60 * 60 * 1000);
-
-// Seed default promo codes (only if they don't exist yet)
-const seedPromo = db.prepare(`INSERT OR IGNORE INTO promo_codes (code, days, max_uses) VALUES (?, ?, ?)`);
-seedPromo.run('HOMEGROW', 10, 9999);
-seedPromo.run('HGC2026', 10, 9999);
-
-// Permanent VIP codes for mods (1 use each, 100 years = forever)
-const vipCodes = [
-  'VIP-K7X2', 'VIP-M3R9', 'VIP-Q5W1', 'VIP-T8N4', 'VIP-J6P3',
-  'VIP-H2L8', 'VIP-F9D5', 'VIP-B4G7', 'VIP-Y1C6', 'VIP-S7A2',
-  'VIP-W3E9', 'VIP-N5V1', 'VIP-R8X4', 'VIP-L2Z6', 'VIP-D4U8',
-];
-for (const code of vipCodes) {
-  seedPromo.run(code, 36500, 1);
-}
-
-// Cleanup old scan logs (keep 7 days)
-const stmtCleanupScans = db.prepare(`DELETE FROM scan_log WHERE scanned_at < date('now', '-7 days')`);
-function cleanupOldScans() {
-  stmtCleanupScans.run();
-}
-setInterval(cleanupOldScans, 24 * 60 * 60 * 1000); // daily
-cleanupOldScans();
+// Schema, migrations, seeds, cleanup — all handled by ./db.js
 
 // Store price IDs after creation/lookup
 let growerPriceId = null;
@@ -422,9 +124,6 @@ function checkPremium(token, req) {
 // ── IP-based rate limiting (anti-abuse) ──
 const ipRequestCounts = new Map();
 setInterval(() => ipRequestCounts.clear(), 60 * 1000); // reset every minute
-
-// Prepared statement for blacklist check
-const stmtCheckBlacklist = db.prepare(`SELECT 1 FROM ip_blacklist WHERE ip = ?`);
 
 function rateLimit(req, res, next) {
   const ip = getClientIP(req);
@@ -1121,11 +820,6 @@ app.post('/api/stripe/webhook', async (req, res) => {
 });
 
 // ── Feedback (enhanced: saves full diagnosis + images for negative feedback) ──
-const stmtInsertDetailedFeedback = db.prepare(`
-  INSERT INTO feedback_detailed (rating, diagnosis_json, questionnaire_json, image_paths, ip, device_id)
-  VALUES (?, ?, ?, ?, ?, ?)
-`);
-
 app.post('/api/feedback', rateLimit, express.json({ limit: '30mb' }), (req, res) => {
   try {
     const { rating, diagnosis, severity, confidence, substrate, fertilizer,
