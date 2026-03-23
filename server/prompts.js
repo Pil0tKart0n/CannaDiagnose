@@ -1601,3 +1601,6 @@ VORHERIGE DIAGNOSE (vor ${daysSinceLast} Tagen):
 
 Vergleiche den aktuellen Zustand mit der vorherigen Diagnose. Hat die Behandlung gewirkt?`;
 };
+
+// Export internal helpers for testing
+module.exports._internal = { parseNum, evaluateEC, detectDiagnosisType, getPHState };
