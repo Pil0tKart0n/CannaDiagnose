@@ -50,25 +50,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
                 background: #0A0E0D;
                 overflow-x: hidden;
               }
-              @media (min-width: 768px) {
-                #root {
-                  max-width: 480px;
-                  margin: 20px auto;
-                  min-height: calc(100vh - 40px);
-                  border-radius: 24px;
-                  box-shadow:
-                    0 0 40px rgba(92,232,146,0.06),
-                    0 0 80px rgba(92,232,146,0.03),
-                    0 0 160px rgba(92,232,146,0.015),
-                    0 0 0 2px #0A0E0D;
-                  border: none;
-                  overflow: hidden;
-                  position: relative;
-                }
-                body {
-                  background: #000000;
-                }
-              }
+              /* Landing page uses full width. Inner screens constrain themselves via React Native styles. */
               /* Hide scrollbar but keep scrolling */
               ::-webkit-scrollbar { width: 0; height: 0; }
               * { -webkit-tap-highlight-color: transparent; }
