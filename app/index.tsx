@@ -298,14 +298,47 @@ export default function HomeScreen() {
                 <View style={styles.sectionAccentBar} />
                 <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
               </View>
-              <div style={{ display: 'flex', flexDirection: 'row', gap: 24, alignItems: 'stretch' } as any}>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 28, alignItems: 'stretch' } as any}>
                 {/* Leaf photo */}
-                <div style={{ flex: 1, borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(92,232,146,0.12)', background: '#0A0E0C' } as any}>
+                <div style={{
+                  flex: 1,
+                  borderRadius: 20,
+                  overflow: 'hidden',
+                  position: 'relative',
+                  background: 'linear-gradient(135deg, rgba(92,232,146,0.08) 0%, rgba(45,90,62,0.15) 50%, rgba(92,232,146,0.05) 100%)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(92,232,146,0.06), inset 0 0 0 1px rgba(92,232,146,0.15)',
+                } as any}>
                   <img
                     src="/images/sample-nitrogen.webp"
                     alt="Stickstoffmangel - gelbes Cannabis-Blatt"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 } as any}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      mixBlendMode: 'luminosity',
+                      opacity: 0.85,
+                    } as any}
                   />
+                  {/* Gradient overlay to blend into page */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: '40%',
+                    background: 'linear-gradient(to top, rgba(8,12,10,0.8) 0%, transparent 100%)',
+                    pointerEvents: 'none',
+                  } as any} />
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'radial-gradient(ellipse at center, transparent 40%, rgba(8,12,10,0.5) 100%)',
+                    pointerEvents: 'none',
+                  } as any} />
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
