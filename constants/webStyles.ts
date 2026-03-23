@@ -92,6 +92,44 @@ export const webCSS =
     0% { left: -100%; }
     100% { left: 200%; }
   }
+  @keyframes cd-beam-sweep {
+    0% { left: -30%; }
+    100% { left: 100%; }
+  }
+  @keyframes cd-beam-spark-1 {
+    0%, 100% { left: 15%; opacity: 0; }
+    10% { opacity: 1; }
+    20% { left: 25%; opacity: 0; }
+    50% { left: 55%; opacity: 1; }
+    60% { left: 65%; opacity: 0; }
+    80% { left: 85%; opacity: 0.8; }
+    90% { left: 90%; opacity: 0; }
+  }
+  @keyframes cd-beam-spark-2 {
+    0%, 100% { left: 70%; opacity: 0; }
+    15% { left: 60%; opacity: 0.9; }
+    25% { left: 50%; opacity: 0; }
+    45% { left: 35%; opacity: 1; }
+    55% { left: 25%; opacity: 0; }
+    75% { left: 10%; opacity: 0.7; }
+    85% { left: 5%; opacity: 0; }
+  }
+  @keyframes cd-beam-pulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+  }
+  .cd-scan-beam {
+    animation: cd-beam-pulse 2s ease-in-out infinite;
+  }
+  .cd-beam-shimmer {
+    animation: cd-beam-sweep 2.5s ease-in-out infinite;
+  }
+  .cd-beam-spark-1 {
+    animation: cd-beam-spark-1 3s ease-in-out infinite;
+  }
+  .cd-beam-spark-2 {
+    animation: cd-beam-spark-2 2.8s ease-in-out infinite;
+  }
   .cd-title-wrap {
     font-family: 'Playfair Display', serif;
     animation: cd-float 6s ease-in-out infinite;

@@ -40,7 +40,31 @@ export default function HomeScreen() {
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [leafSlider, setLeafSlider] = useState(0);
+  const leafContainerRef = useRef<HTMLDivElement | null>(null);
   const leafDragging = useRef(false);
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const handleMove = (e: MouseEvent | TouchEvent) => {
+      if (!leafDragging.current || !leafContainerRef.current) return;
+      e.preventDefault();
+      const rect = leafContainerRef.current.getBoundingClientRect();
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      const pct = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+      setLeafSlider(pct);
+    };
+    const handleUp = () => { leafDragging.current = false; };
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleUp);
+    window.addEventListener('touchmove', handleMove, { passive: false });
+    window.addEventListener('touchend', handleUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleUp);
+      window.removeEventListener('touchmove', handleMove);
+      window.removeEventListener('touchend', handleUp);
+    };
+  }, []);
 
   useEffect(() => {
     injectCSS();
@@ -303,6 +327,7 @@ export default function HomeScreen() {
               <div style={{ display: 'flex', flexDirection: 'row', gap: 28, alignItems: 'stretch' } as any}>
                 {/* Leaf before/after slider */}
                 <div
+                  ref={(el: any) => { leafContainerRef.current = el; }}
                   style={{
                     flex: 1,
                     borderRadius: 20,
@@ -312,41 +337,30 @@ export default function HomeScreen() {
                     boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(92,232,146,0.06), inset 0 0 0 1px rgba(92,232,146,0.15)',
                     cursor: 'ns-resize',
                     userSelect: 'none',
+                    WebkitUserSelect: 'none',
                     touchAction: 'none',
                   } as any}
-                  onMouseDown={() => { leafDragging.current = true; }}
-                  onMouseUp={() => { leafDragging.current = false; }}
-                  onMouseLeave={() => { leafDragging.current = false; }}
-                  onMouseMove={(e: any) => {
-                    if (!leafDragging.current) return;
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const pct = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-                    setLeafSlider(pct);
-                  }}
-                  onTouchStart={() => { leafDragging.current = true; }}
-                  onTouchEnd={() => { leafDragging.current = false; }}
-                  onTouchMove={(e: any) => {
-                    const touch = e.touches[0];
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const pct = Math.max(0, Math.min(1, (touch.clientY - rect.top) / rect.height));
-                    setLeafSlider(pct);
-                  }}
+                  onMouseDown={(e: any) => { e.preventDefault(); leafDragging.current = true; }}
+                  onTouchStart={(e: any) => { e.preventDefault(); leafDragging.current = true; }}
                 >
                   {/* Base: sick/yellow leaf */}
                   <img
                     src="/images/sample-nitrogen.webp"
                     alt="Stickstoffmangel - gelbes Cannabis-Blatt"
+                    draggable={false}
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
                       display: 'block',
+                      pointerEvents: 'none',
                     } as any}
                   />
                   {/* Overlay: healthy/green leaf, clipped from top */}
                   <img
                     src="/images/sample-nitrogen.webp"
                     alt="Gesundes Cannabis-Blatt"
+                    draggable={false}
                     style={{
                       position: 'absolute',
                       top: 0,
@@ -356,22 +370,67 @@ export default function HomeScreen() {
                       objectFit: 'cover',
                       filter: 'hue-rotate(50deg) saturate(1.4) brightness(0.9)',
                       clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
+                      pointerEvents: 'none',
                     } as any}
                   />
-                  {/* Scan beam */}
-                  <div style={{
+                  {/* Scan beam — convex pipe with animated shimmer */}
+                  <div className="cd-scan-beam" style={{
                     position: 'absolute',
                     top: `${leafSlider * 100}%`,
                     left: 0,
                     right: 0,
-                    height: 40,
+                    height: 60,
                     transform: 'translateY(-50%)',
-                    background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.06) 15%, rgba(92,232,146,0.15) 35%, rgba(255,255,255,0.35) 48%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.35) 52%, rgba(92,232,146,0.15) 65%, rgba(92,232,146,0.06) 85%, transparent 100%)',
-                    boxShadow: '0 0 20px rgba(92,232,146,0.15), 0 0 60px rgba(92,232,146,0.06)',
                     pointerEvents: 'none',
                     opacity: leafSlider > 0.01 ? 1 : 0,
-                    transition: 'opacity 0.2s ease',
-                  } as any} />
+                  } as any}>
+                    {/* Outer glow */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: '-20px 0',
+                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(92,232,146,0.10) 40%, rgba(92,232,146,0.10) 60%, rgba(92,232,146,0.04) 80%, transparent 100%)',
+                      pointerEvents: 'none',
+                    } as any} />
+                    {/* Convex pipe body */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: '10px 0',
+                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.05) 0%, rgba(92,232,146,0.2) 20%, rgba(150,255,190,0.4) 40%, rgba(255,255,255,0.6) 50%, rgba(150,255,190,0.4) 60%, rgba(92,232,146,0.2) 80%, rgba(92,232,146,0.05) 100%)',
+                      boxShadow: '0 0 30px rgba(92,232,146,0.2), 0 0 80px rgba(92,232,146,0.08)',
+                      pointerEvents: 'none',
+                    } as any} />
+                    {/* Animated shimmer streak */}
+                    <div className="cd-beam-shimmer" style={{
+                      position: 'absolute',
+                      top: '35%',
+                      height: '30%',
+                      width: '30%',
+                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
+                      borderRadius: 4,
+                      pointerEvents: 'none',
+                    } as any} />
+                    {/* Animated spark particles */}
+                    <div className="cd-beam-spark cd-beam-spark-1" style={{
+                      position: 'absolute',
+                      top: '40%',
+                      width: 3,
+                      height: 3,
+                      borderRadius: '50%',
+                      background: '#fff',
+                      boxShadow: '0 0 6px 2px rgba(92,232,146,0.8)',
+                      pointerEvents: 'none',
+                    } as any} />
+                    <div className="cd-beam-spark cd-beam-spark-2" style={{
+                      position: 'absolute',
+                      top: '55%',
+                      width: 2,
+                      height: 2,
+                      borderRadius: '50%',
+                      background: '#fff',
+                      boxShadow: '0 0 4px 1px rgba(92,232,146,0.6)',
+                      pointerEvents: 'none',
+                    } as any} />
+                  </div>
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
