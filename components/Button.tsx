@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  ViewStyle,
-  Platform,
-} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 
@@ -31,18 +24,9 @@ export default function Button({
 
   if (isPrimary) {
     return (
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={disabled || loading}
-        activeOpacity={0.85}
-        style={style}
-      >
+      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={0.85} style={style}>
         <LinearGradient
-          colors={
-            disabled
-              ? ['#1E2420', '#181E1B']
-              : ['#6AF09E', '#5CE892', '#44C878']
-          }
+          colors={disabled ? ['#1E2420', '#181E1B'] : ['#6AF09E', '#5CE892', '#44C878']}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
           style={[styles.base, styles.primaryGradient]}

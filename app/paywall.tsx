@@ -15,12 +15,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
-import {
-  getOfferings,
-  purchasePackage,
-  restorePurchases,
-  SubscriptionPackage,
-} from '../services/purchases';
+import { getOfferings, purchasePackage, restorePurchases, SubscriptionPackage } from '../services/purchases';
 import { setPremium, setSessionToken, SERVER_URL } from '../services/quota';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { trackEvent } from '../services/analytics';
@@ -63,9 +58,10 @@ interface StripePlan {
   interval: string;
 }
 
-const STRIPE_API_BASE = Platform.OS === 'web'
-  ? ''  // relative URLs work on PWA
-  : (process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de');
+const STRIPE_API_BASE =
+  Platform.OS === 'web'
+    ? '' // relative URLs work on PWA
+    : process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
 async function getStripePlans(): Promise<StripePlan[]> {
   try {
@@ -128,8 +124,8 @@ export default function PaywallScreen() {
         const sessionId = params.get('session_id');
         if (sessionId) {
           fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
-            .then(r => r.ok ? r.json() : Promise.reject())
-            .then(data => {
+            .then((r) => (r.ok ? r.json() : Promise.reject()))
+            .then((data) => {
               if (data.token) {
                 setSessionToken(data.token);
                 setPremium(true);
@@ -144,22 +140,28 @@ export default function PaywallScreen() {
         }
       }
       // Load Stripe plans for web
-      getStripePlans().then((plans) => {
-        setStripePlans(plans);
-        setLoading(false);
-      }).catch(() => setLoading(false));
+      getStripePlans()
+        .then((plans) => {
+          setStripePlans(plans);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
     } else if (useRevenueCat) {
       // AAB (Google Play): use RevenueCat
-      getOfferings().then((pkgs) => {
-        setPackages(pkgs);
-        setLoading(false);
-      }).catch(() => setLoading(false));
+      getOfferings()
+        .then((pkgs) => {
+          setPackages(pkgs);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
     } else {
       // APK (direct download): use Stripe
-      getStripePlans().then((plans) => {
-        setStripePlans(plans);
-        setLoading(false);
-      }).catch(() => setLoading(false));
+      getStripePlans()
+        .then((plans) => {
+          setStripePlans(plans);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
     }
   }, []);
 
@@ -168,7 +170,10 @@ export default function PaywallScreen() {
 
     if (useRevenueCat) {
       // AAB (Google Play): RevenueCat
-      if (packages.length === 0) { setPurchasing(false); return; }
+      if (packages.length === 0) {
+        setPurchasing(false);
+        return;
+      }
       const result = await purchasePackage(packages[selectedIdx]);
       setPurchasing(false);
 
@@ -259,8 +264,8 @@ export default function PaywallScreen() {
 
   // Google Play AAB uses RevenueCat packages, everything else uses Stripe plans
   const displayPlans = useRevenueCat
-    ? packages.map(p => ({ title: p.title, priceString: p.priceString }))
-    : stripePlans.map(p => ({ title: p.name, priceString: p.price }));
+    ? packages.map((p) => ({ title: p.title, priceString: p.priceString }))
+    : stripePlans.map((p) => ({ title: p.name, priceString: p.price }));
 
   const selectedPlan = displayPlans[selectedIdx];
   const features = selectedIdx === 0 ? growerFeatures : proFeatures;
@@ -273,13 +278,8 @@ export default function PaywallScreen() {
             <Ionicons name="checkmark-circle" size={64} color={colors.accent} />
           </View>
           <Text style={styles.successTitle}>{t('paywall.premiumActivated')}</Text>
-          <Text style={styles.successText}>
-            {t('paywall.enjoyDiagnoses')}
-          </Text>
-          <TouchableOpacity
-            style={styles.purchaseBtn}
-            onPress={() => router.replace('/')}
-          >
+          <Text style={styles.successText}>{t('paywall.enjoyDiagnoses')}</Text>
+          <TouchableOpacity style={styles.purchaseBtn} onPress={() => router.replace('/')}>
             <Text style={styles.purchaseBtnText}>{t('paywall.toHome')}</Text>
           </TouchableOpacity>
         </View>
@@ -292,22 +292,23 @@ export default function PaywallScreen() {
       <ScrollView contentContainerStyle={styles.scroll}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-            } else {
-              router.replace('/');
-            }
-          }} style={styles.closeBtn}>
+          <TouchableOpacity
+            onPress={() => {
+              if (router.canGoBack()) {
+                router.back();
+              } else {
+                router.replace('/');
+              }
+            }}
+            style={styles.closeBtn}
+          >
             <Ionicons name="close" size={24} color={colors.textMuted} />
           </TouchableOpacity>
           <View style={styles.crownCircle}>
             <Ionicons name="diamond-outline" size={36} color={colors.accentWarm} />
           </View>
           <Text style={styles.title}>{t('paywall.unlockPremium')}</Text>
-          <Text style={styles.subtitle}>
-            {t('paywall.subtitle')}
-          </Text>
+          <Text style={styles.subtitle}>{t('paywall.subtitle')}</Text>
         </View>
 
         {/* Free tier info */}
@@ -333,7 +334,11 @@ export default function PaywallScreen() {
                 onPress={() => setSelectedIdx(i)}
                 activeOpacity={0.8}
               >
-                {i === 1 && <View style={styles.popularBadge}><Text style={styles.popularText}>{t('paywall.popular')}</Text></View>}
+                {i === 1 && (
+                  <View style={styles.popularBadge}>
+                    <Text style={styles.popularText}>{t('paywall.popular')}</Text>
+                  </View>
+                )}
                 <Text style={[styles.packageTitle, i === selectedIdx && styles.packageTitleSelected]}>
                   {plan.title}
                 </Text>
@@ -352,11 +357,7 @@ export default function PaywallScreen() {
             <Text style={styles.featuresTitle}>{t('paywall.includes', { plan: selectedPlan.title })}</Text>
             {features.map((f, i) => (
               <View key={i} style={styles.featureRow}>
-                <Ionicons
-                  name={f.icon as any}
-                  size={16}
-                  color={f.pro ? colors.accentWarm : colors.accent}
-                />
+                <Ionicons name={f.icon as any} size={16} color={f.pro ? colors.accentWarm : colors.accent} />
                 <Text style={[styles.featureText, f.pro && styles.featureTextPro]}>{f.text}</Text>
               </View>
             ))}
@@ -374,7 +375,9 @@ export default function PaywallScreen() {
             <ActivityIndicator color={colors.textOnAccent} />
           ) : (
             <Text style={styles.purchaseBtnText}>
-              {selectedPlan ? t('paywall.purchaseBtn', { plan: selectedPlan.title, price: selectedPlan.priceString }) : t('paywall.loading')}
+              {selectedPlan
+                ? t('paywall.purchaseBtn', { plan: selectedPlan.title, price: selectedPlan.priceString })
+                : t('paywall.loading')}
             </Text>
           )}
         </TouchableOpacity>
@@ -407,9 +410,7 @@ export default function PaywallScreen() {
               </TouchableOpacity>
             </View>
             {promoMessage ? (
-              <Text style={[styles.promoMessage, promoSuccess && styles.promoMessageSuccess]}>
-                {promoMessage}
-              </Text>
+              <Text style={[styles.promoMessage, promoSuccess && styles.promoMessageSuccess]}>{promoMessage}</Text>
             ) : null}
           </View>
         )}
@@ -428,9 +429,7 @@ export default function PaywallScreen() {
           {!isWeb && (
             <>
               <TouchableOpacity onPress={handleRestore} disabled={restoring}>
-                <Text style={styles.footerLink}>
-                  {restoring ? t('paywall.restoring') : t('paywall.restore')}
-                </Text>
+                <Text style={styles.footerLink}>{restoring ? t('paywall.restoring') : t('paywall.restore')}</Text>
               </TouchableOpacity>
               <Text style={styles.footerDot}>·</Text>
             </>
@@ -444,12 +443,7 @@ export default function PaywallScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.legalNote}>
-          {isWeb
-            ? t('paywall.legalWeb')
-            : t('paywall.legalNative')
-          }
-        </Text>
+        <Text style={styles.legalNote}>{isWeb ? t('paywall.legalWeb') : t('paywall.legalNative')}</Text>
       </ScrollView>
     </SafeAreaView>
   );

@@ -9,7 +9,7 @@ test.describe('Home Screen', () => {
   test('shows quota badge', async ({ page }) => {
     await page.goto('/');
     // Quota text should be visible (either "1 Scan" or "Premium")
-    const quota = page.locator('[testID="quota-badge"]');
+    const _quota = page.locator('[testID="quota-badge"]');
     // If no testID, look for scan text
     await expect(page.locator('text=/\\d+ Scan|Premium|Scan/')).toBeVisible({ timeout: 10000 });
   });

@@ -34,7 +34,7 @@ describe('KNOWN_COLORS', () => {
   });
 
   it('contains expected color labels', () => {
-    const labels = KNOWN_COLORS.map(c => c.label);
+    const labels = KNOWN_COLORS.map((c) => c.label);
     expect(labels).toContain('Hellgrün');
     expect(labels).toContain('Gelb (gleichmäßig)');
     expect(labels).toContain('Gelb (Adern grün)');
@@ -82,7 +82,7 @@ describe('applyColorCorrection()', () => {
     const color = KNOWN_COLORS[0];
     const lowConfResult = { ...mockResult, confidence: 0.3 };
     const result = applyColorCorrection(color, lowConfResult);
-    expect(result.confidence).toBe(0.80);
+    expect(result.confidence).toBe(0.8);
   });
 
   it('preserves confidence if already above 0.80', () => {
@@ -106,7 +106,7 @@ describe('applyColorCorrection()', () => {
       const result = applyColorCorrection(color, mockResult);
       expect(result.primaryDiagnosis).toBe(color.correction.diagnosis);
       expect(result.severity).toBe(color.correction.severity);
-      expect(result.confidence).toBeGreaterThanOrEqual(0.80);
+      expect(result.confidence).toBeGreaterThanOrEqual(0.8);
     }
   });
 });

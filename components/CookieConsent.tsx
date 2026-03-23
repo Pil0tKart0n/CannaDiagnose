@@ -12,9 +12,11 @@ export default function CookieConsent() {
   useEffect(() => {
     // Only show on web
     if (Platform.OS !== 'web') return;
-    AsyncStorage.getItem(CONSENT_KEY).then((val) => {
-      if (!val) setVisible(true);
-    }).catch(() => setVisible(true));
+    AsyncStorage.getItem(CONSENT_KEY)
+      .then((val) => {
+        if (!val) setVisible(true);
+      })
+      .catch(() => setVisible(true));
   }, []);
 
   const handleAccept = async () => {
@@ -46,9 +48,7 @@ export default function CookieConsent() {
   return (
     <View style={styles.overlay}>
       <View style={styles.banner}>
-        <Text style={styles.text}>
-          {t('cookie.text')}
-        </Text>
+        <Text style={styles.text}>{t('cookie.text')}</Text>
         <View style={styles.buttons}>
           <TouchableOpacity onPress={handleDecline} style={styles.declineBtn}>
             <Text style={styles.declineBtnText}>{t('cookie.decline')}</Text>

@@ -20,33 +20,30 @@ export default function ImpressumScreen() {
         </View>
 
         <Section title="Haftung für Inhalte">
-          Die Inhalte dieser App wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
-          Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.{'\n\n'}
-          Die über die App bereitgestellten Pflanzendiagnosen werden durch künstliche Intelligenz
-          (OpenAI) erstellt und stellen keine fachliche oder professionelle Beratung dar. Eine
-          Haftung für Schäden, die durch die Nutzung oder Nichtnutzung der bereitgestellten
-          Informationen entstehen, ist ausgeschlossen, sofern kein vorsätzliches oder grob
-          fahrlässiges Verschulden vorliegt.
+          Die Inhalte dieser App wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und
+          Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.{'\n\n'}
+          Die über die App bereitgestellten Pflanzendiagnosen werden durch künstliche Intelligenz (OpenAI) erstellt und
+          stellen keine fachliche oder professionelle Beratung dar. Eine Haftung für Schäden, die durch die Nutzung oder
+          Nichtnutzung der bereitgestellten Informationen entstehen, ist ausgeschlossen, sofern kein vorsätzliches oder
+          grob fahrlässiges Verschulden vorliegt.
         </Section>
 
         <Section title="Haftung für Links">
-          Diese App enthält keine Links zu externen Websites Dritter, auf deren Inhalte wir
-          keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige
-          Anbieter verantwortlich.
+          Diese App enthält keine Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für
+          die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich.
         </Section>
 
         <Section title="Urheberrecht">
-          Die durch den Betreiber dieser App erstellten Inhalte und Werke unterliegen dem
-          deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art
-          der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen
-          Zustimmung des Erstellers.
+          Die durch den Betreiber dieser App erstellten Inhalte und Werke unterliegen dem deutschen Urheberrecht. Die
+          Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts
+          bedürfen der schriftlichen Zustimmung des Erstellers.
         </Section>
 
         <Section title="Streitbeilegung">
-          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS)
-          bereit: https://ec.europa.eu/consumers/odr{'\n\n'}
-          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
-          Verbraucherschlichtungsstelle teilzunehmen.
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+          https://ec.europa.eu/consumers/odr{'\n\n'}
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+          teilzunehmen.
         </Section>
 
         <View style={styles.spacer} />

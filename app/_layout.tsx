@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Platform, Linking, Alert, TouchableOpacity } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -77,7 +77,7 @@ export function useDiagnosis() {
 }
 
 export default function RootLayout() {
-  const [lang, setLangState] = useState(getLang());
+  const [_lang, setLangState] = useState(getLang());
   useEffect(() => {
     const unsub = onLangChange((l) => setLangState(l));
     return unsub;
@@ -155,10 +155,9 @@ export default function RootLayout() {
 
   useEffect(() => {
     // Run all init tasks in parallel, hide splash when critical ones complete
-    Promise.all([
-      initLanguage().catch(() => {}),
-      initPurchases().catch(() => {}),
-    ]).then(() => SplashScreen.hideAsync()).catch(() => SplashScreen.hideAsync());
+    Promise.all([initLanguage().catch(() => {}), initPurchases().catch(() => {})])
+      .then(() => SplashScreen.hideAsync())
+      .catch(() => SplashScreen.hideAsync());
 
     // Deep-link handler for Stripe payment success (leafscan://payment-success?session_id=...)
     if (Platform.OS !== 'web') {
@@ -169,8 +168,8 @@ export default function RootLayout() {
           const sessionId = url.split('session_id=')[1]?.split('&')[0];
           if (sessionId) {
             fetch(`${SERVER_URL}/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
-              .then(r => r.ok ? r.json() : Promise.reject())
-              .then(data => {
+              .then((r) => (r.ok ? r.json() : Promise.reject()))
+              .then((data) => {
                 if (data.token) {
                   setSessionToken(data.token);
                   setPremium(true);
@@ -182,7 +181,9 @@ export default function RootLayout() {
         }
       };
       // Handle deep-link if app was opened from it
-      Linking.getInitialURL().then(url => { if (url) handleDeepLink({ url }); });
+      Linking.getInitialURL().then((url) => {
+        if (url) handleDeepLink({ url });
+      });
       // Handle deep-link while app is running
       const sub = Linking.addEventListener('url', handleDeepLink);
       // Cleanup on unmount
@@ -192,20 +193,26 @@ export default function RootLayout() {
     }
 
     // Check for active announcement
-    const announcementUrl = Platform.OS === 'web' ? '/api/announcement' : `${process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de'}/api/announcement`;
-    fetch(announcementUrl).then(r => r.ok ? r.json() : null).then(data => {
-      if (data?.message) setAnnouncement(data);
-    }).catch(() => {});
+    const announcementUrl =
+      Platform.OS === 'web'
+        ? '/api/announcement'
+        : `${process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de'}/api/announcement`;
+    fetch(announcementUrl)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.message) setAnnouncement(data);
+      })
+      .catch(() => {});
 
     // Non-critical: run in background without blocking splash
-    initReferenceImages().catch((err) =>
-      console.log('[LeafScan] initReferenceImages error:', err)
-    );
-    cleanupStorage().then(({ archived, deleted }) => {
-      if (archived > 0 || deleted > 0) {
-        console.log(`[LeafScan] Storage cleanup: ${archived} archived, ${deleted} deleted`);
-      }
-    }).catch(() => {});
+    initReferenceImages().catch((err) => console.log('[LeafScan] initReferenceImages error:', err));
+    cleanupStorage()
+      .then(({ archived, deleted }) => {
+        if (archived > 0 || deleted > 0) {
+          console.log(`[LeafScan] Storage cleanup: ${archived} archived, ${deleted} deleted`);
+        }
+      })
+      .catch(() => {});
 
     // Web PWA setup: register service worker + inject manifest link + responsive CSS
     if (Platform.OS === 'web' && typeof document !== 'undefined') {
@@ -264,59 +271,82 @@ export default function RootLayout() {
 
   return (
     <View style={rootStyles.container}>
-    <DiagnosisContext.Provider
-      value={{
-        imageUri, setImageUri,
-        imageUris, setImageUris,
-        optimizedImageUris,
-        questionnaire, setQuestionnaire,
-        result, setResult,
-        selectedPlantId, setSelectedPlantId,
-        isFollowUp, setIsFollowUp,
-        previousResult, setPreviousResult,
-        previousDate, setPreviousDate,
-        reset,
-      }}
-    >
-      <StatusBar style="light" />
-      {announcement && (
-        <View style={[rootStyles.banner, announcement.type === 'warning' ? rootStyles.bannerWarning : announcement.type === 'success' ? rootStyles.bannerSuccess : rootStyles.bannerInfo]}>
-          <Text style={rootStyles.bannerText}>{announcement.message}</Text>
-          <TouchableOpacity onPress={() => setAnnouncement(null)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-            <Text style={rootStyles.bannerClose}>✕</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: colors.background, borderBottomWidth: 0, elevation: 0, shadowOpacity: 0 },
-          headerTintColor: colors.accent,
-          headerTitleStyle: { fontWeight: '500', color: colors.text },
-          contentStyle: { backgroundColor: colors.background },
-          animation: 'fade',
-          animationDuration: 150,
-          navigationBarColor: colors.background,
-          presentation: 'card',
+      <DiagnosisContext.Provider
+        value={{
+          imageUri,
+          setImageUri,
+          imageUris,
+          setImageUris,
+          optimizedImageUris,
+          questionnaire,
+          setQuestionnaire,
+          result,
+          setResult,
+          selectedPlantId,
+          setSelectedPlantId,
+          isFollowUp,
+          setIsFollowUp,
+          previousResult,
+          setPreviousResult,
+          previousDate,
+          setPreviousDate,
+          reset,
         }}
       >
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
-        <Stack.Screen name="camera" options={{ title: t('nav.camera') }} />
-        <Stack.Screen name="questionnaire" options={{ title: t('nav.questionnaire'), headerShown: false }} />
-        <Stack.Screen name="analyzing" options={{ title: t('nav.analysis'), headerBackVisible: false }} />
-        <Stack.Screen name="results" options={{ title: t('nav.results') }} />
-        <Stack.Screen name="history" options={{ title: t('nav.history') }} />
-        <Stack.Screen name="plants" options={{ title: t('nav.plants') }} />
-        <Stack.Screen name="plant-detail" options={{ title: t('nav.plant') }} />
-        <Stack.Screen name="add-plant" options={{ title: t('nav.addPlant') }} />
-        <Stack.Screen name="library" options={{ title: t('nav.library') }} />
-        <Stack.Screen name="privacy" options={{ title: t('nav.privacy') }} />
-        <Stack.Screen name="paywall" options={{ title: t('nav.premium'), presentation: 'modal', headerShown: false }} />
-        <Stack.Screen name="impressum" options={{ title: t('nav.impressum') }} />
-        <Stack.Screen name="terms" options={{ title: t('nav.terms') }} />
-      </Stack>
-      {Platform.OS === 'web' && <CookieConsent />}
-    </DiagnosisContext.Provider>
+        <StatusBar style="light" />
+        {announcement && (
+          <View
+            style={[
+              rootStyles.banner,
+              announcement.type === 'warning'
+                ? rootStyles.bannerWarning
+                : announcement.type === 'success'
+                  ? rootStyles.bannerSuccess
+                  : rootStyles.bannerInfo,
+            ]}
+          >
+            <Text style={rootStyles.bannerText}>{announcement.message}</Text>
+            <TouchableOpacity
+              onPress={() => setAnnouncement(null)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Text style={rootStyles.bannerClose}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.background, borderBottomWidth: 0, elevation: 0, shadowOpacity: 0 },
+            headerTintColor: colors.accent,
+            headerTitleStyle: { fontWeight: '500', color: colors.text },
+            contentStyle: { backgroundColor: colors.background },
+            animation: 'fade',
+            animationDuration: 150,
+            navigationBarColor: colors.background,
+            presentation: 'card',
+          }}
+        >
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
+          <Stack.Screen name="camera" options={{ title: t('nav.camera') }} />
+          <Stack.Screen name="questionnaire" options={{ title: t('nav.questionnaire'), headerShown: false }} />
+          <Stack.Screen name="analyzing" options={{ title: t('nav.analysis'), headerBackVisible: false }} />
+          <Stack.Screen name="results" options={{ title: t('nav.results') }} />
+          <Stack.Screen name="history" options={{ title: t('nav.history') }} />
+          <Stack.Screen name="plants" options={{ title: t('nav.plants') }} />
+          <Stack.Screen name="plant-detail" options={{ title: t('nav.plant') }} />
+          <Stack.Screen name="add-plant" options={{ title: t('nav.addPlant') }} />
+          <Stack.Screen name="library" options={{ title: t('nav.library') }} />
+          <Stack.Screen name="privacy" options={{ title: t('nav.privacy') }} />
+          <Stack.Screen
+            name="paywall"
+            options={{ title: t('nav.premium'), presentation: 'modal', headerShown: false }}
+          />
+          <Stack.Screen name="impressum" options={{ title: t('nav.impressum') }} />
+          <Stack.Screen name="terms" options={{ title: t('nav.terms') }} />
+        </Stack>
+        {Platform.OS === 'web' && <CookieConsent />}
+      </DiagnosisContext.Provider>
     </View>
   );
 }

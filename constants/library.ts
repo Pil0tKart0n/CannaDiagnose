@@ -1,4 +1,9 @@
-export type LibraryCategory = 'naehrstoffmangel' | 'naehrstoffueberschuss' | 'schaedlinge' | 'krankheiten' | 'umweltprobleme';
+export type LibraryCategory =
+  | 'naehrstoffmangel'
+  | 'naehrstoffueberschuss'
+  | 'schaedlinge'
+  | 'krankheiten'
+  | 'umweltprobleme';
 export type LibrarySeverity = 'niedrig' | 'mittel' | 'hoch' | 'kritisch';
 
 export interface LibraryEntry {

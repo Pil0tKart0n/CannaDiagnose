@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  Platform,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
@@ -31,8 +30,7 @@ const slides: Slide[] = [
     icon: 'leaf-outline',
     title: 'LeafScan',
     subtitle: 'Dein Grow-Begleiter',
-    description:
-      'Fotografiere deine Pflanze und erhalte in Sekunden eine Diagnose mit konkretem Aktionsplan.',
+    description: 'Fotografiere deine Pflanze und erhalte in Sekunden eine Diagnose mit konkretem Aktionsplan.',
   },
   {
     icon: 'camera-outline',
@@ -44,7 +42,7 @@ const slides: Slide[] = [
   {
     icon: 'checkmark-circle-outline',
     title: 'Bereit?',
-    subtitle: 'Los geht\'s',
+    subtitle: "Los geht's",
     description:
       'Du bekommst täglich eine kostenlose Diagnose. Die Bibliothek mit Infos zu allen Mängeln ist jederzeit verfügbar.\n\nDie Diagnosen ersetzen keine professionelle Beratung.',
   },
@@ -98,10 +96,7 @@ export default function OnboardingScreen() {
       {/* Dots */}
       <View style={styles.dotsRow}>
         {slides.map((_, i) => (
-          <View
-            key={i}
-            style={[styles.dot, i === currentSlide && styles.dotActive]}
-          />
+          <View key={i} style={[styles.dot, i === currentSlide && styles.dotActive]} />
         ))}
       </View>
 

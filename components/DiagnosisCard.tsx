@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { DiagnosisResult, Severity } from '../types';
 import { colors } from '../constants/colors';
-import { t, getLang } from '../services/i18n';
+import { getLang } from '../services/i18n';
 
 interface DiagnosisCardProps {
   result: DiagnosisResult;
@@ -51,9 +51,8 @@ function getTips(): string[] {
 export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps) {
   const sevColor = severityColors[result.severity] || colors.textMuted;
   const confPercent = Math.round(result.confidence * 100);
-  const confColor = confPercent >= 70 ? colors.severityLow
-                  : confPercent >= 40 ? colors.severityMedium
-                  : colors.severityCritical;
+  const confColor =
+    confPercent >= 70 ? colors.severityLow : confPercent >= 40 ? colors.severityMedium : colors.severityCritical;
 
   const tips = getTips();
   const randomTip = useMemo(() => tips[Math.floor(Math.random() * tips.length)], []);
@@ -65,9 +64,7 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
 
       {/* Top row: badge */}
       <View style={[styles.severityBadge, { backgroundColor: sevColor }]}>
-        <Text style={styles.severityText}>
-          {getSeverityLabel(result.severity)}
-        </Text>
+        <Text style={styles.severityText}>{getSeverityLabel(result.severity)}</Text>
       </View>
 
       <Text style={styles.diagnosis}>{result.primaryDiagnosis}</Text>
@@ -76,16 +73,9 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
       <View style={styles.confidenceRow}>
         <Text style={styles.confidenceLabel}>Konfidenz</Text>
         <View style={styles.confidenceBar}>
-          <View
-            style={[
-              styles.confidenceFill,
-              { width: `${confPercent}%`, backgroundColor: confColor },
-            ]}
-          />
+          <View style={[styles.confidenceFill, { width: `${confPercent}%`, backgroundColor: confColor }]} />
         </View>
-        <Text style={[styles.confidenceValue, { color: confColor }]}>
-          {confPercent}%
-        </Text>
+        <Text style={[styles.confidenceValue, { color: confColor }]}>{confPercent}%</Text>
       </View>
 
       {/* Divider */}

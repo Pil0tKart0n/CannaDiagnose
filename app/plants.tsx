@@ -1,8 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl, ActivityIndicator,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+  RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
@@ -26,7 +33,7 @@ export default function PlantsScreen() {
   useFocusEffect(
     useCallback(() => {
       loadPlants();
-    }, [])
+    }, []),
   );
 
   const loadPlants = async () => {
@@ -40,7 +47,7 @@ export default function PlantsScreen() {
             latestEntry: entries[0],
             entryCount: entries.length,
           };
-        })
+        }),
       );
       setPlants(withEntries);
     } catch (e) {
@@ -58,18 +65,19 @@ export default function PlantsScreen() {
   };
 
   const handleDelete = (id: string, name: string) => {
-    confirmAlert(
-      t('plants.deleteTitle', { name }),
-      t('plants.deleteMessage'),
-      async () => { await deletePlant(id); loadPlants(); },
-    );
+    confirmAlert(t('plants.deleteTitle', { name }), t('plants.deleteMessage'), async () => {
+      await deletePlant(id);
+      loadPlants();
+    });
   };
 
   const renderItem = ({ item }: { item: PlantWithLatest }) => {
-    const followUpDays = typeof item.latestEntry?.result.followUpDays === 'number' ? item.latestEntry.result.followUpDays : 0;
-    const followUpDate = followUpDays > 0 && item.latestEntry
-      ? new Date(new Date(item.latestEntry.date).getTime() + (followUpDays * 86400000))
-      : null;
+    const followUpDays =
+      typeof item.latestEntry?.result.followUpDays === 'number' ? item.latestEntry.result.followUpDays : 0;
+    const followUpDate =
+      followUpDays > 0 && item.latestEntry
+        ? new Date(new Date(item.latestEntry.date).getTime() + followUpDays * 86400000)
+        : null;
     const isFollowUpDue = followUpDate && !isNaN(followUpDate.getTime()) && followUpDate <= new Date();
 
     return (
@@ -96,10 +104,7 @@ export default function PlantsScreen() {
             </View>
           )}
         </View>
-        <TouchableOpacity
-          style={styles.deleteBtn}
-          onPress={() => handleDelete(item.id, item.name)}
-        >
+        <TouchableOpacity style={styles.deleteBtn} onPress={() => handleDelete(item.id, item.name)}>
           <Text style={styles.deleteText}>✕</Text>
         </TouchableOpacity>
       </TouchableOpacity>
@@ -133,9 +138,7 @@ export default function PlantsScreen() {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyTitle}>{t('plants.emptyTitle')}</Text>
-            <Text style={styles.emptyText}>
-              {t('plants.emptyText')}
-</Text>
+            <Text style={styles.emptyText}>{t('plants.emptyText')}</Text>
           </View>
         }
       />
@@ -174,10 +177,14 @@ const styles = StyleSheet.create({
     }),
   },
   plantThumb: {
-    width: 52, height: 52, borderRadius: 16, backgroundColor: colors.cardMid,
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: colors.cardMid,
   },
   plantThumbEmpty: {
-    alignItems: 'center', justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   plantThumbText: { fontSize: 24 },
   plantInfo: { flex: 1, marginLeft: 14 },
@@ -186,19 +193,29 @@ const styles = StyleSheet.create({
   followUpBadge: {
     alignSelf: 'flex-start',
     backgroundColor: colors.accentSubtle,
-    paddingHorizontal: 8, paddingVertical: 3,
-    borderRadius: 8, marginTop: 6,
-    borderWidth: 1, borderColor: colors.borderAccent,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+    marginTop: 6,
+    borderWidth: 1,
+    borderColor: colors.borderAccent,
   },
   followUpText: { fontSize: 11, fontWeight: '600', color: colors.accent },
   deleteBtn: { padding: 8 },
   deleteText: { fontSize: 16, color: colors.textMuted },
   bottomBar: { padding: 16, paddingBottom: 32 },
   addBtn: {
-    borderRadius: 12, paddingVertical: 16, alignItems: 'center',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
     ...Platform.select({
       web: { boxShadow: '0 4px 20px rgba(74,222,128,0.2)' },
-      ios: { shadowColor: 'rgba(74,222,128,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
+      ios: {
+        shadowColor: 'rgba(74,222,128,0.4)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 1,
+        shadowRadius: 12,
+      },
       android: { elevation: 6 },
     }),
   },

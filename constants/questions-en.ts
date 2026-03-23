@@ -22,13 +22,13 @@ export const questionTextsEn: Record<string, string> = {
 
 export const optionTextsEn: Record<string, string> = {
   // Indoor/Outdoor
-  'Indoor': 'Indoor',
-  'Outdoor': 'Outdoor',
+  Indoor: 'Indoor',
+  Outdoor: 'Outdoor',
 
   // Grow phase
-  'Vegetativ': 'Vegetative',
-  'Blüte': 'Flowering',
-  'Mutterpflanze': 'Mother Plant',
+  Vegetativ: 'Vegetative',
+  Blüte: 'Flowering',
+  Mutterpflanze: 'Mother Plant',
 
   // Plant age — vegetative weeks
   '0–2 Wochen': '0–2 Weeks',
@@ -60,12 +60,12 @@ export const optionTextsEn: Record<string, string> = {
   'Älter als 16 Wochen': 'Older than 16 Weeks',
 
   // Substrate
-  'Erde': 'Soil',
-  'Kokos': 'Coco',
+  Erde: 'Soil',
+  Kokos: 'Coco',
   'DWC / Hydro': 'DWC / Hydro',
-  'Aeroponik': 'Aeroponics',
+  Aeroponik: 'Aeroponics',
   'Living Soil': 'Living Soil',
-  'Sonstige': 'Other',
+  Sonstige: 'Other',
 
   // Fertilizer
   'Kein Dünger / Nur Wasser': 'No Fertilizer / Water Only',
@@ -73,16 +73,16 @@ export const optionTextsEn: Record<string, string> = {
   // Organic application method
   'Flüssig ins Gießwasser': 'Liquid in water',
   'Top-Dress (auf die Erde)': 'Top-Dress (on the soil)',
-  'Beides': 'Both',
+  Beides: 'Both',
   'Water Only (vorab eingemischt)': 'Water Only (pre-mixed)',
 
   // Compost tea
   'Ja, regelmäßig': 'Yes, regularly',
   'Ja, gelegentlich': 'Yes, occasionally',
-  'Nein': 'No',
+  Nein: 'No',
 
   // Mycorrhiza
-  'Ja': 'Yes',
+  Ja: 'Yes',
   'Weiß nicht': "Don't know",
 
   // Pot size
@@ -94,22 +94,22 @@ export const optionTextsEn: Record<string, string> = {
   '50L+': '50L+',
 
   // Water type
-  'Leitungswasser': 'Tap water',
-  'Regenwasser': 'Rainwater',
+  Leitungswasser: 'Tap water',
+  Regenwasser: 'Rainwater',
   'Osmosewasser (RO)': 'Reverse Osmosis (RO)',
-  'Gefiltert': 'Filtered',
+  Gefiltert: 'Filtered',
 
   // Living Soil amendments
-  'Wurmhumus': 'Worm castings',
-  'Kompost': 'Compost',
+  Wurmhumus: 'Worm castings',
+  Kompost: 'Compost',
   'Guano (Fledermaus/Seevogel)': 'Guano (Bat/Seabird)',
   'Blutmehl / Knochenmehl': 'Blood meal / Bone meal',
-  'Fischmehl': 'Fish meal',
+  Fischmehl: 'Fish meal',
   'Algenmehl / Kelp': 'Kelp meal / Kelp',
   'Gesteinsmehl /Ite-Mehl': 'Rock dust /ite meal',
   'Dolomit-Kalk': 'Dolomite lime',
-  'Austernschalenmehl': 'Oyster shell meal',
-  'Mykorrhiza': 'Mycorrhiza',
+  Austernschalenmehl: 'Oyster shell meal',
+  Mykorrhiza: 'Mycorrhiza',
   'Neem-Kuchen': 'Neem cake',
   'Bio-Fertigmix (z.B. Buildasoil, KIS)': 'Organic premix (e.g. Buildasoil, KIS)',
   'Weiß nicht / Sonstige': "Don't know / Other",
@@ -129,7 +129,7 @@ export const optionTextsEn: Record<string, string> = {
   // Recent changes
   'Neuer Dünger': 'New fertilizer',
   'Dosis geändert': 'Dose changed',
-  'Umgetopft': 'Repotted',
+  Umgetopft: 'Repotted',
   'Lampe gewechselt': 'Light changed',
   'Standort geändert': 'Location changed',
   'Nichts geändert': 'Nothing changed',
@@ -146,8 +146,8 @@ export const hintTextsEn: Record<string, string> = {
 };
 
 export const sectionTextsEn: Record<string, string> = {
-  'Setup': 'Setup',
-  'Pflanze': 'Plant',
-  'Umgebung': 'Environment',
-  'Kontext': 'Context',
+  Setup: 'Setup',
+  Pflanze: 'Plant',
+  Umgebung: 'Environment',
+  Kontext: 'Context',
 };

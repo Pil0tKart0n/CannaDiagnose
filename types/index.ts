@@ -59,8 +59,8 @@ export interface DiagnosisResult {
 export interface DiagnosisEntry {
   id: string;
   date: string;
-  imageUri: string;         // backward compat – first image
-  imageUris: string[];      // all images (1–3)
+  imageUri: string; // backward compat – first image
+  imageUris: string[]; // all images (1–3)
   questionnaire: QuestionnaireData;
   result: DiagnosisResult;
   plantId?: string;

@@ -5,7 +5,9 @@ import { Platform } from 'react-native';
  * Enthält Animationen, Hintergrundeffekte und Button-Klassen.
  * Wird via injectCSS() in den <head> eingefügt.
  */
-export const webCSS = Platform.OS === 'web' ? `
+export const webCSS =
+  Platform.OS === 'web'
+    ? `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
   html, body, #root {
@@ -141,7 +143,8 @@ export const webCSS = Platform.OS === 'web' ? `
     animation: cd-shine 3.5s ease-in-out infinite;
     pointer-events: none;
   }
-` : '';
+`
+    : '';
 
 /**
  * Injects the LeafScan CSS into the document head (web only).

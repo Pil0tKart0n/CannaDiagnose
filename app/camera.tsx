@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View, Text, TouchableOpacity, StyleSheet, Alert, Platform, Image, ScrollView,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform, Image, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,7 +13,9 @@ import { t } from '../services/i18n';
 const MAX_PHOTOS = 1;
 
 export default function CameraScreen() {
-  useEffect(() => { trackEvent('camera_open'); }, []);
+  useEffect(() => {
+    trackEvent('camera_open');
+  }, []);
   const router = useRouter();
   const { setImageUris } = useDiagnosis();
   const [photos, setPhotos] = useState<string[]>([]);
@@ -76,11 +76,7 @@ export default function CameraScreen() {
             {photos.map((uri, index) => (
               <View key={`${uri}-${index}`} style={styles.thumbnailWrapper}>
                 <Image source={{ uri }} style={styles.thumbnail} />
-                <TouchableOpacity
-                  style={styles.removeBtn}
-                  onPress={() => removePhoto(index)}
-                  activeOpacity={0.7}
-                >
+                <TouchableOpacity style={styles.removeBtn} onPress={() => removePhoto(index)} activeOpacity={0.7}>
                   <Ionicons name="close-circle" size={22} color={colors.error} />
                 </TouchableOpacity>
                 <View style={styles.thumbnailBadge}>
@@ -113,11 +109,8 @@ export default function CameraScreen() {
                 color={canAddMore ? colors.accent : colors.accentSoft}
                 style={{ opacity: 0.7 }}
               />
-              <Text style={styles.viewfinderText}>
-                {t('camera.photoTaken')}
-              </Text>
-              <Text style={styles.viewfinderHint}>
-              </Text>
+              <Text style={styles.viewfinderText}>{t('camera.photoTaken')}</Text>
+              <Text style={styles.viewfinderHint}></Text>
             </>
           ) : (
             <>
@@ -141,9 +134,7 @@ export default function CameraScreen() {
               <Ionicons name="camera" size={32} color={colors.textOnAccent} />
             </LinearGradient>
           </TouchableOpacity>
-          <Text style={styles.shutterLabel}>
-            {hasPhotos ? t('camera.takeAnother') : t('camera.takePhoto')}
-          </Text>
+          <Text style={styles.shutterLabel}>{hasPhotos ? t('camera.takeAnother') : t('camera.takePhoto')}</Text>
         </View>
       )}
 
@@ -169,9 +160,7 @@ export default function CameraScreen() {
               <Ionicons name="cloud-upload-outline" size={32} color={colors.textOnAccent} />
             </LinearGradient>
           </TouchableOpacity>
-          <Text style={styles.shutterLabel}>
-            {hasPhotos ? t('camera.uploadAnother') : t('camera.upload')}
-          </Text>
+          <Text style={styles.shutterLabel}>{hasPhotos ? t('camera.uploadAnother') : t('camera.upload')}</Text>
         </View>
       )}
 

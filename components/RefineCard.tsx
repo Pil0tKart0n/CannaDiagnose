@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
-import { KNOWN_COLORS, ColorCorrection } from '../constants/colorCorrections';
+import { ColorCorrection } from '../constants/colorCorrections';
 import { getFertilizerNames } from '../constants/fertilizers';
 import { t } from '../services/i18n';
 
@@ -80,28 +72,18 @@ export default function RefineCard({
 }: RefineCardProps) {
   return (
     <View style={styles.refineCard}>
-      <TouchableOpacity
-        onPress={onToggleOpen}
-        style={styles.refineHeader}
-        activeOpacity={0.7}
-      >
+      <TouchableOpacity onPress={onToggleOpen} style={styles.refineHeader} activeOpacity={0.7}>
         <View style={styles.refineHeaderLeft}>
           <Ionicons name="flask-outline" size={18} color={colors.accent} />
           <Text style={styles.refineTitle}>{t('results.refineTitle')}</Text>
         </View>
-        <Ionicons
-          name={refineOpen ? 'chevron-up' : 'chevron-down'}
-          size={18}
-          color={colors.textMuted}
-        />
+        <Ionicons name={refineOpen ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textMuted} />
       </TouchableOpacity>
 
       {refineOpen && (
         <View style={styles.refineBody}>
           <Text style={styles.refineHint}>
-            {substrateType === 'Living Soil'
-              ? t('results.refineHintLivingSoil')
-              : t('results.refineHintDefault')}
+            {substrateType === 'Living Soil' ? t('results.refineHintLivingSoil') : t('results.refineHintDefault')}
           </Text>
 
           {/* Color correction field */}
@@ -159,7 +141,7 @@ export default function RefineCard({
                 onFocus={() => onInputFocus?.()}
               />
             </View>
-            {(isLivingSoil || isOrganic) ? (
+            {isLivingSoil || isOrganic ? (
               <View style={styles.refineInputGroup}>
                 <Text style={styles.refineLabel}>{t('results.soilTemp')}</Text>
                 <TextInput
@@ -192,15 +174,9 @@ export default function RefineCard({
           {substrateType !== 'Living Soil' && (
             <View style={styles.refineInputGroup}>
               <Text style={styles.refineLabel}>
-                {hasFertilizerFromQuestionnaire
-                  ? t('results.fertilizerFromQ')
-                  : t('results.fertilizerOptional')}
+                {hasFertilizerFromQuestionnaire ? t('results.fertilizerFromQ') : t('results.fertilizerOptional')}
               </Text>
-              <TouchableOpacity
-                onPress={onFertilizerPickerToggle}
-                style={styles.refineSelect}
-                activeOpacity={0.7}
-              >
+              <TouchableOpacity onPress={onFertilizerPickerToggle} style={styles.refineSelect} activeOpacity={0.7}>
                 <Text style={[styles.refineSelectText, !fertilizerInput && { color: colors.textMuted }]}>
                   {fertilizerInput || t('results.fertilizerSearch')}
                 </Text>
@@ -232,10 +208,7 @@ export default function RefineCard({
                               name === 'Anderer Dünger' || name === 'Kein Dünger / nur Wasser' ? null : name,
                             );
                           }}
-                          style={[
-                            styles.fertilizerOption,
-                            fertilizerInput === name && styles.fertilizerOptionSelected,
-                          ]}
+                          style={[styles.fertilizerOption, fertilizerInput === name && styles.fertilizerOptionSelected]}
                           activeOpacity={0.7}
                         >
                           <Text

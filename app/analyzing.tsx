@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform, Animated, Easing } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Animated, Easing } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,8 +27,15 @@ type ScreenState = 'loading' | 'error';
 export default function AnalyzingScreen() {
   const router = useRouter();
   const {
-    imageUri, imageUris, optimizedImageUris, questionnaire, setResult,
-    selectedPlantId, isFollowUp, previousResult, previousDate,
+    imageUri,
+    imageUris,
+    optimizedImageUris,
+    questionnaire,
+    setResult,
+    selectedPlantId,
+    isFollowUp,
+    previousResult,
+    previousDate,
   } = useDiagnosis();
   const [textIndex, setTextIndex] = useState(0);
   const [attemptText, setAttemptText] = useState('');
@@ -43,9 +50,19 @@ export default function AnalyzingScreen() {
     // Subtle pulse animation on the ring
     Animated.loop(
       Animated.sequence([
-        Animated.timing(pulseAnim, { toValue: 1.08, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-        Animated.timing(pulseAnim, { toValue: 1, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-      ])
+        Animated.timing(pulseAnim, {
+          toValue: 1.08,
+          duration: 1200,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 1200,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ]),
     ).start();
 
     // Rotate loading texts with fade
@@ -94,7 +111,7 @@ export default function AnalyzingScreen() {
 
     try {
       trackEvent('scan_start');
-      const allUris = imageUris.length > 0 ? imageUris : (imageUri ? [imageUri] : []);
+      const allUris = imageUris.length > 0 ? imageUris : imageUri ? [imageUri] : [];
       // Use pre-optimized images if available (optimized in background during questionnaire)
       const preOptimized = optimizedImageUris.length === allUris.length ? optimizedImageUris : [];
       const { result: diagResult } = await analyzePlant(
@@ -148,7 +165,10 @@ export default function AnalyzingScreen() {
       // Free cached base64 data from memory
       clearImageCache();
 
-      trackEvent('scan_complete', { diagnosis: diagResult.primaryDiagnosis?.substring(0, 50), severity: diagResult.severity });
+      trackEvent('scan_complete', {
+        diagnosis: diagResult.primaryDiagnosis?.substring(0, 50),
+        severity: diagResult.severity,
+      });
       setResult(diagResult);
       const entryId = Date.now().toString();
       await saveEntry({
@@ -183,7 +203,16 @@ export default function AnalyzingScreen() {
       setError(apiError);
       setScreenState('error');
     }
-  }, [imageUri, imageUris, optimizedImageUris, questionnaire, isFollowUp, previousResult, previousDate, selectedPlantId]);
+  }, [
+    imageUri,
+    imageUris,
+    optimizedImageUris,
+    questionnaire,
+    isFollowUp,
+    previousResult,
+    previousDate,
+    selectedPlantId,
+  ]);
 
   useEffect(() => {
     if (hasStarted.current) return;
@@ -206,11 +235,22 @@ export default function AnalyzingScreen() {
         : error.type === 'network'
           ? 'cloud-offline-outline'
           : 'alert-circle-outline';
-    const iconColor = isQuotaExceeded ? '#FBBF24' : isNoPlant ? colors.warning : error.type === 'network' ? colors.warning : colors.error;
+    const iconColor = isQuotaExceeded
+      ? '#FBBF24'
+      : isNoPlant
+        ? colors.warning
+        : error.type === 'network'
+          ? colors.warning
+          : colors.error;
 
     return (
       <View style={styles.container}>
-        <View style={[styles.errorIconWrap, isQuotaExceeded && { backgroundColor: 'rgba(251,191,36,0.08)', borderColor: 'rgba(251,191,36,0.15)' }]}>
+        <View
+          style={[
+            styles.errorIconWrap,
+            isQuotaExceeded && { backgroundColor: 'rgba(251,191,36,0.08)', borderColor: 'rgba(251,191,36,0.15)' },
+          ]}
+        >
           <Ionicons name={iconName as any} size={48} color={iconColor} />
         </View>
         <Text style={styles.errorTitle}>
@@ -223,19 +263,11 @@ export default function AnalyzingScreen() {
                 : t('analyzing.analysisError')}
         </Text>
         <Text style={styles.errorMessage}>
-          {isQuotaExceeded
-            ? t('analyzing.quotaUsed')
-            : isNoPlant
-              ? t('analyzing.noPlantDesc')
-              : error.message}
+          {isQuotaExceeded ? t('analyzing.quotaUsed') : isNoPlant ? t('analyzing.noPlantDesc') : error.message}
         </Text>
 
         {isQuotaExceeded && (
-          <TouchableOpacity
-            onPress={() => router.push('/paywall')}
-            activeOpacity={0.85}
-            style={styles.retryBtnWrap}
-          >
+          <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.85} style={styles.retryBtnWrap}>
             <LinearGradient
               colors={['#FCD34D', '#FBBF24', '#F59E0B']}
               start={{ x: 0, y: 0 }}
@@ -249,11 +281,7 @@ export default function AnalyzingScreen() {
         )}
 
         {isNoPlant && (
-          <TouchableOpacity
-            onPress={() => router.replace('/camera')}
-            activeOpacity={0.85}
-            style={styles.retryBtnWrap}
-          >
+          <TouchableOpacity onPress={() => router.replace('/camera')} activeOpacity={0.85} style={styles.retryBtnWrap}>
             <LinearGradient
               colors={['#5AEF90', '#4ADE80', '#3CC870']}
               start={{ x: 0, y: 0 }}

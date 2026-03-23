@@ -570,12 +570,7 @@ export const libraryEntriesEn: Record<
       'Deformed leaves and flowers',
       'Tiny, elongated insects (1–2 mm)',
     ],
-    causes: [
-      'Introduced via plants',
-      'Dry, warm conditions',
-      'Poor hygiene',
-      'Weeds near the grow area',
-    ],
+    causes: ['Introduced via plants', 'Dry, warm conditions', 'Poor hygiene', 'Weeds near the grow area'],
     treatment: [
       'Hang blue sticky traps (thrips prefer blue)',
       'Introduce predatory mites (Amblyseius cucumeris)',
@@ -992,7 +987,7 @@ export const libraryEntriesEn: Record<
       'Fox-tailing from heat stress produces new white pistils – do NOT interpret as "unripe"!',
     ],
     treatment: [
-      'Use a USB microscope (60–100x) or jeweler\'s loupe – trichomes cannot be judged by the naked eye',
+      "Use a USB microscope (60–100x) or jeweler's loupe – trichomes cannot be judged by the naked eye",
       'Check trichomes on BUDS, NOT on sugar leaves (sugar leaves ripen faster)',
       'For stronger effect: harvest when mostly milky trichomes (0–10% amber)',
       'For relaxing effect: harvest at 20–30% amber trichomes',

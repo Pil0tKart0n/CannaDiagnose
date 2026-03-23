@@ -131,7 +131,11 @@ export async function getQuotaDisplay(): Promise<{
       }
       const left = Math.max(0, data.limit - data.scansToday);
       if (left > 0) {
-        return { text: `${left} kostenlose${left === 1 ? ' Diagnose' : ' Diagnosen'} heute`, scansLeft: left, isPremium: false };
+        return {
+          text: `${left} kostenlose${left === 1 ? ' Diagnose' : ' Diagnosen'} heute`,
+          scansLeft: left,
+          isPremium: false,
+        };
       }
       return { text: 'Tageslimit erreicht', scansLeft: 0, isPremium: false };
     }

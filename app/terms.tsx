@@ -13,75 +13,66 @@ export default function TermsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>1. Geltungsbereich</Text>
           <Text style={styles.sectionText}>
-            Diese Nutzungsbedingungen gelten für die Nutzung der App „LeafScan" (nachfolgend „App")
-            von <Text style={styles.tinyText}>Klyro Labs</Text> (nachfolgend „Anbieter"). Mit der Nutzung der App akzeptierst du
-            diese Bedingungen.
+            Diese Nutzungsbedingungen gelten für die Nutzung der App „LeafScan" (nachfolgend „App") von{' '}
+            <Text style={styles.tinyText}>Klyro Labs</Text> (nachfolgend „Anbieter"). Mit der Nutzung der App
+            akzeptierst du diese Bedingungen.
           </Text>
         </View>
 
         <Section title="2. Leistungsbeschreibung">
-          Die App bietet eine KI-gestützte Pflanzendiagnose an. Nutzer können
-          Fotos ihrer Pflanzen hochladen und erhalten eine automatisierte Analyse möglicher
-          Nährstoffmängel und Probleme mit Handlungsempfehlungen.{'\n\n'}
-          Die kostenlose Version umfasst 1 Diagnose pro Tag. Erweiterte Funktionen sind über
-          ein kostenpflichtiges Abonnement verfügbar.
+          Die App bietet eine KI-gestützte Pflanzendiagnose an. Nutzer können Fotos ihrer Pflanzen hochladen und
+          erhalten eine automatisierte Analyse möglicher Nährstoffmängel und Probleme mit Handlungsempfehlungen.{'\n\n'}
+          Die kostenlose Version umfasst 1 Diagnose pro Tag. Erweiterte Funktionen sind über ein kostenpflichtiges
+          Abonnement verfügbar.
         </Section>
 
         <Section title="3. Keine professionelle Beratung">
-          Die Diagnosen werden durch künstliche Intelligenz erstellt und können fehlerhaft sein.
-          Die App ersetzt KEINE professionelle Beratung durch Agrarwissenschaftler, Botaniker
-          oder andere Fachleute.{'\n\n'}
+          Die Diagnosen werden durch künstliche Intelligenz erstellt und können fehlerhaft sein. Die App ersetzt KEINE
+          professionelle Beratung durch Agrarwissenschaftler, Botaniker oder andere Fachleute.{'\n\n'}
           Der Nutzer handelt auf eigene Verantwortung, wenn er Empfehlungen der App umsetzt.
         </Section>
 
         <Section title="4. Abonnements und Bezahlung">
-          Premium-Abonnements werden über den jeweiligen App Store (Google Play / Apple App Store)
-          abgerechnet. Es gelten die Zahlungsbedingungen des jeweiligen Stores.{'\n\n'}
-          Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor
-          Ablauf des aktuellen Zeitraums gekündigt werden.{'\n\n'}
-          Die Kündigung erfolgt über die Abo-Verwaltung des jeweiligen App Stores. Eine Kündigung
-          über die App selbst ist nicht möglich.
+          Premium-Abonnements werden über den jeweiligen App Store (Google Play / Apple App Store) abgerechnet. Es
+          gelten die Zahlungsbedingungen des jeweiligen Stores.{'\n\n'}
+          Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor Ablauf des aktuellen
+          Zeitraums gekündigt werden.{'\n\n'}
+          Die Kündigung erfolgt über die Abo-Verwaltung des jeweiligen App Stores. Eine Kündigung über die App selbst
+          ist nicht möglich.
         </Section>
 
         <Section title="5. Nutzerpflichten">
-          Der Nutzer verpflichtet sich:{'\n\n'}
-          • Die App nur für legale Zwecke zu nutzen{'\n'}
-          • Keine missbräuchliche oder übermäßige Nutzung der API-Dienste{'\n'}
-          • Keine Manipulation der App oder Umgehung von Nutzungsbeschränkungen{'\n'}
-          • Die geltenden Gesetze bezüglich des Pflanzenanbaus in seiner
-          Rechtsordnung einzuhalten
+          Der Nutzer verpflichtet sich:{'\n\n'}• Die App nur für legale Zwecke zu nutzen{'\n'}• Keine missbräuchliche
+          oder übermäßige Nutzung der API-Dienste{'\n'}• Keine Manipulation der App oder Umgehung von
+          Nutzungsbeschränkungen{'\n'}• Die geltenden Gesetze bezüglich des Pflanzenanbaus in seiner Rechtsordnung
+          einzuhalten
         </Section>
 
         <Section title="6. Geistiges Eigentum">
-          Alle Inhalte der App (Design, Texte, Code, Bibliothekseinträge) sind urheberrechtlich
-          geschützt. Die vom Nutzer erstellten Diagnosen und hochgeladenen Fotos verbleiben im
-          Eigentum des Nutzers.
+          Alle Inhalte der App (Design, Texte, Code, Bibliothekseinträge) sind urheberrechtlich geschützt. Die vom
+          Nutzer erstellten Diagnosen und hochgeladenen Fotos verbleiben im Eigentum des Nutzers.
         </Section>
 
         <Section title="7. Haftungsbeschränkung">
-          Der Anbieter haftet nicht für:{'\n\n'}
-          • Schäden durch fehlerhafte KI-Diagnosen{'\n'}
-          • Ernteverluste oder Pflanzenschäden durch Befolgung der Empfehlungen{'\n'}
-          • Datenverlust auf dem Gerät des Nutzers{'\n'}
-          • Ausfälle oder Nichtverfügbarkeit der API-Dienste{'\n\n'}
+          Der Anbieter haftet nicht für:{'\n\n'}• Schäden durch fehlerhafte KI-Diagnosen{'\n'}• Ernteverluste oder
+          Pflanzenschäden durch Befolgung der Empfehlungen{'\n'}• Datenverlust auf dem Gerät des Nutzers{'\n'}• Ausfälle
+          oder Nichtverfügbarkeit der API-Dienste{'\n\n'}
           Dies gilt nicht bei Vorsatz oder grober Fahrlässigkeit.
         </Section>
 
         <Section title="8. Verfügbarkeit">
-          Der Anbieter bemüht sich um eine hohe Verfügbarkeit der App, kann aber keine
-          ununterbrochene Verfügbarkeit garantieren. Wartungsarbeiten und Updates können
-          zu vorübergehenden Einschränkungen führen.
+          Der Anbieter bemüht sich um eine hohe Verfügbarkeit der App, kann aber keine ununterbrochene Verfügbarkeit
+          garantieren. Wartungsarbeiten und Updates können zu vorübergehenden Einschränkungen führen.
         </Section>
 
         <Section title="9. Änderungen der Nutzungsbedingungen">
-          Der Anbieter behält sich vor, diese Nutzungsbedingungen jederzeit zu ändern.
-          Über wesentliche Änderungen wird in der App informiert. Die fortgesetzte Nutzung
-          nach Änderung gilt als Zustimmung.
+          Der Anbieter behält sich vor, diese Nutzungsbedingungen jederzeit zu ändern. Über wesentliche Änderungen wird
+          in der App informiert. Die fortgesetzte Nutzung nach Änderung gilt als Zustimmung.
         </Section>
 
         <Section title="10. Anwendbares Recht">
-          Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist, soweit
-          gesetzlich zulässig, der Sitz des Anbieters.
+          Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist, soweit gesetzlich zulässig, der Sitz des
+          Anbieters.
         </Section>
 
         <View style={styles.section}>

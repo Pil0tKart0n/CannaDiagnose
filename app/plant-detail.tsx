@@ -1,6 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Platform, RefreshControl, TextInput, Alert,
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+  RefreshControl,
+  TextInput,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
@@ -47,7 +56,7 @@ export default function PlantDetailScreen() {
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [params.plantId])
+    }, [params.plantId]),
   );
 
   const loadData = async () => {
@@ -132,7 +141,8 @@ export default function PlantDetailScreen() {
 
   const handleDeleteEntry = (entryId: string) => {
     confirmAlert(t('plantDetail.deleteEntry'), t('plantDetail.deleteEntryMsg'), async () => {
-      await deleteEntry(entryId); loadData();
+      await deleteEntry(entryId);
+      loadData();
     });
   };
 
@@ -199,14 +209,12 @@ export default function PlantDetailScreen() {
                 <Ionicons name="camera-outline" size={16} color="#fff" />
               </View>
             </TouchableOpacity>
+          ) : plant.imageUri ? (
+            <Image source={{ uri: plant.imageUri }} style={styles.plantImage} />
           ) : (
-            plant.imageUri ? (
-              <Image source={{ uri: plant.imageUri }} style={styles.plantImage} />
-            ) : (
-              <View style={[styles.plantImage, styles.plantImageEmpty]}>
-                <Text style={styles.plantImageText}>🌱</Text>
-              </View>
-            )
+            <View style={[styles.plantImage, styles.plantImageEmpty]}>
+              <Text style={styles.plantImageText}>🌱</Text>
+            </View>
           )}
           <View style={styles.headerInfo}>
             {editing ? (
@@ -238,9 +246,7 @@ export default function PlantDetailScreen() {
                 {plant.strain && <Text style={styles.plantStrain}>{plant.strain}</Text>}
               </>
             )}
-            <Text style={styles.plantDate}>
-              {t('plantDetail.createdOn', { date: formatDate(plant.createdAt) })}
-            </Text>
+            <Text style={styles.plantDate}>{t('plantDetail.createdOn', { date: formatDate(plant.createdAt) })}</Text>
           </View>
         </View>
 
@@ -269,7 +275,10 @@ export default function PlantDetailScreen() {
             <Text style={[styles.followUpBannerText, followUp.isDue && styles.followUpBannerTextDue]}>
               {followUp.isDue
                 ? t('plantDetail.followUpDue')
-                : t('plantDetail.followUpIn', { days: followUp.daysLeft, unit: followUp.daysLeft === 1 ? t('plantDetail.day') : t('plantDetail.days') })}
+                : t('plantDetail.followUpIn', {
+                    days: followUp.daysLeft,
+                    unit: followUp.daysLeft === 1 ? t('plantDetail.day') : t('plantDetail.days'),
+                  })}
             </Text>
             {followUp.isDue && (
               <TouchableOpacity onPress={startFollowUp} style={styles.followUpBannerBtn}>
@@ -280,158 +289,160 @@ export default function PlantDetailScreen() {
         )}
 
         {/* Severity Trend Chart */}
-        {entries.length > 0 && (() => {
-          const CHART_HEIGHT = 120;
-          const DOT_SIZE = 10;
-          const severityPosition: Record<Severity, number> = {
-            niedrig: 0,
-            mittel: 0.33,
-            hoch: 0.66,
-            kritisch: 1,
-          };
-          // Take last 8 entries, reversed so oldest is first (left)
-          const chartEntries = entries.slice(0, 8).reverse();
-          const pointCount = chartEntries.length;
+        {entries.length > 0 &&
+          (() => {
+            const CHART_HEIGHT = 120;
+            const DOT_SIZE = 10;
+            const severityPosition: Record<Severity, number> = {
+              niedrig: 0,
+              mittel: 0.33,
+              hoch: 0.66,
+              kritisch: 1,
+            };
+            // Take last 8 entries, reversed so oldest is first (left)
+            const chartEntries = entries.slice(0, 8).reverse();
+            const pointCount = chartEntries.length;
 
-          return (
-            <View style={styles.trendSection}>
-              <Text style={styles.sectionTitle}>{t('plantDetail.healthTrend')}</Text>
-              <View style={styles.trendCard}>
-                {/* Y-axis labels */}
-                <View style={styles.trendYAxis}>
-                  <Text style={[styles.trendYLabel, { top: 0 }]}>{t('plantDetail.severityCritical')}</Text>
-                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.34 - 6 }]}>{t('plantDetail.severityHigh')}</Text>
-                  <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.67 - 6 }]}>{t('plantDetail.severityMedium')}</Text>
-                  <Text style={[styles.trendYLabel, { bottom: 0 }]}>{t('plantDetail.severityLow')}</Text>
-                </View>
+            return (
+              <View style={styles.trendSection}>
+                <Text style={styles.sectionTitle}>{t('plantDetail.healthTrend')}</Text>
+                <View style={styles.trendCard}>
+                  {/* Y-axis labels */}
+                  <View style={styles.trendYAxis}>
+                    <Text style={[styles.trendYLabel, { top: 0 }]}>{t('plantDetail.severityCritical')}</Text>
+                    <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.34 - 6 }]}>
+                      {t('plantDetail.severityHigh')}
+                    </Text>
+                    <Text style={[styles.trendYLabel, { top: CHART_HEIGHT * 0.67 - 6 }]}>
+                      {t('plantDetail.severityMedium')}
+                    </Text>
+                    <Text style={[styles.trendYLabel, { bottom: 0 }]}>{t('plantDetail.severityLow')}</Text>
+                  </View>
 
-                {/* Chart area */}
-                <View style={[styles.trendChartArea, { height: CHART_HEIGHT }]}>
-                  {/* Grid lines */}
-                  {[0, 0.33, 0.66, 1].map((pos, i) => (
-                    <View
-                      key={`grid-${i}`}
-                      style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        bottom: pos * (CHART_HEIGHT - DOT_SIZE),
-                        height: 1,
-                        backgroundColor: colors.border,
-                      }}
-                    />
-                  ))}
-
-                  {/* Connecting lines */}
-                  {pointCount > 1 && chartEntries.map((entry, index) => {
-                    if (index === 0) return null;
-                    const prev = chartEntries[index - 1];
-                    const prevX = (index - 1) / (pointCount - 1);
-                    const currX = index / (pointCount - 1);
-                    const prevY = severityPosition[prev.result.severity];
-                    const currY = severityPosition[entry.result.severity];
-
-                    const x1Pct = prevX * 100;
-                    const x2Pct = currX * 100;
-                    const y1 = prevY * (CHART_HEIGHT - DOT_SIZE);
-                    const y2 = currY * (CHART_HEIGHT - DOT_SIZE);
-                    const midColor = severityColor[entry.result.severity];
-
-                    return (
+                  {/* Chart area */}
+                  <View style={[styles.trendChartArea, { height: CHART_HEIGHT }]}>
+                    {/* Grid lines */}
+                    {[0, 0.33, 0.66, 1].map((pos, i) => (
                       <View
-                        key={`line-${index}`}
+                        key={`grid-${i}`}
                         style={{
                           position: 'absolute',
-                          left: `${x1Pct}%` as any,
-                          bottom: Math.min(y1, y2) + DOT_SIZE / 2 - 1,
-                          width: `${x2Pct - x1Pct}%` as any,
-                          height: Math.abs(y2 - y1) + 2,
-                          overflow: 'visible',
-                        }}
-                      >
-                        <View
-                          style={{
-                            position: 'absolute',
-                            left: 0,
-                            right: 0,
-                            top: y1 > y2 ? 0 : undefined,
-                            bottom: y1 <= y2 ? 0 : undefined,
-                            height: 2,
-                            backgroundColor: midColor,
-                            opacity: 0.5,
-                            // Diagonal effect: we fake it with a simple horizontal line at midpoint
-                          }}
-                        />
-                      </View>
-                    );
-                  })}
-
-                  {/* Dots */}
-                  {chartEntries.map((entry, index) => {
-                    const sev = entry.result.severity;
-                    const color = severityColor[sev];
-                    const yPos = severityPosition[sev] * (CHART_HEIGHT - DOT_SIZE);
-                    const xPct = pointCount > 1 ? (index / (pointCount - 1)) * 100 : 50;
-
-                    return (
-                      <View
-                        key={`dot-${index}`}
-                        style={{
-                          position: 'absolute',
-                          left: `${xPct}%` as any,
-                          bottom: yPos,
-                          marginLeft: -DOT_SIZE / 2,
-                          width: DOT_SIZE,
-                          height: DOT_SIZE,
-                          borderRadius: DOT_SIZE / 2,
-                          backgroundColor: color,
-                          borderWidth: 2,
-                          borderColor: colors.cardDark,
-                          zIndex: 2,
+                          left: 0,
+                          right: 0,
+                          bottom: pos * (CHART_HEIGHT - DOT_SIZE),
+                          height: 1,
+                          backgroundColor: colors.border,
                         }}
                       />
-                    );
-                  })}
-                </View>
+                    ))}
 
-                {/* X-axis date labels */}
-                <View style={styles.trendXAxis}>
-                  {chartEntries.map((entry, index) => {
-                    const xPct = pointCount > 1 ? (index / (pointCount - 1)) * 100 : 50;
-                    const d = new Date(entry.date);
-                    const label = `${d.getDate()}.${d.getMonth() + 1}`;
-                    return (
-                      <Text
-                        key={`label-${index}`}
-                        style={[
-                          styles.trendXLabel,
-                          {
+                    {/* Connecting lines */}
+                    {pointCount > 1 &&
+                      chartEntries.map((entry, index) => {
+                        if (index === 0) return null;
+                        const prev = chartEntries[index - 1];
+                        const prevX = (index - 1) / (pointCount - 1);
+                        const currX = index / (pointCount - 1);
+                        const prevY = severityPosition[prev.result.severity];
+                        const currY = severityPosition[entry.result.severity];
+
+                        const x1Pct = prevX * 100;
+                        const x2Pct = currX * 100;
+                        const y1 = prevY * (CHART_HEIGHT - DOT_SIZE);
+                        const y2 = currY * (CHART_HEIGHT - DOT_SIZE);
+                        const midColor = severityColor[entry.result.severity];
+
+                        return (
+                          <View
+                            key={`line-${index}`}
+                            style={{
+                              position: 'absolute',
+                              left: `${x1Pct}%` as any,
+                              bottom: Math.min(y1, y2) + DOT_SIZE / 2 - 1,
+                              width: `${x2Pct - x1Pct}%` as any,
+                              height: Math.abs(y2 - y1) + 2,
+                              overflow: 'visible',
+                            }}
+                          >
+                            <View
+                              style={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                top: y1 > y2 ? 0 : undefined,
+                                bottom: y1 <= y2 ? 0 : undefined,
+                                height: 2,
+                                backgroundColor: midColor,
+                                opacity: 0.5,
+                                // Diagonal effect: we fake it with a simple horizontal line at midpoint
+                              }}
+                            />
+                          </View>
+                        );
+                      })}
+
+                    {/* Dots */}
+                    {chartEntries.map((entry, index) => {
+                      const sev = entry.result.severity;
+                      const color = severityColor[sev];
+                      const yPos = severityPosition[sev] * (CHART_HEIGHT - DOT_SIZE);
+                      const xPct = pointCount > 1 ? (index / (pointCount - 1)) * 100 : 50;
+
+                      return (
+                        <View
+                          key={`dot-${index}`}
+                          style={{
                             position: 'absolute',
                             left: `${xPct}%` as any,
-                            transform: [{ translateX: -16 }],
-                          },
-                        ]}
-                      >
-                        {label}
-                      </Text>
-                    );
-                  })}
+                            bottom: yPos,
+                            marginLeft: -DOT_SIZE / 2,
+                            width: DOT_SIZE,
+                            height: DOT_SIZE,
+                            borderRadius: DOT_SIZE / 2,
+                            backgroundColor: color,
+                            borderWidth: 2,
+                            borderColor: colors.cardDark,
+                            zIndex: 2,
+                          }}
+                        />
+                      );
+                    })}
+                  </View>
+
+                  {/* X-axis date labels */}
+                  <View style={styles.trendXAxis}>
+                    {chartEntries.map((entry, index) => {
+                      const xPct = pointCount > 1 ? (index / (pointCount - 1)) * 100 : 50;
+                      const d = new Date(entry.date);
+                      const label = `${d.getDate()}.${d.getMonth() + 1}`;
+                      return (
+                        <Text
+                          key={`label-${index}`}
+                          style={[
+                            styles.trendXLabel,
+                            {
+                              position: 'absolute',
+                              left: `${xPct}%` as any,
+                              transform: [{ translateX: -16 }],
+                            },
+                          ]}
+                        >
+                          {label}
+                        </Text>
+                      );
+                    })}
+                  </View>
                 </View>
               </View>
-            </View>
-          );
-        })()}
+            );
+          })()}
 
         {/* Timeline */}
-        <Text style={styles.sectionTitle}>
-          {t('plantDetail.diagnosisHistory', { count: entries.length })}
-        </Text>
+        <Text style={styles.sectionTitle}>{t('plantDetail.diagnosisHistory', { count: entries.length })}</Text>
 
         {entries.length === 0 ? (
           <View style={styles.emptyTimeline}>
-            <Text style={styles.emptyTimelineText}>
-              {t('plantDetail.emptyTimeline')}
-            </Text>
+            <Text style={styles.emptyTimelineText}>{t('plantDetail.emptyTimeline')}</Text>
           </View>
         ) : (
           entries.map((entry, index) => {
@@ -467,15 +478,16 @@ export default function PlantDetailScreen() {
                     <Text style={styles.entryTime}>{formatTime(entry.date)}</Text>
                     <View style={[styles.severityBadge, { backgroundColor: `${color}18` }]}>
                       <View style={[styles.severityDot, { backgroundColor: color }]} />
-                      <Text style={[styles.severityText, { color }]}>
-                        {getSeverityLabel()[sev]}
-                      </Text>
+                      <Text style={[styles.severityText, { color }]}>{getSeverityLabel()[sev]}</Text>
                     </View>
                   </View>
 
                   <View style={styles.entryBody}>
                     {(getEntryImageUris(entry)[0] || entry.imageUri) && (
-                      <Image source={{ uri: getEntryImageUris(entry)[0] || entry.imageUri }} style={styles.entryThumb} />
+                      <Image
+                        source={{ uri: getEntryImageUris(entry)[0] || entry.imageUri }}
+                        style={styles.entryThumb}
+                      />
                     )}
                     <View style={styles.entryInfo}>
                       <Text style={styles.entryDiagnosis} numberOfLines={2}>
@@ -538,11 +550,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   plantImage: {
-    width: 72, height: 72, borderRadius: 22,
+    width: 72,
+    height: 72,
+    borderRadius: 22,
   },
   plantImageEmpty: {
     backgroundColor: 'rgba(255,255,255,0.05)',
-    alignItems: 'center', justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   plantImageText: { fontSize: 32 },
   headerInfo: { flex: 1, marginLeft: 16 },
@@ -564,7 +579,9 @@ const styles = StyleSheet.create({
     borderColor: colors.borderAccent,
   },
   followUpBannerText: {
-    fontSize: 14, color: colors.textSecondary, fontWeight: '600',
+    fontSize: 14,
+    color: colors.textSecondary,
+    fontWeight: '600',
   },
   followUpBannerTextDue: {
     color: colors.accent,
@@ -578,12 +595,18 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   followUpBannerBtnText: {
-    fontSize: 13, fontWeight: '600', color: colors.accent,
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.accent,
   },
 
   // Section
   sectionTitle: {
-    fontSize: 12, fontWeight: '600', color: colors.textSecondary, letterSpacing: 1.5, textTransform: 'uppercase',
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
     marginBottom: 16,
   },
 
@@ -638,7 +661,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   emptyTimelineText: {
-    fontSize: 14, color: colors.textMuted, textAlign: 'center', lineHeight: 20,
+    fontSize: 14,
+    color: colors.textMuted,
+    textAlign: 'center',
+    lineHeight: 20,
   },
 
   // Timeline
@@ -652,7 +678,9 @@ const styles = StyleSheet.create({
     paddingTop: 6,
   },
   timelineDot: {
-    width: 10, height: 10, borderRadius: 5,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   timelineConnector: {
     width: 2,
@@ -697,7 +725,9 @@ const styles = StyleSheet.create({
 
   entryBody: { flexDirection: 'row' },
   entryThumb: {
-    width: 48, height: 48, borderRadius: 12,
+    width: 48,
+    height: 48,
+    borderRadius: 12,
   },
   entryInfo: { flex: 1, marginLeft: 12 },
   entryDiagnosis: { fontSize: 13, color: colors.textSecondary, lineHeight: 18 },
@@ -706,10 +736,17 @@ const styles = StyleSheet.create({
   // Bottom
   bottomBar: { padding: 16, paddingBottom: 24 },
   actionBtn: {
-    borderRadius: 12, paddingVertical: 16, alignItems: 'center',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
     ...Platform.select({
       web: { boxShadow: '0 4px 20px rgba(74,222,128,0.2)' },
-      ios: { shadowColor: 'rgba(74,222,128,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
+      ios: {
+        shadowColor: 'rgba(74,222,128,0.4)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 1,
+        shadowRadius: 12,
+      },
       android: { elevation: 6 },
     }),
   },

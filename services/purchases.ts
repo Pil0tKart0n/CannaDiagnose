@@ -40,9 +40,7 @@ export async function initPurchases(): Promise<void> {
   try {
     Purchases = require('react-native-purchases').default;
 
-    const apiKey = Platform.OS === 'ios'
-      ? REVENUECAT_API_KEY_APPLE
-      : REVENUECAT_API_KEY_GOOGLE;
+    const apiKey = Platform.OS === 'ios' ? REVENUECAT_API_KEY_APPLE : REVENUECAT_API_KEY_GOOGLE;
 
     // Don't initialize without API key or with test keys (test keys crash release builds)
     if (!apiKey || apiKey.startsWith('test_')) {

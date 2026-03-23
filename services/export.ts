@@ -35,11 +35,7 @@ const severityLabels: Record<Severity, string> = {
 };
 
 function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function buildImageSection(imageBase64?: string): string {
@@ -62,7 +58,7 @@ function buildFactorsSection(factors: DiagnosisResult['contributingFactors']): s
           <strong>${escapeHtml(f.factor)}</strong>
           <span>${escapeHtml(f.impact)}</span>
         </div>
-      </div>`
+      </div>`,
     )
     .join('');
 
@@ -85,7 +81,7 @@ function buildActionPlanSection(steps: DiagnosisResult['actionPlan']): string {
           <strong>${escapeHtml(s.action)}</strong>
           <span>${escapeHtml(s.details)}</span>
         </div>
-      </div>`
+      </div>`,
     )
     .join('');
 
@@ -105,7 +101,7 @@ function buildTipsSection(tips: DiagnosisResult['preventiveTips']): string {
       <div class="tip-row">
         <div class="tip-dot"></div>
         <span>${escapeHtml(t)}</span>
-      </div>`
+      </div>`,
     )
     .join('');
 
@@ -382,10 +378,7 @@ async function imageToBase64(uri: string): Promise<string | undefined> {
   }
 }
 
-export async function generateDiagnosisPDF(
-  result: DiagnosisResult,
-  imageUri?: string
-): Promise<string> {
+export async function generateDiagnosisPDF(result: DiagnosisResult, imageUri?: string): Promise<string> {
   let imageBase64: string | undefined;
   if (imageUri) {
     imageBase64 = await imageToBase64(imageUri);
@@ -473,10 +466,7 @@ async function shareOnWeb(result: DiagnosisResult, imageBase64?: string): Promis
   }
 }
 
-export async function shareDiagnosis(
-  result: DiagnosisResult,
-  imageUri?: string
-): Promise<void> {
+export async function shareDiagnosis(result: DiagnosisResult, imageUri?: string): Promise<void> {
   // Web/PWA: use Web Share API for native share sheet (WhatsApp, Telegram, etc.)
   if (Platform.OS === 'web') {
     let imageBase64: string | undefined;

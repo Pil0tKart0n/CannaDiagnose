@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  TouchableOpacity,
-  Modal,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity, Modal, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -25,7 +17,7 @@ import InstallBanner from '../components/InstallBanner';
 export default function HomeScreen() {
   const router = useRouter();
   const { reset } = useDiagnosis();
-  const [lang, setLangState] = useState(getLang());
+  const [_lang, setLangState] = useState(getLang());
   useEffect(() => {
     const unsub = onLangChange((l) => setLangState(l));
     return unsub;
@@ -69,8 +61,8 @@ export default function HomeScreen() {
       const sessionId = params.get('session_id');
       if (sessionId) {
         fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
-          .then(r => r.ok ? r.json() : Promise.reject())
-          .then(data => {
+          .then((r) => (r.ok ? r.json() : Promise.reject()))
+          .then((data) => {
             if (data.token) {
               // Store server-issued token + mark premium locally
               setSessionToken(data.token);
@@ -88,14 +80,18 @@ export default function HomeScreen() {
       }
     }
     // Check onboarding
-    hasCompletedOnboarding().then((done) => {
-      if (!done) router.replace('/onboarding');
-    }).catch(() => {});
+    hasCompletedOnboarding()
+      .then((done) => {
+        if (!done) router.replace('/onboarding');
+      })
+      .catch(() => {});
     // Load quota
-    getQuotaDisplay().then((q) => {
-      setQuotaText(q.text);
-      setQuotaIsPremium(q.isPremium);
-    }).catch(() => {});
+    getQuotaDisplay()
+      .then((q) => {
+        setQuotaText(q.text);
+        setQuotaIsPremium(q.isPremium);
+      })
+      .catch(() => {});
 
     return () => {
       if (cleanupInstallPrompt) cleanupInstallPrompt();
@@ -105,11 +101,13 @@ export default function HomeScreen() {
   // Re-check quota every time the screen gets focus (e.g. after paywall/promo)
   useFocusEffect(
     React.useCallback(() => {
-      getQuotaDisplay().then((q) => {
-        setQuotaText(q.text);
-        setQuotaIsPremium(q.isPremium);
-      }).catch(() => {});
-    }, [])
+      getQuotaDisplay()
+        .then((q) => {
+          setQuotaText(q.text);
+          setQuotaIsPremium(q.isPremium);
+        })
+        .catch(() => {});
+    }, []),
   );
 
   const startDiagnosis = async () => {
@@ -137,7 +135,7 @@ export default function HomeScreen() {
           toValue: 1,
           duration: 3000,
           useNativeDriver: true,
-        })
+        }),
       );
       loop.start();
       return () => loop.stop();
@@ -154,7 +152,6 @@ export default function HomeScreen() {
       {isWeb && <div className="cd-screen" style={{ position: 'absolute', inset: 0 } as any} />}
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
-
           {/* Hero: Brand + Value Prop */}
           <View style={styles.centerArea}>
             {Platform.OS === 'web' && <View style={styles.logoGlow} />}
@@ -187,9 +184,7 @@ export default function HomeScreen() {
                 onPress={() => !quotaIsPremium && router.push('/paywall')}
                 activeOpacity={quotaIsPremium ? 1 : 0.7}
               >
-                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>
-                  {quotaText}
-                </Text>
+                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>{quotaText}</Text>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -220,25 +215,49 @@ export default function HomeScreen() {
             <View style={styles.navRow}>
               {isWeb ? (
                 <>
-                  <div className="cd-btn-secondary" onClick={() => router.push('/plants')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                  <div
+                    className="cd-btn-secondary"
+                    onClick={() => router.push('/plants')}
+                    style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}
+                  >
                     <Text style={styles.navBtnText}>{t('home.plants')}</Text>
                   </div>
-                  <div className="cd-btn-secondary" onClick={() => router.push('/history')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                  <div
+                    className="cd-btn-secondary"
+                    onClick={() => router.push('/history')}
+                    style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}
+                  >
                     <Text style={styles.navBtnText}>{t('home.history')}</Text>
                   </div>
-                  <div className="cd-btn-secondary" onClick={() => router.push('/library')} style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}>
+                  <div
+                    className="cd-btn-secondary"
+                    onClick={() => router.push('/library')}
+                    style={{ padding: '10px 12px', textAlign: 'center', flex: 1 } as any}
+                  >
                     <Text style={styles.navBtnText}>{t('home.library')}</Text>
                   </div>
                 </>
               ) : (
                 <>
-                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/plants')} activeOpacity={0.7}>
+                  <TouchableOpacity
+                    style={[styles.navBtn, { flex: 1 }]}
+                    onPress={() => router.push('/plants')}
+                    activeOpacity={0.7}
+                  >
                     <Text style={styles.navBtnText}>{t('home.plants')}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/history')} activeOpacity={0.7}>
+                  <TouchableOpacity
+                    style={[styles.navBtn, { flex: 1 }]}
+                    onPress={() => router.push('/history')}
+                    activeOpacity={0.7}
+                  >
                     <Text style={styles.navBtnText}>{t('home.history')}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={[styles.navBtn, { flex: 1 }]} onPress={() => router.push('/library')} activeOpacity={0.7}>
+                  <TouchableOpacity
+                    style={[styles.navBtn, { flex: 1 }]}
+                    onPress={() => router.push('/library')}
+                    activeOpacity={0.7}
+                  >
                     <Text style={styles.navBtnText}>{t('home.library')}</Text>
                   </TouchableOpacity>
                 </>
@@ -257,12 +276,21 @@ export default function HomeScreen() {
           )}
 
           {/* Premium upgrade link — always visible for non-premium */}
-          {!quotaIsPremium && (
-            isWeb ? (
+          {!quotaIsPremium &&
+            (isWeb ? (
               <div
                 className="cd-btn-premium"
                 onClick={() => router.push('/paywall')}
-                style={{ padding: '12px 16px', textAlign: 'center', marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' } as any}
+                style={
+                  {
+                    padding: '12px 16px',
+                    textAlign: 'center',
+                    marginTop: 8,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  } as any
+                }
               >
                 <View style={styles.premiumRow}>
                   <Text style={styles.premiumIcon}>◆</Text>
@@ -271,13 +299,12 @@ export default function HomeScreen() {
                 </View>
               </div>
             ) : (
-              <TouchableOpacity
-                style={styles.premiumBtn}
-                onPress={() => router.push('/paywall')}
-                activeOpacity={0.7}
-              >
+              <TouchableOpacity style={styles.premiumBtn} onPress={() => router.push('/paywall')} activeOpacity={0.7}>
                 <Animated.View
-                  style={[styles.premiumShimmer, { transform: [{ translateX: shimmerTranslateX }, { skewX: '-15deg' }] }]}
+                  style={[
+                    styles.premiumShimmer,
+                    { transform: [{ translateX: shimmerTranslateX }, { skewX: '-15deg' }] },
+                  ]}
                 >
                   <LinearGradient
                     colors={['transparent', 'rgba(255,215,0,0.10)', 'transparent']}
@@ -292,8 +319,7 @@ export default function HomeScreen() {
                   <Text style={styles.premiumArrow}>→</Text>
                 </View>
               </TouchableOpacity>
-            )
-          )}
+            ))}
 
           {/* Language toggle */}
           <View style={styles.langToggleWrap}>
@@ -318,16 +344,10 @@ export default function HomeScreen() {
 
       {/* Info Modal */}
       <Modal visible={showInfo} transparent animationType="fade">
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowInfo(false)}
-        >
+        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={() => setShowInfo(false)}>
           <View style={styles.modalCard}>
             <Text style={styles.modalTitle}>{t('modal.howTitle')}</Text>
-            <Text style={styles.modalText}>
-              {t('modal.howText')}
-            </Text>
+            <Text style={styles.modalText}>{t('modal.howText')}</Text>
             <TouchableOpacity onPress={() => setShowInfo(false)} style={styles.modalClose}>
               <Text style={styles.modalCloseText}>{t('modal.understood')}</Text>
             </TouchableOpacity>
@@ -502,7 +522,6 @@ const styles = StyleSheet.create({
     color: colors.accentWarm,
   },
 
-
   // Language toggle
   langToggleWrap: {
     alignItems: 'center',
@@ -533,7 +552,6 @@ const styles = StyleSheet.create({
     color: 'rgba(92,232,146,0.2)',
     fontWeight: '300',
   },
-
 
   // Premium upgrade
   premiumBtn: {

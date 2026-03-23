@@ -1,14 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-  ScrollView,
-  Animated,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, ScrollView, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Question } from '../types';
 import { colors } from '../constants/colors';
@@ -37,7 +28,15 @@ interface QuestionCardProps {
   onPerlitePercentChange?: (percent: string | null) => void;
 }
 
-function SearchableSelect({ question, value, onChange }: { question: Question; value: any; onChange: (value: any) => void }) {
+function SearchableSelect({
+  question,
+  value,
+  onChange,
+}: {
+  question: Question;
+  value: any;
+  onChange: (value: any) => void;
+}) {
   const [search, setSearch] = useState('');
   const options = question.options || [];
 
@@ -67,9 +66,7 @@ function SearchableSelect({ question, value, onChange }: { question: Question; v
               onPress={() => onChange(opt)}
               activeOpacity={0.7}
             >
-              <Text style={[styles.searchableItemText, selected && styles.optionTextSelected]}>
-                {tq(opt)}
-              </Text>
+              <Text style={[styles.searchableItemText, selected && styles.optionTextSelected]}>{tq(opt)}</Text>
               {selected && <Text style={styles.checkmark}>✓</Text>}
             </TouchableOpacity>
           );
@@ -79,7 +76,15 @@ function SearchableSelect({ question, value, onChange }: { question: Question; v
   );
 }
 
-export default function QuestionCard({ question, value, onChange, perliteAdded, perlitePercent, onPerliteToggle, onPerlitePercentChange }: QuestionCardProps) {
+export default function QuestionCard({
+  question,
+  value,
+  onChange,
+  perliteAdded,
+  perlitePercent,
+  onPerliteToggle,
+  onPerlitePercentChange,
+}: QuestionCardProps) {
   const [showPerliteTip, setShowPerliteTip] = useState(false);
   const tipOpacity = useState(new Animated.Value(0))[0];
 
@@ -110,9 +115,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
             style={[styles.option, selected && styles.optionSelected]}
             onPress={() => onChange(opt)}
           >
-            <Text style={[styles.optionText, selected && styles.optionTextSelected]}>
-              {tq(opt)}
-            </Text>
+            <Text style={[styles.optionText, selected && styles.optionTextSelected]}>{tq(opt)}</Text>
           </TouchableOpacity>
         );
       })}
@@ -137,9 +140,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
                 }
               }}
             >
-              <Text style={[styles.optionText, selected && styles.optionTextSelected]}>
-                {tq(opt)}
-              </Text>
+              <Text style={[styles.optionText, selected && styles.optionTextSelected]}>{tq(opt)}</Text>
             </TouchableOpacity>
           );
         })}
@@ -188,17 +189,13 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
             if (showPerliteTip) dismissPerliteTip();
           }}
         >
-          <Text style={[styles.perliteToggleText, perliteAdded && styles.optionTextSelected]}>
-            + Perlite
-          </Text>
+          <Text style={[styles.perliteToggleText, perliteAdded && styles.optionTextSelected]}>+ Perlite</Text>
         </TouchableOpacity>
         {showPerliteTip && (
           <Animated.View style={[styles.perliteTip, { opacity: tipOpacity }]}>
             <View style={styles.perliteTipArrow} />
             <TouchableOpacity onPress={dismissPerliteTip} activeOpacity={0.8}>
-              <Text style={styles.perliteTipText}>
-                {t('questionCard.perliteTip')}
-              </Text>
+              <Text style={styles.perliteTipText}>{t('questionCard.perliteTip')}</Text>
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -211,9 +208,7 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
                 style={[styles.perliteChip, perlitePercent === pct && styles.perliteChipActive]}
                 onPress={() => onPerlitePercentChange(perlitePercent === pct ? null : pct)}
               >
-                <Text style={[styles.perliteChipText, perlitePercent === pct && styles.optionTextSelected]}>
-                  {pct}
-                </Text>
+                <Text style={[styles.perliteChipText, perlitePercent === pct && styles.optionTextSelected]}>{pct}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -229,7 +224,9 @@ export default function QuestionCard({ question, value, onChange, perliteAdded, 
       {question.type === 'select' && renderSelect()}
       {renderPerliteAddon()}
       {question.type === 'multi-select' && renderMultiSelect()}
-      {question.type === 'searchable-select' && <SearchableSelect question={question} value={value} onChange={onChange} />}
+      {question.type === 'searchable-select' && (
+        <SearchableSelect question={question} value={value} onChange={onChange} />
+      )}
       {question.type === 'number' && renderNumber()}
       {question.type === 'text' && renderText()}
     </View>

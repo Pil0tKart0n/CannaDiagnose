@@ -15,9 +15,10 @@ function getDeviceLanguage(): Language {
     if (Platform.OS === 'web' && typeof navigator !== 'undefined') {
       locale = navigator.language || 'de';
     } else if (Platform.OS === 'ios') {
-      locale = NativeModules.SettingsManager?.settings?.AppleLocale
-        || NativeModules.SettingsManager?.settings?.AppleLanguages?.[0]
-        || 'de';
+      locale =
+        NativeModules.SettingsManager?.settings?.AppleLocale ||
+        NativeModules.SettingsManager?.settings?.AppleLanguages?.[0] ||
+        'de';
     } else if (Platform.OS === 'android') {
       locale = NativeModules.I18nManager?.localeIdentifier || 'de';
     }
@@ -79,7 +80,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // How it works modal
     'modal.howTitle': "So funktioniert's",
-    'modal.howText': 'Mach ein Foto von der betroffenen Stelle –\nBlatt, Stängel oder die ganze Pflanze.\n\nBeantworte ein paar kurze Fragen zu\ndeinem Setup.\n\nDu bekommst eine Diagnose mit konkreten\nSchritten, was du jetzt tun kannst.',
+    'modal.howText':
+      'Mach ein Foto von der betroffenen Stelle –\nBlatt, Stängel oder die ganze Pflanze.\n\nBeantworte ein paar kurze Fragen zu\ndeinem Setup.\n\nDu bekommst eine Diagnose mit konkreten\nSchritten, was du jetzt tun kannst.',
     'modal.understood': 'Verstanden',
 
     // Camera
@@ -113,7 +115,8 @@ const translations: Record<Language, Record<string, string>> = {
     'analyzing.noConnection': 'Keine Verbindung',
     'analyzing.analysisError': 'Fehler bei der Analyse',
     'analyzing.quotaUsed': 'Du hast deine kostenlose Diagnose für heute bereits verwendet.',
-    'analyzing.noPlantDesc': 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte mache ein neues Foto von deiner Pflanze.',
+    'analyzing.noPlantDesc':
+      'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte mache ein neues Foto von deiner Pflanze.',
     'analyzing.unlockPremium': 'Premium freischalten',
     'analyzing.newPhoto': 'Neues Foto aufnehmen',
     'analyzing.retry': 'Erneut versuchen',
@@ -144,7 +147,8 @@ const translations: Record<Language, Record<string, string>> = {
     'results.followUpReminder': 'Follow-up in {days} Tagen – du wirst erinnert',
     'results.libraryLink': 'Mehr über {name} in der Bibliothek',
     'results.feedbackQuestion': 'War die Diagnose hilfreich?',
-    'results.disclaimer': 'Diese Diagnose kann fehlerhaft sein. Kein Ersatz für professionelle Beratung. Nutzung auf eigene Verantwortung.',
+    'results.disclaimer':
+      'Diese Diagnose kann fehlerhaft sein. Kein Ersatz für professionelle Beratung. Nutzung auf eigene Verantwortung.',
     'results.toPlant': 'Zur Pflanze',
     'results.scanAnother': 'Weiteres Blatt scannen',
     'results.newDiagnosis': 'Neue Diagnose',
@@ -253,15 +257,18 @@ const translations: Record<Language, Record<string, string>> = {
     'paywall.noSubscription': 'Kein Abo gefunden',
     'paywall.noSubscriptionMsg': 'Es wurde kein aktives Abonnement gefunden.',
     'paywall.restoreError': 'Käufe konnten nicht wiederhergestellt werden. Bitte versuche es erneut.',
-    'paywall.legalWeb': 'Das Abo verlängert sich automatisch. Du kannst es jederzeit über dein Stripe-Kundenkonto kündigen. Die Bezahlung erfolgt sicher über Stripe.',
-    'paywall.legalNative': 'Das Abo verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo jederzeit in den Einstellungen deines Google Play / App Store Kontos verwalten.',
+    'paywall.legalWeb':
+      'Das Abo verlängert sich automatisch. Du kannst es jederzeit über dein Stripe-Kundenkonto kündigen. Die Bezahlung erfolgt sicher über Stripe.',
+    'paywall.legalNative':
+      'Das Abo verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt wird. Du kannst dein Abo jederzeit in den Einstellungen deines Google Play / App Store Kontos verwalten.',
 
     // Questionnaire
     'questionnaire.startAnalysis': 'Analyse starten',
     'questionnaire.next': 'Weiter',
 
     // Cookie Consent
-    'cookie.text': 'Diese App nutzt lokalen Speicher (LocalStorage) und einen Service Worker für Offline-Funktionalität. Es werden keine Tracking-Cookies oder Analysedienste verwendet.',
+    'cookie.text':
+      'Diese App nutzt lokalen Speicher (LocalStorage) und einen Service Worker für Offline-Funktionalität. Es werden keine Tracking-Cookies oder Analysedienste verwendet.',
     'cookie.decline': 'Ablehnen',
     'cookie.accept': 'Akzeptieren',
 
@@ -295,19 +302,24 @@ const translations: Record<Language, Record<string, string>> = {
     // Onboarding
     'onboarding.step1title': 'Foto aufnehmen',
     'onboarding.step1sub': 'Schritt 1',
-    'onboarding.step1desc': 'Fotografiere das betroffene Blatt, den Stängel oder die ganze Pflanze. Bis zu 3 Fotos für eine genauere Diagnose.',
+    'onboarding.step1desc':
+      'Fotografiere das betroffene Blatt, den Stängel oder die ganze Pflanze. Bis zu 3 Fotos für eine genauere Diagnose.',
     'onboarding.step2title': 'Setup beschreiben',
     'onboarding.step2sub': 'Schritt 2',
-    'onboarding.step2desc': 'Beantworte ein paar Fragen zu deinem Grow: Substrat, Dünger, pH, Temperatur. Je mehr Infos, desto präziser die Diagnose.',
+    'onboarding.step2desc':
+      'Beantworte ein paar Fragen zu deinem Grow: Substrat, Dünger, pH, Temperatur. Je mehr Infos, desto präziser die Diagnose.',
     'onboarding.step3title': 'KI-Diagnose erhalten',
     'onboarding.step3sub': 'Schritt 3',
-    'onboarding.step3desc': 'Unsere KI analysiert deine Fotos zusammen mit deinen Angaben und liefert dir eine Diagnose mit konkretem Aktionsplan.',
+    'onboarding.step3desc':
+      'Unsere KI analysiert deine Fotos zusammen mit deinen Angaben und liefert dir eine Diagnose mit konkretem Aktionsplan.',
     'onboarding.step4title': 'Pflanzen verwalten',
     'onboarding.step4sub': 'Extra',
-    'onboarding.step4desc': 'Lege Profile für deine Pflanzen an und verfolge ihren Gesundheitsverlauf über die Zeit. So siehst du ob deine Behandlung wirkt.',
+    'onboarding.step4desc':
+      'Lege Profile für deine Pflanzen an und verfolge ihren Gesundheitsverlauf über die Zeit. So siehst du ob deine Behandlung wirkt.',
     'onboarding.step5title': 'Wichtiger Hinweis',
     'onboarding.step5sub': 'Bevor es losgeht',
-    'onboarding.step5desc': 'Die App benötigt eine Internetverbindung für Diagnosen. Du bekommst 1 kostenlose Diagnose pro Tag. Die Bibliothek ist offline verfügbar.\n\nDie Diagnosen sind KI-gestützt und ersetzen keine professionelle Beratung.',
+    'onboarding.step5desc':
+      'Die App benötigt eine Internetverbindung für Diagnosen. Du bekommst 1 kostenlose Diagnose pro Tag. Die Bibliothek ist offline verfügbar.\n\nDie Diagnosen sind KI-gestützt und ersetzen keine professionelle Beratung.',
     'onboarding.skip': 'Überspringen',
     'onboarding.next': 'Weiter',
     'onboarding.start': "Los geht's!",
@@ -339,7 +351,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // How it works modal
     'modal.howTitle': 'How it works',
-    'modal.howText': "Take a photo of the affected area –\nleaf, stem, or the whole plant.\n\nAnswer a few quick questions about\nyour setup.\n\nYou'll get a diagnosis with concrete\nsteps on what to do next.",
+    'modal.howText':
+      "Take a photo of the affected area –\nleaf, stem, or the whole plant.\n\nAnswer a few quick questions about\nyour setup.\n\nYou'll get a diagnosis with concrete\nsteps on what to do next.",
     'modal.understood': 'Got it',
 
     // Camera
@@ -404,7 +417,8 @@ const translations: Record<Language, Record<string, string>> = {
     'results.followUpReminder': 'Follow-up in {days} days – you will be reminded',
     'results.libraryLink': 'More about {name} in the Library',
     'results.feedbackQuestion': 'Was the diagnosis helpful?',
-    'results.disclaimer': 'This diagnosis may be inaccurate. Not a substitute for professional advice. Use at your own risk.',
+    'results.disclaimer':
+      'This diagnosis may be inaccurate. Not a substitute for professional advice. Use at your own risk.',
     'results.toPlant': 'Go to Plant',
     'results.scanAnother': 'Scan another leaf',
     'results.newDiagnosis': 'New Diagnosis',
@@ -513,15 +527,18 @@ const translations: Record<Language, Record<string, string>> = {
     'paywall.noSubscription': 'No Subscription Found',
     'paywall.noSubscriptionMsg': 'No active subscription was found.',
     'paywall.restoreError': 'Purchases could not be restored. Please try again.',
-    'paywall.legalWeb': 'The subscription renews automatically. You can cancel anytime through your Stripe customer account. Payment is processed securely via Stripe.',
-    'paywall.legalNative': 'The subscription renews automatically unless cancelled at least 24 hours before the end of the current period. You can manage your subscription in your Google Play / App Store account settings.',
+    'paywall.legalWeb':
+      'The subscription renews automatically. You can cancel anytime through your Stripe customer account. Payment is processed securely via Stripe.',
+    'paywall.legalNative':
+      'The subscription renews automatically unless cancelled at least 24 hours before the end of the current period. You can manage your subscription in your Google Play / App Store account settings.',
 
     // Questionnaire
     'questionnaire.startAnalysis': 'Start Analysis',
     'questionnaire.next': 'Next',
 
     // Cookie Consent
-    'cookie.text': 'This app uses local storage (LocalStorage) and a Service Worker for offline functionality. No tracking cookies or analytics services are used.',
+    'cookie.text':
+      'This app uses local storage (LocalStorage) and a Service Worker for offline functionality. No tracking cookies or analytics services are used.',
     'cookie.decline': 'Decline',
     'cookie.accept': 'Accept',
 
@@ -555,19 +572,24 @@ const translations: Record<Language, Record<string, string>> = {
     // Onboarding
     'onboarding.step1title': 'Take a Photo',
     'onboarding.step1sub': 'Step 1',
-    'onboarding.step1desc': 'Photograph the affected leaf, stem, or the whole plant. Up to 3 photos for a more accurate diagnosis.',
+    'onboarding.step1desc':
+      'Photograph the affected leaf, stem, or the whole plant. Up to 3 photos for a more accurate diagnosis.',
     'onboarding.step2title': 'Describe Your Setup',
     'onboarding.step2sub': 'Step 2',
-    'onboarding.step2desc': 'Answer a few questions about your grow: substrate, nutrients, pH, temperature. More info means a more precise diagnosis.',
+    'onboarding.step2desc':
+      'Answer a few questions about your grow: substrate, nutrients, pH, temperature. More info means a more precise diagnosis.',
     'onboarding.step3title': 'Get AI Diagnosis',
     'onboarding.step3sub': 'Step 3',
-    'onboarding.step3desc': 'Our AI analyzes your photos along with your data and delivers a diagnosis with a concrete action plan.',
+    'onboarding.step3desc':
+      'Our AI analyzes your photos along with your data and delivers a diagnosis with a concrete action plan.',
     'onboarding.step4title': 'Manage Plants',
     'onboarding.step4sub': 'Extra',
-    'onboarding.step4desc': 'Create profiles for your plants and track their health over time. See if your treatment is working.',
+    'onboarding.step4desc':
+      'Create profiles for your plants and track their health over time. See if your treatment is working.',
     'onboarding.step5title': 'Important Notice',
     'onboarding.step5sub': 'Before we start',
-    'onboarding.step5desc': "The app requires an internet connection for diagnoses. You get 1 free diagnosis per day. The library is available offline.\n\nDiagnoses are AI-powered and don't replace professional advice.",
+    'onboarding.step5desc':
+      "The app requires an internet connection for diagnoses. You get 1 free diagnosis per day. The library is available offline.\n\nDiagnoses are AI-powered and don't replace professional advice.",
     'onboarding.skip': 'Skip',
     'onboarding.next': 'Next',
     'onboarding.start': "Let's go!",

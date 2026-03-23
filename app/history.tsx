@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, RefreshControl, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import HistoryItem from '../components/HistoryItem';
@@ -20,7 +20,7 @@ export default function HistoryScreen() {
   useFocusEffect(
     useCallback(() => {
       loadEntries();
-    }, [])
+    }, []),
   );
 
   const loadEntries = async () => {
@@ -77,9 +77,7 @@ export default function HistoryScreen() {
           <Text style={styles.emptyIconText}>📋</Text>
         </View>
         <Text style={styles.emptyTitle}>{t('history.emptyTitle')}</Text>
-        <Text style={styles.emptyText}>
-          {t('history.emptyText')}
-        </Text>
+        <Text style={styles.emptyText}>{t('history.emptyText')}</Text>
       </View>
     );
   }
@@ -89,11 +87,7 @@ export default function HistoryScreen() {
       data={entries}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <HistoryItem
-          entry={item}
-          onPress={() => handlePress(item)}
-          onDelete={() => handleDelete(item.id)}
-        />
+        <HistoryItem entry={item} onPress={() => handlePress(item)} onDelete={() => handleDelete(item.id)} />
       )}
       contentContainerStyle={styles.list}
       style={styles.container}

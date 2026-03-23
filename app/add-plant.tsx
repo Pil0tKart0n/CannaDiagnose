@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert, Platform, KeyboardAvoidingView, ScrollView,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
@@ -46,10 +55,7 @@ export default function AddPlantScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={styles.content}>
         {/* Image picker */}
         <TouchableOpacity style={styles.imagePicker} onPress={pickImage} activeOpacity={0.7}>
@@ -122,10 +128,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   imagePreview: {
-    width: 120, height: 120, borderRadius: 30,
+    width: 120,
+    height: 120,
+    borderRadius: 30,
   },
   imagePlaceholder: {
-    width: 120, height: 120, borderRadius: 24,
+    width: 120,
+    height: 120,
+    borderRadius: 24,
     backgroundColor: colors.cardDark,
     borderWidth: 1,
     borderColor: colors.border,
@@ -134,16 +144,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imagePlaceholderIcon: {
-    fontSize: 28, color: colors.textMuted, fontWeight: '300',
+    fontSize: 28,
+    color: colors.textMuted,
+    fontWeight: '300',
   },
   imagePlaceholderText: {
-    fontSize: 12, color: colors.textMuted, marginTop: 4,
+    fontSize: 12,
+    color: colors.textMuted,
+    marginTop: 4,
   },
 
   // Form
   label: {
-    fontSize: 12, fontWeight: '600', color: colors.textSecondary, textTransform: 'uppercase',
-    marginBottom: 8, letterSpacing: 0.5,
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    textTransform: 'uppercase',
+    marginBottom: 8,
+    letterSpacing: 0.5,
   },
   input: {
     backgroundColor: colors.cardDark,
@@ -168,10 +186,17 @@ const styles = StyleSheet.create({
   // Bottom
   bottomBar: { padding: 16, paddingBottom: 24 },
   saveBtn: {
-    borderRadius: 12, paddingVertical: 16, alignItems: 'center',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
     ...Platform.select({
       web: { boxShadow: '0 4px 20px rgba(74,222,128,0.2)' },
-      ios: { shadowColor: 'rgba(74,222,128,0.4)', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12 },
+      ios: {
+        shadowColor: 'rgba(74,222,128,0.4)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 1,
+        shadowRadius: 12,
+      },
       android: { elevation: 6 },
     }),
   },

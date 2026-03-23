@@ -28,7 +28,10 @@ export async function readAsBase64(uri: string): Promise<string> {
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
-      if (!result) { reject(new Error('FileReader returned null')); return; }
+      if (!result) {
+        reject(new Error('FileReader returned null'));
+        return;
+      }
       const commaIdx = result.indexOf(',');
       resolve(commaIdx >= 0 ? result.substring(commaIdx + 1) : result);
     };

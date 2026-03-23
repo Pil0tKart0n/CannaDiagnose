@@ -1,12 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -52,7 +45,7 @@ export default function QuestionnaireScreen() {
 
   if (!question) return null;
 
-  const currentSection = getLang() === 'en' ? (sectionTextsEn[question.section] || question.section) : question.section;
+  const currentSection = getLang() === 'en' ? sectionTextsEn[question.section] || question.section : question.section;
   const value = questionnaire[question.id];
   const isLast = safeIndex === activeQuestions.length - 1;
 
@@ -129,7 +122,9 @@ export default function QuestionnaireScreen() {
         if (andRule) {
           const andVal = updated[andRule.field];
           if (!andVal) return false;
-          return Array.isArray(andVal) ? andVal.some((v) => andRule.values.includes(v)) : andRule.values.includes(andVal as string);
+          return Array.isArray(andVal)
+            ? andVal.some((v) => andRule.values.includes(v))
+            : andRule.values.includes(andVal as string);
         }
         return true;
       });
@@ -148,21 +143,14 @@ export default function QuestionnaireScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {/* Top bar with back + progress */}
         <View style={styles.topBar}>
           <TouchableOpacity onPress={goBack} style={styles.backBtn}>
             <Text style={styles.backArrow}>‹</Text>
           </TouchableOpacity>
           <View style={styles.progressWrap}>
-            <ProgressBar
-              current={safeIndex + 1}
-              total={activeQuestions.length}
-              sectionName={currentSection}
-            />
+            <ProgressBar current={safeIndex + 1} total={activeQuestions.length} sectionName={currentSection} />
           </View>
         </View>
 

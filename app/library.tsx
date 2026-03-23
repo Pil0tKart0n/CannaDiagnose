@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import {
-  View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Platform,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import {
-  libraryEntries, categoryLabels, categoryColors, severityColors,
-  LibraryCategory, LibraryEntry,
+  libraryEntries,
+  categoryLabels,
+  categoryColors,
+  severityColors,
+  LibraryCategory,
+  LibraryEntry,
 } from '../constants/library';
 import { t, getLang } from '../services/i18n';
 import { categoryLabelsEn, severityLabelsEn, libraryEntriesEn } from '../constants/library-en';
@@ -33,7 +34,11 @@ function sevLabel(sev: string): string {
 }
 
 const ALL_CATEGORIES: LibraryCategory[] = [
-  'naehrstoffmangel', 'naehrstoffueberschuss', 'schaedlinge', 'krankheiten', 'umweltprobleme',
+  'naehrstoffmangel',
+  'naehrstoffueberschuss',
+  'schaedlinge',
+  'krankheiten',
+  'umweltprobleme',
 ];
 
 export default function LibraryScreen() {
@@ -46,7 +51,7 @@ export default function LibraryScreen() {
   // Auto-scroll to highlighted entry
   useEffect(() => {
     if (params.highlight && flatListRef.current) {
-      const index = libraryEntries.findIndex(e => e.id === params.highlight);
+      const index = libraryEntries.findIndex((e) => e.id === params.highlight);
       if (index >= 0) {
         setTimeout(() => {
           flatListRef.current?.scrollToIndex({ index, animated: true, viewOffset: 20 });
@@ -67,7 +72,7 @@ export default function LibraryScreen() {
           le(e, 'name').toLowerCase().includes(q) ||
           e.name.toLowerCase().includes(q) ||
           leArr(e, 'symptoms').some((s) => s.toLowerCase().includes(q)) ||
-          le(e, 'categoryLabel').toLowerCase().includes(q)
+          le(e, 'categoryLabel').toLowerCase().includes(q),
       );
     }
     return entries;
@@ -83,11 +88,7 @@ export default function LibraryScreen() {
     const sevColor = severityColors[item.severity];
 
     return (
-      <TouchableOpacity
-        style={styles.card}
-        activeOpacity={0.7}
-        onPress={() => toggleExpand(item.id)}
-      >
+      <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={() => toggleExpand(item.id)}>
         {/* Header */}
         <View style={styles.cardHeader}>
           <Text style={styles.cardEmoji}>{item.emoji}</Text>
@@ -99,26 +100,40 @@ export default function LibraryScreen() {
               </View>
               <View style={[styles.sevBadge, { backgroundColor: `${sevColor}18` }]}>
                 <View style={[styles.sevDot, { backgroundColor: sevColor }]} />
-                <Text style={[styles.sevBadgeText, { color: sevColor }]}>
-                  {sevLabel(item.severity)}
-                </Text>
+                <Text style={[styles.sevBadgeText, { color: sevColor }]}>{sevLabel(item.severity)}</Text>
               </View>
             </View>
           </View>
-          <Ionicons
-            name={isExpanded ? 'chevron-up' : 'chevron-down'}
-            size={18}
-            color={colors.textMuted}
-          />
+          <Ionicons name={isExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textMuted} />
         </View>
 
         {/* Expanded detail */}
         {isExpanded && (
           <View style={styles.detail}>
-            <DetailSection icon="medical-outline" title={t('library.symptoms')} items={leArr(item, 'symptoms')} color={colors.error} />
-            <DetailSection icon="help-circle-outline" title={t('library.causes')} items={leArr(item, 'causes')} color={colors.warning} />
-            <DetailSection icon="medkit-outline" title={t('library.treatment')} items={leArr(item, 'treatment')} color={colors.accent} />
-            <DetailSection icon="shield-checkmark-outline" title={t('library.prevention')} items={leArr(item, 'prevention')} color={colors.accentTeal} />
+            <DetailSection
+              icon="medical-outline"
+              title={t('library.symptoms')}
+              items={leArr(item, 'symptoms')}
+              color={colors.error}
+            />
+            <DetailSection
+              icon="help-circle-outline"
+              title={t('library.causes')}
+              items={leArr(item, 'causes')}
+              color={colors.warning}
+            />
+            <DetailSection
+              icon="medkit-outline"
+              title={t('library.treatment')}
+              items={leArr(item, 'treatment')}
+              color={colors.accent}
+            />
+            <DetailSection
+              icon="shield-checkmark-outline"
+              title={t('library.prevention')}
+              items={leArr(item, 'prevention')}
+              color={colors.accentTeal}
+            />
           </View>
         )}
       </TouchableOpacity>
@@ -157,16 +172,11 @@ export default function LibraryScreen() {
           const color = categoryColors[cat];
           return (
             <TouchableOpacity
-              style={[
-                styles.chip,
-                active && { backgroundColor: `${color}20`, borderColor: color },
-              ]}
+              style={[styles.chip, active && { backgroundColor: `${color}20`, borderColor: color }]}
               activeOpacity={0.7}
               onPress={() => setSelectedCategory(active ? null : cat)}
             >
-              <Text style={[styles.chipText, active && { color }]}>
-                {catLabel(cat)}
-              </Text>
+              <Text style={[styles.chipText, active && { color }]}>{catLabel(cat)}</Text>
             </TouchableOpacity>
           );
         }}
@@ -192,12 +202,7 @@ export default function LibraryScreen() {
   );
 }
 
-function DetailSection({ icon, title, items, color }: {
-  icon: string;
-  title: string;
-  items: string[];
-  color: string;
-}) {
+function DetailSection({ icon, title, items, color }: { icon: string; title: string; items: string[]; color: string }) {
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>

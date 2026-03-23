@@ -12,7 +12,7 @@ const API_URL = Platform.OS === 'web' ? '/api/scan' : `${SERVER_URL}/api/scan`;
 const VALIDATE_URL = Platform.OS === 'web' ? '/api/validate' : `${SERVER_URL}/api/validate`;
 // gpt-4o has vastly better image analysis and instruction following than gpt-4o-mini.
 // Cost is higher but diagnosis accuracy improves significantly (~30-40% fewer misdiagnoses).
-const MODEL = 'gpt-4o';
+const _MODEL = 'gpt-4o';
 
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
@@ -99,11 +99,10 @@ export async function optimizeImage(uri: string): Promise<string> {
     const newWidth = Math.round(width * scale);
     const newHeight = Math.round(height * scale);
 
-    const result = await manipulateAsync(
-      uri,
-      [{ resize: { width: newWidth, height: newHeight } }],
-      { compress: 0.85, format: SaveFormat.JPEG },
-    );
+    const result = await manipulateAsync(uri, [{ resize: { width: newWidth, height: newHeight } }], {
+      compress: 0.85,
+      format: SaveFormat.JPEG,
+    });
 
     console.log(`[LeafScan] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
     return result.uri;
@@ -129,7 +128,10 @@ async function optimizeImageWeb(uri: string): Promise<string> {
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext('2d');
-      if (!ctx) { reject(new Error('No canvas context')); return; }
+      if (!ctx) {
+        reject(new Error('No canvas context'));
+        return;
+      }
       ctx.drawImage(img, 0, 0, width, height);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
       console.log(`[LeafScan] Web image resized: ${img.naturalWidth}x${img.naturalHeight} → ${width}x${height}`);
@@ -171,25 +173,22 @@ function isValidSeverity(v: unknown): v is Severity {
 
 function ensureContributingFactors(v: unknown): ContributingFactor[] {
   if (!Array.isArray(v)) return [];
-  return v
-    .filter((item): item is ContributingFactor =>
-      typeof item === 'object' &&
-      item !== null &&
-      typeof item.factor === 'string' &&
-      typeof item.impact === 'string'
-    );
+  return v.filter(
+    (item): item is ContributingFactor =>
+      typeof item === 'object' && item !== null && typeof item.factor === 'string' && typeof item.impact === 'string',
+  );
 }
 
 function ensureActionPlan(v: unknown): ActionStep[] {
   if (!Array.isArray(v)) return [];
-  return v
-    .filter((item): item is ActionStep =>
+  return v.filter(
+    (item): item is ActionStep =>
       typeof item === 'object' &&
       item !== null &&
       typeof item.priority === 'number' &&
       typeof item.action === 'string' &&
-      typeof item.details === 'string'
-    );
+      typeof item.details === 'string',
+  );
 }
 
 function ensureStringArray(v: unknown): string[] {
@@ -222,19 +221,13 @@ export function validateDiagnosisResult(data: any): DiagnosisResult {
     contributingFactors: ensureContributingFactors(data.contributingFactors),
     actionPlan: ensureActionPlan(data.actionPlan),
     preventiveTips: ensureStringArray(data.preventiveTips),
-    followUpDays:
-      typeof data.followUpDays === 'number' && data.followUpDays > 0
-        ? data.followUpDays
-        : 7,
+    followUpDays: typeof data.followUpDays === 'number' && data.followUpDays > 0 ? data.followUpDays : 7,
     category:
       typeof data.category === 'string' &&
       ['nutrient_deficiency', 'abiotic_stress', 'pest', 'disease', 'physiological'].includes(data.category)
-        ? data.category as DiagnosisResult['category']
+        ? (data.category as DiagnosisResult['category'])
         : undefined,
-    requiresHumanReview:
-      typeof data.requiresHumanReview === 'boolean'
-        ? data.requiresHumanReview
-        : undefined,
+    requiresHumanReview: typeof data.requiresHumanReview === 'boolean' ? data.requiresHumanReview : undefined,
   };
 
   // Ensure at least one contributing factor if empty
@@ -309,7 +302,7 @@ function classifyError(err: any, statusCode?: number): ApiError {
   if (
     msg.includes('Network request failed') ||
     msg.includes('Failed to fetch') ||
-    msg.includes('fetch') && msg.includes('fail') ||
+    (msg.includes('fetch') && msg.includes('fail')) ||
     msg.includes('AbortError') ||
     msg.includes('network') ||
     msg.includes('Kein Internet')
@@ -329,7 +322,11 @@ function classifyError(err: any, statusCode?: number): ApiError {
 
   // Quota exceeded (server returns 403 with quota_exceeded)
   if (statusCode === 403) {
-    return { type: 'rate_limit', message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Diagnosen.', retryable: false };
+    return {
+      type: 'rate_limit',
+      message: 'Tageslimit erreicht. Upgrade auf Premium für unbegrenzte Diagnosen.',
+      retryable: false,
+    };
   }
 
   // Auth
@@ -349,10 +346,7 @@ function classifyError(err: any, statusCode?: number): ApiError {
 // Image validation – quick pre-check before diagnosis
 // ---------------------------------------------------------------------------
 
-async function validateImageIsPlant(
-  imageDataUris: string[],
-  sessionToken?: string | null,
-): Promise<boolean> {
+async function _validateImageIsPlant(imageDataUris: string[], sessionToken?: string | null): Promise<boolean> {
   try {
     const response = await fetch(VALIDATE_URL, {
       method: 'POST',
@@ -369,7 +363,12 @@ async function validateImageIsPlant(
     if (__DEV__) console.log('[LeafScan] Image validation response:', content);
 
     try {
-      const parsed = JSON.parse(content.replace(/```json?\n?/g, '').replace(/```/g, '').trim());
+      const parsed = JSON.parse(
+        content
+          .replace(/```json?\n?/g, '')
+          .replace(/```/g, '')
+          .trim(),
+      );
       return !!parsed.isPlant;
     } catch {
       // If response contains "true" or "false" as text
@@ -409,12 +408,11 @@ export async function analyzePlant(
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
 
   // Use pre-optimized images if available, otherwise optimize now
-  const optimizedUris = preOptimizedImages && preOptimizedImages.length > 0
-    ? preOptimizedImages
-    : await Promise.all(uris.map(optimizeImage));
-  const base64Results = await Promise.all(
-    optimizedUris.map((uri) => cachedReadAsBase64(uri))
-  );
+  const optimizedUris =
+    preOptimizedImages && preOptimizedImages.length > 0
+      ? preOptimizedImages
+      : await Promise.all(uris.map(optimizeImage));
+  const base64Results = await Promise.all(optimizedUris.map((uri) => cachedReadAsBase64(uri)));
 
   // Build image data URIs for server
   const imageDataUris = base64Results.map((data) => `data:image/jpeg;base64,${data}`);
@@ -437,9 +435,7 @@ export async function analyzePlant(
       if (options?.isFollowUp && options.previousResult && options.previousDate) {
         scanBody.isFollowUp = true;
         scanBody.previousResult = options.previousResult;
-        scanBody.daysSince = Math.round(
-          (Date.now() - new Date(options.previousDate).getTime()) / 86400000
-        );
+        scanBody.daysSince = Math.round((Date.now() - new Date(options.previousDate).getTime()) / 86400000);
       }
 
       const response = await fetch(API_URL, {
@@ -490,14 +486,19 @@ export async function analyzePlant(
       // Check if the API detected no plant
       if (parsed.noPlant) {
         const err: any = new Error(parsed.message || 'Keine passende Pflanze erkannt.');
-        err.apiError = { type: 'no_plant' as ApiErrorType, message: parsed.message || 'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.', retryable: false };
+        err.apiError = {
+          type: 'no_plant' as ApiErrorType,
+          message:
+            parsed.message ||
+            'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
+          retryable: false,
+        };
         throw err;
       }
 
       const validated = validateDiagnosisResult(parsed);
       if (__DEV__) console.log('[LeafScan] Validated result:', JSON.stringify(validated).substring(0, 500));
       return { result: validated, attempt };
-
     } catch (err: any) {
       // If it already has apiError set (we threw it), check retryable
       if (err.apiError) {
@@ -546,12 +547,11 @@ export async function refineDiagnosis(
   const uris = Array.isArray(imageUris) ? imageUris : [imageUris];
 
   // Use pre-optimized images if available, otherwise optimize now
-  const optimizedUris = preOptimizedImages && preOptimizedImages.length > 0
-    ? preOptimizedImages
-    : await Promise.all(uris.map(optimizeImage));
-  const base64Results = await Promise.all(
-    optimizedUris.map((uri) => cachedReadAsBase64(uri))
-  );
+  const optimizedUris =
+    preOptimizedImages && preOptimizedImages.length > 0
+      ? preOptimizedImages
+      : await Promise.all(uris.map(optimizeImage));
+  const base64Results = await Promise.all(optimizedUris.map((uri) => cachedReadAsBase64(uri)));
 
   const imageDataUris = base64Results.map((data) => `data:image/jpeg;base64,${data}`);
 
@@ -578,7 +578,10 @@ export async function refineDiagnosis(
       if (!response.ok) {
         const errorBody = await response.text();
         if (__DEV__) console.log('[LeafScan] Refine API error:', response.status, errorBody.substring(0, 300));
-        if (attempt < 2) { await delay(2000); continue; }
+        if (attempt < 2) {
+          await delay(2000);
+          continue;
+        }
         throw new Error('API Fehler: ' + response.status);
       }
 
@@ -587,7 +590,10 @@ export async function refineDiagnosis(
       if (__DEV__) console.log('[LeafScan] Refine raw response:', content?.substring(0, 500));
 
       if (!content) {
-        if (attempt < 2) { await delay(2000); continue; }
+        if (attempt < 2) {
+          await delay(2000);
+          continue;
+        }
         throw new Error('Keine Antwort von der API erhalten.');
       }
 
@@ -603,7 +609,10 @@ export async function refineDiagnosis(
       return result;
     } catch (err: any) {
       if (__DEV__) console.log('[LeafScan] Refine attempt', attempt, 'failed:', err.message);
-      if (attempt < 2) { await delay(2000); continue; }
+      if (attempt < 2) {
+        await delay(2000);
+        continue;
+      }
       throw err;
     }
   }
@@ -627,25 +636,29 @@ function postProcessRefineResult(
   if (isNaN(phNum)) return result;
 
   const sub = (substrateType || '').toLowerCase();
-  const isKokosOrHydro = sub.includes('kokos') || sub.includes('coco') || sub.includes('hydro') || sub.includes('dwc') || sub.includes('aero');
+  const isKokosOrHydro =
+    sub.includes('kokos') ||
+    sub.includes('coco') ||
+    sub.includes('hydro') ||
+    sub.includes('dwc') ||
+    sub.includes('aero');
 
   // Check if pH is optimal
-  const phOptimal = isKokosOrHydro
-    ? (phNum >= 5.8 && phNum <= 6.2)
-    : (phNum >= 6.0 && phNum <= 7.0);
+  const phOptimal = isKokosOrHydro ? phNum >= 5.8 && phNum <= 6.2 : phNum >= 6.0 && phNum <= 7.0;
 
   if (!phOptimal) return result; // pH is not optimal, warnings may be valid
 
   // pH is optimal → NO negative pH mentions allowed
   // Catch: lockout, einschränken, grenzwertig, zu niedrig, unteres Ende, etc.
-  const negativePHPatterns = /lockout|einschränk|grenzwertig|zu niedrig|unteres ende|am minimum|knapp|begünstigt.*lockout|mg\/ca.*aufnahme|ca\/mg.*aufnahme|kationen.*aufnahme.*einschränk/i;
+  const negativePHPatterns =
+    /lockout|einschränk|grenzwertig|zu niedrig|unteres ende|am minimum|knapp|begünstigt.*lockout|mg\/ca.*aufnahme|ca\/mg.*aufnahme|kationen.*aufnahme.*einschränk/i;
 
   const hasBadPH = (text: string): boolean => negativePHPatterns.test(text);
 
   const cleanText = (text: string): string => {
     // Remove sentences that negatively mention pH when it's optimal
     const sentences = text.split(/(?<=[.!?])\s+/);
-    const cleaned = sentences.filter(sentence => {
+    const cleaned = sentences.filter((sentence) => {
       // Only filter sentences that mention pH AND have negative patterns
       const mentionsPH = /ph\s*[\d.,]|ph-|ph\s+von|ph\s+wert|ph\s+ist/i.test(sentence);
       if (mentionsPH && hasBadPH(sentence)) return false;
@@ -653,7 +666,10 @@ function postProcessRefineResult(
       if (/lockout/i.test(sentence)) return false;
       return true;
     });
-    return cleaned.join(' ').replace(/\s{2,}/g, ' ').trim();
+    return cleaned
+      .join(' ')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
   };
 
   // Clean primary diagnosis
@@ -674,7 +690,7 @@ function postProcessRefineResult(
   }
 
   // Clean contributing factors - remove any factor that negatively mentions pH
-  result.contributingFactors = result.contributingFactors.filter(f => {
+  result.contributingFactors = result.contributingFactors.filter((f) => {
     const factorText = f.factor + ' ' + f.impact;
     // Remove factors about pH being problematic when it's optimal
     if (/ph/i.test(f.factor) && hasBadPH(factorText)) return false;
@@ -694,18 +710,22 @@ function postProcessRefineResult(
     // We already have evaluateEC logic in prompts.ts, here we just check for obvious contradictions
     const negativeECPatterns = /ec.*zu hoch|ec.*zu niedrig|überdüng|nährstoffbrand|ec.*problem|ec.*grenzwertig/i;
     // Only clean if the refine prompt already said EC is OK
-    const ecOkInPrompt = result.rootCauseAnalysis.includes('EC ist NICHT das Problem') ||
-                         result.rootCauseAnalysis.includes('EC liegt IM');
+    const ecOkInPrompt =
+      result.rootCauseAnalysis.includes('EC ist NICHT das Problem') || result.rootCauseAnalysis.includes('EC liegt IM');
     if (ecOkInPrompt) {
       // Remove sentences that claim EC is problematic when it's in range
       const cleanECText = (text: string): string => {
         const sentences = text.split(/(?<=[.!?])\s+/);
-        return sentences.filter(s => !negativeECPatterns.test(s)).join(' ').replace(/\s{2,}/g, ' ').trim();
+        return sentences
+          .filter((s) => !negativeECPatterns.test(s))
+          .join(' ')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
       };
       if (negativeECPatterns.test(result.rootCauseAnalysis)) {
         result.rootCauseAnalysis = cleanECText(result.rootCauseAnalysis);
       }
-      result.contributingFactors = result.contributingFactors.filter(f => {
+      result.contributingFactors = result.contributingFactors.filter((f) => {
         const text = f.factor + ' ' + f.impact;
         return !negativeECPatterns.test(text);
       });
@@ -743,7 +763,10 @@ let _refImagesInitialized = false;
  * Safe to call multiple times — no-ops after first successful run.
  */
 export async function initReferenceImages(): Promise<void> {
-  if (Platform.OS === 'web') { _refImagesInitialized = true; return; }
+  if (Platform.OS === 'web') {
+    _refImagesInitialized = true;
+    return;
+  }
   if (_refImagesInitialized) return;
 
   const markerFile = `${FileSystem.documentDirectory}reference_images/.initialized`;
@@ -757,18 +780,14 @@ export async function initReferenceImages(): Promise<void> {
   if (__DEV__) console.log('[LeafScan] Initializing reference images...');
 
   // Ensure base directory exists
-  await FileSystem.makeDirectoryAsync(
-    `${FileSystem.documentDirectory}reference_images`,
-    { intermediates: true },
-  );
+  await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}reference_images`, { intermediates: true });
 
   // Group registry by folder to create subdirectories
-  const folders = new Set(referenceImageRegistry.map(r => r.folder));
+  const folders = new Set(referenceImageRegistry.map((r) => r.folder));
   for (const folder of folders) {
-    await FileSystem.makeDirectoryAsync(
-      `${FileSystem.documentDirectory}reference_images/${folder}`,
-      { intermediates: true },
-    );
+    await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}reference_images/${folder}`, {
+      intermediates: true,
+    });
   }
 
   // Download each asset to documentDirectory
@@ -796,14 +815,17 @@ export async function initReferenceImages(): Promise<void> {
 function diagnosisToRefFolder(diagnosis: string): string | null {
   const d = diagnosis.toLowerCase();
   if (d.includes('stickstoff') && (d.includes('überschuss') || d.includes('toxiz'))) return null;
-  if (d.includes('stickstoff') || d.includes('nitrogen') || d.includes('n-mangel') || d.includes('(n)')) return 'N_mangel';
+  if (d.includes('stickstoff') || d.includes('nitrogen') || d.includes('n-mangel') || d.includes('(n)'))
+    return 'N_mangel';
   if (d.includes('phosphor') || d.includes('(p)') || d.includes('p-mangel')) return 'P_mangel';
   if (d.includes('kalium') || d.includes('potassium') || d.includes('(k)') || d.includes('k-mangel')) return 'K_mangel';
-  if (d.includes('kalzium') || d.includes('calcium') || d.includes('(ca)') || d.includes('ca-mangel')) return 'Ca_mangel';
+  if (d.includes('kalzium') || d.includes('calcium') || d.includes('(ca)') || d.includes('ca-mangel'))
+    return 'Ca_mangel';
   if (d.includes('magnesium') || d.includes('(mg)') || d.includes('mg-mangel')) return 'Mg_mangel';
   if (d.includes('schwefel') || d.includes('sulfur') || d.includes('(s)') || d.includes('s-mangel')) return 'S_mangel';
   if (d.includes('eisen') || d.includes('iron') || d.includes('(fe)') || d.includes('fe-mangel')) return 'Fe_mangel';
-  if (d.includes('mangan') || d.includes('manganese') || d.includes('(mn)') || d.includes('mn-mangel')) return 'Mn_mangel';
+  if (d.includes('mangan') || d.includes('manganese') || d.includes('(mn)') || d.includes('mn-mangel'))
+    return 'Mn_mangel';
   if (d.includes('zink') || d.includes('zinc') || d.includes('(zn)') || d.includes('zn-mangel')) return 'Zn_mangel';
   if (d.includes('bor') || d.includes('boron') || d.includes('b-mangel')) return 'B_mangel';
   if (d.includes('kupfer') || d.includes('copper') || d.includes('cu-mangel')) return 'Cu_mangel';
@@ -903,7 +925,7 @@ export async function verifyDiagnosis(
   // Build image data URIs: user image first, then reference images
   const allImages = [
     `data:image/jpeg;base64,${userImageBase64}`,
-    ...refImages.map(b64 => `data:image/jpeg;base64,${b64}`),
+    ...refImages.map((b64) => `data:image/jpeg;base64,${b64}`),
   ];
 
   try {
