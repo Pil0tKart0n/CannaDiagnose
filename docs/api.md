@@ -162,8 +162,8 @@ Sendet Nutzer-Feedback zur Diagnose.
   "confidence": 82,
   "substrate": "Kokos",
   "fertilizer": "Canna Coco A+B",
-  "diagnosis_json": {...},
-  "questionnaire_json": {...},
+  "fullDiagnosis": {...},
+  "questionnaire": {...},
   "images": ["data:image/jpeg;base64,..."]
 }
 ```
@@ -188,6 +188,29 @@ Gibt die aktuelle aktive Ankündigung zurück.
   "type": "info"
 }
 ```
+
+---
+
+### POST /api/event
+
+Trackt Funnel-Events für Analytics.
+
+**Request Body:**
+```json
+{
+  "event": "paywall_view",
+  "meta": "{\"source\": \"home\"}"
+}
+```
+
+**Response (200):**
+```json
+{
+  "ok": true
+}
+```
+
+**Events:** `paywall_view`, `paywall_close`, `purchase_start`, `purchase_complete`, `promo_view`, `promo_redeem`
 
 ---
 

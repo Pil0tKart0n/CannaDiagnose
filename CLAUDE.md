@@ -83,7 +83,7 @@ git commit -m "docs: Dokumentation aktualisiert"
 3. **Correction Matrix:** 30+ lokale Regeln für pH/EC-basierte Diagnose-Verfeinerung
 4. **EC/pH Evaluation:** Dünger-aware Logik (Marke + Wachstumsphase)
 5. **Dual Payment:** RevenueCat (Mobile) + Stripe (Web)
-6. **Rate Limiting:** IP-basiert, 1 Free Scan/Tag, 30 req/min Global
+6. **Rate Limiting:** IP-basiert, 1 Free Scan/Tag, 30 req/min pro IP
 7. **SQLite WAL:** Crash-sicher, kein separater DB-Server nötig
 
 ## Conventions

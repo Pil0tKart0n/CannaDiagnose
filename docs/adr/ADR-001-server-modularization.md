@@ -1,7 +1,7 @@
 # ADR-001: Server-Modularisierung
 
 ## Status
-Geplant
+Umgesetzt (2026-03-23)
 
 ## Kontext
 `server/index.js` hat 1850+ Zeilen und vereint Database-Setup, Middleware, 40+ API-Endpoints, Stripe-Integration, Admin-Dashboard und Cleanup-Logic in einer einzigen Datei.
@@ -36,11 +36,11 @@ server/
 - Tests müssen nach Refactoring grün sein
 - Prepared statements referenzieren db-Instanz
 
-## Umsetzung
-Schrittweise (nicht alles auf einmal):
-1. Sprint 1: `db.js` + `routes/admin.js` extrahieren (geringste Kopplung)
-2. Sprint 2: `routes/stripe.js` + `middleware.js` extrahieren
-3. Sprint 3: `routes/scan.js` + `routes/quota.js` + `cleanup.js` extrahieren
+## Umsetzung (abgeschlossen)
+1. `server/db.js` — DB-Connection, Schema, 25+ Prepared Statements (321 Zeilen)
+2. `server/routes/admin.js` — 33 Admin-Endpoints als Express Router (671 Zeilen)
+3. `server/routes/stripe.js` — 4 Stripe-Endpoints + ensureProducts (272 Zeilen)
+4. `server/index.js` — von 1850 auf 717 Zeilen reduziert (-61%)
 
 ## Konsequenzen
 - **Positiv:** Bessere Wartbarkeit, einzelne Module testbar, Code-Review einfacher

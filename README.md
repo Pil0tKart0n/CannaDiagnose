@@ -31,21 +31,23 @@ cp .env.example .env
 cp .env.server.example .env.server
 # → Echte API-Keys in .env und .env.server eintragen
 
-# Development Server starten
+# Backend-Server starten (eigenes Terminal)
+node server/index.js
+
+# Frontend Development Server starten
 npm run start
 ```
+
+> **Wichtig:** Backend (Port 4000) und Frontend müssen gleichzeitig laufen.
 
 ### Web Development
 
 ```bash
+# Backend in Terminal 1
+node server/index.js
+
+# Frontend in Terminal 2
 npm run web
-```
-
-### Server starten (Backend)
-
-```bash
-cd server
-node index.js
 ```
 
 ## Deployment

@@ -1,7 +1,7 @@
 # ADR-002: Frontend Component-Extraktion
 
 ## Status
-In Arbeit
+Umgesetzt (2026-03-23)
 
 ## Kontext
 - `app/results.tsx` = 1111 Zeilen (Diagnose-Anzeige + Verfeinerung + Feedback)

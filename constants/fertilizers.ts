@@ -294,8 +294,8 @@ export const FERTILIZER_PROFILES: Record<string, FertilizerProfile> = {
     calmagNote: 'Advanced Nutrients OG Organics hat ein eigenes CalMag (OG Organics CaMg). Im AN-System bleiben.',
     notes: 'Organische Linie von Advanced Nutrients. Iguana Juice Grow + Bloom als Basis. pH-Perfect Technologie.',
   },
-  'BioNova': {
-    name: 'BioNova', brand: 'BioNova', type: 'hybrid',
+  'BioNova Organic': {
+    name: 'BioNova Organic', brand: 'BioNova', type: 'hybrid',
     ecRanges: { seedling: '0.4–0.6', earlyVeg: '0.6–1.0', lateVeg: '1.0–1.4', earlyFlower: '1.2–1.6', midFlower: '1.4–1.8', lateFlower: '1.6–2.0', flush: '0.4–0.6' },
     calmagProduct: 'BioNova CalMag',
     calmagNote: 'BioNova CalMag für die Soil Supermix Linie verfügbar. Im BioNova-System bleiben.',

@@ -13,9 +13,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 - API-Dokumentation (docs/api.md) für alle 40+ Endpoints
 - Deployment Runbook (docs/deployment.md)
 - GitHub Actions CI Pipeline (TypeScript, Tests, Security Audit)
-- .env.example und .env.server.example Templates
-- .claude/rules/ mit 5 Rule-Files (general, backend, frontend, security, testing, design)
-- Retrospektive mit Findings und Verbesserungen
+- .env.example, .env.server.example, credentials.example.json Templates
+- .claude/rules/ mit 6 Rule-Files (general, backend, frontend, security, testing, design)
+- Architecture Diagrams (System Context, Container, ER, Diagnose-Flow)
+- 2 ADRs (Server-Modularisierung, Frontend-Extraktion)
+- Performance Budgets (docs/performance/budgets.md)
+- E2E Test-Setup mit Playwright Config
+- Retrospektive mit 16 Findings und Verbesserungen
+
+### Changed
+- Server modularisiert: db.js, routes/admin.js, routes/stripe.js (index.js -61%)
+- Frontend-Komponenten extrahiert: RefineCard, LegalFooter, InstallBanner, webStyles, colorCorrections
+- Test-Coverage von 33 auf 125 Tests (+279%)
+- ESLint + Prettier Konfiguration + Packages installiert
+- package.json Version 1.2.0, neue Scripts (typecheck, lint, format)
+- BioNova Duplikat in Dünger-Datenbank bereinigt
+
+### Fixed
+- Doppelter BioNova-Eintrag in constants/fertilizers.ts (TypeScript-Fehler)
 
 ## [1.2.0] — 2026-03-23
 
