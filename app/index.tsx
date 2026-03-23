@@ -320,6 +320,11 @@ export default function HomeScreen() {
                       opacity: 0.85,
                     } as any}
                   />
+                  <img
+                    src="/images/sample-nitrogen.webp"
+                    alt="Gesundes Cannabis-Blatt"
+                    className="cd-leaf-healthy"
+                  />
                   {/* Gradient overlay to blend into page */}
                   <div style={{
                     position: 'absolute',
