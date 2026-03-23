@@ -137,15 +137,15 @@ export const webCSS =
   }
   .cd-btn-premium:active { transform: scale(0.97); }
   @keyframes cd-leaf-heal {
-    0%, 100% { opacity: 0; }
+    0%, 15% { opacity: 0; }
     40%, 60% { opacity: 1; }
+    85%, 100% { opacity: 0; }
   }
   .cd-leaf-healthy {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover;
-    filter: hue-rotate(50deg) saturate(1.8) brightness(0.85);
-    mix-blend-mode: luminosity;
+    filter: hue-rotate(60deg) saturate(2.5) brightness(0.8) contrast(1.1);
     opacity: 0;
     animation: cd-leaf-heal 8s ease-in-out infinite;
     pointer-events: none;
