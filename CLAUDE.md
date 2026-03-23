@@ -185,6 +185,11 @@ Dieses Projekt nutzt ein Skill-Engineering-System. Skills verfügbar via `/comma
 - Performance Budgets definiert
 - BioNova Duplikat + TODO bereinigt
 - Sprint 1 + Sprint 2 abgeschlossen, alle Issues closed
+- Prettier Auto-Format + 18 unused vars behoben
+- services/claude.ts → imageOptimization.ts + referenceImages.ts (941→649 Zeilen)
+- services/i18n.ts → translations/de.json + en.json (595→76 Zeilen)
+- OpenAPI 3.0 Spec (docs/contracts/api-v1.yaml)
+- Playwright + eslint-config-prettier installiert
 
 ## Tracking
 

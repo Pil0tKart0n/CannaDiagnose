@@ -6,7 +6,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 
 ## [Unreleased]
 
-_Keine Änderungen seit letztem Release._
+### Changed
+- Prettier: alle .ts/.tsx Dateien auto-formatiert (endOfLine: auto)
+- 18 unused import/variable Warnings in 12 Dateien behoben
+- services/claude.ts aufgeteilt: imageOptimization.ts (110Z) + referenceImages.ts (247Z), claude.ts 941→649 Zeilen
+- services/i18n.ts aufgeteilt: Translations in de.json + en.json, i18n.ts 595→76 Zeilen
+- ESLint Config verfeinert (no-console erlaubt, no-explicit-any deaktiviert)
+
+### Added
+- docs/contracts/api-v1.yaml — OpenAPI 3.0 Spec für alle Public Endpoints
+- @playwright/test + eslint-config-prettier als devDependencies
 
 ## [1.3.0] — 2026-03-23
 
