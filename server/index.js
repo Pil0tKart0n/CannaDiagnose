@@ -1571,12 +1571,13 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
     for (const scan of scans) {
       scan.rating = null;
       if (!scan.diagnosis) continue;
-      const scanTime = new Date(scan.scanned_at + 'Z').getTime();
+      const scanPrefix = scan.diagnosis.substring(0, 100);
+      const scanTime = new Date(scan.scanned_at.replace(' ', 'T') + 'Z').getTime();
       for (const fb of feedbacks) {
-        if (fb.diagnosis !== scan.diagnosis) continue;
-        const fbTime = new Date(fb.created_at + 'Z').getTime();
+        if (!fb.diagnosis || !fb.diagnosis.startsWith(scanPrefix)) continue;
+        const fbTime = new Date(fb.created_at.replace(' ', 'T') + 'Z').getTime();
         const diff = fbTime - scanTime;
-        if (diff >= -120000 && diff <= 300000) { // -2min to +5min
+        if (diff >= -120000 && diff <= 600000) { // -2min to +10min
           scan.rating = fb.rating;
           break;
         }
