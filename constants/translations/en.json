@@ -276,5 +276,14 @@
   "landing.faq3A": "Accuracy depends on photo quality and your input. The more info you provide, the more precise the result.",
   "landing.faq4Q": "Do I need internet?",
   "landing.faq4A": "For diagnoses, yes. The library works offline too.",
-  "landing.finalCta": "Scan Your Plant Now"
+  "landing.finalCta": "Scan Your Plant Now",
+
+  "landing.sampleDiagnosis": "Nitrogen (N) Deficiency",
+  "landing.sampleCategory": "Nutrient Deficiency",
+  "landing.sampleSeverity": "Severity",
+  "landing.sampleSeverityVal": "Medium",
+  "landing.sampleConfidence": "Confidence",
+  "landing.sampleAction1": "Adjust pH to 6.0–6.5",
+  "landing.sampleAction2": "Use nitrogen-rich fertilizer",
+  "landing.sampleAction3": "Remove older affected leaves"
 }

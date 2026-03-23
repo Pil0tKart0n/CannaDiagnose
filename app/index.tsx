@@ -314,34 +314,34 @@ export default function HomeScreen() {
                       <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
                     </View>
                     <View style={styles.sampleHeaderText}>
-                      <Text style={styles.sampleDiagName}>Stickstoff(N)-Mangel</Text>
-                      <Text style={styles.sampleDiagType}>Nährstoffmangel</Text>
+                      <Text style={styles.sampleDiagName}>{t('landing.sampleDiagnosis')}</Text>
+                      <Text style={styles.sampleDiagType}>{t('landing.sampleCategory')}</Text>
                     </View>
                   </View>
                   <View style={styles.sampleMetaRow}>
                     <View style={styles.sampleMetaItem}>
-                      <Text style={styles.sampleMetaLabel}>Schweregrad</Text>
+                      <Text style={styles.sampleMetaLabel}>{t('landing.sampleSeverity')}</Text>
                       <View style={styles.sampleSeverityBadge}>
-                        <Text style={styles.sampleSeverityText}>Mittel</Text>
+                        <Text style={styles.sampleSeverityText}>{t('landing.sampleSeverityVal')}</Text>
                       </View>
                     </View>
                     <View style={styles.sampleMetaItem}>
-                      <Text style={styles.sampleMetaLabel}>Confidence</Text>
+                      <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
                       <Text style={styles.sampleConfidence}>78%</Text>
                     </View>
                   </View>
                   <View style={styles.sampleActions}>
                     <View style={styles.sampleActionItem}>
                       <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                      <Text style={styles.sampleActionText}>pH-Wert auf 6.0–6.5 korrigieren</Text>
+                      <Text style={styles.sampleActionText}>{t('landing.sampleAction1')}</Text>
                     </View>
                     <View style={styles.sampleActionItem}>
                       <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                      <Text style={styles.sampleActionText}>Stickstoffreichen Dünger verwenden</Text>
+                      <Text style={styles.sampleActionText}>{t('landing.sampleAction2')}</Text>
                     </View>
                     <View style={styles.sampleActionItem}>
                       <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                      <Text style={styles.sampleActionText}>Ältere Blätter entfernen</Text>
+                      <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
                     </View>
                   </View>
                   <View style={styles.sampleFade}>
