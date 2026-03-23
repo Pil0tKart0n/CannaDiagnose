@@ -17,6 +17,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 - docs/contracts/api-v1.yaml — OpenAPI 3.0 Spec für alle Public Endpoints
 - @playwright/test + eslint-config-prettier als devDependencies
 
+### Fixed
+- React Rules of Hooks Verletzung in questionnaire.tsx (useCallback nach early return)
+- TypeScript Error: borderBottomWidth in _layout.tsx durch headerShadowVisible ersetzt
+- Import-Order Violations in results.tsx und claude.ts
+- Array<T> Notation in i18n.ts zu T[] korrigiert
+- .gitignore: .aab Build-Artifacts ausgeschlossen
+
 ## [1.3.0] — 2026-03-23
 
 ### Added
