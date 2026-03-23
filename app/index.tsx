@@ -40,6 +40,27 @@ export default function HomeScreen() {
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  // On web desktop: override the 480px phone-frame for the landing page
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    const style = document.createElement('style');
+    style.id = 'cd-landing-fullwidth';
+    style.textContent = `
+      @media (min-width: 768px) {
+        #root {
+          max-width: 100% !important;
+          margin: 0 !important;
+          min-height: 100vh !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+        body { background: #080C0A !important; }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => { style.remove(); };
+  }, []);
+
   useEffect(() => {
     injectCSS();
     trackEvent('page_home');
@@ -581,7 +602,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 40,
     ...Platform.select({
-      web: { maxWidth: 640, alignSelf: 'center' as const, width: '100%' as any },
+      web: { maxWidth: 800, alignSelf: 'center' as const, width: '100%' as any },
       default: {},
     }),
   },
@@ -589,11 +610,11 @@ const styles = StyleSheet.create({
   // ── Hero ──────────────────────────────────────────────
   heroSection: {
     alignItems: 'center',
-    paddingTop: isWeb ? 60 : 32,
-    paddingBottom: 8,
+    paddingTop: isWeb ? 80 : 32,
+    paddingBottom: 16,
   },
   heroHeadline: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: '600',
     color: colors.textHero,
     textAlign: 'center',
