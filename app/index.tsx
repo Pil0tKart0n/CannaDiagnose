@@ -409,8 +409,8 @@ export default function HomeScreen() {
                     <div style={{
                       position: 'absolute',
                       inset: '12px 0',
-                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.02) 0%, rgba(92,232,146,0.08) 20%, rgba(150,255,190,0.18) 38%, rgba(220,255,235,0.3) 48%, rgba(255,255,255,0.35) 50%, rgba(220,255,235,0.3) 52%, rgba(150,255,190,0.18) 62%, rgba(92,232,146,0.08) 80%, rgba(92,232,146,0.02) 100%)',
-                      boxShadow: '0 0 30px rgba(92,232,146,0.1), 0 0 80px rgba(92,232,146,0.04)',
+                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.015) 0%, rgba(92,232,146,0.065) 20%, rgba(150,255,190,0.15) 38%, rgba(220,255,235,0.25) 48%, rgba(255,255,255,0.3) 50%, rgba(220,255,235,0.25) 52%, rgba(150,255,190,0.15) 62%, rgba(92,232,146,0.065) 80%, rgba(92,232,146,0.015) 100%)',
+                      boxShadow: '0 0 25px rgba(92,232,146,0.085), 0 0 70px rgba(92,232,146,0.03)',
                       filter: 'blur(0.5px)',
                       pointerEvents: 'none',
                     } as any} />
