@@ -40,6 +40,8 @@ credentials.json
 google-play-service-account.json
 releases/google-play/*.keystore
 releases/google-play/*.aab
+releases/*.apk
+public/download/
 
 # typescript
 *.tsbuildinfo
