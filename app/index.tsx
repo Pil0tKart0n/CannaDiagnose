@@ -358,36 +358,20 @@ export default function HomeScreen() {
                       clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
                     } as any}
                   />
-                  {/* Slider line + handle */}
+                  {/* Scan beam */}
                   <div style={{
                     position: 'absolute',
                     top: `${leafSlider * 100}%`,
                     left: 0,
                     right: 0,
-                    height: 2,
-                    background: 'rgba(255,255,255,0.7)',
-                    transform: 'translateY(-1px)',
+                    height: 40,
+                    transform: 'translateY(-50%)',
+                    background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.06) 15%, rgba(92,232,146,0.15) 35%, rgba(255,255,255,0.35) 48%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.35) 52%, rgba(92,232,146,0.15) 65%, rgba(92,232,146,0.06) 85%, transparent 100%)',
+                    boxShadow: '0 0 20px rgba(92,232,146,0.15), 0 0 60px rgba(92,232,146,0.06)',
                     pointerEvents: 'none',
-                    display: leafSlider > 0 ? 'block' : 'none',
+                    opacity: leafSlider > 0.01 ? 1 : 0,
+                    transition: 'opacity 0.2s ease',
                   } as any} />
-                  <div style={{
-                    position: 'absolute',
-                    top: `${leafSlider * 100}%`,
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 32,
-                    height: 32,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.9)',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    pointerEvents: 'none',
-                    opacity: leafSlider > 0 ? 1 : 0.6,
-                  } as any}>
-                    <div style={{ fontSize: 12, color: '#333', lineHeight: 1 } as any}>↕</div>
-                  </div>
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
