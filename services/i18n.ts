@@ -8,7 +8,7 @@ const LANG_KEY = 'leafscan_language';
 export type Language = 'de' | 'en';
 
 let currentLanguage: Language = 'de';
-const listeners: Array<(lang: Language) => void> = [];
+const listeners: ((lang: Language) => void)[] = [];
 
 const translations: Record<Language, Record<string, string>> = { de, en };
 

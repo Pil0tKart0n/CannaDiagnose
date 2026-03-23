@@ -26,6 +26,9 @@ import { refineDiagnosis, validateDiagnosisResult, cachedReadAsBase64 } from '..
 import { updateEntry } from '../services/storage';
 import { trackEvent } from '../services/analytics';
 import { t } from '../services/i18n';
+import { libraryEntries } from '../constants/library';
+import { KNOWN_COLORS, applyColorCorrection } from '../constants/colorCorrections';
+import RefineCard from '../components/RefineCard';
 
 const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
 
@@ -86,9 +89,6 @@ async function sendFeedbackToServer(
     body: JSON.stringify(body),
   }).catch(() => {}); // fire and forget
 }
-import { libraryEntries } from '../constants/library';
-import { KNOWN_COLORS, applyColorCorrection } from '../constants/colorCorrections';
-import RefineCard from '../components/RefineCard';
 
 export default function ResultsScreen() {
   const router = useRouter();

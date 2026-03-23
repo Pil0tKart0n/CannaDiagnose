@@ -27,6 +27,7 @@ paths:
                 mode:
                   type: string
                   enum: [diagnose, refine, verify]
+                  description: "diagnose = neue Diagnose, refine = Parameter-Verfeinerung, verify = Referenzbild-Vergleich. Follow-up nutzt mode=diagnose mit isFollowUp=true"
                 images:
                   type: array
                   items:

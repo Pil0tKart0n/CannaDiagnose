@@ -42,11 +42,6 @@ export default function QuestionnaireScreen() {
 
   const safeIndex = Math.min(currentIndex, activeQuestions.length - 1);
   const question = activeQuestions[safeIndex];
-
-  if (!question) return null;
-
-  const currentSection = getLang() === 'en' ? sectionTextsEn[question.section] || question.section : question.section;
-  const value = questionnaire[question.id];
   const isLast = safeIndex === activeQuestions.length - 1;
 
   const saveAnswers = useCallback((data: typeof questionnaire) => {
@@ -60,7 +55,12 @@ export default function QuestionnaireScreen() {
     } else {
       setCurrentIndex(safeIndex + 1);
     }
-  }, [safeIndex, isLast, questionnaire]);
+  }, [safeIndex, isLast, questionnaire, saveAnswers, router]);
+
+  if (!question) return null;
+
+  const currentSection = getLang() === 'en' ? sectionTextsEn[question.section] || question.section : question.section;
+  const value = questionnaire[question.id];
 
   const goBack = () => {
     if (safeIndex > 0) {

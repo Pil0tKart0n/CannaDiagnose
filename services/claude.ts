@@ -1,13 +1,10 @@
 import { Platform } from 'react-native';
 import { QuestionnaireData, DiagnosisResult, Severity, ContributingFactor, ActionStep } from '../types';
+import { optimizeImage, cachedReadAsBase64 } from './imageOptimization';
 
 // Re-export extracted modules so existing imports like `from '../services/claude'` keep working
 export { optimizeImage, cachedReadAsBase64, clearImageCache } from './imageOptimization';
 export { initReferenceImages, verifyDiagnosis } from './referenceImages';
-
-// Internal imports for use within this file
-import { optimizeImage } from './imageOptimization';
-import { cachedReadAsBase64 } from './imageOptimization';
 
 // Prompts are now server-side only — client sends structured data
 

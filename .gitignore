@@ -39,6 +39,7 @@ yarn-error.*
 credentials.json
 google-play-service-account.json
 releases/google-play/*.keystore
+releases/google-play/*.aab
 
 # typescript
 *.tsbuildinfo
