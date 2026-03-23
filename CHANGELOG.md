@@ -6,6 +6,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 
 ## [Unreleased]
 
+_Keine Änderungen seit letztem Release._
+
+## [1.3.0] — 2026-03-23
+
 ### Added
 - Skill-Engineering-System (12 Core + 6 Optional Skills)
 - CLAUDE.md Projekt-Kontext für Claude Code
@@ -15,10 +19,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 - GitHub Actions CI Pipeline (TypeScript, Tests, Security Audit)
 - .env.example, .env.server.example, credentials.example.json Templates
 - .claude/rules/ mit 6 Rule-Files (general, backend, frontend, security, testing, design)
-- Architecture Diagrams (System Context, Container, ER, Diagnose-Flow)
+- Architecture Diagrams (System Context, Container, ER, Diagnose-Flow, Deployment)
 - 2 ADRs (Server-Modularisierung, Frontend-Extraktion)
 - Performance Budgets (docs/performance/budgets.md)
 - E2E Test-Setup mit Playwright Config
+- 92 neue Unit Tests (Gesamt: 125)
+- GitHub Issues Tracking (13 Issues, 2 Milestones, 30 Labels)
 - Retrospektive mit 16 Findings und Verbesserungen
 
 ### Changed
@@ -26,11 +32,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 - Frontend-Komponenten extrahiert: RefineCard, LegalFooter, InstallBanner, webStyles, colorCorrections
 - Test-Coverage von 33 auf 125 Tests (+279%)
 - ESLint + Prettier Konfiguration + Packages installiert
-- package.json Version 1.2.0, neue Scripts (typecheck, lint, format)
-- BioNova Duplikat in Dünger-Datenbank bereinigt
+- package.json Version 1.3.0, neue Scripts (typecheck, lint, format)
 
 ### Fixed
 - Doppelter BioNova-Eintrag in constants/fertilizers.ts (TypeScript-Fehler)
+- Obsoleter TODO-Kommentar in purchases.ts entfernt
 
 ## [1.2.0] — 2026-03-23
 

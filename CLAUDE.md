@@ -172,11 +172,19 @@ Dieses Projekt nutzt ein Skill-Engineering-System. Skills verfügbar via `/comma
 - Server-seitige Scan-Bild-Speicherung
 - Admin Livefeed Dashboard
 - Skill-System Integration
+
+### v1.3.0 — Infrastructure & Code Quality (2026-03-23)
 - CLAUDE.md, README.md, CHANGELOG.md, API-Docs, Deployment Runbook
 - GitHub Actions CI Pipeline, ESLint + Prettier
-- 6 Rule-Files, 2 ADRs, Architecture Diagrams (C4, ER, Sequence)
-- 13 GitHub Issues (3 Epics + 10 Stories), 2 Sprint-Milestones
-- Code-Extraktion: webStyles.ts, colorCorrections.ts
+- 6 Rule-Files, 2 ADRs, 5 Architecture Diagrams (C4, ER, Sequence, Deployment)
+- 13 GitHub Issues (3 Epics + 10 Stories), 2 Sprint-Milestones, 30 Labels
+- Server modularisiert: db.js, routes/admin.js, routes/stripe.js (index.js -61%)
+- Frontend extrahiert: RefineCard, LegalFooter, InstallBanner, webStyles, colorCorrections
+- Test-Coverage: 33 → 125 Tests (+279%)
+- Security Audit bestanden (0 Vulnerabilities)
+- Performance Budgets definiert
+- BioNova Duplikat + TODO bereinigt
+- Sprint 1 + Sprint 2 abgeschlossen, alle Issues closed
 
 ## Tracking
 

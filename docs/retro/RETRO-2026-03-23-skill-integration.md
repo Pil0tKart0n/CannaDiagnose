@@ -97,13 +97,20 @@
 
 | Metrik | Vorher | Nachher |
 |--------|--------|---------|
-| Dokumentation (Dateien) | 1 (PROJEKTSTAND.txt) | 8 (README, CLAUDE, CHANGELOG, API, Deploy, 2 ADRs, Retro) |
+| Dokumentation (Dateien) | 1 (PROJEKTSTAND.txt) | 12 (README, CLAUDE, CHANGELOG, API, Deploy, 2 ADRs, 5 Arch-Diagrams, Retro, Perf-Budgets) |
 | Rule-Files | 0 | 6 |
 | CI/CD | Keine | GitHub Actions (TypeCheck + Tests + Security) |
 | .env Templates | 0 | 3 |
-| Extrahierte Module | 0 | 2 (webStyles.ts, colorCorrections.ts) |
+| GitHub Labels | 9 (default) | 30 (type, status, skill, priority, size) |
+| GitHub Issues | 0 | 13 (3 Epics + 10 Stories), alle closed |
+| GitHub Issue Templates | 0 | 3 (bug, story, epic) |
+| server/index.js | 1850 Zeilen | 717 Zeilen (-61%) |
+| Extrahierte Server-Module | 0 | 3 (db.js, admin.js, stripe.js) |
+| Extrahierte Frontend-Module | 0 | 5 (webStyles, colorCorrections, RefineCard, LegalFooter, InstallBanner) |
+| Tests | 33 | 125 (+279%) |
 | npm Scripts | 4 | 7 |
-| Architektur-Entscheidungen dokumentiert | 0 | 2 ADRs |
+| Architektur-Entscheidungen | 0 | 2 ADRs |
+| Version | 1.0.0 (falsch) | 1.3.0 (korrekt) |
 
 ---
 
