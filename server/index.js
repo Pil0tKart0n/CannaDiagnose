@@ -1552,17 +1552,10 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
   const limit = Math.min(parseInt(req.query.limit) || 20, 100);
 
   // Combine scan_log with scan_results for recent activity
-  // Feedback rating is matched separately via subquery (same IP + closest match)
   const scans = db.prepare(`
     SELECT sl.ip, sl.scanned_at,
            sr.diagnosis, sr.severity, sr.confidence, sr.substrate,
            sr.mode, sr.platform, sr.is_premium,
-           (SELECT f.rating FROM feedback f
-            WHERE f.created_at BETWEEN datetime(sl.scanned_at, '-2 minutes') AND datetime(sl.scanned_at, '+5 minutes')
-            AND f.diagnosis = sr.diagnosis
-            ORDER BY ABS(julianday(f.created_at) - julianday(sl.scanned_at))
-            LIMIT 1
-           ) as rating,
            au.total_tokens
     FROM scan_log sl
     LEFT JOIN scan_results sr ON sr.scan_log_id = sl.id
@@ -1571,6 +1564,25 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
     ORDER BY sl.scanned_at DESC
     LIMIT ?
   `).all(limit);
+
+  // Match feedback ratings in JS (avoids SQLite correlated subquery issue)
+  if (scans.length > 0) {
+    const feedbacks = db.prepare(`SELECT rating, diagnosis, created_at FROM feedback ORDER BY created_at DESC LIMIT 200`).all();
+    for (const scan of scans) {
+      scan.rating = null;
+      if (!scan.diagnosis) continue;
+      const scanTime = new Date(scan.scanned_at + 'Z').getTime();
+      for (const fb of feedbacks) {
+        if (fb.diagnosis !== scan.diagnosis) continue;
+        const fbTime = new Date(fb.created_at + 'Z').getTime();
+        const diff = fbTime - scanTime;
+        if (diff >= -120000 && diff <= 300000) { // -2min to +5min
+          scan.rating = fb.rating;
+          break;
+        }
+      }
+    }
+  }
 
   res.json(scans);
 });
