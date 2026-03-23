@@ -178,11 +178,6 @@ export default function HomeScreen() {
             {Platform.OS === 'web' && <View style={styles.logoGlowWarm} />}
             {Platform.OS === 'web' && <View style={styles.orbitDot} />}
 
-            {/* Web-only headline above logo */}
-            {Platform.OS === 'web' && (
-              <Text style={styles.heroHeadline}>{t('landing.heroHeadline')}</Text>
-            )}
-
             {/* Logo */}
             {Platform.OS === 'web' ? (
               <div className="cd-title-wrap">
@@ -301,43 +296,57 @@ export default function HomeScreen() {
                 <View style={styles.sectionAccentBar} />
                 <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
               </View>
-              <View style={styles.sampleCard}>
-                <View style={styles.sampleHeader}>
-                  <View style={styles.sampleIconWrap}>
-                    <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
-                  </View>
-                  <View style={styles.sampleHeaderText}>
-                    <Text style={styles.sampleDiagName}>Stickstoff(N)-Mangel</Text>
-                    <Text style={styles.sampleDiagType}>Nutrient Deficiency</Text>
-                  </View>
-                </View>
-                <View style={styles.sampleMetaRow}>
-                  <View style={styles.sampleMetaItem}>
-                    <Text style={styles.sampleMetaLabel}>Severity</Text>
-                    <View style={styles.sampleSeverityBadge}>
-                      <Text style={styles.sampleSeverityText}>Mittel</Text>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 24, alignItems: 'stretch' } as any}>
+                {/* Leaf photo */}
+                <div style={{ flex: 1, borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(92,232,146,0.12)', background: '#0A0E0C' } as any}>
+                  <img
+                    src="/images/sample-nitrogen.webp"
+                    alt="Stickstoffmangel - gelbes Cannabis-Blatt"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.9 } as any}
+                  />
+                </div>
+                {/* Diagnosis card */}
+                <View style={[styles.sampleCard, { flex: 1 } as any]}>
+                  <View style={styles.sampleHeader}>
+                    <View style={styles.sampleIconWrap}>
+                      <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
+                    </View>
+                    <View style={styles.sampleHeaderText}>
+                      <Text style={styles.sampleDiagName}>Stickstoff(N)-Mangel</Text>
+                      <Text style={styles.sampleDiagType}>Nährstoffmangel</Text>
                     </View>
                   </View>
-                  <View style={styles.sampleMetaItem}>
-                    <Text style={styles.sampleMetaLabel}>Confidence</Text>
-                    <Text style={styles.sampleConfidence}>78%</Text>
+                  <View style={styles.sampleMetaRow}>
+                    <View style={styles.sampleMetaItem}>
+                      <Text style={styles.sampleMetaLabel}>Schweregrad</Text>
+                      <View style={styles.sampleSeverityBadge}>
+                        <Text style={styles.sampleSeverityText}>Mittel</Text>
+                      </View>
+                    </View>
+                    <View style={styles.sampleMetaItem}>
+                      <Text style={styles.sampleMetaLabel}>Confidence</Text>
+                      <Text style={styles.sampleConfidence}>78%</Text>
+                    </View>
+                  </View>
+                  <View style={styles.sampleActions}>
+                    <View style={styles.sampleActionItem}>
+                      <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                      <Text style={styles.sampleActionText}>pH-Wert auf 6.0–6.5 korrigieren</Text>
+                    </View>
+                    <View style={styles.sampleActionItem}>
+                      <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                      <Text style={styles.sampleActionText}>Stickstoffreichen Dünger verwenden</Text>
+                    </View>
+                    <View style={styles.sampleActionItem}>
+                      <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                      <Text style={styles.sampleActionText}>Ältere Blätter entfernen</Text>
+                    </View>
+                  </View>
+                  <View style={styles.sampleFade}>
+                    <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
                   </View>
                 </View>
-                <View style={styles.sampleActions}>
-                  <View style={styles.sampleActionItem}>
-                    <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                    <Text style={styles.sampleActionText}>pH-Wert auf 6.0-6.5 korrigieren</Text>
-                  </View>
-                  <View style={styles.sampleActionItem}>
-                    <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                    <Text style={styles.sampleActionText}>Stickstoffreichen Dunger verwenden</Text>
-                  </View>
-                </View>
-                {/* Bottom fade overlay */}
-                <View style={styles.sampleFade}>
-                  <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
-                </View>
-              </View>
+              </div>
             </View>
           )}
 
@@ -581,7 +590,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 40,
     ...Platform.select({
-      web: { maxWidth: 800, alignSelf: 'center' as const, width: '100%' as any },
+      web: { maxWidth: 1080, alignSelf: 'center' as const, width: '100%' as any },
       default: {},
     }),
   },
