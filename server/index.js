@@ -210,11 +210,16 @@ try {
       is_premium INTEGER NOT NULL DEFAULT 0,
       platform TEXT DEFAULT 'unknown',
       result_json TEXT,
+      image_paths TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
     CREATE INDEX IF NOT EXISTS idx_scan_results_date ON scan_results(created_at);
     CREATE INDEX IF NOT EXISTS idx_scan_results_scan ON scan_results(scan_log_id);
   `);
+} catch (e) {}
+// Migration: add image_paths column to scan_results if missing
+try {
+  db.exec(`ALTER TABLE scan_results ADD COLUMN image_paths TEXT`);
 } catch (e) {}
 
 // Prepared statements for performance
@@ -261,9 +266,13 @@ const stmtCheckRedeemedByDevice = db.prepare(`SELECT * FROM promo_redemptions WH
 const stmtRedeemPromo = db.prepare(`INSERT INTO promo_redemptions (code, ip, device_id, expires_at) VALUES (?, ?, ?, datetime('now', '+' || ? || ' days'))`);
 const stmtActivePromo = db.prepare(`SELECT * FROM promo_redemptions WHERE (ip = ? OR (device_id = ? AND device_id != '')) AND expires_at > datetime('now') ORDER BY expires_at DESC LIMIT 1`);
 const stmtInsertScanResult = db.prepare(`
-  INSERT INTO scan_results (scan_log_id, ip, mode, diagnosis, severity, confidence, substrate, is_premium, platform, result_json)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO scan_results (scan_log_id, ip, mode, diagnosis, severity, confidence, substrate, is_premium, platform, result_json, image_paths)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
+
+// Ensure scan_images directory exists
+const scanImagesDir = path.join(__dirname, 'data', 'scan_images');
+fs.mkdirSync(scanImagesDir, { recursive: true });
 
 // ── API usage tracking statements ──
 const stmtInsertUsage = db.prepare(`
@@ -634,6 +643,28 @@ Antworte NUR mit JSON:
         const content = JSON.parse(parsed.choices[0].message.content);
         const lastScan = db.prepare(`SELECT id FROM scan_log WHERE ip = ? ORDER BY id DESC LIMIT 1`).get(ip);
         const platform = req.headers['origin'] ? 'pwa' : 'apk';
+
+        // Save first image to disk for dashboard preview
+        let savedImagePaths = [];
+        try {
+          if (Array.isArray(images) && images.length > 0) {
+            const ts = Date.now();
+            const img = images[0]; // save only first image
+            if (typeof img === 'string' && img.startsWith('data:image/')) {
+              const match = img.match(/^data:image\/(\w+);base64,(.+)$/);
+              if (match) {
+                const ext = match[1] === 'jpeg' ? 'jpg' : match[1];
+                const filename = `scan_${ts}_0.${ext}`;
+                const filepath = path.join(scanImagesDir, filename);
+                fs.writeFileSync(filepath, Buffer.from(match[2], 'base64'));
+                savedImagePaths.push(filename);
+              }
+            }
+          }
+        } catch (imgErr) {
+          console.log('[LeafScan] Scan image save skipped:', imgErr.message);
+        }
+
         stmtInsertScanResult.run(
           lastScan ? lastScan.id : null,
           ip,
@@ -644,7 +675,8 @@ Antworte NUR mit JSON:
           ((req.body.questionnaire && req.body.questionnaire.substrate) || '').substring(0, 50),
           premiumSession ? 1 : 0,
           platform,
-          JSON.stringify(content).substring(0, 10000)
+          JSON.stringify(content).substring(0, 10000),
+          savedImagePaths.length > 0 ? JSON.stringify(savedImagePaths) : null
         );
       } catch (e) {
         console.log('[LeafScan] Scan result save skipped:', e.message);
@@ -1166,6 +1198,21 @@ app.get('/api/admin/feedback-image/:filename', (req, res) => {
   }
 });
 
+// Serve scan images (admin only)
+app.get('/api/admin/scan-image/:filename', (req, res) => {
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  const filename = req.params.filename.replace(/[^a-zA-Z0-9._-]/g, '');
+  const filepath = path.join(scanImagesDir, filename);
+  if (fs.existsSync(filepath)) {
+    res.sendFile(filepath);
+  } else {
+    res.status(404).json({ error: 'Image not found' });
+  }
+});
+
 // ── Event tracking (for funnel analytics) ──
 app.post('/api/event', rateLimit, (req, res) => {
   const { event, meta } = req.body || {};
@@ -1555,7 +1602,7 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
   const scans = db.prepare(`
     SELECT sl.ip, sl.scanned_at,
            sr.diagnosis, sr.severity, sr.confidence, sr.substrate,
-           sr.mode, sr.platform, sr.is_premium,
+           sr.mode, sr.platform, sr.is_premium, sr.image_paths,
            au.total_tokens
     FROM scan_log sl
     LEFT JOIN scan_results sr ON sr.scan_log_id = sl.id
@@ -1565,10 +1612,14 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
     LIMIT ?
   `).all(limit);
 
-  // Match feedback ratings in JS (avoids SQLite correlated subquery issue)
+  // Match feedback ratings + parse image_paths in JS
   if (scans.length > 0) {
     const feedbacks = db.prepare(`SELECT rating, diagnosis, created_at FROM feedback ORDER BY created_at DESC LIMIT 200`).all();
     for (const scan of scans) {
+      // Parse image_paths JSON
+      scan.images = scan.image_paths ? JSON.parse(scan.image_paths) : [];
+      delete scan.image_paths;
+
       scan.rating = null;
       if (!scan.diagnosis) continue;
       const scanPrefix = scan.diagnosis.substring(0, 100);

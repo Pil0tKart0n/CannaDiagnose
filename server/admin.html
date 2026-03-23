@@ -266,7 +266,7 @@ tr:hover td{background:rgba(76,175,80,.04)}
   </div>
   <div class="table-wrap">
     <table id="liveFeedTable">
-      <thead><tr><th>Zeit</th><th>IP</th><th>Plattform</th><th>Diagnose</th><th>Schwere</th><th>Konfidenz</th><th>Rating</th><th>Tokens</th></tr></thead>
+      <thead><tr><th>Foto</th><th>Zeit</th><th>IP</th><th>Plattform</th><th>Diagnose</th><th>Schwere</th><th>Konfidenz</th><th>Rating</th><th>Tokens</th></tr></thead>
       <tbody></tbody>
     </table>
   </div>
@@ -941,7 +941,12 @@ async function loadLiveFeed() {
     tbody.innerHTML = rows.map(r => {
       const sevCls = severityClass(r.severity);
       const time = r.scanned_at ? new Date(r.scanned_at).toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) : '—';
+      const imgs = r.images || [];
+      const imgHtml = imgs.length > 0
+        ? `<img src="/api/admin/scan-image/${encodeURIComponent(imgs[0])}?key=${encodeURIComponent(KEY)}" style="width:48px;height:48px;object-fit:cover;border-radius:6px;cursor:pointer" onclick="openLightbox(this.src)" onerror="this.style.display='none'" loading="lazy">`
+        : '<span style="color:var(--text-dim);font-size:.75rem">—</span>';
       return `<tr>
+        <td>${imgHtml}</td>
         <td>${time}</td>
         <td style="font-family:monospace;font-size:.8rem">${maskIp(r.ip)}</td>
         <td>${esc(r.platform || '—')}</td>
@@ -951,7 +956,7 @@ async function loadLiveFeed() {
         <td>${ratingEmoji(r.rating)}</td>
         <td>${fmtNum(r.total_tokens)}</td>
       </tr>`;
-    }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted)">Keine Daten</td></tr>';
+    }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--text-muted)">Keine Daten</td></tr>';
   } catch (e) {
     toast('Live Feed Fehler: ' + e.message, true);
   }
