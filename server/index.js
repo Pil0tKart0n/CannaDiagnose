@@ -496,6 +496,9 @@ app.post('/api/scan', rateLimit, async (req, res) => {
         limit,
       });
     }
+  } else {
+    // Premium users also get a scan_log entry (for dashboard tracking)
+    stmtInsertScan.run(ip);
   }
 
   // Forward to OpenAI
@@ -1552,11 +1555,12 @@ app.get('/api/admin/stats/livefeed', (req, res) => {
   const scans = db.prepare(`
     SELECT sl.ip, sl.scanned_at,
            sr.diagnosis, sr.severity, sr.confidence, sr.substrate,
-           sr.mode, sr.platform,
+           sr.mode, sr.platform, sr.is_premium,
            f.rating,
            au.total_tokens
     FROM scan_log sl
     LEFT JOIN scan_results sr ON sr.scan_log_id = sl.id
+       OR (sr.scan_log_id IS NULL AND sr.ip = sl.ip AND sr.created_at BETWEEN datetime(sl.scanned_at, '-1 minutes') AND datetime(sl.scanned_at, '+1 minutes'))
     LEFT JOIN feedback f ON f.created_at BETWEEN datetime(sl.scanned_at, '-5 minutes') AND datetime(sl.scanned_at, '+5 minutes')
     LEFT JOIN api_usage au ON au.created_at BETWEEN datetime(sl.scanned_at, '-1 minutes') AND datetime(sl.scanned_at, '+1 minutes') AND au.ip = sl.ip
     ORDER BY sl.scanned_at DESC
