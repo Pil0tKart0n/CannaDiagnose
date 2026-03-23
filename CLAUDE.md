@@ -172,3 +172,19 @@ Dieses Projekt nutzt ein Skill-Engineering-System. Skills verfügbar via `/comma
 - Server-seitige Scan-Bild-Speicherung
 - Admin Livefeed Dashboard
 - Skill-System Integration
+- CLAUDE.md, README.md, CHANGELOG.md, API-Docs, Deployment Runbook
+- GitHub Actions CI Pipeline, ESLint + Prettier
+- 6 Rule-Files, 2 ADRs, Architecture Diagrams (C4, ER, Sequence)
+- 13 GitHub Issues (3 Epics + 10 Stories), 2 Sprint-Milestones
+- Code-Extraktion: webStyles.ts, colorCorrections.ts
+
+## Tracking
+
+Projekt-Tracking über GitHub Issues:
+- **Milestone 1:** Sprint 1 — Code Quality & Infrastructure (8 Issues)
+- **Milestone 2:** Sprint 2 — Testing & Security (5 Issues)
+
+```bash
+gh issue list --milestone "Sprint 1: Code Quality & Infrastructure" --state open
+gh issue list --milestone "Sprint 2: Testing & Security" --state open
+```
