@@ -346,7 +346,19 @@ export default function HomeScreen() {
                   } as any} />
                 </div>
                 {/* Diagnosis card */}
-                <View style={[styles.sampleCard, { flex: 1 } as any]}>
+                <div style={{
+                  flex: 1,
+                  position: 'relative',
+                  backgroundColor: colors.cardDark,
+                  borderWidth: 1,
+                  borderStyle: 'solid',
+                  borderColor: colors.border,
+                  borderRadius: 16,
+                  padding: 20,
+                  paddingBottom: 48,
+                  overflow: 'hidden',
+                  minHeight: 280,
+                } as any}>
                   <View style={styles.sampleHeader}>
                     <View style={styles.sampleIconWrap}>
                       <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
@@ -382,10 +394,37 @@ export default function HomeScreen() {
                       <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
                     </View>
                   </View>
+                  {/* Mini leaf thumbnail bottom-right with crossfade */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: -8,
+                    right: -8,
+                    width: 120,
+                    height: 120,
+                    borderRadius: 16,
+                    overflow: 'hidden',
+                    opacity: 0.18,
+                    pointerEvents: 'none',
+                  } as any}>
+                    <img
+                      src="/images/sample-nitrogen.webp"
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      } as any}
+                    />
+                    <img
+                      src="/images/sample-nitrogen.webp"
+                      alt=""
+                      className="cd-leaf-healthy"
+                    />
+                  </div>
                   <View style={styles.sampleFade}>
                     <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
                   </View>
-                </View>
+                </div>
               </div>
             </View>
           )}
