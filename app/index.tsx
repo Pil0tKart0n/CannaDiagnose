@@ -91,12 +91,14 @@ export default function HomeScreen() {
           });
       }
     }
-    // Check onboarding
-    hasCompletedOnboarding()
-      .then((done) => {
-        if (!done) router.replace('/onboarding');
-      })
-      .catch(() => {});
+    // Check onboarding (skip on web — landing page IS the introduction)
+    if (Platform.OS !== 'web') {
+      hasCompletedOnboarding()
+        .then((done) => {
+          if (!done) router.replace('/onboarding');
+        })
+        .catch(() => {});
+    }
     // Load quota
     getQuotaDisplay()
       .then((q) => {
