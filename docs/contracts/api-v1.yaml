@@ -1,0 +1,381 @@
+openapi: 3.0.3
+info:
+  title: LeafScan API
+  description: KI-gestützte Cannabis-Pflanzendiagnose
+  version: 1.3.0
+  contact:
+    url: https://leafscan.de
+
+servers:
+  - url: https://leafscan.de/api
+    description: Production
+
+paths:
+  /scan:
+    post:
+      summary: KI-Diagnose erstellen
+      description: Sendet Bilder und Fragebogen an GPT-4o für Pflanzendiagnose
+      tags: [Diagnosis]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mode, images]
+              properties:
+                mode:
+                  type: string
+                  enum: [diagnose, refine, verify]
+                images:
+                  type: array
+                  items:
+                    type: string
+                    description: Base64 data URI (data:image/jpeg;base64,...)
+                  minItems: 1
+                  maxItems: 5
+                questionnaire:
+                  $ref: '#/components/schemas/Questionnaire'
+                isFollowUp:
+                  type: boolean
+                previousResult:
+                  $ref: '#/components/schemas/DiagnosisResult'
+                daysSince:
+                  type: integer
+      responses:
+        '200':
+          description: Diagnose erfolgreich
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    $ref: '#/components/schemas/DiagnosisResult'
+        '400':
+          description: Ungültige Anfrage
+        '403':
+          description: Quota überschritten oder IP gesperrt
+        '429':
+          description: Rate Limit
+
+  /validate:
+    post:
+      summary: Bildvalidierung
+      description: Prüft ob ein Bild eine Cannabis-Pflanze zeigt
+      tags: [Diagnosis]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image:
+                  type: string
+      responses:
+        '200':
+          description: Validierungsergebnis
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isPlant:
+                    type: boolean
+
+  /quota:
+    get:
+      summary: Verbleibende Scans abfragen
+      tags: [User]
+      parameters:
+        - name: session_token
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Quota-Info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remaining:
+                    type: integer
+                  limit:
+                    type: integer
+                  isPremium:
+                    type: boolean
+                  premiumExpires:
+                    type: string
+                    nullable: true
+
+  /redeem-code:
+    post:
+      summary: Promo-Code einlösen
+      tags: [User]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  type: string
+                device_id:
+                  type: string
+      responses:
+        '200':
+          description: Code eingelöst
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  days:
+                    type: integer
+                  expires_at:
+                    type: string
+        '404':
+          description: Code ungültig
+        '409':
+          description: Bereits eingelöst
+        '410':
+          description: Code aufgebraucht
+
+  /verify-session:
+    get:
+      summary: Premium-Session prüfen
+      tags: [User]
+      parameters:
+        - name: session_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session-Info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  plan:
+                    type: string
+
+  /feedback:
+    post:
+      summary: Diagnose-Feedback senden
+      tags: [Feedback]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating]
+              properties:
+                rating:
+                  type: string
+                  enum: [positive, negative]
+                diagnosis:
+                  type: string
+                severity:
+                  type: string
+                confidence:
+                  type: number
+                substrate:
+                  type: string
+                fertilizer:
+                  type: string
+                fullDiagnosis:
+                  $ref: '#/components/schemas/DiagnosisResult'
+                questionnaire:
+                  $ref: '#/components/schemas/Questionnaire'
+                images:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Feedback gespeichert
+
+  /event:
+    post:
+      summary: Analytics-Event tracken
+      tags: [Analytics]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [event]
+              properties:
+                event:
+                  type: string
+                  maxLength: 50
+                meta:
+                  type: string
+      responses:
+        '200':
+          description: Event getrackt
+
+  /announcement:
+    get:
+      summary: Aktuelle Ankündigung
+      tags: [System]
+      responses:
+        '200':
+          description: Ankündigung oder null
+          content:
+            application/json:
+              schema:
+                type: object
+                nullable: true
+                properties:
+                  id:
+                    type: integer
+                  message:
+                    type: string
+                  type:
+                    type: string
+
+  /health:
+    get:
+      summary: Health Check
+      tags: [System]
+      responses:
+        '200':
+          description: Server OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+
+  /stripe/products:
+    get:
+      summary: Abo-Pläne
+      tags: [Stripe]
+      responses:
+        '200':
+          description: Verfügbare Produkte
+
+  /stripe/checkout:
+    post:
+      summary: Checkout-Session erstellen
+      tags: [Stripe]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priceId:
+                  type: string
+                sessionToken:
+                  type: string
+      responses:
+        '200':
+          description: Checkout URL
+
+  /stripe/portal:
+    post:
+      summary: Kundenportal-Link
+      tags: [Stripe]
+      responses:
+        '200':
+          description: Portal URL
+
+  /stripe/webhook:
+    post:
+      summary: Stripe Webhook
+      tags: [Stripe]
+      responses:
+        '200':
+          description: Webhook verarbeitet
+
+components:
+  schemas:
+    Questionnaire:
+      type: object
+      properties:
+        growPhase:
+          type: string
+        plantAgeWeeks:
+          type: string
+        substrateType:
+          type: string
+        fertilizerType:
+          type: string
+        fertilizerCategory:
+          type: string
+        phFeed:
+          type: string
+        ecPpm:
+          type: string
+        lightType:
+          type: string
+        lightDistanceCm:
+          type: string
+        roomTempCelsius:
+          type: string
+        humidityPercent:
+          type: string
+
+    DiagnosisResult:
+      type: object
+      properties:
+        severity:
+          type: string
+          enum: [niedrig, mittel, hoch, kritisch]
+        primaryDiagnosis:
+          type: string
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 100
+        rootCauseAnalysis:
+          type: string
+        contributingFactors:
+          type: array
+          items:
+            type: object
+            properties:
+              factor:
+                type: string
+              impact:
+                type: string
+        actionPlan:
+          type: array
+          items:
+            type: object
+            properties:
+              priority:
+                type: integer
+              action:
+                type: string
+              details:
+                type: string
+        preventiveTips:
+          type: array
+          items:
+            type: string
+        followUpDays:
+          type: integer
+        category:
+          type: string
