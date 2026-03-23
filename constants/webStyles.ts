@@ -145,7 +145,7 @@ export const webCSS =
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover;
-    filter: hue-rotate(55deg) saturate(1.8) brightness(0.85);
+    filter: hue-rotate(50deg) saturate(1.4) brightness(0.9);
     opacity: 0;
     z-index: 3;
     animation: cd-leaf-heal 14s ease-in-out infinite;
