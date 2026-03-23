@@ -14,6 +14,8 @@ export default function ImpressumScreen() {
           <Text style={styles.sectionTitle}>Verantwortlich</Text>
           <Text style={styles.tinyText}>Daniel Bösche</Text>
           <Text style={styles.tinyText}>Klyro Labs</Text>
+          <Text style={styles.tinyText}>Marris-Mühlenweg 2</Text>
+          <Text style={styles.tinyText}>31303 Burgdorf</Text>
           <Text style={styles.tinyText}>{'\n'}E-Mail: leafscan@proton.me</Text>
         </View>
 
