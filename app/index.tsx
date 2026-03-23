@@ -368,7 +368,7 @@ export default function HomeScreen() {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      filter: 'hue-rotate(50deg) saturate(1.4) brightness(0.9)',
+                      filter: 'hue-rotate(45deg) saturate(1.3) brightness(0.82)',
                       clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
                       pointerEvents: 'none',
                     } as any}
@@ -381,7 +381,7 @@ export default function HomeScreen() {
                       left: 0,
                       right: 0,
                       height: 80,
-                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.03) 20%, rgba(150,255,190,0.12) 45%, rgba(255,255,255,0.18) 50%, rgba(150,255,190,0.12) 55%, rgba(92,232,146,0.03) 80%, transparent 100%)',
+                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(150,255,190,0.15) 45%, rgba(255,255,255,0.22) 50%, rgba(150,255,190,0.15) 55%, rgba(92,232,146,0.04) 80%, transparent 100%)',
                       pointerEvents: 'none',
                       filter: 'blur(2px)',
                     } as any} />
@@ -409,8 +409,8 @@ export default function HomeScreen() {
                     <div style={{
                       position: 'absolute',
                       inset: '12px 0',
-                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.03) 0%, rgba(92,232,146,0.15) 20%, rgba(150,255,190,0.3) 38%, rgba(220,255,235,0.5) 48%, rgba(255,255,255,0.55) 50%, rgba(220,255,235,0.5) 52%, rgba(150,255,190,0.3) 62%, rgba(92,232,146,0.15) 80%, rgba(92,232,146,0.03) 100%)',
-                      boxShadow: '0 0 40px rgba(92,232,146,0.15), 0 0 100px rgba(92,232,146,0.06)',
+                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.02) 0%, rgba(92,232,146,0.08) 20%, rgba(150,255,190,0.18) 38%, rgba(220,255,235,0.3) 48%, rgba(255,255,255,0.35) 50%, rgba(220,255,235,0.3) 52%, rgba(150,255,190,0.18) 62%, rgba(92,232,146,0.08) 80%, rgba(92,232,146,0.02) 100%)',
+                      boxShadow: '0 0 30px rgba(92,232,146,0.1), 0 0 80px rgba(92,232,146,0.04)',
                       filter: 'blur(0.5px)',
                       pointerEvents: 'none',
                     } as any} />
