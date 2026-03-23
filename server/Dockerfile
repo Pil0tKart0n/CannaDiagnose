@@ -17,9 +17,11 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY package.json ./
 COPY index.js ./
+COPY db.js ./
 COPY prompts.js ./
 COPY fertilizers.js ./
 COPY admin.html ./
+COPY routes/ ./routes/
 
 RUN mkdir -p /app/data && \
     addgroup -S leafscan && \
