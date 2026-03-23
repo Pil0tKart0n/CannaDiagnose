@@ -136,21 +136,6 @@ export const webCSS =
     border-color: rgba(212,168,83,0.45);
   }
   .cd-btn-premium:active { transform: scale(0.97); }
-  @keyframes cd-leaf-heal {
-    0%, 35% { opacity: 0; }
-    45%, 55% { opacity: 1; }
-    65%, 100% { opacity: 0; }
-  }
-  .cd-leaf-healthy {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-    filter: hue-rotate(50deg) saturate(1.4) brightness(0.9);
-    opacity: 0;
-    z-index: 3;
-    animation: cd-leaf-heal 14s ease-in-out infinite;
-    pointer-events: none;
-  }
   .cd-btn-premium::after {
     content: '';
     position: absolute; top: 0; left: -100%; width: 60%; height: 100%;

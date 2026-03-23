@@ -39,6 +39,8 @@ export default function HomeScreen() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [leafSlider, setLeafSlider] = useState(0);
+  const leafDragging = useRef(false);
 
   useEffect(() => {
     injectCSS();
@@ -299,15 +301,38 @@ export default function HomeScreen() {
                 <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
               </View>
               <div style={{ display: 'flex', flexDirection: 'row', gap: 28, alignItems: 'stretch' } as any}>
-                {/* Leaf photo */}
-                <div style={{
-                  flex: 1,
-                  borderRadius: 20,
-                  overflow: 'hidden',
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, rgba(92,232,146,0.08) 0%, rgba(45,90,62,0.15) 50%, rgba(92,232,146,0.05) 100%)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(92,232,146,0.06), inset 0 0 0 1px rgba(92,232,146,0.15)',
-                } as any}>
+                {/* Leaf before/after slider */}
+                <div
+                  style={{
+                    flex: 1,
+                    borderRadius: 20,
+                    overflow: 'hidden',
+                    position: 'relative',
+                    background: '#000',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(92,232,146,0.06), inset 0 0 0 1px rgba(92,232,146,0.15)',
+                    cursor: 'ns-resize',
+                    userSelect: 'none',
+                    touchAction: 'none',
+                  } as any}
+                  onMouseDown={() => { leafDragging.current = true; }}
+                  onMouseUp={() => { leafDragging.current = false; }}
+                  onMouseLeave={() => { leafDragging.current = false; }}
+                  onMouseMove={(e: any) => {
+                    if (!leafDragging.current) return;
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const pct = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+                    setLeafSlider(pct);
+                  }}
+                  onTouchStart={() => { leafDragging.current = true; }}
+                  onTouchEnd={() => { leafDragging.current = false; }}
+                  onTouchMove={(e: any) => {
+                    const touch = e.touches[0];
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const pct = Math.max(0, Math.min(1, (touch.clientY - rect.top) / rect.height));
+                    setLeafSlider(pct);
+                  }}
+                >
+                  {/* Base: sick/yellow leaf */}
                   <img
                     src="/images/sample-nitrogen.webp"
                     alt="Stickstoffmangel - gelbes Cannabis-Blatt"
@@ -316,34 +341,53 @@ export default function HomeScreen() {
                       height: '100%',
                       objectFit: 'cover',
                       display: 'block',
-                      mixBlendMode: 'luminosity',
-                      opacity: 0.85,
                     } as any}
                   />
+                  {/* Overlay: healthy/green leaf, clipped from top */}
                   <img
                     src="/images/sample-nitrogen.webp"
                     alt="Gesundes Cannabis-Blatt"
-                    className="cd-leaf-healthy"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      filter: 'hue-rotate(50deg) saturate(1.4) brightness(0.9)',
+                      clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
+                    } as any}
                   />
-                  {/* Gradient overlay to blend into page */}
+                  {/* Slider line + handle */}
                   <div style={{
                     position: 'absolute',
-                    bottom: 0,
+                    top: `${leafSlider * 100}%`,
                     left: 0,
                     right: 0,
-                    height: '40%',
-                    background: 'linear-gradient(to top, rgba(8,12,10,0.8) 0%, transparent 100%)',
+                    height: 2,
+                    background: 'rgba(255,255,255,0.7)',
+                    transform: 'translateY(-1px)',
                     pointerEvents: 'none',
+                    display: leafSlider > 0 ? 'block' : 'none',
                   } as any} />
                   <div style={{
                     position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'radial-gradient(ellipse at center, transparent 40%, rgba(8,12,10,0.5) 100%)',
+                    top: `${leafSlider * 100}%`,
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    background: 'rgba(255,255,255,0.9)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     pointerEvents: 'none',
-                  } as any} />
+                    opacity: leafSlider > 0 ? 1 : 0.6,
+                  } as any}>
+                    <div style={{ fontSize: 12, color: '#333', lineHeight: 1 } as any}>↕</div>
+                  </div>
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
