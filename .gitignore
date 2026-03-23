@@ -56,3 +56,15 @@ generate-icons.js
 window_dump.xml
 scraper_data/
 PROJEKTSTAND.txt
+
+# Server data (runtime)
+server/data/
+
+# Skill orchestrator template (reference only)
+skill-orchestrator-template-master/
+
+# Misc dev files
+tools/
+skills-lock.json
+r/
+.agents/
