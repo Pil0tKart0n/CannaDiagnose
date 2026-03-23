@@ -11,6 +11,9 @@
   "home.downloadAndroid": "Download Android App",
   "home.notNow": "Not now",
   "home.unlockPremium": "Unlock Premium",
+  "home.stepPhoto": "Photo",
+  "home.stepAnalysis": "Analysis",
+  "home.stepPlan": "Action Plan",
 
   "modal.howTitle": "How it works",
   "modal.howText": "Take a photo of the affected area –\nleaf, stem, or the whole plant.\n\nAnswer a few quick questions about\nyour setup.\n\nYou'll get a diagnosis with concrete\nsteps on what to do next.",

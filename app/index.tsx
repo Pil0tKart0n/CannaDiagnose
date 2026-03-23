@@ -187,6 +187,30 @@ export default function HomeScreen() {
                 <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>{quotaText}</Text>
               </TouchableOpacity>
             ) : null}
+
+            {/* How it works — 3-step flow */}
+            <View style={styles.stepsRow}>
+              <View style={styles.step}>
+                <View style={styles.stepIcon}>
+                  <Text style={styles.stepEmoji}>📸</Text>
+                </View>
+                <Text style={styles.stepLabel}>{t('home.stepPhoto') || 'Foto'}</Text>
+              </View>
+              <View style={styles.stepArrow}><Text style={styles.stepArrowText}>›</Text></View>
+              <View style={styles.step}>
+                <View style={styles.stepIcon}>
+                  <Text style={styles.stepEmoji}>🔬</Text>
+                </View>
+                <Text style={styles.stepLabel}>{t('home.stepAnalysis') || 'Analyse'}</Text>
+              </View>
+              <View style={styles.stepArrow}><Text style={styles.stepArrowText}>›</Text></View>
+              <View style={styles.step}>
+                <View style={styles.stepIcon}>
+                  <Text style={styles.stepEmoji}>✅</Text>
+                </View>
+                <Text style={styles.stepLabel}>{t('home.stepPlan') || 'Aktionsplan'}</Text>
+              </View>
+            </View>
           </View>
 
           {/* CTA Area — Primary action dominates */}
@@ -378,6 +402,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 20,
   },
   logoGlow: {
     position: 'absolute',
@@ -438,12 +463,56 @@ const styles = StyleSheet.create({
     }),
   },
   tagline: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
     color: colors.textMuted,
-    letterSpacing: 5,
+    letterSpacing: 6,
     textTransform: 'uppercase',
-    marginBottom: 28,
+    marginBottom: 16,
+  },
+  // Steps row
+  stepsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    marginTop: 20,
+    paddingHorizontal: 8,
+    paddingVertical: 14,
+    borderRadius: 16,
+    backgroundColor: 'rgba(92,232,146,0.04)',
+    borderWidth: 1,
+    borderColor: 'rgba(92,232,146,0.08)',
+  },
+  step: {
+    alignItems: 'center',
+    gap: 6,
+  },
+  stepIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: 'rgba(92,232,146,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stepEmoji: {
+    fontSize: 18,
+  },
+  stepLabel: {
+    fontSize: 11,
+    color: colors.textMuted,
+    fontWeight: '500',
+    letterSpacing: 0.3,
+  },
+  stepArrow: {
+    paddingHorizontal: 4,
+    marginBottom: 18,
+  },
+  stepArrowText: {
+    fontSize: 20,
+    color: 'rgba(92,232,146,0.3)',
+    fontWeight: '300',
   },
   dividerWrap: {
     flexDirection: 'row',
@@ -477,17 +546,17 @@ const styles = StyleSheet.create({
   },
   navBtn: {
     borderRadius: 12,
-    paddingVertical: 11,
+    paddingVertical: 12,
     alignItems: 'center',
-    backgroundColor: 'rgba(15,23,19,0.5)',
+    backgroundColor: 'rgba(92,232,146,0.06)',
     borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.06)',
+    borderColor: 'rgba(92,232,146,0.15)',
   },
   navBtnText: {
-    color: colors.textMuted,
+    color: 'rgba(228,235,230,0.7)',
     fontSize: 13,
-    fontWeight: '500',
-    letterSpacing: 0.3,
+    fontWeight: '600',
+    letterSpacing: 0.5,
   },
   valueProp: {
     fontSize: 15,
