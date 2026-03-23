@@ -242,25 +242,7 @@ export default function RootLayout() {
         const style = document.createElement('style');
         style.id = 'pwa-responsive-css';
         style.textContent = `
-          html, body, #root { background: #0A0E0D; }
-          @media (min-width: 768px) {
-            body {
-              background: #000000;
-            }
-            #root {
-              max-width: 480px !important;
-              margin: 20px auto !important;
-              min-height: calc(100vh - 40px);
-              border-radius: 24px;
-              box-shadow:
-                0 0 40px rgba(92,232,146,0.06),
-                0 0 80px rgba(92,232,146,0.03),
-                0 0 160px rgba(92,232,146,0.015),
-                0 0 0 2px #0A0E0D;
-              border: none !important;
-              overflow: hidden;
-            }
-          }
+          html, body, #root { background: #080C0A; }
           ::-webkit-scrollbar { width: 0; height: 0; }
           * { -webkit-tap-highlight-color: transparent; }
         `;
