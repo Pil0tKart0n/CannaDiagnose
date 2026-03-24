@@ -82,6 +82,12 @@ export default function HomeScreen() {
           box-shadow: none !important;
         }
         body { background: #080C0A !important; }
+        .cd-sample-grid { grid-template-columns: 200px 1fr; }
+        .cd-sample-leaf { aspect-ratio: 3/4; }
+      }
+      @media (max-width: 767px) {
+        .cd-sample-grid { grid-template-columns: 1fr; }
+        .cd-sample-leaf { aspect-ratio: 16/9; max-width: 280px; margin: 0 auto; }
       }
     `;
     document.head.appendChild(style);
@@ -346,176 +352,183 @@ export default function HomeScreen() {
                 <View style={styles.sectionAccentBar} />
                 <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
               </View>
-              <div style={{ display: 'flex', flexDirection: 'row', gap: 28, alignItems: 'stretch' } as any}>
-                {/* Leaf before/after slider */}
-                <div
-                  ref={(el: any) => { leafContainerRef.current = el; }}
-                  style={{
-                    flex: 1,
-                    borderRadius: 20,
-                    overflow: 'hidden',
-                    position: 'relative',
-                    background: '#000',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(92,232,146,0.06), inset 0 0 0 1px rgba(92,232,146,0.15)',
-                    cursor: 'ns-resize',
-                    userSelect: 'none',
-                    WebkitUserSelect: 'none',
-                    touchAction: 'none',
-                  } as any}
-                  onMouseDown={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
-                  onTouchStart={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
-                >
-                  {/* Base: sick/yellow leaf */}
-                  <img
-                    src="/images/sample-nitrogen.webp"
-                    alt="Stickstoffmangel - gelbes Cannabis-Blatt"
-                    draggable={false}
+              <View style={[styles.sampleCard]}>
+                <div className="cd-sample-grid" style={{
+                  display: 'grid',
+                  gap: 24,
+                  alignItems: 'start',
+                } as any}>
+                  {/* Leaf before/after slider — now inside the card */}
+                  <div
+                    ref={(el: any) => { leafContainerRef.current = el; }}
+                    className="cd-sample-leaf"
                     style={{
+                      borderRadius: 14,
+                      overflow: 'hidden',
+                      position: 'relative',
+                      background: '#000',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(92,232,146,0.12)',
+                      cursor: 'ns-resize',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      touchAction: 'none',
                       width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block',
-                      pointerEvents: 'none',
                     } as any}
-                  />
-                  {/* Overlay: healthy/green leaf, clipped from top */}
-                  <img
-                    src="/images/sample-nitrogen.webp"
-                    alt="Gesundes Cannabis-Blatt"
-                    draggable={false}
-                    style={{
+                    onMouseDown={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
+                    onTouchStart={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
+                  >
+                    {/* Base: sick/yellow leaf */}
+                    <img
+                      src="/images/sample-nitrogen.webp"
+                      alt="Stickstoffmangel - gelbes Cannabis-Blatt"
+                      draggable={false}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        pointerEvents: 'none',
+                      } as any}
+                    />
+                    {/* Overlay: healthy/green leaf, clipped from top */}
+                    <img
+                      src="/images/sample-nitrogen.webp"
+                      alt="Gesundes Cannabis-Blatt"
+                      draggable={false}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        filter: 'hue-rotate(45deg) saturate(1.3) brightness(0.82)',
+                        clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
+                        pointerEvents: 'none',
+                      } as any}
+                    />
+                    {/* Hint: light sweep inviting downward drag */}
+                    {!leafInteracted && (
+                      <div className="cd-leaf-hint" style={{
+                        position: 'absolute',
+                        top: '-10%',
+                        left: 0,
+                        right: 0,
+                        height: 80,
+                        background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(150,255,190,0.15) 45%, rgba(255,255,255,0.22) 50%, rgba(150,255,190,0.15) 55%, rgba(92,232,146,0.04) 80%, transparent 100%)',
+                        pointerEvents: 'none',
+                        filter: 'blur(2px)',
+                      } as any} />
+                    )}
+                    {/* Soft glow at transition seam */}
+                    <div className="cd-scan-beam" style={{
                       position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      filter: 'hue-rotate(45deg) saturate(1.3) brightness(0.82)',
-                      clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
-                      pointerEvents: 'none',
-                    } as any}
-                  />
-                  {/* Hint: light sweep inviting downward drag */}
-                  {!leafInteracted && (
-                    <div className="cd-leaf-hint" style={{
-                      position: 'absolute',
-                      top: '-10%',
+                      top: `${leafSlider * 100}%`,
                       left: 0,
                       right: 0,
-                      height: 80,
-                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(150,255,190,0.15) 45%, rgba(255,255,255,0.22) 50%, rgba(150,255,190,0.15) 55%, rgba(92,232,146,0.04) 80%, transparent 100%)',
+                      height: 120,
+                      transform: 'translateY(-50%)',
+                      background: 'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.22) 0%, rgba(150,255,190,0.08) 40%, transparent 70%)',
+                      filter: 'blur(10px)',
                       pointerEvents: 'none',
-                      filter: 'blur(2px)',
-                    } as any} />
-                  )}
-                  {/* Soft glow at transition seam */}
-                  <div className="cd-scan-beam" style={{
-                    position: 'absolute',
-                    top: `${leafSlider * 100}%`,
-                    left: 0,
-                    right: 0,
-                    height: 120,
-                    transform: 'translateY(-50%)',
-                    background: 'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.22) 0%, rgba(150,255,190,0.08) 40%, transparent 70%)',
-                    filter: 'blur(10px)',
-                    pointerEvents: 'none',
-                    opacity: leafSlider > 0.01 ? 1 : 0,
-                  } as any}>
-                    {/* Subtle shimmer streak */}
-                    <div className="cd-beam-shimmer" style={{
+                      opacity: leafSlider > 0.01 ? 1 : 0,
+                    } as any}>
+                      {/* Subtle shimmer streak */}
+                      <div className="cd-beam-shimmer" style={{
+                        position: 'absolute',
+                        top: '30%',
+                        height: '40%',
+                        width: '18%',
+                        background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%)',
+                        filter: 'blur(8px)',
+                        pointerEvents: 'none',
+                      } as any} />
+                      {/* Soft glow dots */}
+                      <div className="cd-beam-glow-1" style={{
+                        position: 'absolute',
+                        top: '40%',
+                        width: 10,
+                        height: 10,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)',
+                        filter: 'blur(3px)',
+                        pointerEvents: 'none',
+                      } as any} />
+                      <div className="cd-beam-glow-2" style={{
+                        position: 'absolute',
+                        top: '50%',
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)',
+                        filter: 'blur(3px)',
+                        pointerEvents: 'none',
+                      } as any} />
+                    </div>
+                    {/* Payoff text when fully revealed */}
+                    <div style={{
                       position: 'absolute',
-                      top: '30%',
-                      height: '40%',
-                      width: '18%',
-                      background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%)',
-                      filter: 'blur(8px)',
+                      bottom: 8,
+                      left: 0,
+                      right: 0,
+                      textAlign: 'center',
                       pointerEvents: 'none',
-                    } as any} />
-                    {/* Soft glow dots */}
-                    <div className="cd-beam-glow-1" style={{
-                      position: 'absolute',
-                      top: '40%',
-                      width: 10,
-                      height: 10,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)',
-                      filter: 'blur(3px)',
-                      pointerEvents: 'none',
-                    } as any} />
-                    <div className="cd-beam-glow-2" style={{
-                      position: 'absolute',
-                      top: '50%',
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)',
-                      filter: 'blur(3px)',
-                      pointerEvents: 'none',
-                    } as any} />
+                      opacity: leafSlider > 0.85 ? Math.min(1, (leafSlider - 0.85) / 0.1) : 0,
+                      transition: 'opacity 0.3s ease',
+                    } as any}>
+                      <span style={{
+                        fontSize: 10,
+                        fontWeight: '600',
+                        color: 'rgba(220,255,235,0.95)',
+                        letterSpacing: 1.2,
+                        textTransform: 'uppercase',
+                        textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5), 0 0 30px rgba(92,232,146,0.2)',
+                      } as any}>{t('landing.step3Title') || 'Diagnose in 30 Sekunden'}</span>
+                    </div>
                   </div>
-                  {/* Payoff text when fully revealed */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 8,
-                    left: 0,
-                    right: 0,
-                    textAlign: 'center',
-                    pointerEvents: 'none',
-                    opacity: leafSlider > 0.85 ? Math.min(1, (leafSlider - 0.85) / 0.1) : 0,
-                    transition: 'opacity 0.3s ease',
-                  } as any}>
-                    <span style={{
-                      fontSize: 10,
-                      fontWeight: '600',
-                      color: 'rgba(220,255,235,0.95)',
-                      letterSpacing: 1.2,
-                      textTransform: 'uppercase',
-                      textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5), 0 0 30px rgba(92,232,146,0.2)',
-                    } as any}>{t('landing.step3Title') || 'Diagnose in 30 Sekunden'}</span>
-                  </div>
-                </div>
-                {/* Diagnosis card */}
-                <View style={[styles.sampleCard, { flex: 1 } as any]}>
-                  <View style={styles.sampleHeader}>
-                    <View style={styles.sampleIconWrap}>
-                      <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
-                    </View>
-                    <View style={styles.sampleHeaderText}>
-                      <Text style={styles.sampleDiagName}>{t('landing.sampleDiagnosis')}</Text>
-                      <Text style={styles.sampleDiagType}>{t('landing.sampleCategory')}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.sampleMetaRow}>
-                    <View style={styles.sampleMetaItem}>
-                      <Text style={styles.sampleMetaLabel}>{t('landing.sampleSeverity')}</Text>
-                      <View style={styles.sampleSeverityBadge}>
-                        <Text style={styles.sampleSeverityText}>{t('landing.sampleSeverityVal')}</Text>
+                  {/* Diagnosis content — right side on desktop, below on mobile */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 0 } as any}>
+                    <View style={styles.sampleHeader}>
+                      <View style={styles.sampleIconWrap}>
+                        <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
+                      </View>
+                      <View style={styles.sampleHeaderText}>
+                        <Text style={styles.sampleDiagName}>{t('landing.sampleDiagnosis')}</Text>
+                        <Text style={styles.sampleDiagType}>{t('landing.sampleCategory')}</Text>
                       </View>
                     </View>
-                    <View style={styles.sampleMetaItem}>
-                      <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
-                      <Text style={styles.sampleConfidence}>78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text></Text>
+                    <View style={styles.sampleMetaRow}>
+                      <View style={styles.sampleMetaItem}>
+                        <Text style={styles.sampleMetaLabel}>{t('landing.sampleSeverity')}</Text>
+                        <View style={styles.sampleSeverityBadge}>
+                          <Text style={styles.sampleSeverityText}>{t('landing.sampleSeverityVal')}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.sampleMetaItem}>
+                        <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
+                        <Text style={styles.sampleConfidence}>78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text></Text>
+                      </View>
                     </View>
-                  </View>
-                  <View style={styles.sampleActions}>
-                    <View style={styles.sampleActionItem}>
-                      <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                      <Text style={styles.sampleActionText}>{t('landing.sampleAction1')}</Text>
+                    <View style={styles.sampleActions}>
+                      <View style={styles.sampleActionItem}>
+                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                        <Text style={styles.sampleActionText}>{t('landing.sampleAction1')}</Text>
+                      </View>
+                      <View style={styles.sampleActionItem}>
+                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                        <Text style={styles.sampleActionText}>{t('landing.sampleAction2')}</Text>
+                      </View>
+                      <View style={styles.sampleActionItem}>
+                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                        <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
+                      </View>
                     </View>
-                    <View style={styles.sampleActionItem}>
-                      <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                      <Text style={styles.sampleActionText}>{t('landing.sampleAction2')}</Text>
-                    </View>
-                    <View style={styles.sampleActionItem}>
-                      <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                      <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.sampleFade}>
-                    <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
-                  </View>
+                  </div>
+                </div>
+                <View style={styles.sampleFade}>
+                  <Text style={styles.sampleFadeText}>{t('landing.heroCta')}</Text>
                 </View>
-              </div>
+              </View>
             </View>
           )}
 
@@ -1017,8 +1030,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 16,
-    padding: 20,
+    padding: 24,
     overflow: 'hidden',
+    position: 'relative',
   },
   sampleHeader: {
     flexDirection: 'row',
@@ -1082,7 +1096,7 @@ const styles = StyleSheet.create({
   },
   sampleActions: {
     gap: 8,
-    marginBottom: 24,
+    marginBottom: 32,
   },
   sampleActionItem: {
     flexDirection: 'row',
