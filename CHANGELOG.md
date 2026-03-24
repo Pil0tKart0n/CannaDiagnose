@@ -6,18 +6,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/)
 
 ## [Unreleased]
 
-### Changed
-- Prettier: alle .ts/.tsx Dateien auto-formatiert (endOfLine: auto)
-- 18 unused import/variable Warnings in 12 Dateien behoben
-- services/claude.ts aufgeteilt: imageOptimization.ts (110Z) + referenceImages.ts (247Z), claude.ts 941→649 Zeilen
-- services/i18n.ts aufgeteilt: Translations in de.json + en.json, i18n.ts 595→76 Zeilen
-- ESLint Config verfeinert (no-console erlaubt, no-explicit-any deaktiviert)
+_Keine Änderungen seit letztem Release._
+
+## [1.4.0] — 2026-03-24
 
 ### Added
-- docs/contracts/api-v1.yaml — OpenAPI 3.0 Spec für alle Public Endpoints
+- Komplett neue scrollbare Landing Page mit 8 Sektionen (Hero, Trust Bar, How It Works, Sample Result, Why LeafScan, Premium, FAQ, Final CTA)
+- Stickstoffmangel-Blattfoto neben Sample-Diagnose auf der Landing Page
+- 45+ neue i18n Keys für Landing Page (DE + EN)
+- Fullscreen-Layout auf Desktop für Landing Page (andere Screens behalten Phone-Frame)
+- Onboarding wird auf Web übersprungen (Landing Page IST die Einführung)
+- docs/contracts/api-v1.yaml — OpenAPI 3.0 Spec
 - @playwright/test + eslint-config-prettier als devDependencies
+- Neue Farbtokens: textHero, accentMoss, accentForest
+
+### Changed
+- services/claude.ts aufgeteilt: imageOptimization.ts + referenceImages.ts (941→649 Zeilen)
+- services/i18n.ts aufgeteilt: Translations in de.json + en.json (595→76 Zeilen)
+- Prettier auto-format, 18 unused vars behoben, ESLint Config verfeinert
+- Impressum: Name geändert zu Stefanie Bösche
+- CTA Text: "Pflanze scannen" → "Kostenlose Diagnose starten"
+- Sekundäre Buttons mit besserem Kontrast
 
 ### Fixed
+- i18n: Sample-Result-Sektion wechselt jetzt korrekt zwischen DE/EN
+- 480px Phone-Frame für App-Screens wiederhergestellt (war nach Landing-Page-Redesign global entfernt)
 - React Rules of Hooks Verletzung in questionnaire.tsx (useCallback nach early return)
 - TypeScript Error: borderBottomWidth in _layout.tsx durch headerShadowVisible ersetzt
 - Import-Order Violations in results.tsx und claude.ts
