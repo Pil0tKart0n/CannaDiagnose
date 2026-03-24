@@ -82,12 +82,13 @@ export default function HomeScreen() {
           box-shadow: none !important;
         }
         body { background: #080C0A !important; }
-        .cd-sample-grid { grid-template-columns: 1fr 220px; }
+        .cd-sample-grid { grid-template-columns: 1fr 240px; gap: 16px !important; }
         .cd-sample-leaf { aspect-ratio: 3/4; }
       }
       @media (max-width: 767px) {
         .cd-sample-grid { grid-template-columns: 1fr; }
-        .cd-sample-leaf { aspect-ratio: 16/9; max-width: 280px; margin: 0 auto; }
+        .cd-sample-leaf { aspect-ratio: auto; max-width: 280px; margin: 0 auto; }
+        .cd-sample-leaf img { object-fit: contain !important; }
       }
     `;
     document.head.appendChild(style);
@@ -355,7 +356,7 @@ export default function HomeScreen() {
               <View style={[styles.sampleCard]}>
                 <div className="cd-sample-grid" style={{
                   display: 'grid',
-                  gap: 24,
+                  gap: 16,
                   alignItems: 'center',
                 } as any}>
                   {/* Diagnosis content — LEFT on desktop, FIRST on mobile */}
