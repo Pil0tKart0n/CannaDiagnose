@@ -39,7 +39,8 @@ export default function HomeScreen() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [leafSlider, setLeafSlider] = useState(0.08);
+  const [leafSlider, setLeafSlider] = useState(0.04);
+  const [leafInteracted, setLeafInteracted] = useState(false);
   const leafContainerRef = useRef<HTMLDivElement | null>(null);
   const leafDragging = useRef(false);
 
@@ -340,8 +341,8 @@ export default function HomeScreen() {
                     WebkitUserSelect: 'none',
                     touchAction: 'none',
                   } as any}
-                  onMouseDown={(e: any) => { e.preventDefault(); leafDragging.current = true; }}
-                  onTouchStart={(e: any) => { e.preventDefault(); leafDragging.current = true; }}
+                  onMouseDown={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
+                  onTouchStart={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
                 >
                   {/* Base: sick/yellow leaf */}
                   <img
@@ -374,7 +375,7 @@ export default function HomeScreen() {
                     } as any}
                   />
                   {/* Hint: light sweep inviting downward drag */}
-                  {leafSlider < 0.02 && (
+                  {!leafInteracted && (
                     <div className="cd-leaf-hint" style={{
                       position: 'absolute',
                       top: '-10%',
