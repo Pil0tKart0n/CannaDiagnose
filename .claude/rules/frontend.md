@@ -28,12 +28,15 @@
 - Heavy components: dynamic import where possible
 - Base64 Cache für Bilder (max 3 gecached)
 
-## i18n
-- Alle UI-Texte via `services/i18n.ts`
+## i18n (HARD RULE)
+- Alle UI-Texte via `services/i18n.ts` → `t('key')`
+- Translations in `constants/translations/de.json` + `en.json`
 - Sprache: DE (default) + EN
-- Keys: `t('key')` — nie hardcoded Strings in Komponenten
+- Nie hardcoded Strings in Komponenten
+- Nach JEDER UI-Änderung: Sprache wechseln und prüfen ob alles übersetzt
+- Neue UI-Texte = neue Keys in BEIDEN JSON-Dateien im selben Commit
 
 ## Testing
 - Unit: test behavior, not implementation
 - Test IDs: `testID="descriptive-name"` für E2E
-- Vitest für Unit Tests
+- Vitest für Unit Tests, Playwright für Web E2E

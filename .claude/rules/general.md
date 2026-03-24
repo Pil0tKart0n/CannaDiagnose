@@ -1,6 +1,6 @@
 # General Rules — LeafScan
 
-## Git Workflow
+## Git Workflow (HARD RULE)
 - Conventional Commits: `feat(scope):`, `fix(scope):`, `docs:`, `test:`, `refactor:`, `perf:`, `chore:`
 - Commit messages: imperative mood, max 72 chars, body for "why"
 - Never commit secrets, .env files, node_modules, or build artifacts
@@ -37,8 +37,3 @@
 ## Build-Verify (HARD RULE)
 - After every newly created file → run `npx tsc --noEmit`
 - Fix errors immediately before writing more files
-
-## Environment Variables
-- NIEMALS echte Keys/Secrets committen
-- `.env.example` und `.env.server.example` als Referenz pflegen
-- Server-side only: `process.env.SECRET` — never `EXPO_PUBLIC_` for secrets

@@ -20,8 +20,9 @@
 - API-Endpoints gegen echte SQLite DB
 - Auth-Flow: Session-Token erstellen → prüfen → verwenden
 
-### E2E Tests (zukünftig)
-- Playwright für Web
+### E2E Tests (Playwright)
+- Playwright für Web (Desktop 1440x900 + Mobile 390x844)
+- localStorage-Setup nötig: `onboarding_done`, `cookie_consent`
 - Kritische Flows: Diagnose (Home → Kamera → Fragebogen → Analyse → Ergebnis)
 
 ## Bug-Fix Testing (HARD RULE)

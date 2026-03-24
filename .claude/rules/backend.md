@@ -26,13 +26,15 @@
 - GDPR cleanup: IPs nach 7 Tagen, Daten nach 90 Tagen löschen
 
 ## Server Structure
-- `server/index.js` — Express App, Routes, Middleware
+- `server/index.js` — Express App, Public Routes, Middleware
+- `server/db.js` — SQLite-Verbindung, Tabellen-Setup, Cleanup-Jobs
+- `server/routes/admin.js` — Admin-Endpoints (35+, Key-geschützt)
+- `server/routes/stripe.js` — Stripe Checkout, Portal, Webhooks
 - `server/prompts.js` — KI-Prompts, Korrektur-Matrix, EC/pH Evaluation
 - `server/fertilizers.js` — Dünger-Datenbank mit EC-Bereichen
 
 ## OpenAI Integration
 - GPT-4o für Diagnose, GPT-4o-mini für Validation
-- Retry-Logik: max 2 Retries mit 2s/5s Delay
 - Token-Usage in `api_usage` Tabelle tracken
 - Prompts NUR server-side (Paywall-Schutz)
 
