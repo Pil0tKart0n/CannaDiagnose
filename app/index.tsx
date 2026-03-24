@@ -82,7 +82,7 @@ export default function HomeScreen() {
           box-shadow: none !important;
         }
         body { background: #080C0A !important; }
-        .cd-sample-grid { grid-template-columns: 1fr 240px; gap: 16px !important; }
+        .cd-sample-grid { grid-template-columns: auto 240px; gap: 24px !important; justify-content: center; }
         .cd-sample-leaf { aspect-ratio: 3/4; }
       }
       @media (max-width: 767px) {
