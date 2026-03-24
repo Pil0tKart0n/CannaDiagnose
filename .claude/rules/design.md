@@ -3,11 +3,14 @@
 ## Color System
 - Alle Farben definiert in `constants/colors.ts`
 - Primary: `#5CE892` (LeafScan Grün)
+- Secondary: `#D4A853` (Gold — Warning, Premium, Severity Medium)
+- Landing Page Tokens: `textHero`, `accentMoss`, `accentForest`
 - Dark Theme als Standard (Hintergrund: #080C0A / #0E1512)
 - Nie hardcoded Color Values in Komponenten
 
 ## Typography
-- System fonts (React Native default)
+- Web: Playfair Display (Headlines/Branding) + DM Sans (Body/UI) via Google Fonts
+- Mobile: System fonts (React Native default)
 - Konsistente Größen: 12/14/16/18/20/24/28/32px
 - Line-height: 1.4-1.6 für Body Text
 - Titel max 48px (nicht größer)
@@ -36,10 +39,11 @@ Jede interaktive Komponente MUSS definieren:
 
 ## Brand Identity
 - Grün (#5CE892) als Hauptfarbe
-- Dunkler Hintergrund (#0a0a0a / #121212)
+- Dunkler Hintergrund (#080C0A / #0E1512)
 - Moderne, cleane Ästhetik
 - Cannabis-Blatt als Logo-Element
 - Keine KI-Erwähnung in der UI (nur in AGB/Datenschutz)
+- Tagline: "Scan it. Fix it."
 
 ## User-Preferences (aus Feedback)
 - Mittlere Komplexität: nicht zu minimal, nicht zu überladen

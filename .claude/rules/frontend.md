@@ -21,7 +21,12 @@
 ## Platform-Handling
 - Platform.OS === 'web' für Web-spezifische Logik
 - Expo APIs mit Platform-Checks (Camera, FileSystem, etc.)
-- PWA: Service Worker, Manifest, Install-Banner
+- PWA: Service Worker (`public/sw.js`), Manifest, Install-Banner
+- TextInput fontSize MUSS ≥16px sein (iOS zoomt sonst automatisch rein)
+
+## PWA Cache (HARD RULE)
+- Bei Client-seitigen Änderungen: `CACHE_NAME` in `public/sw.js` bumpen (aktuell: `leafscan-v4`)
+- Ohne CACHE_NAME-Bump liefert die PWA alten JS-Bundle aus
 
 ## Performance
 - Images: optimized format, lazy loading, explicit dimensions

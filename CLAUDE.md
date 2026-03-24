@@ -32,7 +32,7 @@
 | **Constants** | `constants/colors.ts`, `constants/fertilizers.ts`, `constants/library.ts` (100+ Einträge), `constants/questions.ts`, `constants/webStyles.ts`, `constants/translations/de.json`, `constants/translations/en.json` |
 | **Types** | `types/index.ts` (DiagnosisResult, DiagnosisEntry, Plant, QuestionnaireData) |
 | **Knowledge** | `knowledge/*.txt` (Nährstoffmangel, Schädlinge, Umwelt) |
-| **Config** | `Dockerfile`, `docker-compose.yml`, `nginx.conf`, `app.json`, `eas.json` |
+| **Config** | `Dockerfile`, `docker-compose.yml`, `nginx.conf`, `app.json`, `eas.json`, `inject-seo.sh` (Post-Build SEO), `public/sw.js` (Service Worker) |
 
 ## Architecture Decisions
 
@@ -57,7 +57,7 @@
 - **Target:** Self-hosted Docker (VPS)
 - **Domain:** leafscan.de
 - **SSL:** Let's Encrypt (auto-renew)
-- **Build:** `npx expo export --platform web` → Nginx serves static + Express API
+- **Build:** `npx expo export --platform web` → `inject-seo.sh` (SEO-Tags) → Nginx serves static + Express API
 - **Ports:** 80/443 (Nginx) → 4000 (Express, intern)
 
 ## Commands

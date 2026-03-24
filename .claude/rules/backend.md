@@ -37,6 +37,7 @@
 - GPT-4o für Diagnose, GPT-4o-mini für Validation
 - Token-Usage in `api_usage` Tabelle tracken
 - Prompts NUR server-side (Paywall-Schutz)
+- `/api/validate` gibt IMMER true zurück (bewusster Workaround — GPT-4o lehnt Cannabis unter Growlicht ab). NICHT "fixen"!
 
 ## Stripe Integration
 - Webhook-Signatur IMMER verifizieren
