@@ -82,7 +82,7 @@ export default function HomeScreen() {
           box-shadow: none !important;
         }
         body { background: #080C0A !important; }
-        .cd-sample-grid { grid-template-columns: 200px 1fr; }
+        .cd-sample-grid { grid-template-columns: 1fr 220px; }
         .cd-sample-leaf { aspect-ratio: 3/4; }
       }
       @media (max-width: 767px) {
@@ -356,9 +356,47 @@ export default function HomeScreen() {
                 <div className="cd-sample-grid" style={{
                   display: 'grid',
                   gap: 24,
-                  alignItems: 'start',
+                  alignItems: 'center',
                 } as any}>
-                  {/* Leaf before/after slider — now inside the card */}
+                  {/* Diagnosis content — LEFT on desktop, FIRST on mobile */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 0 } as any}>
+                    <View style={styles.sampleHeader}>
+                      <View style={styles.sampleIconWrap}>
+                        <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
+                      </View>
+                      <View style={styles.sampleHeaderText}>
+                        <Text style={styles.sampleDiagName}>{t('landing.sampleDiagnosis')}</Text>
+                        <Text style={styles.sampleDiagType}>{t('landing.sampleCategory')}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.sampleMetaRow}>
+                      <View style={styles.sampleMetaItem}>
+                        <Text style={styles.sampleMetaLabel}>{t('landing.sampleSeverity')}</Text>
+                        <View style={styles.sampleSeverityBadge}>
+                          <Text style={styles.sampleSeverityText}>{t('landing.sampleSeverityVal')}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.sampleMetaItem}>
+                        <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
+                        <Text style={styles.sampleConfidence}>78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text></Text>
+                      </View>
+                    </View>
+                    <View style={styles.sampleActions}>
+                      <View style={styles.sampleActionItem}>
+                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                        <Text style={styles.sampleActionText}>{t('landing.sampleAction1')}</Text>
+                      </View>
+                      <View style={styles.sampleActionItem}>
+                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                        <Text style={styles.sampleActionText}>{t('landing.sampleAction2')}</Text>
+                      </View>
+                      <View style={styles.sampleActionItem}>
+                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
+                        <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
+                      </View>
+                    </View>
+                  </div>
+                  {/* Leaf before/after slider — RIGHT on desktop, SECOND on mobile */}
                   <div
                     ref={(el: any) => { leafContainerRef.current = el; }}
                     className="cd-sample-leaf"
@@ -485,44 +523,6 @@ export default function HomeScreen() {
                         textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5), 0 0 30px rgba(92,232,146,0.2)',
                       } as any}>{t('landing.step3Title') || 'Diagnose in 30 Sekunden'}</span>
                     </div>
-                  </div>
-                  {/* Diagnosis content — right side on desktop, below on mobile */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 0 } as any}>
-                    <View style={styles.sampleHeader}>
-                      <View style={styles.sampleIconWrap}>
-                        <Ionicons name="alert-circle" size={20} color={colors.severityMedium} />
-                      </View>
-                      <View style={styles.sampleHeaderText}>
-                        <Text style={styles.sampleDiagName}>{t('landing.sampleDiagnosis')}</Text>
-                        <Text style={styles.sampleDiagType}>{t('landing.sampleCategory')}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.sampleMetaRow}>
-                      <View style={styles.sampleMetaItem}>
-                        <Text style={styles.sampleMetaLabel}>{t('landing.sampleSeverity')}</Text>
-                        <View style={styles.sampleSeverityBadge}>
-                          <Text style={styles.sampleSeverityText}>{t('landing.sampleSeverityVal')}</Text>
-                        </View>
-                      </View>
-                      <View style={styles.sampleMetaItem}>
-                        <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
-                        <Text style={styles.sampleConfidence}>78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text></Text>
-                      </View>
-                    </View>
-                    <View style={styles.sampleActions}>
-                      <View style={styles.sampleActionItem}>
-                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                        <Text style={styles.sampleActionText}>{t('landing.sampleAction1')}</Text>
-                      </View>
-                      <View style={styles.sampleActionItem}>
-                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                        <Text style={styles.sampleActionText}>{t('landing.sampleAction2')}</Text>
-                      </View>
-                      <View style={styles.sampleActionItem}>
-                        <Ionicons name="checkmark-circle-outline" size={14} color={colors.accent} />
-                        <Text style={styles.sampleActionText}>{t('landing.sampleAction3')}</Text>
-                      </View>
-                    </View>
                   </div>
                 </div>
                 <View style={styles.sampleFade}>
