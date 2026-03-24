@@ -39,7 +39,7 @@ export default function HomeScreen() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [leafSlider, setLeafSlider] = useState(0);
+  const [leafSlider, setLeafSlider] = useState(0.04);
   const leafContainerRef = useRef<HTMLDivElement | null>(null);
   const leafDragging = useRef(false);
 
