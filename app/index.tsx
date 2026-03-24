@@ -444,10 +444,10 @@ export default function HomeScreen() {
                     transition: 'opacity 0.3s ease',
                   } as any}>
                     <span style={{
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: '600',
                       color: 'rgba(220,255,235,0.95)',
-                      letterSpacing: 2,
+                      letterSpacing: 1.2,
                       textTransform: 'uppercase',
                       textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5), 0 0 30px rgba(92,232,146,0.2)',
                     } as any}>{t('landing.step3Title') || 'Diagnose in 30 Sekunden'}</span>
