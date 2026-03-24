@@ -400,6 +400,16 @@ export default function HomeScreen() {
                     pointerEvents: 'none',
                     opacity: leafSlider > 0.01 ? 1 : 0,
                   } as any}>
+                    {/* Subtle shimmer streak */}
+                    <div className="cd-beam-shimmer" style={{
+                      position: 'absolute',
+                      top: '30%',
+                      height: '40%',
+                      width: '18%',
+                      background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%)',
+                      filter: 'blur(8px)',
+                      pointerEvents: 'none',
+                    } as any} />
                     {/* Soft glow dots */}
                     <div className="cd-beam-glow-1" style={{
                       position: 'absolute',
@@ -422,6 +432,26 @@ export default function HomeScreen() {
                       pointerEvents: 'none',
                     } as any} />
                   </div>
+                  {/* Payoff text when fully revealed */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 16,
+                    left: 0,
+                    right: 0,
+                    textAlign: 'center',
+                    pointerEvents: 'none',
+                    opacity: leafSlider > 0.85 ? Math.min(1, (leafSlider - 0.85) / 0.1) : 0,
+                    transition: 'opacity 0.3s ease',
+                  } as any}>
+                    <span style={{
+                      fontSize: 13,
+                      fontWeight: '600',
+                      color: 'rgba(92,232,146,0.9)',
+                      letterSpacing: 1.5,
+                      textTransform: 'uppercase',
+                      textShadow: '0 0 20px rgba(92,232,146,0.3)',
+                    } as any}>{t('landing.step3Title') || 'Diagnose in 30 Sekunden'}</span>
+                  </div>
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
@@ -443,7 +473,7 @@ export default function HomeScreen() {
                     </View>
                     <View style={styles.sampleMetaItem}>
                       <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
-                      <Text style={styles.sampleConfidence}>78%</Text>
+                      <Text style={styles.sampleConfidence}>78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text></Text>
                     </View>
                   </View>
                   <View style={styles.sampleActions}>
@@ -885,10 +915,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   trustText: {
-    fontSize: 11,
+    fontSize: 12.5,
     color: colors.accentMoss,
     fontWeight: '500',
-    letterSpacing: 0.3,
+    letterSpacing: 0.4,
   },
   trustDivider: {
     width: 1,
@@ -1025,9 +1055,9 @@ const styles = StyleSheet.create({
     color: colors.severityMedium,
   },
   sampleConfidence: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.textHero,
+    fontSize: 22,
+    fontWeight: '700',
+    color: colors.accent,
   },
   sampleActions: {
     gap: 8,

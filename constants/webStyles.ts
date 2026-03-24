@@ -131,7 +131,7 @@ export const webCSS =
     animation: cd-beam-pulse 2.5s ease-in-out infinite;
   }
   .cd-beam-shimmer {
-    animation: cd-beam-sweep 3s ease-in-out infinite;
+    animation: cd-beam-sweep 6s ease-in-out infinite;
   }
   .cd-beam-glow-1 {
     animation: cd-beam-glow-1 4s ease-in-out infinite;
