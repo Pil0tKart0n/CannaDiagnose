@@ -969,18 +969,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   stepTitle: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
     color: colors.textHero,
     letterSpacing: 0.3,
-    marginBottom: 4,
+    marginBottom: 6,
     textAlign: 'center',
   },
   stepDesc: {
-    fontSize: 11,
+    fontSize: 12.5,
     color: colors.textSecondary,
     textAlign: 'center',
-    lineHeight: 16,
+    lineHeight: 18,
     paddingHorizontal: 4,
   },
   stepConnector: {
@@ -1108,7 +1108,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 16,
-    padding: 16,
+    padding: 20,
     alignItems: 'center',
   },
   benefitIconWrap: {
@@ -1121,17 +1121,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   benefitTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '600',
     color: colors.textHero,
-    marginBottom: 6,
+    marginBottom: 8,
     textAlign: 'center',
   },
   benefitDesc: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.textSecondary,
     textAlign: 'center',
-    lineHeight: 18,
+    lineHeight: 20,
   },
 
   // ── Premium Teaser ────────────────────────────────────
