@@ -388,7 +388,7 @@ export default function HomeScreen() {
                     } as any} />
                   )}
                   {/* Soft glow at transition seam */}
-                  <div style={{
+                  <div className="cd-scan-beam" style={{
                     position: 'absolute',
                     top: `${leafSlider * 100}%`,
                     left: 0,
@@ -399,7 +399,39 @@ export default function HomeScreen() {
                     filter: 'blur(10px)',
                     pointerEvents: 'none',
                     opacity: leafSlider > 0.01 ? 1 : 0,
-                  } as any} />
+                  } as any}>
+                    {/* Shimmer streak */}
+                    <div className="cd-beam-shimmer" style={{
+                      position: 'absolute',
+                      top: '30%',
+                      height: '40%',
+                      width: '20%',
+                      background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.25) 0%, transparent 70%)',
+                      filter: 'blur(6px)',
+                      pointerEvents: 'none',
+                    } as any} />
+                    {/* Soft glow dots */}
+                    <div className="cd-beam-glow-1" style={{
+                      position: 'absolute',
+                      top: '40%',
+                      width: 10,
+                      height: 10,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)',
+                      filter: 'blur(3px)',
+                      pointerEvents: 'none',
+                    } as any} />
+                    <div className="cd-beam-glow-2" style={{
+                      position: 'absolute',
+                      top: '50%',
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)',
+                      filter: 'blur(3px)',
+                      pointerEvents: 'none',
+                    } as any} />
+                  </div>
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
