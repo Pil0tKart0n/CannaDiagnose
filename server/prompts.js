@@ -510,7 +510,7 @@ STICKSTOFF(N)-MANGEL [Wissenschaftlich: Cockson et al. 2019, Llewellyn et al. 20
   D3: GLEICHM\u00c4SSIG \u00fcber gesamte Blattfl\u00e4che, inkl. R\u00e4nder. KEIN auff\u00e4lliges Adernmuster
   D4: Alte/untere Bl\u00e4tter zuerst, wandert nach oben. Gelbe Bl\u00e4tter werden nekrotisch und fallen ab
   D5: Viele Bl\u00e4tter, progressiv von unten nach oben. Pflanze wird "skelettartig" unten
-  EXTRA: H\u00e4ufigster Mangel! Biomasse-Verlust bis 50% (Studie). Foliar N bei Mangel: 1.62% vs. 4.28% normal
+  EXTRA: H\u00e4ufigster Mangel! Biomasse-Verlust bis 73% (Llewellyn 2023). Foliar N bei Mangel: 1.62% vs. 4.28% normal. WICHTIG: Drug-Type Cannabis braucht MEHR N als Hanf (>11mM vs. ~4mM, PMC 2024). Optimales Nitrat:Ammonium-Verh\u00e4ltnis: >3:1
 
 MAGNESIUM(Mg)-MANGEL [Cockson et al. 2019]:
   D1: Gelb ZWISCHEN Adern, Adern bleiben DEUTLICH SATTGR\u00dcN (STARKER Kontrast \u2013 "Blattader-Mosaik")
@@ -560,13 +560,13 @@ N\u00c4HRSTOFFBRAND (\u00dcberd\u00fcngung):
   D5: Viele Bl\u00e4tter gleichzeitig, ALLE Spitzen gleichm\u00e4\u00dfig betroffen
   EXTRA: KRITISCHER UNTERSCHIED zu K-Mangel: N\u00e4hrstoffbrand = nur Spitze, sofort braun, gleichm\u00e4\u00dfig alle Bl\u00e4tter. K-Mangel = ganzer Rand, erst gelb dann braun, untere Bl\u00e4tter zuerst. EC zu hoch = N\u00e4hrstoffbrand. WICHTIG: Lichtintensit\u00e4t beeinflusst die Burn-Schwelle! Pflanzen unter schwachem Licht zeigen Burn bei NIEDRIGEREN EC-Werten als Pflanzen unter starkem Licht. In der Bl\u00fcte sind Pflanzen anf\u00e4lliger (keine neuen Bl\u00e4tter zum Kompensieren). N\u00e4hrstoffbrand tritt oft ZUSAMMEN mit N-Toxizit\u00e4t auf (Krallen + braune Spitzen gleichzeitig).
 
-STICKSTOFF(N)-\u00dcBERSCHUSS (Toxizit\u00e4t) [Dinafem]:
+STICKSTOFF(N)-\u00dcBERSCHUSS (Toxizit\u00e4t) [Dinafem, PMC 2024]:
   D1: DUNKELGR\u00dcN, unnat\u00fcrlich satt, fast schwarz-gr\u00fcn, GL\u00c4NZEND (auff\u00e4llig glossy!)
   D2: Lebendig aber steif, Bl\u00e4tter f\u00fchlen sich wachsartig an
   D3: Dunkelgr\u00fcn beginnt an Blattr\u00e4ndern, breitet sich aus. Blattspitzen krallen nach UNTEN ("Eagle Claw"/"Krallen")
   D4: Alle Bl\u00e4tter, besonders neue. Dunkelgr\u00fcn ab R\u00e4ndern nach innen
   D5: Gesamte Pflanze betroffen \u2013 auff\u00e4llig dunkler als gesunde Pflanzen
-  EXTRA: Gegenteil von N-Mangel! GL\u00c4NZEND dunkelgr\u00fcn + Krallen nach unten = N-\u00dcberschuss. Eine gesunde Pflanze ist NICHT so dunkel! Wenn Pflanze extrem dunkelgr\u00fcn ist = NICHT "gesund" sagen sondern N-\u00dcberschuss pr\u00fcfen!
+  EXTRA: Gegenteil von N-Mangel! GL\u00c4NZEND dunkelgr\u00fcn + Krallen nach unten = N-\u00dcberschuss. Eine gesunde Pflanze ist NICHT so dunkel! Wenn Pflanze extrem dunkelgr\u00fcn ist = NICHT "gesund" sagen sondern N-\u00dcberschuss pr\u00fcfen! WISSENSCHAFTLICH BELEGT: \u00dcberm\u00e4\u00dfiger Stickstoff SENKT die Cannabinoid-Konzentration bei BEIDEN Typen (THC und CBD, PMC 2024). In der Bl\u00fcte N REDUZIEREN!
 
 LICHTBRAND:
   D1: Wei\u00df, gebleicht, hellgelb
@@ -590,7 +590,7 @@ HITZESTRESS:
   D3: Gesamte Pflanze h\u00e4ngt NACH UNTEN, Bl\u00e4tter droop trotz feuchter Erde
   D4: Alle Bl\u00e4tter gleichzeitig \u2013 gesamte Pflanze sackt zusammen
   D5: Gesamte Pflanze
-  EXTRA: SCHL\u00dcSSEL: Substrat ist NASS/FEUCHT + Pflanze h\u00e4ngt = \u00dcberw\u00e4sserung. Bl\u00e4tter f\u00fchlen sich dick und schwer an. NICHT mit Unterw\u00e4sserung verwechseln (dort sind Bl\u00e4tter D\u00dcNN/papierartig und Substrat ist TROCKEN). Auch eine dunkelgr\u00fcne h\u00e4ngende Pflanze bei nassem Substrat = \u00dcberw\u00e4sserung! TIMING-TRICK: Pflanze h\u00e4ngt NACH dem Gie\u00dfen = \u00dcberw\u00e4sserung (Wurzeln ersticken). Pflanze h\u00e4ngt VOR dem Gie\u00dfen = Unterw\u00e4sserung. Erde 2-3cm tief trocknen lassen bevor wieder gegossen wird. Lieber seltener aber durchdringend gie\u00dfen (20% Runoff).
+  EXTRA: SCHL\u00dcSSEL: Substrat ist NASS/FEUCHT + Pflanze h\u00e4ngt = \u00dcberw\u00e4sserung. Bl\u00e4tter f\u00fchlen sich dick und schwer an. NICHT mit Unterw\u00e4sserung verwechseln (dort sind Bl\u00e4tter D\u00dcNN/papierartig und Substrat ist TROCKEN). Auch eine dunkelgr\u00fcne h\u00e4ngende Pflanze bei nassem Substrat = \u00dcberw\u00e4sserung! TIMING-TRICK: Pflanze h\u00e4ngt NACH dem Gie\u00dfen = \u00dcberw\u00e4sserung (Wurzeln ersticken). Pflanze h\u00e4ngt VOR dem Gie\u00dfen = Unterw\u00e4sserung. Erde 2-3cm tief trocknen lassen bevor wieder gegossen wird. Lieber seltener aber durchdringend gie\u00dfen (20% Runoff). WICHTIG: \u00dcberw\u00e4sserung verursacht Sauerstoffmangel an Wurzeln und IMITIERT gleichzeitig Fe-, K- UND P-Mangel! Wenn 3+ Mangelsymptome gleichzeitig auftreten UND das Substrat nass ist \u2192 \u00dcberw\u00e4sserung ist die wahrscheinlichste Ursache, NICHT N\u00e4hrstoffmangel.
 
 SCHWEFEL(S)-MANGEL:
   D1: Gleichm\u00e4\u00dfig hellgr\u00fcn/gelb \u2013 \u00e4hnlich wie N, aber an NEUEN Bl\u00e4ttern!
@@ -606,7 +606,7 @@ MANGAN(Mn)-MANGEL:
   D3: Gesprenkelt/"mottled" \u2013 unregelm\u00e4\u00dfige tan/braune Flecken zwischen Adern
   D4: NEUE/JUNGE Bl\u00e4tter (immobil)
   D5: Wenige neue Bl\u00e4tter
-  EXTRA: \u00c4hnlich wie Fe, aber milder \u2013 mehr tan/braun statt wei\u00df/gebleicht. H\u00e4ufig bei pH >6.5
+  EXTRA: \u00c4hnlich wie Fe, aber milder \u2013 mehr tan/braun statt wei\u00df/gebleicht. H\u00e4ufig bei pH >6.5. STUDIE (Llewellyn 2023): Mn-Mangel zeigte KEINE sichtbaren Symptome trotz 30x niedrigerer Gewebekonzentration! Cannabis ist extrem effizient in der Mn-Nutzung. Visuelle Mn-Mangel-Diagnose ist daher oft FALSCH \u2013 pr\u00fcfe ob es nicht Fe oder Ca ist
 
 ZINK(Zn)-MANGEL:
   D1: Interveinal-Chlorose auf neuen Bl\u00e4ttern + Wachstumsst\u00f6rung
@@ -750,14 +750,14 @@ MEHLTAU (Powdery Mildew / PM):
   BEHANDLUNG: Kaliumbicarbonat-Spray, Bacillus-basierte Biokontrollen, Schwefel, Silizium (Wurzelapplikation reduziert PM nachweislich!). Luftfeuchtigkeit unter 50% in der Bl\u00fcte halten. Luftzirkulation verbessern.
   VORBEUGUNG: Silizium-Supplementierung (Kalium-Silikat) st\u00e4rkt Zellw\u00e4nde UND aktiviert Pflanzenabwehr.
 
-BOTRYTIS (Knospenfäule / Bud Rot):
+BOTRYTIS (Knospenfäule / Bud Rot) [Botrytis cinerea]:
   D1: Wei\u00dflich-grauer Schimmel im Inneren dichter Bl\u00fcten, wird braun/grau
   D2: Bl\u00fcten werden weich, matschig, zersetzen sich von innen
   D3: Beginnt IM INNEREN dichter Colas, von au\u00dfen oft erst sp\u00e4t sichtbar
   D4: Dichte, kompakte Bl\u00fcten bevorzugt, besonders in der Mitte
   D5: Einzelne Colas bis mehrere Bl\u00fctenst\u00e4nde
-  BEDINGUNGEN: Sp\u00e4te Bl\u00fcte, k\u00fchle Temperaturen, hohe Luftfeuchtigkeit, schlechte Bel\u00fcftung.
-  ERKENNUNG: Cola-St\u00e4ngel knicken unerwartet, Bl\u00e4tter an der Cola werden pl\u00f6tzlich gelb/braun. "Wenn du es au\u00dfen siehst, ist innen schon alles kaputt." 5cm UNTERHALB der sichtbaren Infektion schneiden!
+  BEDINGUNGEN: Sp\u00e4te Bl\u00fcte, k\u00fchle Temperaturen (15\u201320\u00b0C optimal f\u00fcr Botrytis!), hohe Luftfeuchtigkeit, schlechte Bel\u00fcftung. NICHT verwechseln mit Rhizopus stolonifer (Brotschimmel, bevorzugt 25\u00b0C). Trocknung bei 23\u00b0C minimiert BEIDE Schimmelarten!
+  ERKENNUNG: Cola-St\u00e4ngel knicken unerwartet, Bl\u00e4tter an der Cola werden pl\u00f6tzlich gelb/braun. "Wenn du es au\u00dfen siehst, ist innen schon alles kaputt." 5cm UNTERHALB der sichtbaren Infektion schneiden! TIPP: UV-Schwarzlicht zeigt versteckten Schimmel \u2013 Botrytis fluoresziert bl\u00e4ulich/gr\u00fcnlich unter UV-Licht!
   BEHANDLUNG: Befallene Colas SOFORT gro\u00dfz\u00fcgig entfernen, Luftfeuchtigkeit senken, Luftzirkulation erh\u00f6hen. Trichoderma harzianum als Pr\u00e4ventiv (reduziert Bud Rot um 60\u201370%). RH unter 50% in Bl\u00fcte.
 
 SEPTORIA (Blattfleckenkrankheit):
@@ -785,8 +785,8 @@ HOP LATENT VIROID (HLVd \u2013 "Der stille Killer"):
   D3: Bis zu 50% weniger Cannabinoide, Pflanze wirkt generell "schwach"
   D4: Gesamte Pflanze
   D5: Progressive Verschlechterung besonders in der Bl\u00fcte
-  ERKENNUNG: Kann NICHT sicher visuell diagnostiziert werden! PCR-Test erforderlich. 90% der kalifornischen Facilities betroffen.
-  \u00dcBERTRAGUNG: Kontaminierte Werkzeuge (Scheren!), infizierte Stecklinge, Samen (58\u201384%!), sogar \u00fcber Hydro-Wasser.
+  ERKENNUNG: Kann NICHT sicher visuell diagnostiziert werden! Nur RT-PCR-Labortest ist zuverl\u00e4ssig. 90% der kalifornischen Facilities betroffen. L\u00e4uft oft LATENT \u2013 Pflanze sieht in Veg gesund aus, zeigt aber in der Bl\u00fcte reduzierte Trichome, weniger Terpene und Verkümmerung.
+  \u00dcBERTRAGUNG: Kontaminierte Werkzeuge (Scheren!), infizierte Stecklinge, Samen (58\u201384%!), sogar \u00fcber Hydro-Wasser. SAMEN sind sicherer als STECKLINGE f\u00fcr HLVd-Vermeidung! Bei Stecklingen von Dritten: immer nach HLVd-Testergebnis fragen.
   WENN eine Pflanze verk\u00fcmmert + reduzierte Bl\u00fcten + br\u00fcchige St\u00e4ngel zeigt und KEINE andere Diagnose passt \u2192 HLVd-Test empfehlen! Sage: "Diese Symptome k\u00f6nnten auf Hop Latent Viroid (HLVd) hindeuten \u2013 ein Viroid das nur per PCR-Labortest nachgewiesen werden kann. Lass deine Pflanze testen, besonders wenn sie von Stecklingen stammt."
   PR\u00c4VENTION: Werkzeuge in 10% Bleichl\u00f6sung (60 Sekunden Einweichzeit), nur getestete Stecklinge verwenden.
 
@@ -841,10 +841,11 @@ DIAGNOSTIK-GRUPPEN [Cannabis Business Times / NC State]:
   Gruppe 4 \u2013 Rand-Chlorose + Nekrose: K, Mn, Zn, Mo
 
 PHASEN-KONTEXT (Vegetativ vs. Bl\u00fcte):
-  VEGETATIV: Hoher N-Bedarf, K/P sekund\u00e4r. N-Mangel h\u00e4ufigster Mangel.
-  BL\u00dcTE: K- und P-Bedarf steigt MASSIV, N-Bedarf sinkt. K-Mangel, P-Mangel, Mg-Mangel h\u00e4ufig!
-  SP\u00c4TE BL\u00dcTE: Leichte Vergilbung unterer Bl\u00e4tter ist NORMAL (nat\u00fcrliche Seneszenz) \u2013 nicht als Mangel diagnostizieren!
+  VEGETATIV: Hoher N-Bedarf, K/P sekund\u00e4r. N-Mangel h\u00e4ufigster Mangel. NPK-Ratio: ca. 3:1:2
+  BL\u00dcTE: K- und P-Bedarf steigt MASSIV, N-Bedarf sinkt. K-Mangel, P-Mangel, Mg-Mangel h\u00e4ufig! NPK-Ratio: ca. 1:3:2 (fr\u00fch) \u2192 0:2:3 (sp\u00e4t)
+  SP\u00c4TE BL\u00dcTE: Leichte Vergilbung unterer Bl\u00e4tter ist NORMAL (nat\u00fcrliche Seneszenz) \u2013 nicht als Mangel diagnostizieren! N-Reduktion ist GEWOLLT und erh\u00f6ht sogar Cannabinoid-Konzentration (PMC 2024)
   MUTTERPFLANZE: Dauerhaft in Veg, gleichm\u00e4\u00dfiger N/Ca/Mg-Bedarf.
+  FLUSH-TIMING (Community-Konsens): Flush/N-Reduktion beginnen wenn ERSTE Trichome milchig werden, NICHT nach Breeder-Angabe (Breeder-Zeiten sind oft 1\u20133 Wochen zu kurz).
 
 WICHTIGE DIAGNOSE-REGELN:
 - OCCAM'S RAZOR: Bevorzuge IMMER eine EINZELNE Diagnose, die alle Symptome erkl\u00e4rt, \u00fcber mehrere gleichzeitige Diagnosen. Mehrere M\u00e4ngel gleichzeitig sind NUR plausibel bei: pH-Lockout (blockiert mehrere N\u00e4hrstoffe), extrem niedrigem EC (generelle Unterversorgung), oder fortgeschrittener Vernachl\u00e4ssigung. Wenn du 2+ Diagnosen stellen willst, frage dich: "Kann EIN Problem alles erkl\u00e4ren?" Wenn ja \u2192 nur EINE Diagnose.
@@ -980,7 +981,8 @@ WICHTIG: Kokos verh\u00e4lt sich GRUNDLEGEND ANDERS als Erde!
 - IMMER mit N\u00e4hrl\u00f6sung gie\u00dfen \u2013 NIEMALS reines Wasser in Kokos!
 - 10\u201320% Run-off bei jeder Bew\u00e4sserung ist PFLICHT.
 - Run-off EC \u00fcberwachen: Steigt der Run-off-EC deutlich \u00fcber Input-EC = h\u00e4ufiger gie\u00dfen.
-- Unbuffered/ungewaschener Kokos = CalMag-Probleme garantiert. Kokos MUSS gepuffert sein.
+- Unbuffered/ungewaschener Kokos = CalMag-Probleme garantiert. Kokos MUSS gepuffert sein. GRUND: Kokos-Fasern haben hohe Kationenaustauschkapazit\u00e4t (CEC) \u2013 Austauschpl\u00e4tze binden bevorzugt Ca/Mg und machen sie f\u00fcr die Pflanze UNZUG\u00c4NGLICH. Auch GEPUFFERTER Kokos baut sich weiter ab und legt NEUE Austauschpl\u00e4tze frei, die weiteres Ca/Mg binden. Daher CalMag die GESAMTE Grow-Dauer lang, nicht nur am Anfang!
+- Bei automatischen Bew\u00e4sserungssystemen (Blumat, Autopot): NUR synthetisches CalMag verwenden \u2013 organisches CalMag verstopft Schl\u00e4uche und D\u00fcsen!
 - Eisen-Mangel ist eine "st\u00e4ndige Bedrohung" f\u00fcr Kokos-Grower (CocoForCannabis).
 - DIAGNOSE-FALLE: Pflanze h\u00e4ngt in Kokos \u2260 \u00dcberw\u00e4sserung! Immer erst EC/pH pr\u00fcfen.
 
@@ -1018,6 +1020,9 @@ Diese Verwechslungen passieren am h\u00e4ufigsten (aus Forum-Analysen von 108+ r
 5. Fe-MANGEL vs. Mg-MANGEL:
    Beide interveinal. Schl\u00fcssel: Fe = NEUE/obere Bl\u00e4tter (immobil). Mg = ALTE/untere Bl\u00e4tter (mobil). Das ist die ERSTE Frage!
 
+6. \u00dcBERW\u00c4SSERUNG vs. MULTIPLE N\u00c4HRSTOFFM\u00c4NGEL:
+   \u00dcberw\u00e4sserung erzeugt Sauerstoffmangel an Wurzeln und imitiert GLEICHZEITIG Fe-, K- UND P-Mangel. Wenn 3+ verschiedene Mangelsymptome auf einmal auftreten UND das Substrat feucht ist \u2192 \u00dcberw\u00e4sserung pr\u00fcfen BEVOR N\u00e4hrstoffkorrekturen vorgenommen werden! Mehr D\u00fcnger hilft hier NICHT.
+
 \u2500\u2500 ERNTEZEITPUNKT-ERKENNUNG (GrowWeedEasy / Univ. of Guelph) \u2500\u2500
 
 Wenn ein User nach Erntezeitpunkt fragt oder Trichom-Bilder zeigt:
@@ -1054,12 +1059,14 @@ H\u00c4UFIGSTE URSACHE: Lichtleck w\u00e4hrend Dunkelphase (12/12). Ein einziger
 | Mangel | Vegetativer Frischgewicht-Verlust | Ertrags-Impact |
 | N | 73% | 33\u201372% Reduktion |
 | P | 59% | 33\u201372% Reduktion |
-| K | moderat | 33\u201350% Reduktion |
-| Ca | moderat | 33\u201350% Reduktion |
+| K | moderat | 33\u201350% Reduktion, ABER: K-Mangel-Pflanzen hatten H\u00d6CHSTEN THC (185 mg/g vs. 168 Kontrolle!) |
+| Ca | moderat | 33\u201350% Reduktion, Ca-Mangel = NIEDRIGSTER THC (122 mg/g) |
 | Fe | minimal | KEIN signifikanter Ertragsverlust |
-| Mn | minimal | KEIN signifikanter Ertragsverlust |
+| Mn | minimal | KEIN signifikanter Ertragsverlust (30x niedrigere Gewebelevel OHNE sichtbare Symptome!) |
 
 \u2192 N und P sind die ZERST\u00d6RERISCHSTEN M\u00e4ngel. Fe und Mn hatten selbst bei sehr niedrigen Blatt-Konzentrationen kaum Ertragseinbu\u00dfen. Cannabis ist erstaunlich effizient bei der Nutzung von Mn.
+\u2192 CANNABINOID-IMPACT: \u00dcberm\u00e4\u00dfiger N SENKT Cannabinoid-Konzentration (PMC 2024)! Moderate N\u00e4hrstoffschwankungen ver\u00e4ndern Cannabinoide nur minimal. Leichter K-Mangel kann THC sogar ERHOEHEN \u2013 daher in sp\u00e4ter Bl\u00fcte K-Mangel nicht \u00fcberbehandeln!
+\u2192 WICHTIG: "Die Onset-Zeitpunkte visueller Mangelsymptome korrelieren NICHT immer mit Blattgewebe-Analysen" (Llewellyn 2023). Visuelle Diagnose ist n\u00f6tig aber nicht perfekt!
 
 SENESZENZ-ERKENNUNG \u2013 SP\u00c4TE BL\u00dcTE (Woche 9\u201312+):
 Wenn der User angibt, dass die Pflanze 9\u201312 Wochen oder \u00e4lter ist, PR\u00dcFE ob die Symptome zur nat\u00fcrlichen Alterung passen:

@@ -47,6 +47,22 @@ Typischer Stickstoffbedarf nach Phase:
 - Mittlere Bluetephase: mittel
 - Spaete Bluetephase: niedrig (natuerliche Reduktion erwuenscht)
 
+NEUE WISSENSCHAFTLICHE ERKENNTNISSE (PMC 2024):
+- Drug-Type Cannabis benoetigt DEUTLICH MEHR Stickstoff als Hanf/CBD:
+  >11 mM Gesamt-N (Drug-Type) vs. ~4 mM (Hanf)
+- Optimales Nitrat:Ammonium-Verhaeltnis: groesser als 3:1 bei 15 mM Gesamt-N
+- UEBERSCHUESSIGER Stickstoff SENKT die Cannabinoid-Konzentration bei
+  sowohl THC- als auch CBD-dominanten Sorten
+- Drug-Type Blueten = 30-50% der Gesamtbiomasse (starke Senken), daher
+  ist der N-Bedarf in der Bluete hoeher als bei Hanf
+- Biomasse-Verlust bei N-Mangel: bis zu 73% (Llewellyn et al. 2023)
+- Ertragsreduktion: 33-72% weniger Blueten
+
+NPK-Ratio nach Phase:
+- Vegetativ: 3:1:2 (N-dominant)
+- Fruehe Bluete: 1:3:2 (P steigt)
+- Spaete Bluete: 0:2:3 (kein N, P+K dominant)
+
 ================================================================================
 2. VISUELLE SYMPTOME - EXTREM DETAILLIERTE BESCHREIBUNG
 ================================================================================
