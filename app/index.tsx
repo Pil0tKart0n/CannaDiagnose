@@ -394,8 +394,8 @@ export default function HomeScreen() {
                     right: 0,
                     height: 120,
                     transform: 'translateY(-50%)',
-                    background: 'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.12) 0%, transparent 70%)',
-                    filter: 'blur(12px)',
+                    background: 'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.22) 0%, rgba(150,255,190,0.08) 40%, transparent 70%)',
+                    filter: 'blur(10px)',
                     pointerEvents: 'none',
                     opacity: leafSlider > 0.01 ? 1 : 0,
                   } as any} />
