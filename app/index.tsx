@@ -386,68 +386,19 @@ export default function HomeScreen() {
                       filter: 'blur(2px)',
                     } as any} />
                   )}
-                  {/* Scan beam — convex pipe with animated shimmer */}
-                  <div className="cd-scan-beam" style={{
+                  {/* Soft glow at transition seam */}
+                  <div style={{
                     position: 'absolute',
                     top: `${leafSlider * 100}%`,
                     left: 0,
                     right: 0,
-                    height: 60,
+                    height: 120,
                     transform: 'translateY(-50%)',
+                    background: 'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.12) 0%, transparent 70%)',
+                    filter: 'blur(12px)',
                     pointerEvents: 'none',
                     opacity: leafSlider > 0.01 ? 1 : 0,
-                  } as any}>
-                    {/* Outer glow */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: '-24px 0',
-                      background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.03) 25%, rgba(92,232,146,0.08) 45%, rgba(92,232,146,0.08) 55%, rgba(92,232,146,0.03) 75%, transparent 100%)',
-                      filter: 'blur(4px)',
-                      pointerEvents: 'none',
-                    } as any} />
-                    {/* Convex pipe body */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: '12px 0',
-                      background: 'linear-gradient(to bottom, rgba(92,232,146,0.015) 0%, rgba(92,232,146,0.065) 20%, rgba(150,255,190,0.15) 38%, rgba(220,255,235,0.25) 48%, rgba(255,255,255,0.3) 50%, rgba(220,255,235,0.25) 52%, rgba(150,255,190,0.15) 62%, rgba(92,232,146,0.065) 80%, rgba(92,232,146,0.015) 100%)',
-                      boxShadow: '0 0 25px rgba(92,232,146,0.085), 0 0 70px rgba(92,232,146,0.03)',
-                      filter: 'blur(0.5px)',
-                      pointerEvents: 'none',
-                    } as any} />
-                    {/* Animated shimmer streak */}
-                    <div className="cd-beam-shimmer" style={{
-                      position: 'absolute',
-                      top: '30%',
-                      height: '40%',
-                      width: '25%',
-                      background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, rgba(150,255,190,0.15) 50%, transparent 80%)',
-                      filter: 'blur(3px)',
-                      pointerEvents: 'none',
-                    } as any} />
-                    {/* Soft glow particles */}
-                    <div className="cd-beam-glow-1" style={{
-                      position: 'absolute',
-                      top: '35%',
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(150,255,190,0.4) 40%, transparent 70%)',
-                      boxShadow: '0 0 12px 4px rgba(92,232,146,0.3)',
-                      filter: 'blur(1px)',
-                      pointerEvents: 'none',
-                    } as any} />
-                    <div className="cd-beam-glow-2" style={{
-                      position: 'absolute',
-                      top: '50%',
-                      width: 6,
-                      height: 6,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(92,232,146,0.3) 50%, transparent 70%)',
-                      boxShadow: '0 0 10px 3px rgba(92,232,146,0.25)',
-                      filter: 'blur(1px)',
-                      pointerEvents: 'none',
-                    } as any} />
-                  </div>
+                  } as any} />
                 </div>
                 {/* Diagnosis card */}
                 <View style={[styles.sampleCard, { flex: 1 } as any]}>
