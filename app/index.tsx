@@ -400,16 +400,6 @@ export default function HomeScreen() {
                     pointerEvents: 'none',
                     opacity: leafSlider > 0.01 ? 1 : 0,
                   } as any}>
-                    {/* Shimmer streak */}
-                    <div className="cd-beam-shimmer" style={{
-                      position: 'absolute',
-                      top: '30%',
-                      height: '40%',
-                      width: '20%',
-                      background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.25) 0%, transparent 70%)',
-                      filter: 'blur(6px)',
-                      pointerEvents: 'none',
-                    } as any} />
                     {/* Soft glow dots */}
                     <div className="cd-beam-glow-1" style={{
                       position: 'absolute',
