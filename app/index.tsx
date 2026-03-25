@@ -82,8 +82,8 @@ export default function HomeScreen() {
           box-shadow: none !important;
         }
         body { background: #080C0A !important; }
-        .cd-sample-grid { grid-template-columns: auto 110px; gap: 24px !important; justify-content: center; }
-        .cd-sample-leaf { aspect-ratio: 5/7; transform: translateY(16px) rotate(4deg); border-radius: 8px !important; }
+        .cd-sample-grid { grid-template-columns: auto 160px; gap: 24px !important; justify-content: center; }
+        .cd-sample-leaf { aspect-ratio: 5/7; transform: translateY(12px) rotate(4deg); border-radius: 10px !important; }
       }
       @media (max-width: 767px) {
         .cd-sample-grid { grid-template-columns: 1fr; }
