@@ -82,12 +82,12 @@ export default function HomeScreen() {
           box-shadow: none !important;
         }
         body { background: #080C0A !important; }
-        .cd-sample-grid { grid-template-columns: auto 180px; gap: 28px !important; justify-content: center; }
-        .cd-sample-leaf { aspect-ratio: 3/4; transform: translateY(18px) rotate(3deg); }
+        .cd-sample-grid { grid-template-columns: auto 90px; gap: 24px !important; justify-content: center; }
+        .cd-sample-leaf { aspect-ratio: 5/7; transform: translateY(16px) rotate(4deg); border-radius: 8px !important; }
       }
       @media (max-width: 767px) {
         .cd-sample-grid { grid-template-columns: 1fr; }
-        .cd-sample-leaf { aspect-ratio: auto; max-width: 280px; margin: 0 auto; }
+        .cd-sample-leaf { aspect-ratio: auto; max-width: 160px; margin: 0 auto; }
         .cd-sample-leaf img { object-fit: contain !important; }
       }
     `;
