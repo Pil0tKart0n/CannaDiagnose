@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-} from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
@@ -59,7 +51,9 @@ export default function HomeScreen() {
       const pct = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
       setLeafSlider(pct);
     };
-    const handleUp = () => { leafDragging.current = false; };
+    const handleUp = () => {
+      leafDragging.current = false;
+    };
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('mouseup', handleUp);
     window.addEventListener('touchmove', handleMove, { passive: false });
@@ -97,7 +91,9 @@ export default function HomeScreen() {
       }
     `;
     document.head.appendChild(style);
-    return () => { style.remove(); };
+    return () => {
+      style.remove();
+    };
   }, []);
 
   useEffect(() => {
@@ -125,11 +121,7 @@ export default function HomeScreen() {
     }
 
     // Check for Stripe payment success redirect — verify with server
-    if (
-      Platform.OS === 'web' &&
-      typeof window !== 'undefined' &&
-      window.location.search.includes('session_id=')
-    ) {
+    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('session_id=')) {
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get('session_id');
       if (sessionId) {
@@ -290,9 +282,7 @@ export default function HomeScreen() {
                 onPress={() => !quotaIsPremium && router.push('/paywall')}
                 activeOpacity={quotaIsPremium ? 1 : 0.7}
               >
-                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>
-                  {quotaText}
-                </Text>
+                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>{quotaText}</Text>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -359,11 +349,16 @@ export default function HomeScreen() {
                 <Text style={styles.sectionHeading}>{t('landing.sampleTitle')}</Text>
               </View>
               <View style={[styles.sampleCard]}>
-                <div className="cd-sample-grid" style={{
-                  display: 'grid',
-                  gap: 16,
-                  alignItems: 'center',
-                } as any}>
+                <div
+                  className="cd-sample-grid"
+                  style={
+                    {
+                      display: 'grid',
+                      gap: 16,
+                      alignItems: 'center',
+                    } as any
+                  }
+                >
                   {/* Diagnosis content — LEFT on desktop, FIRST on mobile */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 0 } as any}>
                     <View style={styles.sampleHeader}>
@@ -384,7 +379,9 @@ export default function HomeScreen() {
                       </View>
                       <View style={styles.sampleMetaItem}>
                         <Text style={styles.sampleMetaLabel}>{t('landing.sampleConfidence')}</Text>
-                        <Text style={styles.sampleConfidence}>78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text></Text>
+                        <Text style={styles.sampleConfidence}>
+                          78<Text style={{ fontSize: 16, opacity: 0.7 }}>%</Text>
+                        </Text>
                       </View>
                     </View>
                     <View style={styles.sampleActions}>
@@ -404,130 +401,185 @@ export default function HomeScreen() {
                   </div>
                   {/* Leaf before/after slider — RIGHT on desktop, SECOND on mobile */}
                   <div
-                    ref={(el: HTMLDivElement | null) => { leafContainerRef.current = el; }}
+                    ref={(el: HTMLDivElement | null) => {
+                      leafContainerRef.current = el;
+                    }}
                     className="cd-sample-leaf"
-                    style={{
-                      borderRadius: 14,
-                      overflow: 'hidden',
-                      position: 'relative',
-                      background: '#000',
-                      boxShadow: '0 4px 20px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(92,232,146,0.12)',
-                      cursor: 'ns-resize',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      touchAction: 'none',
-                      width: '100%',
-                    } as any}
-                    onMouseDown={(e: React.MouseEvent) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
-                    onTouchStart={(e: React.TouchEvent) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
+                    style={
+                      {
+                        borderRadius: 14,
+                        overflow: 'hidden',
+                        position: 'relative',
+                        background: '#000',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(92,232,146,0.12)',
+                        cursor: 'ns-resize',
+                        userSelect: 'none',
+                        WebkitUserSelect: 'none',
+                        touchAction: 'none',
+                        width: '100%',
+                      } as any
+                    }
+                    onMouseDown={(e: React.MouseEvent) => {
+                      e.preventDefault();
+                      leafDragging.current = true;
+                      setLeafInteracted(true);
+                    }}
+                    onTouchStart={(e: React.TouchEvent) => {
+                      e.preventDefault();
+                      leafDragging.current = true;
+                      setLeafInteracted(true);
+                    }}
                   >
                     {/* Base: sick/yellow leaf */}
                     <img
                       src="/images/sample-nitrogen.webp"
                       alt="Stickstoffmangel - gelbes Cannabis-Blatt"
                       draggable={false}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                        pointerEvents: 'none',
-                      } as any}
+                      style={
+                        {
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                          pointerEvents: 'none',
+                        } as any
+                      }
                     />
                     {/* Overlay: healthy/green leaf, clipped from top */}
                     <img
                       src="/images/sample-nitrogen.webp"
                       alt="Gesundes Cannabis-Blatt"
                       draggable={false}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        filter: 'hue-rotate(45deg) saturate(1.3) brightness(0.82)',
-                        clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
-                        pointerEvents: 'none',
-                      } as any}
+                      style={
+                        {
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          filter: 'hue-rotate(45deg) saturate(1.3) brightness(0.82)',
+                          clipPath: `inset(0 0 ${(1 - leafSlider) * 100}% 0)`,
+                          pointerEvents: 'none',
+                        } as any
+                      }
                     />
                     {/* Hint: light sweep inviting downward drag */}
                     {!leafInteracted && (
-                      <div className="cd-leaf-hint" style={{
-                        position: 'absolute',
-                        top: '-10%',
-                        left: 0,
-                        right: 0,
-                        height: 80,
-                        background: 'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(150,255,190,0.15) 45%, rgba(255,255,255,0.22) 50%, rgba(150,255,190,0.15) 55%, rgba(92,232,146,0.04) 80%, transparent 100%)',
-                        pointerEvents: 'none',
-                        filter: 'blur(2px)',
-                      } as any} />
+                      <div
+                        className="cd-leaf-hint"
+                        style={
+                          {
+                            position: 'absolute',
+                            top: '-10%',
+                            left: 0,
+                            right: 0,
+                            height: 80,
+                            background:
+                              'linear-gradient(to bottom, transparent 0%, rgba(92,232,146,0.04) 20%, rgba(150,255,190,0.15) 45%, rgba(255,255,255,0.22) 50%, rgba(150,255,190,0.15) 55%, rgba(92,232,146,0.04) 80%, transparent 100%)',
+                            pointerEvents: 'none',
+                            filter: 'blur(2px)',
+                          } as any
+                        }
+                      />
                     )}
                     {/* Soft glow at transition seam */}
-                    <div className="cd-scan-beam" style={{
-                      position: 'absolute',
-                      top: `${leafSlider * 100}%`,
-                      left: 0,
-                      right: 0,
-                      height: 120,
-                      transform: 'translateY(-50%)',
-                      background: 'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.22) 0%, rgba(150,255,190,0.08) 40%, transparent 70%)',
-                      filter: 'blur(10px)',
-                      pointerEvents: 'none',
-                      opacity: leafSlider > 0.01 ? 1 : 0,
-                    } as any}>
+                    <div
+                      className="cd-scan-beam"
+                      style={
+                        {
+                          position: 'absolute',
+                          top: `${leafSlider * 100}%`,
+                          left: 0,
+                          right: 0,
+                          height: 120,
+                          transform: 'translateY(-50%)',
+                          background:
+                            'radial-gradient(ellipse 100% 50% at 50% 50%, rgba(92,232,146,0.22) 0%, rgba(150,255,190,0.08) 40%, transparent 70%)',
+                          filter: 'blur(10px)',
+                          pointerEvents: 'none',
+                          opacity: leafSlider > 0.01 ? 1 : 0,
+                        } as any
+                      }
+                    >
                       {/* Subtle shimmer streak */}
-                      <div className="cd-beam-shimmer" style={{
-                        position: 'absolute',
-                        top: '30%',
-                        height: '40%',
-                        width: '18%',
-                        background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%)',
-                        filter: 'blur(8px)',
-                        pointerEvents: 'none',
-                      } as any} />
+                      <div
+                        className="cd-beam-shimmer"
+                        style={
+                          {
+                            position: 'absolute',
+                            top: '30%',
+                            height: '40%',
+                            width: '18%',
+                            background:
+                              'radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%)',
+                            filter: 'blur(8px)',
+                            pointerEvents: 'none',
+                          } as any
+                        }
+                      />
                       {/* Soft glow dots */}
-                      <div className="cd-beam-glow-1" style={{
-                        position: 'absolute',
-                        top: '40%',
-                        width: 10,
-                        height: 10,
-                        borderRadius: '50%',
-                        background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)',
-                        filter: 'blur(3px)',
-                        pointerEvents: 'none',
-                      } as any} />
-                      <div className="cd-beam-glow-2" style={{
-                        position: 'absolute',
-                        top: '50%',
-                        width: 8,
-                        height: 8,
-                        borderRadius: '50%',
-                        background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)',
-                        filter: 'blur(3px)',
-                        pointerEvents: 'none',
-                      } as any} />
+                      <div
+                        className="cd-beam-glow-1"
+                        style={
+                          {
+                            position: 'absolute',
+                            top: '40%',
+                            width: 10,
+                            height: 10,
+                            borderRadius: '50%',
+                            background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)',
+                            filter: 'blur(3px)',
+                            pointerEvents: 'none',
+                          } as any
+                        }
+                      />
+                      <div
+                        className="cd-beam-glow-2"
+                        style={
+                          {
+                            position: 'absolute',
+                            top: '50%',
+                            width: 8,
+                            height: 8,
+                            borderRadius: '50%',
+                            background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)',
+                            filter: 'blur(3px)',
+                            pointerEvents: 'none',
+                          } as any
+                        }
+                      />
                     </div>
                     {/* Payoff text when fully revealed */}
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 8,
-                      left: 0,
-                      right: 0,
-                      textAlign: 'center',
-                      pointerEvents: 'none',
-                      opacity: leafSlider > 0.85 ? Math.min(1, (leafSlider - 0.85) / 0.1) : 0,
-                      transition: 'opacity 0.3s ease',
-                    } as any}>
-                      <span style={{
-                        fontSize: 10,
-                        fontWeight: '600',
-                        color: 'rgba(220,255,235,0.95)',
-                        letterSpacing: 1.2,
-                        textTransform: 'uppercase',
-                        textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5), 0 0 30px rgba(92,232,146,0.2)',
-                      } as any}>{t('landing.step3Title') || 'Diagnose in 30 Sekunden'}</span>
+                    <div
+                      style={
+                        {
+                          position: 'absolute',
+                          bottom: 8,
+                          left: 0,
+                          right: 0,
+                          textAlign: 'center',
+                          pointerEvents: 'none',
+                          opacity: leafSlider > 0.85 ? Math.min(1, (leafSlider - 0.85) / 0.1) : 0,
+                          transition: 'opacity 0.3s ease',
+                        } as any
+                      }
+                    >
+                      <span
+                        style={
+                          {
+                            fontSize: 10,
+                            fontWeight: '600',
+                            color: 'rgba(220,255,235,0.95)',
+                            letterSpacing: 1.2,
+                            textTransform: 'uppercase',
+                            textShadow:
+                              '0 0 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5), 0 0 30px rgba(92,232,146,0.2)',
+                          } as any
+                        }
+                      >
+                        {t('landing.step3Title') || 'Diagnose in 30 Sekunden'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -613,11 +665,7 @@ export default function HomeScreen() {
                   </div>
                 </View>
               ) : (
-                <TouchableOpacity
-                  style={styles.premiumBtn}
-                  onPress={() => router.push('/paywall')}
-                  activeOpacity={0.7}
-                >
+                <TouchableOpacity style={styles.premiumBtn} onPress={() => router.push('/paywall')} activeOpacity={0.7}>
                   <Animated.View
                     style={[
                       styles.premiumShimmer,
@@ -744,13 +792,9 @@ export default function HomeScreen() {
                 }}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.langOption, getLang() === 'de' && styles.langOptionActive]}>
-                  DE
-                </Text>
+                <Text style={[styles.langOption, getLang() === 'de' && styles.langOptionActive]}>DE</Text>
                 <Text style={styles.langDividerText}>|</Text>
-                <Text style={[styles.langOption, getLang() === 'en' && styles.langOptionActive]}>
-                  EN
-                </Text>
+                <Text style={[styles.langOption, getLang() === 'en' && styles.langOptionActive]}>EN</Text>
               </TouchableOpacity>
             </View>
 

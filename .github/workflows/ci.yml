@@ -32,7 +32,6 @@ jobs:
 
       - name: Security audit
         run: npm audit --audit-level=high
-        continue-on-error: true
 
   build:
     name: Build Check

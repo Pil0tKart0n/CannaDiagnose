@@ -92,7 +92,7 @@ function ensureStringArray(v: unknown): string[] {
   return v.filter((s): s is string => typeof s === 'string');
 }
 
-export function validateDiagnosisResult(data: any): DiagnosisResult {
+export function validateDiagnosisResult(data: Record<string, unknown>): DiagnosisResult {
   if (typeof data !== 'object' || data === null) {
     throw new Error('Antwort ist kein gültiges Objekt.');
   }
@@ -150,7 +150,7 @@ export function validateDiagnosisResult(data: any): DiagnosisResult {
 // JSON extraction from Claude response
 // ---------------------------------------------------------------------------
 
-function extractJSON(content: string): any {
+function extractJSON(content: string): Record<string, unknown> {
   let jsonStr = content.trim();
 
   // Strip markdown code fences
@@ -191,8 +191,18 @@ export interface ApiError {
   retryable: boolean;
 }
 
-function classifyError(err: any, statusCode?: number): ApiError {
-  const msg = err?.message ?? String(err);
+interface ApiErrorWrapper extends Error {
+  apiError: ApiError;
+}
+
+function createApiError(classified: ApiError): ApiErrorWrapper {
+  const err = new Error(classified.message) as ApiErrorWrapper;
+  err.apiError = classified;
+  return err;
+}
+
+function classifyError(err: unknown, statusCode?: number): ApiError {
+  const msg = (err as { message?: string })?.message ?? String(err);
 
   // Network / fetch failures
   if (
@@ -314,7 +324,7 @@ export async function analyzePlant(
   const imageDataUris = base64Results.map((data) => `data:image/jpeg;base64,${data}`);
 
   const maxAttempts = 1 + MAX_RETRIES; // 3 total
-  let lastError: any = null;
+  let lastError: unknown = null;
 
   // Image validation is handled server-side in /api/scan to avoid PWA cache issues
 
@@ -323,7 +333,7 @@ export async function analyzePlant(
     onAttempt?.(attempt, maxAttempts);
 
     try {
-      const scanBody: any = {
+      const scanBody: Record<string, unknown> = {
         mode: 'diagnose',
         images: imageDataUris,
         questionnaire,
@@ -345,9 +355,7 @@ export async function analyzePlant(
         const classified = classifyError(new Error(errorBody), response.status);
 
         if (!classified.retryable || attempt === maxAttempts) {
-          const err: any = new Error(classified.message);
-          err.apiError = classified;
-          throw err;
+          throw createApiError(classified);
         }
 
         lastError = classified;
@@ -365,9 +373,7 @@ export async function analyzePlant(
           retryable: true,
         };
         if (attempt === maxAttempts) {
-          const err: any = new Error(classified.message);
-          err.apiError = classified;
-          throw err;
+          throw createApiError(classified);
         }
         lastError = classified;
         await delay(RETRY_DELAYS[attempt - 1]);
@@ -381,24 +387,23 @@ export async function analyzePlant(
 
       // Check if the API detected no plant
       if (parsed.noPlant) {
-        const err: any = new Error(parsed.message || 'Keine passende Pflanze erkannt.');
-        err.apiError = {
-          type: 'no_plant' as ApiErrorType,
+        throw createApiError({
+          type: 'no_plant',
           message:
-            parsed.message ||
+            (typeof parsed.message === 'string' && parsed.message) ||
             'Auf dem Foto ist keine passende Pflanze erkennbar. Bitte lade ein Foto deiner Pflanze hoch.',
           retryable: false,
-        };
-        throw err;
+        });
       }
 
       const validated = validateDiagnosisResult(parsed);
       if (__DEV__) console.log('[LeafScan] Validated result:', JSON.stringify(validated).substring(0, 500));
       return { result: validated, attempt };
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errObj = err as { apiError?: ApiError; message?: string };
       // If it already has apiError set (we threw it), check retryable
-      if (err.apiError) {
-        if (!err.apiError.retryable || attempt === maxAttempts) {
+      if (errObj.apiError) {
+        if (!errObj.apiError.retryable || attempt === maxAttempts) {
           throw err;
         }
         lastError = err;
@@ -409,9 +414,7 @@ export async function analyzePlant(
       // Classify unhandled errors
       const classified = classifyError(err);
       if (!classified.retryable || attempt === maxAttempts) {
-        const wrapped: any = new Error(classified.message);
-        wrapped.apiError = classified;
-        throw wrapped;
+        throw createApiError(classified);
       }
       lastError = err;
       await delay(RETRY_DELAYS[attempt - 1]);
@@ -420,9 +423,7 @@ export async function analyzePlant(
   }
 
   // Should not reach here, but safety net
-  const finalErr: any = new Error(lastError?.message ?? 'Analyse fehlgeschlagen.');
-  finalErr.apiError = classifyError(lastError);
-  throw finalErr;
+  throw createApiError(classifyError(lastError));
 }
 
 export async function refineDiagnosis(
@@ -503,8 +504,8 @@ export async function refineDiagnosis(
       result = postProcessRefineResult(result, substrateType, phValue, ecValue);
 
       return result;
-    } catch (err: any) {
-      if (__DEV__) console.log('[LeafScan] Refine attempt', attempt, 'failed:', err.message);
+    } catch (err: unknown) {
+      if (__DEV__) console.log('[LeafScan] Refine attempt', attempt, 'failed:', (err as Error).message);
       if (attempt < 2) {
         await delay(2000);
         continue;

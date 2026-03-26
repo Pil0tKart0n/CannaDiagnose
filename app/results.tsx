@@ -92,16 +92,8 @@ async function sendFeedbackToServer(
 
 export default function ResultsScreen() {
   const router = useRouter();
-  const {
-    result,
-    questionnaire,
-    imageUri,
-    imageUris,
-    setImageUris,
-    optimizedImageUris,
-    reset,
-    selectedPlantId,
-  } = useDiagnosis();
+  const { result, questionnaire, imageUri, imageUris, setImageUris, optimizedImageUris, reset, selectedPlantId } =
+    useDiagnosis();
   const params = useLocalSearchParams<{
     historyResult?: string;
     historyImage?: string;

@@ -30,7 +30,7 @@ const REVENUECAT_API_KEY_APPLE = process.env.EXPO_PUBLIC_REVENUECAT_APPLE_KEY ||
 const ENTITLEMENT_ID = 'premium';
 
 let isInitialized = false;
-let Purchases: any = null;
+let Purchases: typeof import('react-native-purchases').default | null = null;
 
 /** Initialize RevenueCat SDK */
 export async function initPurchases(): Promise<void> {
@@ -90,7 +90,7 @@ export async function getOfferings(): Promise<SubscriptionPackage[]> {
     const offerings = await Purchases.getOfferings();
     if (!offerings.current) return getDemoOfferings();
 
-    return (offerings.current.availablePackages || []).map((pkg: any) => ({
+    return (offerings.current.availablePackages || []).map((pkg: { identifier: string; product: { title: string; description: string; priceString: string }; packageType: string }) => ({
       id: pkg.identifier,
       title: pkg.product.title,
       description: pkg.product.description,
@@ -155,7 +155,7 @@ export interface SubscriptionPackage {
   description: string;
   priceString: string;
   period: 'month' | 'year';
-  rcPackage?: any;
+  rcPackage?: unknown;
 }
 
 // ── Demo offerings (shown when RevenueCat is not yet configured) ──

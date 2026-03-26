@@ -46,8 +46,8 @@ export async function initReferenceImages(): Promise<void> {
         const destPath = `${FileSystem.documentDirectory}reference_images/${entry.folder}/${entry.file}`;
         await FileSystem.copyAsync({ from: asset.localUri, to: destPath });
       }
-    } catch (err: any) {
-      console.warn(`[LeafScan] Failed to copy ${entry.folder}/${entry.file}:`, err.message);
+    } catch (err: unknown) {
+      console.warn(`[LeafScan] Failed to copy ${entry.folder}/${entry.file}:`, (err as Error).message);
     }
   }
 
@@ -222,7 +222,7 @@ export async function verifyDiagnosis(
     if (jsonStr.startsWith('```')) {
       jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
     }
-    let parsed: any;
+    let parsed: Record<string, unknown>;
     try {
       parsed = JSON.parse(jsonStr);
     } catch {
@@ -240,8 +240,8 @@ export async function verifyDiagnosis(
       confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.5,
       alternative: parsed.alternative || null,
     };
-  } catch (err: any) {
-    if (__DEV__) console.log('[LeafScan] Verify error:', err.message);
+  } catch (err: unknown) {
+    if (__DEV__) console.log('[LeafScan] Verify error:', (err as Error).message);
     return null;
   }
 }

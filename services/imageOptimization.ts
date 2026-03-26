@@ -101,7 +101,8 @@ async function optimizeImageWeb(uri: string): Promise<string> {
       }
       ctx.drawImage(img, 0, 0, width, height);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      if (__DEV__) console.log(`[LeafScan] Web image resized: ${img.naturalWidth}x${img.naturalHeight} → ${width}x${height}`);
+      if (__DEV__)
+        console.log(`[LeafScan] Web image resized: ${img.naturalWidth}x${img.naturalHeight} → ${width}x${height}`);
       resolve(dataUrl);
     };
     img.onerror = () => reject(new Error('Image load failed'));

@@ -421,38 +421,36 @@ function buildShareText(result: DiagnosisResult): string {
 }
 
 async function shareOnWeb(result: DiagnosisResult, imageBase64?: string): Promise<void> {
-  const nav = navigator as any;
-
   // Try file sharing first (HTML report + text)
-  if (nav.share && nav.canShare) {
+  if (navigator.share && navigator.canShare) {
     try {
       const html = generateHTML(result, imageBase64);
       const blob = new Blob([html], { type: 'text/html' });
       const file = new File([blob], 'LeafScan-Diagnose.html', { type: 'text/html' });
 
-      if (nav.canShare({ files: [file] })) {
-        await nav.share({
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({
           title: 'LeafScan Ergebnis',
           text: buildShareText(result),
           files: [file],
         });
         return;
       }
-    } catch (e: any) {
-      if (e.name === 'AbortError') throw new Error('abgebrochen');
+    } catch (e: unknown) {
+      if ((e as Error).name === 'AbortError') throw new Error('abgebrochen');
     }
   }
 
   // Fallback: share text only (WhatsApp, Telegram, etc.)
-  if (nav.share) {
+  if (navigator.share) {
     try {
-      await nav.share({
+      await navigator.share({
         title: 'LeafScan Ergebnis',
         text: buildShareText(result),
       });
       return;
-    } catch (e: any) {
-      if (e.name === 'AbortError') throw new Error('abgebrochen');
+    } catch (e: unknown) {
+      if ((e as Error).name === 'AbortError') throw new Error('abgebrochen');
     }
   }
 
@@ -460,8 +458,8 @@ async function shareOnWeb(result: DiagnosisResult, imageBase64?: string): Promis
   try {
     await navigator.clipboard.writeText(buildShareText(result));
     throw new Error('Share nicht verfügbar \u2013 Diagnose wurde in die Zwischenablage kopiert!');
-  } catch (e: any) {
-    if (e.message?.includes('Zwischenablage')) throw e;
+  } catch (e: unknown) {
+    if ((e as Error).message?.includes('Zwischenablage')) throw e;
     throw new Error('Teilen ist auf diesem Ger\u00e4t nicht verf\u00fcgbar.');
   }
 }
