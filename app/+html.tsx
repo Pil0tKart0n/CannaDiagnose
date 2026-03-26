@@ -27,12 +27,18 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <meta name="twitter:description" content="Foto machen, Diagnose erhalten, Pflanze retten." />
         <link rel="apple-touch-icon" href="/assets/icon.png" />
         <ScrollViewStyleReset />
-        {/* Service worker registration */}
+        {/* Service worker registration — deferred until cookie consent */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
+                  var consent = localStorage.getItem('leafscan_cookie_consent');
+                  if (consent === 'accepted') {
+                    navigator.serviceWorker.register('/sw.js').catch(function() {});
+                  }
+                });
+                window.addEventListener('leafscan-consent-accepted', function() {
                   navigator.serviceWorker.register('/sw.js').catch(function() {});
                 });
               }

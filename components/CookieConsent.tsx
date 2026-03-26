@@ -22,6 +22,10 @@ export default function CookieConsent() {
   const handleAccept = async () => {
     await AsyncStorage.setItem(CONSENT_KEY, 'accepted');
     setVisible(false);
+    // Trigger deferred service worker registration
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('leafscan-consent-accepted'));
+    }
   };
 
   const handleDecline = async () => {
