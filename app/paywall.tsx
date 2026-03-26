@@ -434,6 +434,10 @@ export default function PaywallScreen() {
               <Text style={styles.footerDot}>·</Text>
             </>
           )}
+          <TouchableOpacity onPress={() => router.push('/impressum')}>
+            <Text style={styles.footerLink}>{t('home.impressum')}</Text>
+          </TouchableOpacity>
+          <Text style={styles.footerDot}>·</Text>
           <TouchableOpacity onPress={() => router.push('/privacy')}>
             <Text style={styles.footerLink}>{t('home.privacy')}</Text>
           </TouchableOpacity>

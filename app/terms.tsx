@@ -41,6 +41,18 @@ export default function TermsScreen() {
           ist nicht möglich.
         </Section>
 
+        <Section title="4a. Widerrufsrecht">
+          Als Verbraucher in der EU hast du das Recht, einen online abgeschlossenen Vertrag innerhalb von 14 Tagen ohne
+          Angabe von Gründen zu widerrufen (Fernabsatzgesetz, EU-Richtlinie 2011/83/EU).{'\n\n'}
+          Die Widerrufsfrist beträgt 14 Tage ab dem Tag des Vertragsschlusses. Zur Ausübung deines Widerrufsrechts
+          sende eine eindeutige Erklärung (z.B. per E-Mail) an: leafscan@proton.me{'\n\n'}
+          Die Frist ist gewahrt, wenn du die Mitteilung vor Ablauf der 14-Tage-Frist absendest. Im Falle eines
+          wirksamen Widerrufs werden bereits geleistete Zahlungen unverzüglich, spätestens binnen 14 Tagen,
+          zurückerstattet.{'\n\n'}
+          Bei Abonnements über Google Play oder den Apple App Store gelten zusätzlich die Rückgaberichtlinien des
+          jeweiligen Stores.
+        </Section>
+
         <Section title="5. Nutzerpflichten">
           Der Nutzer verpflichtet sich:{'\n\n'}• Die App nur für legale Zwecke zu nutzen{'\n'}• Keine missbräuchliche
           oder übermäßige Nutzung der API-Dienste{'\n'}• Keine Manipulation der App oder Umgehung von
