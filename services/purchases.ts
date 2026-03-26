@@ -44,18 +44,18 @@ export async function initPurchases(): Promise<void> {
 
     // Don't initialize without API key or with test keys (test keys crash release builds)
     if (!apiKey || apiKey.startsWith('test_')) {
-      console.log('[LeafScan] RevenueCat: No production API key – running in demo mode');
+      if (__DEV__) console.log('[LeafScan] RevenueCat: No production API key – running in demo mode');
       return;
     }
 
     await Purchases.configure({ apiKey });
     isInitialized = true;
-    console.log('[LeafScan] RevenueCat initialized');
+    if (__DEV__) console.log('[LeafScan] RevenueCat initialized');
 
     // Check existing subscription
     await checkSubscriptionStatus();
   } catch (err) {
-    console.log('[LeafScan] RevenueCat init failed:', err);
+    console.warn('[LeafScan] RevenueCat init failed:', err);
   }
 }
 
@@ -74,7 +74,7 @@ export async function checkSubscriptionStatus(): Promise<boolean> {
 
     return isPremiumActive;
   } catch (err) {
-    console.log('[LeafScan] Subscription check failed:', err);
+    console.warn('[LeafScan] Subscription check failed:', err);
     return false;
   }
 }
@@ -99,7 +99,7 @@ export async function getOfferings(): Promise<SubscriptionPackage[]> {
       rcPackage: pkg, // Keep reference for purchase
     }));
   } catch (err) {
-    console.log('[LeafScan] Get offerings failed:', err);
+    console.warn('[LeafScan] Get offerings failed:', err);
     return getDemoOfferings();
   }
 }
@@ -121,11 +121,12 @@ export async function purchasePackage(pkg: SubscriptionPackage): Promise<{ succe
     }
 
     return { success: false, error: 'Kauf konnte nicht abgeschlossen werden.' };
-  } catch (err: any) {
-    if (err.userCancelled) {
+  } catch (err: unknown) {
+    const rcErr = err as { userCancelled?: boolean; message?: string };
+    if (rcErr.userCancelled) {
       return { success: false, error: undefined }; // User cancelled, no error
     }
-    return { success: false, error: err.message || 'Ein Fehler ist aufgetreten.' };
+    return { success: false, error: rcErr.message || 'Ein Fehler ist aufgetreten.' };
   }
 }
 
@@ -141,7 +142,7 @@ export async function restorePurchases(): Promise<{ success: boolean; isPremium:
     await setPremium(isPremiumActive);
     return { success: true, isPremium: isPremiumActive };
   } catch (err) {
-    console.log('[LeafScan] Restore failed:', err);
+    console.warn('[LeafScan] Restore failed:', err);
     return { success: false, isPremium: false };
   }
 }

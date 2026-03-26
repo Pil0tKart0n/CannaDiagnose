@@ -51,7 +51,7 @@ export default function PlantsScreen() {
       );
       setPlants(withEntries);
     } catch (e) {
-      console.log('[LeafScan] Failed to load plants:', e);
+      console.warn('[LeafScan] Failed to load plants:', e);
     } finally {
       setLoading(false);
     }

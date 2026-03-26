@@ -23,6 +23,11 @@ import { injectCSS } from '../constants/webStyles';
 import LegalFooter from '../components/LegalFooter';
 import InstallBanner from '../components/InstallBanner';
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 const isWeb = Platform.OS === 'web';
 const sectionSpacing = isWeb ? 48 : 32;
 
@@ -36,7 +41,7 @@ export default function HomeScreen() {
   }, []);
   const [quotaText, setQuotaText] = useState('');
   const [quotaIsPremium, setQuotaIsPremium] = useState(false);
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [leafSlider, setLeafSlider] = useState(0.025);
@@ -103,7 +108,7 @@ export default function HomeScreen() {
 
     // PWA install prompt (Android Chrome)
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
-      const handler = (e: any) => {
+      const handler = (e: Event) => {
         e.preventDefault();
         setInstallPrompt(e);
         if (!window.matchMedia('(display-mode: standalone)').matches) {
@@ -399,7 +404,7 @@ export default function HomeScreen() {
                   </div>
                   {/* Leaf before/after slider — RIGHT on desktop, SECOND on mobile */}
                   <div
-                    ref={(el: any) => { leafContainerRef.current = el; }}
+                    ref={(el: HTMLDivElement | null) => { leafContainerRef.current = el; }}
                     className="cd-sample-leaf"
                     style={{
                       borderRadius: 14,
@@ -413,8 +418,8 @@ export default function HomeScreen() {
                       touchAction: 'none',
                       width: '100%',
                     } as any}
-                    onMouseDown={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
-                    onTouchStart={(e: any) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
+                    onMouseDown={(e: React.MouseEvent) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
+                    onTouchStart={(e: React.TouchEvent) => { e.preventDefault(); leafDragging.current = true; setLeafInteracted(true); }}
                   >
                     {/* Base: sick/yellow leaf */}
                     <img
@@ -750,7 +755,7 @@ export default function HomeScreen() {
             </View>
 
             {/* Legal footer */}
-            <LegalFooter onNavigate={(path) => router.push(path as any)} />
+            <LegalFooter onNavigate={(path) => router.push(path as `/${string}`)} />
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -73,7 +73,7 @@ export default function AnalyzingScreen() {
       });
     }, 2800);
     return () => clearInterval(interval);
-  }, []);
+  }, [pulseAnim, textOpacity]);
 
   const runAnalysis = useCallback(async () => {
     const primaryImage = imageUris.length > 0 ? imageUris[0] : imageUri;
@@ -103,7 +103,7 @@ export default function AnalyzingScreen() {
       }
     } catch (quotaErr) {
       // If quota check fails, block scan (fail closed for security)
-      console.log('[LeafScan] Quota check failed, blocking scan:', quotaErr);
+      console.warn('[LeafScan] Quota check failed, blocking scan:', quotaErr);
       setError({ type: 'unknown', message: 'quota_check_failed', retryable: true });
       setScreenState('error');
       return;
@@ -130,7 +130,7 @@ export default function AnalyzingScreen() {
         preOptimized,
       );
 
-      console.log('[LeafScan] diagResult:', JSON.stringify(diagResult).substring(0, 300));
+      if (__DEV__) console.log('[LeafScan] diagResult:', JSON.stringify(diagResult).substring(0, 300));
 
       // Verify diagnosis against reference images (non-blocking — if it fails, we use original result)
       // Skip verification for free web users: their 1 scan quota is already consumed by the diagnosis call above
@@ -142,7 +142,7 @@ export default function AnalyzingScreen() {
           const userBase64 = await cachedReadAsBase64(firstUri);
           const verification = await verifyDiagnosis(userBase64, diagResult);
           if (verification) {
-            console.log('[LeafScan] Verification:', JSON.stringify(verification));
+            if (__DEV__) console.log('[LeafScan] Verification:', JSON.stringify(verification));
             if (verification.verified) {
               // Boost confidence when reference images confirm
               diagResult.confidence = Math.min(1, diagResult.confidence * 1.1);
@@ -156,8 +156,8 @@ export default function AnalyzingScreen() {
             }
           }
         }
-      } catch (verifyErr: any) {
-        console.log('[LeafScan] Verification failed (non-critical):', verifyErr.message);
+      } catch (verifyErr: unknown) {
+        if (__DEV__) console.log('[LeafScan] Verification failed (non-critical):', (verifyErr as Error).message);
       }
 
       // Scan is already recorded atomically on the server in /api/scan (step 2)
@@ -194,10 +194,11 @@ export default function AnalyzingScreen() {
         await scheduleFollowUpReminder(plantName, diagResult.followUpDays, entryId);
       }
       router.replace({ pathname: '/results', params: { entryId } });
-    } catch (err: any) {
-      const apiError: ApiError = err.apiError || {
+    } catch (err: unknown) {
+      const errObj = err as { apiError?: ApiError; message?: string };
+      const apiError: ApiError = errObj.apiError || {
         type: 'unknown',
-        message: err.message || t('analyzing.unknownError'),
+        message: errObj.message || t('analyzing.unknownError'),
         retryable: true,
       };
       setError(apiError);
@@ -212,13 +213,15 @@ export default function AnalyzingScreen() {
     previousResult,
     previousDate,
     selectedPlantId,
+    router,
+    setResult,
   ]);
 
   useEffect(() => {
     if (hasStarted.current) return;
     hasStarted.current = true;
     runAnalysis();
-  }, []);
+  }, [runAnalysis]);
 
   const handleRetry = () => {
     hasStarted.current = false;
@@ -251,7 +254,7 @@ export default function AnalyzingScreen() {
             isQuotaExceeded && { backgroundColor: 'rgba(251,191,36,0.08)', borderColor: 'rgba(251,191,36,0.15)' },
           ]}
         >
-          <Ionicons name={iconName as any} size={48} color={iconColor} />
+          <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={48} color={iconColor} />
         </View>
         <Text style={styles.errorTitle}>
           {isQuotaExceeded

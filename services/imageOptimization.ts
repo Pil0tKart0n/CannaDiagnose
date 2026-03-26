@@ -71,7 +71,7 @@ export async function optimizeImage(uri: string): Promise<string> {
       format: SaveFormat.JPEG,
     });
 
-    console.log(`[LeafScan] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
+    if (__DEV__) console.log(`[LeafScan] Image resized: ${width}x${height} → ${newWidth}x${newHeight}`);
     return result.uri;
   } catch (err) {
     if (__DEV__) console.log('[LeafScan] Image optimize failed, using original:', err);
@@ -101,7 +101,7 @@ async function optimizeImageWeb(uri: string): Promise<string> {
       }
       ctx.drawImage(img, 0, 0, width, height);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      console.log(`[LeafScan] Web image resized: ${img.naturalWidth}x${img.naturalHeight} → ${width}x${height}`);
+      if (__DEV__) console.log(`[LeafScan] Web image resized: ${img.naturalWidth}x${img.naturalHeight} → ${width}x${height}`);
       resolve(dataUrl);
     };
     img.onerror = () => reject(new Error('Image load failed'));

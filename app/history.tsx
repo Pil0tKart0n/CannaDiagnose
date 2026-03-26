@@ -28,7 +28,7 @@ export default function HistoryScreen() {
       const data = await getEntries();
       setEntries(data);
     } catch (e) {
-      console.log('[LeafScan] Failed to load entries:', e);
+      console.warn('[LeafScan] Failed to load entries:', e);
     } finally {
       setLoading(false);
     }

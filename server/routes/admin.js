@@ -17,7 +17,10 @@ const { SYSTEM_PROMPT, buildUserPrompt } = require('../prompts');
 
 const router = express.Router();
 
-const ADMIN_KEY = process.env.ADMIN_KEY || 'ls-admin-2026-Rz7vP3kW';
+const ADMIN_KEY = process.env.ADMIN_KEY;
+if (!ADMIN_KEY) {
+  throw new Error('ADMIN_KEY environment variable is required');
+}
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const dbPath = path.join(__dirname, '..', 'data', 'leafscan.db');
 

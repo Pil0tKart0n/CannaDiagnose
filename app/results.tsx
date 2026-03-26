@@ -183,8 +183,10 @@ export default function ResultsScreen() {
     return () => subscription.remove();
   }, [isFromHistory, router]);
 
-  console.log('[LeafScan] Results - displayResult:', JSON.stringify(displayResult)?.substring(0, 300));
-  console.log('[LeafScan] Results - context result:', JSON.stringify(result)?.substring(0, 300));
+  if (__DEV__) {
+    console.log('[LeafScan] Results - displayResult:', JSON.stringify(displayResult)?.substring(0, 300));
+    console.log('[LeafScan] Results - context result:', JSON.stringify(result)?.substring(0, 300));
+  }
 
   if (!displayResult) {
     return (

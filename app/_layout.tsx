@@ -98,14 +98,14 @@ export default function RootLayout() {
     setImageUrisState(uris);
     setOptimizedImageUris([]); // Reset optimized versions
     if (uris.length > 0) {
-      console.log('[LeafScan] Pre-optimizing', uris.length, 'images in background...');
+      if (__DEV__) console.log('[LeafScan] Pre-optimizing', uris.length, 'images in background...');
       Promise.all(uris.map(optimizeImage))
         .then((optimized) => {
           setOptimizedImageUris(optimized);
-          console.log('[LeafScan] Pre-optimization complete');
+          if (__DEV__) console.log('[LeafScan] Pre-optimization complete');
         })
         .catch((err) => {
-          console.log('[LeafScan] Pre-optimization failed:', err);
+          console.warn('[LeafScan] Pre-optimization failed:', err);
         });
     }
   }, []);
@@ -205,11 +205,11 @@ export default function RootLayout() {
       .catch(() => {});
 
     // Non-critical: run in background without blocking splash
-    initReferenceImages().catch((err) => console.log('[LeafScan] initReferenceImages error:', err));
+    initReferenceImages().catch((err) => console.warn('[LeafScan] initReferenceImages error:', err));
     cleanupStorage()
       .then(({ archived, deleted }) => {
         if (archived > 0 || deleted > 0) {
-          console.log(`[LeafScan] Storage cleanup: ${archived} archived, ${deleted} deleted`);
+          if (__DEV__) console.log(`[LeafScan] Storage cleanup: ${archived} archived, ${deleted} deleted`);
         }
       })
       .catch(() => {});

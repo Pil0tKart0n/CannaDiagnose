@@ -47,7 +47,7 @@ export async function initReferenceImages(): Promise<void> {
         await FileSystem.copyAsync({ from: asset.localUri, to: destPath });
       }
     } catch (err: any) {
-      console.log(`[LeafScan] Failed to copy ${entry.folder}/${entry.file}:`, err.message);
+      console.warn(`[LeafScan] Failed to copy ${entry.folder}/${entry.file}:`, err.message);
     }
   }
 
