@@ -110,7 +110,7 @@ export default function HomeScreen() {
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
       const handler = (e: Event) => {
         e.preventDefault();
-        setInstallPrompt(e);
+        setInstallPrompt(e as BeforeInstallPromptEvent);
         if (!window.matchMedia('(display-mode: standalone)').matches) {
           setShowInstallBanner(true);
         }
