@@ -293,7 +293,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
           premiumSession ? 1 : 0,
           platform
         );
-      } catch (e) {}
+      } catch (e) { console.error('[LeafScan] Token usage insert failed:', e.message); }
     }
 
     // Refund scan if OpenAI returned an error
@@ -672,7 +672,7 @@ app.post('/api/event', rateLimit, (req, res) => {
   const platform = req.headers['origin'] ? 'pwa' : 'apk';
   try {
     stmtInsertEvent.run(event, ip, deviceId, platform, meta ? JSON.stringify(meta).substring(0, 500) : null);
-  } catch (e) {}
+  } catch (e) { console.error('[LeafScan] Event insert failed:', e.message); }
   res.json({ ok: true });
 });
 

@@ -19,7 +19,8 @@ const router = express.Router();
 
 const ADMIN_KEY = process.env.ADMIN_KEY;
 if (!ADMIN_KEY) {
-  throw new Error('ADMIN_KEY environment variable is required');
+  console.error('[LeafScan] FATAL: ADMIN_KEY environment variable is required');
+  process.exit(1);
 }
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const dbPath = path.join(__dirname, '..', 'data', 'leafscan.db');
@@ -354,7 +355,7 @@ router.get('/api/admin/stats/disk', (req, res) => {
     for (const f of files) {
       try {
         totalSize += fs.statSync(path.join(feedbackImagesDir, f)).size;
-      } catch (e) {}
+      } catch (e) { /* skip inaccessible files */ }
     }
     const dbSize = fs.statSync(dbPath).size;
     res.json({
