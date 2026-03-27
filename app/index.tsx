@@ -999,7 +999,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   trustText: {
-    fontSize: 10.5,
+    fontSize: 11,
     color: colors.accentMoss,
     fontWeight: '500',
     letterSpacing: 0.2,
@@ -1276,8 +1276,8 @@ const styles = StyleSheet.create({
   },
   premiumBtnText: {
     color: '#DAA520',
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
     letterSpacing: 0.5,
   },
   premiumArrow: {
