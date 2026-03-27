@@ -1,4 +1,4 @@
-const CACHE_NAME = 'leafscan-v5';
+const CACHE_NAME = 'leafscan-v6';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
