@@ -286,5 +286,39 @@
   "landing.sampleConfidence": "Confidence",
   "landing.sampleAction1": "Adjust pH to 6.0–6.5",
   "landing.sampleAction2": "Use nitrogen-rich fertilizer",
-  "landing.sampleAction3": "Remove older affected leaves"
+  "landing.sampleAction3": "Remove older affected leaves",
+
+  "landing.heroSubtitle": "AI diagnosis for your cannabis plant",
+  "landing.trustCount": "500+ Diagnoses",
+  "landing.trustSpeed": "Analysis in 30s",
+  "landing.trustRef": "100+ References",
+
+  "landing.socialTitle": "Trusted by Growers",
+  "landing.statDiagnoses": "500+",
+  "landing.statDiagnosesLabel": "Diagnoses created",
+  "landing.statIssues": "40+",
+  "landing.statIssuesLabel": "Issues detected",
+  "landing.statLibrary": "100+",
+  "landing.statLibraryLabel": "Library entries",
+  "landing.testimonial1": "Had yellow leaves and no clue why. LeafScan identified nitrogen deficiency — after the fix everything was green again.",
+  "landing.testimonial1Author": "Max, Indoor Grower",
+  "landing.testimonial2": "Saves me hours of forum research. Take a photo, read the diagnosis, act.",
+  "landing.testimonial2Author": "Lisa, Balcony Grow",
+  "landing.testimonial3": "The refinement with pH/EC values makes the diagnosis really precise. Better than any forum.",
+  "landing.testimonial3Author": "Tom, Living Soil",
+
+  "landing.premiumPrice": "From €4.99/month",
+
+  "camera.tipTitle": "Tips for a good photo",
+  "camera.tip1": "Photograph a single leaf up close",
+  "camera.tip2": "Natural light, no grow light",
+  "camera.tip3": "Symptoms clearly visible",
+
+  "analyzing.tip1": "Nitrogen deficiency is the most common cannabis problem",
+  "analyzing.tip2": "The right pH is crucial for nutrient uptake",
+  "analyzing.tip3": "Symptoms on older leaves point to mobile nutrients",
+  "analyzing.tip4": "Overwatering can mimic nutrient deficiency",
+  "analyzing.tip5": "Cannabis in flower needs more phosphorus and potassium",
+  "analyzing.tip6": "CalMag deficiency is especially common in coco",
+  "analyzing.tipPrefix": "Did you know?"
 }

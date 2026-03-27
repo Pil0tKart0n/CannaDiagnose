@@ -142,6 +142,22 @@ export const webCSS =
   .cd-leaf-hint {
     animation: cd-leaf-hint 5s ease-in-out infinite;
   }
+  @keyframes cd-reveal {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .cd-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cd-reveal.cd-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .cd-reveal-delay-1 { transition-delay: 0.1s; }
+  .cd-reveal-delay-2 { transition-delay: 0.2s; }
+  .cd-reveal-delay-3 { transition-delay: 0.3s; }
   .cd-title-wrap {
     font-family: 'Playfair Display', serif;
     animation: cd-float 6s ease-in-out infinite;

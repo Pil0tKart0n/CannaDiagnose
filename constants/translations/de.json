@@ -286,5 +286,39 @@
   "landing.sampleConfidence": "Confidence",
   "landing.sampleAction1": "pH-Wert auf 6.0–6.5 korrigieren",
   "landing.sampleAction2": "Stickstoffreichen Dünger verwenden",
-  "landing.sampleAction3": "Ältere Blätter entfernen"
+  "landing.sampleAction3": "Ältere Blätter entfernen",
+
+  "landing.heroSubtitle": "KI-Diagnose für deine Cannabispflanze",
+  "landing.trustCount": "500+ Diagnosen",
+  "landing.trustSpeed": "Analyse in 30s",
+  "landing.trustRef": "100+ Referenzen",
+
+  "landing.socialTitle": "Von Growern vertraut",
+  "landing.statDiagnoses": "500+",
+  "landing.statDiagnosesLabel": "Diagnosen erstellt",
+  "landing.statIssues": "40+",
+  "landing.statIssuesLabel": "Erkannte Probleme",
+  "landing.statLibrary": "100+",
+  "landing.statLibraryLabel": "Bibliothek-Einträge",
+  "landing.testimonial1": "Hatte gelbe Blätter und keine Ahnung warum. LeafScan hat Stickstoffmangel erkannt — nach der Korrektur war alles wieder grün.",
+  "landing.testimonial1Author": "Max, Indoor Grower",
+  "landing.testimonial2": "Spart mir stundenlange Recherche in Foren. Foto machen, Diagnose lesen, handeln.",
+  "landing.testimonial2Author": "Lisa, Balkon-Grow",
+  "landing.testimonial3": "Die Verfeinerung mit pH/EC-Werten macht die Diagnose richtig präzise. Besser als jedes Forum.",
+  "landing.testimonial3Author": "Tom, Living Soil",
+
+  "landing.premiumPrice": "Ab 4,99€/Monat",
+
+  "camera.tipTitle": "Tipps für ein gutes Foto",
+  "camera.tip1": "Einzelnes Blatt nah fotografieren",
+  "camera.tip2": "Natürliches Licht, kein Growlicht",
+  "camera.tip3": "Symptome deutlich sichtbar",
+
+  "analyzing.tip1": "Stickstoffmangel ist das häufigste Problem bei Cannabis",
+  "analyzing.tip2": "Der richtige pH-Wert ist entscheidend für die Nährstoffaufnahme",
+  "analyzing.tip3": "Symptome an älteren Blättern deuten auf mobile Nährstoffe hin",
+  "analyzing.tip4": "Überwässerung kann Nährstoffmangel imitieren",
+  "analyzing.tip5": "Cannabis im Blütephase braucht mehr Phosphor und Kalium",
+  "analyzing.tip6": "CalMag-Mangel ist besonders in Kokos häufig",
+  "analyzing.tipPrefix": "Wusstest du?"
 }

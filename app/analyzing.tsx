@@ -22,6 +22,15 @@ const loadingKeys = [
   'analyzing.actionPlan',
 ];
 
+const tipKeys = [
+  'analyzing.tip1',
+  'analyzing.tip2',
+  'analyzing.tip3',
+  'analyzing.tip4',
+  'analyzing.tip5',
+  'analyzing.tip6',
+];
+
 type ScreenState = 'loading' | 'error';
 
 export default function AnalyzingScreen() {
@@ -38,6 +47,7 @@ export default function AnalyzingScreen() {
     previousDate,
   } = useDiagnosis();
   const [textIndex, setTextIndex] = useState(0);
+  const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * tipKeys.length));
   const [attemptText, setAttemptText] = useState('');
   const [screenState, setScreenState] = useState<ScreenState>('loading');
   const [error, setError] = useState<ApiError | null>(null);
@@ -45,6 +55,7 @@ export default function AnalyzingScreen() {
 
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const textOpacity = useRef(new Animated.Value(1)).current;
+  const tipOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     // Subtle pulse animation on the ring
@@ -73,11 +84,24 @@ export default function AnalyzingScreen() {
         Animated.timing(textOpacity, { toValue: 1, duration: 300, useNativeDriver: true }).start();
       });
     }, 2800);
+    // Tip: fade in after 3s, then rotate every 6s
+    const tipDelay = setTimeout(() => {
+      Animated.timing(tipOpacity, { toValue: 1, duration: 500, useNativeDriver: true }).start();
+    }, 3000);
+    const tipInterval = setInterval(() => {
+      Animated.timing(tipOpacity, { toValue: 0, duration: 300, useNativeDriver: true }).start(() => {
+        setTipIndex((i) => (i + 1) % tipKeys.length);
+        Animated.timing(tipOpacity, { toValue: 1, duration: 400, useNativeDriver: true }).start();
+      });
+    }, 6000);
+
     return () => {
       loopAnim.stop();
       clearInterval(interval);
+      clearTimeout(tipDelay);
+      clearInterval(tipInterval);
     };
-  }, [pulseAnim, textOpacity]);
+  }, [pulseAnim, textOpacity, tipOpacity]);
 
   const runAnalysis = useCallback(async () => {
     const primaryImage = imageUris.length > 0 ? imageUris[0] : imageUri;
@@ -335,6 +359,12 @@ export default function AnalyzingScreen() {
       ) : (
         <Text style={styles.sub}>{t('analyzing.wait')}</Text>
       )}
+
+      {/* Fun fact / tip */}
+      <Animated.View style={[styles.tipWrap, { opacity: tipOpacity }]}>
+        <Text style={styles.tipPrefix}>{t('analyzing.tipPrefix')}</Text>
+        <Text style={styles.tipText}>{t(tipKeys[tipIndex])}</Text>
+      </Animated.View>
     </View>
   );
 }
@@ -378,6 +408,27 @@ const styles = StyleSheet.create({
   sub: {
     fontSize: 14,
     color: colors.textMuted,
+  },
+  tipWrap: {
+    position: 'absolute',
+    bottom: 80,
+    left: 24,
+    right: 24,
+    alignItems: 'center',
+  },
+  tipPrefix: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: colors.accentMoss || colors.textMuted,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    marginBottom: 6,
+  },
+  tipText: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 20,
   },
   attemptText: {
     fontSize: 13,

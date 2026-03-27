@@ -118,6 +118,15 @@ export default function CameraScreen() {
               <Text style={styles.viewfinderText}>{t('camera.leafStemPlant')}</Text>
             </>
           )}
+          {/* Photo tips (shown below viewfinder when no photo yet) */}
+          {!hasPhotos && (
+            <View style={styles.tipsContainer}>
+              <Text style={styles.tipsTitle}>{t('camera.tipTitle')}</Text>
+              <Text style={styles.tipText}>{t('camera.tip1')}</Text>
+              <Text style={styles.tipText}>{t('camera.tip2')}</Text>
+              <Text style={styles.tipText}>{t('camera.tip3')}</Text>
+            </View>
+          )}
         </View>
       </View>
 
@@ -326,6 +335,23 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     marginTop: 4,
     opacity: 0.4,
+  },
+  tipsContainer: {
+    marginTop: 24,
+    alignItems: 'center',
+    gap: 6,
+  },
+  tipsTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    marginBottom: 4,
+    letterSpacing: 0.3,
+  },
+  tipText: {
+    fontSize: 12,
+    color: colors.textMuted,
+    textAlign: 'center',
   },
 
   // Shutter button

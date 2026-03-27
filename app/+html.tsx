@@ -64,7 +64,26 @@ export default function Root({ children }: { children: React.ReactNode }) {
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <noscript>
+          <div style={{ background: '#080C0A', color: '#E4EBE6', fontFamily: 'system-ui, sans-serif', padding: '40px 24px', maxWidth: 600, margin: '0 auto', textAlign: 'center' as const }}>
+            <h1 style={{ color: '#5CE892', fontSize: 32 }}>LeafScan</h1>
+            <p style={{ fontSize: 16, lineHeight: 1.6, color: '#8A9B90' }}>
+              KI-Diagnose fuer deine Cannabispflanze. Foto machen, Fragebogen beantworten, Diagnose mit Aktionsplan erhalten.
+            </p>
+            <ul style={{ textAlign: 'left' as const, color: '#8A9B90', lineHeight: 2 }}>
+              <li>500+ Diagnosen erstellt</li>
+              <li>40+ erkannte Probleme (Naehrstoffmangel, Schaedlinge, Krankheiten)</li>
+              <li>100+ Eintraege in der Referenzbibliothek</li>
+              <li>Kostenlose Diagnose taeglich</li>
+            </ul>
+            <p style={{ color: '#647069', fontSize: 14 }}>
+              Bitte aktiviere JavaScript um LeafScan zu nutzen.
+            </p>
+          </div>
+        </noscript>
+        {children}
+      </body>
     </html>
   );
 }
