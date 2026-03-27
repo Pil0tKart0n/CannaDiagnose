@@ -48,7 +48,7 @@ export default function AnalyzingScreen() {
 
   useEffect(() => {
     // Subtle pulse animation on the ring
-    Animated.loop(
+    const loopAnim = Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, {
           toValue: 1.08,
@@ -63,7 +63,8 @@ export default function AnalyzingScreen() {
           useNativeDriver: true,
         }),
       ]),
-    ).start();
+    );
+    loopAnim.start();
 
     // Rotate loading texts with fade
     const interval = setInterval(() => {
@@ -72,7 +73,10 @@ export default function AnalyzingScreen() {
         Animated.timing(textOpacity, { toValue: 1, duration: 300, useNativeDriver: true }).start();
       });
     }, 2800);
-    return () => clearInterval(interval);
+    return () => {
+      loopAnim.stop();
+      clearInterval(interval);
+    };
   }, [pulseAnim, textOpacity]);
 
   const runAnalysis = useCallback(async () => {
@@ -148,7 +152,7 @@ export default function AnalyzingScreen() {
               diagResult.confidence = Math.min(1, diagResult.confidence * 1.1);
             } else if (verification.confidence < 0.3 && verification.alternative) {
               // Low confidence + alternative → note it in root cause
-              diagResult.rootCauseAnalysis += `\n\nHinweis: Referenzbild-Vergleich deutet eher auf "${verification.alternative}" hin.`;
+              diagResult.rootCauseAnalysis += `\n\n${t('analyzing.referenceHint').replace('{{alternative}}', verification.alternative)}`;
               diagResult.confidence = Math.max(0.3, diagResult.confidence * 0.8);
             } else {
               // Not verified but no strong alternative — slightly reduce confidence

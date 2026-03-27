@@ -48,7 +48,7 @@ export async function initPurchases(): Promise<void> {
       return;
     }
 
-    await Purchases.configure({ apiKey });
+    await Purchases!.configure({ apiKey });
     isInitialized = true;
     if (__DEV__) console.log('[LeafScan] RevenueCat initialized');
 
@@ -112,7 +112,7 @@ export async function purchasePackage(pkg: SubscriptionPackage): Promise<{ succe
   }
 
   try {
-    const { customerInfo } = await Purchases.purchasePackage(pkg.rcPackage);
+    const { customerInfo } = await Purchases!.purchasePackage(pkg.rcPackage as Parameters<NonNullable<typeof Purchases>['purchasePackage']>[0]);
     const isPremiumActive = customerInfo?.entitlements?.active?.[ENTITLEMENT_ID] !== undefined;
 
     if (isPremiumActive) {

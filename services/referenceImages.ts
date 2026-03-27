@@ -238,7 +238,7 @@ export async function verifyDiagnosis(
     return {
       verified: !!parsed.verified,
       confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.5,
-      alternative: parsed.alternative || null,
+      alternative: (typeof parsed.alternative === 'string' ? parsed.alternative : null) as string | null,
     };
   } catch (err: unknown) {
     if (__DEV__) console.log('[LeafScan] Verify error:', (err as Error).message);

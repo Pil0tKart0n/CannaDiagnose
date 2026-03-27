@@ -55,6 +55,7 @@
   "analyzing.backToQuestionnaire": "Zurück zum Fragebogen",
   "analyzing.yourPlant": "deine Pflanze",
   "analyzing.plant": "Pflanze",
+  "analyzing.referenceHint": "Hinweis: Referenzbild-Vergleich deutet eher auf \"{{alternative}}\" hin.",
 
   "results.noDiagnosis": "Keine Diagnose vorhanden.",
   "results.back": "Zurück",

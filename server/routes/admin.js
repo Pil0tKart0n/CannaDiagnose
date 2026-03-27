@@ -87,7 +87,10 @@ router.get('/api/admin/feedback-image/:filename', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
   const filename = req.params.filename.replace(/[^a-zA-Z0-9._-]/g, '');
-  const filepath = path.join(feedbackImagesDir, filename);
+  const filepath = path.resolve(feedbackImagesDir, filename);
+  if (!filepath.startsWith(path.resolve(feedbackImagesDir))) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
   if (fs.existsSync(filepath)) {
     res.sendFile(filepath);
   } else {
@@ -102,7 +105,10 @@ router.get('/api/admin/scan-image/:filename', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
   const filename = req.params.filename.replace(/[^a-zA-Z0-9._-]/g, '');
-  const filepath = path.join(scanImagesDir, filename);
+  const filepath = path.resolve(scanImagesDir, filename);
+  if (!filepath.startsWith(path.resolve(scanImagesDir))) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
   if (fs.existsSync(filepath)) {
     res.sendFile(filepath);
   } else {
@@ -314,7 +320,8 @@ router.post('/api/admin/blacklist', express.json(), (req, res) => {
     db.prepare(`INSERT OR IGNORE INTO ip_blacklist (ip, reason) VALUES (?, ?)`).run(ip, reason || '');
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('[LeafScan] Admin error:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -580,7 +587,8 @@ router.post('/api/admin/recheck', express.json({ limit: '30mb' }), async (req, r
       images: imagePaths,
     });
   } catch (err) {
-    res.status(500).json({ error: 'Recheck failed: ' + err.message });
+    console.error('[LeafScan] Recheck failed:', err.message);
+    res.status(500).json({ error: 'Recheck failed' });
   }
 });
 
@@ -667,7 +675,7 @@ router.get('/api/admin/stats/revenue', async (req, res) => {
       mrr: 0, revenueToday: 0, revenueWeek: 0, revenueMonth: 0,
       activeSubscriptions: 0, recentCancellations: 0, churnRate: 0,
       conversion: { paywallViews: 0, purchases: 0, rate: 0 },
-      error: 'Stripe data unavailable: ' + err.message,
+      error: 'Stripe data unavailable',
     });
   }
 });

@@ -147,10 +147,15 @@ setCheckPremium(checkPremium);
 // ██  /api/scan — SERVER-SIDE PROMPT BUILDING (prompts never leave server) ██
 // ══════════════════════════════════════════════════════════════════
 
-/** Validate that images are base64 data URIs */
+/** Validate that images are base64 data URIs with allowed MIME types */
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
 function validateImages(images) {
   if (!Array.isArray(images) || images.length === 0 || images.length > 5) return false;
-  return images.every(img => typeof img === 'string' && img.startsWith('data:image/'));
+  return images.every(img => {
+    if (typeof img !== 'string' || !img.startsWith('data:image/')) return false;
+    const mimeMatch = img.match(/^data:(image\/[a-z+]+);base64,/);
+    return mimeMatch && ALLOWED_IMAGE_TYPES.includes(mimeMatch[1]);
+  });
 }
 
 /** Build OpenAI image blocks from base64 data URIs */
@@ -504,46 +509,52 @@ app.post('/api/redeem-code', rateLimit, (req, res) => {
     return res.status(404).json({ error: 'invalid_code', message: 'Ung\u00fcltiger Code.' });
   }
 
-  // Check max uses (VIP codes = 1 use globally)
-  if (promo.used >= promo.max_uses) {
-    return res.status(410).json({ error: 'code_exhausted', message: 'Dieser Code wurde bereits eingel\u00f6st.' });
-  }
+  // Atomic redemption in transaction to prevent race conditions
+  const redeemTransaction = db.transaction(() => {
+    // Re-check inside transaction for atomicity
+    const freshPromo = stmtFindPromo.get(cleanCode);
+    if (!freshPromo || freshPromo.used >= freshPromo.max_uses) {
+      return { error: true, status: 410, body: { error: 'code_exhausted', message: 'Dieser Code wurde bereits eingel\u00f6st.' } };
+    }
 
-  const isVIP = cleanCode.startsWith('VIP-');
+    const isVIP = cleanCode.startsWith('VIP-');
 
-  if (isVIP) {
-    // VIP codes: check if this specific device already has a VIP code
-    if (deviceId) {
-      const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
-      if (existingByDevice && existingByDevice.code.startsWith('VIP-')) {
-        return res.status(409).json({ error: 'already_redeemed', message: 'Auf diesem Ger\u00e4t ist bereits ein VIP-Code aktiv.' });
+    if (isVIP) {
+      if (deviceId) {
+        const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
+        if (existingByDevice && existingByDevice.code.startsWith('VIP-')) {
+          return { error: true, status: 409, body: { error: 'already_redeemed', message: 'Auf diesem Ger\u00e4t ist bereits ein VIP-Code aktiv.' } };
+        }
+      }
+    } else {
+      const existingByIp = stmtCheckRedeemedByIp.get(ip);
+      if (existingByIp) {
+        return { error: true, status: 409, body: { error: 'already_redeemed', message: 'Du hast bereits einen Code eingel\u00f6st.' } };
+      }
+      if (deviceId) {
+        const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
+        if (existingByDevice) {
+          return { error: true, status: 409, body: { error: 'already_redeemed', message: 'Auf diesem Ger\u00e4t wurde bereits ein Code eingel\u00f6st.' } };
+        }
       }
     }
-  } else {
-    // Regular promo codes: one per IP and one per device ever
-    const existingByIp = stmtCheckRedeemedByIp.get(ip);
-    if (existingByIp) {
-      return res.status(409).json({ error: 'already_redeemed', message: 'Du hast bereits einen Code eingel\u00f6st.' });
-    }
-    if (deviceId) {
-      const existingByDevice = stmtCheckRedeemedByDevice.get(deviceId);
-      if (existingByDevice) {
-        return res.status(409).json({ error: 'already_redeemed', message: 'Auf diesem Ger\u00e4t wurde bereits ein Code eingel\u00f6st.' });
-      }
-    }
+
+    stmtRedeemPromo.run(cleanCode, ip, deviceId, freshPromo.days);
+    stmtIncrementPromo.run(cleanCode);
+    const redemption = stmtActivePromo.get(ip, deviceId);
+    return { error: false, days: freshPromo.days, expires_at: redemption.expires_at };
+  });
+
+  const result = redeemTransaction();
+  if (result.error) {
+    return res.status(result.status).json(result.body);
   }
-
-  // Redeem!
-  stmtRedeemPromo.run(cleanCode, ip, deviceId, promo.days);
-  stmtIncrementPromo.run(cleanCode);
-
-  const redemption = stmtActivePromo.get(ip, deviceId);
 
   res.json({
     success: true,
-    message: `Code eingel\u00f6st! Du hast ${promo.days} Tage Premium.`,
-    days: promo.days,
-    expires_at: redemption.expires_at,
+    message: `Code eingel\u00f6st! Du hast ${result.days} Tage Premium.`,
+    days: result.days,
+    expires_at: result.expires_at,
   });
 });
 

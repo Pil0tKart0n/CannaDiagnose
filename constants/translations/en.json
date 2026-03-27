@@ -55,6 +55,7 @@
   "analyzing.backToQuestionnaire": "Back to Questionnaire",
   "analyzing.yourPlant": "your plant",
   "analyzing.plant": "Plant",
+  "analyzing.referenceHint": "Note: Reference image comparison suggests \"{{alternative}}\" instead.",
 
   "results.noDiagnosis": "No diagnosis available.",
   "results.back": "Back",
