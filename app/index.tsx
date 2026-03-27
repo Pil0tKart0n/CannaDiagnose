@@ -86,8 +86,8 @@ export default function HomeScreen() {
       }
       @media (max-width: 767px) {
         .cd-sample-grid { grid-template-columns: 1fr; }
-        .cd-sample-leaf { aspect-ratio: auto; max-width: 160px; margin: 0 auto; }
-        .cd-sample-leaf img { object-fit: contain !important; }
+        .cd-sample-leaf { aspect-ratio: 5/7; max-width: 140px; margin: 0 auto; }
+        .cd-sample-leaf img { object-fit: cover !important; }
       }
     `;
     document.head.appendChild(style);
@@ -989,22 +989,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    flexWrap: 'wrap',
     paddingVertical: 12,
-    paddingHorizontal: 8,
-    gap: 4,
+    gap: 0,
   },
   trustItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 6,
+    gap: 3,
+    paddingHorizontal: 5,
   },
   trustText: {
-    fontSize: 11.5,
+    fontSize: 10.5,
     color: colors.accentMoss,
     fontWeight: '500',
-    letterSpacing: 0.3,
+    letterSpacing: 0.2,
   },
   trustDivider: {
     width: 1,
