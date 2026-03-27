@@ -22,10 +22,10 @@ export default function ImpressumScreen() {
         <Section title="Haftung für Inhalte">
           Die Inhalte dieser App wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und
           Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.{'\n\n'}
-          Die über die App bereitgestellten Pflanzendiagnosen werden durch künstliche Intelligenz (OpenAI) erstellt und
-          stellen keine fachliche oder professionelle Beratung dar. Eine Haftung für Schäden, die durch die Nutzung oder
-          Nichtnutzung der bereitgestellten Informationen entstehen, ist ausgeschlossen, sofern kein vorsätzliches oder
-          grob fahrlässiges Verschulden vorliegt.
+          Die über die App bereitgestellten Pflanzendiagnosen werden durch künstliche Intelligenz erstellt und dienen
+          ausschließlich zu Informationszwecken. Sie stellen keine fachliche oder professionelle Beratung dar und
+          ersetzen nicht die Einschätzung eines Fachmanns. Die Nutzung der bereitgestellten Informationen erfolgt
+          auf eigene Verantwortung des Nutzers.
         </Section>
 
         <Section title="Haftung für Links">
