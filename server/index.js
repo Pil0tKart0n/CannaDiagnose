@@ -250,11 +250,11 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     const limit = getScanLimit();
     const result = stmtAtomicScan.run(ip, ip, limit);
     if (result.changes === 0) {
-      const { count } = stmtCountScans.get(ip);
+      const scanRow = stmtCountScans.get(ip) || { count: 0 };
       return res.status(403).json({
         error: 'quota_exceeded',
         message: 'Tageslimit erreicht. Upgrade auf Premium f\u00fcr unbegrenzte Scans.',
-        scansToday: count,
+        scansToday: scanRow.count,
         limit,
       });
     }
@@ -356,7 +356,7 @@ Antworte NUR mit JSON:
                 const tUsage = textureData.usage || {};
                 stmtInsertUsage.run(ip, 'texture_check', 'gpt-4o', tUsage.prompt_tokens || 0, tUsage.completion_tokens || 0, tUsage.total_tokens || 0, premiumSession ? 1 : 0, req.headers['origin'] ? 'pwa' : 'apk');
               } catch (e) {}
-              const textureContent = JSON.parse(textureData.choices[0].message.content);
+              const textureContent = JSON.parse(textureData.choices?.[0]?.message?.content || '{}');
 
               if (textureContent.hasTextureIssues) {
                 console.log('[LeafScan] Texture issues found:', textureContent.description);
@@ -393,7 +393,7 @@ Antworte NUR mit JSON:
     if (openaiRes.ok && mode === 'diagnose') {
       try {
         const parsed = JSON.parse(data);
-        const content = JSON.parse(parsed.choices[0].message.content);
+        const content = JSON.parse(parsed.choices?.[0]?.message?.content || '{}');
         const lastScan = db.prepare(`SELECT id FROM scan_log WHERE ip = ? ORDER BY id DESC LIMIT 1`).get(ip);
         const platform = req.headers['origin'] ? 'pwa' : 'apk';
 
@@ -462,7 +462,7 @@ app.post('/api/validate', (req, res) => {
 // ══════════════════════════════════════════════════
 // ██  /api/quota — CHECK SCAN QUOTA             ██
 // ══════════════════════════════════════════════════
-app.get('/api/quota', (req, res) => {
+app.get('/api/quota', rateLimit, (req, res) => {
   const ip = getClientIP(req);
   const authHeader = req.headers['authorization'];
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
@@ -479,12 +479,12 @@ app.get('/api/quota', (req, res) => {
   }
 
   const limit = getScanLimit();
-  const { count } = stmtCountScans.get(ip);
-  const allowed = count < limit;
+  const quotaRow = stmtCountScans.get(ip) || { count: 0 };
+  const allowed = quotaRow.count < limit;
   res.json({
     isPremium: false,
     plan: null,
-    scansToday: count,
+    scansToday: quotaRow.count,
     limit,
     allowed,
   });

@@ -45,14 +45,16 @@ async function imageToDataUri(uri: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = new (window as any).Image();
       img.crossOrigin = 'anonymous';
+      const timeout = setTimeout(() => reject(new Error('Image load timeout')), 10000);
       img.onload = () => {
+        clearTimeout(timeout);
         const canvas = document.createElement('canvas');
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
         canvas.getContext('2d')!.drawImage(img, 0, 0);
         resolve(canvas.toDataURL('image/jpeg', 0.85));
       };
-      img.onerror = reject;
+      img.onerror = () => { clearTimeout(timeout); reject(new Error('Image load failed')); };
       img.src = uri;
     });
   }
