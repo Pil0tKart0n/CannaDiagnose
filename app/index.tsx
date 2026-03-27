@@ -89,10 +89,6 @@ export default function HomeScreen() {
         .cd-sample-leaf { aspect-ratio: 5/7; max-width: 140px; margin: 0 auto; }
         .cd-sample-leaf img { object-fit: cover !important; }
       }
-      @media (max-width: 480px) {
-        .cd-steps-row { flex-direction: column !important; gap: 20px !important; }
-        .cd-steps-row > div:nth-child(even) { display: none; }
-      }
     `;
     document.head.appendChild(style);
     return () => {
@@ -336,110 +332,37 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* ===== SECTION 2.5: Social Proof ===== */}
-          {Platform.OS === 'web' && (
-            <div data-reveal="">
-            <View style={[styles.section, { marginTop: sectionSpacing }]}>
-              <View style={styles.sectionHeadingRow}>
-                <View style={styles.sectionAccentBar} />
-                <Text style={styles.sectionHeading}>{t('landing.socialTitle')}</Text>
-              </View>
-
-              {/* Stat counters */}
-              <View style={styles.statsRow}>
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>{t('landing.statDiagnoses')}</Text>
-                  <Text style={styles.statLabel}>{t('landing.statDiagnosesLabel')}</Text>
-                </View>
-                <View style={styles.statDivider} />
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>{t('landing.statIssues')}</Text>
-                  <Text style={styles.statLabel}>{t('landing.statIssuesLabel')}</Text>
-                </View>
-                <View style={styles.statDivider} />
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>{t('landing.statLibrary')}</Text>
-                  <Text style={styles.statLabel}>{t('landing.statLibraryLabel')}</Text>
-                </View>
-              </View>
-
-              {/* Testimonials */}
-              <View style={styles.testimonialsContainer}>
-                <View style={styles.testimonialCard}>
-                  <Text style={styles.testimonialQuote}>{`"${t('landing.testimonial1')}"`}</Text>
-                  <Text style={styles.testimonialAuthor}>{`— ${t('landing.testimonial1Author')}`}</Text>
-                </View>
-                <View style={styles.testimonialCard}>
-                  <Text style={styles.testimonialQuote}>{`"${t('landing.testimonial2')}"`}</Text>
-                  <Text style={styles.testimonialAuthor}>{`— ${t('landing.testimonial2Author')}`}</Text>
-                </View>
-                <View style={styles.testimonialCard}>
-                  <Text style={styles.testimonialQuote}>{`"${t('landing.testimonial3')}"`}</Text>
-                  <Text style={styles.testimonialAuthor}>{`— ${t('landing.testimonial3Author')}`}</Text>
-                </View>
-              </View>
-            </View>
-            </div>
-          )}
-
           {/* ===== SECTION 3: How It Works ===== */}
           <View style={[styles.section, { marginTop: sectionSpacing }]}>
             <View style={styles.sectionHeadingRow}>
               <View style={styles.sectionAccentBar} />
               <Text style={styles.sectionHeading}>{t('landing.howTitle')}</Text>
             </View>
-            {isWeb ? (
-              <div className="cd-steps-row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center' } as any}>
-                <View style={styles.stepItem}>
-                  <View style={styles.stepIconCircle}>
-                    <Ionicons name="camera-outline" size={22} color={colors.accent} />
-                  </View>
-                  <Text style={styles.stepTitle}>{t('landing.step1Title')}</Text>
-                  <Text style={styles.stepDesc}>{t('landing.step1Desc')}</Text>
+            <View style={styles.stepsContainer}>
+              <View style={styles.stepItem}>
+                <View style={styles.stepIconCircle}>
+                  <Ionicons name="camera-outline" size={22} color={colors.accent} />
                 </View>
-                <View style={styles.stepConnector} />
-                <View style={styles.stepItem}>
-                  <View style={styles.stepIconCircle}>
-                    <Ionicons name="chatbubble-outline" size={22} color={colors.accent} />
-                  </View>
-                  <Text style={styles.stepTitle}>{t('landing.step2Title')}</Text>
-                  <Text style={styles.stepDesc}>{t('landing.step2Desc')}</Text>
-                </View>
-                <View style={styles.stepConnector} />
-                <View style={styles.stepItem}>
-                  <View style={styles.stepIconCircle}>
-                    <Ionicons name="checkmark-done-outline" size={22} color={colors.accent} />
-                  </View>
-                  <Text style={styles.stepTitle}>{t('landing.step3Title')}</Text>
-                  <Text style={styles.stepDesc}>{t('landing.step3Desc')}</Text>
-                </View>
-              </div>
-            ) : (
-              <View style={styles.stepsContainer}>
-                <View style={styles.stepItem}>
-                  <View style={styles.stepIconCircle}>
-                    <Ionicons name="camera-outline" size={22} color={colors.accent} />
-                  </View>
-                  <Text style={styles.stepTitle}>{t('landing.step1Title')}</Text>
-                  <Text style={styles.stepDesc}>{t('landing.step1Desc')}</Text>
-                </View>
-                <View style={styles.stepConnector} />
-                <View style={styles.stepItem}>
-                  <View style={styles.stepIconCircle}>
-                    <Ionicons name="chatbubble-outline" size={22} color={colors.accent} />
-                  </View>
-                  <Text style={styles.stepTitle}>{t('landing.step2Title')}</Text>
-                  <Text style={styles.stepDesc}>{t('landing.step2Desc')}</Text>
-                </View>
-                <View style={styles.stepConnector} />
-                <View style={styles.stepItem}>
-                  <View style={styles.stepIconCircle}>
-                    <Ionicons name="checkmark-done-outline" size={22} color={colors.accent} />
-                  </View>
-                  <Text style={styles.stepTitle}>{t('landing.step3Title')}</Text>
-                  <Text style={styles.stepDesc}>{t('landing.step3Desc')}</Text>
-                </View>
+                <Text style={styles.stepTitle}>{t('landing.step1Title')}</Text>
+                <Text style={styles.stepDesc}>{t('landing.step1Desc')}</Text>
               </View>
+              <View style={styles.stepConnector} />
+              <View style={styles.stepItem}>
+                <View style={styles.stepIconCircle}>
+                  <Ionicons name="chatbubble-outline" size={22} color={colors.accent} />
+                </View>
+                <Text style={styles.stepTitle}>{t('landing.step2Title')}</Text>
+                <Text style={styles.stepDesc}>{t('landing.step2Desc')}</Text>
+              </View>
+              <View style={styles.stepConnector} />
+              <View style={styles.stepItem}>
+                <View style={styles.stepIconCircle}>
+                  <Ionicons name="checkmark-done-outline" size={22} color={colors.accent} />
+                </View>
+                <Text style={styles.stepTitle}>{t('landing.step3Title')}</Text>
+                <Text style={styles.stepDesc}>{t('landing.step3Desc')}</Text>
+              </View>
+            </View>
             )}
           </View>
 
@@ -723,6 +646,52 @@ export default function HomeScreen() {
                   </View>
                   <Text style={styles.benefitTitle}>{t('landing.benefit3Title')}</Text>
                   <Text style={styles.benefitDesc}>{t('landing.benefit3Desc')}</Text>
+                </View>
+              </View>
+            </View>
+            </div>
+          )}
+
+          {/* ===== SECTION 5.5: Social Proof (after Benefits) ===== */}
+          {Platform.OS === 'web' && (
+            <div data-reveal="">
+            <View style={[styles.section, { marginTop: sectionSpacing }]}>
+              <View style={styles.sectionHeadingRow}>
+                <View style={styles.sectionAccentBar} />
+                <Text style={styles.sectionHeading}>{t('landing.socialTitle')}</Text>
+              </View>
+
+              {/* Stat counters */}
+              <View style={styles.statsRow}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{t('landing.statDiagnoses')}</Text>
+                  <Text style={styles.statLabel}>{t('landing.statDiagnosesLabel')}</Text>
+                </View>
+                <View style={styles.statDivider} />
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{t('landing.statIssues')}</Text>
+                  <Text style={styles.statLabel}>{t('landing.statIssuesLabel')}</Text>
+                </View>
+                <View style={styles.statDivider} />
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{t('landing.statLibrary')}</Text>
+                  <Text style={styles.statLabel}>{t('landing.statLibraryLabel')}</Text>
+                </View>
+              </View>
+
+              {/* Testimonials */}
+              <View style={styles.testimonialsContainer}>
+                <View style={styles.testimonialCard}>
+                  <Text style={styles.testimonialQuote}>{`"${t('landing.testimonial1')}"`}</Text>
+                  <Text style={styles.testimonialAuthor}>{`— ${t('landing.testimonial1Author')}`}</Text>
+                </View>
+                <View style={styles.testimonialCard}>
+                  <Text style={styles.testimonialQuote}>{`"${t('landing.testimonial2')}"`}</Text>
+                  <Text style={styles.testimonialAuthor}>{`— ${t('landing.testimonial2Author')}`}</Text>
+                </View>
+                <View style={styles.testimonialCard}>
+                  <Text style={styles.testimonialQuote}>{`"${t('landing.testimonial3')}"`}</Text>
+                  <Text style={styles.testimonialAuthor}>{`— ${t('landing.testimonial3Author')}`}</Text>
                 </View>
               </View>
             </View>
