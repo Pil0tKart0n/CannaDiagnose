@@ -267,7 +267,8 @@ export default function PaywallScreen() {
     ? packages.map((p) => ({ title: p.title, priceString: p.priceString }))
     : stripePlans.map((p) => ({ title: p.name, priceString: p.price }));
 
-  const selectedPlan = displayPlans[selectedIdx];
+  const safeIdx = displayPlans.length > 0 ? Math.min(selectedIdx, displayPlans.length - 1) : 0;
+  const selectedPlan = displayPlans[safeIdx];
   const features = selectedIdx === 0 ? growerFeatures : proFeatures;
 
   if (paymentSuccess) {

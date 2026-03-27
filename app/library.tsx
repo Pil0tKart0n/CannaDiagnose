@@ -53,9 +53,10 @@ export default function LibraryScreen() {
     if (params.highlight && flatListRef.current) {
       const index = libraryEntries.findIndex((e) => e.id === params.highlight);
       if (index >= 0) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           flatListRef.current?.scrollToIndex({ index, animated: true, viewOffset: 20 });
         }, 300);
+        return () => clearTimeout(timer);
       }
     }
   }, [params.highlight]);

@@ -219,8 +219,8 @@ export default function ResultsScreen() {
     }
   };
 
-  const isLivingSoil = questionnaire.substrateType === 'Living Soil';
-  const isOrganic = questionnaire.fertilizerCategory === 'organic' || questionnaire.fertilizerCategory === 'hybrid';
+  const isLivingSoil = questionnaire?.substrateType === 'Living Soil';
+  const isOrganic = questionnaire?.fertilizerCategory === 'organic' || questionnaire?.fertilizerCategory === 'hybrid';
 
   const handleRefine = async () => {
     const hasData = isLivingSoil || isOrganic ? phInput || soilTempInput : phInput || ecInput;
