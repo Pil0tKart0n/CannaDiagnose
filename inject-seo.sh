@@ -41,7 +41,7 @@ cat > /tmp/seo-head.html << 'SEOEOF'
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebApplication","name":"LeafScan","url":"https://leafscan.de","description":"Pflanzendiagnose fuer Cannabis. Foto hochladen und in Sekunden erfahren was deiner Pflanze fehlt.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"creator":{"@type":"Organization","name":"LeafScan","url":"https://leafscan.de"},"featureList":["KI-Blattanalyse per Foto","Naehrstoffmangel-Erkennung","Schaedlings-Erkennung","Schimmel-Erkennung","Behandlungsempfehlungen"],"inLanguage":"de"}
+    {"@context":"https://schema.org","@type":"WebApplication","name":"LeafScan","url":"https://leafscan.de","description":"KI-Diagnose fuer Cannabis. Foto machen, Naehrstoffmangel erkennen, Aktionsplan erhalten. 500+ Diagnosen erstellt, 100+ Referenzen.","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"creator":{"@type":"Organization","name":"LeafScan","url":"https://leafscan.de"},"featureList":["KI-Blattanalyse per Foto","Naehrstoffmangel-Erkennung","Schaedlings-Erkennung","Schimmel- und Pilz-Erkennung","Behandlungsempfehlungen mit Aktionsplan","pH/EC-basierte Diagnose-Verfeinerung","100+ Referenzbibliothek-Eintraege"],"inLanguage":"de"}
     </script>
 SEOEOF
 
@@ -59,8 +59,8 @@ awk '
 
 cp /tmp/index-seo.html "$FILE"
 
-# Fix noscript text
-sed -i 's/You need to enable JavaScript to run this app./Du brauchst JavaScript um LeafScan zu nutzen. Bitte aktiviere JavaScript in deinem Browser./' "$FILE"
+# Replace noscript with SEO-rich marketing content
+sed -i 's|<noscript>You need to enable JavaScript to run this app.</noscript>|<noscript><div style="background:#080C0A;color:#E4EBE6;font-family:system-ui,sans-serif;padding:40px 24px;max-width:600px;margin:0 auto;text-align:center"><h1 style="color:#5CE892;font-size:32px">LeafScan</h1><p style="font-size:16px;line-height:1.6;color:#8A9B90">KI-Diagnose fuer deine Cannabispflanze. Foto machen, Fragebogen beantworten, Diagnose mit Aktionsplan erhalten.</p><ul style="text-align:left;color:#8A9B90;line-height:2"><li>500+ Diagnosen erstellt</li><li>40+ erkannte Probleme (Naehrstoffmangel, Schaedlinge, Krankheiten)</li><li>100+ Eintraege in der Referenzbibliothek</li><li>Kostenlose Diagnose taeglich</li></ul><p style="color:#647069;font-size:14px">Bitte aktiviere JavaScript um LeafScan zu nutzen.</p></div></noscript>|' "$FILE"
 
 # Fix viewport to prevent auto-zoom on input focus (PWA scaling bug)
 sed -i 's/width=device-width, initial-scale=1, shrink-to-fit=no/width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no/' "$FILE"

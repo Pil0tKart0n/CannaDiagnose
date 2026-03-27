@@ -911,15 +911,6 @@ const styles = StyleSheet.create({
     paddingTop: isWeb ? 80 : 32,
     paddingBottom: 16,
   },
-  heroHeadline: {
-    fontSize: 26,
-    fontWeight: '600',
-    color: colors.textHero,
-    textAlign: 'center',
-    letterSpacing: 0.3,
-    lineHeight: 32,
-    marginBottom: 32,
-  },
   logoGlow: {
     position: 'absolute',
     width: 300,

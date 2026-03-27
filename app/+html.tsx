@@ -12,19 +12,19 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="LeafScan" />
-        <meta name="description" content="Pflanzendiagnose – Foto machen, Diagnose erhalten, Pflanze retten." />
+        <meta name="description" content="LeafScan – KI-Diagnose fuer Cannabis. Foto machen, Naehrstoffmangel erkennen, Aktionsplan erhalten. 100+ Referenzen, kostenlos testen." />
         {/* Open Graph */}
-        <meta property="og:title" content="LeafScan – Pflanzendiagnose" />
+        <meta property="og:title" content="LeafScan – KI-Diagnose fuer Cannabis" />
         <meta
           property="og:description"
-          content="Foto machen, Diagnose erhalten, Pflanze retten. Pflanzenanalyse in Sekunden."
+          content="Deine Cannabispflanze zeigt Symptome? Foto machen, KI-Diagnose erhalten, Pflanze retten. 500+ Diagnosen erstellt."
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/assets/icon.png" />
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="LeafScan – Pflanzendiagnose" />
-        <meta name="twitter:description" content="Foto machen, Diagnose erhalten, Pflanze retten." />
+        <meta name="twitter:title" content="LeafScan – KI-Diagnose fuer Cannabis" />
+        <meta name="twitter:description" content="Deine Cannabispflanze zeigt Symptome? Foto machen, KI-Diagnose erhalten, Pflanze retten." />
         <link rel="apple-touch-icon" href="/assets/icon.png" />
         <ScrollViewStyleReset />
         {/* Service worker registration — deferred until cookie consent */}
