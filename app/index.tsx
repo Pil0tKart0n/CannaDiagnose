@@ -363,7 +363,6 @@ export default function HomeScreen() {
                 <Text style={styles.stepDesc}>{t('landing.step3Desc')}</Text>
               </View>
             </View>
-            )}
           </View>
 
           {/* ===== SECTION 4: Sample Result Preview (web only) ===== */}
