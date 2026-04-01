@@ -22,30 +22,8 @@ if (!ADMIN_KEY) {
   console.error('[LeafScan] FATAL: ADMIN_KEY environment variable is required');
   process.exit(1);
 }
-const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASS = process.env.ADMIN_PASS || ADMIN_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const dbPath = path.join(__dirname, '..', 'data', 'leafscan.db');
-
-// ── Admin session tokens (in-memory, survive until restart) ──
-const adminSessions = new Map();
-
-function createAdminSession() {
-  const token = crypto.randomBytes(32).toString('hex');
-  adminSessions.set(token, { createdAt: Date.now() });
-  // Expire after 24h
-  setTimeout(() => adminSessions.delete(token), 24 * 60 * 60 * 1000);
-  return token;
-}
-
-function getAdminToken(req) {
-  // Check cookie
-  const cookies = req.headers.cookie || '';
-  const match = cookies.match(/leafscan_admin=([a-f0-9]{64})/);
-  if (match && adminSessions.has(match[1])) return match[1];
-  // Fallback: header or query key (backward compatible)
-  return req.headers['x-leafscan-key'] || req.query.key || null;
-}
 
 // ── Prepared statements used only in admin routes ──
 const stmtDetailedFeedbackAll = db.prepare(`SELECT * FROM feedback_detailed ORDER BY created_at DESC LIMIT ?`);
@@ -53,68 +31,13 @@ const stmtDetailedFeedbackNegative = db.prepare(`SELECT * FROM feedback_detailed
 
 /** Admin auth middleware (guard function) */
 function adminAuth(req, res) {
-  const token = getAdminToken(req);
-  if (token === ADMIN_KEY || adminSessions.has(token)) return true;
-  res.status(403).json({ error: 'Unauthorized' });
-  return false;
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    res.status(403).json({ error: 'Unauthorized' });
+    return false;
+  }
+  return true;
 }
-
-// ── Admin Login Page ──
-router.get('/api/admin/login', (req, res) => {
-  // Check if already logged in
-  const token = getAdminToken(req);
-  if (token === ADMIN_KEY || adminSessions.has(token)) {
-    return res.redirect('/api/admin/board');
-  }
-  res.send(ADMIN_LOGIN_HTML);
-});
-
-router.post('/api/admin/login', express.json(), express.urlencoded({ extended: false }), (req, res) => {
-  const { username, password } = req.body || {};
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
-    const token = createAdminSession();
-    res.setHeader('Set-Cookie', `leafscan_admin=${token}; Path=/api/admin; HttpOnly; SameSite=Strict; Max-Age=86400${req.secure ? '; Secure' : ''}`);
-    return res.redirect('/api/admin/board');
-  }
-  res.status(401).send(ADMIN_LOGIN_HTML.replace('<!--ERROR-->', '<div style="background:rgba(232,107,107,0.15);border:1px solid rgba(232,107,107,0.3);border-radius:10px;padding:12px;color:#E86B6B;margin-bottom:16px;font-size:14px;text-align:center">Falscher Benutzername oder Passwort</div>'));
-});
-
-router.get('/api/admin/logout', (req, res) => {
-  const cookies = req.headers.cookie || '';
-  const match = cookies.match(/leafscan_admin=([a-f0-9]{64})/);
-  if (match) adminSessions.delete(match[1]);
-  res.setHeader('Set-Cookie', 'leafscan_admin=; Path=/api/admin; HttpOnly; Max-Age=0');
-  res.redirect('/api/admin/login');
-});
-
-const ADMIN_LOGIN_HTML = `<!DOCTYPE html>
-<html lang="de"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>LeafScan Admin</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#080C0A;color:#E4EBE6;font-family:system-ui,-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.card{background:#0E1512;border:1px solid #1A2620;border-radius:20px;padding:40px;width:100%;max-width:380px;margin:20px}
-.logo{text-align:center;margin-bottom:28px}
-.logo span{font-size:28px;font-weight:700;color:#5CE892}
-.logo small{display:block;color:#647069;font-size:13px;margin-top:4px}
-label{display:block;font-size:13px;color:#8A9B90;margin-bottom:6px;margin-top:16px}
-input{width:100%;background:#121A16;border:1px solid #1A2620;border-radius:10px;padding:12px 14px;font-size:15px;color:#E4EBE6;outline:none;transition:border-color .15s}
-input:focus{border-color:#5CE892}
-button{width:100%;background:#5CE892;color:#071209;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-top:24px;transition:opacity .15s}
-button:hover{opacity:0.9}
-</style></head><body>
-<div class="card">
-<div class="logo"><span>LeafScan</span><small>Admin Dashboard</small></div>
-<!--ERROR-->
-<form method="POST" action="/api/admin/login">
-<label>Benutzername</label>
-<input name="username" type="text" autocomplete="username" required autofocus>
-<label>Passwort</label>
-<input name="password" type="password" autocomplete="current-password" required>
-<button type="submit">Einloggen</button>
-</form></div></body></html>`;
 
 // ── Feedback overview ──
 router.get('/api/admin/feedback', (req, res) => {
@@ -453,9 +376,9 @@ router.get('/api/admin/stats/disk', (req, res) => {
 
 // ── Serve admin dashboard ──
 router.get('/api/admin/board', (req, res) => {
-  const token = getAdminToken(req);
-  if (token !== ADMIN_KEY && !adminSessions.has(token)) {
-    return res.redirect('/api/admin/login');
+  const key = req.headers['x-leafscan-key'] || req.query.key;
+  if (key !== ADMIN_KEY) {
+    return res.status(403).send('Unauthorized');
   }
   res.sendFile(path.join(__dirname, '..', 'admin.html'));
 });
