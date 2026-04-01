@@ -298,15 +298,15 @@ export default function AnalyzingScreen() {
         </Text>
 
         {isQuotaExceeded && (
-          <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.85} style={styles.retryBtnWrap}>
+          <TouchableOpacity onPress={() => router.replace('/')} activeOpacity={0.85} style={styles.retryBtnWrap}>
             <LinearGradient
-              colors={['#FCD34D', '#FBBF24', '#F59E0B']}
+              colors={['#5CE892', '#44C878', '#3BA86A']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.retryBtn}
             >
-              <Ionicons name="diamond-outline" size={18} color="#000" />
-              <Text style={[styles.retryBtnText, { color: '#000' }]}>{t('analyzing.unlockPremium')}</Text>
+              <Ionicons name="home-outline" size={18} color="#000" />
+              <Text style={[styles.retryBtnText, { color: '#000' }]}>{t('analyzing.backHome')}</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}

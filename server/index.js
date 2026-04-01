@@ -14,6 +14,10 @@ const {
   stmtFindPromo, stmtIncrementPromo, stmtCheckRedeemedByIp,
   stmtCheckRedeemedByDevice, stmtRedeemPromo, stmtActivePromo,
   stmtInsertScanResult, stmtInsertUsage, stmtInsertEvent, stmtCheckBlacklist,
+  stmtAtomicScanUser, stmtCountScansUser,
+  stmtAtomicScanAnon48h, stmtCountScansAnon48h,
+  stmtInsertDiary, stmtGetDiary, stmtGetDiaryEntry,
+  stmtUpdateDiary, stmtDeleteDiary, stmtGetDiaryPlants,
 } = require('./db');
 
 // Server-side prompts (never sent to client)
@@ -23,6 +27,8 @@ const { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT,
 // Route modules
 const { router: adminRouter, setIpRequestCounts, setStripe: setAdminStripe } = require('./routes/admin');
 const { router: stripeRouter, stripe, ensureProducts, getGrowerPriceId, setRateLimit, setCheckPremium } = require('./routes/stripe');
+const { router: authRouter, setRateLimit: setAuthRateLimit, findUserByToken: findUserByTokenAuth } = require('./routes/auth');
+const { findUserByToken } = require('./users');
 
 const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Bl\u00fcte, St\u00e4ngel, S\u00e4mling)? Das Foto kann unter farbigem Growlicht (rosa/lila/gelb) aufgenommen sein \u2014 ignoriere ungew\u00f6hnliche Farben komplett.
 Im Zweifel antworte mit true. Antworte NUR mit false wenn du dir SICHER bist, dass KEINE Pflanze auf dem Foto ist (z.B. Essen, Tiere, Gegenst\u00e4nde, Selfies, Text).
@@ -49,7 +55,7 @@ const PORT = 4000;
 const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
-const FREE_SCANS_PER_DAY = 1;
+const FREE_SCANS_PER_DAY = 5;
 
 // ── Database is initialized in ./db.js ──
 
@@ -240,27 +246,37 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     maxTokens = 300;
   }
 
-  // Check for premium session token
+  // Auth-aware scan quota: logged-in users get 5/day, anonymous get 1/48h
   const authHeader = req.headers['authorization'];
-  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const premiumSession = checkPremium(token, req);
+  const authToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const authUser = findUserByToken(authToken);
 
-  // If not premium, atomically reserve a free scan slot
-  if (!premiumSession) {
+  if (authUser) {
+    // Logged-in user: 5 scans per day, tracked by user_id
     const limit = getScanLimit();
-    const result = stmtAtomicScan.run(ip, ip, limit);
+    const result = stmtAtomicScanUser.run(ip, authUser.id, authUser.id, limit);
     if (result.changes === 0) {
-      const scanRow = stmtCountScans.get(ip) || { count: 0 };
+      const scanRow = stmtCountScansUser.get(authUser.id) || { count: 0 };
       return res.status(403).json({
         error: 'quota_exceeded',
-        message: 'Tageslimit erreicht. Upgrade auf Premium f\u00fcr unbegrenzte Scans.',
+        message: 'Tageslimit erreicht. Morgen kannst du wieder scannen.',
         scansToday: scanRow.count,
         limit,
       });
     }
   } else {
-    // Premium users also get a scan_log entry (for dashboard tracking)
-    stmtInsertScan.run(ip);
+    // Anonymous user: 1 scan per 48 hours, tracked by IP
+    const result = stmtAtomicScanAnon48h.run(ip, ip);
+    if (result.changes === 0) {
+      const scanRow = stmtCountScansAnon48h.get(ip) || { count: 0 };
+      return res.status(403).json({
+        error: 'quota_exceeded',
+        message: 'Ohne Account kannst du nur 1 Scan alle 48 Stunden machen. Registriere dich kostenlos für 5 Scans pro Tag!',
+        scansToday: scanRow.count,
+        limit: 1,
+        requiresAuth: true,
+      });
+    }
   }
 
   // Forward to OpenAI
@@ -295,14 +311,14 @@ app.post('/api/scan', rateLimit, async (req, res) => {
           usage.prompt_tokens || 0,
           usage.completion_tokens || 0,
           usage.total_tokens || 0,
-          premiumSession ? 1 : 0,
+          0, // DISABLED: premium tracking (payments deactivated)
           platform
         );
       } catch (e) { console.error('[LeafScan] Token usage insert failed:', e.message); }
     }
 
     // Refund scan if OpenAI returned an error
-    if (!premiumSession && !openaiRes.ok) {
+    if (!openaiRes.ok) {
       try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
     }
 
@@ -354,7 +370,7 @@ Antworte NUR mit JSON:
               // Track texture check usage
               try {
                 const tUsage = textureData.usage || {};
-                stmtInsertUsage.run(ip, 'texture_check', 'gpt-4o', tUsage.prompt_tokens || 0, tUsage.completion_tokens || 0, tUsage.total_tokens || 0, premiumSession ? 1 : 0, req.headers['origin'] ? 'pwa' : 'apk');
+                stmtInsertUsage.run(ip, 'texture_check', 'gpt-4o', tUsage.prompt_tokens || 0, tUsage.completion_tokens || 0, tUsage.total_tokens || 0, 0, req.headers['origin'] ? 'pwa' : 'apk');
               } catch (e) {}
               const textureContent = JSON.parse(textureData.choices?.[0]?.message?.content || '{}');
 
@@ -426,7 +442,7 @@ Antworte NUR mit JSON:
           content.severity || null,
           typeof content.confidence === 'number' ? content.confidence : null,
           ((req.body.questionnaire && req.body.questionnaire.substrate) || '').substring(0, 50),
-          premiumSession ? 1 : 0,
+          0, // DISABLED: premium tracking (payments deactivated)
           platform,
           JSON.stringify(content).substring(0, 10000),
           savedImagePaths.length > 0 ? JSON.stringify(savedImagePaths) : null
@@ -440,9 +456,7 @@ Antworte NUR mit JSON:
       .set('Content-Type', openaiRes.headers.get('content-type') || 'application/json')
       .send(data);
   } catch (err) {
-    if (!premiumSession) {
-      try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
-    }
+    try { stmtRefundScan.run(ip); } catch (e) { console.error('[LeafScan] Scan refund failed:', e.message); }
     console.error('[LeafScan] OpenAI proxy error:', err.message);
     res.status(502).json({ error: 'upstream_error', message: 'KI-Service nicht erreichbar.' });
   }
@@ -465,28 +479,32 @@ app.post('/api/validate', (req, res) => {
 app.get('/api/quota', rateLimit, (req, res) => {
   const ip = getClientIP(req);
   const authHeader = req.headers['authorization'];
-  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  const premiumSession = checkPremium(token, req);
+  const authToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const authUser = findUserByToken(authToken);
 
-  if (premiumSession) {
+  if (authUser) {
+    // Logged-in user: 5 scans per day
+    const limit = getScanLimit();
+    const scanRow = stmtCountScansUser.get(authUser.id) || { count: 0 };
+    const allowed = scanRow.count < limit;
     return res.json({
-      isPremium: true,
-      plan: premiumSession.plan,
-      scansToday: 0,
-      limit: 999999,
-      allowed: true,
+      isLoggedIn: true,
+      userName: authUser.name,
+      scansToday: scanRow.count,
+      limit,
+      allowed,
     });
   }
 
-  const limit = getScanLimit();
-  const quotaRow = stmtCountScans.get(ip) || { count: 0 };
-  const allowed = quotaRow.count < limit;
+  // Anonymous user: 1 scan per 48 hours
+  const scanRow = stmtCountScansAnon48h.get(ip) || { count: 0 };
+  const allowed = scanRow.count < 1;
   res.json({
-    isPremium: false,
-    plan: null,
-    scansToday: quotaRow.count,
-    limit,
+    isLoggedIn: false,
+    scansToday: scanRow.count,
+    limit: 1,
     allowed,
+    cooldownHours: 48,
   });
 });
 
@@ -558,57 +576,13 @@ app.post('/api/redeem-code', rateLimit, (req, res) => {
   });
 });
 
+// DISABLED: Stripe payments temporarily deactivated
 // ══════════════════════════════════════════════════
 // ██  /api/verify-session — VERIFY STRIPE PAYMENT ██
 // ══════════════════════════════════════════════════
-app.get('/api/verify-session', rateLimit, async (req, res) => {
-  const { session_id } = req.query;
-  if (!session_id || typeof session_id !== 'string' || session_id.length > 200) {
-    return res.status(400).json({ error: 'session_id required' });
-  }
-
-  try {
-    const session = await stripe.checkout.sessions.retrieve(session_id);
-
-    if (session.payment_status !== 'paid') {
-      return res.status(402).json({ error: 'not_paid', message: 'Zahlung nicht abgeschlossen.' });
-    }
-
-    // Determine plan from the price
-    const lineItems = await stripe.checkout.sessions.listLineItems(session_id);
-    let plan = 'pro'; // default
-    if (lineItems.data.length > 0) {
-      const priceId = lineItems.data[0].price?.id;
-      if (priceId === getGrowerPriceId()) plan = 'grower';
-    }
-
-    // Atomic check-then-insert in a transaction to prevent race conditions (double-click etc.)
-    const upsertSession = db.transaction((customerId, subscriptionId, plan) => {
-      const existing = stmtFindByCustomer.get(customerId);
-      if (existing) {
-        const createdAt = new Date(existing.created_at + 'Z');
-        const ageMs = Date.now() - createdAt.getTime();
-        if (ageMs < SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
-          return { token: existing.session_token, plan: existing.plan, isNew: false };
-        }
-        // Expired — deactivate old session
-        stmtDeactivateByCustomer.run(customerId);
-      }
-      const sessionToken = crypto.randomBytes(32).toString('hex');
-      stmtCreateSession.run(sessionToken, customerId, subscriptionId, plan);
-      return { token: sessionToken, plan, isNew: true };
-    });
-
-    const result = upsertSession(session.customer, session.subscription, plan);
-    if (result.isNew) {
-      console.log('[LeafScan] Premium activated:', { customer: session.customer, plan: result.plan });
-    }
-    res.json({ token: result.token, plan: result.plan });
-  } catch (err) {
-    console.error('[LeafScan] verify-session error:', err.message);
-    res.status(500).json({ error: 'verification_failed' });
-  }
-});
+// app.get('/api/verify-session', rateLimit, async (req, res) => {
+//   ... Stripe verification logic preserved for future reactivation
+// });
 
 // ── Feedback (enhanced: saves full diagnosis + images for negative feedback) ──
 app.post('/api/feedback', rateLimit, express.json({ limit: '30mb' }), (req, res) => {
@@ -697,7 +671,90 @@ app.get('/api/announcement', (req, res) => {
 // ██  ROUTE MODULES                                              ██
 // ══════════════════════════════════════════════════════════════════
 app.use(adminRouter);
-app.use(stripeRouter);
+app.use(authRouter);
+setAuthRateLimit(rateLimit);
+// DISABLED: Stripe payments temporarily deactivated
+// app.use(stripeRouter);
+
+// ══════════════════════════════════════════════════════════════════
+// ██  DIARY ENDPOINTS (authenticated users only)                  ██
+// ══════════════════════════════════════════════════════════════════
+
+function requireAuth(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const user = findUserByToken(token);
+  if (!user) {
+    return res.status(401).json({ error: 'unauthorized', message: 'Bitte melde dich an.' });
+  }
+  req.user = user;
+  next();
+}
+
+// GET /api/diary — all entries for the logged-in user
+app.get('/api/diary', rateLimit, requireAuth, (req, res) => {
+  const entries = stmtGetDiary.all(req.user.id);
+  const plants = stmtGetDiaryPlants.all(req.user.id).map(r => r.plant_name);
+  res.json({ entries, plants });
+});
+
+// POST /api/diary — create a new diary entry
+app.post('/api/diary', rateLimit, requireAuth, express.json(), (req, res) => {
+  const { plantName, title, note, growPhase, heightCm, phValue, ecValue, temperature, humidity, watered, nutrientsGiven } = req.body || {};
+  if (!plantName || typeof plantName !== 'string' || plantName.trim().length < 1) {
+    return res.status(400).json({ error: 'invalid_plant', message: 'Pflanzenname erforderlich.' });
+  }
+  if (plantName.length > 100 || (title && title.length > 200) || (note && note.length > 5000)) {
+    return res.status(400).json({ error: 'too_long', message: 'Eingabe zu lang.' });
+  }
+  try {
+    const result = stmtInsertDiary.run(
+      req.user.id, plantName.trim(), (title || '').trim(), (note || '').trim(),
+      growPhase || null, heightCm || null, phValue || null, ecValue || null,
+      temperature || null, humidity || null, watered ? 1 : 0, nutrientsGiven ? 1 : 0
+    );
+    const entry = stmtGetDiaryEntry.get(result.lastInsertRowid, req.user.id);
+    res.status(201).json(entry);
+  } catch (err) {
+    console.error('[LeafScan] Diary insert error:', err.message);
+    res.status(500).json({ error: 'Failed to create diary entry' });
+  }
+});
+
+// PUT /api/diary/:id — update an entry
+app.put('/api/diary/:id', rateLimit, requireAuth, express.json(), (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) return res.status(400).json({ error: 'invalid_id' });
+  const existing = stmtGetDiaryEntry.get(id, req.user.id);
+  if (!existing) return res.status(404).json({ error: 'not_found' });
+
+  const { plantName, title, note, growPhase, heightCm, phValue, ecValue, temperature, humidity, watered, nutrientsGiven } = req.body || {};
+  stmtUpdateDiary.run(
+    (plantName || existing.plant_name).trim(),
+    (title !== undefined ? title : existing.title).trim(),
+    (note !== undefined ? note : existing.note).trim(),
+    growPhase !== undefined ? growPhase : existing.grow_phase,
+    heightCm !== undefined ? heightCm : existing.height_cm,
+    phValue !== undefined ? phValue : existing.ph_value,
+    ecValue !== undefined ? ecValue : existing.ec_value,
+    temperature !== undefined ? temperature : existing.temperature,
+    humidity !== undefined ? humidity : existing.humidity,
+    watered !== undefined ? (watered ? 1 : 0) : existing.watered,
+    nutrientsGiven !== undefined ? (nutrientsGiven ? 1 : 0) : existing.nutrients_given,
+    id, req.user.id
+  );
+  const updated = stmtGetDiaryEntry.get(id, req.user.id);
+  res.json(updated);
+});
+
+// DELETE /api/diary/:id — delete an entry
+app.delete('/api/diary/:id', rateLimit, requireAuth, (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) return res.status(400).json({ error: 'invalid_id' });
+  const result = stmtDeleteDiary.run(id, req.user.id);
+  if (result.changes === 0) return res.status(404).json({ error: 'not_found' });
+  res.json({ ok: true });
+});
 
 // ── Health check ──
 app.get('/api/health', (req, res) => {

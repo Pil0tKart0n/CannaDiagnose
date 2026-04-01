@@ -159,35 +159,9 @@ export default function RootLayout() {
       .then(() => SplashScreen.hideAsync())
       .catch(() => SplashScreen.hideAsync());
 
-    // Deep-link handler for Stripe payment success (leafscan://payment-success?session_id=...)
-    if (Platform.OS !== 'web') {
-      const SERVER_URL = process.env.EXPO_PUBLIC_API_PROXY_URL || 'https://leafscan.de';
-      const handleDeepLink = (event: { url: string }) => {
-        const url = event.url;
-        if (url.startsWith('leafscan://payment-success')) {
-          const sessionId = url.split('session_id=')[1]?.split('&')[0];
-          if (sessionId) {
-            fetch(`${SERVER_URL}/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
-              .then((r) => (r.ok ? r.json() : Promise.reject()))
-              .then((data) => {
-                if (data.token) {
-                  setSessionToken(data.token);
-                  setPremium(true);
-                  Alert.alert(t('paywall.premiumActivated'), t('paywall.welcomeMsg'));
-                }
-              })
-              .catch(() => {});
-          }
-        }
-      };
-      // Handle deep-link if app was opened from it
-      Linking.getInitialURL().then((url) => {
-        if (url) handleDeepLink({ url });
-      });
-      // Handle deep-link while app is running
-      const sub = Linking.addEventListener('url', handleDeepLink);
-      // Cleanup on unmount
-      const cleanupDeepLink = () => sub.remove();
+    // DISABLED: Stripe deep-link handler (payments temporarily deactivated)
+    if (false && Platform.OS !== 'web') {
+      const cleanupDeepLink = () => {};
       // Store cleanup — we'll call it via return
       (globalThis as any).__deepLinkCleanup = cleanupDeepLink;
     }
@@ -340,6 +314,9 @@ export default function RootLayout() {
             name="paywall"
             options={{ title: t('nav.premium'), presentation: 'modal', headerShown: false }}
           />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen name="register" options={{ headerShown: false }} />
+          <Stack.Screen name="diary" options={{ title: t('nav.diary') }} />
           <Stack.Screen name="impressum" options={{ title: t('nav.impressum') }} />
           <Stack.Screen name="terms" options={{ title: t('nav.terms') }} />
         </Stack>

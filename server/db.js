@@ -177,6 +177,39 @@ try {
   db.exec(`ALTER TABLE scan_results ADD COLUMN image_paths TEXT`);
 } catch (e) {}
 
+// ── Migration: user_id on scan_log for per-user quota tracking ──
+try {
+  db.exec(`ALTER TABLE scan_log ADD COLUMN user_id TEXT DEFAULT NULL`);
+} catch (e) {}
+try {
+  db.exec(`CREATE INDEX IF NOT EXISTS idx_scan_user ON scan_log(user_id, scanned_at)`);
+} catch (e) {}
+
+// ── Migration: diary_entries table ──
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS diary_entries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT NOT NULL,
+      plant_name TEXT NOT NULL,
+      title TEXT NOT NULL DEFAULT '',
+      note TEXT NOT NULL DEFAULT '',
+      grow_phase TEXT,
+      height_cm REAL,
+      ph_value REAL,
+      ec_value REAL,
+      temperature REAL,
+      humidity REAL,
+      watered INTEGER DEFAULT 0,
+      nutrients_given INTEGER DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_diary_user ON diary_entries(user_id);
+    CREATE INDEX IF NOT EXISTS idx_diary_user_date ON diary_entries(user_id, created_at);
+  `);
+} catch (e) {}
+
 // ── Data directories ──
 const feedbackImagesDir = path.join(__dirname, 'data', 'feedback_images');
 fs.mkdirSync(feedbackImagesDir, { recursive: true });
@@ -233,6 +266,38 @@ const stmtInsertUsage = db.prepare(`
 `);
 const stmtInsertEvent = db.prepare(`INSERT INTO events (event, ip, device_id, platform, meta) VALUES (?, ?, ?, ?, ?)`);
 const stmtCheckBlacklist = db.prepare(`SELECT 1 FROM ip_blacklist WHERE ip = ?`);
+
+// ── Auth-aware scan statements ──
+const stmtAtomicScanUser = db.prepare(`
+  INSERT INTO scan_log (ip, user_id)
+  SELECT ?, ? WHERE (SELECT COUNT(*) FROM scan_log WHERE user_id = ? AND scanned_at >= date('now')) < ?
+`);
+const stmtCountScansUser = db.prepare(`
+  SELECT COUNT(*) as count FROM scan_log
+  WHERE user_id = ? AND scanned_at >= date('now')
+`);
+const stmtAtomicScanAnon48h = db.prepare(`
+  INSERT INTO scan_log (ip)
+  SELECT ? WHERE (SELECT COUNT(*) FROM scan_log WHERE ip = ? AND user_id IS NULL AND scanned_at >= datetime('now', '-48 hours')) < 1
+`);
+const stmtCountScansAnon48h = db.prepare(`
+  SELECT COUNT(*) as count FROM scan_log
+  WHERE ip = ? AND user_id IS NULL AND scanned_at >= datetime('now', '-48 hours')
+`);
+
+// ── Diary statements ──
+const stmtInsertDiary = db.prepare(`
+  INSERT INTO diary_entries (user_id, plant_name, title, note, grow_phase, height_cm, ph_value, ec_value, temperature, humidity, watered, nutrients_given)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
+const stmtGetDiary = db.prepare(`SELECT * FROM diary_entries WHERE user_id = ? ORDER BY created_at DESC`);
+const stmtGetDiaryEntry = db.prepare(`SELECT * FROM diary_entries WHERE id = ? AND user_id = ?`);
+const stmtUpdateDiary = db.prepare(`
+  UPDATE diary_entries SET plant_name = ?, title = ?, note = ?, grow_phase = ?, height_cm = ?, ph_value = ?, ec_value = ?, temperature = ?, humidity = ?, watered = ?, nutrients_given = ?, updated_at = datetime('now')
+  WHERE id = ? AND user_id = ?
+`);
+const stmtDeleteDiary = db.prepare(`DELETE FROM diary_entries WHERE id = ? AND user_id = ?`);
+const stmtGetDiaryPlants = db.prepare(`SELECT DISTINCT plant_name FROM diary_entries WHERE user_id = ? ORDER BY plant_name`);
 const stmtInsertDetailedFeedback = db.prepare(`
   INSERT INTO feedback_detailed (rating, diagnosis_json, questionnaire_json, image_paths, ip, device_id)
   VALUES (?, ?, ?, ?, ?, ?)
@@ -318,4 +383,10 @@ module.exports = {
   stmtInsertUsage, stmtInsertEvent,
   // Security
   stmtCheckBlacklist,
+  // Auth-aware scan
+  stmtAtomicScanUser, stmtCountScansUser,
+  stmtAtomicScanAnon48h, stmtCountScansAnon48h,
+  // Diary
+  stmtInsertDiary, stmtGetDiary, stmtGetDiaryEntry,
+  stmtUpdateDiary, stmtDeleteDiary, stmtGetDiaryPlants,
 };

@@ -20,20 +20,21 @@ const _MODEL = 'gpt-4o';
 const MAX_RETRIES = 2;
 const RETRY_DELAYS = [2000, 5000]; // ms
 
-/** Build fetch headers — include session token for premium check */
+/** Build fetch headers — include auth token for user identification + scan quota */
 function apiHeaders(sessionToken?: string | null): Record<string, string> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  // Native app detection is done server-side via missing Origin header
-  if (sessionToken) {
-    headers['Authorization'] = `Bearer ${sessionToken}`;
-  } else if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    // Web fallback: read from localStorage directly
+  // Prefer auth token (logged-in user), fall back to session token (legacy premium)
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
     try {
-      const raw = window.localStorage.getItem('leafscan_session_token');
-      if (raw) {
-        headers['Authorization'] = `Bearer ${raw}`;
+      const authToken = window.localStorage.getItem('leafscan_auth_token');
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+        return headers;
       }
     } catch {}
+  }
+  if (sessionToken) {
+    headers['Authorization'] = `Bearer ${sessionToken}`;
   }
   return headers;
 }

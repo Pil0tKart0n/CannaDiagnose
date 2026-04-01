@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
 import { getQuotaDisplay, setPremium, setSessionToken } from '../services/quota';
+import { getUser, logout, onAuthChange, type AuthUser } from '../services/auth';
 import { hasCompletedOnboarding } from './onboarding';
 import { trackEvent } from '../services/analytics';
 import { t, getLang, setLang, onLangChange } from '../services/i18n';
@@ -33,6 +34,7 @@ export default function HomeScreen() {
   }, []);
   const [quotaText, setQuotaText] = useState('');
   const [quotaIsPremium, setQuotaIsPremium] = useState(false);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -146,28 +148,10 @@ export default function HomeScreen() {
       }
     }
 
-    // Check for Stripe payment success redirect — verify with server
+    // DISABLED: Stripe payment success redirect (payments temporarily deactivated)
+    // Clean up any stale session_id params in URL
     if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.search.includes('session_id=')) {
-      const params = new URLSearchParams(window.location.search);
-      const sessionId = params.get('session_id');
-      if (sessionId) {
-        fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
-          .then((r) => (r.ok ? r.json() : Promise.reject()))
-          .then((data) => {
-            if (data.token) {
-              setSessionToken(data.token);
-              setPremium(true);
-            }
-          })
-          .catch(() => {})
-          .finally(() => {
-            window.history.replaceState({}, '', '/');
-            getQuotaDisplay().then((q) => {
-              setQuotaText(q.text);
-              setQuotaIsPremium(q.isPremium);
-            });
-          });
-      }
+      window.history.replaceState({}, '', '/');
     }
     // Check onboarding (skip on web — landing page IS the introduction)
     if (Platform.OS !== 'web') {
@@ -177,7 +161,8 @@ export default function HomeScreen() {
         })
         .catch(() => {});
     }
-    // Load quota
+    // Load auth status + quota
+    getUser().then(u => setAuthUser(u)).catch(() => {});
     getQuotaDisplay()
       .then((q) => {
         setQuotaText(q.text);
@@ -185,14 +170,21 @@ export default function HomeScreen() {
       })
       .catch(() => {});
 
+    const unsubAuth = onAuthChange((u) => {
+      setAuthUser(u);
+      getQuotaDisplay().then(q => { setQuotaText(q.text); setQuotaIsPremium(q.isPremium); }).catch(() => {});
+    });
+
     return () => {
       if (cleanupInstallPrompt) cleanupInstallPrompt();
+      unsubAuth();
     };
   }, []);
 
-  // Re-check quota every time the screen gets focus
+  // Re-check quota + auth every time the screen gets focus
   useFocusEffect(
     React.useCallback(() => {
+      getUser().then(u => setAuthUser(u)).catch(() => {});
       getQuotaDisplay()
         .then((q) => {
           setQuotaText(q.text);
@@ -206,8 +198,7 @@ export default function HomeScreen() {
     try {
       const { canScan } = require('../services/quota');
       const quota = await canScan();
-      if (!quota.allowed && !quota.isPremium) {
-        router.push('/paywall');
+      if (!quota.allowed) {
         return;
       }
     } catch {}
@@ -215,21 +206,8 @@ export default function HomeScreen() {
     router.push('/camera');
   };
 
-  // Shimmer animation for native premium button
+  // DISABLED: Shimmer animation was for premium button (payments deactivated)
   const shimmerAnim = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    if (!isWeb && !quotaIsPremium) {
-      const loop = Animated.loop(
-        Animated.timing(shimmerAnim, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: true,
-        }),
-      );
-      loop.start();
-      return () => loop.stop();
-    }
-  }, [quotaIsPremium]);
 
   const shimmerTranslateX = shimmerAnim.interpolate({
     inputRange: [0, 1],
@@ -304,14 +282,39 @@ export default function HomeScreen() {
 
             {/* Quota badge */}
             {quotaText ? (
-              <TouchableOpacity
-                style={[styles.quotaBadge, quotaIsPremium && styles.quotaBadgePremium]}
-                onPress={() => !quotaIsPremium && router.push('/paywall')}
-                activeOpacity={quotaIsPremium ? 1 : 0.7}
-              >
-                <Text style={[styles.quotaText, quotaIsPremium && styles.quotaTextPremium]}>{quotaText}</Text>
-              </TouchableOpacity>
+              <View style={styles.quotaBadge}>
+                <Text style={styles.quotaText}>{quotaText}</Text>
+              </View>
             ) : null}
+
+            {/* Auth section */}
+            {authUser ? (
+              <View style={styles.authSection}>
+                <View style={styles.authGreeting}>
+                  <Ionicons name="person-circle-outline" size={18} color={colors.accent} />
+                  <Text style={styles.authName}>{authUser.name}</Text>
+                </View>
+                <View style={styles.authBtns}>
+                  <TouchableOpacity style={styles.diaryBtn} onPress={() => router.push('/diary')} activeOpacity={0.7}>
+                    <Ionicons name="book-outline" size={16} color={colors.textOnAccent} />
+                    <Text style={styles.diaryBtnText}>{t('home.diary')}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.logoutBtn} onPress={() => logout()} activeOpacity={0.7}>
+                    <Ionicons name="log-out-outline" size={16} color={colors.textMuted} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+              <View style={styles.authSection}>
+                <TouchableOpacity style={styles.registerBtn} onPress={() => router.push('/register')} activeOpacity={0.7}>
+                  <Ionicons name="person-add-outline" size={16} color={colors.textOnAccent} />
+                  <Text style={styles.registerBtnText}>{t('home.registerForMore')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push('/login')} activeOpacity={0.7}>
+                  <Text style={styles.loginLink}>{t('home.alreadyAccount')}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
 
           {/* ===== SECTION 2: Trust Bar ===== */}
@@ -697,72 +700,7 @@ export default function HomeScreen() {
             </div>
           )}
 
-          {/* ===== SECTION 6: Premium Teaser ===== */}
-          {!quotaIsPremium && (
-            <View style={[styles.section, { marginTop: sectionSpacing }]}>
-              {isWeb ? (
-                <View style={styles.premiumCard}>
-                  <Text style={styles.premiumCardTitle}>{t('landing.premiumTitle')}</Text>
-                  <Text style={styles.premiumPrice}>{t('landing.premiumPrice')}</Text>
-                  <View style={styles.premiumFeatures}>
-                    <View style={styles.premiumFeatureRow}>
-                      <Text style={styles.premiumFeatureIcon}>◆</Text>
-                      <Text style={styles.premiumFeatureText}>{t('landing.premiumFeature1')}</Text>
-                    </View>
-                    <View style={styles.premiumFeatureRow}>
-                      <Text style={styles.premiumFeatureIcon}>◆</Text>
-                      <Text style={styles.premiumFeatureText}>{t('landing.premiumFeature2')}</Text>
-                    </View>
-                    <View style={styles.premiumFeatureRow}>
-                      <Text style={styles.premiumFeatureIcon}>◆</Text>
-                      <Text style={styles.premiumFeatureText}>{t('landing.premiumFeature3')}</Text>
-                    </View>
-                  </View>
-                  <div
-                    className="cd-btn-premium"
-                    onClick={() => router.push('/paywall')}
-                    style={
-                      {
-                        padding: '14px 20px',
-                        textAlign: 'center',
-                        marginTop: 16,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      } as any
-                    }
-                  >
-                    <View style={styles.premiumCtaRow}>
-                      <Text style={styles.premiumIcon}>◆</Text>
-                      <Text style={styles.premiumBtnText}>{t('landing.premiumCta')}</Text>
-                      <Text style={styles.premiumArrow}>→</Text>
-                    </View>
-                  </div>
-                </View>
-              ) : (
-                <TouchableOpacity style={styles.premiumBtn} onPress={() => router.push('/paywall')} activeOpacity={0.7}>
-                  <Animated.View
-                    style={[
-                      styles.premiumShimmer,
-                      { transform: [{ translateX: shimmerTranslateX }, { skewX: '-15deg' }] },
-                    ]}
-                  >
-                    <LinearGradient
-                      colors={['transparent', 'rgba(255,215,0,0.10)', 'transparent']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      style={{ flex: 1 }}
-                    />
-                  </Animated.View>
-                  <View style={styles.premiumCtaRow}>
-                    <Text style={styles.premiumIcon}>◆</Text>
-                    <Text style={styles.premiumBtnText}>{t('home.unlockPremium')}</Text>
-                    <Text style={styles.premiumArrow}>→</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-          )}
+          {/* DISABLED: Premium Teaser (payments temporarily deactivated) */}
 
           {/* ===== SECTION 7: FAQ (web only) ===== */}
           {Platform.OS === 'web' && (
@@ -1067,6 +1005,68 @@ const styles = StyleSheet.create({
   },
   quotaTextPremium: {
     color: colors.accentWarm,
+  },
+
+  // ── Auth Section ───────────────────────────────────────
+  authSection: {
+    marginTop: 16,
+    alignItems: 'center',
+    gap: 10,
+  },
+  authGreeting: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  authName: {
+    fontSize: 13,
+    color: colors.accent,
+    fontWeight: '600',
+  },
+  authBtns: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  diaryBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.accent,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  diaryBtnText: {
+    fontSize: 13,
+    color: colors.textOnAccent,
+    fontWeight: '600',
+  },
+  logoutBtn: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  registerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.accent,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  registerBtnText: {
+    fontSize: 13,
+    color: colors.textOnAccent,
+    fontWeight: '600',
+  },
+  loginLink: {
+    fontSize: 12,
+    color: colors.textMuted,
+    textDecorationLine: 'underline',
   },
 
   // ── Trust Bar ─────────────────────────────────────────

@@ -72,11 +72,13 @@ export async function buildHeaders(token?: string | null): Promise<Record<string
   return headers;
 }
 
-/** Check quota — always asks the server (all platforms route through server) */
+/** Check quota — sends auth token for logged-in user quota */
 export async function canScan(): Promise<{ allowed: boolean; remaining: number; isPremium: boolean }> {
   try {
-    const token = await getSessionToken();
-    const headers = await buildHeaders(token);
+    const { getAuthToken } = require('./auth');
+    const authToken = await getAuthToken();
+    const headers: Record<string, string> = {};
+    if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
 
     const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
     const res = await fetch(quotaUrl, { headers });
@@ -84,8 +86,8 @@ export async function canScan(): Promise<{ allowed: boolean; remaining: number; 
       const data = await res.json();
       return {
         allowed: data.allowed,
-        remaining: data.isPremium ? Infinity : Math.max(0, data.limit - data.scansToday),
-        isPremium: data.isPremium,
+        remaining: Math.max(0, data.limit - data.scansToday),
+        isPremium: false,
       };
     }
   } catch {
@@ -112,32 +114,34 @@ export async function setPremium(premium: boolean): Promise<void> {
   } catch {}
 }
 
-/** Get display info for the quota — always checks server */
+/** Get display info for the quota — sends auth token for user-specific quota */
 export async function getQuotaDisplay(): Promise<{
   text: string;
   scansLeft: number;
   isPremium: boolean;
 }> {
   try {
-    const token = await getSessionToken();
-    const headers = await buildHeaders(token);
+    const { getAuthToken } = require('./auth');
+    const authToken = await getAuthToken();
+    const headers: Record<string, string> = {};
+    if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
 
     const quotaUrl = Platform.OS === 'web' ? '/api/quota' : `${SERVER_URL}/api/quota`;
     const res = await fetch(quotaUrl, { headers });
     if (res.ok) {
       const data = await res.json();
-      if (data.isPremium) {
-        return { text: 'Premium – Unbegrenzte Scans', scansLeft: Infinity, isPremium: true };
-      }
       const left = Math.max(0, data.limit - data.scansToday);
-      if (left > 0) {
-        return {
-          text: `${left} kostenlose${left === 1 ? ' Diagnose' : ' Diagnosen'} heute`,
-          scansLeft: left,
-          isPremium: false,
-        };
+      if (data.isLoggedIn) {
+        if (left > 0) {
+          return { text: `${left} von ${data.limit} Diagnosen heute`, scansLeft: left, isPremium: false };
+        }
+        return { text: 'Tageslimit erreicht', scansLeft: 0, isPremium: false };
       }
-      return { text: 'Tageslimit erreicht', scansLeft: 0, isPremium: false };
+      // Anonymous
+      if (left > 0) {
+        return { text: '1 Scan alle 48h – Registriere dich für mehr', scansLeft: left, isPremium: false };
+      }
+      return { text: 'Nächster Scan in 48h – Registriere dich für 5/Tag', scansLeft: 0, isPremium: false };
     }
   } catch {}
 
