@@ -3,7 +3,7 @@
  */
 const express = require('express');
 const router = express.Router();
-const { createUser, loginUser, findUserByToken } = require('../users');
+const { createUser, loginUser, findUserByToken, updateProfile } = require('../users');
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -31,7 +31,7 @@ router.post('/api/auth/register', rateLimit, express.json(), async (req, res) =>
   try {
     const result = await createUser(name, email, password);
     console.log('[LeafScan] New user registered:', result.email);
-    res.status(201).json({ token: result.token, user: { id: result.id, name: result.name, email: result.email } });
+    res.status(201).json({ token: result.token, user: { id: result.id, name: result.name, email: result.email, profile: result.profile } });
   } catch (err) {
     if (err.message === 'EMAIL_EXISTS') {
       return res.status(409).json({ error: 'email_exists', message: 'Diese E-Mail-Adresse ist bereits registriert.' });
@@ -55,7 +55,7 @@ router.post('/api/auth/login', rateLimit, express.json(), async (req, res) => {
   try {
     const result = await loginUser(email, password);
     console.log('[LeafScan] User logged in:', result.email);
-    res.json({ token: result.token, user: { id: result.id, name: result.name, email: result.email } });
+    res.json({ token: result.token, user: { id: result.id, name: result.name, email: result.email, profile: result.profile } });
   } catch (err) {
     if (err.message === 'INVALID_CREDENTIALS') {
       return res.status(401).json({ error: 'invalid_credentials', message: 'E-Mail oder Passwort falsch.' });
@@ -76,6 +76,25 @@ router.get('/api/auth/me', rateLimit, (req, res) => {
   }
 
   res.json({ user });
+});
+
+// ── PUT /api/auth/profile ──
+router.put('/api/auth/profile', rateLimit, express.json(), (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const user = findUserByToken(token);
+
+  if (!user) {
+    return res.status(401).json({ error: 'unauthorized', message: 'Nicht eingeloggt.' });
+  }
+
+  try {
+    const profile = updateProfile(user.id, req.body || {});
+    res.json({ profile });
+  } catch (err) {
+    console.error('[LeafScan] Profile update error:', err.message);
+    res.status(500).json({ error: 'update_failed' });
+  }
 });
 
 module.exports = { router, setRateLimit, findUserByToken };

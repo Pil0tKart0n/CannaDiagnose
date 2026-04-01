@@ -369,5 +369,17 @@
   "diary.confirmDelete": "Really delete this entry?",
   "diary.deleteTitle": "Delete Entry",
   "diary.cancel": "Cancel",
-  "diary.delete": "Delete"
+  "diary.delete": "Delete",
+
+  "profile.title": "Your Grower Profile",
+  "profile.subtitle": "Help us improve LeafScan. Everything is optional.",
+  "profile.country": "Country",
+  "profile.growType": "How do you grow?",
+  "profile.experience": "Experience",
+  "profile.plantCount": "Number of Plants",
+  "profile.shopPreference": "Where do you buy grow supplies?",
+  "profile.save": "Save Profile",
+  "profile.skip": "Skip",
+
+  "results.helpfulTip": "This might help"
 }

@@ -53,12 +53,20 @@ async function createUser(name, email, password) {
     passwordHash: `${salt}:${hash}`,
     token,
     createdAt: new Date().toISOString(),
+    // Grower profile (optional, filled later)
+    profile: {
+      country: null,
+      growType: null,       // indoor | outdoor | greenhouse
+      experience: null,     // beginner | intermediate | expert
+      plantCount: null,     // 1-3 | 4-10 | 11-25 | 25+
+      shopPreference: null, // online | local | both
+    },
   };
 
   users.push(user);
   writeUsers(users);
 
-  return { id: user.id, name: user.name, email: user.email, token: user.token };
+  return { id: user.id, name: user.name, email: user.email, token: user.token, profile: user.profile };
 }
 
 async function loginUser(email, password) {
@@ -74,7 +82,7 @@ async function loginUser(email, password) {
   user.token = crypto.randomBytes(32).toString('hex');
   writeUsers(users);
 
-  return { id: user.id, name: user.name, email: user.email, token: user.token };
+  return { id: user.id, name: user.name, email: user.email, token: user.token, profile: user.profile || {} };
 }
 
 function findUserByToken(token) {
@@ -82,7 +90,40 @@ function findUserByToken(token) {
   const users = readUsers();
   const user = users.find(u => u.token === token);
   if (!user) return null;
-  return { id: user.id, name: user.name, email: user.email };
+  return { id: user.id, name: user.name, email: user.email, profile: user.profile || {} };
 }
 
-module.exports = { createUser, loginUser, findUserByToken };
+function updateProfile(userId, profileData) {
+  const users = readUsers();
+  const user = users.find(u => u.id === userId);
+  if (!user) throw new Error('USER_NOT_FOUND');
+
+  const allowed = ['country', 'growType', 'experience', 'plantCount', 'shopPreference'];
+  if (!user.profile) user.profile = {};
+  for (const key of allowed) {
+    if (profileData[key] !== undefined) {
+      user.profile[key] = profileData[key];
+    }
+  }
+  writeUsers(users);
+  return user.profile;
+}
+
+function getAggregatedStats() {
+  const users = readUsers();
+  const stats = {
+    totalUsers: users.length,
+    profiles: { country: {}, growType: {}, experience: {}, plantCount: {}, shopPreference: {} },
+  };
+  for (const u of users) {
+    const p = u.profile || {};
+    for (const key of ['country', 'growType', 'experience', 'plantCount', 'shopPreference']) {
+      if (p[key]) {
+        stats.profiles[key][p[key]] = (stats.profiles[key][p[key]] || 0) + 1;
+      }
+    }
+  }
+  return stats;
+}
+
+module.exports = { createUser, loginUser, findUserByToken, updateProfile, getAggregatedStats };

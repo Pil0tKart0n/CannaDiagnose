@@ -369,5 +369,17 @@
   "diary.confirmDelete": "Diesen Eintrag wirklich löschen?",
   "diary.deleteTitle": "Eintrag löschen",
   "diary.cancel": "Abbrechen",
-  "diary.delete": "Löschen"
+  "diary.delete": "Löschen",
+
+  "profile.title": "Dein Grower-Profil",
+  "profile.subtitle": "Hilf uns, LeafScan besser zu machen. Alles optional.",
+  "profile.country": "Land",
+  "profile.growType": "Wie growst du?",
+  "profile.experience": "Erfahrung",
+  "profile.plantCount": "Anzahl Pflanzen",
+  "profile.shopPreference": "Wo kaufst du Grow-Zubehör?",
+  "profile.save": "Profil speichern",
+  "profile.skip": "Überspringen",
+
+  "results.helpfulTip": "Das könnte helfen"
 }

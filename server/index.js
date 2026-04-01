@@ -28,7 +28,7 @@ const { SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT, REFINE_SYSTEM_PROMPT,
 const { router: adminRouter, setIpRequestCounts, setStripe: setAdminStripe } = require('./routes/admin');
 const { router: stripeRouter, stripe, ensureProducts, getGrowerPriceId, setRateLimit, setCheckPremium } = require('./routes/stripe');
 const { router: authRouter, setRateLimit: setAuthRateLimit, findUserByToken: findUserByTokenAuth } = require('./routes/auth');
-const { findUserByToken } = require('./users');
+const { findUserByToken, getAggregatedStats } = require('./users');
 
 const IMAGE_CHECK_PROMPT = `Siehst du auf diesem Foto eine Cannabis-Pflanze oder Teile davon (Blatt, Bl\u00fcte, St\u00e4ngel, S\u00e4mling)? Das Foto kann unter farbigem Growlicht (rosa/lila/gelb) aufgenommen sein \u2014 ignoriere ungew\u00f6hnliche Farben komplett.
 Im Zweifel antworte mit true. Antworte NUR mit false wenn du dir SICHER bist, dass KEINE Pflanze auf dem Foto ist (z.B. Essen, Tiere, Gegenst\u00e4nde, Selfies, Text).
@@ -754,6 +754,64 @@ app.delete('/api/diary/:id', rateLimit, requireAuth, (req, res) => {
   const result = stmtDeleteDiary.run(id, req.user.id);
   if (result.changes === 0) return res.status(404).json({ error: 'not_found' });
   res.json({ ok: true });
+});
+
+// ══════════════════════════════════════════════════════════════════
+// ██  MARKET RESEARCH — Aggregated anonymous stats (admin only)   ██
+// ══════════════════════════════════════════════════════════════════
+app.get('/api/admin/market-research', (req, res) => {
+  const adminKey = req.headers['x-leafscan-key'];
+  if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
+    return res.status(403).json({ error: 'forbidden' });
+  }
+
+  // User profile aggregation
+  const userStats = getAggregatedStats();
+
+  // Questionnaire data aggregation (from scan_results)
+  const substrateStats = db.prepare(`
+    SELECT substrate, COUNT(*) as count FROM scan_results
+    WHERE substrate IS NOT NULL AND substrate != '' GROUP BY substrate ORDER BY count DESC
+  `).all();
+
+  const diagnosisStats = db.prepare(`
+    SELECT diagnosis, severity, COUNT(*) as count FROM scan_results
+    WHERE diagnosis IS NOT NULL GROUP BY diagnosis, severity ORDER BY count DESC LIMIT 30
+  `).all();
+
+  const modeStats = db.prepare(`
+    SELECT mode, COUNT(*) as count FROM scan_results GROUP BY mode
+  `).all();
+
+  const platformStats = db.prepare(`
+    SELECT platform, COUNT(*) as count FROM scan_results GROUP BY platform
+  `).all();
+
+  const dailyScans = db.prepare(`
+    SELECT DATE(created_at) as day, COUNT(*) as count FROM scan_results
+    WHERE created_at >= datetime('now', '-30 days') GROUP BY day ORDER BY day
+  `).all();
+
+  const totalScans = db.prepare(`SELECT COUNT(*) as count FROM scan_results`).get();
+  const totalDiaryEntries = db.prepare(`SELECT COUNT(*) as count FROM diary_entries`).get();
+
+  res.json({
+    generatedAt: new Date().toISOString(),
+    users: userStats,
+    scans: {
+      total: totalScans?.count || 0,
+      last30Days: dailyScans,
+      byMode: modeStats,
+      byPlatform: platformStats,
+    },
+    growData: {
+      substrates: substrateStats,
+      topDiagnoses: diagnosisStats,
+    },
+    engagement: {
+      diaryEntries: totalDiaryEntries?.count || 0,
+    },
+  });
 });
 
 // ── Health check ──

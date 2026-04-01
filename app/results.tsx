@@ -17,6 +17,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import DiagnosisCard from '../components/DiagnosisCard';
 import { FactorsList, ActionPlan, PreventiveTips } from '../components/RecommendationCard';
+import { getRecommendations } from '../constants/productRecommendations';
 import Button from '../components/Button';
 import { colors } from '../constants/colors';
 import { useDiagnosis } from './_layout';
@@ -350,6 +351,26 @@ export default function ResultsScreen() {
           {displayResult.actionPlan?.length > 0 && <ActionPlan steps={displayResult.actionPlan} />}
 
           {displayResult.preventiveTips?.length > 0 && <PreventiveTips tips={displayResult.preventiveTips} />}
+
+          {/* Product recommendations — appears as helpful tip */}
+          {(() => {
+            const recs = getRecommendations(displayResult.primaryDiagnosis);
+            if (recs.length === 0) return null;
+            return (
+              <View style={recStyles.container}>
+                <View style={recStyles.headerRow}>
+                  <Ionicons name="bulb-outline" size={16} color={colors.accentWarm} />
+                  <Text style={recStyles.headerText}>{t('results.helpfulTip')}</Text>
+                </View>
+                {recs.map((rec, i) => (
+                  <View key={i} style={recStyles.item}>
+                    <Text style={recStyles.product}>{rec.product}</Text>
+                    <Text style={recStyles.description}>{rec.description}</Text>
+                  </View>
+                ))}
+              </View>
+            );
+          })()}
 
           {/* Refine Card */}
           {!isFromHistory && !(refined && colorCorrected) && (
@@ -716,5 +737,41 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     color: colors.accent,
+  },
+});
+
+const recStyles = StyleSheet.create({
+  container: {
+    backgroundColor: 'rgba(212,168,83,0.06)',
+    borderRadius: 14,
+    padding: 16,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(212,168,83,0.15)',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+  },
+  headerText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.accentWarm,
+  },
+  item: {
+    marginBottom: 10,
+  },
+  product: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: 3,
+  },
+  description: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    lineHeight: 19,
   },
 });
