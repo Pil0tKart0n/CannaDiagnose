@@ -18,6 +18,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY package.json ./
 COPY index.js ./
 COPY db.js ./
+COPY users.js ./
 COPY prompts.js ./
 COPY fertilizers.js ./
 COPY admin.html ./
