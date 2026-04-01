@@ -680,4 +680,45 @@ router.get('/api/admin/stats/revenue', async (req, res) => {
   }
 });
 
+// ══════════════════════════════════════════════════════════════════
+// ██  USER MANAGEMENT                                            ██
+// ══════════════════════════════════════════════════════════════════
+
+const { listUsers, resetPassword, deleteUser } = require('../users');
+
+// ── List all users ──
+router.get('/api/admin/users', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const users = listUsers();
+  res.json({ users, total: users.length });
+});
+
+// ── Reset user password ──
+router.post('/api/admin/users/:id/reset-password', express.json(), async (req, res) => {
+  if (!adminAuth(req, res)) return;
+  const { password } = req.body || {};
+  if (!password || typeof password !== 'string' || password.length < 6) {
+    return res.status(400).json({ error: 'Password must be at least 6 characters' });
+  }
+  try {
+    const result = await resetPassword(req.params.id, password);
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    if (err.message === 'USER_NOT_FOUND') return res.status(404).json({ error: 'User not found' });
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Delete user ──
+router.delete('/api/admin/users/:id', (req, res) => {
+  if (!adminAuth(req, res)) return;
+  try {
+    const result = deleteUser(req.params.id);
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    if (err.message === 'USER_NOT_FOUND') return res.status(404).json({ error: 'User not found' });
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = { router, setIpRequestCounts, setStripe };

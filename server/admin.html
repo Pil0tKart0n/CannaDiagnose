@@ -202,6 +202,7 @@ tr:hover td{background:rgba(76,175,80,.04)}
   <button data-tab="promos">Promo Codes</button>
   <button data-tab="premium">Premium</button>
   <button data-tab="system">System</button>
+  <button data-tab="users">Users</button>
 </nav>
 
 <main class="main">
@@ -356,6 +357,23 @@ tr:hover td{background:rgba(76,175,80,.04)}
   </div>
   <div id="blacklistMsg"></div>
   <div class="table-wrap"><table id="blacklistTable"><thead><tr><th>IP</th><th>Grund</th><th>Gesperrt am</th><th>Aktion</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<!-- ==================== USERS ==================== -->
+<div class="tab" id="tab-users">
+  <div class="section-title">Registrierte User</div>
+  <div class="kpi-grid" id="userKpiGrid"></div>
+  <div class="table-wrap"><table id="usersTable"><thead><tr>
+    <th>Name</th><th>Email</th><th>Land</th><th>Grow</th><th>Erfahrung</th><th>Pflanzen</th><th>Shop</th><th>Registriert</th><th>Aktionen</th>
+  </tr></thead><tbody></tbody></table></div>
+
+  <div class="section-title" style="margin-top:32px">Passwort zurücksetzen</div>
+  <div class="form-row">
+    <div class="form-group"><label>User-ID</label><input id="resetUserId" placeholder="usr_abc123"></div>
+    <div class="form-group"><label>Neues Passwort</label><input id="resetPassword" type="text" placeholder="min. 6 Zeichen"></div>
+    <button class="btn" onclick="resetUserPassword()">Zurücksetzen</button>
+  </div>
+  <div id="resetMsg" style="margin-top:8px"></div>
 </div>
 
 </main>
@@ -528,6 +546,7 @@ function loadTab(tab) {
     case 'promos': loadPromos(); break;
     case 'premium': loadPremium(); break;
     case 'system': loadSystem(); break;
+    case 'users': loadUsers(); break;
   }
 }
 
@@ -1268,6 +1287,79 @@ async function removeBlacklist(ip) {
     loadSystem();
   } catch (e) {
     toast('Fehler: ' + e.message, true);
+  }
+}
+
+// ==================== USERS ====================
+async function loadUsers() {
+  try {
+    const data = await api('/api/admin/users');
+    const grid = document.getElementById('userKpiGrid');
+    grid.innerHTML = `
+      <div class="kpi-card"><div class="kpi-value">${data.total}</div><div class="kpi-label">Registrierte User</div></div>
+    `;
+    const tbody = document.querySelector('#usersTable tbody');
+    tbody.innerHTML = data.users.map(u => {
+      const p = u.profile || {};
+      const date = new Date(u.createdAt).toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
+      return `<tr>
+        <td><strong>${esc(u.name)}</strong><br><small style="color:#647069">${esc(u.id)}</small></td>
+        <td>${esc(u.email)}</td>
+        <td>${esc(p.country || '–')}</td>
+        <td>${esc(p.growType || '–')}</td>
+        <td>${esc(p.experience || '–')}</td>
+        <td>${esc(p.plantCount || '–')}</td>
+        <td>${esc(p.shopPreference || '–')}</td>
+        <td>${date}</td>
+        <td>
+          <button class="btn btn-sm" onclick="document.getElementById('resetUserId').value='${u.id}'" style="font-size:11px;padding:3px 8px">PW Reset</button>
+          <button class="btn btn-red btn-sm" onclick="deleteUserById('${u.id}','${esc(u.email)}')" style="font-size:11px;padding:3px 8px;margin-left:4px">Löschen</button>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch (e) {
+    console.error('loadUsers error:', e);
+  }
+}
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+async function resetUserPassword() {
+  const id = document.getElementById('resetUserId').value.trim();
+  const pw = document.getElementById('resetPassword').value;
+  const msg = document.getElementById('resetMsg');
+  if (!id || !pw || pw.length < 6) {
+    msg.innerHTML = '<span style="color:var(--red)">User-ID und Passwort (min. 6 Zeichen) eingeben.</span>';
+    return;
+  }
+  try {
+    const res = await fetch(`/api/admin/users/${id}/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-leafscan-key': KEY },
+      body: JSON.stringify({ password: pw }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msg.innerHTML = `<span style="color:var(--green)">Passwort für ${data.email} zurückgesetzt.</span>`;
+      document.getElementById('resetPassword').value = '';
+    } else {
+      msg.innerHTML = `<span style="color:var(--red)">${data.error}</span>`;
+    }
+  } catch (e) {
+    msg.innerHTML = '<span style="color:var(--red)">Fehler beim Zurücksetzen.</span>';
+  }
+}
+
+async function deleteUserById(id, email) {
+  if (!confirm(`User "${email}" wirklich löschen?`)) return;
+  try {
+    await fetch(`/api/admin/users/${id}`, {
+      method: 'DELETE',
+      headers: { 'x-leafscan-key': KEY },
+    });
+    loadUsers();
+  } catch (e) {
+    alert('Fehler beim Löschen');
   }
 }
 

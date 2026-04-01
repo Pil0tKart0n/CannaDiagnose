@@ -126,4 +126,40 @@ function getAggregatedStats() {
   return stats;
 }
 
-module.exports = { createUser, loginUser, findUserByToken, updateProfile, getAggregatedStats };
+/** List all users for admin view (without password hashes) */
+function listUsers() {
+  const users = readUsers();
+  return users.map(u => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    profile: u.profile || {},
+    createdAt: u.createdAt,
+  }));
+}
+
+/** Admin: reset a user's password */
+async function resetPassword(userId, newPassword) {
+  const users = readUsers();
+  const user = users.find(u => u.id === userId);
+  if (!user) throw new Error('USER_NOT_FOUND');
+
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = await hashPassword(newPassword, salt);
+  user.passwordHash = `${salt}:${hash}`;
+  user.token = crypto.randomBytes(32).toString('hex');
+  writeUsers(users);
+  return { id: user.id, email: user.email };
+}
+
+/** Admin: delete a user */
+function deleteUser(userId) {
+  const users = readUsers();
+  const idx = users.findIndex(u => u.id === userId);
+  if (idx === -1) throw new Error('USER_NOT_FOUND');
+  const removed = users.splice(idx, 1)[0];
+  writeUsers(users);
+  return { id: removed.id, email: removed.email };
+}
+
+module.exports = { createUser, loginUser, findUserByToken, updateProfile, getAggregatedStats, listUsers, resetPassword, deleteUser };
