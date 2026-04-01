@@ -189,7 +189,7 @@ tr:hover td{background:rgba(76,175,80,.04)}
 
 <div class="header">
   <div class="brand"><span class="leaf">🌿</span> LeafScan Admin</div>
-  <div class="meta"><span class="dot"></span> Auto-Refresh 60s &nbsp;|&nbsp; <span id="clock"></span></div>
+  <div class="meta"><span class="dot"></span> Auto-Refresh 60s &nbsp;|&nbsp; <span id="clock"></span> &nbsp;|&nbsp; <a href="/api/admin/logout" style="color:#E86B6B;text-decoration:none;font-size:12px">Logout</a></div>
 </div>
 
 <nav class="nav" id="nav">
@@ -407,9 +407,17 @@ let liveFeedPaused = false;
 
 // ---- Helpers ----
 function api(path, opts = {}) {
-  const sep = path.includes('?') ? '&' : '?';
-  const url = path + sep + 'key=' + encodeURIComponent(KEY);
-  return fetch(url, opts).then(r => {
+  // Cookie auth is sent automatically; KEY as fallback for backward compat
+  opts.credentials = 'same-origin';
+  if (KEY) {
+    const sep = path.includes('?') ? '&' : '?';
+    path = path + sep + 'key=' + encodeURIComponent(KEY);
+  }
+  return fetch(path, opts).then(r => {
+    if (r.status === 403 || r.status === 401) {
+      window.location.href = '/api/admin/login';
+      throw new Error('Session expired');
+    }
     if (!r.ok) throw new Error('HTTP ' + r.status);
     return r.json();
   });
@@ -1333,9 +1341,12 @@ async function resetUserPassword() {
     return;
   }
   try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (KEY) headers['x-leafscan-key'] = KEY;
     const res = await fetch(`/api/admin/users/${id}/reset-password`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-leafscan-key': KEY },
+      headers,
+      credentials: 'same-origin',
       body: JSON.stringify({ password: pw }),
     });
     const data = await res.json();
@@ -1353,9 +1364,12 @@ async function resetUserPassword() {
 async function deleteUserById(id, email) {
   if (!confirm(`User "${email}" wirklich löschen?`)) return;
   try {
+    const headers = {};
+    if (KEY) headers['x-leafscan-key'] = KEY;
     await fetch(`/api/admin/users/${id}`, {
       method: 'DELETE',
-      headers: { 'x-leafscan-key': KEY },
+      headers,
+      credentials: 'same-origin',
     });
     loadUsers();
   } catch (e) {
@@ -1365,10 +1379,8 @@ async function deleteUserById(id, email) {
 
 // ---- Init & Auto-refresh ----
 function init() {
-  if (!KEY) {
-    document.querySelector('.main').innerHTML = '<div class="error-msg" style="margin-top:40px;text-align:center;font-size:1rem">Kein Admin-Key angegeben. Bitte <code>?key=DEIN_KEY</code> an die URL anhängen.</div>';
-    return;
-  }
+  // Cookie-based auth: board is only served after login, so we can proceed
+  // KEY fallback still works for backward compatibility
   loadDashboard();
   refreshTimer = setInterval(() => {
     const activeTab = document.querySelector('.nav button.active')?.dataset.tab;
