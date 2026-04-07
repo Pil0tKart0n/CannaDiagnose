@@ -327,13 +327,13 @@ const stmtCountScansUser = db.prepare(`
   SELECT COUNT(*) as count FROM scan_log
   WHERE user_id = ? AND scanned_at >= date('now')
 `);
-const stmtAtomicScanAnon48h = db.prepare(`
+const stmtAtomicScanAnon = db.prepare(`
   INSERT INTO scan_log (ip)
-  SELECT ? WHERE (SELECT COUNT(*) FROM scan_log WHERE ip = ? AND user_id IS NULL AND scanned_at >= datetime('now', '-48 hours')) < 1
+  SELECT ? WHERE (SELECT COUNT(*) FROM scan_log WHERE ip = ? AND user_id IS NULL AND scanned_at >= date('now')) < 1
 `);
-const stmtCountScansAnon48h = db.prepare(`
+const stmtCountScansAnon = db.prepare(`
   SELECT COUNT(*) as count FROM scan_log
-  WHERE ip = ? AND user_id IS NULL AND scanned_at >= datetime('now', '-48 hours')
+  WHERE ip = ? AND user_id IS NULL AND scanned_at >= date('now')
 `);
 
 // ── Diary statements ──
@@ -436,7 +436,7 @@ module.exports = {
   stmtCheckBlacklist,
   // Auth-aware scan
   stmtAtomicScanUser, stmtCountScansUser,
-  stmtAtomicScanAnon48h, stmtCountScansAnon48h,
+  stmtAtomicScanAnon, stmtCountScansAnon,
   // Diary
   stmtInsertDiary, stmtGetDiary, stmtGetDiaryEntry,
   stmtUpdateDiary, stmtDeleteDiary, stmtGetDiaryPlants,

@@ -26,7 +26,7 @@ const {
   stmtCheckRedeemedByDevice, stmtRedeemPromo, stmtActivePromo,
   stmtInsertScanResult, stmtInsertUsage, stmtInsertEvent, stmtCheckBlacklist,
   stmtAtomicScanUser, stmtCountScansUser,
-  stmtAtomicScanAnon48h, stmtCountScansAnon48h,
+  stmtAtomicScanAnon, stmtCountScansAnon,
   stmtInsertDiary, stmtGetDiary, stmtGetDiaryEntry,
   stmtUpdateDiary, stmtDeleteDiary, stmtGetDiaryPlants,
 } = require('./db');
@@ -257,7 +257,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
     maxTokens = 300;
   }
 
-  // Auth-aware scan quota: logged-in users get 5/day, anonymous get 1/48h
+  // Auth-aware scan quota: logged-in users get 5/day, anonymous get 1/day
   const authHeader = req.headers['authorization'];
   const authToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
   const authUser = findUserByToken(authToken);
@@ -276,13 +276,13 @@ app.post('/api/scan', rateLimit, async (req, res) => {
       });
     }
   } else {
-    // Anonymous user: 1 scan per 48 hours, tracked by IP
-    const result = stmtAtomicScanAnon48h.run(ip, ip);
+    // Anonymous user: 1 scan per day, tracked by IP
+    const result = stmtAtomicScanAnon.run(ip, ip);
     if (result.changes === 0) {
-      const scanRow = stmtCountScansAnon48h.get(ip) || { count: 0 };
+      const scanRow = stmtCountScansAnon.get(ip) || { count: 0 };
       return res.status(403).json({
         error: 'quota_exceeded',
-        message: 'Ohne Account kannst du nur 1 Scan alle 48 Stunden machen. Registriere dich kostenlos für 5 Scans pro Tag!',
+        message: 'Ohne Account kannst du 1 Scan pro Tag machen. Registriere dich kostenlos für 5 Scans pro Tag!',
         scansToday: scanRow.count,
         limit: 1,
         requiresAuth: true,
@@ -507,15 +507,14 @@ app.get('/api/quota', rateLimit, (req, res) => {
     });
   }
 
-  // Anonymous user: 1 scan per 48 hours
-  const scanRow = stmtCountScansAnon48h.get(ip) || { count: 0 };
+  // Anonymous user: 1 scan per day
+  const scanRow = stmtCountScansAnon.get(ip) || { count: 0 };
   const allowed = scanRow.count < 1;
   res.json({
     isLoggedIn: false,
     scansToday: scanRow.count,
     limit: 1,
     allowed,
-    cooldownHours: 48,
   });
 });
 

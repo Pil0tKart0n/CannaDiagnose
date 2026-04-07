@@ -328,7 +328,7 @@
   "auth.loginSubtitle": "Log in to use 5 diagnoses per day and your plant diary.",
   "auth.registerTitle": "Create Account",
   "auth.registerSubtitle": "Register for free and unlock all features.",
-  "auth.benefit1": "5 diagnoses per day instead of 1 every 48h",
+  "auth.benefit1": "5 diagnoses per day instead of 1 per day",
   "auth.benefit2": "Plant diary to track your grows",
   "auth.benefit3": "Your progress, always saved",
   "auth.email": "Email",

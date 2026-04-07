@@ -328,7 +328,7 @@
   "auth.loginSubtitle": "Melde dich an, um 5 Diagnosen pro Tag und dein Pflanzen-Tagebuch zu nutzen.",
   "auth.registerTitle": "Account erstellen",
   "auth.registerSubtitle": "Kostenlos registrieren und alle Vorteile nutzen.",
-  "auth.benefit1": "5 Diagnosen pro Tag statt 1 alle 48h",
+  "auth.benefit1": "5 Diagnosen pro Tag statt 1 pro Tag",
   "auth.benefit2": "Pflanzen-Tagebuch zum Tracken deiner Grows",
   "auth.benefit3": "Dein Fortschritt, immer gespeichert",
   "auth.email": "E-Mail",
