@@ -568,7 +568,7 @@ router.post('/api/admin/recheck', express.json({ limit: '30mb' }), async (req, r
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: [...imageBlocks, { type: 'text', text: userPrompt }] },
         ],
-        model: 'gpt-4o',
+        model: 'gpt-4.1',
         max_tokens: 2048,
         temperature: 0,
         response_format: { type: 'json_object' },

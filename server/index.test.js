@@ -191,28 +191,28 @@ describe('Premium session expiry logic', () => {
 });
 
 describe('Model whitelist', () => {
-  const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
+  const ALLOWED_MODELS = new Set(['gpt-4.1', 'gpt-4.1-nano']);
 
-  it('allows gpt-4o', () => {
-    expect(ALLOWED_MODELS.has('gpt-4o')).toBe(true);
+  it('allows gpt-4.1', () => {
+    expect(ALLOWED_MODELS.has('gpt-4.1')).toBe(true);
   });
 
-  it('allows gpt-4o-mini', () => {
-    expect(ALLOWED_MODELS.has('gpt-4o-mini')).toBe(true);
+  it('allows gpt-4.1-nano', () => {
+    expect(ALLOWED_MODELS.has('gpt-4.1-nano')).toBe(true);
   });
 
   it('rejects gpt-3.5-turbo', () => {
     expect(ALLOWED_MODELS.has('gpt-3.5-turbo')).toBe(false);
   });
 
-  it('rejects arbitrary model', () => {
-    expect(ALLOWED_MODELS.has('claude-3-opus')).toBe(false);
+  it('rejects old gpt-4o', () => {
+    expect(ALLOWED_MODELS.has('gpt-4o')).toBe(false);
   });
 
-  it('falls back to gpt-4o for invalid model', () => {
+  it('falls back to gpt-4.1 for invalid model', () => {
     const requested = 'gpt-3.5-turbo';
-    const model = ALLOWED_MODELS.has(requested) ? requested : 'gpt-4o';
-    expect(model).toBe('gpt-4o');
+    const model = ALLOWED_MODELS.has(requested) ? requested : 'gpt-4.1';
+    expect(model).toBe('gpt-4.1');
   });
 });
 

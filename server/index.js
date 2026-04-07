@@ -1,3 +1,14 @@
+const Sentry = require('@sentry/node');
+
+// Initialize Sentry error monitoring (free tier: 5k errors/month)
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.NODE_ENV || 'production',
+    tracesSampleRate: 0.1,
+  });
+}
+
 const express = require('express');
 const cors = require('cors');
 const crypto = require('crypto');
@@ -307,7 +318,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
         const usage = parsed_.usage || {};
         const platform = req.headers['origin'] ? 'pwa' : 'apk';
         stmtInsertUsage.run(
-          ip, mode, 'gpt-4o',
+          ip, mode, 'gpt-4.1',
           usage.prompt_tokens || 0,
           usage.completion_tokens || 0,
           usage.total_tokens || 0,
@@ -358,7 +369,7 @@ Antworte NUR mit JSON:
                   { role: 'system', content: texturePrompt },
                   { role: 'user', content: [...imageBlocks, { type: 'text', text: 'Pr\u00fcfe die Blattoberfl\u00e4chen auf diesen Fotos. NUR Textur und Form, keine Farben.' }] },
                 ],
-                model: 'gpt-4o',
+                model: 'gpt-4.1',
                 max_tokens: 200,
                 temperature: 0,
                 response_format: { type: 'json_object' },
@@ -370,8 +381,8 @@ Antworte NUR mit JSON:
               // Track texture check usage
               try {
                 const tUsage = textureData.usage || {};
-                stmtInsertUsage.run(ip, 'texture_check', 'gpt-4o', tUsage.prompt_tokens || 0, tUsage.completion_tokens || 0, tUsage.total_tokens || 0, 0, req.headers['origin'] ? 'pwa' : 'apk');
-              } catch (e) {}
+                stmtInsertUsage.run(ip, 'texture_check', 'gpt-4.1', tUsage.prompt_tokens || 0, tUsage.completion_tokens || 0, tUsage.total_tokens || 0, 0, req.headers['origin'] ? 'pwa' : 'apk');
+              } catch (e) { console.error('[LeafScan] Texture usage insert failed:', e.message); }
               const textureContent = JSON.parse(textureData.choices?.[0]?.message?.content || '{}');
 
               if (textureContent.hasTextureIssues) {
@@ -820,6 +831,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // ── Global error handler (prevents stack traces leaking to clients) ──
+Sentry.setupExpressErrorHandler(app);
 app.use((err, req, res, next) => {
   console.error('[LeafScan] Unhandled error:', err.message);
   if (res.headersSent) return next(err);
@@ -829,6 +841,7 @@ app.use((err, req, res, next) => {
 // ── Crash safety ──
 process.on('unhandledRejection', (reason) => {
   console.error('[LeafScan] Unhandled promise rejection:', reason);
+  Sentry.captureException(reason);
 });
 
 // ── Start ──

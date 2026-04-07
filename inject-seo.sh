@@ -65,4 +65,13 @@ sed -i 's|<noscript>You need to enable JavaScript to run this app.</noscript>|<n
 # Fix viewport to prevent auto-zoom on input focus (PWA scaling bug)
 sed -i 's/width=device-width, initial-scale=1, shrink-to-fit=no/width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no/' "$FILE"
 
+# Auto-version service worker cache name from package.json version + build timestamp
+SW_FILE="dist/sw.js"
+if [ -f "$SW_FILE" ]; then
+  APP_VERSION=$(node -p "require('./package.json').version")
+  BUILD_HASH=$(date +%s | shasum | head -c 6)
+  sed -i "s/leafscan-v[0-9]*/leafscan-v${APP_VERSION}-${BUILD_HASH}/" "$SW_FILE"
+  echo "Service worker cache versioned: leafscan-v${APP_VERSION}-${BUILD_HASH}"
+fi
+
 echo "SEO meta tags injected into $FILE"

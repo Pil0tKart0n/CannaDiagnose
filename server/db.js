@@ -382,7 +382,7 @@ function cleanupOldData() {
             const fp = path.join(feedbackImagesDir, p.replace(/[^a-zA-Z0-9._-]/g, ''));
             if (fs.existsSync(fp)) fs.unlinkSync(fp);
           }
-        } catch (e) {}
+        } catch (e) { console.error('[LeafScan] Feedback image cleanup error:', e.message); }
       }
     }
     db.prepare(`DELETE FROM feedback_detailed WHERE created_at < datetime('now', '-90 days')`).run();
@@ -394,7 +394,7 @@ function cleanupOldData() {
           const fp = path.join(scanImagesDir, p.replace(/[^a-zA-Z0-9._-]/g, ''));
           if (fs.existsSync(fp)) fs.unlinkSync(fp);
         }
-      } catch (e) {}
+      } catch (e) { console.error('[LeafScan] Scan image cleanup error:', e.message); }
     }
     db.prepare(`DELETE FROM api_usage WHERE created_at < datetime('now', '-90 days')`).run();
     db.prepare(`DELETE FROM events WHERE created_at < datetime('now', '-90 days')`).run();
