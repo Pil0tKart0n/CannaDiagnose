@@ -69,7 +69,7 @@ sed -i 's/width=device-width, initial-scale=1, shrink-to-fit=no/width=device-wid
 SW_FILE="dist/sw.js"
 if [ -f "$SW_FILE" ]; then
   APP_VERSION=$(node -p "require('./package.json').version")
-  BUILD_HASH=$(date +%s | shasum | head -c 6)
+  BUILD_HASH=$(date +%s | md5sum | head -c 6)
   sed -i "s/leafscan-v[0-9]*/leafscan-v${APP_VERSION}-${BUILD_HASH}/" "$SW_FILE"
   echo "Service worker cache versioned: leafscan-v${APP_VERSION}-${BUILD_HASH}"
 fi
