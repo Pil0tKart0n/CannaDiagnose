@@ -210,6 +210,57 @@ try {
   `);
 } catch (e) {}
 
+// ── Migration: users table (replaces users.json) ──
+try {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL COLLATE NOCASE,
+      password_hash TEXT NOT NULL,
+      token TEXT,
+      profile_json TEXT NOT NULL DEFAULT '{}',
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+    CREATE INDEX IF NOT EXISTS idx_users_token ON users(token);
+  `);
+} catch (e) {}
+
+// Migrate existing users.json → SQLite (one-time)
+try {
+  const usersJsonPath = path.join(__dirname, 'data', 'users.json');
+  if (fs.existsSync(usersJsonPath)) {
+    const existing = JSON.parse(fs.readFileSync(usersJsonPath, 'utf8'));
+    if (existing.length > 0) {
+      const insert = db.prepare(`INSERT OR IGNORE INTO users (id, name, email, password_hash, token, profile_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)`);
+      const migrate = db.transaction((users) => {
+        for (const u of users) {
+          insert.run(u.id, u.name, u.email, u.passwordHash, u.token, JSON.stringify(u.profile || {}), u.createdAt || new Date().toISOString());
+        }
+      });
+      migrate(existing);
+      // Rename old file so migration doesn't re-run
+      fs.renameSync(usersJsonPath, usersJsonPath + '.migrated');
+      console.log(`[LeafScan] Migrated ${existing.length} users from JSON to SQLite`);
+    }
+  }
+} catch (e) {
+  console.error('[LeafScan] Users JSON migration error:', e.message);
+}
+
+// ── Users prepared statements ──
+const stmtFindUserByEmail = db.prepare(`SELECT * FROM users WHERE email = ?`);
+const stmtFindUserByToken = db.prepare(`SELECT * FROM users WHERE token = ?`);
+const stmtFindUserById = db.prepare(`SELECT * FROM users WHERE id = ?`);
+const stmtInsertUser = db.prepare(`INSERT INTO users (id, name, email, password_hash, token, profile_json, created_at) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`);
+const stmtUpdateToken = db.prepare(`UPDATE users SET token = ? WHERE id = ?`);
+const stmtUpdateProfile = db.prepare(`UPDATE users SET profile_json = ? WHERE id = ?`);
+const stmtUpdatePassword = db.prepare(`UPDATE users SET password_hash = ?, token = ? WHERE id = ?`);
+const stmtDeleteUser = db.prepare(`DELETE FROM users WHERE id = ?`);
+const stmtListUsers = db.prepare(`SELECT id, name, email, profile_json, created_at FROM users ORDER BY created_at DESC`);
+const stmtCountUsers = db.prepare(`SELECT COUNT(*) as count FROM users`);
+
 // ── Data directories ──
 const feedbackImagesDir = path.join(__dirname, 'data', 'feedback_images');
 fs.mkdirSync(feedbackImagesDir, { recursive: true });
@@ -389,4 +440,9 @@ module.exports = {
   // Diary
   stmtInsertDiary, stmtGetDiary, stmtGetDiaryEntry,
   stmtUpdateDiary, stmtDeleteDiary, stmtGetDiaryPlants,
+  // Users
+  stmtFindUserByEmail, stmtFindUserByToken, stmtFindUserById,
+  stmtInsertUser, stmtUpdateToken, stmtUpdateProfile,
+  stmtUpdatePassword, stmtDeleteUser: stmtDeleteUser,
+  stmtListUsers, stmtCountUsers,
 };
