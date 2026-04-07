@@ -139,9 +139,9 @@ export async function getQuotaDisplay(): Promise<{
       }
       // Anonymous
       if (left > 0) {
-        return { text: '1 Scan alle 48h – Registriere dich für mehr', scansLeft: left, isPremium: false };
+        return { text: '1 Scan pro Tag – Registriere dich für mehr', scansLeft: left, isPremium: false };
       }
-      return { text: 'Nächster Scan in 48h – Registriere dich für 5/Tag', scansLeft: 0, isPremium: false };
+      return { text: 'Tageslimit erreicht – Registriere dich für 5/Tag', scansLeft: 0, isPremium: false };
     }
   } catch {}
 
