@@ -54,7 +54,7 @@ const PORT = 4000;
 
 const DOMAIN = process.env.DOMAIN || 'https://leafscan.de';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const ALLOWED_MODELS = new Set(['gpt-4o', 'gpt-4o-mini']);
+const ALLOWED_MODELS = new Set(['gpt-4.1', 'gpt-4.1-nano']);
 const FREE_SCANS_PER_DAY = 5;
 
 // ── Database is initialized in ./db.js ──
@@ -283,7 +283,7 @@ app.post('/api/scan', rateLimit, async (req, res) => {
   try {
     const openaiBody = {
       messages,
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       max_tokens: maxTokens,
       temperature: 0,
       response_format: { type: 'json_object' },
