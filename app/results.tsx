@@ -622,9 +622,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 10,
-    backgroundColor: 'rgba(248,113,113,0.06)',
+    backgroundColor: colors.errorGlow,
     borderWidth: 1,
-    borderColor: 'rgba(248,113,113,0.1)',
+    borderColor: colors.errorBorder,
   },
   disclaimerText: {
     fontSize: 11,
@@ -666,9 +666,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   feedbackBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
@@ -680,8 +680,8 @@ const styles = StyleSheet.create({
     borderColor: colors.accent,
   },
   feedbackBtnNegative: {
-    backgroundColor: 'rgba(248,113,113,0.08)',
-    borderColor: 'rgba(248,113,113,0.3)',
+    backgroundColor: colors.errorSubtle,
+    borderColor: colors.errorBorderStrong,
   },
   newBtn: {
     marginTop: 8,

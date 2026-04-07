@@ -6,6 +6,7 @@ import HistoryItem from '../components/HistoryItem';
 import { getEntries, deleteEntry } from '../services/storage';
 import { DiagnosisEntry, getEntryImageUris } from '../types';
 import { colors } from '../constants/colors';
+import { Ionicons } from '@expo/vector-icons';
 import { confirmAlert } from '../services/alert';
 import { useDiagnosis } from './_layout';
 import { t } from '../services/i18n';
@@ -74,7 +75,7 @@ export default function HistoryScreen() {
     return (
       <View style={styles.emptyContainer}>
         <View style={styles.emptyIcon}>
-          <Text style={styles.emptyIconText}>📋</Text>
+          <Ionicons name="document-text-outline" size={32} color={colors.accent} />
         </View>
         <Text style={styles.emptyTitle}>{t('history.emptyTitle')}</Text>
         <Text style={styles.emptyText}>{t('history.emptyText')}</Text>

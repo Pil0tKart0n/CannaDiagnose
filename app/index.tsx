@@ -132,10 +132,11 @@ export default function HomeScreen() {
 
     // PWA install prompt (Android Chrome)
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      const dismissed = localStorage.getItem('leafscan_install_dismissed');
       const handler = (e: Event) => {
         e.preventDefault();
         setInstallPrompt(e as BeforeInstallPromptEvent);
-        if (!window.matchMedia('(display-mode: standalone)').matches) {
+        if (!window.matchMedia('(display-mode: standalone)').matches && !dismissed) {
           setShowInstallBanner(true);
         }
       };
@@ -143,7 +144,7 @@ export default function HomeScreen() {
       cleanupInstallPrompt = () => window.removeEventListener('beforeinstallprompt', handler);
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
       const isAndroid = /android/i.test(navigator.userAgent);
-      if (isAndroid && !isStandalone) {
+      if (isAndroid && !isStandalone && !dismissed) {
         setShowInstallBanner(true);
       }
     }
@@ -793,7 +794,7 @@ export default function HomeScreen() {
                 installPrompt={installPrompt}
                 onInstallComplete={() => setShowInstallBanner(false)}
                 onClearPrompt={() => setInstallPrompt(null)}
-                onDismiss={() => setShowInstallBanner(false)}
+                onDismiss={() => { setShowInstallBanner(false); if (typeof localStorage !== 'undefined') localStorage.setItem('leafscan_install_dismissed', '1'); }}
               />
             )}
 

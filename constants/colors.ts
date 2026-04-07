@@ -42,7 +42,7 @@ export const colors = {
   // Text — warm ivory tones
   text: '#E4EBE6',
   textSecondary: '#8A9B90',
-  textMuted: '#647069',
+  textMuted: '#7A8B84',
   textDark: '#1A2E1A',
   textDarkSecondary: '#4A6A4A',
   textOnAccent: '#071209',
@@ -65,6 +65,12 @@ export const colors = {
   white: '#FFFFFF',
   black: '#000000',
   overlay: 'rgba(0,0,0,0.65)',
+
+  // Error tints
+  errorGlow: 'rgba(248,113,113,0.06)',
+  errorSubtle: 'rgba(248,113,113,0.08)',
+  errorBorder: 'rgba(248,113,113,0.1)',
+  errorBorderStrong: 'rgba(248,113,113,0.3)',
 
   // Shadows
   shadowGreen: 'rgba(92,232,146,0.08)',

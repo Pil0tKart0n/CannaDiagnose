@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { DiagnosisResult, Severity } from '../types';
 import { colors } from '../constants/colors';
-import { getLang } from '../services/i18n';
+import { getLang, t } from '../services/i18n';
 
 interface DiagnosisCardProps {
   result: DiagnosisResult;
@@ -71,7 +71,7 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
 
       {/* Confidence */}
       <View style={styles.confidenceRow}>
-        <Text style={styles.confidenceLabel}>Konfidenz</Text>
+        <Text style={styles.confidenceLabel}>{t('results.confidence')}</Text>
         <View style={styles.confidenceBar}>
           <View style={[styles.confidenceFill, { width: `${confPercent}%`, backgroundColor: confColor }]} />
         </View>
@@ -83,12 +83,12 @@ export default function DiagnosisCard({ result, isRefined }: DiagnosisCardProps)
 
       {isRefined && result.rootCauseAnalysis ? (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ursachenanalyse</Text>
+          <Text style={styles.sectionTitle}>{t('results.rootCause')}</Text>
           <Text style={styles.sectionBody}>{result.rootCauseAnalysis}</Text>
         </View>
       ) : (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tipp</Text>
+          <Text style={styles.sectionTitle}>{t('results.tip')}</Text>
           <Text style={styles.sectionBody}>{randomTip}</Text>
         </View>
       )}
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     paddingLeft: 28,
     marginBottom: 14,
     borderWidth: 1,
-    borderColor: 'rgba(92,232,146,0.08)',
+    borderColor: colors.shadowGreen,
     overflow: 'hidden',
     ...Platform.select({
       ios: {

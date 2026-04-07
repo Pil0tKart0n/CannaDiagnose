@@ -7,6 +7,7 @@ import QuestionCard from '../components/QuestionCard';
 import ProgressBar from '../components/ProgressBar';
 import Button from '../components/Button';
 import { questions } from '../constants/questions';
+import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { webContentContainer } from '../constants/webStyles';
 import { useDiagnosis } from './_layout';
@@ -148,7 +149,7 @@ export default function QuestionnaireScreen() {
         {/* Top bar with back + progress */}
         <View style={styles.topBar}>
           <TouchableOpacity onPress={goBack} style={styles.backBtn}>
-            <Text style={styles.backArrow}>‹</Text>
+            <Ionicons name="arrow-back" size={22} color={colors.text} />
           </TouchableOpacity>
           <View style={styles.progressWrap}>
             <ProgressBar current={safeIndex + 1} total={activeQuestions.length} sectionName={currentSection} />
