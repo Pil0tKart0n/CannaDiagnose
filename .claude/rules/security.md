@@ -3,7 +3,7 @@
 ## Secrets
 - NEVER commit secrets, API keys, tokens, or credentials to Git
 - Use environment variables (`.env` / `.env.server`, both in `.gitignore`)
-- Server-side only: OpenAI Key, Stripe Key, Admin Key, Tester Key
+- Server-side only: OpenAI Key (GPT-4.1), Stripe Key, Admin Key, Tester Key
 - Client-side allowed: `EXPO_PUBLIC_API_PROXY_URL`, `EXPO_PUBLIC_REVENUECAT_GOOGLE_KEY`
 - Rotate compromised secrets immediately
 

@@ -34,7 +34,7 @@
 - `server/fertilizers.js` — Dünger-Datenbank mit EC-Bereichen
 
 ## OpenAI Integration
-- GPT-4o für Diagnose, GPT-4o-mini für Validation
+- GPT-4.1 für Diagnose, Validation ist ein Stub (gibt immer true zurück)
 - Token-Usage in `api_usage` Tabelle tracken
 - Prompts NUR server-side (Paywall-Schutz)
 - `/api/validate` gibt IMMER true zurück (bewusster Workaround — GPT-4o lehnt Cannabis unter Growlicht ab). NICHT "fixen"!

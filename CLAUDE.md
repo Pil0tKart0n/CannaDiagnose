@@ -15,7 +15,7 @@
 - **Frontend:** Expo 54 + React Native 0.81 + React 19, TypeScript (strict), Expo Router 6
 - **Backend:** Express.js (Node.js 20), JavaScript
 - **Database:** SQLite 3 (better-sqlite3, WAL mode)
-- **AI:** OpenAI GPT-4o (Diagnose), GPT-4o-mini (Validation)
+- **AI:** OpenAI GPT-4.1 (Diagnose), Validation immer true (Stub)
 - **Payments:** Stripe (Web) + RevenueCat (Mobile)
 - **Deployment:** Docker + Nginx (VPS), Let's Encrypt SSL
 - **Platforms:** Web (PWA), Android (Google Play), iOS (geplant)
