@@ -20,6 +20,7 @@ import { FactorsList, ActionPlan, PreventiveTips } from '../components/Recommend
 import { getRecommendations } from '../constants/productRecommendations';
 import Button from '../components/Button';
 import { colors } from '../constants/colors';
+import { webContentContainer } from '../constants/webStyles';
 import { useDiagnosis } from './_layout';
 import { DiagnosisResult } from '../types';
 import { shareDiagnosis } from '../services/export';
@@ -572,6 +573,7 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
     paddingBottom: 80,
+    ...webContentContainer,
   },
   image: {
     width: '100%',

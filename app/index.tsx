@@ -12,7 +12,7 @@ import { getUser, logout, onAuthChange, type AuthUser } from '../services/auth';
 import { hasCompletedOnboarding } from './onboarding';
 import { trackEvent } from '../services/analytics';
 import { t, getLang, setLang, onLangChange } from '../services/i18n';
-import { injectCSS } from '../constants/webStyles';
+import { injectCSS, LANDING_MAX_WIDTH } from '../constants/webStyles';
 import LegalFooter from '../components/LegalFooter';
 import InstallBanner from '../components/InstallBanner';
 
@@ -68,7 +68,7 @@ export default function HomeScreen() {
     };
   }, []);
 
-  // Landing page: override 480px phone-frame on desktop
+  // Landing page: override 520px phone-frame on desktop
   useEffect(() => {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
     const style = document.createElement('style');
@@ -837,7 +837,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 40,
     ...Platform.select({
-      web: { maxWidth: 1080, alignSelf: 'center' as const, width: '100%' as any },
+      web: { maxWidth: LANDING_MAX_WIDTH, alignSelf: 'center' as const, width: '100%' as any },
       default: {},
     }),
   },

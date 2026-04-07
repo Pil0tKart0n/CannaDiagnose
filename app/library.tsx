@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Platform
 import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
+import { webContentContainer } from '../constants/webStyles';
 import {
   libraryEntries,
   categoryLabels,
@@ -224,6 +225,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    ...webContentContainer,
   },
 
   // Search

@@ -8,6 +8,7 @@ import ProgressBar from '../components/ProgressBar';
 import Button from '../components/Button';
 import { questions } from '../constants/questions';
 import { colors } from '../constants/colors';
+import { webContentContainer } from '../constants/webStyles';
 import { useDiagnosis } from './_layout';
 import { t, getLang } from '../services/i18n';
 import { sectionTextsEn } from '../constants/questions-en';
@@ -188,6 +189,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    ...webContentContainer,
   },
   flex: {
     flex: 1,

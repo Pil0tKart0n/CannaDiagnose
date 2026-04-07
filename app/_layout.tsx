@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { QuestionnaireData, DiagnosisResult } from '../types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../constants/colors';
+import { PHONE_FRAME_WIDTH } from '../constants/webStyles';
 import { setupNotificationHandler } from '../services/notifications';
 import { optimizeImage, initReferenceImages } from '../services/claude';
 import { cleanupStorage } from '../services/storage';
@@ -220,7 +221,7 @@ export default function RootLayout() {
           @media (min-width: 768px) {
             body { background: #000000; }
             #root {
-              max-width: 480px;
+              max-width: ${PHONE_FRAME_WIDTH}px;
               margin: 20px auto;
               min-height: calc(100vh - 40px);
               border-radius: 24px;

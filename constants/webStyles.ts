@@ -1,4 +1,21 @@
-import { Platform } from 'react-native';
+import { Platform, ViewStyle } from 'react-native';
+
+/**
+ * Desktop layout constants for the PWA.
+ * Inner screens use the phone-frame (520px) from _layout.tsx.
+ * The landing page goes full-width but constrains content to LANDING_MAX_WIDTH.
+ */
+export const PHONE_FRAME_WIDTH = 520;
+export const LANDING_MAX_WIDTH = 600;
+
+/**
+ * Shared web container style for screens that need a max-width on desktop.
+ * Apply to ScrollView's contentContainerStyle or a wrapping View.
+ * On native this is a no-op (empty object).
+ */
+export const webContentContainer: ViewStyle = Platform.OS === 'web'
+  ? { maxWidth: PHONE_FRAME_WIDTH, alignSelf: 'center', width: '100%' as any }
+  : {};
 
 /**
  * Web-only CSS für LeafScan.
